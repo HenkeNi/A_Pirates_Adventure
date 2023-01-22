@@ -1,0 +1,34 @@
+#pragma once
+#include "../Utility/Math/Vectors/Vector.hpp"
+
+namespace CU = CommonUtilities;
+
+
+struct WindowData
+{
+	CU::Vector2<unsigned>	m_size;
+	std::string				m_name, m_iconPath;
+};
+
+struct Position
+{
+
+	union 
+	{
+		struct
+		{
+			float x, y;
+		};
+
+		CU::Vector2<float> vec2;
+	};
+
+	//union 
+	//{
+	//	CU::Vector2<float> m_position,
+	//	float x, float y
+	//};
+
+
+
+};

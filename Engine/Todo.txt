@@ -1,0 +1,46 @@
+Engine
+
+* Utility
+	- Perlin noise (1D)
+
+
+
+
+
+
+
+In Game??
+TimeManager?? Or extend CommonUtilities Timer.h???
+	* RegisterCallback(float aTime, std::function<void()> aCallback)	->	 a callback that gets executed after x seconds/timespan
+	* Notify															->  notify after timespan (returns a bool)
+
+
+
+In Game: 
+	DateManager() 
+
+
+
+
+
+
+Make a Range class??
+
+
+
+When to update delta time... 
+	- at the end of the game loop??
+
+	Fixed time steps?
+
+
+	Run messag /event queue (?) at the end of the loop? 
+		(at the end of the update loop -> so end of LateUpdate()?? )
+
+		Event Queue -> all events get stored in a Queue (and sorted after priority) ??
+
+
+
+Polling vs Pushing;
+
+	-> attack? -> sword sends message? check if collides with anything...??

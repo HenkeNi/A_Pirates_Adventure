@@ -1,3 +1,8 @@
+# Directories
+.vs/
+Bin/
+Intermediate/
+
 # Prerequisites
 *.d
 
@@ -30,3 +35,377 @@
 *.exe
 *.out
 *.app
+
+
+
+# ADDITIONAL
+
+# User-specific files
+*.suo
+*.user
+*.sln.docstates
+
+# Build results
+
+# Roslyn cache directories
+*.ide/
+
+# MSTest test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+#NUNIT
+*.VisualState.xml
+TestResult.xml
+
+# Build Results of an ATL Project
+[Dd]ebugPS/
+[Rr]eleasePS/
+dlldata.c
+
+*_i.c
+*_p.c
+*_i.h
+*.ilk
+*.meta
+*.obj
+*.pch
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*.log
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+*.idb
+*.tlog
+*.exe
+
+# Chutzpah Test files
+_Chutzpah*
+
+# Visual C++ cache files
+ipch/
+*.aps
+*.ncb
+*.opensdf
+*.sdf
+*.cachefile
+
+# Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
+
+# TFS 2012 Local Workspace
+$tf/
+
+# Guidance Automation Toolkit
+*.gpState
+
+# ReSharper is a .NET coding add-in
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# JustCode is a .NET coding addin-in
+.JustCode
+
+# TeamCity is a build add-in
+_TeamCity*
+
+# DotCover is a Code Coverage Tool
+*.dotCover
+
+# NCrunch
+_NCrunch_*
+.*crunch*.local.xml
+
+# MightyMoose
+*.mm.*
+AutoTest.Net/
+
+# Web workbench (sass)
+.sass-cache/
+
+# Installshield output folder
+[Ee]xpress/
+
+# DocProject is a documentation generator add-in
+DocProject/buildhelp/
+DocProject/Help/*.HxT
+DocProject/Help/*.HxC
+DocProject/Help/*.hhc
+DocProject/Help/*.hhk
+DocProject/Help/*.hhp
+DocProject/Help/Html2
+DocProject/Help/html
+
+# Click-Once directory
+publish/
+
+# Publish Web Output
+*.[Pp]ublish.xml
+*.azurePubxml
+# TODO: Comment the next line if you want to checkin your web deploy settings 
+# but database connection strings (with potential passwords) will be unencrypted
+*.pubxml
+*.publishproj
+
+# NuGet Packages
+*.nupkg
+# The packages folder can be ignored because of Package Restore
+**/packages/*
+# except build/, which is used as an MSBuild target.
+!**/packages/build/
+# If using the old MSBuild-Integrated Package Restore, uncomment this:
+#!**/packages/repositories.config
+
+# Windows Azure Build Output
+csx/
+*.build.csdef
+
+# Windows Store app package directory
+AppPackages/
+
+# Others
+sql/
+*.Cache
+ClientBin/
+[Ss]tyle[Cc]op.*
+~$*
+*~
+*.dbmdl
+*.dbproj.schemaview
+*.pfx
+*.publishsettings
+node_modules/
+
+# RIA/Silverlight projects
+Generated_Code/
+
+# Backup & report files from converting an old project file
+# to a newer Visual Studio version. Backup files are not needed,
+# because we have git ;-)
+_UpgradeReport_Files/
+Backup*/
+UpgradeLog*.XML
+UpgradeLog*.htm
+
+# SQL Server files
+*.mdf
+*.ldf
+
+# Business Intelligence projects
+*.rdl.data
+*.bim.layout
+*.bim_*.settings
+
+# Microsoft Fakes
+FakesAssemblies/
+
+# =========================
+# Operating System Files
+# =========================
+
+# OSX
+# =========================
+
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows
+# =========================
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+
+
+# GLEW 
+*.pc
+/src/*.c
+/include/GL/*.h
+/build/vc6/*.rc
+/build/*.rc
+/build/*/*.sdf
+/build/*/*.suo
+/build/*/*.db
+/build/*/*.vcxproj.user
+/build/*/.vs/
+/build/*/tmp/
+/build/cmake/CMakeFiles/
+/build/cmake/CMakeCache.txt
+/build/cmake/cmake_install.cmake
+/build/cmake/Makefile
+/auto/extensions
+/auto/registry
+/bin
+/lib
+/tmp
+/out
+.DS_Store*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# GLFW
+# The canonical out-of-tree build subdirectory
+build
+
+# Visual Studio clutter
+_ReSharper*
+*.sdf
+*.suo
+*.dir
+*.vcxproj*
+*.sln
+.vs
+CMakeSettings.json
+Win32
+x64
+Debug
+Release
+MinSizeRel
+RelWithDebInfo
+*.opensdf
+
+# Xcode clutter
+GLFW.build
+GLFW.xcodeproj
+
+# macOS clutter
+.DS_Store
+
+# Makefile generator clutter
+Makefile
+
+# Ninja generator clutter
+build.ninja
+rules.ninja
+.ninja_deps
+.ninja_log
+
+# CMake clutter
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+CMakeDoxyfile.in
+CMakeDoxygenDefaults.cmake
+cmake_install.cmake
+cmake_uninstall.cmake
+
+# Generated files
+docs/Doxyfile
+docs/html
+docs/warnings.txt
+docs/doxygen_sqlite3.db
+src/glfw_config.h
+src/glfw3.pc
+src/glfw3Config.cmake
+src/glfw3ConfigVersion.cmake
+
+# Compiled binaries
+src/libglfw.so
+src/libglfw.so.3
+src/libglfw.so.3.4
+src/libglfw.dylib
+src/libglfw.dylib
+src/libglfw.3.dylib
+src/libglfw.3.4.dylib
+src/libglfw3.a
+src/glfw3.lib
+src/glfw3.dll
+src/glfw3dll.lib
+src/libglfw3dll.a
+examples/*.app
+examples/*.exe
+examples/boing
+examples/gears
+examples/heightmap
+examples/offscreen
+examples/particles
+examples/splitview
+examples/sharing
+examples/triangle-opengl
+examples/wave
+examples/windows
+tests/*.app
+tests/*.exe
+tests/clipboard
+tests/cursor
+tests/empty
+tests/events
+tests/gamma
+tests/glfwinfo
+tests/icon
+tests/iconify
+tests/inputlag
+tests/joysticks
+tests/monitors
+tests/msaa
+tests/reopen
+tests/tearing
+tests/threads
+tests/timeout
+tests/title
+tests/triangle-vulkan
+tests/window
+tests/windows
