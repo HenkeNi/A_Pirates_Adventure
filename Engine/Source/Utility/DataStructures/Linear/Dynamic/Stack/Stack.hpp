@@ -7,6 +7,7 @@ namespace CommonUtilities
 	{
 	public:
 		Stack(const SizeType aCapacity = 16);
+		Stack(const std::initializer_list<Type>& aList);
 		~Stack();
 
 		SizeType	Size()		const;
@@ -23,12 +24,12 @@ namespace CommonUtilities
 		void		Clear();
 
 	private:
-		Type*		m_data;
+		Type*		m_data;			// Type m_Data[size]????
 		SizeType	m_capacity;
 		int			m_top;
 	};
 
-#pragma region CONSTRUCTOR
+#pragma region Constructor
 
 	template <class Type, bool isStatic, typename SizeType>
 	Stack<Type, isStatic, SizeType>::Stack(const SizeType aCapacity)
@@ -37,14 +38,22 @@ namespace CommonUtilities
 	}
 
 	template <class Type, bool isStatic, typename SizeType>
+	Stack<Type, isStatic, SizeType>::Stack(const std::initializer_list<Type>& aList)
+	{
+		assert(&aList != this);
+		
+		// TODO...
+	}
+
+	template <class Type, bool isStatic, typename SizeType>
 	Stack<Type, isStatic, SizeType>::~Stack()
 	{
 		delete[] m_data;
 	}
 
-#pragma endregion CONSTRUCTOR
+#pragma endregion Constructor
 
-#pragma region METHOD_DEFINITIONS
+#pragma region Method_Definitions
 
 	template <class Type, bool isStatic, typename SizeType>
 	SizeType Stack<Type, isStatic, SizeType>::Size()		const
@@ -128,5 +137,5 @@ namespace CommonUtilities
 		m_top = 0;
 	}
 
-#pragma endregion METHOD_DEFINITIONS
+#pragma endregion Method_Definitions
 }

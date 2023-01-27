@@ -31,7 +31,7 @@ namespace CommonUtilities
 		T y;
 	};
 
-#pragma region METHOD_DEFINITIONS
+#pragma region Method_Definitions
  
 	template <class T>
 	Vector2<T>::Vector2()
@@ -102,9 +102,9 @@ namespace CommonUtilities
 		y *= length;
 	}
 
-#pragma endregion METHOD_DEFINITIONS
+#pragma endregion Method_Definitions
 
-#pragma region OVERLOADED_OPERATORS
+#pragma region Operators
 
 	template <class T>
 	Vector2<T> Vector2<T>::operator-()					const
@@ -180,5 +180,5 @@ namespace CommonUtilities
 		return !(aVector0 == aVector1);
 	}
 
-#pragma endregion OVERLOADED_OPERATORS
+#pragma endregion Operators
 } 

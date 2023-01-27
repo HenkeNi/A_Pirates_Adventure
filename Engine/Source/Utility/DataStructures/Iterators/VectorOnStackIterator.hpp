@@ -28,7 +28,7 @@ namespace CommonUtilities
 		ValueType*	m_ptr;
 	};
 
-#pragma region		METHOD_DEFINITIONS
+#pragma region		Method_Definitions
 
 	template <class VectorOnStack>
 	VectorOnStackIterator<VectorOnStack>::VectorOnStackIterator(ValueType* aPtr)
@@ -98,5 +98,5 @@ namespace CommonUtilities
 		return !(*this == aOther);
 	}
 
-#pragma endregion	METHOD_DEFINITIONS
+#pragma endregion	Method_Definitions
 }

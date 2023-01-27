@@ -39,7 +39,7 @@ namespace CommonUtilities
 		SizeType	m_size;
 	};
 
-#pragma region CONSTRUCTOR
+#pragma region Constructor
 
 	template <class Type, typename SizeType>
 	SinglyLinkedList<Type, SizeType>::SinglyLinkedList()
@@ -53,9 +53,9 @@ namespace CommonUtilities
 		Clear();
 	}
 
-#pragma endregion CONSTRUCTOR
+#pragma endregion Constructor
 
-#pragma region METHOD_DEFINITIONS
+#pragma region Method_Definitions
 
 	template <class Type, typename SizeType>
 	SinglyLinkedListNode<Type>* SinglyLinkedList<Type, SizeType>::FindFirst(const Type& aValue)
@@ -217,5 +217,5 @@ namespace CommonUtilities
 		m_size = 0;
 	}
 
-#pragma endregion METHOD_DEFINITIONS
+#pragma endregion Method_Definitions
 }

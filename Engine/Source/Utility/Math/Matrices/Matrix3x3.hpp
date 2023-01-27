@@ -32,7 +32,7 @@ namespace CommonUtilities
 		std::array<Vector3<T>, 3> myMatrix;
 	};
 
-#pragma region METHOD_DEFINITIONS
+#pragma region Method_Definitions
 
 	/* - Creates an identity matrix - */
 	template <typename T>
