@@ -7,11 +7,12 @@ namespace Hi_Engine
 	public:
 		virtual ~Application() = default;
 
-		virtual void OnUpdate(float aDeltaTime)	= 0;
-		virtual void OnRender()					= 0;
+		virtual void OnUpdate(float aDeltaTime)		= 0;
+		virtual void OnLateUpdate(float aDeltaTime)	= 0;
+		virtual void OnDraw()						= 0;
 
-		virtual void OnCreate()					 {};
-		virtual void OnDestroy()				 {};
+		virtual void OnCreate()						 {};
+		virtual void OnDestroy()					 {};
 
 	private:
 
