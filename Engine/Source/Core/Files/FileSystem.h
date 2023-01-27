@@ -1,5 +1,5 @@
 #pragma once
-#include "Structs.h"
+#include "Data/Structs.h"
 
 // REDO... Find better way...
 // Put in Hi_Engine namespace??
