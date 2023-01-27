@@ -1,13 +1,9 @@
 #pragma once
 
-
 namespace Hi_Engine
 {
-	class ResourceHolder
+	class Shader
 	{
-	public:
-
-	private:
 
 	};
 }
