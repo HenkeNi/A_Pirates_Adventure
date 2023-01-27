@@ -1,5 +1,26 @@
 Engine
 
+* Maybe put SceneManager and Scene.h in Engine?? Also consider putting GameObject and Component.h in Engine as well?? -> remains the same for all projects...
+
+
+
+
+do all reading of json in Engine??
+
+
+
+Have Contains functions return a struct 
+
+template <typename T>
+struct RESULT
+{	
+	bool m_contains;
+	T* result;
+}
+
+
+
+
 * Utility
 	- Perlin noise (1D)
 
@@ -44,3 +65,10 @@ When to update delta time...
 Polling vs Pushing;
 
 	-> attack? -> sword sends message? check if collides with anything...??
+
+
+
+
+
+	Maybe put GameObject in Engine (as well as Component - base)
+		and the rest inside the Game??
