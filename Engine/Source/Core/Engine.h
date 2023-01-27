@@ -24,6 +24,7 @@ namespace Hi_Engine
 		void Shutdown();
 
 	private:
+		//void 
 
 		InputHandler	m_inputHandler;
 		Window			m_window;
@@ -32,7 +33,7 @@ namespace Hi_Engine
 
 		bool			m_isRunning;
 
-		// Graphics m_graphics??
+		// Graphics m_graphics?? or make Asset/Resource-Manager a singleton
 		// Physics m_physics?? or just collisionManager??
 		// AI ??
 		// Renderer

@@ -1,6 +1,10 @@
 #include "Pch.h"
 #include "Engine.h"
 #include "Application.h"
+//#include "Resources/ResourceHolder.hpp"
+//#include "Rendering/Shader/Shader.h"
+//#include "Rendering/Texture/Texture.h"
+
 
 extern Hi_Engine::Application* Hi_Engine::CreateApplication();
 
@@ -15,6 +19,33 @@ namespace Hi_Engine
 	bool Engine::Init()
 	{
 		m_application = Hi_Engine::CreateApplication();
+		//ResourceHolder<Shader>::GetInstance().FetchAll("");
+		//ResourceHolder<Texture>::GetInstance().FetchAll("");
+
+
+
+
+
+
+	/*	std::ifstream ifs{ "../Bin/Assets/Json/Scenes.json" };
+		std::string content{ std::istreambuf_iterator<char>(ifs), (std::istreambuf_iterator<char>()) };
+
+		rapidjson::Document document;
+		if (!document.Parse(content.c_str()).HasParseError())
+		{
+			for (auto& scene : document["scenes"].GetArray())
+				std::cout << scene["type"].GetString();
+		}
+*/
+
+
+
+
+
+
+
+
+
 
 		WindowData wData; // FileSystem.LoadWindowData()???
 		wData.m_size = { 800, 600 };
@@ -69,5 +100,8 @@ namespace Hi_Engine
 
 		if (m_application)
 			m_application->OnDestroy();
+
+
+		delete m_application;
 	}
 }
