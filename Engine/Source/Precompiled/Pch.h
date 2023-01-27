@@ -33,4 +33,10 @@
 
 
 /* - Third Party - */
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <document.h>
+#include <glm.hpp>
+#include <gtc/matrix_transform.hpp> 
+#include <gtc/type_ptr.hpp>
+#include <stb_image.h>
