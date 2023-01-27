@@ -10,6 +10,20 @@ struct WindowData
 	std::string				m_name, m_iconPath;
 };
 
+
+// Put in Game??
+class InputHandler;
+class Window;
+
+struct SharedContext 
+{
+	// SceneManagerProxy	m_sceneManager;
+	// Window&				m_window;
+	InputHandler&		m_inputHandler;
+};
+
+
+//??
 struct Position
 {
 
