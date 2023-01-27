@@ -1,5 +1,5 @@
 #pragma once
-#include "../../DataStructures/Iterators/VectorOnStackIterator.hpp"
+#include "../../../Iterators/VectorOnStackIterator.hpp"
 #include <cassert>
 #include <initializer_list>
 
@@ -44,7 +44,7 @@ namespace CommonUtilities
 		SizeType		m_counter;
 	};
 
-#pragma region CONSTRUCTORS
+#pragma region Constructors
 
 	template <typename Type, int size, typename SizeType, bool useSafeModeFlag>
 	VectorOnStack<Type, size, SizeType, useSafeModeFlag>::VectorOnStack()
@@ -75,8 +75,8 @@ namespace CommonUtilities
 		assert(aList.size() <= size && "Too many elements in intializer list");
 		if (useSafeModeFlag)
 		{
-			for (int i = 0; i < aList.size(); ++i)
-				m_data[m_counter++] = *(aList.Begin() + 1);
+			for (int i = 0; i < aList.size(); ++i);
+				m_data[m_counter++] = *(aList.begin() + 1);
 		}
 		else
 		{
@@ -91,9 +91,9 @@ namespace CommonUtilities
 		Clear();
 	}
 
-#pragma endregion CONSTRUCTORS
+#pragma endregion Constructors
 
-#pragma region OPERATORS
+#pragma region Operators
 
 	template <typename Type, int size, typename SizeType, bool useSafeModeFlag>
 	VectorOnStack<Type, size, SizeType, useSafeModeFlag>& VectorOnStack<Type, size, SizeType, useSafeModeFlag>::operator=(const VectorOnStack& aVectorOnStack)
@@ -147,9 +147,9 @@ namespace CommonUtilities
 		return m_data[anIndex];
 	}
 
-#pragma endregion OPERATORS
+#pragma endregion Operators
 
-#pragma region METHOD_DEFINITIONS
+#pragma region Method_Definitions
 
 	template <typename Type, int size, typename SizeType, bool useSafeModeFlag>
 	SizeType VectorOnStack<Type, size, SizeType, useSafeModeFlag>::Size()		const
@@ -264,5 +264,5 @@ namespace CommonUtilities
 		return Iterator(m_data + m_counter);
 	}
 
-#pragma endregion METHOD_DEFINITIONS
+#pragma endregion Method_Definitions
 }
