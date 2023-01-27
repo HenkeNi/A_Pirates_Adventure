@@ -4,6 +4,19 @@
 
 namespace Hi_Engine
 {
+	InputHandler::InputHandler()
+	{
+	}
+
+	InputHandler::~InputHandler()
+	{
+	}
+
+	void InputHandler::Init()
+	{
+
+	}
+
 	void InputHandler::ProcessInput()
 	{
 
