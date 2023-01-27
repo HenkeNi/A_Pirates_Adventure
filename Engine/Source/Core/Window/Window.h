@@ -1,5 +1,6 @@
 #pragma once
-#include "Data/Structs/Structs.h"
+#include "../Data/Structs.h"
+#include "Utility/Math/Vectors/Vector.hpp"
 #include <GLFW/glfw3.h>
 
 namespace Hi_Engine

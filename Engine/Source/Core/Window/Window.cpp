@@ -105,7 +105,6 @@ namespace Hi_Engine
 		}
 	}
 
-
 #pragma region CALLBACK_FUNCTIONS
 
 	void FrameBufferSizeCallback(GLFWwindow* aWindow, int aWidth, int aHeight)
@@ -121,5 +120,4 @@ namespace Hi_Engine
 	}
 
 #pragma endregion CALLBACK_FUNCTIONS
-
 }
