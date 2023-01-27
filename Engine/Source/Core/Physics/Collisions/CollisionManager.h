@@ -1,6 +1,10 @@
 #pragma once
 
-class CollisionManager
+namespace Hi_Engine
 {
-};
+	class CollisionManager
+	{
+	};
+}
+
 
