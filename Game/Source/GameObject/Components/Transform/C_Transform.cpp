@@ -12,6 +12,14 @@ C_Transform::~C_Transform()
 {
 }
 
+void C_Transform::Init(rapidjson::Value& aValue)
+{
+	// TODO: Check if contains members???
+	m_currPosition	= { aValue["position"]["x"].GetFloat(), aValue["position"]["y"].GetFloat() };
+	m_scale			= { aValue["scale"]["x"].GetFloat(),	aValue["scale"]["y"].GetFloat()    };
+	m_rotation		= { aValue["rotation"].GetFloat() };
+}
+
 void  C_Transform::HandleMessage(eCompMessage aMessageType, const std::any& someData)
 {
 }
@@ -20,12 +28,11 @@ void  C_Transform::Update(float aDeltaTime)
 {
 	if (HasMoved() && m_owner)
 		m_owner->NotifyComponents(eCompMessage::PositionChanged, m_currPosition);
-
-	m_prevPosition = m_currPosition; // Do in late update?
 }
 
-void  C_Transform::LateUpdate(float aDeltaTime)
+void C_Transform::LateUpdate(float aDeltaTime)
 {
+	m_prevPosition = m_currPosition; // Do in late update?
 }
 
 void  C_Transform::SetPosition(const CU::Vector2<float>& aPosition)
@@ -53,15 +60,20 @@ void C_Transform::SetScale(const CU::Vector2<float>& aScale)
 	m_scale = aScale;
 }
 
-void  C_Transform::AddPosition(const CU::Vector2<float>& aPosition)
+void C_Transform::SetRotation(float aRotation)
 {
-	m_currPosition += aPosition;
+	m_rotation = aRotation;
 }
 
-void  C_Transform::AddPosition(float aX, float aY)
+void  C_Transform::MoveBy(const CU::Vector2<float>& aOffset)
 {
-	m_currPosition.x += aX;
-	m_currPosition.y += aY;
+	m_currPosition += aOffset;
+}
+
+void  C_Transform::MoveBy(float anOffsetX, float anOffsetY)
+{
+	m_currPosition.x += anOffsetX;
+	m_currPosition.y += anOffsetY;
 }
 
 const CU::Vector2<float>& C_Transform::GetPosition() const
