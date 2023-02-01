@@ -9,7 +9,7 @@ GameObject::GameObject()
 {
 	m_components.reserve(16);
 
-	CreateComponent<C_Transform>();
+	CreateComponent<C_Transform>(); // Do in factory instead??
 
 	// Dispatcher::GetInstance().SendEvent({ eEvent::GameObjectCreated, this }); // TODO: Remove??
 }
