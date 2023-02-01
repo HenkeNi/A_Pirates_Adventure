@@ -25,3 +25,4 @@
 
 
 #include <Hi_Engine.h>
+#include <document.h>
