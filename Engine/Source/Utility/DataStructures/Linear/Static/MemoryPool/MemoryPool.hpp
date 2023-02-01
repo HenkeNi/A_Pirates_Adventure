@@ -6,6 +6,7 @@
 
 // TODO: Make able to grow..
 // TODO: Make able to add new resource??
+// Check Allocators (Cherno)
 
 namespace CommonUtilities
 {
@@ -22,7 +23,7 @@ namespace CommonUtilities
 
 		void				Init();
 		Type*				GetResource();
-		void				ReturnResource(Type* aResource);
+		void				ReturnResource(Type* aResource);				// Or have MemoryPOol check each frame if cmopoennt is destyoed (takes in back)... less optimized...		OR Listens for destoyed event... then takes all compoennts??
 		bool				IsEmpty()							const;
 
 	private:

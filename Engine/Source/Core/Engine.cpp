@@ -36,7 +36,7 @@ namespace Hi_Engine
 			for (auto& scene : document["scenes"].GetArray())
 				std::cout << scene["type"].GetString();
 		}
-*/
+	*/
 
 
 
