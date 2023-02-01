@@ -14,5 +14,9 @@ public:
 
 	void OnEnter()							  override;
 	void OnExit()							  override;
+
+
+private:
+	// GameWorld class?? -> Contains a current map??
 };
 

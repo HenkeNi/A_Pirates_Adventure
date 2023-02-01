@@ -1,7 +1,7 @@
 #pragma once
 #include "../Scene.h"
 
-
+// Derive PauseSceen from MenuScene??
 class PauseScene : public Scene
 {
 public:
