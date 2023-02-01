@@ -1,6 +1,7 @@
 #pragma once
 #include "SceneManager.h"
 
+
 class Game : public Hi_Engine::Application
 {
 public:
@@ -16,6 +17,7 @@ public:
 
 private:
 	void			SetupScenes();
+	void			LoadBlueprints();
 
 	SceneManager	m_sceneManager;
 };

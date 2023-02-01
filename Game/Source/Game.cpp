@@ -1,6 +1,7 @@
 #include "Pch.h"
 #include "Game.h"
 #include "Scenes/Scenes.hpp"
+#include "Factories/GameObjectFactory.h"
 
 
 Game::Game()
@@ -29,6 +30,8 @@ void Game::OnDraw()
 void Game::OnCreate()
 {
 	SetupScenes();
+	LoadBlueprints();
+	//RegisterCreators();
 }
 
 void Game::OnDestroy()
@@ -47,4 +50,11 @@ void Game::SetupScenes()
 	m_sceneManager.Register(std::make_unique<PauseScene>(proxy),	eSceneType::Pause);
 
 	m_sceneManager.Init({ eSceneType::Game, eSceneType::Menu, eSceneType::Loading, eSceneType::Title });
+}
+
+void Game::LoadBlueprints()
+{
+	auto& factory = GameObjectFactory::GetInstance();
+
+	factory.LoadBlueprints("../Bin/Assets/Json/Blueprints/EnemyBlueprints.json");
 }
