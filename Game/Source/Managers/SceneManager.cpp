@@ -20,6 +20,8 @@ void SceneManager::Init(std::initializer_list<eSceneType> aList)
 {
 	for (auto& sceneType : aList)
 		m_sceneStack.Push(sceneType);
+
+	m_scenes[(int)m_sceneStack.Top()]->OnEnter();
 }
 
 void SceneManager::Register(std::unique_ptr<Scene> aScene, eSceneType aType)
