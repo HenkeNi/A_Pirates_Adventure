@@ -1,4 +1,23 @@
+GameObject can send a position set message to its components...
+	only Transform listens...?? -> sets new position...
+
+
+
+
+
+
+	entity events?
+		- spawned, despawned (destroyed), colliding_x, collind-Y,
+		moving-left, became_idle, began-moving
+
+
 Engine
+
+* Memory Folder???
+	* Allocater instead of memory pool!?
+
+
+
 
 * Maybe put SceneManager and Scene.h in Engine?? Also consider putting GameObject and Component.h in Engine as well?? -> remains the same for all projects...
 
