@@ -4,6 +4,7 @@
 
 
 class SceneManager;
+class SceneParser;
 
 class Scene
 {
@@ -22,8 +23,9 @@ public:
 	virtual void			OnEnter()					   {};
 	virtual void			OnExit()					   {};
 
-private:
+protected:
 	friend class			SceneManager;
+	friend class			SceneParser;
 	
 	SceneManagerProxy		m_sceneManager;
 	std::vector<GameObject> m_sceneObjects; // Layers??
