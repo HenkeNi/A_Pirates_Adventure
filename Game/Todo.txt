@@ -1,0 +1,102 @@
+Scene have a component list (refers to blueprints...)
+
+	"blueprint_id": "playButton"
+
+
+
+
+
+
+
+
+
+
+Factory...
+	- no need to specify components???!!
+		* defaeats the purpose??
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Put GameObject/GameObjectParser/GameObjectFactory ..... Scene/SceneManager? in engine??
+	* Base/GameObject
+	* Base/Scene
+
+
+
+
+
+
+BulletSpawner class (not a component??)
+	
+	void SpawnBullet(vec2 aSpawnLocation)
+
+
+
+
+
+
+SCeneFactory?? or SceneLoader/SceneParser
+
+
+
+
+In each Scene => GameObjectManager
+	* Listenes for ObjectDestryoedd message => (pass itself in) ... manager finds object in list and removes it...
+
+
+
+
+
+
+
+Components;
+
+* SpriteRenderer OR C_Sprite??
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SceneLoader...
+
+SceneFactory...
+
+
+
+
+
+
+OnEnter()
+- Parse Scene/LoadScene("path", &m_gameObjects);
+
+
+auto* gameObject = GameFactory::GetInstance().Create(type);
+gameObject.AddComponent??
+
+m_gameObject.push_back(gameObject);
+
