@@ -7,3 +7,5 @@
 #include "Utility/Math/Vectors/Vector.hpp"
 #include "Utility/Math/Matrices/Matrix3x3.hpp"
 #include "Utility/Math/Matrices/Matrix4x4.hpp"
+#include "Utility/Utility/UtilityFunctions.hpp"
+
