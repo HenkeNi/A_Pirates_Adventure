@@ -83,6 +83,11 @@ namespace Hi_Engine
 		m_data.m_iconPath = aTexturePath;*/
 	}
 
+	void Window::ToggleFullscreen()
+	{
+
+	}
+
 	bool Window::InitGlfw() const
 	{
 		if (!glfwInit())

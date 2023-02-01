@@ -23,6 +23,7 @@ namespace Hi_Engine
 
 		void							SetSize(const CU::Vector2<unsigned>& aSize);
 		void							SetIcon(const std::string& aTexturePath);
+		void							ToggleFullscreen();
 
 	private:
 		bool							InitGlfw()										const;
