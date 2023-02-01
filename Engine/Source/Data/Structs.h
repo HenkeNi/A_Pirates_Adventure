@@ -24,25 +24,25 @@ struct SharedContext
 
 
 //??
-struct Position
-{
-
-	union 
-	{
-		struct
-		{
-			float x, y;
-		};
-
-		CU::Vector2<float> vec2;
-	};
-
-	//union 
-	//{
-	//	CU::Vector2<float> m_position,
-	//	float x, float y
-	//};
-
-
-
-};
+//struct Position
+//{
+//
+//	union 
+//	{
+//		struct
+//		{
+//			float x, y;
+//		};
+//
+//		CU::Vector2<float> vec2;
+//	};
+//
+//	//union 
+//	//{
+//	//	CU::Vector2<float> m_position,
+//	//	float x, float y
+//	//};
+//
+//
+//
+//};
