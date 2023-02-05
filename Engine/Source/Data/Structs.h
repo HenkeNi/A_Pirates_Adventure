@@ -1,5 +1,6 @@
 #pragma once
 #include "../Utility/Math/Vectors/Vector.hpp"
+#include <functional>
 
 namespace CU = CommonUtilities;
 
@@ -21,6 +22,19 @@ struct SharedContext
 	// Window&				m_window;
 	InputHandler&		m_inputHandler;
 };
+
+
+//class TimeObserver; // RENAME??
+
+struct TimerRequest // RENAME??
+{
+	double					m_durationInSecs, m_timeOfRequest;
+	std::function<void()>	m_callback = nullptr;
+	
+	//TimeObserver*			m_observer = nullptr;
+};
+
+
 
 
 //??
