@@ -5,6 +5,7 @@
 
 GameObjectFactory::GameObjectFactory()
 {
+	m_componentFactory.Init(); // HERE?? or create an init function??
 }
 
 GameObjectFactory::~GameObjectFactory()

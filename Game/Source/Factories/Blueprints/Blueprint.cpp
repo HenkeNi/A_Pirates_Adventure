@@ -4,6 +4,7 @@
 #include "../GameObject/GameObject.h"
 #include "../Factories/ComponentFactory.h"
 
+
 Blueprint::Blueprint()
 {
 }
@@ -17,10 +18,11 @@ Blueprint::~Blueprint()
 GameObject Blueprint::Create(const ComponentFactory& aFactory) const
 {
 	// Singleton component factory??
-
 	GameObject gameObject;
+
 	for (const auto& component : m_components)
 	{
+		gameObject.AddComponent(component->Copy());
 	//	// Copy component...
 	}
 
@@ -39,11 +41,12 @@ void Blueprint::LoadFromJson(rapidjson::Value& aBlueprintObject, ComponentFactor
 		{
 			std::string type = value["type"].GetString();
 
-			auto component = aFactory.CreateComponent(type);
-			component->Init(value);
-
+			if (auto component = aFactory.CreateComponent(type))
+			{
+				component->Init(value);
+				Insert(component);
+			}
 			//Insert(type, aFactory.CreateComponent(type));
-			Insert(component);
 		}
 	}
 }

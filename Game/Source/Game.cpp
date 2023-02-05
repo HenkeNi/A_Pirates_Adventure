@@ -31,12 +31,11 @@ void Game::OnCreate()
 {
 	SetupScenes();
 	LoadBlueprints();
-	//RegisterCreators();
 }
 
 void Game::OnDestroy()
 {
-
+	m_sceneManager.Clear();
 }
 
 void Game::SetupScenes()
@@ -56,5 +55,7 @@ void Game::LoadBlueprints()
 {
 	auto& factory = GameObjectFactory::GetInstance();
 
-	factory.LoadBlueprints("../Bin/Assets/Json/Blueprints/EnemyBlueprints.json");
+	factory.LoadBlueprints("../Bin/Assets/Json/Blueprints/Blueprints_Enemy.json");
+	factory.LoadBlueprints("../Bin/Assets/Json/Blueprints/Blueprints_UI.json");
+	factory.LoadBlueprints("../Bin/Assets/Json/Blueprints/Blueprints_Scene.json");
 }
