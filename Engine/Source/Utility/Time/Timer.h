@@ -1,4 +1,5 @@
 #pragma once
+#include "Data/Structs.h"
 #include <chrono>
 
 namespace CommonUtilities
@@ -13,13 +14,22 @@ namespace CommonUtilities
 
 		void		Update();
 
-		float		GetDeltaTime()		   const;
-		double		GetTotalTime()		   const;
+		float		GetDeltaTime()					const;
+		double		GetTotalTime()					const;
+
+		void		NotifyOnTimePassed(TimerRequest aRequest); // Rename; (doesnt notify... isntead does callback...)
 
 	private:
-		std::chrono::time_point<std::chrono::high_resolution_clock> myPreviousTimePoint;
-		std::chrono::duration<double>						   myDeltaTime, myTotalTime;
+		bool		ContainsTimerRequests()								const; // rename??
+		bool		HasTimeElapsed(double aDuration, double aStartTime)	const;
+		void		CheckTimerRequests();
+
+		std::chrono::time_point<std::chrono::high_resolution_clock> m_previousTimePoint;
+		std::chrono::duration<double>								m_deltaTime, m_totalTime;
+		
+		std::vector<TimerRequest> m_timeRequests; // Use observer pattern instead?? - need to create an observer class...
+
+		//std::vector<TimeObserver> m_timeObservers;
+		//std::unordered_map<TimeObserver*, TimeNotificationRequest> m_observers;
 	};
 }
-
-
