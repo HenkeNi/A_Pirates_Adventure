@@ -10,9 +10,6 @@ SceneManager::SceneManager()
 
 SceneManager::~SceneManager()
 {
-	for (auto& scene : m_scenes)
-		scene->OnDestroyed();
-	
 	Clear();
 }
 
@@ -106,5 +103,8 @@ bool SceneManager::IsEmpty() const
 
 void SceneManager::Clear()
 {
+	for (auto& scene : m_scenes)
+		scene->OnDestroyed();
+
 	m_sceneStack.Clear();
 }
