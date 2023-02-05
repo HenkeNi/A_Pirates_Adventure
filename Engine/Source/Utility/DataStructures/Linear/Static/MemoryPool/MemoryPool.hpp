@@ -10,7 +10,7 @@
 
 namespace CommonUtilities
 {
-	template <class Type, bool isStatic = true, typename SizeType = unsigned, SizeType size = 48>
+	template <class Type, bool isStatic = true, typename SizeType = unsigned, SizeType size = 128>
 	class MemoryPool
 	{
 	public:
@@ -19,7 +19,7 @@ namespace CommonUtilities
 		MemoryPool(const MemoryPool&)						 = delete;
 		MemoryPool& operator=(const MemoryPool&)			 = delete;
 
-		static MemoryPool&	GetInstance();
+		static MemoryPool&	GetInstance();	// Dont make static!!??
 
 		void				Init();
 		Type*				GetResource();
