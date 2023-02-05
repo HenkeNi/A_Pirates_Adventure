@@ -5,17 +5,17 @@
 
 
 GameObject::GameObject()
-	: m_isMarkedForRemoval{ false }, m_ID{ GenerateID() }
+	: m_markedForRemoval{ false }, m_ID{ GenerateID() }
 {
 	m_components.reserve(16);
 
-	CreateComponent<C_Transform>(); // Do in factory instead??
+	CreateComponent<C_Transform>(); // TODO; do in factory instead??
 
 	// Dispatcher::GetInstance().SendEvent({ eEvent::GameObjectCreated, this }); // TODO: Remove??
 }
 
 GameObject::GameObject(const GameObject& aGameObject)
-	: m_isMarkedForRemoval{ false }, m_ID{ aGameObject.m_ID }
+	: m_markedForRemoval{ false }, m_ID{ aGameObject.m_ID }
 {
 	for (auto& comp : aGameObject.m_components)
 	{
@@ -25,7 +25,7 @@ GameObject::GameObject(const GameObject& aGameObject)
 }
 
 GameObject::GameObject(GameObject&& aGameObject) noexcept
-	: m_components{ std::move(aGameObject.m_components) }, m_ID{ aGameObject.m_ID }, m_isMarkedForRemoval{ aGameObject.m_isMarkedForRemoval }
+	: m_components{ std::move(aGameObject.m_components) }, m_ID{ aGameObject.m_ID }, m_markedForRemoval{ aGameObject.m_markedForRemoval }
 {
 	aGameObject.m_components.clear();
 
@@ -42,7 +42,7 @@ GameObject::~GameObject()
 
 GameObject& GameObject::operator=(const GameObject& aGameObject)
 {
-	m_isMarkedForRemoval = aGameObject.m_isMarkedForRemoval;
+	m_markedForRemoval = aGameObject.m_markedForRemoval;
 	m_ID = aGameObject.m_ID;
 
 	for (auto& comp : aGameObject.m_components)
@@ -57,7 +57,7 @@ GameObject& GameObject::operator=(const GameObject& aGameObject)
 GameObject& GameObject::operator=(GameObject&& aGameObject) noexcept
 {
 	m_ID = aGameObject.m_ID;
-	m_isMarkedForRemoval = aGameObject.m_isMarkedForRemoval;
+	m_markedForRemoval = aGameObject.m_markedForRemoval;
 	m_components = std::move(aGameObject.m_components);
 
 	aGameObject.m_components.clear();
@@ -99,24 +99,24 @@ void GameObject::Draw() const
 
 bool GameObject::IsMarkedForRemoval() const
 {
-	return m_isMarkedForRemoval;
+	return m_markedForRemoval;
 }
 
-void GameObject::SetIsMarkedForRemoval(bool isMarked)
+void GameObject::SetMarkedForRemoval(bool isMarked)
 {
-	m_isMarkedForRemoval = isMarked;
+	m_markedForRemoval = isMarked;
 }
 
-void GameObject::NotifyComponents(eCompMessage aMessageType, const std::any& someData)
+void GameObject::NotifyComponents(eMessageType aType, const std::any& someData)
 {
 	for (auto& component : m_components)
 	{
 		if (component.second && component.second->IsActive())
-			component.second->HandleMessage(aMessageType, someData);
+			component.second->HandleMessage(aType, someData);
 	}
 }
 
-void GameObject::AddComponent(const std::shared_ptr<Component> aComponent)
+void GameObject::AddComponent(Component* aComponent)
 {
 	assert(!Contains<Component>() && "GameObject already contains component");
 
