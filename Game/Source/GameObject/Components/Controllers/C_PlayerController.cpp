@@ -6,7 +6,7 @@ C_PlayerController::C_PlayerController(GameObject* anOwner)
 {
 }
 
-void C_PlayerController::HandleMessage(eCompMessage aMessageType, const std::any& someData)
+void C_PlayerController::HandleMessage(eMessageType aType, const std::any& someData)
 {
 }
 

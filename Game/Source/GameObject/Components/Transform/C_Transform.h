@@ -11,10 +11,11 @@ public:
 	C_Transform(GameObject* anOwner);
 	~C_Transform();
 
-	void						Init(rapidjson::Value& aValue)										override;
-	void						HandleMessage(eCompMessage aMessageType, const std::any& someData)	override;
-	void						Update(float aDeltaTime)											override;
-	void						LateUpdate(float aDeltaTime)										override;
+	void						Init(rapidjson::Value& aValue)								override;
+	void						HandleMessage(eMessageType aType, const std::any& someData)	override;
+	void						Update(float aDeltaTime)									override;
+	void						LateUpdate(float aDeltaTime)								override;
+	C_Transform*				Copy()														override;
 
 	void						SetPosition(const CU::Vector2<float>& aPosition);
 	void						SetPosition(float aX, float aY);
@@ -26,10 +27,10 @@ public:
 	void						MoveBy(const CU::Vector2<float>& aOffset);
 	void						MoveBy(float anOffsetX, float anOffsetY);
 
-	const CU::Vector2<float>&	GetPosition()														const;
-	const CU::Vector2<float>&	GetScale()															const;
-	float						GetRotation()														const;
-	bool						HasMoved()															const;
+	const CU::Vector2<float>&	GetPosition()												   const;
+	const CU::Vector2<float>&	GetScale()													   const;
+	float						GetRotation()												   const;
+	bool						HasMoved()													   const;
 
 private:
 	CU::Vector2<float>			m_currPosition, m_prevPosition;

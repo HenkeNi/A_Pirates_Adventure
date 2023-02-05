@@ -20,19 +20,24 @@ void C_Transform::Init(rapidjson::Value& aValue)
 	m_rotation		= { aValue["rotation"].GetFloat() };
 }
 
-void  C_Transform::HandleMessage(eCompMessage aMessageType, const std::any& someData)
+void  C_Transform::HandleMessage(eMessageType aType, const std::any& someData)
 {
 }
 
 void  C_Transform::Update(float aDeltaTime)
 {
 	if (HasMoved() && m_owner)
-		m_owner->NotifyComponents(eCompMessage::PositionChanged, m_currPosition);
+		m_owner->NotifyComponents(eMessageType::PositionChanged, m_currPosition);
 }
 
 void C_Transform::LateUpdate(float aDeltaTime)
 {
 	m_prevPosition = m_currPosition; // Do in late update?
+}
+
+C_Transform* C_Transform::Copy()
+{
+	return new C_Transform{ *this };
 }
 
 void  C_Transform::SetPosition(const CU::Vector2<float>& aPosition)

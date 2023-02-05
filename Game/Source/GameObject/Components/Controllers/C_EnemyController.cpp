@@ -8,7 +8,7 @@ C_EnemyController::C_EnemyController(GameObject* anOwner)
 {
 }
 
-void C_EnemyController::HandleMessage(eCompMessage aMessageType, const std::any& someData)
+void C_EnemyController::HandleMessage(eMessageType aType, const std::any& someData)
 {
 }
 
