@@ -1,11 +1,12 @@
 #include "Pch.h"
 #include "TitleScene.h"
-#include "SceneParser.h"
+#include "../Factories/SceneFactory.h"
 
 #define DEFAULT_DURATION 2.3f 
 
+
 TitleScene::TitleScene(SceneManagerProxy aProxy)
-	: Scene{ aProxy }, m_duration{ DEFAULT_DURATION }, m_elapsedTime{ 0.f }
+	: Scene{ aProxy }, m_duration{ DEFAULT_DURATION } //, m_elapsedTime{ 0.f }
 {
 }
 
@@ -15,26 +16,26 @@ TitleScene::~TitleScene()
 
 void TitleScene::Update(float aDeltaTime)
 {
-	std::cout << "UPDATING TITLE SCENE\n";
+	for (auto& object : m_sceneObjects)
+		object.Update(aDeltaTime);
 }
 
-void TitleScene::LateUpdate(float aDeltaTime)
-{
-}
+void TitleScene::LateUpdate(float aDeltaTime) {}
 
 void TitleScene::Draw() const
 {
+	for (auto& object : m_sceneObjects)
+		object.Draw();
 }
 
 void TitleScene::OnCreated()
 {
-	int x = 10;
-	x += 20;
+	m_sceneObjects = SceneFactory::GetInstance().Create("Title");
 }
 
 void TitleScene::OnEnter()
 {
-	SceneParser::ParseScene("Title", *this);
+	// Request timer notification
 }
 
 void TitleScene::OnExit()
