@@ -1,3 +1,14 @@
+Currently working on;
+
+	loading scene/gameobjects from json
+	""time request notification"
+
+
+
+
+
+
+
 Scene have a component list (refers to blueprints...)
 
 	"blueprint_id": "playButton"
