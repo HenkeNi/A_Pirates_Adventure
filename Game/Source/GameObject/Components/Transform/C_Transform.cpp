@@ -4,7 +4,7 @@
 
 
 C_Transform::C_Transform(GameObject* anOwner)
-	: Component{ anOwner }, m_currPosition{ 0.f, 0.f }, m_prevPosition{ 0.f, 0.f }, m_scale{ 1.f, 1.f }, m_rotation{ 0.f }
+	: Component{ anOwner }, m_currPosition{ 0.f, 0.f, 0.f }, m_prevPosition{ 0.f, 0.f, 0.f }, m_scale{ 1.f, 1.f, 1.f }, m_rotation{ 0.f }
 {
 }
 
@@ -15,19 +15,24 @@ C_Transform::~C_Transform()
 void C_Transform::Init(rapidjson::Value& aValue)
 {
 	// TODO: Check if contains members???
-	m_currPosition	= { aValue["position"]["x"].GetFloat(), aValue["position"]["y"].GetFloat() };
-	m_scale			= { aValue["scale"]["x"].GetFloat(),	aValue["scale"]["y"].GetFloat()    };
-	m_rotation		= { aValue["rotation"].GetFloat() };
+
+	auto pos = aValue["position"].GetObj();
+	m_currPosition = { pos["x"].GetFloat(), pos["y"].GetFloat(), pos["z"].GetFloat() };
+
+	auto scale = aValue["scale"].GetObj();
+	m_scale = { scale["x"].GetFloat(), scale["y"].GetFloat(), scale["z"].GetFloat() };
+	
+	m_rotation = { aValue["rotation"].GetFloat() };
 }
 
-void  C_Transform::HandleMessage(eMessageType aType, const std::any& someData)
+void  C_Transform::HandleMessage(eCompMessage aMessage)
 {
 }
 
 void  C_Transform::Update(float aDeltaTime)
 {
 	if (HasMoved() && m_owner)
-		m_owner->NotifyComponents(eMessageType::PositionChanged, m_currPosition);
+		m_owner->NotifyComponents({ eMessageType::PositionChanged, m_currPosition });
 }
 
 void C_Transform::LateUpdate(float aDeltaTime)
@@ -40,14 +45,14 @@ C_Transform* C_Transform::Copy()
 	return new C_Transform{ *this };
 }
 
-void  C_Transform::SetPosition(const CU::Vector2<float>& aPosition)
+void  C_Transform::SetPosition(const CU::Vector3<float>& aPosition)
 {
 	m_currPosition = aPosition;
 }
 
-void  C_Transform::SetPosition(float aX, float aY)
+void  C_Transform::SetPosition(float aX, float aY, float aZ)
 {
-	m_currPosition = { aX, aY };
+	m_currPosition = { aX, aY, aZ };
 }
 
 void  C_Transform::SetXPosition(float aX)
@@ -60,7 +65,12 @@ void  C_Transform::SetYPosition(float aY)
 	m_currPosition.y = aY;
 }
 
-void C_Transform::SetScale(const CU::Vector2<float>& aScale)
+void C_Transform::SetZPosition(float aZ)
+{
+	m_currPosition.z = aZ;
+}
+
+void C_Transform::SetScale(const CU::Vector3<float>& aScale)
 {
 	m_scale = aScale;
 }
@@ -70,7 +80,7 @@ void C_Transform::SetRotation(float aRotation)
 	m_rotation = aRotation;
 }
 
-void  C_Transform::MoveBy(const CU::Vector2<float>& aOffset)
+void  C_Transform::MoveBy(const CU::Vector3<float>& aOffset)
 {
 	m_currPosition += aOffset;
 }
@@ -81,12 +91,12 @@ void  C_Transform::MoveBy(float anOffsetX, float anOffsetY)
 	m_currPosition.y += anOffsetY;
 }
 
-const CU::Vector2<float>& C_Transform::GetPosition() const
+const CU::Vector3<float>& C_Transform::GetPosition() const
 {
 	return m_currPosition;
 }
 
-const CU::Vector2<float>& C_Transform::GetScale() const
+const CU::Vector3<float>& C_Transform::GetScale() const
 {
 	return m_scale;
 }

@@ -11,29 +11,30 @@ public:
 	C_Transform(GameObject* anOwner);
 	~C_Transform();
 
-	void						Init(rapidjson::Value& aValue)								override;
-	void						HandleMessage(eMessageType aType, const std::any& someData)	override;
-	void						Update(float aDeltaTime)									override;
-	void						LateUpdate(float aDeltaTime)								override;
-	C_Transform*				Copy()														override;
+	void						Init(rapidjson::Value& aValue)						 override;
+	void						HandleMessage(eCompMessage aMessage)				 override;
+	void						Update(float aDeltaTime)							 override;
+	void						LateUpdate(float aDeltaTime)						 override;
+	C_Transform*				Copy()												 override;
 
-	void						SetPosition(const CU::Vector2<float>& aPosition);
-	void						SetPosition(float aX, float aY);
+	void						SetPosition(const CU::Vector3<float>& aPosition);
+	void						SetPosition(float aX, float aY, float aZ);
 	void						SetXPosition(float aX);
 	void						SetYPosition(float aY);
-	void						SetScale(const CU::Vector2<float>& aScale);
+	void						SetZPosition(float aZ);
+	void						SetScale(const CU::Vector3<float>& aScale);
 	void						SetRotation(float aRotation);
 
-	void						MoveBy(const CU::Vector2<float>& aOffset);
+	void						MoveBy(const CU::Vector3<float>& aOffset);
 	void						MoveBy(float anOffsetX, float anOffsetY);
 
-	const CU::Vector2<float>&	GetPosition()												   const;
-	const CU::Vector2<float>&	GetScale()													   const;
-	float						GetRotation()												   const;
-	bool						HasMoved()													   const;
+	const CU::Vector3<float>&	GetPosition()											const;
+	const CU::Vector3<float>&	GetScale()												const;
+	float						GetRotation()											const;
+	bool						HasMoved()												const;
 
 private:
-	CU::Vector2<float>			m_currPosition, m_prevPosition;
-	CU::Vector2<float>			m_scale; 
+	CU::Vector3<float>			m_currPosition, m_prevPosition;	//  TODO: change to vec3??
+	CU::Vector3<float>			m_scale; 
 	float						m_rotation;
 };

@@ -11,8 +11,8 @@ public:
 	C_Health(GameObject* anOwner);
 	~C_Health();
 
-	void HandleMessage(eMessageType aType, const std::any& someData)	override;
-	void Update(float aDeltaTime)											override;
+	void HandleMessage(eCompMessage aMessage)	override;
+	void Update(float aDeltaTime)				override;
 
 	void ModifyCurrentHealth(int anAmount);
 	void IncreaseMaxHealth(int anAmount);

@@ -13,7 +13,7 @@ C_Health::~C_Health()
 {
 }
 
-void C_Health::HandleMessage(eMessageType aType, const std::any& someData)
+void C_Health::HandleMessage(eCompMessage aMessage)
 {
 }
 
