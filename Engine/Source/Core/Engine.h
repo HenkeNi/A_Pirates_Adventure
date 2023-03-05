@@ -1,9 +1,9 @@
 #pragma once
+#include "Audio/AudioManager.h"
 #include "Input/InputHandler.h"
 #include "Window/Window.h"
 #include "Utility/Time/Timer.h"
 
-namespace CU = CommonUtilities;
 
 namespace Hi_Engine
 {
@@ -24,14 +24,19 @@ namespace Hi_Engine
 		void Shutdown();
 
 	private:
-		//void 
+		bool SetupWindow();
+		void MapControlls();
 
 		InputHandler	m_inputHandler;
 		Window			m_window;
-		CU::Timer		m_timer;
+		Timer			m_timer;
+		AudioManager	m_audioManager;
 		Application*	m_application;
 
 		bool			m_isRunning;
+
+
+
 
 		// Graphics m_graphics?? or make Asset/Resource-Manager a singleton
 		// Physics m_physics?? or just collisionManager??
