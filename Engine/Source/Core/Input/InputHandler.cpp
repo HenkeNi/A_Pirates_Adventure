@@ -21,4 +21,10 @@ namespace Hi_Engine
 	{
 
 	}
+
+	void InputHandler::MapEvent()
+	{
+	}
+
+
 }
