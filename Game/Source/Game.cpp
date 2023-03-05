@@ -1,6 +1,6 @@
 #include "Pch.h"
 #include "Game.h"
-#include "Scenes/Scenes.hpp"
+#include "Scenes/Scenes.h"
 #include "Factories/GameObjectFactory.h"
 
 
