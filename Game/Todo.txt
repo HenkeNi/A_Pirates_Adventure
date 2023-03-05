@@ -1,10 +1,82 @@
-Currently working on;
+Components;
+	* C_PlayerController
+	
+	* Agent? (or EnemyController?) AI Controller? (is hostile?)
+		- contains a state machine? (Or goal action oriented planing?)
+
+	* Collider component
+		* Box collider
+		* Circle collider
+		* Composite collider
+
+	* Health component? -> Or Stat component??
+
+
+
+	* Interactable (button/interact with doors, etc??)
+		
+	
+	* Physics component?? needed?? -> no gravity...
+
+
+	* Velocity or Movement component?
+
+
+	* Sprite
+	* SpriteController? Or AnimatedSprite? Anímation? AnimationController?
+
+
+	* Text
+
+
+
+
+	* MeleeWeapon? 
+		-> offset (vec2 or vec3)
+		-> attackCooldown, elapsedTime
+		-> attack duration? m_elapsedDuration? or use elapsedtime?
+		-> damage min , max
+		-> range
+		-> level??
+
+	* Ranged weapon?
+		* Shoot 
+			* reload..
+
+
+
+
+Folder structure;
+
+* Game	
+* Precompiled
+* Data?
+
+
+
+	* Projectile ocmponent???
+
+
+
+	* Euipment comp?
+		-> ItemContainer = unorederd map eEquipmentSlot, GameObject..
+
+
+	* Effect component??
+
+
+	Camera component?
+
+
+
 
 	loading scene/gameobjects from json
 	""time request notification"
 
 
 
+
+GameObjectManager?? in Scene?? or hhave layers??
 
 
 
@@ -31,7 +103,7 @@ Factory...
 
 
 
-
+	Soberness is replacing sanity => if to sober => start seeing stuff
 
 
 
