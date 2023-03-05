@@ -1,6 +1,6 @@
 #pragma once
 #include "../Scene.h"
-
+#include "../World/GameWorld.h"
 
 class GameScene : public Scene
 {
@@ -17,6 +17,7 @@ public:
 
 
 private:
+	GameWorld	m_world;
 	// GameWorld class?? -> Contains a current map??
 };
 
