@@ -85,11 +85,11 @@ void SceneManager::LateUpdate(float aDeltaTime)
 
 void SceneManager::Draw() const
 {
-	if (IsEmpty()) 
+	if (!IsEmpty()) 
 	{ 
 		int index = (int)m_sceneStack.Top();
 
-		if (m_scenes[index]->IsTransparent())
+		if (m_scenes[index]->IsTransparent() && m_scenes[index - 1])  
 			m_scenes[index - 1]->Draw();
 
 		m_scenes[index]->Draw();
@@ -104,7 +104,10 @@ bool SceneManager::IsEmpty() const
 void SceneManager::Clear()
 {
 	for (auto& scene : m_scenes)
-		scene->OnDestroyed();
+	{
+		if (scene)
+			scene->OnDestroyed();
+	}
 
 	m_sceneStack.Clear();
 }
