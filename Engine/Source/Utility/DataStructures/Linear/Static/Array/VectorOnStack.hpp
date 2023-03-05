@@ -4,6 +4,8 @@
 #include <initializer_list>
 
 
+// TODO: move constructor?
+
 namespace CommonUtilities
 {
 	template <typename Type, int size, typename SizeType = unsigned short, bool useSafeModeFlag = true>

@@ -1,140 +1,235 @@
 #pragma once
+#include <cassert>
+#include <initializer_list>
+
+#define DEF_CAP			16
+#define RESIZE_CONST	2
+
+// TODO: move constructor/assignment AND copy assignment?
+// TODO: copy deep function??
 
 namespace CommonUtilities
 {
-	template <class Type, bool isStatic = true, typename SizeType = unsigned>
+	template <class Type, typename SizeType = unsigned, bool useSafeMode = true>
 	class Stack
 	{
 	public:
-		Stack(const SizeType aCapacity = 16);
+		Stack();
+		Stack(const Stack& aStack);
+		Stack(Stack&& aStack)								 noexcept;
 		Stack(const std::initializer_list<Type>& aList);
 		~Stack();
 
-		SizeType	Size()		const;
-		SizeType	Capacity()	const;
-		const Type&	Top()		const;
-		Type&		Top();
+		Stack&	operator=(const Stack& aStack);
+		Stack&	operator=(Stack&& aStack)					 noexcept;
 
-		bool		IsEmpty()	const;
-		bool		IsFull()	const;
+		Type&			Top();
+		const Type&		Top()									const;
 
-		void		Push(const Type& aValue);
-		Type		Pop();
-		void		Resize(const SizeType aCapacity);
-		void		Clear();
+		template		<typename... Args>
+		void			Emplace(Args&&... args);
+		void			Push(const Type& aValue);
+		Type			Pop();
+
+		SizeType		Size()									const;
+		SizeType		Capacity()								const;
+		bool			IsEmpty()								const;
+		void			Clear();
+		void			Resize(const SizeType aCapacity);
 
 	private:
-		Type*		m_data;			// Type m_Data[size]????
-		SizeType	m_capacity;
-		int			m_top;
+		Type*			m_data;
+		SizeType		m_capacity, m_top;
 	};
 
 #pragma region Constructor
 
-	template <class Type, bool isStatic, typename SizeType>
-	Stack<Type, isStatic, SizeType>::Stack(const SizeType aCapacity)
-		: m_data{ new Type[aCapacity] }, m_capacity{ aCapacity }, m_top{ 0 }
+	template <class Type, typename SizeType, bool useSafeMode>
+	Stack<Type, SizeType, useSafeMode>::Stack()
+		: m_data{ new Type[DEF_CAP + RESIZE_CONST] }, m_capacity{ DEF_CAP + RESIZE_CONST }, m_top{ 0 }
 	{
 	}
 
-	template <class Type, bool isStatic, typename SizeType>
-	Stack<Type, isStatic, SizeType>::Stack(const std::initializer_list<Type>& aList)
+	template <class Type, typename SizeType, bool useSafeMode>
+	Stack<Type, SizeType, useSafeMode>::Stack(const Stack& aStack)
+		: m_data{ new Type[aStack.m_capacity] }, m_capacity{ aStack.m_capacity }, m_top{ aStack.m_top }
 	{
-		assert(&aList != this);
-		
-		// TODO...
+		assert(&aStack != this && "Self assignment detected!");
+
+		if (useSafeMode)
+		{
+			for (int i = 0; i < aStack.Size(); ++i)
+				m_data[i] = aStack.m_data[i];
+		}
+		else
+		{
+			std::memcpy(m_data, aStack.m_data, aStack.m_top * sizeof(Type));
+		}
 	}
 
-	template <class Type, bool isStatic, typename SizeType>
-	Stack<Type, isStatic, SizeType>::~Stack()
+	template <class Type, typename SizeType, bool useSafeMode>
+	Stack<Type, SizeType, useSafeMode>::Stack(const std::initializer_list<Type>& aList)
+		: m_data{ new Type[aList.size() + RESIZE_CONST] }, m_capacity{ (SizeType)aList.size() + RESIZE_CONST }
+	{
+		if (useSafeMode)
+		{
+			for (int i = 0; i < aList.size(); ++i)
+				m_data[m_top++] = *(aList.begin() + i);
+		}
+		else
+		{
+			m_top = aList.size();
+			std::memcpy(m_data, aList.begin(), aList.size() * sizeof(Type));
+		}
+	}
+
+	template <class Type, typename SizeType, bool useSafeMode>
+	Stack<Type, SizeType, useSafeMode>::Stack(Stack&& aStack) noexcept
+		: m_data{ aStack.m_data }, m_capacity{ aStack.m_capacity }, m_top{ aStack.m_top }
+	{
+		aStack.m_data = nullptr;
+		aStack.Clear();
+	}
+
+	template <class Type, typename SizeType, bool useSafeMode>
+	Stack<Type, SizeType, useSafeMode>::~Stack()
 	{
 		delete[] m_data;
 	}
 
 #pragma endregion Constructor
 
+#pragma region Operators
+
+	template <class Type, typename SizeType, bool useSafeMode>
+	Stack<Type, SizeType, useSafeMode>& Stack<Type, SizeType, useSafeMode>::operator=(const Stack& aStack)
+	{
+		m_data = new Type[aStack.m_capacity];
+		m_capacity = aStack.m_capacity;
+		m_top = aStack.m_top;
+
+		if (useSafeMode)
+		{
+			for (int i = 0; i < aStack.Size(); ++i)
+				m_data[i] = aStack.m_data[i];
+		}
+		else
+		{
+			std::memcpy(m_data, aStack.m_data, aStack.m_top * sizeof(Type));
+		}
+
+		return *this;
+	}
+
+	template <class Type, typename SizeType, bool useSafeMode>
+	Stack<Type, SizeType, useSafeMode>& Stack<Type, SizeType, useSafeMode>::operator=(Stack&& aStack) noexcept
+	{
+		m_data = aStack.m_data;
+		m_capacity = aStack.m_capacity;
+		m_top = aStack.m_top;
+
+		aStack.m_data = nullptr;
+		aStack.Clear();
+
+		return *this;
+	}
+
+#pragma endregion Operators
+
 #pragma region Method_Definitions
 
-	template <class Type, bool isStatic, typename SizeType>
-	SizeType Stack<Type, isStatic, SizeType>::Size()		const
+	template <class Type, typename SizeType, bool useSafeMode>
+	Type& Stack<Type, SizeType, useSafeMode>::Top()
 	{
-		return m_top;
-	}
+		assert(!IsEmpty() && "Unable get Top an empty stack");
 
-	template <class Type, bool isStatic, typename SizeType>
-	SizeType Stack<Type, isStatic, SizeType>::Capacity()	const
-	{
-		return m_capacity;
-	}
-
-	template <class Type, bool isStatic, typename SizeType>
-	const Type& Stack<Type, isStatic, SizeType>::Top()		const
-	{
-		assert(!IsEmpty() && "Unable to get top element of an empty stack!");
 		return m_data[m_top - 1];
 	}
 
-	template <class Type, bool isStatic, typename SizeType>
-	Type& Stack<Type, isStatic, SizeType>::Top()
+	template <class Type, typename SizeType, bool useSafeMode>
+	const Type& Stack<Type, SizeType, useSafeMode>::Top() const
 	{
-		assert(!IsEmpty() && "Unable to get top element of an empty stack!");
+		assert(!IsEmpty() && "Unable get Top an empty stack");
+
 		return m_data[m_top - 1];
 	}
 
-	template <class Type, bool isStatic, typename SizeType>
-	bool Stack<Type, isStatic, SizeType>::IsEmpty()			const
+	template <class Type, typename SizeType, bool useSafeMode>
+	template <typename... Args>
+	void Stack<Type, SizeType, useSafeMode>::Emplace(Args&&... args)
 	{
-		return m_top == 0;
+		if (m_top == m_capacity)
+			Resize(m_capacity + RESIZE_CONST);
+
+		m_data[m_top++] = Type{ std::forward<Args>(args)... };
 	}
 
-	template <class Type, bool isStatic, typename SizeType>
-	bool Stack<Type, isStatic, SizeType>::IsFull()			const
+	template <class Type, typename SizeType, bool useSafeMode>
+	void Stack<Type, SizeType, useSafeMode>::Push(const Type& aValue)
 	{
-		return m_top == m_capacity;
-	}
-
-	template <class Type, bool isStatic, typename SizeType>
-	void Stack<Type, isStatic, SizeType>::Push(const Type& aValue)
-	{
-		if (IsFull())
-		{
-			if (isStatic)
-				assert(false && "Stack is full");
-			else
-				Resize(m_capacity * 2);
-		}
+		if (m_top == m_capacity)
+			Resize(m_capacity + RESIZE_CONST);
 
 		m_data[m_top++] = aValue;
 	}
 
-	template <class Type, bool isStatic, typename SizeType>
-	Type Stack<Type, isStatic, SizeType>::Pop()
+	template <class Type, typename SizeType, bool useSafeMode>
+	Type Stack<Type, SizeType, useSafeMode>::Pop()
 	{
-		assert(!IsEmpty() && "Unable to pop element of an empty stack!");
+		assert(!IsEmpty() && "Unable Pop an empty stack");
+
 		return m_data[--m_top];
 	}
 
-	template <class Type, bool isStatic, typename SizeType>
-	void Stack<Type, isStatic, SizeType>::Resize(const SizeType aCapacity)
+	template <class Type, typename SizeType, bool useSafeMode>
+	SizeType Stack<Type, SizeType, useSafeMode>::Size() const
 	{
-		assert(!isStatic && "This Stack is a static data structure!");
+		return m_top;
+	}
 
-		auto* temp = new Type[aCapacity];
-		for (int i = 0; i < m_top; ++i)
+	template <class Type, typename SizeType, bool useSafeMode>
+	SizeType Stack<Type, SizeType, useSafeMode>::Capacity() const
+	{
+		return m_capacity;
+	}
+
+	template <class Type, typename SizeType, bool useSafeMode>
+	bool Stack<Type, SizeType, useSafeMode>::IsEmpty()	const
+	{
+		return m_top == 0;
+	}
+
+	template <class Type, typename SizeType, bool useSafeMode>
+	void Stack<Type, SizeType, useSafeMode>::Clear()
+	{
+		m_top = 0;
+	}
+
+	template <class Type, typename SizeType, bool useSafeMode>
+	void Stack<Type, SizeType, useSafeMode>::Resize(const SizeType aCapacity)
+	{
+		if (aCapacity == m_capacity || aCapacity <= 0)
+			return;
+
+		Type* temp = new Type[aCapacity];
+		SizeType elementsToCopy = aCapacity > m_capacity ? m_capacity : aCapacity;
+
+		if (!IsEmpty())
 		{
-			temp[i] = m_data[i];
+			if (useSafeMode)
+			{
+				for (int i = 0; i < elementsToCopy; ++i)
+					temp[i] = m_data[i];
+			}
+			else
+				std::memcpy(temp, m_data, elementsToCopy * sizeof(Type));
 		}
 
 		delete[] m_data;
+
 		m_data = temp;
-
+		m_top = aCapacity < m_capacity ? aCapacity : m_top;
 		m_capacity = aCapacity;
-	}
-
-	template <class Type, bool isStatic, typename SizeType>
-	void Stack<Type, isStatic, SizeType>::Clear()
-	{
-		m_top = 0;
 	}
 
 #pragma endregion Method_Definitions
