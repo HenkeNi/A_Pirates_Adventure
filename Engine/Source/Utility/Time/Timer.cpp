@@ -2,7 +2,7 @@
 #include "Timer.h"
 
 
-namespace CommonUtilities
+namespace Hi_Engine
 {
 	Timer::Timer()
 		: m_previousTimePoint{ std::chrono::high_resolution_clock::now() }, m_deltaTime{ 0 }, m_totalTime{ 0 }

@@ -2,7 +2,7 @@
 #include "Data/Structs.h"
 #include <chrono>
 
-namespace CommonUtilities
+namespace Hi_Engine
 {
 	class Timer
 	{
