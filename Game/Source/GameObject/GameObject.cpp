@@ -5,7 +5,7 @@
 
 
 GameObject::GameObject()
-	: m_markedForRemoval{ false }, m_ID{ GenerateID() }
+	: m_isMarkedForRemoval{ false }, m_ID{ GenerateID() }
 {
 	m_components.reserve(16);
 
@@ -15,7 +15,7 @@ GameObject::GameObject()
 }
 
 GameObject::GameObject(const GameObject& aGameObject)
-	: m_markedForRemoval{ false }, m_ID{ aGameObject.m_ID }
+	: m_isMarkedForRemoval{ false }, m_ID{ aGameObject.m_ID }
 {
 	for (auto& comp : aGameObject.m_components)
 	{
@@ -25,7 +25,7 @@ GameObject::GameObject(const GameObject& aGameObject)
 }
 
 GameObject::GameObject(GameObject&& aGameObject) noexcept
-	: m_components{ std::move(aGameObject.m_components) }, m_ID{ aGameObject.m_ID }, m_markedForRemoval{ aGameObject.m_markedForRemoval }
+	: m_components{ std::move(aGameObject.m_components) }, m_ID{ aGameObject.m_ID }, m_isMarkedForRemoval{ aGameObject.m_isMarkedForRemoval }
 {
 	aGameObject.m_components.clear();
 
@@ -42,7 +42,7 @@ GameObject::~GameObject()
 
 GameObject& GameObject::operator=(const GameObject& aGameObject)
 {
-	m_markedForRemoval = aGameObject.m_markedForRemoval;
+	m_isMarkedForRemoval = aGameObject.m_isMarkedForRemoval;
 	m_ID = aGameObject.m_ID;
 
 	for (auto& comp : aGameObject.m_components)
@@ -57,7 +57,7 @@ GameObject& GameObject::operator=(const GameObject& aGameObject)
 GameObject& GameObject::operator=(GameObject&& aGameObject) noexcept
 {
 	m_ID = aGameObject.m_ID;
-	m_markedForRemoval = aGameObject.m_markedForRemoval;
+	m_isMarkedForRemoval = aGameObject.m_isMarkedForRemoval;
 	m_components = std::move(aGameObject.m_components);
 
 	aGameObject.m_components.clear();
@@ -99,20 +99,20 @@ void GameObject::Draw() const
 
 bool GameObject::IsMarkedForRemoval() const
 {
-	return m_markedForRemoval;
+	return m_isMarkedForRemoval;
 }
 
-void GameObject::SetMarkedForRemoval(bool isMarked)
+void GameObject::MarkForRemoval()
 {
-	m_markedForRemoval = isMarked;
+	m_isMarkedForRemoval = true;
 }
 
-void GameObject::NotifyComponents(eMessageType aType, const std::any& someData)
+void GameObject::NotifyComponents(eCompMessage aMessage)
 {
 	for (auto& component : m_components)
 	{
 		if (component.second && component.second->IsActive())
-			component.second->HandleMessage(aType, someData);
+			component.second->HandleMessage(aMessage);
 	}
 }
 
@@ -122,6 +122,18 @@ void GameObject::AddComponent(Component* aComponent)
 
 	aComponent->SetOwner(this);
 	m_components[std::type_index(typeid(Component))] = aComponent;
+}
+
+void GameObject::Activate()
+{
+	for (auto& component : m_components)
+		component.second->OnActivate();
+}
+
+void GameObject::Deactivate()
+{
+	for (auto& component : m_components)
+		component.second->OnDeactivate();
 }
 
 unsigned GameObject::GenerateID() const

@@ -1,5 +1,5 @@
 #pragma once
-#include "../Data/Enumerations.h"
+#include "../Data/Structs.h"
 
 class Component;
 
@@ -11,19 +11,21 @@ class GameObject
 public:
 	GameObject();
 	GameObject(const GameObject& aGameObject);
-	GameObject(GameObject&& aGameObject)									 noexcept;
+	GameObject(GameObject&& aGameObject)						 noexcept;
 	~GameObject();
 
 	GameObject& operator=(const GameObject& aGameObject);
-	GameObject& operator=(GameObject&& aGameObject)							 noexcept;
+	GameObject& operator=(GameObject&& aGameObject)				 noexcept;
 
 	void			Update(float aDeltaTime);
 	void			LateUpdate(float aDeltaTime);
-	void			Draw()														const;
-	bool			IsMarkedForRemoval()										const;
-	void			SetMarkedForRemoval(bool isMarked);
-	void			NotifyComponents(eMessageType aType, const std::any& someData);
+	void			Draw()											const;
+	bool			IsMarkedForRemoval()							const;
+	void			MarkForRemoval();
+	void			NotifyComponents(eCompMessage aMessage);
 	void			AddComponent(Component* aComponent);
+	void			Activate();
+	void			Deactivate();
 
 	template		<typename T>
 	T*				CreateComponent();
@@ -34,16 +36,16 @@ public:
 	template		<typename T>
 	T*				GetComponent();
 	template		<typename T>
-	const T*		GetComponent()												const;
+	const T*		GetComponent()									const;
 
 private:
 	template		<typename T>
-	bool			Contains()													const;
-	unsigned		GenerateID()												const;
+	bool			Contains()										const;
+	unsigned		GenerateID()									const;
 
 	Components_t	m_components;
 	unsigned		m_ID;
-	bool			m_markedForRemoval;
+	bool			m_isMarkedForRemoval;
 };
 
 #pragma region METHOD_DEFINITIONS
@@ -89,7 +91,8 @@ T* GameObject::GetComponent()
 	auto component = m_components.find(std::type_index(typeid(T)));
 	if (component != m_components.end())
 	{
-		return std::dynamic_pointer_cast<T>(component->second);
+		//return std::dynamic_pointer_cast<T>(component->second);
+		return dynamic_cast<T*>(component->second);
 	}
 
 	return nullptr;
