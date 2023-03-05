@@ -23,6 +23,12 @@ void PauseScene::Draw() const
 {
 }
 
+void PauseScene::OnCreated()
+{
+	m_callbacks.push_back([&]() { m_sceneManager.Pop(); });
+	m_callbacks.push_back([&]() { m_sceneManager.SwapTo(eSceneType::Menu); });
+}
+
 void PauseScene::OnEnter()
 {
 }

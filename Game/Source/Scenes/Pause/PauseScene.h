@@ -12,7 +12,12 @@ public:
 	void			LateUpdate(float aDeltaTime)		  override;
 	void			Draw()							const override;
 
+	void			OnCreated()							  override;
 	void			OnEnter()							  override;
 	void			OnExit()							  override;
+
+
+private:
+	std::vector<std::function<void()>> m_callbacks; // TODO: find other way??
 };
 
