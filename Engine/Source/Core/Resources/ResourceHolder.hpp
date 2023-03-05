@@ -1,8 +1,17 @@
 #pragma once
+//#include "Math/Vectors/Vector.hpp"
+#include "Core/Rendering/Shader/Shader.h"
+#include "Core/Rendering/Texture/Texture2D.h"
+//#include "Rendering/Shader/Shader.h"
+//#include "Rendering/Texture/Texture2D.h"
 #include <document.h>
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <stb_image.h>
+#include <fstream>
+
+// TODO; rename ResourceManager? 
 
 namespace Hi_Engine
 {
@@ -30,6 +39,8 @@ namespace Hi_Engine
 		std::unordered_map<Identifier, std::unique_ptr<Resource>> m_resources;
 	};
 
+	/*using TextureHolder = ResourceHolder<Texture2D>;
+	using ShaderHolder  = ResourceHolder<Shader>;*/
 
 #pragma region Constructor
 
@@ -85,7 +96,7 @@ namespace Hi_Engine
 		for (auto& value : document.GetArray())
 		{
 			auto name = value["name"].GetString();
-			auto path = value["resource_path"].GetString();
+			auto path = value["filepath"].GetString();
 
 			value.HasMember("alpha") ? Load(name, path, value["alpha"].GetBool()) : Load(name, path);
 		}
@@ -101,17 +112,53 @@ namespace Hi_Engine
 	template <class Resource, typename Identifier>
 	void ResourceHolder<Resource, Identifier>::Load(const Identifier& anID, const std::string& aPath, bool alpha)
 	{
+		assert(false && "*** No Function Overload Found! ***");
 	}
 	
 	template <class Resource, typename Identifier>
 	void ResourceHolder<Resource, Identifier>::Load(const Identifier& anID, const std::string& aPath)
 	{
+		assert(false && "*** No Function Overload Found! ***");
+	}
+
+	template <>
+	inline void ResourceHolder<Texture2D, std::string>::Load(const std::string& aResourceName, const std::string& aPath, bool alpha)
+	{
+		auto texture = std::make_unique<Texture2D>(alpha);
+
+		int width, height, nrChannels;
+		unsigned char* data = stbi_load(aPath.c_str(), &width, &height, &nrChannels, 0);
+
+		texture->Init({ width, height }, data);
+		stbi_image_free(data);
+
+		Insert(aResourceName, std::move(texture));
+	}
+
+	template <>
+	inline void ResourceHolder<Shader, std::string>::Load(const std::string& aResourceName, const std::string& aPath)
+	{
+		auto shader = std::make_unique<Shader>();
+
+		std::string vertex, fragment;
+
+		std::ifstream vertexStream{ aPath + aResourceName + ".vertex.glsl" };
+		vertex = { std::istreambuf_iterator<char>(vertexStream), std::istreambuf_iterator<char>() };
+
+		std::ifstream fragmentStream{ aPath + aResourceName + ".fragment.glsl" };
+		fragment = { std::istreambuf_iterator<char>(fragmentStream), std::istreambuf_iterator<char>() };
+
+		// TODO: Geometryshader
+
+		shader->Init(vertex.c_str(), fragment.c_str(), nullptr);
+
+		Insert(aResourceName, std::move(shader));
 	}
 
 	template <class Resource, typename Identifier>
 	void ResourceHolder<Resource, Identifier>::Clear()
 	{
-		m_resources.empty();
+		m_resources.clear();
 	}
 
 #pragma endregion Method_Definitions
