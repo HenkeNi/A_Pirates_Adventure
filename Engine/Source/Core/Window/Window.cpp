@@ -25,7 +25,6 @@ namespace Hi_Engine
 		if (!InitGlfw() || !CreateWindow())
 			return false;
 
-		glfwMakeContextCurrent(m_window);
 		glfwSetFramebufferSizeCallback(m_window, FrameBufferSizeCallback);
 		glfwSetWindowFocusCallback(m_window, WindowFocusCallback);
 
@@ -74,13 +73,13 @@ namespace Hi_Engine
 
 	void Window::SetIcon(const std::string& aTexturePath)
 	{
-		/*GLFWimage image;
+		m_data.m_iconPath = aTexturePath;
+
+		GLFWimage image;
 		image.pixels = stbi_load(aTexturePath.c_str(), &image.width, &image.height, 0, 4);
 
 		glfwSetWindowIcon(m_window, 1, &image);
 		stbi_image_free(image.pixels);
-
-		m_data.m_iconPath = aTexturePath;*/
 	}
 
 	void Window::ToggleFullscreen()
@@ -97,6 +96,10 @@ namespace Hi_Engine
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+#ifdef __APPLE__
+		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif // __APPLE__
+
 		return true;
 	}
 
@@ -108,6 +111,9 @@ namespace Hi_Engine
 			glfwTerminate();
 			return false;
 		}
+
+		glfwMakeContextCurrent(m_window);
+		return true;
 	}
 
 #pragma region CALLBACK_FUNCTIONS
