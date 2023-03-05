@@ -18,6 +18,5 @@ public:
 
 private:
 	float			m_duration;
-	
 	//float			m_duration, m_elapsedTime; // register a time callback in a time manager isntead?!
 };
