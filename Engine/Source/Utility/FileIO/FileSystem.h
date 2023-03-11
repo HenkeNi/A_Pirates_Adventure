@@ -5,6 +5,6 @@
 // Put in Hi_Engine namespace??
 namespace FileSystem
 {
-	WindowData FetchWindowData(const std::string& aFilePath);
+	//WindowData FetchWindowData(const std::string& aFilePath);
 }
 
