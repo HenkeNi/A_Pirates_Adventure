@@ -24,6 +24,7 @@ public:
 	void			MarkForRemoval();
 	void			NotifyComponents(eCompMessage aMessage);
 	void			AddComponent(Component* aComponent);
+
 	void			Activate();
 	void			Deactivate();
 

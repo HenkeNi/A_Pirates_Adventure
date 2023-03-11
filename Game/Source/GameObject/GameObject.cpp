@@ -74,7 +74,7 @@ void GameObject::Update(float aDeltaTime)
 {
 	for (auto& component : m_components)
 	{
-		if (component.second && component.second->IsActive())
+		if (component.second)
 			component.second->Update(aDeltaTime);
 	}
 }
@@ -83,7 +83,7 @@ void GameObject::LateUpdate(float aDeltaTime)
 {
 	for (auto& component : m_components)
 	{
-		if (component.second && component.second->IsActive())
+		if (component.second)
 			component.second->LateUpdate(aDeltaTime);
 	}
 }
@@ -92,7 +92,7 @@ void GameObject::Draw() const
 {
 	for (auto& component : m_components)
 	{
-		if (component.second && component.second->IsActive())
+		if (component.second)
 			component.second->Draw();
 	}
 }
@@ -111,7 +111,7 @@ void GameObject::NotifyComponents(eCompMessage aMessage)
 {
 	for (auto& component : m_components)
 	{
-		if (component.second && component.second->IsActive())
+		if (component.second)
 			component.second->HandleMessage(aMessage);
 	}
 }
