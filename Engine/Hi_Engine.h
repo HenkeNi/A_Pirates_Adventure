@@ -3,6 +3,7 @@
 /* - Core - */
 #include "Core/Application/Application.h"
 #include "Core/EntryPoint.h"
+#include "Core/Physics/Collisions/CollisionManager.h"
 
 /* - Rendering - */
 #include "Core/Rendering/Renderers/SpriteRenderer/SpriteRenderer.h"
