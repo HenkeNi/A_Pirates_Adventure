@@ -38,7 +38,7 @@ void TitleScene::OnCreated()
 
 	GameObject background;
 	auto* Sprite = background.CreateComponent<C_Sprite>();
-	auto& Texture = Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("grass");
+	auto& Texture = Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("title_screen");
 	Sprite->SetTexture(&Texture);
 
 	m_sceneObjects.push_back(background);
