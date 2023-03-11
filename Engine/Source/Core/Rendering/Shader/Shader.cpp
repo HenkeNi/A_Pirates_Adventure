@@ -65,6 +65,8 @@ namespace Hi_Engine
 
     void Shader::SetInt(const std::string& aName, int aValue) const
     {
+        auto Location = glGetUniformLocation(m_id, aName.c_str());
+
         glUniform1i(glGetUniformLocation(m_id, aName.c_str()), aValue);
     }
 
@@ -90,6 +92,10 @@ namespace Hi_Engine
 
     void Shader::SetMatrix4(const std::string& aName, const glm::mat4& aMatrix) const
     {
+        //auto location = glGetUniformLocation(m_id, aName.c_str());
+        //if (location == -1)
+        //    assert(false && "Failed to fetch a location");
+
         glUniformMatrix4fv(glGetUniformLocation(m_id, aName.c_str()), 1, false, glm::value_ptr(aMatrix));
     }
 
