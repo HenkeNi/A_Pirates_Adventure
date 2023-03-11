@@ -1,3 +1,19 @@
+## Rendering ##
+* use glCreate rather then glGen? => (glGenTexture vs glCreateTexture)?
+
+
+
+
+# Animations #
+blend between textures? => mayebe bad idea?...
+
+
+
+Commands??
+
+
+
+
 GameObject can send a position set message to its components...
 	only Transform listens...?? -> sets new position...
 
