@@ -10,14 +10,14 @@ namespace Hi_Engine
 	class WindowEvent : public Event
 	{
 	public:
-		WindowEvent(eWindowEventType aType); // Overload new operatp`?? placement new??
+		WindowEvent(eWindowEvent aType); // Overload new operatp`?? placement new??
 
 		void Dispatch(EventListener& aListener) override;
 
-		eWindowEventType GetEventType() const;
+		eWindowEvent GetEventType() const;
 
 	private:
-		eWindowEventType		m_eventType;
+		eWindowEvent		m_eventType;
 		CU::Vector2<unsigned>	m_windowSize;
 	};
 

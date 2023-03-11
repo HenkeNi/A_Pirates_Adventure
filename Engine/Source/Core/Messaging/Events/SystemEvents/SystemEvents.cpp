@@ -7,7 +7,7 @@ namespace Hi_Engine
 {
 #pragma region WINDOW_EVENT
 
-	WindowEvent::WindowEvent(eWindowEventType aType)
+	WindowEvent::WindowEvent(eWindowEvent aType)
 		: Event{ ePriority::High }, m_eventType{ aType }
 	{
 	}
@@ -17,7 +17,7 @@ namespace Hi_Engine
 		aListener.HandleEvent(*this);
 	}
 
-	eWindowEventType WindowEvent::GetEventType() const
+	eWindowEvent WindowEvent::GetEventType() const
 	{
 		return m_eventType;
 	}
