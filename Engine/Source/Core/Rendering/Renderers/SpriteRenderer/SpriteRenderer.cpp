@@ -29,11 +29,11 @@ namespace Hi_Engine
 	{
 		float vertices[] = 
 		{
-			  // Position			// Texture Coords 
-			  0.5f,  0.5f, 0.f,		1.f, 1.f,
-			  0.5f, -0.5f, 0.f,		1.f, 0.f,
-			 -0.5f, -0.5f, 0.f,		0.f, 0.f,
-			 -0.5f,  0.5f, 0.f,		0.f, 1.f
+			// positions             // texture coords
+			 0.5f,  0.5f, 0.0f,      1.0f, 1.0f,
+			 0.5f, -0.5f, 0.0f,      1.0f, 0.0f,
+			-0.5f, -0.5f, 0.0f,      0.0f, 0.0f,
+			-0.5f,  0.5f, 0.0f,      0.0f, 1.0f
 		};
 
 		unsigned indices[] =
@@ -42,7 +42,7 @@ namespace Hi_Engine
 			1, 2, 3
 		};
 
-		unsigned VBO, EBO;
+		unsigned VBO, EBO;						// TODO: Store as members and delete later?
 		glGenVertexArrays(1, &m_quadVAO);
 		glBindVertexArray(m_quadVAO);
 
@@ -57,11 +57,14 @@ namespace Hi_Engine
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 		/* Specify layout of the vertex data */
-		glEnableVertexAttribArray(0);
+
+		/* Position Attribute */
+		glEnableVertexAttribArray(0); 
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 
+		/* Texture Coord Attribute */
 		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float))); // TODO: use same vec2 in shader??
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float))); 
 
 		/* Unbind VBO and VAO */
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -72,14 +75,21 @@ namespace Hi_Engine
 	{
 		assert(aShader && "Shader was nullptr!");
 		m_shader = aShader;
+
+		ConfigureShader();
 	}
 
-	void SpriteRenderer::ConfigureShader(float aWidth, float aHeight)
+	void SpriteRenderer::ConfigureShader()
 	{
+		/* Tell OpenGL which texture unit the shader sampler belongs to */
+		m_shader->Activate();
+		m_shader->SetInt("Texture", 0); 
+
+
+
 		//glm::mat4 projection = glm::ortho(0.0f, (float)aWidth, (float)aHeight, 0.0f, -1.0f, 1.0f);
 		//glm::mat4 projection = glm::perspective(glm::radians(45.0f), ());
 
-		ResourceHolder<Shader>::GetInstance().GetResource("Sprite").SetInt("texture1", 0);
 		//ResourceHolder<Shader>::GetInstance().GetResource("Sprite").SetInt("image", 0);
 		//ResourceHolder<Shader>::GetInstance().GetResource("Sprite").SetMatrix4("projection", projection);
 	}
@@ -90,17 +100,23 @@ namespace Hi_Engine
 
 		m_shader->Activate();
 
-		glm::mat4 model			= glm::mat4(1.f);
-		glm::mat4 view			= glm::mat4(1.f);
-		glm::mat4 projection	= glm::mat4(1.f);
-		model = glm::rotate(model, glm::radians(someData.m_rotation), glm::vec3(1.f, 0.f, 0.f));
-		view = glm::translate(view, glm::vec3(0.f, 0.f, -3.f));
-		projection = glm::perspective(glm::radians(45.0f), (float)800 / (float)600, 0.1f, 100.0f);
 
-		m_shader->SetMatrix4("model", model);
-		m_shader->SetMatrix4("view", view);
-		m_shader->SetMatrix4("projection", projection);
+		// HOW TO RENDER COLORS?? => Set uniform?
 
+		//glm::mat4 model			= glm::mat4(1.f);
+		//glm::mat4 view			= glm::mat4(1.f);
+		//glm::mat4 projection	= glm::mat4(1.f);
+		//model = glm::rotate(model, glm::radians(someData.m_rotation), glm::vec3(1.f, 0.f, 0.f));
+		//view = glm::translate(view, glm::vec3(0.f, 0.f, -3.f));
+		//projection = glm::perspective(glm::radians(45.0f), (float)1400 / (float)800, 0.1f, 100.0f);
+
+		m_shader->SetVector4f("Color", someData.m_color);
+
+		//m_shader->SetMatrix4("model", model);
+		//m_shader->SetMatrix4("view", view);
+		//m_shader->SetMatrix4("projection", projection);
+
+		/* Bind Texutre */
 		glActiveTexture(GL_TEXTURE0);
 		someData.m_texture.Bind();
 

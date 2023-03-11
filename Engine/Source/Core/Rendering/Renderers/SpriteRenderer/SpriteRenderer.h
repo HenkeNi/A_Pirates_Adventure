@@ -20,9 +20,8 @@ namespace Hi_Engine
 		static SpriteRenderer& GetInstance();
 
 		void Init();
-		//void SetAndConfigureShader();
 		void SetShader(Shader* aShader);
-		void ConfigureShader(float aWidth, float aHeight); // Private
+		void ConfigureShader();
 
 		void Render(const SpriteRenderData& someData);
 
