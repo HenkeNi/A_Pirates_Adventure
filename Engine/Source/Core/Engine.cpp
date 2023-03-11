@@ -21,39 +21,25 @@ namespace Hi_Engine
 
 	bool Engine::Init()
 	{
-		if (!SetupWindow() || glewInit() != GLEW_OK) // do glewInit() in Graphics??
+		if (!SetupWindow() || glewInit() != GLEW_OK || !m_application) // do glewInit() in Graphics??
 			return false;
+
+		stbi_set_flip_vertically_on_load(true);
 
 		ResourceHolder<Texture2D>::GetInstance().FetchAll("../Bin/Assets/Json/Resources/Textures.json");
 		ResourceHolder<Shader>::GetInstance().FetchAll("../Bin//Assets/Json/Resources/Shaders.json");
+        		
 
+		// Move elsewhere... Do in Graphics.h??? -> 'SetupOpenGL()'?
 		auto& SpriteRenderer = SpriteRenderer::GetInstance();
 		SpriteRenderer.Init();
-		SpriteRenderer.SetShader(&ResourceHolder<Shader>::GetInstance().GetResource("Sprite"));
-		// TextureHolder -> usei nstead...
-		SpriteRenderer.ConfigureShader(800, 600); // Or call from SetShader??
-
-
-		// TODO;
-
-		// Init renderers??
-		// Configure all shaders... => for each function??
-
-
-
-
-		// Do in Graphics.h??? -> 'SetupOpenGL()'?
-		glEnable(GL_CULL_FACE);
+		SpriteRenderer.SetShader(&ResourceHolder<Shader>::GetInstance().GetResource("Core"));
+	
+		/*glEnable(GL_CULL_FACE);
 		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC1_ALPHA);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC1_ALPHA);*/
 
-
-
-
-
-		if (m_application)
-			m_application->OnCreate();
-
+		m_application->OnCreate(); 
 
 		return true;
 	}
