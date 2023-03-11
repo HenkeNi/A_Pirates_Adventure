@@ -5,7 +5,7 @@
 
 
 C_Sprite::C_Sprite(GameObject* anOwner)
-	: Component{ anOwner }, m_transform{ nullptr }, m_texture{ nullptr }
+	: Component{ anOwner }, m_color{ 1.f, 1.f, 1.f, 1.f }, m_transform{ nullptr }, m_texture{ nullptr }
 {
 }
 
@@ -23,14 +23,14 @@ void C_Sprite::Update(float aDeltaTime) {}
 
 void C_Sprite::Draw() const
 {
-	/*if (auto transform = m_transform.lock())*/
-	if (m_transform)
-	{
-		auto color = CU::Vector4<float>{ 1.f, 1.f, 1.f, 1.f };
-		auto scale = CU::Vector2<float>{ m_transform->GetScale().x, m_transform->GetScale().y }; // Scale or size??
-		auto pos = m_transform->GetPosition();
+	assert(m_transform && m_texture && "Failed to render Sprite");
 
-		Hi_Engine::SpriteRenderer::GetInstance().Render({ *m_texture, color, m_transform->GetPosition(), scale, m_transform->GetRotation() });
+	/*if (auto transform = m_transform.lock())*/
+	if (m_transform && m_texture)
+	{
+		const auto& scale = m_transform->GetScale();		// Scale or size??
+
+		Hi_Engine::SpriteRenderer::GetInstance().Render({ *m_texture, m_color, m_transform->GetPosition(), { scale.x, scale.y }, m_transform->GetRotation() });
 	}
 }
 

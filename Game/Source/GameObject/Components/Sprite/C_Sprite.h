@@ -31,7 +31,8 @@ public:
 	}
 
 private:
-	C_Transform* m_transform;
+	CU::Vector4<float>			m_color;
+	C_Transform*				m_transform;
 	//std::weak_ptr<C_Transform>	m_transform;
 	Hi_Engine::Texture2D*		m_texture;
 	// SpriteRenderer*   => or make singleton??
