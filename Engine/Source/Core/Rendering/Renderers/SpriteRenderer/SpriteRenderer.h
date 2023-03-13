@@ -1,9 +1,8 @@
 #pragma once
 
+// TODO: Store EBO, VBO as members and delete later? (optional?)
+// TODO: Rename 2D renderer?? Also renders billboards?? Also renders planes?? 
 
-// Rename 2D renderer?? Also renders billboards??
-
-	// Also renders planes?? 
 
 namespace Hi_Engine
 {
@@ -29,7 +28,7 @@ namespace Hi_Engine
 
 	private:
 		SpriteRenderer();
-		
+
 		Shader*		m_shader;
 		unsigned	m_quadVAO;
 
