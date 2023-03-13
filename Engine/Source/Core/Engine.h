@@ -24,7 +24,8 @@ namespace Hi_Engine
 		void Shutdown();
 
 	private:
-		bool SetupWindow();
+		bool SetupWindow();		
+		void SetupRendering(); // Rename or do in graphics?
 		void MapControlls();
 
 		InputHandler	m_inputHandler;
@@ -36,16 +37,11 @@ namespace Hi_Engine
 		bool			m_isRunning;
 
 
-
-
-		// Graphics m_graphics?? or make Asset/Resource-Manager a singleton
+		//Graphics		m_graphics;
+		// Rendering	m_rendering; or Renderer
 		// Physics m_physics?? or just collisionManager??
 		// AI ??
-		// Renderer
-		// AudioManager?
-		// CollisionManager?
 	};
-
 
 	Application* CreateApplication();
 }

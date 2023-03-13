@@ -5,9 +5,8 @@
 
 #include "Rendering/Renderers/SpriteRenderer/SpriteRenderer.h"
 
-//#include "Resources/ResourceHolder.hpp"
-//#include "Rendering/Shader/Shader.h"
-//#include "Rendering/Texture/Texture.h"
+#include "FileIO/FileSystem.h"
+#include "FileIO/Parsers/WindowParser.h"
 
 
 extern Hi_Engine::Application* Hi_Engine::CreateApplication();
@@ -15,7 +14,7 @@ extern Hi_Engine::Application* Hi_Engine::CreateApplication();
 namespace Hi_Engine
 {
 	Engine::Engine()
-		: m_application{ Hi_Engine::CreateApplication() }, m_isRunning{true}
+		: m_application{ CreateApplication() }, m_isRunning{ true }
 	{
 	}
 
@@ -28,12 +27,10 @@ namespace Hi_Engine
 
 		ResourceHolder<Texture2D>::GetInstance().FetchAll("../Bin/Assets/Json/Resources/Textures.json");
 		ResourceHolder<Shader>::GetInstance().FetchAll("../Bin//Assets/Json/Resources/Shaders.json");
-        		
+        		 
+		SetupRendering();
 
-		// Move elsewhere... Do in Graphics.h??? -> 'SetupOpenGL()'?
-		auto& SpriteRenderer = SpriteRenderer::GetInstance();
-		SpriteRenderer.Init();
-		SpriteRenderer.SetShader(&ResourceHolder<Shader>::GetInstance().GetResource("Core"));
+	
 	
 		/*glEnable(GL_CULL_FACE);
 		glEnable(GL_BLEND);
@@ -96,23 +93,16 @@ namespace Hi_Engine
 
 	bool Engine::SetupWindow()
 	{
-		// TODO; load elsewhere??? Window loader
-		std::ifstream ifs{ "../Bin/Assets/Json/Window/Window.json" };
-		std::string content{ std::istreambuf_iterator<char>(ifs), std::istreambuf_iterator<char>() };
+		auto windowData = FileSystem::ParseJson<WindowParser, WindowData>("../Bin/Assets/Json/Window/Window.json");
 
-		rapidjson::Document document;
-		if (!document.Parse(content.c_str()).HasParseError())
-		{
-			auto obj = document["window"].GetObj();
+		return m_window.Init(windowData);
+	}
 
-			WindowData data;
-			data.m_name = obj["name"].GetString();
-			data.m_size = { obj["size"]["width"].GetUint(), obj["size"]["height"].GetUint() };
-			data.m_iconPath = obj["icon_path"].GetString();
-
-			return m_window.Init(data);
-		}
-		return false;
+	void Engine::SetupRendering()
+	{
+		auto& SpriteRenderer = SpriteRenderer::GetInstance();
+		SpriteRenderer.Init();
+		SpriteRenderer.SetShader(&ResourceHolder<Shader>::GetInstance().GetResource("Core"));
 	}
 
 	// TODO; use keycodes mapped to Action events instead??
