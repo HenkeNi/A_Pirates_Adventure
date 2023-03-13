@@ -1,10 +1,20 @@
 #pragma once
 #include "Data/Structs.h"
 
-// REDO... Find better way...
-// Put in Hi_Engine namespace??
-namespace FileSystem
+// REDO... Find better way...??
+namespace Hi_Engine::FileSystem
 {
-	//WindowData FetchWindowData(const std::string& aFilePath);
+	template <typename Parser, typename Data>
+	Data ParseJson(const std::string& aPath)
+	{
+		std::ifstream ifs{ aPath };
+		std::string content{ std::istreambuf_iterator<char>(ifs), std::istreambuf_iterator<char>() };
+
+		rapidjson::Document document;
+		assert(!document.Parse(content.c_str()).HasParseError() && "Failed to Parse");
+
+		Parser parser;
+		return parser.Parse(document); 
+	}
 }
 
