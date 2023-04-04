@@ -28,5 +28,5 @@ protected:
 	friend class			SceneParser;
 	
 	SceneManagerProxy		m_sceneManager;
-	std::vector<GameObject> m_sceneObjects; // Layers??
+	std::vector<GameObject> m_sceneObjects; // Layers?? 
 };

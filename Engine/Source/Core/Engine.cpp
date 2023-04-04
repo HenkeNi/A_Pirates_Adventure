@@ -31,10 +31,20 @@ namespace Hi_Engine
 		SetupRendering();
 
 	
+
+
+
+
+		//SpriteRenderer::GetInstance().SetCamera(&m_camera); // TEST!
+
+
+
 	
 		/*glEnable(GL_CULL_FACE);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC1_ALPHA);*/
+
+		// glEnable(GL_DEPTH_TEST);   ????
 
 		m_application->OnCreate(); 
 
@@ -56,10 +66,17 @@ namespace Hi_Engine
 	{
 		m_timer.Update(); // HERE Or at the end of the loop??
 
-		float deltaTime = m_timer.GetDeltaTime();
+		const float deltaTime = m_timer.GetDeltaTime();
 
 		if (m_application)
 			m_application->OnUpdate(deltaTime);
+
+
+		// TEST
+		/*static float posY = 3.0f;
+		posY += 0.1f * deltaTime;*/
+
+		//m_camera.SetPosition({ 0.f, 0.f, posY });
 	}
 
 	void Engine::LateUpdate()

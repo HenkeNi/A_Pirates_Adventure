@@ -16,5 +16,9 @@ namespace Hi_Engine::FileSystem
 		Parser parser;
 		return parser.Parse(document); 
 	}
+
+	// Todo: write to json?
+
+	// Otherways to read/write to files?
 }
 

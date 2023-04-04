@@ -1,4 +1,49 @@
 Components;
+
+	- Character
+		- NPC/Enemy
+		- Combat
+		- Stats
+		- Needs
+		- 
+
+
+
+
+
+
+FloatStat
+{
+
+}
+
+
+
+MutableFloat
+{
+}
+
+
+
+
+
+
+
+
+
+ComponentManager??
+
+	ComponentManager<C_Transform>	m_transforms;
+	ComponentManager<C_Sprite>		m_sprites;
+	ComponentManager<C_Physics>		m_physics;
+	ComponentManager<C_Transform> m_transforms;
+
+
+
+
+
+
+Components;
 	* C_PlayerController
 	
 	* Agent? (or EnemyController?) AI Controller? (is hostile?)
@@ -17,7 +62,7 @@ Components;
 		
 	
 	* Physics component?? needed?? -> no gravity...
-
+		Contains Velocity??
 
 	* Velocity or Movement component?
 
@@ -27,6 +72,7 @@ Components;
 
 
 	* Text
+
 
 
 

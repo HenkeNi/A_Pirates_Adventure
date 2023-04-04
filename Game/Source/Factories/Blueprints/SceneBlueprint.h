@@ -3,7 +3,8 @@
 
 class GameObject;
 
-class SceneBlueprint
+// SceneLoader??
+class SceneBlueprint // OR don't have blueprint for scenes`??
 {
 public:
 

@@ -4,6 +4,7 @@
 #include "Window/Window.h"
 #include "Utility/Time/Timer.h"
 
+#include "Rendering/Camera/Camera.h"
 
 namespace Hi_Engine
 {
@@ -35,6 +36,13 @@ namespace Hi_Engine
 		Application*	m_application;
 
 		bool			m_isRunning;
+
+
+
+
+
+		// Find place for camera to live? => maybe only a component??
+		//Camera m_camera;
 
 
 		//Graphics		m_graphics;

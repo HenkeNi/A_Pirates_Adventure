@@ -1,6 +1,87 @@
+How to handle Camera?
+
+
+
+Application				/		Engine						/		Scene
+
+all scenes share			all applications share				unique per scene
+
+								
+
+
+
+
+Scene => directly or as an GameObject?
+
+Reference to a camera in engine/application?? => 
+ 
+
+
+
+Every scene contains a gameobject that is the camera...
+
+
+
+
+
+
+
+* Opt 1; 
+	- Every scene contains a camera... (or maybe Application? -> pass it in shared context?)
+	- Passed with RenderData to the renderer; SpriteRenderer::Render(someData, Camera);
+	- C_CameraController component => have the ability to move or transform the camera...
+
+
+* Opt 2;
+	- Camera is always a component 
+	- when camera is activated it sets itself as camera in the renderer 
+	-	gameobject has pointer to its scene?? 
+
+
+* Opt 3;
+	- Camera lives in engine
+	- C_Camera component controlls the camera (How? -> static member?)
+
+
+* Opt 4;
+	- Graphics.h contains a camera?
+
+
+Scene always adds a camera game object`??
+
+
+
+
+
+where to put camera?
+	-> graphics?
+	-> engine?
+	-> just inherit from it when needed? (component)
+	-> application (needed to render a scene?)
+	-> renderer?
+
+	bind camear to renderer??
+	´pass in when rendering?=
+
+
+
+	Scebe has a camera or at least a camera component? 
+
+
+	C_CameraController?
+
+
+
+### GAMEPLAY ###
+
+-> Control with keys or by pressing mouse button (diablo style)? 
+
+
+
 ## Rendering ##
 * use glCreate rather then glGen? => (glGenTexture vs glCreateTexture)?
 
+render cómmand?
 
 
 
