@@ -6,6 +6,7 @@
 #include "Core/Physics/Collisions/CollisionManager.h"
 
 /* - Rendering - */
+#include "Core/Rendering/Camera/Camera.h"
 #include "Core/Rendering/Renderers/SpriteRenderer/SpriteRenderer.h"
 
 /* - Data Structures - */
@@ -18,6 +19,7 @@
 #include "Utility/Math/Vectors/Vector.hpp"
 #include "Utility/Math/Matrices/Matrix3x3.hpp"
 #include "Utility/Math/Matrices/Matrix4x4.hpp"
+#include "Utility/Math/MathExpression.hpp"
 
 /* - Utility - */
 #include "Utility/Utility/UtilityFunctions.hpp"
