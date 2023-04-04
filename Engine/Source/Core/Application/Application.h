@@ -13,9 +13,6 @@ namespace Hi_Engine
 
 		virtual void OnCreate()						 {};
 		virtual void OnDestroy()					 {};
-
-	private:
-
 	};
 
 
