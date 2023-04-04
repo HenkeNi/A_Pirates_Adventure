@@ -1,28 +1,47 @@
 #pragma once
 #include "Data/Enumerations.h"
+#include "Data/Structs.h"
 
 
 namespace Hi_Engine
 {
 	namespace CU = CommonUtilities;
 
-	class Camera
+	class Camera // Virtual??
 	{
 	public:
 		Camera();
-		~Camera();
+		virtual ~Camera() = default;
 
-		void Init(const CU::Vector3<float> aPosition);
+		void Init(const CU::Vector3<float> aPosition);	// Parse from json...? CameraData?
 		//void Update(float aDeltaTime);
 
 		//void SetMovementDirection(eCameraMovement aDirection); // Pass in delta time here??
 
+		// get view matrix??
+
+		void SetPosition(const CU::Vector3<float> aPosition);
 
 	private:
+		friend class SpriteRenderer; // Or just have getters??
+
 		//void CalculateCamera();
 		
-		CU::Vector2<float> m_position, m_front, m_up;
+
+		// ref to window?
+
+		CameraData m_data;	// store as members??
+
+		//CU::Vector3<float> m_position, m_front, m_up;
 		// Direction pointing at..
+
+
+
+		// FOV
+		// aspect?
+		// furstrum near and far?
+
+		// perspecitve matrix`?
 	};
 
 }
