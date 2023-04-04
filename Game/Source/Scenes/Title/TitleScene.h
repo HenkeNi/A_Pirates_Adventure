@@ -2,6 +2,8 @@
 #include "../Scene.h"
 
 
+#include "../World/Map/Map.h"
+
 class TitleScene : public Scene
 {
 public:
@@ -19,4 +21,7 @@ public:
 private:
 	float			m_duration;
 	//float			m_duration, m_elapsedTime; // register a time callback in a time manager isntead?!
+
+	// TEST
+	Map m_map;	
 };
