@@ -6,6 +6,7 @@
 
 namespace Hi_Engine
 {
+	class Camera;
 	class Shader;
 	struct SpriteRenderData;
 
@@ -20,6 +21,7 @@ namespace Hi_Engine
 
 		void Init();
 		void SetShader(Shader* aShader);
+		void SetCamera(Camera* aCamera);
 		void ConfigureShader();
 
 		void Render(const SpriteRenderData& someData);
@@ -31,6 +33,10 @@ namespace Hi_Engine
 
 		Shader*		m_shader;
 		unsigned	m_quadVAO;
+
+		// ref to camera?
+		Camera*		m_camera; // Or pass in with render data?
+
 
 		// vector<SpriteRenderData>??
 	};

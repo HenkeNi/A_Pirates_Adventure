@@ -7,6 +7,8 @@
 
 #include "Resources/ResourceHolder.hpp"
 
+#include "Core/Rendering/Camera/Camera.h"
+
 namespace Hi_Engine
 {
 	SpriteRenderer::SpriteRenderer()
@@ -79,6 +81,11 @@ namespace Hi_Engine
 		ConfigureShader();
 	}
 
+	void SpriteRenderer::SetCamera(Camera* aCamera)
+	{
+		m_camera = aCamera;
+	}
+
 	void SpriteRenderer::ConfigureShader()
 	{
 		/* Tell OpenGL which texture unit the shader sampler belongs to */
@@ -86,6 +93,11 @@ namespace Hi_Engine
 		m_shader->SetInt("Texture", 0); 
 
 
+		float SCR_WIDTH = 1400;
+		float SCR_HEIGHT = 800;
+
+		auto projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f); // Determined by camera??
+		m_shader->SetMatrix4("projection", projection);
 
 		//glm::mat4 projection = glm::ortho(0.0f, (float)aWidth, (float)aHeight, 0.0f, -1.0f, 1.0f);
 		//glm::mat4 projection = glm::perspective(glm::radians(45.0f), ());
@@ -94,29 +106,51 @@ namespace Hi_Engine
 		//ResourceHolder<Shader>::GetInstance().GetResource("Sprite").SetMatrix4("projection", projection);
 	}
 
-	void SpriteRenderer::Render(const SpriteRenderData& someData)
+	void SpriteRenderer::Render(const SpriteRenderData& someData) // TODO: Accept texture as pointer => check if nullptr...
 	{
 		assert(m_shader && "ERROR; Shader is not set!");
 
 		m_shader->Activate();
 
+
+		// glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+
 		// Have as members?
 		glm::mat4 model			= glm::mat4(1.f);
-		glm::mat4 view			= glm::mat4(1.f); 
-		glm::mat4 projection	= glm::mat4(1.f);
+		//glm::mat4 view			= glm::mat4(1.f); 
+		//glm::mat4 projection	= glm::mat4(1.f);
 
-		float SCR_WIDTH = 1400;
-		float SCR_HEIGHT = 800;
+		
+
+		// TODO; Size...
 
 		model = glm::rotate(model, glm::radians(someData.m_rotation), glm::vec3(0.f, 0.f, 1.f));	// last is rotation angle (pass in data?)
-		view = glm::translate(view, glm::vec3(0.f, 0.f, -3.0f));	// Position?
-		projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+
+
+		// TEST
+		model = glm::scale(model, glm::vec3(someData.m_size.x, someData.m_size.y, 0.f));
+		model = glm::translate(model, glm::vec3(someData.m_position.x, someData.m_position.y, someData.m_position.z));
+
+
+		//view = glm::translate(view, glm::vec3(0.f, 0.f, -3.0f));	// Position?
+		//projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+
+		if (m_camera)
+		{
+			const auto& data = m_camera->m_data;
+			glm::vec3 position	= { data.m_position.x,	data.m_position.y,	data.m_position.z };
+			glm::vec3 front		= { data.m_front.x,		data.m_front.y,		data.m_front.z };
+			glm::vec3 up		= { data.m_up.x,		data.m_up.y,		data.m_up.z };
+
+			glm::mat4 view = glm::lookAt(position, position + front, up );	
+			m_shader->SetMatrix4("view", view);
+		}
+
 
 		m_shader->SetMatrix4("model", model);
-		m_shader->SetMatrix4("view", view);
 
 		// note: currently we set the projection matrix each frame, but since the projection matrix rarely changes it's often best practice to set it outside the main loop only once.
-		m_shader->SetMatrix4("projection", projection); 
+		//m_shader->SetMatrix4("projection", projection); 
 
 		m_shader->SetVector4f("Color", someData.m_color);
 
