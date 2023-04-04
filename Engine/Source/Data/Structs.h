@@ -6,6 +6,12 @@ namespace CU = CommonUtilities;
 
 namespace Hi_Engine
 {
+	struct VertexData // use??
+	{
+		CU::Vector3<float> m_position;
+		CU::Vector2<float> m_textCoord;
+	};
+
 	struct WindowData
 	{
 		CU::Vector2<unsigned>	m_size;
@@ -14,11 +20,12 @@ namespace Hi_Engine
 
 	struct CameraData
 	{
-		CU::Vector3<float>	m_position;
-		CU::Vector3<float>	m_front, m_up, m_right; // make struct for coordinate system?
-		CU::Vector3<float>	m_worldUp;
+		CU::Vector3<float>	m_position  = { 0.f, 0.f,  3.f };
+		CU::Vector3<float>	m_front		= { 0.f, 0.f, -1.f }; // m_right; // make struct for coordinate system?		Rename m_forwardDir;
+		CU::Vector3<float>	m_up		= { 0.f, 1.f,  0.f };					// reame m_upDir;
+		//CU::Vector3<float>	m_worldUp;
 
-		float				m_movmentSpeed, m_zoom;
+		float				m_movementSpeed, m_zoomSpeed;
 	};
 
 
@@ -32,6 +39,8 @@ namespace Hi_Engine
 		CU::Vector3<float>	m_position;
 		CU::Vector2<float>	m_size;			// Rename Scale??
 		float				m_rotation;
+
+		//CameraData			m_cameraData;
 	};
 
 
