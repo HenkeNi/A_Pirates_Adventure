@@ -9,6 +9,11 @@
 #include "Core/Rendering/Camera/Camera.h"
 #include "Core/Rendering/Renderers/SpriteRenderer/SpriteRenderer.h"
 
+/* - Messaging - */
+#include "Core/Messaging/Dispatcher/Dispatcher.h"
+#include "Core/Messaging/Listener/EventListener.h"
+#include "Core/Messaging/Events/SystemEvents/SystemEvents.h"
+
 /* - Data Structures - */
 #include "Utility/DataStructures/Linear/Dynamic/Stack/Stack.hpp"
 #include "Utility/DataStructures/Linear/Dynamic/Queue/Queue.hpp"
