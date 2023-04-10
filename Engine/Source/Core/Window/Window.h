@@ -6,6 +6,7 @@
 namespace Hi_Engine
 {
 	namespace CU = CommonUtilities;
+	class Engine;
 
 	class Window
 	{
@@ -24,8 +25,10 @@ namespace Hi_Engine
 		void							SetSize(const CU::Vector2<unsigned>& aSize);
 		void							SetIcon(const std::string& aTexturePath);
 		void							ToggleFullscreen();
-
+		
 	private:
+		friend class					Engine;
+
 		bool							InitGlfw()										const;
 		bool							CreateWindow();
 

@@ -27,7 +27,7 @@ namespace Hi_Engine
 	private:
 		bool SetupWindow();		
 		void SetupRendering(); // Rename or do in graphics?
-		void MapControlls();
+		void MapControlls(); // Rename ConfigureInput??
 
 		InputHandler	m_inputHandler;
 		Window			m_window;

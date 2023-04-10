@@ -5,6 +5,8 @@
 
 #include "Rendering/Renderers/SpriteRenderer/SpriteRenderer.h"
 
+#include "Messaging/Dispatcher/Dispatcher.h"
+
 #include "FileIO/FileSystem.h"
 #include "FileIO/Parsers/WindowParser.h"
 
@@ -30,8 +32,7 @@ namespace Hi_Engine
         		 
 		SetupRendering();
 
-	
-
+		glfwSetKeyCallback(m_window.m_window, InputHandler::KeyCallback);
 
 
 
@@ -58,6 +59,10 @@ namespace Hi_Engine
 
 	void Engine::ProcessInput()
 	{
+		// Do at the end of frame??
+		Dispatcher::GetInstance().DispatchEvents();
+
+
 		m_window.PollEvents();					// Todo; do here, or at the end of the frame?
 		m_inputHandler.ProcessInput();
 	}
@@ -125,6 +130,8 @@ namespace Hi_Engine
 	// TODO; use keycodes mapped to Action events instead??
 	void Engine::MapControlls() 
 	{
-		m_inputHandler.MapEvent(); // Pass in key 
+		//m_inputHandler.MapCommand(eInputType::Key_ArrowUp, )
+
+		//m_inputHandler.MapEvent(); // Pass in key 
 	}
 }
