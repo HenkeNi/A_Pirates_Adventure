@@ -15,6 +15,7 @@
 #include <functional>
 #include <iostream>
 #include <memory>
+#include <queue>
 #include <set>
 #include <sstream>
 #include <stack>
