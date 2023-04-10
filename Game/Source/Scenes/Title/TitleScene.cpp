@@ -6,8 +6,9 @@
 
 
 TitleScene::TitleScene(SceneManagerProxy aProxy)
-	: Scene{ aProxy }, m_duration{ DEFAULT_DURATION } //, m_elapsedTime{ 0.f } 
+	: Scene{ aProxy }, m_duration{ DEFAULT_DURATION }, m_elapsedTime{ 0.f } 
 {
+	Hi_Engine::Dispatcher::GetInstance().Subscribe(this);
 }
 
 TitleScene::~TitleScene()
@@ -16,6 +17,8 @@ TitleScene::~TitleScene()
 
 void TitleScene::Update(float aDeltaTime)
 {
+	m_elapsedTime += aDeltaTime;
+
 	for (auto& object : m_sceneObjects)
 		object.Update(aDeltaTime);
 }
@@ -60,6 +63,8 @@ void TitleScene::OnEnter()
 {
 	// Request timer notification
 
+	m_elapsedTime = 0.f;
+
 	for (auto& object : m_sceneObjects)
 		object.Activate();
 }
@@ -68,4 +73,14 @@ void TitleScene::OnExit()
 {
 	for (auto& object : m_sceneObjects)
 		object.Deactivate();
+}
+
+void TitleScene::HandleEvent(Hi_Engine::KeyEvent& anEvent)
+{
+	if (anEvent.GetKeyCode() == 1)
+	{
+		static int i = 10;
+		i += 10;
+	}
+
 }
