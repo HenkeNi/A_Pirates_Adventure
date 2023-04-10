@@ -13,6 +13,7 @@ namespace Hi_Engine
 
 		virtual void	Dispatch(EventListener& aListener)	  = 0;
 		virtual void	Destroy()							  = 0;
+		virtual void	Clean()								  = 0;
 
 		ePriority		GetPriority()						const;
 		bool			IsHandled()							const;

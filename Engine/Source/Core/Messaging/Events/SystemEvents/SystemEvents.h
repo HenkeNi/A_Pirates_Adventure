@@ -15,6 +15,7 @@ namespace Hi_Engine
 
 		void					Dispatch(EventListener& aListener)	override;
 		void					Destroy()							override;
+		void					Clean()								override;
 		void					Init(eWindowEvent aType);
 
 		eWindowEvent			GetEventType()						   const;
@@ -34,13 +35,14 @@ namespace Hi_Engine
 
 		void		Dispatch(EventListener& aListener)   override;
 		void		Destroy()							 override;
-		void		Init(eKeyState aState, int aCode);
+		void		Clean()								 override;
+		void		Init(eInputState aState, int aCode);
 
-		eKeyState	GetKeyState()						    const;
+		eInputState	GetKeyState()						    const;
 		int			GetKeyCode()						    const;
 
 	private:
-		eKeyState	m_keyState;
+		eInputState	m_keyState;
 		int			m_keyCode;
 	};
 
@@ -56,6 +58,7 @@ namespace Hi_Engine
 
 		void	Dispatch(EventListener& aListener)	override;
 		void	Destroy()							override;
+		void	Clean()								override;
 		void	Init(const CU::Vector2<unsigned>& aCurrentMousePos, const CU::Vector2<unsigned>& aPrevMousePos);
 
 		const CU::Vector2<unsigned>& GetCurrentMousePos() const;

@@ -1,7 +1,13 @@
 #pragma once
 #include "Data/Enumerations.h"
-#include "DataStructures/Linear/Static/MemoryPool/MemoryPool.hpp"
+#include "Data/Structs.h"
+#include "../../../Utility/DataStructures/Linear/Static/MemoryPool/MemoryPool.hpp"
+#include <queue>
 
+
+// TODO: replace array with Binary Search Tree Set or AVL or SPlay Tree? or map
+// Todo: rename EventSystem?? or MessageSystem??
+// TODO; check if sorting after importance works?
 
 namespace Hi_Engine
 {
@@ -10,17 +16,19 @@ namespace Hi_Engine
 	class Event;
 	class EventListener;
 
-	// Todo: rename EventSystem??
 	class Dispatcher
 	{
 	public:
-		Dispatcher(const Dispatcher&) = delete;
-		Dispatcher& operator=(const Dispatcher&) = delete;
+		Dispatcher(const Dispatcher&)				= delete;
+		Dispatcher& operator=(const Dispatcher&)	= delete;
 
 		static Dispatcher& GetInstance();
 
 		void Subscribe(EventListener* aSubscriber);
 		void Unsubscribe(EventListener* aSubscriber);
+
+		void DispatchEvents();								// Rename Broadcast or BroadcastEvents?
+		void SendEventInstantly(Event* anEvent);			
 
 		template <typename T>
 		void AddEvent();
@@ -28,49 +36,33 @@ namespace Hi_Engine
 		template <typename T, typename... Args>
 		void AddEvent(Args&&... args);
 
-		void SendEvent(Event* anEvent);
-
 	private:
 		Dispatcher() = default;
 
 		bool IsQueueFull() const;
-
-
-		// TODO: replace array with Binary Search Tree Set or AVL or SPlay Tree? or map
-		std::vector<EventListener*> m_listeners;
-
-		//std::vector<Event*> m_events; 
-
-		// TODO: if nothing works have an array with preallocated memory?? or map?
-
-		//CU::MemoryPool<Event*> m_eventPool;
+		void BroadcastEvent(Event* anEvent);
+		 
+		std::priority_queue<Event*, std::vector<Event*>, EventCompare>	m_events;				// TODO; Own heap or priority queue?
+		std::vector<EventListener*>										m_listeners;	
 	};
 
-
 #pragma region Method_Definitions
-
-	// TODO: Sort by importance...
-
-
-// Publish function()??
-// insert//add event..
 
 	template <typename T>
 	void Dispatcher::AddEvent()
 	{
-		//T* newEvent = m_eventPool.GetResource();
+		T* newEvent = CU::MemoryPool<T>::GetInstance().GetResource();
 
-		//T* tEvent = new T;
-
+		m_events.push(newEvent);
 	}
-
 
 	template <typename T, typename... Args>
 	void Dispatcher::AddEvent(Args&&... args)
 	{
-		// In init??
+		T* newEvent = CU::MemoryPool<T>::GetInstance().GetResource();
+		newEvent->Init(std::forward<Args>(args)...);						// Override placement new instead??
 
-		//T* tEvent = new T;
+		m_events.push(newEvent);
 	}
 
 #pragma endregion Method_Definitions

@@ -25,6 +25,10 @@ namespace Hi_Engine
 	{
 		CU::MemoryPool<WindowEvent>::GetInstance().ReturnResource(this);
 	}
+
+	void WindowEvent::Clean()
+	{
+	}
 	
 	void WindowEvent::Init(eWindowEvent aType)
 	{
@@ -43,7 +47,7 @@ namespace Hi_Engine
 #pragma region KEY_EVENT
 
 	KeyEvent::KeyEvent()
-		: Event{ ePriority::High }, m_keyState{ eKeyState::None }, m_keyCode{ -1 } 
+		: Event{ ePriority::High }, m_keyState{ eInputState::None }, m_keyCode{ -1 } 
 	{
 	}
 
@@ -61,13 +65,17 @@ namespace Hi_Engine
 		CU::MemoryPool<KeyEvent>::GetInstance().ReturnResource(this);
 	}
 
-	void KeyEvent::Init(eKeyState aState, int aCode)
+	void KeyEvent::Clean()
+	{
+	}
+
+	void KeyEvent::Init(eInputState aState, int aCode)
 	{
 		m_keyState = aState;
 		m_keyCode = aCode;
 	}
 
-	eKeyState KeyEvent::GetKeyState() const
+	eInputState KeyEvent::GetKeyState() const
 	{
 		return m_keyState;
 	}
@@ -100,6 +108,10 @@ namespace Hi_Engine
 	void MouseEvent::Destroy()
 	{
 		CU::MemoryPool<MouseEvent>::GetInstance().ReturnResource(this);
+	}
+
+	void MouseEvent::Clean()
+	{
 	}
 
 	void MouseEvent::Init(const CU::Vector2<unsigned>& aCurrentMousePos, const CU::Vector2<unsigned>& aPrevMousePos)

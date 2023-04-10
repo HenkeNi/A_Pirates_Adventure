@@ -6,7 +6,7 @@
 
 namespace Hi_Engine
 {
-	Dispatcher& Dispatcher::GetInstance()
+	Dispatcher& Dispatcher::GetInstance() 
 	{
 		static Dispatcher instance;
 		return instance;
@@ -28,8 +28,34 @@ namespace Hi_Engine
 		m_listeners.erase(it);
 	}
 
-	void Dispatcher::SendEvent(Event* anEvent)
+	void Dispatcher::DispatchEvents() 
 	{
+		while (!m_events.empty())
+		{
+			if (Event* event = m_events.top())
+			{
+				BroadcastEvent(event);				
+				event->Destroy();
+			}
+
+			m_events.pop();
+		}
+	} 
+
+	void Dispatcher::SendEventInstantly(Event* anEvent)
+	{
+		BroadcastEvent(anEvent);
+	}
+
+	bool Dispatcher::IsQueueFull() const
+	{
+		return false;
+	}
+
+	void Dispatcher::BroadcastEvent(Event* anEvent)
+	{
+		assert(anEvent && "Event is not valid!");
+
 		for (auto& listener : m_listeners)
 		{
 			if (anEvent->IsHandled())
@@ -37,11 +63,5 @@ namespace Hi_Engine
 
 			anEvent->Dispatch(*listener);
 		}
-	}
-
-
-	bool Dispatcher::IsQueueFull() const
-	{
-		return false;
 	}
 }

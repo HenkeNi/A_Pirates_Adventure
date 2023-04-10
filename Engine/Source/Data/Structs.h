@@ -1,5 +1,6 @@
 #pragma once
 #include "../Utility/Math/Vectors/Vector.hpp"
+#include "../Core/Messaging/Events/Event.h"
 #include <functional>
 
 namespace CU = CommonUtilities;
@@ -102,5 +103,17 @@ namespace Hi_Engine
 	//
 	//
 	//};
+
+
+
+	/* Comparers */
+	struct EventCompare
+	{
+		bool operator()(const Event* aFirst, const Event* aSecond)
+		{
+			return aFirst->GetPriority() < aSecond->GetPriority();
+		}
+	};
+
 }
 
