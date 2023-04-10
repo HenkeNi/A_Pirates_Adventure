@@ -9,10 +9,10 @@ namespace Hi_Engine
 
 	enum class eWindowEvent
 	{
-		Resize, LostFocus, GainedFocus, Close
+		None, Resize, LostFocus, GainedFocus, Close
 	};
 
-	enum class eInput
+	enum class eInputType
 	{
 		Key_Enter,
 		Key_Space,
@@ -32,9 +32,9 @@ namespace Hi_Engine
 		Count
 	};
 
-	enum class eKeyState
+	enum class eInputState
 	{
-		Press, Release, Repeat
+		None, Press, Release, Repeat
 	};
 
 	enum class eCameraMovement
