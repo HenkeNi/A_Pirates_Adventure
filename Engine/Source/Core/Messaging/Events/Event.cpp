@@ -8,6 +8,11 @@ namespace Hi_Engine
 	{
 	}
 
+	ePriority Event::GetPriority() const
+	{
+		return m_priority;
+	}
+
 	bool Event::IsHandled() const
 	{
 		return m_isHandled;
