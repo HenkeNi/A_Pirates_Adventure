@@ -1,3 +1,25 @@
+< Memory Pool >
+
+* how to return objects;
+	- object have direct access to pool, and decides when they are no longer in used...
+	- returned objects are smart pointers, tells memory pool when out of scope?
+	- flags to mark if destroyed, object ppol checks each frame if set to true...
+	- objects are subjects and memory pool observer..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 How to handle Camera?
 
 
