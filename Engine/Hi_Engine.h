@@ -5,6 +5,9 @@
 #include "Core/EntryPoint.h"
 #include "Core/Physics/Collisions/CollisionManager.h"
 
+/* - Command - */
+#include "Core/Command/Command.h"
+
 /* - Rendering - */
 #include "Core/Rendering/Camera/Camera.h"
 #include "Core/Rendering/Renderers/SpriteRenderer/SpriteRenderer.h"
@@ -19,6 +22,7 @@
 #include "Utility/DataStructures/Linear/Dynamic/Queue/Queue.hpp"
 #include "Utility/DataStructures/Linear/Static/Array/VectorOnStack.hpp"
 #include "Utility/DataStructures/Linear/Static/MemoryPool/MemoryPool.hpp"
+#include "Utility/DataStructures/Non-Linear/Factory/Factory.hpp"
 
 /* - Math - */
 #include "Utility/Math/Vectors/Vector.hpp"
@@ -29,3 +33,7 @@
 /* - Utility - */
 #include "Utility/Utility/UtilityFunctions.hpp"
 
+
+
+/* - Data (Expose???) - */
+#include "Source/Data/Enumerations.h"
