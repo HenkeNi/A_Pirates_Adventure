@@ -9,7 +9,7 @@ namespace Hi_Engine
 
 		WindowData windowData;
 		windowData.m_size		= { obj["size"]["width"].GetUint(), obj["size"]["height"].GetUint() };
-		windowData.m_name		= obj["name"].GetString();
+		windowData.m_identifier		= obj["name"].GetString();
 		windowData.m_iconPath	= obj["icon_path"].GetString();
  
 		return windowData;
