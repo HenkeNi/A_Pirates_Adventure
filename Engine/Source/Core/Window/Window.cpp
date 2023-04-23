@@ -1,5 +1,6 @@
 #include "Pch.h"
 #include "Window.h"
+#include "InputHandler.h"
 
 
 namespace Hi_Engine
@@ -27,6 +28,8 @@ namespace Hi_Engine
 
 		glfwSetFramebufferSizeCallback(m_window, FrameBufferSizeCallback);
 		glfwSetWindowFocusCallback(m_window, WindowFocusCallback);
+
+		glfwSetKeyCallback(m_window, InputHandler::KeyCallback);
 
 		glViewport(0, 0, m_data.m_size.x, m_data.m_size.y);
 		SetIcon(m_data.m_iconPath);
@@ -105,7 +108,7 @@ namespace Hi_Engine
 
 	bool Window::CreateWindow()
 	{
-		m_window = glfwCreateWindow(m_data.m_size.x, m_data.m_size.y, m_data.m_name.c_str(), nullptr, nullptr);
+		m_window = glfwCreateWindow(m_data.m_size.x, m_data.m_size.y, m_data.m_identifier.c_str(), nullptr, nullptr);
 		if (!m_window)
 		{
 			glfwTerminate();
