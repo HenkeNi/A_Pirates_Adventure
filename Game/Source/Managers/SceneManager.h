@@ -12,7 +12,7 @@ public:
 	SceneManager();
 	~SceneManager();
 
-	void Init(std::initializer_list<eSceneType> aList);
+	void Init(std::initializer_list<eSceneType> aList);					// TODO; add bitset of eSceneType??
 	void Register(std::unique_ptr<Scene> aScene, eSceneType aType);
 	void Push(eSceneType aType);
 	void Pop();
@@ -25,8 +25,9 @@ public:
 	void Clear();
 
 private:
-	std::array<std::unique_ptr<Scene>, (int)eSceneType::Count>		m_scenes;
-	CU::Stack<eSceneType>											m_sceneStack;
+	std::array<std::unique_ptr<Scene>, (int)eSceneType::Count>	m_scenes;
+	CU::Stack<eSceneType>										m_sceneStack;
 };
 
 // TODO: Add ProcessEvents() ??
+// Change back m_scenes to unique_ptrs??

@@ -1,6 +1,7 @@
 #include "Pch.h"
 #include "SceneManager.h"
 #include "../Scenes/Scene.h"
+#include "../Scenes/Scenes.h"
 
 
 SceneManager::SceneManager()
