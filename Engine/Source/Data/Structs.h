@@ -16,7 +16,7 @@ namespace Hi_Engine
 	struct WindowData
 	{
 		CU::Vector2<unsigned>	m_size;
-		std::string				m_name, m_iconPath;
+		std::string				m_identifier, m_iconPath;
 	};
 
 	struct CameraData
