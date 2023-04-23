@@ -8,6 +8,7 @@ public:
 	GameScene(SceneManagerProxy aProxy);
 	~GameScene();
 
+	//void Init(rapidjson::Value& aValue)  	  override;
 	void Update(float aDeltaTime)			  override;
 	void LateUpdate(float aDeltaTime)		  override;
 	void Draw()							const override;

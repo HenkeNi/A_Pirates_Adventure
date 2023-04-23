@@ -1,6 +1,6 @@
 #include "Pch.h"
 #include "TitleScene.h"
-#include "../Factories/SceneFactory.h"
+//#include "../Factories/SceneFactory.h"
 
 #define DEFAULT_DURATION 2.3f 
 
@@ -19,7 +19,7 @@ void TitleScene::Update(float aDeltaTime)
 {
 	m_elapsedTime += aDeltaTime;
 
-	for (auto& object : m_sceneObjects)
+	for (auto& object : m_objectManager.GetAllObjects())
 		object.Update(aDeltaTime);
 }
 
@@ -29,8 +29,8 @@ void TitleScene::Draw() const
 {
 	m_map.Draw();
 
-	/*for (auto& object : m_sceneObjects)
-		object.Draw();*/
+	for (auto& object : m_objectManager.GetAllObjects())
+		object.Draw();
 }
 
 #include "Core/Resources/ResourceHolder.hpp"
@@ -40,12 +40,19 @@ void TitleScene::Draw() const
 //#include "Core/Rendering/Texture/Texture2D.h"
 void TitleScene::OnCreated()
 {
-	m_sceneObjects = SceneFactory::GetInstance().Create("Title");
+
+
+	// m_sceneObjects = SceneFactory::GetInstance().CreateFromBlueprint("Title");
 
 	GameObject camera;
 	camera.CreateComponent<C_Camera>();
-	m_sceneObjects.push_back(camera);
-	//camera.GetComponent<C_Transform>()->SetPosition();
+	camera.GetComponent<C_Camera>();
+	camera.GetComponent<C_Transform>()->SetPosition({ 0.f, 0.f, 0.f});
+
+	m_objectManager.AddObject(camera);
+	
+	//m_sceneObjects.push_back(camera);
+
 
 	GameObject background;
 	auto* transform = background.GetComponent<C_Transform>();
@@ -53,7 +60,9 @@ void TitleScene::OnCreated()
 	auto& texture = Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("title_screen");
 	sprite->SetTexture(&texture);
 
-	m_sceneObjects.push_back(background);
+
+	m_objectManager.AddObject(background);
+	// m_sceneObjects.push_back(background);
 	
 	
 	m_map.Init(); // REMOVE LATER...
@@ -65,13 +74,13 @@ void TitleScene::OnEnter()
 
 	m_elapsedTime = 0.f;
 
-	for (auto& object : m_sceneObjects)
+	for (auto& object : m_objectManager.GetAllObjects())
 		object.Activate();
 }
 
 void TitleScene::OnExit()
 {
-	for (auto& object : m_sceneObjects)
+	for (auto& object : m_objectManager.GetAllObjects())
 		object.Deactivate();
 }
 
@@ -82,5 +91,4 @@ void TitleScene::HandleEvent(Hi_Engine::KeyEvent& anEvent)
 		static int i = 10;
 		i += 10;
 	}
-
 }
