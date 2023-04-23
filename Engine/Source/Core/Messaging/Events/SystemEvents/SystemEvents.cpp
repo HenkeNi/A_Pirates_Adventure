@@ -51,6 +51,11 @@ namespace Hi_Engine
 	{
 	}
 
+	KeyEvent::KeyEvent(eInputState aState, int aCode)
+		: Event{ ePriority::High }, m_keyState{ aState }, m_keyCode{ aCode }
+	{
+	}
+
 	KeyEvent::~KeyEvent()
 	{
 	}

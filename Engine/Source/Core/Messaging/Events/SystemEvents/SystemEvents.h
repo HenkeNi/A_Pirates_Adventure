@@ -31,6 +31,7 @@ namespace Hi_Engine
 	{
 	public:
 		KeyEvent();
+		KeyEvent(eInputState aState, int aCode);
 		~KeyEvent();
 
 		void		Dispatch(EventListener& aListener)   override;
