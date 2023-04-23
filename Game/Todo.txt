@@ -1,3 +1,69 @@
+Scene Loading (how to load in objects)
+* pass path to object manager?? (takes in a string returns array of objects)??
+* Init function in Scene? => put in base class?
+
+
+
+
+
+
+
+Components have a prio (for sorting in component managern??)
+
+
+
+
+
+
+In Component constructor (if compoent is templated )
+
+template <typename Derived>
+class Component 
+
+ 	// ObjectManager::RegisterBuilder(type_idenx<derived>, new ConcreteComponentBuilder<Derived>()); -> posible way of registering components 
+
+
+
+
+
+
+
+
+
+
+Rather than builders;
+	- component factory do have an array of compoents =>called prototypes..?!
+
+
+	or maybe have generuc factory byt instead of builder they uses prototypes?!
+
+
+
+
+
+
+
+Scenes has a GameObjectManager?! 
+	- rather than just vector of gameobjects?
+
+	GameObjectManager contains a GameObjectFactory and a ComponentFactory?? static? s_gameObjectFactory	
+
+	responsible for adding builders! RegisterComponentBuilder...
+
+
+
+Generic factory?
+
+generic blueprint?
+
+
+
+
+Graphics components register themselves to the graphics engiene??
+
+
+
+
 Components;
 
 	- Character
@@ -27,7 +93,8 @@ MutableFloat
 
 
 
-
+Buttin Comp
+	-> command on click?!
 
 
 
@@ -229,3 +296,45 @@ gameObject.AddComponent??
 
 m_gameObject.push_back(gameObject);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## SceneBuilder ##
+* consider using Factory to create scenes?!
+- can't be unique...
+- 
+
+
+
+FILE; SceneBuilder.hpp (also include a static factory in SceneManager!)
+
+class Scene;
+
+class SceneBuilder
+{
+public:
+	virtual ~SceneBuilder() = default;
+	virtual Scene* Build() const = 0;
+};
+
+
+template <typename T>
+class ConcreteSceneBuilder : public SceneBuilder
+{
+public:
+	Scene* Build() const override
+	{
+		return new T{};
+	}
+};

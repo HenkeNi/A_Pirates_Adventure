@@ -15,6 +15,9 @@ public:
 	//template <typename T>
 	void RegisterComponent(Component* aComponent);
 
+
+	// GetComponentOfType()?? tempalted??
+
 private:
 	bool Contains(Component* aComponent) const;
 

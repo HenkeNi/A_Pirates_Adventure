@@ -1,3 +1,25 @@
+Consider placing T infront of all tempalted classes
+	TMemoryPool
+	TFactory, etc...!!
+
+
+
+Commands;
+	
+	Have a base folder for Component, Command, etc...? maybe GameObject?
+
+
+
+
+
+
+
+
+
+
+
+
+
 < Memory Pool >
 
 * how to return objects;
@@ -20,32 +42,39 @@
 
 
 
-How to handle Camera?
+
+######################################### Camera #########################################
+
+* How to handle Camera?
+
+Options;
+
+Opt 1. Every scene has a camera (put in Scene.h)
+	+
+	+
+
+Opt 1.5 Camera could exist in Scene/Application/Engine and camera controllers exist as components (reference to the camera)
+
+Opt 2. Application has a camera
+	+ All scenes can share 
+	+ Editor also gets access to a camera 
+	- Application is just an interface
+	- might be clumpsy to pass it along when need to be rendered??
+
+Opt 2.5 Engine has a camera
+	+ Both Editor and Scenes get a camera
+	+ Can pass it in shared context
+
+Opt 3. Just as a GameObject
+	- Every scene requires a GameObject with a Camera (as well in Json)
 
 
 
-Application				/		Engine						/		Scene
-
-all scenes share			all applications share				unique per scene
-
+Notes;
+	* Would be nice to pass along a camera when rendering?? in render data? -> render different parts of the screen through different cameras...
 								
 
-
-
-
-Scene => directly or as an GameObject?
-
-Reference to a camera in engine/application?? => 
- 
-
-
-
-Every scene contains a gameobject that is the camera...
-
-
-
-
-
+##################################################################################
 
 
 * Opt 1; 
