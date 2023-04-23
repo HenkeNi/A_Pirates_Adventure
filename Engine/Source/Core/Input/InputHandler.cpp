@@ -4,14 +4,23 @@
 #include "Messaging/Events/SystemEvents/SystemEvents.h"
 
 
+#include "Command/Command.h"
+
 namespace Hi_Engine
 {
+	std::unordered_map<eInputType, eInputState>		InputHandler::s_inputStates;
+	std::unordered_map<eInputType, Command*>		InputHandler::s_mappedCommands;
+
 	InputHandler::InputHandler()
 	{
 	}
 
 	InputHandler::~InputHandler()
 	{
+		for (auto& Command : s_mappedCommands)
+		{
+			delete Command.second;
+		}
 	}
 
 	void InputHandler::Init()
@@ -21,36 +30,66 @@ namespace Hi_Engine
 
 	void InputHandler::ProcessInput()
 	{
-		Dispatcher::GetInstance().AddEvent<MouseEvent>();
-		Dispatcher::GetInstance().AddEvent<WindowEvent>();
-		Dispatcher::GetInstance().AddEvent<KeyEvent>();
-	}
+		// TODO: save previous frame's key status?!
 
-	void InputHandler::MapCommand(eInputType aType, Command* aCommand)
-	{
-		//m_inputCommands.insert_or_assign(aType, aCommand);
+		for (const auto& inputState : s_inputStates)
+		{
+			if (IsCommandMapped(inputState.first) && inputState.second == eInputState::Press)
+			{
+				s_mappedCommands[inputState.first]->Execute();
+			}
+			// for each key... 
+				// also send the key's previous frames state...
+			Dispatcher::GetInstance().AddEvent<KeyEvent>(inputState.second, (int)inputState.first);
+		}
+
 	}
 
 	void InputHandler::KeyCallback(GLFWwindow* aWindow, int aKey, int aScanCode, int anAction, int someMods)
 	{
-		// replace key with an int?? (m_commands[GLFW_Key_W] = ....???
+		// Maybe; replace key with an int?? (m_commands[GLFW_Key_W] = ....???
 
 		switch (aKey)
 		{
 		case GLFW_KEY_W:
-				break;
+			s_inputStates[eInputType::Key_W] = GetKeyState(anAction);
+			break;
 		case GLFW_KEY_A:
-				break;
+			s_inputStates[eInputType::Key_A] = GetKeyState(anAction);	
+			break;
 		case GLFW_KEY_S:
-				break;
+			s_inputStates[eInputType::Key_S] = GetKeyState(anAction);	
+			break;
 		case GLFW_KEY_D:
-			//m_inputCommands[eInputType::Key_ArrowRight] = GetKeyState(anAction);
-				break;
+			s_inputStates[eInputType::Key_D] = GetKeyState(anAction);	
+			break;
 		}
 	}
 
-	eInputState	InputHandler::GetKeyState(int aKey)
+	void InputHandler::MapCommand(eInputType anInput, Command* aCommand)
 	{
-		return eInputState::None;
+		//s_mappedCommands[anInput] = std::move(aCommand);
+		s_mappedCommands.insert_or_assign(anInput, aCommand); 
+	}
+
+	eInputState	InputHandler::GetKeyState(int anAction)
+	{
+		static std::array<eInputState, 3> possibleInputStates{ eInputState::Release, eInputState::Press, eInputState::Repeat };	// Make member?? make map??
+		
+		assert(anAction >= 0 && anAction <= 2);
+		return possibleInputStates[anAction];
+	}
+
+	bool InputHandler::IsCommandMapped(eInputType anInput) const
+	{
+		return s_mappedCommands.contains(anInput);
+	}
+
+	void InputHandler::SendEvent(eInputType anInput)
+	{
+		if (IsCommandMapped(anInput))
+		{
+			//Dispatcher::GetInstance().AddEvent<KeyEvent>()
+		}
 	}
 }

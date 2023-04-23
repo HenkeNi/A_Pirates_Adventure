@@ -1,13 +1,15 @@
 #pragma once
 #include "Data/Enumerations.h"
+#include <GLFW/glfw3.h> // FIX...
 
-// Command pattern??
 // Don't have bool isKeyPressed functions... (do with events instead....) -> works better later when implememnting controll support...
+
+// TODO: Separete between key and joystick?? => use GLFW_KEY as key in map instead???
+// TODO; make singleton?? or figure out best way for Game to be able to communicate with input handler...
 
 namespace Hi_Engine
 {
 	class Command;
-	struct GLFWwindow;
 
 	class InputHandler
 	{
@@ -15,20 +17,19 @@ namespace Hi_Engine
 		InputHandler();
 		~InputHandler();
 
-		void Init();
-		void ProcessInput();
-		void MapCommand(eInputType aType, Command* aCommand);	// Rename: Map or bInd?
-
+		void				Init();
+		void				ProcessInput();
 		static void			KeyCallback(GLFWwindow* aWindow, int aKey, int aScanCode, int anAction, int someMods);
-		static eInputState	GetKeyState(int aKey);
-
+		static void			MapCommand(eInputType anInput, Command* aCommand);	// Rename: Map or bInd? RegisterCommand?? 
+		void				ClearCommands();
 
 	private:
-		static std::unordered_map<eInputType, eInputState> s_inputStates;
-		// previous input state??
+		static eInputState	GetKeyState(int anAction);	// renaem GetInputState??
+		
+		bool				IsCommandMapped(eInputType anInput) const;
+		void				SendEvent(eInputType anInput);
 
-		//std::unordered_map<eInputType, std::unique_ptr<Command>> m_inputCommands;	// array of commands?? reanme just commands??
-
-		// std::unordered_map<eInputType, eAction>	// Map input (keys) to events/actions (window resized, etc..)
+		static std::unordered_map<eInputType, eInputState>	s_inputStates;	// Store previous input as well? mappedInput mappedInputStates
+		static std::unordered_map<eInputType, Command*>		s_mappedCommands; // or just commands?
 	};
 }
