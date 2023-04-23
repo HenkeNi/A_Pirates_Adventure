@@ -7,5 +7,9 @@ namespace Hi_Engine
 	public:
 		virtual ~Command() = default;
 		virtual void Execute() = 0;
+		//Command() = default;
+		//Command(const Command&) = delete;
+
+		//Command& operator=(const Command&) = delete;
 	};
 }
