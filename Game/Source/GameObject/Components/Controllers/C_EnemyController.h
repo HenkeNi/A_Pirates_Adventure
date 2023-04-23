@@ -6,9 +6,9 @@ class Behavior;	// rename SteeringBehavior?
 class C_EnemyController : public Component
 {
 public:
-	C_EnemyController(GameObject* anOwner);
+	C_EnemyController(GameObject* anOwner = nullptr);
 
-	void						HandleMessage(eCompMessage aMessage)	override;
+	void						HandleMessage(CompMessage aMessage)	override;
 	void						Update(float aDeltaTime)				override;
 
 

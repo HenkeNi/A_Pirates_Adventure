@@ -2,6 +2,8 @@
 #include "C_Transform.h"
 #include "../GameObject/GameObject.h"
 
+namespace CU = CommonUtilities;
+
 
 C_Transform::C_Transform(GameObject* anOwner)
 	: Component{ anOwner }, m_currPosition{ 0.f, 0.f, 0.f }, m_prevPosition{ 0.f, 0.f, 0.f }, m_scale{ 1.f, 1.f, 1.f }, m_rotation{ 0.f }
@@ -10,6 +12,7 @@ C_Transform::C_Transform(GameObject* anOwner)
 
 C_Transform::~C_Transform()
 {
+	// unregiser component..
 }
 
 void C_Transform::Init(rapidjson::Value& aValue)
@@ -25,7 +28,7 @@ void C_Transform::Init(rapidjson::Value& aValue)
 	m_rotation = { aValue["rotation"].GetFloat() };
 }
 
-void  C_Transform::HandleMessage(eCompMessage aMessage)
+void  C_Transform::HandleMessage(CompMessage aMessage)
 {
 }
 
@@ -40,9 +43,12 @@ void C_Transform::LateUpdate(float aDeltaTime)
 	m_prevPosition = m_currPosition; // Do in late update?
 }
 
-C_Transform* C_Transform::Copy()
+C_Transform* C_Transform::Copy() const
 {
-	return new C_Transform{ *this };
+	auto* res = CU::MemoryPool<C_Transform>::GetInstance().GetResource();	// TODO; register in ComponentManager?
+	assert(res && "Memory Pool returned invalid memory");
+
+	return new (res) C_Transform{ *this };
 }
 
 void  C_Transform::SetPosition(const CU::Vector3<float>& aPosition)

@@ -2,11 +2,16 @@
 #include "C_PhysicalNeeds.h"
 
 
+C_PhysicalNeeds::C_PhysicalNeeds(GameObject* anOwner)
+	: Component{ anOwner }
+{
+}
+
 void C_PhysicalNeeds::Init(rapidjson::Value& aValue)
 {
 }
 
-void C_PhysicalNeeds::HandleMessage(eCompMessage aMessage)
+void C_PhysicalNeeds::HandleMessage(CompMessage aMessage)
 {
 }
 
@@ -14,7 +19,10 @@ void C_PhysicalNeeds::Update(float aDeltaTime)
 {
 }
 
-C_PhysicalNeeds* C_PhysicalNeeds::Copy()
+C_PhysicalNeeds* C_PhysicalNeeds::Copy() const
 {
-	return new C_PhysicalNeeds(*this);
+	auto* res = CU::MemoryPool<C_PhysicalNeeds>::GetInstance().GetResource();
+	assert(res && "Memory Pool returned invalid memory");
+
+	return new (res) C_PhysicalNeeds(*this);
 }

@@ -7,7 +7,7 @@ C_PlayerController::C_PlayerController(GameObject* anOwner)
 {
 }
 
-void C_PlayerController::HandleMessage(eCompMessage aMessage)
+void C_PlayerController::HandleMessage(CompMessage aMessage)
 {
 }
 

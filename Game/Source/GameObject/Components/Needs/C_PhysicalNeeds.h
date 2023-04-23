@@ -8,11 +8,13 @@
 class C_PhysicalNeeds : public Component
 {
 public:
+	C_PhysicalNeeds(GameObject* anOwner = nullptr);
+
 	void				Init(rapidjson::Value& aValue)			override;
-	void				HandleMessage(eCompMessage aMessage)	override;
+	void				HandleMessage(CompMessage aMessage)	override;
 	void				Update(float aDeltaTime)				override;
 
-	C_PhysicalNeeds*	Copy()									override;
+	C_PhysicalNeeds*	Copy()							  const override;
 
 
 private:

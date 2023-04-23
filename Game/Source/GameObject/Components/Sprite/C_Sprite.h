@@ -13,15 +13,15 @@ class Hi_Engine::Texture2D;
 class C_Sprite : public Component
 {
 public:
-	C_Sprite(GameObject* anOwner);
+	C_Sprite(GameObject* anOwner = nullptr);
 	~C_Sprite();
 
 	void						Init(rapidjson::Value& aValue)				override;
-	void						HandleMessage(eCompMessage aMessage)		override;
+	void						HandleMessage(CompMessage aMessage)		override;
 	void						Update(float aDeltaTime)					override;
 	void						Draw()								  const override;
 	void						OnActivate()								override;
-	C_Sprite*					Copy()										override;
+	C_Sprite*					Copy()								  const override;
 
 
 	// REMOVE LATER

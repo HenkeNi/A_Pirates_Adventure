@@ -13,7 +13,7 @@ C_Health::~C_Health()
 {
 }
 
-void C_Health::HandleMessage(eCompMessage aMessage)
+void C_Health::HandleMessage(CompMessage aMessage)
 {
 }
 

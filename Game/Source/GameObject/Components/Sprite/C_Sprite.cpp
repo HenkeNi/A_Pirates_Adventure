@@ -3,6 +3,8 @@
 #include "../GameObject/GameObject.h"
 #include "../Transform/C_Transform.h"
 
+namespace CU = CommonUtilities;
+
 
 C_Sprite::C_Sprite(GameObject* anOwner)
 	: Component{ anOwner }, m_color{ 1.f, 1.f, 1.f, 1.f }, m_transform{ nullptr }, m_texture{ nullptr }
@@ -17,7 +19,7 @@ void C_Sprite::Init(rapidjson::Value& aValue)
 {
 }
 
-void C_Sprite::HandleMessage(eCompMessage aMessage) {}
+void C_Sprite::HandleMessage(CompMessage aMessage) {}
 
 void C_Sprite::Update(float aDeltaTime) {}
 
@@ -39,7 +41,10 @@ void C_Sprite::OnActivate()
 	m_transform = m_owner->GetComponent<C_Transform>();
 }
 
-C_Sprite* C_Sprite::Copy()
+C_Sprite* C_Sprite::Copy() const
 {
-	return new C_Sprite{ *this };
+	auto* res = CU::MemoryPool<C_Sprite>::GetInstance().GetResource();
+	assert(res && "Memory Pool returned invalid memory");
+
+	return new (res) C_Sprite{ *this };
 }

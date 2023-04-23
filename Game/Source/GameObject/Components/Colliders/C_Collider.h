@@ -11,7 +11,7 @@ namespace Hi_Engine
 class C_Collider : public Component
 {
 public:
-	C_Collider(GameObject* anOwner);
+	C_Collider(GameObject* anOwner = nullptr);
 
 
 	bool IsActivated() const;

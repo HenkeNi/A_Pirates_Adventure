@@ -8,14 +8,14 @@ namespace CU = CommonUtilities;
 class C_Transform : public Component
 {
 public:
-	C_Transform(GameObject* anOwner);
+	C_Transform(GameObject* anOwner = nullptr);
 	~C_Transform();
 
 	void						Init(rapidjson::Value& aValue)						 override;
-	void						HandleMessage(eCompMessage aMessage)				 override;
+	void						HandleMessage(CompMessage aMessage)					 override;
 	void						Update(float aDeltaTime)							 override;
 	void						LateUpdate(float aDeltaTime)						 override;
-	C_Transform*				Copy()												 override;
+	C_Transform*				Copy()										   const override;
 
 	void						SetPosition(const CU::Vector3<float>& aPosition);
 	void						SetPosition(float aX, float aY, float aZ);

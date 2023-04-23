@@ -13,10 +13,18 @@ C_Camera::~C_Camera()
 
 void C_Camera::Init(rapidjson::Value& aValue)
 {
+	auto pos = aValue["position"].GetObj();
+	m_camera.SetPosition({ pos["x"].GetFloat(), pos["y"].GetFloat(), pos["z"].GetFloat() });
+
 }
 
-void C_Camera::HandleMessage(eCompMessage aMessage)
+void C_Camera::HandleMessage(CompMessage aMessage)
 {
+	if (aMessage.m_type == eMessageType::PositionChanged)
+	{
+		auto newPosition = std::any_cast<CU::Vector3<float>>(aMessage.m_data);
+		m_camera.SetPosition(newPosition);
+	}
 }
 
 void C_Camera::Update(float aDeltaTime)
@@ -35,7 +43,10 @@ void C_Camera::OnDeactivate()
 	Hi_Engine::SpriteRenderer::GetInstance().SetCamera(nullptr);
 }
 
-C_Camera* C_Camera::Copy()
+C_Camera* C_Camera::Copy() const
 {
-	return new C_Camera{ *this };
+	auto* res = CU::MemoryPool<C_Camera>::GetInstance().GetResource();
+	assert(res && "Memory Pool returned invalid memory");
+
+	return new (res) C_Camera{ *this };
 }
