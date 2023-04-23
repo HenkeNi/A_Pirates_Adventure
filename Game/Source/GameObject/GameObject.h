@@ -3,18 +3,28 @@
 
 class Component;
 
+// TODO; clean up (remove) some functions
+// TODO; return a GameObject* in copy?
+
+// Todo; delete copy constructor and copy assignment (will have same ID...)
+// Consider a container of GameOjbect pointers instead,...
+
+// Func for deleteing/removing all componetns`??
+
+// DO update, draw etc in componentmangaer??
+// Delete both copy constructor AND copy assignment??
 
 class GameObject
 {
-	using Components_t = std::unordered_map<std::type_index, Component*>;
+	using Components_t = std::unordered_map<std::type_index, Component*>;	// Put elsewhere??
 
 public:
 	GameObject();
-	GameObject(const GameObject& aGameObject);
+	GameObject(const GameObject& aGameObject);	// maybe delete?
 	GameObject(GameObject&& aGameObject)						 noexcept;
 	~GameObject();
 
-	GameObject& operator=(const GameObject& aGameObject);
+	GameObject& operator=(const GameObject& aGameObject); // maybe delete?
 	GameObject& operator=(GameObject&& aGameObject)				 noexcept;
 
 	void			Update(float aDeltaTime);
@@ -22,7 +32,7 @@ public:
 	void			Draw()											const;
 	bool			IsMarkedForRemoval()							const;
 	void			MarkForRemoval();
-	void			NotifyComponents(eCompMessage aMessage);
+	void			NotifyComponents(CompMessage aMessage);
 	void			AddComponent(Component* aComponent);
 
 	void			Activate();
@@ -38,6 +48,7 @@ public:
 	T*				GetComponent();
 	template		<typename T>
 	const T*		GetComponent()									const;
+	GameObject		Copy()											const;
 
 private:
 	template		<typename T>
@@ -45,7 +56,7 @@ private:
 	unsigned		GenerateID()									const;
 
 	Components_t	m_components;
-	unsigned		m_ID;
+	unsigned		m_ID;							// Will change when copying?, or have two objects with same...
 	bool			m_isMarkedForRemoval;
 };
 

@@ -107,7 +107,7 @@ void GameObject::MarkForRemoval()
 	m_isMarkedForRemoval = true;
 }
 
-void GameObject::NotifyComponents(eCompMessage aMessage)
+void GameObject::NotifyComponents(CompMessage aMessage)
 {
 	for (auto& component : m_components)
 	{
@@ -118,10 +118,12 @@ void GameObject::NotifyComponents(eCompMessage aMessage)
 
 void GameObject::AddComponent(Component* aComponent)
 {
-	assert(!Contains<Component>() && "GameObject already contains component");
+	//assert(!Contains<Component>() && "GameObject already contains component");
 
 	aComponent->SetOwner(this);
-	m_components[std::type_index(typeid(Component))] = aComponent;
+	m_components.insert_or_assign(std::type_index(typeid(Component)), aComponent);
+
+	//m_components[std::type_index(typeid(Component))] = aComponent;
 }
 
 void GameObject::Activate()
@@ -134,6 +136,19 @@ void GameObject::Deactivate()
 {
 	for (auto& component : m_components)
 		component.second->OnDeactivate();
+}
+
+GameObject GameObject::Copy() const
+{
+	GameObject gameObject;
+
+	for (const auto& component : m_components)
+	{
+		auto* copy = component.second->Copy();
+		gameObject.AddComponent(copy);
+	}
+
+	return gameObject;
 }
 
 unsigned GameObject::GenerateID() const
