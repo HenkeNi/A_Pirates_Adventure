@@ -1,8 +1,10 @@
 #include "Pch.h"
 #include "Game.h"
 #include "Scenes/Scenes.h"
-#include "Factories/GameObjectFactory.h"
-
+//#include "Factories/GameObjectFactory.h"
+#include "Commands/MoveCommand.h"
+//#include "Generated/Generated.h"
+#include "../Generated/Generated.h"
 
 Game::Game()
 {
@@ -29,8 +31,12 @@ void Game::OnDraw()
 
 void Game::OnCreate()
 {
-	SetupScenes();
-	LoadBlueprints();
+	SetupScenes();		// do after registering comps/prototpyes??	
+
+	Generated::RegisterComponents();	// HERE??
+	Generated::RegisterPrototypes();
+
+	MapInput();
 }
 
 void Game::OnDestroy()
@@ -51,11 +57,10 @@ void Game::SetupScenes()
 	m_sceneManager.Init({ eSceneType::Game, eSceneType::Menu, eSceneType::Loading, eSceneType::Title });
 }
 
-void Game::LoadBlueprints()
+void Game::MapInput()
 {
-	auto& factory = GameObjectFactory::GetInstance();
-
-	factory.LoadBlueprints("../Bin/Assets/Json/Blueprints/Blueprints_Enemy.json");
-	factory.LoadBlueprints("../Bin/Assets/Json/Blueprints/Blueprints_UI.json");
-	factory.LoadBlueprints("../Bin/Assets/Json/Blueprints/Blueprints_Scene.json");
+	Hi_Engine::InputHandler::MapCommand(Hi_Engine::eInputType::Key_W, new MoveCommand{  0.f, -1.f });
+	Hi_Engine::InputHandler::MapCommand(Hi_Engine::eInputType::Key_A, new MoveCommand{ -1.f,  0.f });
+	Hi_Engine::InputHandler::MapCommand(Hi_Engine::eInputType::Key_S, new MoveCommand{  0.f,  1.f });
+	Hi_Engine::InputHandler::MapCommand(Hi_Engine::eInputType::Key_D, new MoveCommand{  1.f,  0.f });
 }

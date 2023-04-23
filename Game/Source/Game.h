@@ -17,7 +17,7 @@ public:
 
 private:
 	void			SetupScenes();
-	void			LoadBlueprints();
+	void			MapInput();			// or MapControlls? // Rename ConfigureInput??
 
 	SceneManager	m_sceneManager;
 };
