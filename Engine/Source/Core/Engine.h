@@ -27,7 +27,6 @@ namespace Hi_Engine
 	private:
 		bool SetupWindow();		
 		void SetupRendering(); // Rename or do in graphics?
-		void MapControlls(); // Rename ConfigureInput??
 
 		InputHandler	m_inputHandler;
 		Window			m_window;
@@ -36,10 +35,6 @@ namespace Hi_Engine
 		Application*	m_application;
 
 		bool			m_isRunning;
-
-
-
-
 
 		// Find place for camera to live? => maybe only a component??
 		//Camera m_camera;

@@ -32,7 +32,6 @@ namespace Hi_Engine
         		 
 		SetupRendering();
 
-		glfwSetKeyCallback(m_window.m_window, InputHandler::KeyCallback);
 
 
 
@@ -125,13 +124,5 @@ namespace Hi_Engine
 		auto& SpriteRenderer = SpriteRenderer::GetInstance();
 		SpriteRenderer.Init();
 		SpriteRenderer.SetShader(&ResourceHolder<Shader>::GetInstance().GetResource("Core"));
-	}
-
-	// TODO; use keycodes mapped to Action events instead??
-	void Engine::MapControlls() 
-	{
-		//m_inputHandler.MapCommand(eInputType::Key_ArrowUp, )
-
-		//m_inputHandler.MapEvent(); // Pass in key 
 	}
 }
