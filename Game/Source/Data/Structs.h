@@ -3,7 +3,7 @@
 
 #include <any>
 
-struct eCompMessage
+struct CompMessage
 {
 	eMessageType	m_type;
 	const std::any& m_data;
