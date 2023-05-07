@@ -36,4 +36,7 @@ private:
 	//std::weak_ptr<C_Transform>	m_transform;
 	Hi_Engine::Texture2D*		m_texture;
 	// SpriteRenderer*   => or make singleton??
+
+	// Region/View that should be rendered...
+
 };

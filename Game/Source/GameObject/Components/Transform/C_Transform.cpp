@@ -28,12 +28,32 @@ void C_Transform::Init(rapidjson::Value& aValue)
 	m_rotation = { aValue["rotation"].GetFloat() };
 }
 
-void  C_Transform::HandleMessage(CompMessage aMessage)
+void C_Transform::HandleMessage(CompMessage aMessage)
 {
+	// Use movement comp instead?!!
+
+	/*if (aMessage.m_type == eMessageType::MoveUp)
+	{
+		m_currPosition.y += 0.1f;
+	}
+	else if (aMessage.m_type == eMessageType::MoveDown)
+	{
+		m_currPosition.y -= 0.1f;
+	}
+	else if (aMessage.m_type == eMessageType::MoveRight)
+	{
+		m_currPosition.x += 0.1f;
+	}
+	else if (aMessage.m_type == eMessageType::MoveLeft)
+	{
+		m_currPosition.x -= 0.1f;
+	}*/
 }
 
-void  C_Transform::Update(float aDeltaTime)
+void C_Transform::Update(float aDeltaTime)
 {
+	std::cout << "POSS ItTi " << m_currPosition.x << ", " << m_currPosition.y << ", " << m_currPosition.z << '\n';
+
 	if (HasMoved() && m_owner)
 		m_owner->NotifyComponents({ eMessageType::PositionChanged, m_currPosition });
 }
@@ -86,15 +106,16 @@ void C_Transform::SetRotation(float aRotation)
 	m_rotation = aRotation;
 }
 
-void  C_Transform::MoveBy(const CU::Vector3<float>& aOffset)
+void  C_Transform::MoveBy(const CU::Vector3<float>& anOffset)
 {
-	m_currPosition += aOffset;
+	m_currPosition += anOffset;
 }
 
-void  C_Transform::MoveBy(float anOffsetX, float anOffsetY)
+void  C_Transform::MoveBy(float anOffsetX, float anOffsetY, float anOffsetZ)
 {
 	m_currPosition.x += anOffsetX;
 	m_currPosition.y += anOffsetY;
+	m_currPosition.z += anOffsetZ;
 }
 
 const CU::Vector3<float>& C_Transform::GetPosition() const

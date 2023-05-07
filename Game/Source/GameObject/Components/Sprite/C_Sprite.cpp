@@ -32,7 +32,7 @@ void C_Sprite::Draw() const
 	{
 		const auto& scale = m_transform->GetScale();		// Scale or size??
 
-		Hi_Engine::SpriteRenderer::GetInstance().Render({ *m_texture, m_color, m_transform->GetPosition(), { scale.x, scale.y }, m_transform->GetRotation() });
+		Hi_Engine::SpriteRenderer::GetInstance().Render({ *m_texture, m_color, m_transform->GetPosition(), { scale.x, scale.y, scale.z }, m_transform->GetRotation() });
 	}
 }
 
