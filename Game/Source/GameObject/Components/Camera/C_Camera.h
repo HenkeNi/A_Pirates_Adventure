@@ -2,7 +2,7 @@
 #include "../Component.h"
 
 
-// Rename CameraController??
+// Rename CameraController?? or add a CameraController component??
 class C_Camera : public Component
 {
 public:
@@ -18,7 +18,11 @@ public:
 
 	C_Camera*	Copy()							  const override;
 
+	void		SetTarget(GameObject* aTarget);
+
 private:
-	Hi_Engine::Camera m_camera; 
+	Hi_Engine::Camera	m_camera; 
+	GameObject*			m_target; 		// use look at??
+	// Add offset? vec3..
 };
 

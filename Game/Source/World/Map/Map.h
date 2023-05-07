@@ -16,7 +16,8 @@ private:
 	{
 		CU::Vector4<float> m_color = { 1.f, 1.f, 1.f, 1.f };
 		CU::Vector2<float>	m_scale = { 1.f, 1.f };
-		float				m_rotation = 0;
+		float				m_rotation = -90;
+		//float				m_rotation = -70;
 	} m_tilePrototype;
 
 	// tiles... -> opengl instancing..??
