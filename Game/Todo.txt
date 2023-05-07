@@ -1,3 +1,157 @@
+* Draw only part of a texture => 
+	- glBufferSubData(), glMapBuffer() or glMapBufferRange()
+
+
+
+
+
+	draw tiles at the bottom first (closest to the player)
+
+
+
+
+
+Material => shader + texture??
+
+
+
+
+
+Day/night cycle
+* two different textuers?? blend => (one is day texture, and one is night texture.)
+
+
+
+
+Camera:
+	* player has a camera controller???
+
+
+
+
+
+should world be x and z (laying flat) or x and y (standing up/on its edge)
+
+
+
+## Code check-ups ##
+	
+* make sure to always delete a pointer before setting it...
+
+
+
+
+Put assets folder in game??
+
+
+
+
+
+Sprite sheet vs texture atlas
+* texture atlas => contains building blocks for creating the world (grass tiles, etc..) 
+* sprite sheet => animations (frames...)
+
+
+
+
+
+
+Render tile from tilesheet => set texture coordinates... 
+	instead of pasing in a coordinate between 0 -> 1, convert the tile on the spirte sheet to a coordinate between 0 and 1,,
+
+
+
+	SpriteSheet class?? 
+
+
+
+
+
+Input/Commands;
+	-> maybe components (with commands) register themselves in input manager??
+	-> or make input handler return a command 
+
+
+
+	Command is an input observer?? -> derived overrides tthe handle function?!
+
+
+
+
+
+
+-> swap scene command???
+
+
+
+
+
+
+
+
+
+
+* Fix camera following player
+* Controlls/input..
+
+
+* Map (tiled)
+* billboards..
+
+
+
+
+
+
+
+
+
+
+
+TODO; have playercontroller respond to key press...
+
+
+
+1. Create a player
+	- consider using observer pattern for input (not dispather system??)
+
+
+
+1. Load in scene objects...
+
+
+
+
+2. Check if Factories work as intended! doesn't use the copy function in components?!
+	- nvm uses the copy when creating gameobjects...	make sure it uses memory pool when using the build function!
+
+
+
+Classes;
+* MapGenerator
+
+
+
+
+
+
+
+Be able to subscribe to another objects messages??
+	- camera to an another gameobjets change of position...	
+			possubly by adding your own component(s) to the others   
+
+
+
+Command Factory?? for buttons... etc...
+
+
+
+
+
+
+
+
+
 Scene Loading (how to load in objects)
 * pass path to object manager?? (takes in a string returns array of objects)??
 * Init function in Scene? => put in base class?

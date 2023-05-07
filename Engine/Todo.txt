@@ -1,3 +1,15 @@
+### Path finding ### 
+* Dijkstra for finding resources (just any resources)
+* A-Star for finding player (for example)
+
+
+
+
+
+
+
+
+
 Consider placing T infront of all tempalted classes
 	TMemoryPool
 	TFactory, etc...!!
@@ -12,7 +24,21 @@ Commands;
 
 
 
+namespaces?!
+	put data structures in Hi_Engine::DataStructures??
+		
+	Hi_Engine::Algorithms??
 
+
+
+
+
+
+
+
+
+Instance rendering;
+	* draw same data in multiple different posiitons
 
 
 
