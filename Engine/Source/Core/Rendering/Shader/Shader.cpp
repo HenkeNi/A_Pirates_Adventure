@@ -65,9 +65,15 @@ namespace Hi_Engine
 
     void Shader::SetInt(const std::string& aName, int aValue) const
     {
-        auto Location = glGetUniformLocation(m_id, aName.c_str());
+        auto Location = glGetUniformLocation(m_id, aName.c_str()); // REMOVE again??
 
         glUniform1i(glGetUniformLocation(m_id, aName.c_str()), aValue);
+    }
+
+    void Shader::SetInts(const std::string& aName, int aCount, int someValues[2]) const
+    {
+        auto Location = glGetUniformLocation(m_id, aName.c_str());
+        glUniform1iv(Location, aCount,  someValues);
     }
 
     void Shader::SetFloat(const std::string& aName, float aValue) const

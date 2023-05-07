@@ -21,6 +21,7 @@ namespace Hi_Engine
 		void		Init(const char* vSource, const char* fSource, const char* gSource);
 		void		SetBool(const std::string& aName, bool aValue)								const;
 		void		SetInt(const std::string& aName, int aValue)								const;
+		void		SetInts(const std::string& aName, int aCount, int someValues[2])			const; // TEST
 		void		SetFloat(const std::string& aName, float aValue)							const;
 		void		SetVector2f(const std::string& aName, const CU::Vector2<float>& aValue)		const;
 		void		SetVector3f(const std::string& aName, const CU::Vector3<float>& aValue)		const;
