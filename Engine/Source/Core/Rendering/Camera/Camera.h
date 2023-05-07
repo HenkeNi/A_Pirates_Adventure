@@ -7,11 +7,15 @@ namespace Hi_Engine
 {
 	namespace CU = CommonUtilities;
 
+	// Create orthographic and perspective cameras??
+
 	class Camera // Virtual??
 	{
 	public:
 		Camera();
-		virtual ~Camera() = default;
+		
+		glm::mat4 GetViewMatrix();
+		//virtual ~Camera() = default;	// Remove??
 
 		void Init(const CU::Vector3<float> aPosition);	// Parse from json...? CameraData?
 		//void Update(float aDeltaTime);
@@ -20,18 +24,29 @@ namespace Hi_Engine
 
 		// get view matrix??
 
+
 		void SetPosition(const CU::Vector3<float> aPosition);
 
 	private:
 		friend class SpriteRenderer; // Or just have getters??
 
+		void SetDefaultData();
+
+		void UpdateFrontVector(); // reanem RecalculateFrontVector??
+
 		//void CalculateCamera();
 		
+		//glm::vec3 m_position;
+		//glm::quat m_orientation;
 
 		// ref to window?
 
-		CameraData m_data;	// store as members??
+		// store as members instead??
+		CameraAttributes	m_attributes;	
+		EulerAngles			m_eulerAngles;
 
+		
+		
 		//CU::Vector3<float> m_position, m_front, m_up;
 		// Direction pointing at..
 
@@ -42,6 +57,11 @@ namespace Hi_Engine
 		// furstrum near and far?
 
 		// perspecitve matrix`?
+
+
+
+		
+		//float	  m_movementSpeed, m_zoomSpeed;
 	};
 
 }
