@@ -3,7 +3,14 @@
 
 enum class eSceneType
 {
-	Title, Loading, Menu, Settings, Game, Pause, GameOver, Count
+	Game, 
+	Loading, 
+	Menu, 
+	Pause, 
+	Title, 
+	//Settings, 
+	//GameOver, 
+	Count
 };
 
 enum class eMessageType
