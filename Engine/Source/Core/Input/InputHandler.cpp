@@ -4,7 +4,7 @@
 #include "Messaging/Events/SystemEvents/SystemEvents.h"
 
 
-#include "Command/Command.h"
+#include "Base/Command/Command.h"
 
 namespace Hi_Engine
 {
@@ -45,6 +45,9 @@ namespace Hi_Engine
 
 	}
 
+	void InputHandler::ClearCommands()
+	{}
+
 	void InputHandler::KeyCallback(GLFWwindow* aWindow, int aKey, int aScanCode, int anAction, int someMods)
 	{
 		// Maybe; replace key with an int?? (m_commands[GLFW_Key_W] = ....???
@@ -70,6 +73,21 @@ namespace Hi_Engine
 	{
 		//s_mappedCommands[anInput] = std::move(aCommand);
 		s_mappedCommands.insert_or_assign(anInput, aCommand); 
+	}
+
+	bool InputHandler::IsKeyPressed(eInputType anInput)
+	{
+		return s_inputStates[anInput] == eInputState::Press;
+	}
+
+	bool InputHandler::IsKeyHeld(eInputType anInput)
+	{
+		return s_inputStates[anInput] == eInputState::Repeat;
+	}
+
+	bool InputHandler::IsKeyReleased(eInputType anInput)
+	{
+		return s_inputStates[anInput] == eInputState::Release;
 	}
 
 	eInputState	InputHandler::GetKeyState(int anAction)

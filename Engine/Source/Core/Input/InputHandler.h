@@ -19,9 +19,14 @@ namespace Hi_Engine
 
 		void				Init();
 		void				ProcessInput();
+		void				ProcessCommands();		// ??
+		void				ClearCommands();
+		
 		static void			KeyCallback(GLFWwindow* aWindow, int aKey, int aScanCode, int anAction, int someMods);
 		static void			MapCommand(eInputType anInput, Command* aCommand);	// Rename: Map or bInd? RegisterCommand?? 
-		void				ClearCommands();
+		static bool			IsKeyPressed(eInputType anInput);
+		static bool			IsKeyHeld(eInputType anInput);
+		static bool			IsKeyReleased(eInputType anInput);
 
 	private:
 		static eInputState	GetKeyState(int anAction);	// renaem GetInputState??
@@ -33,3 +38,13 @@ namespace Hi_Engine
 		static std::unordered_map<eInputType, Command*>		s_mappedCommands; // or just commands?
 	};
 }
+
+
+// have input handler return Commands instead => command takes in a GameObject or a C_Controller... 
+// AI simply emits commands... 
+
+//Command* command = inputHandler.handleInput();
+//if (command)
+//{
+//	command->execute(actor);
+//}
