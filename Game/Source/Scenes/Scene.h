@@ -12,7 +12,7 @@ public:
 	virtual ~Scene() = default;
 
 	// process input?? or do it all through events??
-	//virtual void			Init(rapidjson::Value& aValue)	  = 0;
+	virtual void			Init(rapidjson::Value& aValue)	  = 0;
 	virtual void			Update(float aDeltaTime)		  = 0;
 	virtual void			LateUpdate(float aDeltaTime)	  = 0;
 	virtual void			Draw()						const = 0;

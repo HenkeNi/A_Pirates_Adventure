@@ -11,7 +11,7 @@ public:
 	TitleScene(SceneManagerProxy aProxy);
 	~TitleScene();
 
-	//void			Init(rapidjson::Value& aValue)				override;
+	void			Init(rapidjson::Value& aValue)				override;
 	void			HandleEvent(Hi_Engine::KeyEvent& anEvent)   override;
 	void			Update(float aDeltaTime)					override;
 	void			LateUpdate(float aDeltaTime)				override;

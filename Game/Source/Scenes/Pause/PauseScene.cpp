@@ -11,6 +11,10 @@ PauseScene::~PauseScene()
 {
 }
 
+void PauseScene::Init(rapidjson::Value& aValue)
+{
+}
+
 void PauseScene::Update(float aDeltaTime)
 {
 }

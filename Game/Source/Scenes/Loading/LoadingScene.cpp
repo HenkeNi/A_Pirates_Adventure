@@ -11,6 +11,11 @@ LoadingScene::~LoadingScene()
 {
 }
 
+void LoadingScene::Init(rapidjson::Value& aValue)
+{
+
+}
+
 void LoadingScene::Update(float aDeltaTime)
 {
 }

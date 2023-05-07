@@ -11,6 +11,14 @@ GameScene::~GameScene()
 {
 }
 
+void GameScene::Init(rapidjson::Value& aValue)
+{
+	auto type = aValue["type"].GetString();
+
+	static int ax = 10;
+
+}
+
 void GameScene::Update(float aDeltaTime)
 {
 }

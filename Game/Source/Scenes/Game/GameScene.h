@@ -8,7 +8,7 @@ public:
 	GameScene(SceneManagerProxy aProxy);
 	~GameScene();
 
-	//void Init(rapidjson::Value& aValue)  	  override;
+	void Init(rapidjson::Value& aValue)  	  override;
 	void Update(float aDeltaTime)			  override;
 	void LateUpdate(float aDeltaTime)		  override;
 	void Draw()							const override;
@@ -18,7 +18,7 @@ public:
 
 
 private:
-	GameWorld	m_world;
-	// GameWorld class?? -> Contains a current map??
+	GameWorld	m_world; // GameWorld class?? -> Contains a current map??w
+	// SceneManager?? Contains OverworldScene, CaveScene, etc..??
 };
 

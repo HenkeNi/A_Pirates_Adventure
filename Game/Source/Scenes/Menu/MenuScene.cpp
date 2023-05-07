@@ -11,6 +11,11 @@ MenuScene::~MenuScene()
 {
 }
 
+void MenuScene::Init(rapidjson::Value& aValue)
+{
+
+}
+
 void MenuScene::Update(float aDeltaTime)
 {
 }
