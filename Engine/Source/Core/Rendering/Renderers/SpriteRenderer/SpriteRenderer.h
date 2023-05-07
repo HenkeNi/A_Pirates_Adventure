@@ -6,6 +6,8 @@
 
 namespace Hi_Engine
 {
+	namespace CU = CommonUtilities;
+
 	class Camera;
 	class Shader;
 	struct SpriteRenderData;
@@ -24,7 +26,17 @@ namespace Hi_Engine
 		void SetCamera(Camera* aCamera);
 		void ConfigureShader();
 
-		void Render(const SpriteRenderData& someData);
+		void Render(const SpriteRenderData& someData);	// Todo; pass in shader as well... maybe camera to..
+
+
+
+
+		void InitBatch();
+		void RenderBatch();
+
+
+
+		void RenderInstanced(const std::vector<CU::Vector3<float>> somePositions);	// MOVE?? create an InstancedRenderer class??? Struct for InstancedData 
 
 		//void AddRenderCommand();
 
@@ -37,6 +49,14 @@ namespace Hi_Engine
 		// ref to camera?
 		Camera*		m_camera; // Or pass in with render data?
 
+
+
+
+		unsigned m_batchQuadVAO;
+
+
+
+		// store projection matrix?? => camera updates it??
 
 		// vector<SpriteRenderData>??
 	};
