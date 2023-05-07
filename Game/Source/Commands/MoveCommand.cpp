@@ -17,3 +17,8 @@ void MoveCommand::Execute()
 	static int x = 20;
 	x += 20;
 }
+
+MoveCommand* MoveCommand::Clone() const
+{
+	return nullptr;
+}
