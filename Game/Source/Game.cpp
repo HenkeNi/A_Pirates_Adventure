@@ -48,12 +48,12 @@ void Game::SetupScenes()
 {
 	SceneManagerProxy proxy{ m_sceneManager };
 
-	m_sceneManager.Register(std::make_unique<TitleScene>(proxy),	eSceneType::Title);
+	m_sceneManager.Register(std::make_unique<GameScene>(proxy),		eSceneType::Game);
 	m_sceneManager.Register(std::make_unique<LoadingScene>(proxy),  eSceneType::Loading);
 	m_sceneManager.Register(std::make_unique<MenuScene>(proxy),		eSceneType::Menu);
-	m_sceneManager.Register(std::make_unique<GameScene>(proxy),		eSceneType::Game);
 	m_sceneManager.Register(std::make_unique<PauseScene>(proxy),	eSceneType::Pause);
-
+	m_sceneManager.Register(std::make_unique<TitleScene>(proxy),	eSceneType::Title);
+		
 	m_sceneManager.Init({ eSceneType::Game, eSceneType::Menu, eSceneType::Loading, eSceneType::Title });
 }
 

@@ -10,7 +10,7 @@ namespace Hi_Engine
 		Texture2D(bool hasAlpha = false);
 		~Texture2D();
 
-		void		Init(const CU::Vector2<int>& aSize, unsigned char* someData);
+		void		Init(const CU::Vector2<int>& aSize, unsigned char* someData);	// Take in texturedata...
 		void		Bind()																const;
 		void		Unbind()															const;
 

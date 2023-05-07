@@ -19,6 +19,27 @@ void SceneManager::Init(std::initializer_list<eSceneType> aList)
 	for (auto& sceneType : aList)
 		m_sceneStack.Push(sceneType);
 
+	auto& test = m_scenes;
+
+	// TODO; rework... (move elsewhere??) -> read scene stack from json??
+	std::ifstream ifs{ "../Bin/Assets/Json/Scenes/Scenes.json" };
+	std::string content{ std::istreambuf_iterator<char>(ifs), std::istreambuf_iterator<char>() };
+
+	rapidjson::Document document;
+	assert(!document.Parse(content.c_str()).HasParseError() && "Failed to Parse");
+
+	int sceneIndex = 0;
+	for (auto& scene : document["scenes"].GetArray())
+	{
+		auto type = scene["type"].GetString();
+		m_scenes[sceneIndex++]->Init(scene);
+
+		// scene have an identifier?
+	}
+
+
+
+
 	m_scenes[(int)m_sceneStack.Top()]->OnEnter();
 }
 
