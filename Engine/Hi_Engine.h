@@ -6,7 +6,7 @@
 #include "Core/Physics/Collisions/CollisionManager.h"
 
 /* - Command - */
-#include "Core/Command/Command.h"
+#include "Core/Base/Command/Command.h"
 
 /* - Rendering - */
 #include "Core/Rendering/Camera/Camera.h"
