@@ -1,3 +1,23 @@
+Todo;
+	* figure out how to pass sprites to sprite renderer
+		- use object manager to get all sprites with certain type (from each layer - in order)...
+
+		remove draw part from component?? 
+				- get sprite components in scene (draw function ) => and pass them to sprite renderer...
+
+
+		or Sprite component sends out an event => draw event...
+
+
+
+
+
+
+		consider putting SceneManager and scenes in engine...
+		and gameobject/component base classes...
+
+
+
 * Draw only part of a texture => 
 	- glBufferSubData(), glMapBuffer() or glMapBufferRange()
 
@@ -18,13 +38,18 @@ Material => shader + texture??
 
 
 Day/night cycle
-* two different textuers?? blend => (one is day texture, and one is night texture.)
+* two different textuers?? blend => (one is day texture, and one is night texture.) YES!!
 
 
 
 
 Camera:
 	* player has a camera controller???
+
+	camera in each scene??
+
+
+	Gameobject has a pointer to the scene??
 
 
 
@@ -492,3 +517,15 @@ public:
 		return new T{};
 	}
 };
+
+
+
+
+
+
+
+
+### Camera ###
+- as a component
+- in scene manager (shared by all scenes...)
+- in scene

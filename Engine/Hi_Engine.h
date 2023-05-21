@@ -10,12 +10,16 @@
 
 /* - Rendering - */
 #include "Core/Rendering/Camera/Camera.h"
+#include "Core/Rendering/Camera/OrthographicCamera.h"
 #include "Core/Rendering/Renderers/SpriteRenderer/SpriteRenderer.h"
+#include "Core/Rendering/Renderers/BillboardRenderer/BillboardRenderer.h"
+#include "Core/Rendering/Material/Material.h"
 
 /* - Messaging - */
 #include "Core/Messaging/Dispatcher/Dispatcher.h"
 #include "Core/Messaging/Listener/EventListener.h"
 #include "Core/Messaging/Events/SystemEvents/SystemEvents.h"
+#include "Core/Messaging/Events/RenderEvents/RenderEvents.h"
 
 /* - Data Structures - */
 #include "Utility/DataStructures/Linear/Dynamic/Stack/Stack.hpp"
