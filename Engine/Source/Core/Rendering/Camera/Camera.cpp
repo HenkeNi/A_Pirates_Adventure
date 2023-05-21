@@ -5,6 +5,7 @@
 namespace Hi_Engine
 {
 	Camera::Camera()
+		: m_zoom{ 45.f }
 	{
 		SetDefaultData();
 
@@ -22,6 +23,7 @@ namespace Hi_Engine
 
 	glm::mat4 Camera::GetViewMatrix()
 	{
+		auto position = m_attributes.m_position;
 		return glm::lookAt(m_attributes.m_position, m_attributes.m_position + m_attributes.m_front, m_attributes.m_up);
 	}
 
@@ -52,6 +54,6 @@ namespace Hi_Engine
 	void Camera::UpdateFrontVector()
 	{
 		glm::vec3 m_front;
-		front.x
+		//front.x
 	}
 }

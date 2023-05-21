@@ -7,12 +7,29 @@ namespace Hi_Engine
 {
 	namespace CU = CommonUtilities;
 
-	// Create orthographic and perspective cameras??
+	//class Camera
+	//{
+	//public:
+	//	virtual ~Camera() = default;
 
-	class Camera // Virtual??
+	//	virtual glm::mat4 GetProjectionMatrix() = 0;
+	//	virtual glm::mat4 GetViewMatrix()		= 0;
+
+	//private:
+	//	glm::vec3 m_position;
+	//	glm::vec3 m_rotation;
+	//};
+
+
+
+
+	// listen to window changed?! size!
+
+	class Camera
 	{
 	public:
 		Camera();
+		// TOOD; get virtual destructor...
 		
 		glm::mat4 GetViewMatrix();
 		//virtual ~Camera() = default;	// Remove??
@@ -24,6 +41,10 @@ namespace Hi_Engine
 
 		// get view matrix??
 
+		float GetZoom() const
+		{
+			return m_zoom;
+		}
 
 		void SetPosition(const CU::Vector3<float> aPosition);
 
@@ -36,7 +57,6 @@ namespace Hi_Engine
 
 		//void CalculateCamera();
 		
-		//glm::vec3 m_position;
 		//glm::quat m_orientation;
 
 		// ref to window?
@@ -45,11 +65,14 @@ namespace Hi_Engine
 		CameraAttributes	m_attributes;	
 		EulerAngles			m_eulerAngles;
 
-		
-		
-		//CU::Vector3<float> m_position, m_front, m_up;
-		// Direction pointing at..
+		// Contains a porjection matrix and a view matrix...
+		glm::mat4 m_viewMatrix;	// multiply with inverted view matrix...
 
+		// projection matrix? glm::perspective?
+		CU::Vector2<unsigned>	m_aspectRatio;
+		float					m_FOV; // 45-60
+
+		float m_zoom;
 
 
 		// FOV
@@ -63,5 +86,6 @@ namespace Hi_Engine
 		
 		//float	  m_movementSpeed, m_zoomSpeed;
 	};
+
 
 }
