@@ -35,15 +35,6 @@ namespace Hi_Engine
 		Application*	m_application;
 
 		bool			m_isRunning;
-
-		// Find place for camera to live? => maybe only a component??
-		//Camera m_camera;
-
-
-		//Graphics		m_graphics;
-		// Rendering	m_rendering; or Renderer
-		// Physics m_physics?? or just collisionManager??
-		// AI ??
 	};
 
 	Application* CreateApplication();

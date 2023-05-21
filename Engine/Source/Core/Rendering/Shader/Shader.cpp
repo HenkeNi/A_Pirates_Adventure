@@ -15,7 +15,7 @@ namespace Hi_Engine
         glDeleteProgram(m_id);
     }
 
-    Shader& Shader::Activate()
+    const Shader& Shader::Activate() const
     {
         glUseProgram(m_id);
         return *this;
@@ -65,20 +65,17 @@ namespace Hi_Engine
 
     void Shader::SetInt(const std::string& aName, int aValue) const
     {
-        auto Location = glGetUniformLocation(m_id, aName.c_str()); // REMOVE again??
-
         glUniform1i(glGetUniformLocation(m_id, aName.c_str()), aValue);
-    }
-
-    void Shader::SetInts(const std::string& aName, int aCount, int someValues[2]) const
-    {
-        auto Location = glGetUniformLocation(m_id, aName.c_str());
-        glUniform1iv(Location, aCount,  someValues);
     }
 
     void Shader::SetFloat(const std::string& aName, float aValue) const
     {
         glUniform1f(glGetUniformLocation(m_id, aName.c_str()), aValue);
+    }
+
+    void Shader::SetIntArray(const std::string& aName, int* someValues, int aCount) const
+    {
+        glUniform1iv(glGetUniformLocation(m_id, aName.c_str()), aCount, someValues);
     }
 
     void Shader::SetVector2f(const std::string& aName, const CU::Vector2<float>& aValue) const
@@ -98,10 +95,6 @@ namespace Hi_Engine
 
     void Shader::SetMatrix4(const std::string& aName, const glm::mat4& aMatrix) const
     {
-        //auto location = glGetUniformLocation(m_id, aName.c_str());
-        //if (location == -1)
-        //    assert(false && "Failed to fetch a location");
-
         glUniformMatrix4fv(glGetUniformLocation(m_id, aName.c_str()), 1, false, glm::value_ptr(aMatrix));
     }
 

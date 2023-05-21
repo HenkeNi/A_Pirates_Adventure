@@ -4,6 +4,7 @@
 #include "Resources/ResourceHolder.hpp"
 
 #include "Rendering/Renderers/SpriteRenderer/SpriteRenderer.h"
+#include "Rendering/Renderers/BillboardRenderer/BillboardRenderer.h"
 
 #include "Messaging/Dispatcher/Dispatcher.h"
 
@@ -30,9 +31,9 @@ namespace Hi_Engine
 		ResourceHolder<Texture2D>::GetInstance().FetchAll("../Bin/Assets/Json/Resources/Textures.json");
 		ResourceHolder<Shader>::GetInstance().FetchAll("../Bin//Assets/Json/Resources/Shaders.json");
         		 
-		SetupRendering();
-
-
+		//SetupRendering();
+		//SpriteRenderer::GetInstance().Init();
+		BillboardRenderer::GetInstance().Init();
 
 
 		//SpriteRenderer::GetInstance().SetCamera(&m_camera); // TEST!
@@ -74,13 +75,6 @@ namespace Hi_Engine
 
 		if (m_application)
 			m_application->OnUpdate(deltaTime);
-
-
-		// TEST
-		/*static float posY = 3.0f;
-		posY += 0.1f * deltaTime;*/
-
-		//m_camera.SetPosition({ 0.f, 0.f, posY });
 	}
 
 	void Engine::LateUpdate()
@@ -93,9 +87,29 @@ namespace Hi_Engine
 	{
 		m_window.ClearScreen();
 
+		//SpriteRenderer::GetInstance().BeginRendering();
+
+
+
+		//SpriteRenderer::GetInstance().EndRendering();
+
+
+
+
+		// Set view projection/transform somewhere
+
+		//SpriteRenderer::GetInstance().BeginBatch(); // TEST
+
+
+		// abstraction layer?? so instead of SPriteRenderer::Render its Renderer::Render (and renderer contains active renderer(sprite/text, etc:.)??
+
+
 		// FIX...?? have game objects add draw calls, in here draw them all at the same time...
 		m_application->OnDraw();
-		
+
+		//SpriteRenderer::GetInstance().EndBatch(); // TEST
+		//SpriteRenderer::GetInstance().Flush(); // TEST
+
 		m_window.SwapBuffers();
 	}
 
@@ -103,6 +117,8 @@ namespace Hi_Engine
 	{
 		if (m_window.IsOpen())
 			m_window.Close();
+
+		SpriteRenderer::GetInstance().Shutdown();
 
 		if (m_application)
 		{

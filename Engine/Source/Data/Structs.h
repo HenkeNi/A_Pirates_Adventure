@@ -3,16 +3,31 @@
 #include "../Core/Messaging/Events/Event.h"
 #include <functional>
 
+#include "../glm/glm.hpp"
+
 namespace CU = CommonUtilities;
 
 // Todo; change naming convention for structs?? Position rather than m_position?
 
 namespace Hi_Engine
 {
-	struct VertexData // use??
+	struct CameraMatrices
 	{
-		CU::Vector3<float> m_position;
-		CU::Vector2<float> m_textCoord;
+		glm::mat4 View{ 1.f };
+		glm::mat4 Projection;
+		glm::mat4 ProjectionView;
+	};
+
+
+
+
+
+	struct Vertex	// rename VertexData or VertexLayout? change to CU::Vector instead? or glm::vec3
+	{
+		glm::vec3	Position; // Change to CU::Vector3 instead??
+		glm::vec4	Color;
+		glm::vec2	TexCoords;
+		float		TexIndex;
 	};
 
 	struct WindowData
@@ -52,19 +67,59 @@ namespace Hi_Engine
 	};
 
 
-
+	class Material;
 	class Texture2D;
-	
+	class Shader;
+
 	struct SpriteRenderData
 	{
-		Texture2D&			m_texture;
-		CU::Vector4<float>	m_color;
-		CU::Vector3<float>	m_position;
-		CU::Vector3<float>	m_size;			// Rename Scale?? vec2 or vec3
-		float				m_rotation;
-
-		//CameraData			m_cameraData;
+		const Material*				Material;
+		glm::vec3					Position; // CU::Vector3<float>
+		glm::vec2					Scale;			// Rename Scale or Size?? CU::Vector2<float>
+		float						Rotation;
 	};
+
+	class Camera;
+	struct SpriteData
+	{
+		const Texture2D*			m_texture;
+		const Shader*				m_shader;
+		const CU::Vector4<float>	m_color;
+		const CU::Vector3<float>	m_position;
+		const CU::Vector3<float>	m_size;			// Rename Scale?? vec2 or vec3
+		const float					m_rotation;
+
+		Camera*						m_cameraData;
+	};
+
+	struct BillboardRenderData
+	{
+		const Material*				Material;
+		glm::vec3					Position;
+		glm::vec2					Scale;
+		float						Rotation;
+	};
+
+	struct SpriteRendererData // rename renderer data??
+	{
+		GLuint QuadVA = 0;	// Put in SpriteRendere instead??
+		GLuint QuadVB = 0;
+		GLuint QuadIB = 0;
+
+		GLuint WhiteTexture = 0;
+		uint32_t WhiteTextureSlot = 0;
+
+		uint32_t IndexCount = 0;			// How many indices needs to be drawn...
+
+		Vertex* QuadBuffer = nullptr;
+		Vertex* QuadBufferPtr = nullptr;
+
+		static const size_t MaxTextures = 32;
+
+		std::array<uint32_t, MaxTextures> TextureSlots;
+		uint32_t TextureSlotIndex = 1;
+	};
+
 
 
 	struct TextureData
@@ -73,6 +128,14 @@ namespace Hi_Engine
 	};
 
 
+
+	struct Rect
+	{
+		float Top;
+		float Bottom;
+		float Left;
+		float Right;
+	};
 
 
 
