@@ -1,10 +1,8 @@
 #include "Pch.h"
 #include "Game.h"
 #include "Scenes/Scenes.h"
-//#include "Factories/GameObjectFactory.h"
-#include "Commands/MoveCommand.h"
-//#include "Generated/Generated.h"
 #include "../Generated/Generated.h"
+
 
 Game::Game()
 {
@@ -31,10 +29,10 @@ void Game::OnDraw()
 
 void Game::OnCreate()
 {
-	SetupScenes();		// do after registering comps/prototpyes??	
+	SetupScenes();						// do after registering comps/prototpyes??	
 
-	Generated::RegisterComponents();	// HERE??
-	Generated::RegisterPrototypes();
+	Generated::RegisterComponents();
+	Generated::RegisterPrototypes();	
 
 	MapInput();
 }
@@ -48,19 +46,20 @@ void Game::SetupScenes()
 {
 	SceneManagerProxy proxy{ m_sceneManager };
 
-	m_sceneManager.Register(std::make_unique<GameScene>(proxy),		eSceneType::Game);
-	m_sceneManager.Register(std::make_unique<LoadingScene>(proxy),  eSceneType::Loading);
-	m_sceneManager.Register(std::make_unique<MenuScene>(proxy),		eSceneType::Menu);
-	m_sceneManager.Register(std::make_unique<PauseScene>(proxy),	eSceneType::Pause);
-	m_sceneManager.Register(std::make_unique<TitleScene>(proxy),	eSceneType::Title);
+	m_sceneManager.Register(std::make_unique<GameScene>(proxy),		eScene::Game);
+	//m_sceneManager.Register(std::make_unique<LoadingScene>(proxy),  eScene::Loading);
+	//m_sceneManager.Register(std::make_unique<MenuScene>(proxy),		eScene::Menu);
+	//m_sceneManager.Register(std::make_unique<PauseScene>(proxy),	eScene::Pause);
+	//m_sceneManager.Register(std::make_unique<TitleScene>(proxy),	eScene::Title);
 		
-	m_sceneManager.Init({ eSceneType::Game, eSceneType::Menu, eSceneType::Loading, eSceneType::Title });
+	//m_sceneManager.Init(eScene::Game | eScene::Menu | eScene::Loading | eScene::Title);
+	m_sceneManager.Init(eScene::Game);
 }
 
-void Game::MapInput()
+void Game::MapInput() // or MapControlls? // Rename ConfigureInput??
 {
-	Hi_Engine::InputHandler::MapCommand(Hi_Engine::eInputType::Key_W, new MoveCommand{  0.f, -1.f });
-	Hi_Engine::InputHandler::MapCommand(Hi_Engine::eInputType::Key_A, new MoveCommand{ -1.f,  0.f });
-	Hi_Engine::InputHandler::MapCommand(Hi_Engine::eInputType::Key_S, new MoveCommand{  0.f,  1.f });
-	Hi_Engine::InputHandler::MapCommand(Hi_Engine::eInputType::Key_D, new MoveCommand{  1.f,  0.f });
+	//Hi_Engine::InputHandler::MapCommand(Hi_Engine::eInputType::Key_W, new MoveCommand{  0.f, -1.f });
+	//Hi_Engine::InputHandler::MapCommand(Hi_Engine::eInputType::Key_A, new MoveCommand{ -1.f,  0.f });
+	//Hi_Engine::InputHandler::MapCommand(Hi_Engine::eInputType::Key_S, new MoveCommand{  0.f,  1.f });
+	//Hi_Engine::InputHandler::MapCommand(Hi_Engine::eInputType::Key_D, new MoveCommand{  1.f,  0.f });
 }
