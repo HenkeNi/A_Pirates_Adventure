@@ -1,25 +1,30 @@
 #pragma once
 
 
-enum class eSceneType
+enum eScene
 {
-	Game, 
-	Loading, 
-	Menu, 
-	Pause, 
-	Title, 
+	Game	= 1, 
+	Pause	= 2,
+	Menu	= 4,
+	Loading = 8, 
+	Title	= 16,
+	Count	= 32
 	//Settings, 
 	//GameOver, 
-	Count
 };
 
-enum class eMessageType
+enum class eComponentMessage
 {
-	PositionChanged,
-	Colliding,
+	PositionChanged, 
+	Colliding
+};
 
-	MoveUp,
-	MoveDown,
-	MoveLeft,
-	MoveRight,
+enum class eLayer
+{
+	Terrain,
+	Characters,
+	Items,
+	Buildings,
+	Effects,
+	UI
 };

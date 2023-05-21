@@ -51,7 +51,7 @@ void Map::Draw() const
 			
 			
 			
-			Hi_Engine::SpriteRenderer::GetInstance().Render({ *m_texture, m_tilePrototype.m_color, position,  { tileWidth, tileHeight, 0.1f }, m_tilePrototype.m_rotation });
+			// Hi_Engine::SpriteRenderer::GetInstance().Render({ *m_texture, m_tilePrototype.m_color, position,  { tileWidth, tileHeight, 0.1f }, m_tilePrototype.m_rotation });
 		
 		}
 	}
