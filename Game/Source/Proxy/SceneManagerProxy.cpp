@@ -8,7 +8,7 @@ SceneManagerProxy::SceneManagerProxy(SceneManager& aSceneManager)
 {
 }
 
-void SceneManagerProxy::Push(eSceneType aType)
+void SceneManagerProxy::Push(eScene aType)
 {
 	m_sceneManager.Push(aType);
 }
@@ -18,7 +18,7 @@ void SceneManagerProxy::Pop()
 	m_sceneManager.Pop();
 }
 
-void SceneManagerProxy::SwapTo(eSceneType aType)
+void SceneManagerProxy::SwapTo(eScene aType)
 {
 	m_sceneManager.SwapTo(aType);
 }

@@ -16,9 +16,5 @@ public:
 	void			OnCreated()							  override;
 	void			OnEnter()							  override;
 	void			OnExit()							  override;
-
-
-private:
-	std::vector<std::function<void()>> m_callbacks; // TODO: find other way??
 };
 

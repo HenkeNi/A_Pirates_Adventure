@@ -6,28 +6,32 @@ namespace CU = CommonUtilities;
 
 class Scene;
 
+namespace
+{
+	using ScenePtr_t = std::unique_ptr<Scene>;
+}
+
 class SceneManager
 {
 public:
 	SceneManager();
 	~SceneManager();
 
-	void Init(std::initializer_list<eSceneType> aList);					// TODO; add bitset of eSceneType??
-	void Register(std::unique_ptr<Scene> aScene, eSceneType aType);
-	void Push(eSceneType aType);
+	void Init(int aSceneSet);					
+	void Register(ScenePtr_t aScene, eScene aType);
+	void Push(eScene aType);
 	void Pop();
-	void SwapTo(eSceneType aType);
+	void SwapTo(eScene aType);
+	void Clear();
+	bool IsEmpty()			const;
 
 	void Update(float aDeltaTime);	
 	void LateUpdate(float aDeltaTime);
-	void Draw()														const;
-	bool IsEmpty()													const;
-	void Clear();
+	void Draw()				const;
 
 private:
-	std::array<std::unique_ptr<Scene>, (int)eSceneType::Count>	m_scenes;
-	CU::Stack<eSceneType>										m_sceneStack;
-};
+	void LoadScenes();
 
-// TODO: Add ProcessEvents() ??
-// Change back m_scenes to unique_ptrs??
+	std::unordered_map<eScene, ScenePtr_t>	m_scenes;
+	CU::Stack<eScene>						m_sceneStack;
+};

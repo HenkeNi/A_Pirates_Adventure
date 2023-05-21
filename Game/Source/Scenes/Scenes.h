@@ -1,6 +1,6 @@
 #pragma once
 
-// maybe rename SceneIncl?
+// maybe rename SceneIncl? SceneIncludes?
 
 #include "Game/GameScene.h"
 #include "Loading/LoadingScene.h"

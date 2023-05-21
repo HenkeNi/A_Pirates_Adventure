@@ -5,7 +5,6 @@
 
 
 SceneManager::SceneManager()
-	: m_scenes{ nullptr }
 {
 }
 
@@ -14,108 +13,71 @@ SceneManager::~SceneManager()
 	Clear();
 }
 
-void SceneManager::Init(std::initializer_list<eSceneType> aList)
+void SceneManager::Init(int aSceneSet)
 {
-	for (auto& sceneType : aList)
-		m_sceneStack.Push(sceneType);
-
-	auto& test = m_scenes;
-
-	// TODO; rework... (move elsewhere??) -> read scene stack from json??
-	std::ifstream ifs{ "../Bin/Assets/Json/Scenes/Scenes.json" };
-	std::string content{ std::istreambuf_iterator<char>(ifs), std::istreambuf_iterator<char>() };
-
-	rapidjson::Document document;
-	assert(!document.Parse(content.c_str()).HasParseError() && "Failed to Parse");
-
-	int sceneIndex = 0;
-	for (auto& scene : document["scenes"].GetArray())
+	for (int i = 1; i < (int)eScene::Count; i <<= 1)
 	{
-		auto type = scene["type"].GetString();
-		m_scenes[sceneIndex++]->Init(scene);
+		auto type = static_cast<eScene>(i);
 
-		// scene have an identifier?
+		if (aSceneSet & type)
+			m_sceneStack.Push(type);
 	}
 
-
-
-
-	m_scenes[(int)m_sceneStack.Top()]->OnEnter();
+	LoadScenes();
+	m_scenes[m_sceneStack.Top()]->OnEnter();
 }
 
-void SceneManager::Register(std::unique_ptr<Scene> aScene, eSceneType aType)
+void SceneManager::Register(std::unique_ptr<Scene> aScene, eScene aType)
 {
 	assert(aScene != nullptr);
 
-	int index = (int)aType;
-
-	m_scenes[index] = std::move(aScene);
-	m_scenes[index]->OnCreated();
+	m_scenes.insert_or_assign(aType, std::move(aScene));
+	m_scenes[aType]->OnCreated();
 }
 
-void SceneManager::Push(eSceneType aType)
+void SceneManager::Push(eScene aType)
 {
 	if (!IsEmpty())
 	{
-		m_scenes[(int)m_sceneStack.Top()]->OnExit();
+		m_scenes[m_sceneStack.Top()]->OnExit();
 	}
 
 	m_sceneStack.Push(aType);
-	m_scenes[(int)m_sceneStack.Top()]->OnEnter();
+	m_scenes[m_sceneStack.Top()]->OnEnter();
 }
 
 void SceneManager::Pop()
 {
 	if (!IsEmpty())
 	{
-		m_scenes[(int)m_sceneStack.Top()]->OnExit();
+		m_scenes[m_sceneStack.Top()]->OnExit();
 		m_sceneStack.Pop();
 
-		m_scenes[(int)m_sceneStack.Top()]->OnEnter();
+		m_scenes[m_sceneStack.Top()]->OnEnter();
 	}
 }
 
-void SceneManager::SwapTo(eSceneType aType)
+void SceneManager::SwapTo(eScene aType)
 {
 	if (!IsEmpty())
 	{
-		m_scenes[(int)m_sceneStack.Top()]->OnExit();
+		m_scenes[m_sceneStack.Top()]->OnExit();
 		m_sceneStack.Pop();
 	}
 
 	m_sceneStack.Push(aType);
-	m_scenes[(int)m_sceneStack.Top()]->OnEnter();
+	m_scenes[m_sceneStack.Top()]->OnEnter();
 }
 
-void SceneManager::Update(float aDeltaTime)
+void SceneManager::Clear()
 {
-	if (!IsEmpty()) 
-	{  
-		int index = (int)m_sceneStack.Top();
-		m_scenes[index]->Update(aDeltaTime);	
-	}
-}
-
-void SceneManager::LateUpdate(float aDeltaTime)
-{
-	if (!IsEmpty()) 
+	for (auto& scene : m_scenes)
 	{
-		int index = (int)m_sceneStack.Top();
-		m_scenes[index]->LateUpdate(aDeltaTime);
+		if (scene.second)
+			scene.second->OnDestroyed();
 	}
-}
 
-void SceneManager::Draw() const
-{
-	if (!IsEmpty()) 
-	{ 
-		int index = (int)m_sceneStack.Top();
-
-		if (m_scenes[index]->IsTransparent() && m_scenes[index - 1])  
-			m_scenes[index - 1]->Draw();
-
-		m_scenes[index]->Draw();
-	}
+	m_sceneStack.Clear();
 }
 
 bool SceneManager::IsEmpty() const
@@ -123,13 +85,64 @@ bool SceneManager::IsEmpty() const
 	return m_sceneStack.IsEmpty();
 }
 
-void SceneManager::Clear()
+void SceneManager::Update(float aDeltaTime)
 {
-	for (auto& scene : m_scenes)
-	{
-		if (scene)
-			scene->OnDestroyed();
+	if (!IsEmpty()) 
+	{  
+		m_scenes[m_sceneStack.Top()]->Update(aDeltaTime);
 	}
+}
 
-	m_sceneStack.Clear();
+void SceneManager::LateUpdate(float aDeltaTime)
+{
+	if (!IsEmpty()) 
+	{
+		m_scenes[m_sceneStack.Top()]->LateUpdate(aDeltaTime);
+	}
+}
+
+void SceneManager::Draw() const
+{
+	if (!IsEmpty()) 
+	{ 
+		const auto iterator = m_scenes.find(m_sceneStack.Top());
+		if (iterator != m_scenes.end())
+		{
+			// TODO;
+			// Always render the game scene if the scene is transparent?? or render all scenes in the stack...
+			if (iterator->second->IsTransparent() && m_sceneStack.Top() != eScene::Game)
+			{
+				auto gameSceneItr = m_scenes.find(eScene::Game);
+				if (gameSceneItr != m_scenes.end())
+				{
+					gameSceneItr->second->Draw();
+				}
+			}
+
+			iterator->second->Draw();
+		}
+	}
+}
+
+void SceneManager::LoadScenes()
+{
+	// TODO; rework... (move elsewhere??) -> read scene stack from json??
+	std::ifstream ifs{ "../Bin/Assets/Json/Scenes/Scenes.json" };
+	std::string content{ std::istreambuf_iterator<char>(ifs), std::istreambuf_iterator<char>() };
+
+	rapidjson::Document document;
+	assert(!document.Parse(content.c_str()).HasParseError() && "Failed to Parse");
+	// Put above part in engine??
+
+	int sceneIndex = 0;
+	for (auto& scene : document["scenes"].GetArray())
+	{
+		std::string type = scene["type"].GetString();
+		int id = scene["id"].GetInt();
+
+		auto Type = (eScene)id;
+
+		if (m_scenes[eScene(id)])	//F IX::::
+			m_scenes[eScene(id)]->Init(scene);
+	}
 }

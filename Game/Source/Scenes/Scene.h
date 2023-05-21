@@ -1,5 +1,4 @@
 #pragma once
-//#include "../GameObject/GameObject.h"
 #include "../Managers/ObjectManager.h"
 #include "../Proxy/SceneManagerProxy.h"
 
@@ -11,22 +10,20 @@ public:
 	Scene(SceneManagerProxy aProxy);
 	virtual ~Scene() = default;
 
-	// process input?? or do it all through events??
-	virtual void			Init(rapidjson::Value& aValue)	  = 0;
-	virtual void			Update(float aDeltaTime)		  = 0;
-	virtual void			LateUpdate(float aDeltaTime)	  = 0;
-	virtual void			Draw()						const = 0;
-	virtual bool			IsTransparent()				const;
+	virtual void		Init(rapidjson::Value& aValue)	  = 0;	// remove init? make a builder that can generate needed data...
+	virtual void		Update(float aDeltaTime)		  = 0;
+	virtual void		LateUpdate(float aDeltaTime)	  = 0;
+	virtual void		Draw()						const = 0;
+	virtual bool		IsTransparent()				const;
 
-	virtual void			OnCreated()					   {};
-	virtual void			OnDestroyed()				   {};
-	virtual void			OnEnter()					   {};
-	virtual void			OnExit()					   {};
+	virtual void		OnCreated()					   {};
+	virtual void		OnDestroyed()				   {};
+	virtual void		OnEnter()					   {};
+	virtual void		OnExit()					   {};
 
 protected:
-	friend class			SceneManager;
+	friend class		SceneManager;
 	
-	SceneManagerProxy		m_sceneManager;
-	ObjectManager			m_objectManager;
-	//std::vector<GameObject> m_sceneObjects; // Layers?? 
+	SceneManagerProxy	m_sceneManager;
+	ObjectManager		m_objectManager;
 };

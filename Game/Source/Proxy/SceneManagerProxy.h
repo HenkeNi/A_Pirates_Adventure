@@ -8,11 +8,11 @@ class SceneManagerProxy
 public:
 	SceneManagerProxy(SceneManager& aSceneManager);
 
-	void Push(eSceneType aType);
+	void Push(eScene aType);
 	void Pop();
-	void SwapTo(eSceneType aType);
+	void SwapTo(eScene aType);
 	void Clear();
-	bool IsEmpty()	const;
+	bool IsEmpty() const;
 
 private:
 	SceneManager& m_sceneManager;
