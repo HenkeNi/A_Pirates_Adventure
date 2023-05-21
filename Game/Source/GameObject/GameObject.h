@@ -3,28 +3,21 @@
 
 class Component;
 
-// TODO; clean up (remove) some functions
-// TODO; return a GameObject* in copy?
+namespace
+{
+	using Components_t = std::unordered_map<std::type_index, Component*>;
+}
 
-// Todo; delete copy constructor and copy assignment (will have same ID...)
-// Consider a container of GameOjbect pointers instead,...
-
-// Func for deleteing/removing all componetns`??
-
-// DO update, draw etc in componentmangaer??
-// Delete both copy constructor AND copy assignment??
-
+// TODO; implment on destroy function...
 class GameObject
 {
-	using Components_t = std::unordered_map<std::type_index, Component*>;	// Put elsewhere??
-
 public:
 	GameObject();
-	GameObject(const GameObject& aGameObject);	// maybe delete?
+	GameObject(const GameObject& aGameObject)					 = delete;
 	GameObject(GameObject&& aGameObject)						 noexcept;
 	~GameObject();
 
-	GameObject& operator=(const GameObject& aGameObject); // maybe delete?
+	GameObject& operator=(const GameObject& aGameObject)		 = delete;
 	GameObject& operator=(GameObject&& aGameObject)				 noexcept;
 
 	void			Update(float aDeltaTime);
@@ -32,57 +25,33 @@ public:
 	void			Draw()											const;
 	bool			IsMarkedForRemoval()							const;
 	void			MarkForRemoval();
-	void			NotifyComponents(CompMessage aMessage);
+	void			NotifyComponents(const CompMessage& aMsg);
 	void			AddComponent(Component* aComponent);
 
 	void			Activate();
 	void			Deactivate();
+	int				GetID()											const;
+	GameObject		Copy()											const;
 
-	template		<typename T>
-	T*				CreateComponent();
-	template		<typename T, typename... Args>
-	T*				CreateComponent(Args&&... args);
 	template		<typename T>
 	bool			RemoveComponent();
 	template		<typename T>
 	T*				GetComponent();
 	template		<typename T>
 	const T*		GetComponent()									const;
-	GameObject		Copy()											const;
-
-private:
 	template		<typename T>
 	bool			Contains()										const;
+
+private:
 	unsigned		GenerateID()									const;
+	void			OnDestroy();
 
 	Components_t	m_components;
-	unsigned		m_ID;							// Will change when copying?, or have two objects with same...
+	unsigned		m_ID;							
 	bool			m_isMarkedForRemoval;
 };
 
 #pragma region METHOD_DEFINITIONS
-
-template <typename T>
-T* GameObject::CreateComponent()
-{
-	assert(!Contains<T>() && "GameObject already contains component");
-
-	auto component = new T(this);
-	m_components[std::type_index(typeid(T))] = component;
-
-	return component;
-}
-
-template <typename T, typename... Args>
-T* GameObject::CreateComponent(Args&&... args)
-{
-	assert(!Contains<T>() && "GameObject already contains component");
-
-	auto component = new T{ this, std::forward<Args>(args)... };
-	m_components[std::type_index(typeid(T))] = component;
-
-	return component;
-}
 
 template <typename T>
 bool GameObject::RemoveComponent()

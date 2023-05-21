@@ -4,6 +4,9 @@
 #include "../Builders/ComponentBuilder.hpp"
 #include "../GameObject/Components/Component.h"
 
+
+#include "../GameObject/Components/Core/Transform/C_Transform.h"
+
 #define PROTOTYPE_SIZE 100
 
 CU::Factory<ComponentBuilder, Component>	ObjectManager::s_componentFactory;
@@ -26,21 +29,31 @@ GameObject* ObjectManager::Create(const std::string& aType)
 	assert(ContainsPrototype(aType) && "[ERROR]: couldn't find specified prototype");
 
 	auto copy = s_prototypes[aType].Copy();
-	m_gameObjects.push_back(copy);
+
+	// if no transform... add it...
+	//if (copy.GetComponent<C_Transform>() == nullptr)
+	//	copy.Ad
+
+	m_gameObjects.push_back(std::move(copy));
 
 	return &m_gameObjects.back();
 
 	//return s_prototypes[aType].Copy();
+	//return nullptr;
 }
 
-GameObject* ObjectManager::Search(int anID)
+GameObject* ObjectManager::Find(unsigned anID)
 {
-	return nullptr;
+	// sort array by number??
+
+	auto iterator = std::find_if(m_gameObjects.begin(), m_gameObjects.end(), [=](const GameObject& aGameObject) { return aGameObject.GetID() == anID; });
+	return &(*iterator); // WORKS??
 }
 
-void ObjectManager::AddObject(const GameObject& aGameObject)
+void ObjectManager::AddObject(GameObject&& aGameObject)
 {
-	m_gameObjects.push_back(aGameObject);
+	m_gameObjects.push_back(std::move(aGameObject));
+	
 	// Todo; set owner??
 }
 
@@ -87,10 +100,9 @@ void ObjectManager::RegisterBuilder(const std::string& aType, ComponentBuilder* 
 	s_componentFactory.RegisterBuilder(aType, aBuilder);
 }
 
-void ObjectManager::RegisterPrototype(const std::string& aType, const GameObject& aGameObject)
+void ObjectManager::RegisterPrototype(const std::string& aType, GameObject&& aGameObject)
 {
-	if (s_prototypes.find(aType) == s_prototypes.end())
-		s_prototypes.insert({ aType, aGameObject });
+	s_prototypes.insert_or_assign(aType, std::move(aGameObject));
 }
 
 void ObjectManager::LoadPrototypes(const std::string& aPath) 	// TODO; use parser in engine?
@@ -114,7 +126,7 @@ void ObjectManager::LoadPrototypes(const std::string& aPath) 	// TODO; use parse
 			gameObject.AddComponent(comp);	// use memory pool?!
 		}
 
-		RegisterPrototype(type, gameObject);
+		RegisterPrototype(type, std::move(gameObject));
 	}
 }
 

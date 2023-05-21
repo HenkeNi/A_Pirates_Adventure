@@ -1,27 +1,13 @@
 #include "Pch.h"
 #include "GameObject.h"
 #include "Components/Component.h"
-#include "Components/Transform/C_Transform.h"
+#include "Components/Core/Transform/C_Transform.h"
 
 
 GameObject::GameObject()
 	: m_isMarkedForRemoval{ false }, m_ID{ GenerateID() }
 {
 	m_components.reserve(16);
-
-	CreateComponent<C_Transform>(); // TODO; do in factory instead??
-
-	// Dispatcher::GetInstance().SendEvent({ eEvent::GameObjectCreated, this }); // TODO: Remove??
-}
-
-GameObject::GameObject(const GameObject& aGameObject)
-	: m_isMarkedForRemoval{ false }, m_ID{ aGameObject.m_ID }
-{
-	for (auto& comp : aGameObject.m_components)
-	{
-		m_components[comp.first] = comp.second;
-		m_components[comp.first]->SetOwner(this);
-	}
 }
 
 GameObject::GameObject(GameObject&& aGameObject) noexcept
@@ -37,21 +23,7 @@ GameObject::GameObject(GameObject&& aGameObject) noexcept
 
 GameObject::~GameObject()
 {
-	// [TODO]: Cleanup? .. notify components??
-}
-
-GameObject& GameObject::operator=(const GameObject& aGameObject)
-{
-	m_isMarkedForRemoval = aGameObject.m_isMarkedForRemoval;
-	m_ID = aGameObject.m_ID;
-
-	for (auto& comp : aGameObject.m_components)
-	{
-		m_components[comp.first] = comp.second;
-		m_components[comp.first]->SetOwner(this);
-	}
-
-	return *this;
+	OnDestroy();
 }
 
 GameObject& GameObject::operator=(GameObject&& aGameObject) noexcept
@@ -107,23 +79,27 @@ void GameObject::MarkForRemoval()
 	m_isMarkedForRemoval = true;
 }
 
-void GameObject::NotifyComponents(CompMessage aMessage)
+void GameObject::NotifyComponents(const CompMessage& aMsg)
 {
 	for (auto& component : m_components)
 	{
 		if (component.second)
-			component.second->HandleMessage(aMessage);
+			component.second->HandleMessage(aMsg);
 	}
 }
 
 void GameObject::AddComponent(Component* aComponent)
 {
-	//assert(!Contains<Component>() && "GameObject already contains component");
+	if (!aComponent)
+		return;
+
+	auto type		= std::type_index(typeid(*aComponent));
+	bool contains	= m_components.find(type) != m_components.end();
+
+	assert(!contains && "Error: Trying to add a component that already exist in the GameObject!");
 
 	aComponent->SetOwner(this);
-	m_components.insert_or_assign(std::type_index(typeid(Component)), aComponent);
-
-	//m_components[std::type_index(typeid(Component))] = aComponent;
+	m_components.insert({ type, aComponent });
 }
 
 void GameObject::Activate()
@@ -136,6 +112,11 @@ void GameObject::Deactivate()
 {
 	for (auto& component : m_components)
 		component.second->OnDeactivate();
+}
+
+int GameObject::GetID() const
+{
+	return m_ID;
 }
 
 GameObject GameObject::Copy() const
@@ -155,4 +136,9 @@ unsigned GameObject::GenerateID() const
 {
 	static unsigned id = 0;
 	return ++id;
+}
+
+void GameObject::OnDestroy()
+{
+	// [TODO]: Cleanup? .. notify components?? Send back to memory pool??
 }
