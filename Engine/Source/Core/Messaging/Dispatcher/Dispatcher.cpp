@@ -42,11 +42,6 @@ namespace Hi_Engine
 		}
 	} 
 
-	void Dispatcher::SendEventInstantly(Event* anEvent)
-	{
-		BroadcastEvent(anEvent);
-	}
-
 	bool Dispatcher::IsQueueFull() const
 	{
 		return false;

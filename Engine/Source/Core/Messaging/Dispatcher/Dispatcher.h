@@ -28,13 +28,15 @@ namespace Hi_Engine
 		void Unsubscribe(EventListener* aSubscriber);
 
 		void DispatchEvents();								// Rename Broadcast or BroadcastEvents?
-		void SendEventInstantly(Event* anEvent);			
-
-		template <typename T>
-		void AddEvent();
+			
+		template <typename T, typename... Args>
+		void SendEventInstantly(Args&&... args);			
 
 		template <typename T, typename... Args>
 		void AddEvent(Args&&... args);
+
+		template <typename T>
+		void AddEvent();
 
 	private:
 		Dispatcher() = default;
@@ -48,12 +50,15 @@ namespace Hi_Engine
 
 #pragma region Method_Definitions
 
-	template <typename T>
-	void Dispatcher::AddEvent()
+	template <typename T, typename... Args>
+	void Dispatcher::SendEventInstantly(Args&&... args)
 	{
 		T* newEvent = CU::MemoryPool<T>::GetInstance().GetResource();
+		newEvent->Init(std::forward<Args>(args)...);
 
-		m_events.push(newEvent);
+		BroadcastEvent(newEvent);
+
+		CU::MemoryPool<T>::GetInstance().ReturnResource(newEvent); // return resource again...
 	}
 
 	template <typename T, typename... Args>
@@ -62,6 +67,13 @@ namespace Hi_Engine
 		T* newEvent = CU::MemoryPool<T>::GetInstance().GetResource();
 		newEvent->Init(std::forward<Args>(args)...);						// Override placement new instead??
 
+		m_events.push(newEvent);
+	}
+
+	template <typename T>
+	void Dispatcher::AddEvent()
+	{
+		T* newEvent = CU::MemoryPool<T>::GetInstance().GetResource();
 		m_events.push(newEvent);
 	}
 

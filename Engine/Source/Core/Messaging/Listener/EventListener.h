@@ -7,13 +7,15 @@ namespace Hi_Engine
 	class WindowEvent;
 	class KeyEvent;
 	class MouseEvent;
+	class RenderSpriteEvent;
 
 	class EventListener
 	{
 	public:
-		virtual void HandleEvent(Event& anEvent)		{};
-		virtual void HandleEvent(WindowEvent& anEvent)	{};
-		virtual void HandleEvent(KeyEvent& anEvent)		{};
-		virtual void HandleEvent(MouseEvent& anEvent)	{};
+		virtual void HandleEvent(Event& anEvent)				{};
+		virtual void HandleEvent(WindowEvent& anEvent)			{};
+		virtual void HandleEvent(KeyEvent& anEvent)				{};
+		virtual void HandleEvent(MouseEvent& anEvent)			{};
+		virtual void HandleEvent(RenderSpriteEvent& anEvent)	{};
 	};
 }
