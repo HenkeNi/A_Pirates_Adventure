@@ -68,7 +68,7 @@ namespace CommonUtilities
 		assert(Length() != 0);
 		auto length = 1 / Length();
 
-		return { x * length, y * Length, z * Length, w * Length };
+		return { x * length, y * length, z * length, w * length };
 	}
 
 	template <class T>
