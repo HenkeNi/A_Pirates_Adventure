@@ -8,6 +8,7 @@
 #include <array>
 #include <bitset>
 #include <cassert>
+#include <cmath>
 #include <fstream>
 #include <functional>
 #include <iostream>

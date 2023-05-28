@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Component.h"
+#include "../Component.h"
 
 class C_Movement;
 
@@ -22,5 +22,7 @@ public:
 
 private:
 	C_Movement* m_movement;
+
+	// store commands?? 
 };
 

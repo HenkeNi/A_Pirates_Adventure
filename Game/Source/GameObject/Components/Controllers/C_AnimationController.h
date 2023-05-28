@@ -1,6 +1,5 @@
 #pragma once
-#include "../../Component.h"
-
+#include "../Component.h"
 
 enum class eState // reanme... (maybe dont use this enum??)
 {

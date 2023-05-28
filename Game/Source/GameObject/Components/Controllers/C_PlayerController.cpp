@@ -1,7 +1,7 @@
 #include "Pch.h"
 #include "C_PlayerController.h"
 #include "../GameObject/GameObject.h"
-#include "../Movement/C_Movement.h"
+#include "../Physics/Movement/C_Movement.h"
 
 
 C_PlayerController::C_PlayerController(GameObject* anOwner)
