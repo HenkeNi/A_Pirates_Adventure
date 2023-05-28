@@ -8,6 +8,7 @@
 #include "../GameObject/Components/Core/Transform/C_Transform.h"
 
 #define PROTOTYPE_SIZE 100
+#define OBJECT_SIZE 2000
 
 CU::Factory<ComponentBuilder, Component>	ObjectManager::s_componentFactory;
 std::unordered_map<std::string, GameObject>	ObjectManager::s_prototypes;
@@ -15,6 +16,7 @@ std::unordered_map<std::string, GameObject>	ObjectManager::s_prototypes;
 
 ObjectManager::ObjectManager()
 {
+	m_gameObjects.reserve(OBJECT_SIZE);
 	s_prototypes.reserve(PROTOTYPE_SIZE);
 }
 
