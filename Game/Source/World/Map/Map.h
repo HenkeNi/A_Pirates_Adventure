@@ -11,13 +11,17 @@ public:
 	void Init();
 	void Draw() const;
 
+	// void GenerateMap();
+
 private:
 	struct Tile
 	{
 		CU::Vector4<float> m_color = { 1.f, 1.f, 1.f, 1.f };
-		CU::Vector2<float>	m_scale = { 1.f, 1.f };
+		glm::vec2	m_scale = { 1.f, 1.f };
 		float				m_rotation = -90;
+		//float				m_rotation = -88;
 		//float				m_rotation = -70;
+		unsigned			m_textureID;
 	} m_tilePrototype;
 
 	// tiles... -> opengl instancing..??
@@ -30,5 +34,12 @@ private:
 
 	// Texture...
 	Hi_Engine::Texture2D* m_texture;
+	Hi_Engine::Shader* m_shader;
+
+	std::unordered_map<unsigned, Hi_Engine::Texture2D> m_textureMap;
+	std::unordered_map<unsigned, Hi_Engine::Material> m_materials;
+
+
+	std::vector<CU::Vector2<float>> m_seaTiles;
 };
 

@@ -12,20 +12,32 @@ Map::Map()
 
 void Map::Init()
 {
-	m_texture = &Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("overworld");
-	//m_texture = &Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("floor");
+	//m_texture = &Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("overworld");
+	m_texture = &Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("sand01");
+	m_shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Billboard"); // Change to sprite shader...	
+
+	 
+
+	m_materials.insert({ 1, Hi_Engine::Material{ m_texture, m_shader } });
+	m_materials.insert({ 2, Hi_Engine::Material{ &Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("sea"), m_shader } });
+
+
+	// 0 => 63
+	//m_seaTiles.push_back()
+
 }
 
 void Map::Draw() const
 {
 	CU::Vector2<float> tileCoord;
 
-	float tileWidth = 0.75f;
+	float tileWidth = 1.f;
 	//float tileWidth = 1400 / m_mapWidth;
-	float tileHeight = 0.75f;
+	float tileHeight = 1.f;
 	//float tileHeight = 800 / m_mapHeight;
 
-	float offset = -1.5f;
+	//float offset = -0.1f;
+	
 
 	// Draw map
 	for (int z = 0; z < m_mapHeight; ++z)
@@ -38,15 +50,38 @@ void Map::Draw() const
 			tileCoord.x /= 1400;
 			tileCoord.y /= 800;*/
 
+			
 
 
-			CU::Vector3<float> position = { (tileWidth + 0.26f) * x + offset, (tileWidth + 0.26f) * z + offset, 0.f + tileHeight };
+
+
+			//glm::vec3 position = { (tileWidth + 0.26f) * x + offset, (tileWidth + 0.26f) * z + offset, 0.f + tileHeight };	
+			glm::vec3 position = { (tileWidth) * x, -0.1f, (tileWidth) * z };
+			
+
+
 			//CU::Vector3<float> position = { (tileWidth + 0.26f) * x + offset, 0.f, (tileWidth + 0.26f) * z + offset };
 
 
+			//Hi_Engine::BillboardRenderer::GetInstance().Render({ {} , {pos.x, pos.y, pos.z}, {scale.x, scale.y}, m_transform->GetRotation()});
+
+			
+			glm::vec3					Position; // CU::Vector3<float>
+			glm::vec2					Scale;			// Rename Scale or Size?? CU::Vector2<float>
+			float						Rotation;
+
+
+
+			if (z == 0 || z == m_mapHeight - 1 ||
+				x == 0 || x == m_mapWidth - 1)
+			{
+				Hi_Engine::BillboardRenderer::GetInstance().Render({ &m_materials.at(2), position, m_tilePrototype.m_scale, m_tilePrototype.m_rotation});
+			}
+			else
+				Hi_Engine::BillboardRenderer::GetInstance().Render({ &m_materials.at(1), position, m_tilePrototype.m_scale, m_tilePrototype.m_rotation});
 
 			// Draw tile..
-			//Hi_Engine::SpriteRenderer::GetInstance().Render({ *m_texture, m_tilePrototype.m_color, {1 , 1, -1.f }, m_tilePrototype.m_scale, m_tilePrototype.m_rotation });
+			//Hi_Engine::SpriteRenderer::GetInstance().Render({ &m_materials.at(1), position, m_tilePrototype.m_scale, m_tilePrototype.m_rotation});
 			//Hi_Engine::SpriteRenderer::GetInstance().Render({ *m_texture, m_tilePrototype.m_color, { (float)tileCoord.x + m_tileSize, (float)tileCoord.y, -1.f }, m_tilePrototype.m_scale, m_tilePrototype.m_rotation });
 			
 			
