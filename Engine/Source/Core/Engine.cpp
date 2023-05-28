@@ -31,21 +31,13 @@ namespace Hi_Engine
 		ResourceHolder<Texture2D>::GetInstance().FetchAll("../Bin/Assets/Json/Resources/Textures.json");
 		ResourceHolder<Shader>::GetInstance().FetchAll("../Bin//Assets/Json/Resources/Shaders.json");
         		 
-		//SetupRendering();
-		//SpriteRenderer::GetInstance().Init();
-		BillboardRenderer::GetInstance().Init();
-
-
-		//SpriteRenderer::GetInstance().SetCamera(&m_camera); // TEST!
-
-
-
+		SetupRendering();
+		
 	
 		/*glEnable(GL_CULL_FACE);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC1_ALPHA);*/
 
-		// glEnable(GL_DEPTH_TEST);   ????
 
 		m_application->OnCreate(); 
 
@@ -81,6 +73,10 @@ namespace Hi_Engine
 	{
 		// Update AI(?)
 		// Check collisions
+
+		const float deltaTime = m_timer.GetDeltaTime();
+
+		m_application->OnLateUpdate(deltaTime);
 	}
 
 	void Engine::Draw()
@@ -118,6 +114,7 @@ namespace Hi_Engine
 		if (m_window.IsOpen())
 			m_window.Close();
 
+		BillboardRenderer::GetInstance().Shutdown();
 		SpriteRenderer::GetInstance().Shutdown();
 
 		if (m_application)
@@ -137,8 +134,11 @@ namespace Hi_Engine
 
 	void Engine::SetupRendering()
 	{
-		auto& SpriteRenderer = SpriteRenderer::GetInstance();
-		SpriteRenderer.Init();
-		SpriteRenderer.SetShader(&ResourceHolder<Shader>::GetInstance().GetResource("Core"));
+		glEnable(GL_DEPTH_TEST);
+		// glEnable(GL_CULL_FACE);		// Disable back faces?? only for 3D?!
+		// glFrontFace(GL_CCW);		// Counter clockwise
+
+		BillboardRenderer::GetInstance().Init();
+		SpriteRenderer::GetInstance().Init();
 	}
 }
