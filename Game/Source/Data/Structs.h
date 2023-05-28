@@ -20,3 +20,10 @@ struct Timer
 	float m_elapsed;
 	float m_duration;
 };
+
+template <typename T>
+struct Range
+{
+	T m_min;
+	T m_max;
+};
