@@ -22,6 +22,11 @@ public:
 	void		OnActivate()								override;
 	C_Movement* Copy()								  const override;
 
+	const CU::Vector3<float>& GetVelocity() const;
+
+	void SetVelocity(const CU::Vector3<float>& aVelocity);
+	void SetMovementSpeed(float aSpeed);
+
 private:
 	friend class C_PlayerController;
 

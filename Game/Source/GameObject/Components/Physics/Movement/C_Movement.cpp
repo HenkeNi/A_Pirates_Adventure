@@ -48,3 +48,18 @@ C_Movement* C_Movement::Copy() const
 
 	return new (res) C_Movement{ *this };
 }
+
+const CU::Vector3<float>& C_Movement::GetVelocity() const
+{
+	return m_velocity;
+}
+
+void C_Movement::SetVelocity(const CU::Vector3<float>& aVelocity)
+{
+	m_velocity = aVelocity;
+}
+
+void C_Movement::SetMovementSpeed(float aSpeed)
+{
+	m_movementSpeed = aSpeed;
+}

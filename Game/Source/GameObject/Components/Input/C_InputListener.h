@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Component.h"
+#include "../Component.h"
 
 
 class C_InputListener : public Component, public Hi_Engine::EventListener

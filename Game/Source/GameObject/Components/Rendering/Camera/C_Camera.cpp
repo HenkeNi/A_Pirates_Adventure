@@ -1,12 +1,14 @@
 #include "Pch.h"
 #include "C_Camera.h"
 #include "../GameObject/GameObject.h"
-#include "../Transform/C_Transform.h"
+#include "../../Core/Transform/C_Transform.h"
 
 
 C_Camera::C_Camera(GameObject* anOwner)
-	: Component{ anOwner }, m_target{ nullptr }, m_targetOffset{ 0.f, 3.f, 5.f } //, m_camera{ { 800, 0, 0, 1400 } }
+	: Component{ anOwner }, m_target{ nullptr }, m_targetOffset{ 0.f, 0.f, 2.f } //, m_camera{ { 800, 0, 0, 1400 } }
 {
+	// temp:
+	m_camera.SetPosition({ 0.f, 0.f, 2.f });
 }
 
 C_Camera::~C_Camera()
@@ -35,17 +37,21 @@ void C_Camera::Update(float aDeltaTime)
 		return;
 	
 		auto targetPosition = m_target->GetComponent<C_Transform>()->GetPosition();
-
-		
-
-		//std::cout << "TargetPos: " << targetPosition.x << ", " << targetPosition.y << ", " << targetPosition.z << '\n';
-
 		targetPosition += m_targetOffset;
+		
+		m_owner->GetComponent<C_Transform>()->SetPosition(targetPosition);
 
-		std::cout << "Targ Pos: " << targetPosition.x << ", " << targetPosition.y << ", " << targetPosition.z << '\n';
+
+					
+		//m_camera.SetPosition({ targetPosition.x, targetPosition.y, targetPosition.z });
+
+
+
+
+		//std::cout << "Targ Pos: " << targetPosition.x << ", " << targetPosition.y << ", " << targetPosition.z << '\n';
+		//std::cout << "TargetPos: " << targetPosition.x << ", " << targetPosition.y << ", " << targetPosition.z << '\n';
 		//std::cout << "Target pos: " << targetPosition.x << ", " << targetPosition.y << ", " << targetPosition.z << '\n';
 
-		m_camera.SetPosition({ targetPosition.x, targetPosition.y, targetPosition.z });
 
 
 		// m_camera.Move(targetPosition, aDeltaTime);
