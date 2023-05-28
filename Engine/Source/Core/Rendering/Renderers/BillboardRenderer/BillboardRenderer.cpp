@@ -37,8 +37,14 @@ namespace Hi_Engine
 
 		unsigned indices[] =
 		{
-			0, 1, 3,
-			1, 2, 3
+			0, 2, 1,
+			0, 3, 2
+
+			//0, 1, 2,
+			//2, 3, 0
+
+			//0, 1, 3,
+			//1, 2, 3
 		};
 
 		unsigned VBO, EBO;
@@ -94,7 +100,7 @@ namespace Hi_Engine
 		/* Set model matrix */
 		glm::mat4 model = glm::mat4(1.0f); 
 		model = glm::translate(model, glm::vec3(someData.Position));
-		model = glm::rotate(model, glm::radians(someData.Rotation), glm::vec3(0.0f, 0.0f, 1.0f));
+			model = glm::rotate(model, glm::radians(someData.Rotation), glm::vec3(1.0f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(someData.Scale, 1.0f));
 		shader->SetMatrix4("uModel", model);
 
