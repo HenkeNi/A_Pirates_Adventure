@@ -9,6 +9,9 @@ namespace Hi_Engine
 	class MouseEvent;
 	class RenderSpriteEvent;
 
+
+	class EntityEvent;
+
 	class EventListener
 	{
 	public:

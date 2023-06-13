@@ -1,8 +1,14 @@
 #pragma once
 #include "Enumerations.h"
+#include "../Proxy/SceneManagerProxy.h"
 
 #include <any>
 
+
+struct SharedContext
+{
+	SceneManagerProxy	 m_sceneManager;
+};
 
 struct CompMessage
 {

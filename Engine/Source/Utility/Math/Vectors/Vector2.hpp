@@ -71,7 +71,7 @@ namespace CommonUtilities
 	}
 
 	template <class T>
-	T Vector2<T>::AngleTo(const Vector2& another)		const
+	T Vector2<T>::AngleTo(const Vector2<T>& another)		const
 	{
 		return -1; // TODO..
 	}
@@ -79,7 +79,7 @@ namespace CommonUtilities
 	template <class T>
 	Vector2<T> Vector2<T>::DirectionTo(const Vector2<T>& another) const
 	{
-		Vector2<T> direction = { another.x - x, another.y - y };
+		Vector2<T> direction = Vector2<T>{ another.x - x, another.y - y };
 		return direction.GetNormalized();
 	}
 

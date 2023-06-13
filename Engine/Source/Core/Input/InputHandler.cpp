@@ -103,7 +103,7 @@ namespace Hi_Engine
 		return s_mappedCommands.contains(anInput);
 	}
 
-	void InputHandler::SendEvent(eInputType anInput)
+	void InputHandler::SendMessage(eInputType anInput)
 	{
 		if (IsCommandMapped(anInput))
 		{

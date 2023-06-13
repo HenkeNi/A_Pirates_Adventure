@@ -3,7 +3,9 @@
 /* - Core - */
 #include "Core/Application/Application.h"
 #include "Core/EntryPoint.h"
-#include "Core/Physics/Collisions/CollisionManager.h"
+
+/* - Physics - */
+#include "Core/Physics/Shapes/2D/AABB2D.hpp"
 
 /* - Command - */
 #include "Core/Base/Command/Command.h"
@@ -32,6 +34,7 @@
 #include "Utility/Math/Vectors/Vector.hpp"
 #include "Utility/Math/Matrices/Matrix3x3.hpp"
 #include "Utility/Math/Matrices/Matrix4x4.hpp"
+#include "Utility/Math/Mathf.hpp"
 
 /* - Utility - */
 #include "Utility/Utility/UtilityFunctions.hpp"

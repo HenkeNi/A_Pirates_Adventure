@@ -4,6 +4,7 @@
 
 namespace CommonUtilities
 {
+	// TODO: maybe make struct with free floating functions??
 	template <class T>
 	class Vector3
 	{
@@ -20,7 +21,7 @@ namespace CommonUtilities
 		T			LengthSqr()							const;
 		T			Length()							const;
 		T			Dot(const Vector3& another)			const;
-		T			DistanceTo(const Vector3& another)	const;
+		T			DistanceTo(const Vector3& another)	const;		// TODO: Make static?
 		Vector3		DirectionTo(const Vector3& another)	const;
 		Vector3		Cross(const Vector3& another)		const;
 		Vector3		GetNormalized()						const;
@@ -65,21 +66,21 @@ namespace CommonUtilities
 	}
 
 	template<class T>
-	T Vector3<T>::DistanceTo(const Vector3& another) const
+	T Vector3<T>::DistanceTo(const Vector3<T>& another) const
 	{
-		Vector3<T> direction = { another.x - x, another.y - y };
+		auto direction = Vector3<T>{ another.x - x, another.y - y, another.z - z };
 		return direction.Length();
 	}
 
 	template<class T>
-	Vector3<T> Vector3<T>::DirectionTo(const Vector3& another) const
+	Vector3<T> Vector3<T>::DirectionTo(const Vector3<T>& another) const
 	{
-		Vector3<T> direction = { another.x - x, another.y - y };
+		Vector3<T> direction = { another.x - x, another.y - y, another.z - z };
 		return direction.GetNormalized();
 	}
 
 	template <class T>
-	Vector3<T> Vector3<T>::Cross(const Vector3& another) const
+	Vector3<T> Vector3<T>::Cross(const Vector3<T>& another) const
 	{
 		return { (y * another.z - z * another.y), (z * another.x - x * another.z), (x * another.y - y * another.x) };
 	}

@@ -13,6 +13,15 @@ enum eScene
 	//GameOver, 
 };
 
+enum class eMessage
+{
+	EntityCreated,
+	EntityDestroyed,
+	MapCreated,
+};
+
+
+// TODO: remove
 enum class eComponentMessage
 {
 	PositionChanged, 
@@ -27,4 +36,13 @@ enum class eLayer
 	Buildings,
 	Effects,
 	UI
+};
+
+
+enum class eBTNodeStatus
+{
+	Invalid,
+	Running,
+	Success,
+	Failure
 };

@@ -25,7 +25,7 @@ namespace Hi_Engine
 		static ResourceHolder&	GetInstance();
 		Resource&				GetResource(const Identifier& anID);
 		const Resource&			GetResource(const Identifier& anID)		const;
-		bool					Contains(const Identifier& anID)		const;
+		bool					HasComponent(const Identifier& anID)		const;
 
 		void					FetchAll(const std::string& aFilePath);
 		void					Insert(Identifier anID, std::unique_ptr<Resource> aResource);
@@ -63,7 +63,7 @@ namespace Hi_Engine
 	template <class Resource, typename Identifier>
 	Resource& ResourceHolder<Resource, Identifier>::GetResource(const Identifier& anID)
 	{
-		assert(Contains(anID));
+		assert(HasComponent(anID));
 		return *m_resources.find(anID)->second;
 	}
 
@@ -74,7 +74,7 @@ namespace Hi_Engine
 	}
 
 	template <class Resource, typename Identifier>
-	bool ResourceHolder<Resource, Identifier>::Contains(const Identifier& anID) const
+	bool ResourceHolder<Resource, Identifier>::HasComponent(const Identifier& anID) const
 	{
 		auto found = m_resources.find(anID);
 		return found != m_resources.end();

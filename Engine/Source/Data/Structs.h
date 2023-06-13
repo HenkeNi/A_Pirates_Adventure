@@ -147,6 +147,13 @@ namespace Hi_Engine
 	};
 
 
+	template <typename Type>
+	struct Point
+	{
+		Type m_X;
+		Type m_Y;
+	};
+
 
 
 

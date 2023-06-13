@@ -1,6 +1,9 @@
 #pragma once
+#include "MapChunk.h"
 
 // Look at instancing...
+
+class MapRenderSystem;
 
 // TileMap??
 class Map
@@ -8,17 +11,25 @@ class Map
 public:
 	Map();
 
-	void Init();
-	void Draw() const;
-
-	// void GenerateMap();
+	void GenerateMap();
 
 private:
+	friend class MapRenderSystem;
+
+	std::vector<MapChunk> m_chunks;
+
+
+
+
+
+
+
+
 	struct Tile
 	{
 		CU::Vector4<float> m_color = { 1.f, 1.f, 1.f, 1.f };
 		glm::vec2	m_scale = { 1.f, 1.f };
-		float				m_rotation = -90;
+		//float				m_rotation = -90;
 		//float				m_rotation = -88;
 		//float				m_rotation = -70;
 		unsigned			m_textureID;

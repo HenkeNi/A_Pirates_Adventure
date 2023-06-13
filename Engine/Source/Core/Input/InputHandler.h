@@ -32,7 +32,7 @@ namespace Hi_Engine
 		static eInputState	GetKeyState(int anAction);	// renaem GetInputState??
 		
 		bool				IsCommandMapped(eInputType anInput) const;
-		void				SendEvent(eInputType anInput);
+		void				SendMessage(eInputType anInput);
 
 		static std::unordered_map<eInputType, eInputState>	s_inputStates;	// Store previous input as well? mappedInput mappedInputStates
 		static std::unordered_map<eInputType, Command*>		s_mappedCommands; // or just commands?

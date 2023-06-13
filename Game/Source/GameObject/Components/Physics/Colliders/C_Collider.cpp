@@ -7,7 +7,7 @@ C_Collider::C_Collider(GameObject* anOwner)
 {
 }
 
-bool C_Collider::IsActivated() const
+bool C_Collider::IsActive() const
 {
 	return false;
 }

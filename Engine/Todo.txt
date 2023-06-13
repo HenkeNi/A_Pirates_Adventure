@@ -1,9 +1,3 @@
-Project structure;
-	make Application contain game instead??
-	create a Launcher repository??
-	make game a static library?
-	only use ortographic camera!
-
     sprite sheet class...
         rename Shader to ShaderProgram...
 

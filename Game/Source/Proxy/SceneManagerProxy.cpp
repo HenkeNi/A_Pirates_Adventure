@@ -1,6 +1,6 @@
 #include "Pch.h"
 #include "SceneManagerProxy.h"
-#include "../Managers/SceneManager.h"
+#include "../Scene/SceneManager.h"
 
 
 SceneManagerProxy::SceneManagerProxy(SceneManager& aSceneManager)

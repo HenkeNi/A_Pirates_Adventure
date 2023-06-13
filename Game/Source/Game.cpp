@@ -1,7 +1,8 @@
 #include "Pch.h"
 #include "Game.h"
-#include "Scenes/Scenes.h"
+#include "Scene/Scenes.h"
 #include "../Generated/Generated.h"
+
 
 
 Game::Game()
@@ -15,21 +16,29 @@ Game::~Game()
 void Game::OnUpdate(float aDeltaTime)
 {
 	m_sceneManager.Update(aDeltaTime);
+	//m_gameWorld.Update(aDeltaTime);
 }
 
 void Game::OnLateUpdate(float aDeltaTime)
 {
+	//m_gameWorld.LateUpdate(aDeltaTime);
 	m_sceneManager.LateUpdate(aDeltaTime);
 }
 
 void Game::OnDraw()
 {
+	//m_gameWorld.Draw();
 	m_sceneManager.Draw();
 }
 
 void Game::OnCreate()
 {
+	//m_gameWorld.Init();
+
 	SetupScenes();						// do after registering comps/prototpyes??	
+
+	// Init in gmaeowlrd??
+
 
 	Generated::RegisterComponents();
 	Generated::RegisterPrototypes();	
@@ -46,7 +55,7 @@ void Game::SetupScenes()
 {
 	SceneManagerProxy proxy{ m_sceneManager };
 
-	m_sceneManager.Register(std::make_unique<GameScene>(proxy),		eScene::Game);
+	m_sceneManager.Register(std::make_unique<GameScene>(SharedContext{ proxy }), eScene::Game);
 	//m_sceneManager.Register(std::make_unique<LoadingScene>(proxy),  eScene::Loading);
 	//m_sceneManager.Register(std::make_unique<MenuScene>(proxy),		eScene::Menu);
 	//m_sceneManager.Register(std::make_unique<PauseScene>(proxy),	eScene::Pause);

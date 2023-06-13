@@ -1,5 +1,6 @@
 #pragma once
-#include "SceneManager.h"
+#include "Scene/SceneManager.h"
+#include "World/GameWorld.h"
 
 
 class Game : public Hi_Engine::Application
@@ -19,7 +20,8 @@ private:
 	void SetupScenes();
 	void MapInput();
 
-	SceneManager m_sceneManager;
+	//GameWorld		m_gameWorld;
+	SceneManager	m_sceneManager;
 };
 
 Hi_Engine::Application* Hi_Engine::CreateApplication()

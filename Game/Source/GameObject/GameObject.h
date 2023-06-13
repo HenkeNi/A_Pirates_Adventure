@@ -40,7 +40,7 @@ public:
 	template		<typename T>
 	const T*		GetComponent()									const;
 	template		<typename T>
-	bool			Contains()										const;
+	bool			HasComponent()									const;
 
 private:
 	unsigned		GenerateID()									const;
@@ -70,7 +70,12 @@ template <typename T>
 T* GameObject::GetComponent()
 {
 	auto component = m_components.find(std::type_index(typeid(T)));
-	if (component != m_components.end())
+
+	bool found = (component != m_components.end());
+
+	assert(found && "Couldn't find component!");
+
+	if (found)
 	{
 		//return std::dynamic_pointer_cast<T>(component->second);
 		return dynamic_cast<T*>(component->second);
@@ -82,11 +87,19 @@ T* GameObject::GetComponent()
 template <typename T>
 const T* GameObject::GetComponent() const
 {
-	return GetComponent();
+	auto component = m_components.find(std::type_index(typeid(T)));
+	bool found = (component != m_components.end());
+
+	assert(found && "Couldn't find component!");
+
+	if (found)
+		return dynamic_cast<T*>(component->second);
+
+	return nullptr;
 }
 
 template <typename T>
-bool GameObject::Contains() const
+bool GameObject::HasComponent() const
 {
 	return m_components.find(std::type_index(typeid(T))) != m_components.end();
 }
