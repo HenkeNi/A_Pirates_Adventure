@@ -1,8 +1,8 @@
 #include "Pch.h"
 #include "CameraSystem.h"
-#include "../Entity/EntityManager.h"
-#include "../Entity/Components/Rendering/RenderComponents.h"
-#include "../Entity/Components/Core/CoreComponents.h"
+#include "EntityManager.h"
+#include "Rendering/RenderComponents.h"
+#include "Core/CoreComponents.h"
 
 
 CameraSystem::CameraSystem()

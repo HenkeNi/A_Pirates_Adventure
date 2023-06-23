@@ -1,5 +1,5 @@
 #pragma once
-#include "Scene/SceneManager.h"
+#include "Scenes/SceneManager.h"
 #include "World/GameWorld.h"
 
 

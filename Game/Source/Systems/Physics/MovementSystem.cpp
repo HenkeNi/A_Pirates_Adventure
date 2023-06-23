@@ -1,10 +1,10 @@
 #include "Pch.h"
 #include "MovementSystem.h"
-#include "../Entity/Entity.h"
-#include "../Entity/EntityManager.h"
+#include "Entity.h"
+#include "EntityManager.h"
 
-#include "../../Entity/Components/Core/CoreComponents.h"
-#include "../../Entity/Components/Physics/PhysicsComponents.h"
+#include "Core/CoreComponents.h"
+#include "Physics/PhysicsComponents.h"
 
 
 MovementSystem::MovementSystem()
@@ -30,5 +30,8 @@ void MovementSystem::Update(float aDeltaTime)
 
 		transform->m_currentPos += velocity->m_velocity * aDeltaTime;
 		velocity->m_velocity += velocity->m_acceleration * aDeltaTime;
+
+
+		std::cout << "Pos: " << transform->m_currentPos.x << ", " << transform->m_currentPos.y << ", " << transform->m_currentPos.z << '\n';
 	}
 }

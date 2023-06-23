@@ -7,13 +7,14 @@
 
 
 Map::Map()
-	: m_mapWidth{ 64 }, m_mapHeight{ 64 }, m_tileSize{ 32 }, m_texture{ nullptr }
+	// : m_mapWidth{ 64 }, m_mapHeight{ 64 }, m_tileSize{ 32 }, m_texture{ nullptr }
 {
 }
 
 void Map::GenerateMap()
 {
 	MapChunk chunk;
+	chunk.CreateTiles();
 
 	m_chunks.push_back(chunk);
 
@@ -21,38 +22,25 @@ void Map::GenerateMap()
 	PostMaster::GetInstance().SendMessage(Message{ eMessage::MapCreated, this }); // Send event?
 }
 
+void Map::Update()
+{
 
+}
+
+void Map::Draw() const
+{
+
+}
 
 //void Map::Init()
 //{
-//
-//
-//
-//
-//
-//
-//
-//
 //	//m_texture = &Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("overworld");
 //	//m_texture = &Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("sand01");
-//	m_shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Billboard"); // Change to sprite shader...	
-//
-//	 
+//	m_shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Billboard"); // Change to sprite shader...		 
 //
 //	m_materials.insert({ 1, Hi_Engine::Material{ m_texture, m_shader } });
 //	m_materials.insert({ 2, Hi_Engine::Material{ &Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("sea"), m_shader } });
 //	m_materials.insert({ 3, Hi_Engine::Material{ &Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("grass_tile"), m_shader } });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//	// 0 => 63
-//	//m_seaTiles.push_back()
 //
 //}
 

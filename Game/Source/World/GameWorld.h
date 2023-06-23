@@ -1,6 +1,4 @@
 #pragma once
-#include "../Entity/EntityManager.h"
-#include "SystemManager.h"
 
 
 class GameWorld

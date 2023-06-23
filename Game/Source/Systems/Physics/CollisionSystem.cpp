@@ -1,8 +1,8 @@
 #include "Pch.h"
 #include "CollisionSystem.h"
-#include "../Entity/Entity.h"
+#include "Entity.h"
 
-#include "../Entity/Components/Core/CoreComponents.h"
+#include "Core/CoreComponents.h"
 
 
 CollisionSystem::CollisionSystem()

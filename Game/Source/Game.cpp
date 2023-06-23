@@ -1,8 +1,7 @@
 #include "Pch.h"
 #include "Game.h"
-#include "Scene/Scenes.h"
+#include "Scenes/Scenes.h"
 #include "../Generated/Generated.h"
-
 
 
 Game::Game()
@@ -16,32 +15,34 @@ Game::~Game()
 void Game::OnUpdate(float aDeltaTime)
 {
 	m_sceneManager.Update(aDeltaTime);
-	//m_gameWorld.Update(aDeltaTime);
 }
 
 void Game::OnLateUpdate(float aDeltaTime)
 {
-	//m_gameWorld.LateUpdate(aDeltaTime);
 	m_sceneManager.LateUpdate(aDeltaTime);
 }
 
 void Game::OnDraw()
 {
-	//m_gameWorld.Draw();
 	m_sceneManager.Draw();
 }
 
 void Game::OnCreate()
 {
+	EntityManager::RegisterComponentBuilders();
+
+	SetupScenes();
+
 	//m_gameWorld.Init();
 
-	SetupScenes();						// do after registering comps/prototpyes??	
+
 
 	// Init in gmaeowlrd??
 
 
-	Generated::RegisterComponents();
-	Generated::RegisterPrototypes();	
+
+	//Generated::RegisterComponents();
+	//Generated::RegisterPrototypes();	
 
 	MapInput();
 }

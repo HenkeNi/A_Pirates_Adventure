@@ -14,7 +14,7 @@ namespace CommonUtilities
 		Factory();
 		~Factory();
 
-		ReturnType* Build(const Identifier& aType)											const;
+		ReturnType* Build(const Identifier& aType)												const;	// Perfect forward`??
 		bool		HasComponent(const Identifier& aType)										const;
 
 		bool		RegisterBuilder(const Identifier& aType, const BuilderType* aBuilder);

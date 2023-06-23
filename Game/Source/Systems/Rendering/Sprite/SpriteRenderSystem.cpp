@@ -1,8 +1,8 @@
 #include "Pch.h"
 #include "SpriteRenderSystem.h"
-#include "../Entity/EntityManager.h"
-#include "../Entity/Components/Rendering/RenderComponents.h"
-#include "../Entity/Components/Core/CoreComponents.h"
+#include "EntityManager.h"
+#include "Rendering/RenderComponents.h"
+#include "Core/CoreComponents.h"
 
 //#include "../Entity/Entity.h"
 
@@ -31,6 +31,7 @@ void SpriteRenderSystem::Draw()
 {
 	if (!m_entityManager)
 		return;
+
 
 	auto entities = m_entityManager->FindAllWithComponents<SpriteComponent, TransformComponent>();
 

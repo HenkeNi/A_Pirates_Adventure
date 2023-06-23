@@ -1,3 +1,47 @@
+New structure:
+
+
+	Launcher => calls Game.Run(): 
+		
+		while (true)
+		{
+			gameWorld.Update();
+			gameWorld.LateUpdate();
+			gameWorld.Draw();
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Load blueprints for specific Scene OnEnter()??
+
+
+
+
+
+
+
+
+
+Populate level();
+
+
+
+
+
+
+
 Todo;
 	* figure out how to pass sprites to sprite renderer
 		- use object manager to get all sprites with certain type (from each layer - in order)...
@@ -7,6 +51,17 @@ Todo;
 
 
 		or Sprite component sends out an event => draw event...
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -3,6 +3,7 @@
 
 class EntityManager;
 
+
 class System : public Subscriber
 {
 public:
@@ -16,6 +17,6 @@ public:
 	virtual void Draw()											{};
 
 protected:
-	EntityManager*	m_entityManager;
+	EntityManager*	 m_entityManager;
 	unsigned		 m_priority;
 };

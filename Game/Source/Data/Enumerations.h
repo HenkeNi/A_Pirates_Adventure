@@ -3,12 +3,14 @@
 
 enum eScene
 {
-	Game	= 1, 
-	Pause	= 2,
-	Menu	= 4,
-	Loading = 8, 
-	Title	= 16,
-	Count	= 32
+	Game		= 1, 
+	Pause		= 2,
+	Menu		= 4,
+	Loading		= 8, 
+	Title		= 16,
+	Overworld	= 32,
+	Dungeon		= 64,
+	Count		= 128
 	//Settings, 
 	//GameOver, 
 };
@@ -45,4 +47,9 @@ enum class eBTNodeStatus
 	Running,
 	Success,
 	Failure
+};
+
+enum class eTile
+{
+	Sand, Water
 };

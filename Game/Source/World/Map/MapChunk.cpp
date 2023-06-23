@@ -25,6 +25,8 @@ void MapChunk::CreateTiles()
 				&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Billboard")
 			};
 			tile.m_material = material;
+
+			m_tiles.push_back(tile);
 		}
 	}
 

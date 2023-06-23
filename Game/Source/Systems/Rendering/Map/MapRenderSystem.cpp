@@ -41,7 +41,7 @@ void MapRenderSystem::Draw()
 
 void MapRenderSystem::RenderChunk(const MapChunk& aMapChunk)
 {
-	const auto& chunkPosition = aMapChunk.m_position;
+	/*const auto& chunkPosition = aMapChunk.m_position;
 
 	const auto& tiles = aMapChunk.m_tiles;
 
@@ -53,5 +53,5 @@ void MapRenderSystem::RenderChunk(const MapChunk& aMapChunk)
 
 
 		Hi_Engine::BillboardRenderer::GetInstance().Render({ &tile.m_material, position, glm::vec3{ 1.f, 1.f, 1.f}, -90.f });
-	}
+	}*/
 }

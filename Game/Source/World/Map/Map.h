@@ -5,13 +5,18 @@
 
 class MapRenderSystem;
 
-// TileMap??
+// TileMap?? WorldMap
 class Map
 {
 public:
 	Map();
 
 	void GenerateMap();
+
+	void Update();
+	void Draw() const;
+
+	// Get avialable/open/traversable tiles near position?
 
 private:
 	friend class MapRenderSystem;
@@ -25,32 +30,32 @@ private:
 
 
 
-	struct Tile
-	{
-		CU::Vector4<float> m_color = { 1.f, 1.f, 1.f, 1.f };
-		glm::vec2	m_scale = { 1.f, 1.f };
-		//float				m_rotation = -90;
-		//float				m_rotation = -88;
-		//float				m_rotation = -70;
-		unsigned			m_textureID;
-	} m_tilePrototype;
+	//struct Tile
+	//{
+	//	CU::Vector4<float> m_color = { 1.f, 1.f, 1.f, 1.f };
+	//	glm::vec2	m_scale = { 1.f, 1.f };
+	//	//float				m_rotation = -90;
+	//	//float				m_rotation = -88;
+	//	//float				m_rotation = -70;
+	//	unsigned			m_textureID;
+	//} m_tilePrototype;
 
-	// tiles... -> opengl instancing..??
+	//// tiles... -> opengl instancing..??
 
-	// vector of ints? tile types... 
-
-
-	unsigned m_mapWidth, m_mapHeight;	
-	unsigned m_tileSize;
-
-	// Texture...
-	Hi_Engine::Texture2D* m_texture;
-	Hi_Engine::Shader* m_shader;
-
-	std::unordered_map<unsigned, Hi_Engine::Texture2D> m_textureMap;
-	std::unordered_map<unsigned, Hi_Engine::Material> m_materials;
+	//// vector of ints? tile types... 
 
 
-	std::vector<CU::Vector2<float>> m_seaTiles;
+	//unsigned m_mapWidth, m_mapHeight;	
+	//unsigned m_tileSize;
+
+	//// Texture...
+	//Hi_Engine::Texture2D* m_texture;
+	//Hi_Engine::Shader* m_shader;
+
+	//std::unordered_map<unsigned, Hi_Engine::Texture2D> m_textureMap;
+	//std::unordered_map<unsigned, Hi_Engine::Material> m_materials;
+
+
+	//std::vector<CU::Vector2<float>> m_seaTiles;
 };
 

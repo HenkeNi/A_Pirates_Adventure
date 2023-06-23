@@ -1,9 +1,11 @@
 #pragma once
 #include "Enumerations.h"
-#include "../Proxy/SceneManagerProxy.h"
+#include "SceneManagerProxy.h"
 
 #include <any>
 
+
+// Todo; change naming convention to sceneManager, rather thna m_sceneManager;
 
 struct SharedContext
 {
