@@ -66,8 +66,16 @@ void OverworldScene::OnCreated()
 
 
 
+}
+
+void OverworldScene::OnEnter()
+{
+
+
 	m_map.GenerateMap();
 	m_systemManager.Init(&m_entityManager);
+
+	m_entityManager.LoadBlueprints("../Game/Assets/Json/Blueprints/blueprint_manifest.json");
 
 	auto player = m_entityManager.Create("Player");
 
@@ -154,11 +162,6 @@ void OverworldScene::OnCreated()
 	camera.GetComponent<CameraComponent>()->m_target = *m_entityManager.FindAllWithComponents<TransformComponent>().begin();
 	m_entityManager.Add(std::move(camera));
 
-
-}
-
-void OverworldScene::OnEnter()
-{
 }
 
 void OverworldScene::OnExit()

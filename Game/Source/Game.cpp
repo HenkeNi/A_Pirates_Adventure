@@ -64,8 +64,8 @@ void Game::SetupScenes()
 
 void Game::LoadResources()
 {
-	Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().FetchAll("../Assets/Json/Resources/Textures.json");
-	Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().FetchAll("../../Engine/Assets/Json/Resources/Textures.json");
+	Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().FetchAll("../Game/Assets/Json/Resources/Textures.json");
+	Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().FetchAll("../Engine/Assets/Json/Resources/Shaders.json");
 }
 
 void Game::MapInput() // or MapControlls? // Rename ConfigureInput??

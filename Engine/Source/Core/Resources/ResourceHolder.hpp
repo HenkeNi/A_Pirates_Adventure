@@ -87,11 +87,9 @@ namespace Hi_Engine
 		std::string content{ std::istreambuf_iterator<char>(ifs), std::istreambuf_iterator<char>() };
 
 		rapidjson::Document document;
-		if (document.Parse(content.c_str()).HasParseError())
-		{
-			std::cerr << "[Parse Error]: " << aFilePath << '\n'; 
-			return;
-		}
+		document.Parse(content.c_str());
+
+		assert(!document.HasParseError() && "Failed to parse resource!");
 
 		for (auto& value : document.GetArray())
 		{

@@ -1,15 +1,15 @@
 {
   "blueprints": {
     "player": [
-      "../Bin/Assets/Json/Blueprints/Player/player.json"
+      "../Game/Assets/Json/Blueprints/Player/player.json"
     ],
     "enemies": [
-      "../Bin/Assets/Json/Blueprints/Enemies/skeleton_enemy.json",
-      "../Bin/Assets/Json/Blueprints/Enemies/spider_enemy.json"
+      "../Game/Assets/Json/Blueprints/Enemies/skeleton_enemy.json",
+      "../Game/Assets/Json/Blueprints/Enemies/spider_enemy.json"
     ],
     "props": [
-      "../Bin/Assets/Json/Blueprints/Props/grass_prop.json",
-      "../Bin/Assets/Json/Blueprints/Props/palm_tree_prop.json"
+      "../Game/Assets/Json/Blueprints/Props/grass_prop.json",
+      "../Game/Assets/Json/Blueprints/Props/palm_tree_prop.json"
     ]
   }
 }

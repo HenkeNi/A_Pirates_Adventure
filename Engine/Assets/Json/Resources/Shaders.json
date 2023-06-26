@@ -1,18 +1,6 @@
 [
   {
-    "name": "Sprite",
-    "filepath": "../Bin/Assets/Shaders/"
-  },
-  {
-    "name": "Core",
-    "filepath": "../Bin/Assets/Shaders/"
-  },
-  {
-    "name": "Batched_Sprite",
-    "filepath": "../Bin/Assets/Shaders/"
-  },
-  {
     "name": "Billboard",
-    "filepath": "../Bin/Assets/Shaders/"
+    "filepath": "../Engine/Assets/Shaders/"
   }
 ]

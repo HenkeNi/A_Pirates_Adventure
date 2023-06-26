@@ -126,7 +126,7 @@ void SceneManager::Draw() const
 void SceneManager::LoadScenes()
 {
 	// TODO; rework... (move elsewhere??) -> read scene stack from json??
-	std::ifstream ifs{ "../Bin/Assets/Json/Scenes/Scenes.json" };
+	std::ifstream ifs{ "../Game/Assets/Json/Scenes/Scenes.json" };
 	std::string content{ std::istreambuf_iterator<char>(ifs), std::istreambuf_iterator<char>() };
 
 	rapidjson::Document document;
@@ -143,5 +143,8 @@ void SceneManager::LoadScenes()
 
 		//if (m_scenes[eScene(id)])	//F IX::::
 			// m_scenes[eScene(id)]->Init(scene);
+
+
+		// TODO: Fectch/store path to entities to load in?
 	}
 }

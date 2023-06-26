@@ -16,6 +16,8 @@ namespace Hi_Engine
 
 	void Texture2D::Init(const CU::Vector2<int>& aSize, unsigned char* someData)
 	{
+		assert(someData);
+
 		/* Generate Texture */
 		glGenTextures(1, &m_id);
 		glBindTexture(GL_TEXTURE_2D, m_id);
