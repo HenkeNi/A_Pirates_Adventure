@@ -1,13 +1,13 @@
 #pragma once
 
-
 class Launcher
 {
 public:
 	Launcher();
-
-	void LaunchGame();
-	void ConfigureSettings();
-	void CheckUpdates();
+	~Launcher();
+	
+	bool UpdatesAvailable();
+	void DownloadUpdatesAsync(std::function<void(bool)> callback);
+	
+	void StartGameLoop();
 };
-

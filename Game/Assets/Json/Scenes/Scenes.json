@@ -1,0 +1,77 @@
+{
+  "scenes": [
+    {
+      "type": "Game",
+      "id": 1
+    },
+    {
+      "type": "Loading",
+      "id": 2
+    },
+    {
+      "type": "Menu",
+      "id": 4,
+      "objects": [
+        {
+          "type": "button",
+          "texture_id": "playButton",
+          "callback_id": 0,
+          "position": {
+            "x": 100,
+            "y": 200
+          },
+          "size": {
+            "width": 200,
+            "height": 50
+          }
+        },
+        {
+          "type": "button",
+          "texture_id": "exitButton",
+          "callback_id": 1,
+          "position": {
+            "x": 100,
+            "y": 300
+          },
+          "size": {
+            "width": 200,
+            "height": 50
+          }
+        }
+      ]
+
+    },
+    {
+      "type": "Pause",
+      "id": 8
+    },
+    {
+      "type": "Title",
+      "id": 16,
+      "duration": 3.0,
+      "objects": [
+        {
+          "type": "camera",
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "type": "title",
+          "text": "A Pirate's Adventure",
+          "position": {
+            "x": 100,
+            "y": 200
+          },
+          "size": {
+            "width": 200,
+            "height": 50
+          }
+        }
+      ]
+    }
+
+  ]
+}

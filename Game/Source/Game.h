@@ -1,4 +1,5 @@
 #pragma once
+#include <Core/Application/Application.h>
 #include "Scenes/SceneManager.h"
 #include "World/GameWorld.h"
 
@@ -18,13 +19,14 @@ public:
 
 private:
 	void SetupScenes();
+	void LoadResources();
 	void MapInput();
 
 	//GameWorld		m_gameWorld;
 	SceneManager	m_sceneManager;
 };
 
-Hi_Engine::Application* Hi_Engine::CreateApplication()
-{
-	return new class Game; // new Game
-}
+//Hi_Engine::Application* Hi_Engine::CreateApplication()
+//{
+//	return new class Game; // new Game
+//}

@@ -1,0 +1,17 @@
+{
+  "name": "Grass",
+  "components": [
+    "Transform",
+    "Sprite"
+  ],
+  "component_data": [
+    {
+      "scale_x": 1.0,
+      "scale_y": 1.0
+    },
+    {
+      "texture_id": "Grass"
+    }
+  ],
+  "layer": "Environment"
+}

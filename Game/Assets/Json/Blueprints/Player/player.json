@@ -1,0 +1,14 @@
+{
+  "name": "Player",
+  "components": [
+    "Transform",
+    "Sprite",
+    "Input",
+    "PlayerController",
+    "Velocity",
+    "Animation"
+  ],
+  "component_data": [
+  ],
+  "layer": "Player"
+}

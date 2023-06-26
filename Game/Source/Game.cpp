@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Scenes/Scenes.h"
 #include "../Generated/Generated.h"
+#include <Core/Resources/ResourceHolder.hpp>
 
 
 Game::Game()
@@ -31,15 +32,10 @@ void Game::OnCreate()
 {
 	EntityManager::RegisterComponentBuilders();
 
+	LoadResources();
 	SetupScenes();
 
 	//m_gameWorld.Init();
-
-
-
-	// Init in gmaeowlrd??
-
-
 
 	//Generated::RegisterComponents();
 	//Generated::RegisterPrototypes();	
@@ -63,7 +59,13 @@ void Game::SetupScenes()
 	//m_sceneManager.Register(std::make_unique<TitleScene>(proxy),	eScene::Title);
 		
 	//m_sceneManager.Init(eScene::Game | eScene::Menu | eScene::Loading | eScene::Title);
-	m_sceneManager.Init(eScene::Game);
+	m_sceneManager.Init((int)eScene::Game);
+}
+
+void Game::LoadResources()
+{
+	Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().FetchAll("../Assets/Json/Resources/Textures.json");
+	Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().FetchAll("../../Engine/Assets/Json/Resources/Textures.json");
 }
 
 void Game::MapInput() // or MapControlls? // Rename ConfigureInput??

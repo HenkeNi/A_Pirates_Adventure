@@ -1,0 +1,10 @@
+{
+  "window": {
+    "name": "A Pirate's Adventure",
+    "size": {
+      "width": 1400,
+      "height": 800
+    },
+    "icon_path": "../Bin/Assets/Icons/window_icon.png"
+  }
+}

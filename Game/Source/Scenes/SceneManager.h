@@ -1,6 +1,7 @@
 #pragma once
 #include "../Data/Enumerations.h"
-#include <Hi_Engine.h>
+//  #include <Hi_Engine.h>
+#include <Utility/DataStructures/Linear/Dynamic/Stack/Stack.hpp>
 
 namespace CU = CommonUtilities;
 

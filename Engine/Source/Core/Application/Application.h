@@ -16,5 +16,5 @@ namespace Hi_Engine
 	};
 
 
-	Application* CreateApplication();
+	// Application* CreateApplication();
 }

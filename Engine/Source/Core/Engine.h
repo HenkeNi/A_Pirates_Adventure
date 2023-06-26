@@ -2,9 +2,7 @@
 #include "Audio/AudioManager.h"
 #include "Input/InputHandler.h"
 #include "Window/Window.h"
-#include "Utility/Time/Timer.h"
 
-#include "Rendering/Camera/Camera.h"
 
 namespace Hi_Engine
 {
@@ -13,29 +11,22 @@ namespace Hi_Engine
 	class Engine
 	{
 	public:
-		Engine();
+		Engine(Application* anApp);
+		~Engine();
 
 		bool Init();
-		bool IsRunning() const;
-
-		void ProcessInput();
-		void Update();
-		void LateUpdate();
-		void Draw();
+		void GameLoop();
 		void Shutdown();
-
+		bool IsRunning()		const;
+		
 	private:
-		bool SetupWindow();		
-		void SetupRendering(); // Rename or do in graphics?
+		void SetupRendering(); 
+		bool CreateWindow();		
 
 		InputHandler	m_inputHandler;
 		Window			m_window;
-		Timer			m_timer;
 		AudioManager	m_audioManager;
 		Application*	m_application;
-
 		bool			m_isRunning;
 	};
-
-	Application* CreateApplication();
 }

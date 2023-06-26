@@ -24,7 +24,6 @@
 #include <vector>
 
 
-
 #include <Hi_Engine.h>
 #include <document.h>
 #include <stb_image.h>  

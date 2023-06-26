@@ -1,7 +1,7 @@
 #pragma once
 
 
-enum eScene
+enum class eScene
 {
 	Game		= 1, 
 	Pause		= 2,

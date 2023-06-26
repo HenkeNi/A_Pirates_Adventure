@@ -18,7 +18,7 @@ void SceneManager::Init(int aSceneSet)
 	{
 		auto type = static_cast<eScene>(i);
 
-		if (aSceneSet & type)
+		if (aSceneSet & (int)type)
 			m_sceneStack.Push(type);
 	}
 

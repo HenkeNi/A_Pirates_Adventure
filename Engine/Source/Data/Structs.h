@@ -4,6 +4,9 @@
 #include <functional>
 
 #include "../glm/glm.hpp"
+//#include <GL/glew.h>
+#include <../GLEW/include/GL/glew.h>
+#include <array>
 
 namespace CU = CommonUtilities;
 

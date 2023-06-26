@@ -1,7 +1,14 @@
 #pragma once
 #include "../Data/Structs.h"
-#include "Utility/Math/Vectors/Vector.hpp"
-#include <GLFW/glfw3.h>
+#include "../Utility/Math/Vectors/Vector.hpp"
+#include <../GLFW/include/GLFW/glfw3.h>
+//#include <GLFW/glfw3.h>
+//#include <../GLEW/include/GL/glew.h>
+
+namespace
+{
+	using WndSize = CU::Vector2<unsigned>;
+}
 
 namespace Hi_Engine
 {
@@ -14,25 +21,23 @@ namespace Hi_Engine
 		Window();
 		~Window();
 
-		bool							Init(WindowData someData);
-		bool							IsOpen()										const;
-		const CU::Vector2<unsigned>&	GetSize()										const;
-		void							PollEvents()									const;
-		void							ClearScreen()									const;
-		void							SwapBuffers()									const;
-		void							Close();
+		bool			Init(WindowData someData);
+		bool			IsOpen()										const;
+		const WndSize&	GetSize()										const;
+		void			PollEvents()									const;
+		void			ClearScreen()									const;
+		void			SwapBuffers()									const;
+		void			Close();
 
-		void							SetSize(const CU::Vector2<unsigned>& aSize);
-		void							SetIcon(const std::string& aTexturePath);
-		void							ToggleFullscreen();
+		void			SetSize(const CU::Vector2<unsigned>& aSize);
+		void			SetIcon(const std::string& aTexturePath);
+		void			ToggleFullscreen();
 
 	private:
-		friend class					Engine;
+		bool			InitGlfw()										const;
+		bool			CreateWindow();
 
-		bool							InitGlfw()										const;
-		bool							CreateWindow();
-
-		WindowData						m_data;
-		GLFWwindow*						m_window;
+		WindowData		m_data;
+		GLFWwindow*		m_window;
 	};
 }

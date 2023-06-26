@@ -1,11 +1,16 @@
 #pragma once
-#include "Data/Enumerations.h"
-#include <GLFW/glfw3.h> // FIX...
+//#include "Data/Enumerations.h"
+#include "../../Data/Enumerations.h"
+
+//#include "../Data/Enumerations.h"
+//#include <GLFW/glfw3.h> // FIX...
 
 // Don't have bool isKeyPressed functions... (do with events instead....) -> works better later when implememnting controll support...
 
 // TODO: Separete between key and joystick?? => use GLFW_KEY as key in map instead???
 // TODO; make singleton?? or figure out best way for Game to be able to communicate with input handler...
+
+class GLFWwindow;
 
 namespace Hi_Engine
 {

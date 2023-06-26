@@ -73,12 +73,12 @@ void GameScene::OnCreated()
 	m_sceneManager.Register(std::make_unique<OverworldScene>(m_sharedContext),	eScene::Overworld);
 	m_sceneManager.Register(std::make_unique<DungeonScene>(m_sharedContext),	eScene::Dungeon);
 
-	m_sceneManager.Init(eScene::Overworld);
+	m_sceneManager.Init((int)eScene::Overworld);
 }
 
 void GameScene::OnEnter()
 {
-	m_entityManager.LoadBlueprints("../Bin/Assets/Json/Blueprints/blueprint_manifest.json");	// TODO; Load the needed blueprints for each scene... (clear when leaving the scene)
+	m_entityManager.LoadBlueprints("../../../Assets/Json/Blueprints/blueprint_manifest.json");	// TODO; Load the needed blueprints for each scene... (clear when leaving the scene)
 
 
 	

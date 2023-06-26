@@ -1,7 +1,11 @@
 #pragma once
-#include "Data/Enumerations.h"
+//#include "../Data/Enumerations.h"
+//#include "../Data/Structs.h"
 #include "Data/Structs.h"
+#include "Data/Enumerations.h"
 
+#include <../../ThirdParty/glm/glm.hpp>
+//#include <glm.hpp>
 
 namespace Hi_Engine
 {

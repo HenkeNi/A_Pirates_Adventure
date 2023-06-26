@@ -2,13 +2,15 @@
 
 /* - Core - */
 #include "Core/Application/Application.h"
-#include "Core/EntryPoint.h"
 
 /* - Physics - */
 #include "Core/Physics/Shapes/2D/AABB2D.hpp"
 
 /* - Command - */
 #include "Core/Base/Command/Command.h"
+
+/* - Input - */
+#include "Core/Input/InputHandler.h"
 
 /* - Rendering - */
 #include "Core/Rendering/Camera/Camera.h"
