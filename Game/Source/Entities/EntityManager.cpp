@@ -16,7 +16,7 @@ EntityFactory EntityManager::s_entityFactory;
 
 EntityManager::EntityManager()
 {
-	m_entities.reserve(200);
+	m_entities.reserve(512);
 }
 
 EntityManager::~EntityManager()

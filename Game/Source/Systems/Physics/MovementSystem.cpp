@@ -21,6 +21,9 @@ void MovementSystem::Receive(Message& aMsg)
 
 void MovementSystem::Update(float aDeltaTime)
 {
+	if (!m_entityManager)
+		return;
+
 	auto entities = m_entityManager->FindAllWithComponents<TransformComponent, VelocityComponent>();
 
 	for (auto* entity : entities)

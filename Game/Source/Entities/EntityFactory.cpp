@@ -15,28 +15,22 @@ Entity EntityFactory::Create(const std::string& aType) const
 {
 	auto it = m_blueprints.find(aType);
 
-	// TODO; assert if blueprint is not found!
+	assert(it != m_blueprints.end() && "Failed to find blueprint!");
 
-	if (it != m_blueprints.end())
-	{
-		Entity entity;
+	Entity entity;
 	
-		for (const auto& type : it->second.m_componentTypes)
-		{
-			auto data = it->second.m_componentData;
+	for (const auto& type : it->second.m_componentTypes)
+	{
+		auto data = it->second.m_componentData;
+		auto component = m_componentFactory.Build(type); // TODO; pass in data in constructor? perfect forwarding?
 
-			auto component = m_componentFactory.Build(type); // TODO; pass in data in constructor? perfect forwarding?
-
-			entity.AddComponent(component);
+		entity.AddComponent(component);
 			
 		
 
-		}
-
-		return entity;
 	}
 
-	return Entity{};
+	return entity;
 }
 
 Entity EntityFactory::CreateFromBlueprint(const EntityBlueprint& aBlueprint) const

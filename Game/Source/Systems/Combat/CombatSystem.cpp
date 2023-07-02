@@ -18,6 +18,8 @@ void CombatSystem::Receive(Message& aMsg)
 
 void CombatSystem::Update(float aDeltaTime)
 {
-	// auto entities = m_entityManager->FindAllWithComponents<BoxColliderComponent>();
+	if (!m_entityManager)
+		return;
 
+	// auto entities = m_entityManager->FindAllWithComponents<BoxColliderComponent>();
 }

@@ -21,5 +21,8 @@ void CollisionSystem::Receive(Message& aMsg)
 
 void CollisionSystem::LateUpdate(float aDeltaTime)
 {
+	if (!m_entityManager)
+		return;
+
 	// fetch with transform and collider?!
 }

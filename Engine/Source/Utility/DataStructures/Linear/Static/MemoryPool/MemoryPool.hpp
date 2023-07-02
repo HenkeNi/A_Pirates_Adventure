@@ -12,7 +12,7 @@
 
 namespace CommonUtilities
 {
-	template <class Type, typename SizeType = unsigned, SizeType size = 128>	// TODO; rmove parameters??
+	template <class Type, typename SizeType = unsigned, SizeType size = 1024>	// TODO; rmove parameters??
 	class MemoryPool
 	{
 	public:

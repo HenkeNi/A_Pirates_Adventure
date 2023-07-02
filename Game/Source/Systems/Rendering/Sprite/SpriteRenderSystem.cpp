@@ -32,7 +32,6 @@ void SpriteRenderSystem::Draw()
 	if (!m_entityManager)
 		return;
 
-
 	auto entities = m_entityManager->FindAllWithComponents<SpriteComponent, TransformComponent>();
 
 	for (const Entity* entity : entities)

@@ -16,4 +16,6 @@ void MeleeCombatSystem::Receive(Message& aMsg)
 
 void MeleeCombatSystem::Update(float aDeltaTime)
 {
+	if (!m_entityManager)
+		return;
 }
