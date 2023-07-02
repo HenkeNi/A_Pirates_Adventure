@@ -2,5 +2,9 @@
   {
     "name": "Billboard",
     "filepath": "../Engine/Assets/Shaders/"
+  },
+  {
+    "name": "Primitive",
+    "filepath": "../Engine/Assets/Shaders/"
   }
 ]
