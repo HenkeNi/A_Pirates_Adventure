@@ -6,7 +6,9 @@
     "Input",
     "PlayerController",
     "Velocity",
-    "Animation"
+    "Animation",
+    "Weapon",
+    "Health"
   ],
   "component_data": [
   ],

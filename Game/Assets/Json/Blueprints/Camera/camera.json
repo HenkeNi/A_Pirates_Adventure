@@ -1,0 +1,8 @@
+{
+  "name": "Camera",
+  "components": [
+    "Transform",
+    "Camera"
+  ],
+  "component_data": []
+}

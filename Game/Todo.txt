@@ -1,14 +1,16 @@
-New structure:
+Update scene to not future Update, LateUpdate and Render?
+	- sends message when transitioning to a new scene? pass in bool if should clear entities?
 
 
-	Launcher => calls Game.Run(): 
-		
-		while (true)
-		{
-			gameWorld.Update();
-			gameWorld.LateUpdate();
-			gameWorld.Draw();
-		}
+
+
+
+
+
+
+
+
+
 
 
 

@@ -11,8 +11,6 @@ public:
 	static void LoadBlueprints(const std::string& aFilePath);
 	static void RegisterComponentBuilders();
 
-	void	Add(Entity anEntity);	// maybe remove later
-
 	Entity* Create(const std::string& aType);
 	Entity* Find(unsigned anID);					// Rename GetEntity?
 

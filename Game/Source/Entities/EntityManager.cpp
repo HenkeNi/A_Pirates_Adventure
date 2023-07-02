@@ -8,6 +8,7 @@
 #include "Core/CoreComponents.h"
 #include "Controllers/ControllerComponents.h"
 #include "Physics/PhysicsComponents.h"
+#include "Combat/CombatComponents.h"
 
 
 EntityFactory EntityManager::s_entityFactory;
@@ -73,6 +74,12 @@ void EntityManager::LoadBlueprints(const std::string& aFilePath)
 		std::string path = blueprint.GetString();
 		loadBlueprintsFromJson(path);
 	}
+
+	for (auto& blueprint : document["blueprints"]["cameras"].GetArray())
+	{
+		std::string path = blueprint.GetString();
+		loadBlueprintsFromJson(path);
+	}
 }
 
 void EntityManager::RegisterComponentBuilders()
@@ -84,18 +91,10 @@ void EntityManager::RegisterComponentBuilders()
 
 	s_entityFactory.RegisterComponentBuilder("PlayerController",	new ConcreteComponentBuilder<PlayerControllerComponent>());
 	s_entityFactory.RegisterComponentBuilder("Velocity",			new ConcreteComponentBuilder<VelocityComponent>());
+	s_entityFactory.RegisterComponentBuilder("Weapon",				new ConcreteComponentBuilder<WeaponComponent>());
+	s_entityFactory.RegisterComponentBuilder("Health",				new ConcreteComponentBuilder<HealthComponent>());
+	s_entityFactory.RegisterComponentBuilder("Camera",				new ConcreteComponentBuilder<CameraComponent>());
 }
-
-
-
-// TODO; remove later??
-void EntityManager::Add(Entity anEntity)
-{
-	m_entities.push_back(std::move(anEntity));
-
-	PostMaster::GetInstance().SendMessage(Message{ eMessage::EntityCreated, &m_entities.back() }); // REMOVE!!
-}
-
 
 Entity* EntityManager::Create(const std::string& aType)
 {

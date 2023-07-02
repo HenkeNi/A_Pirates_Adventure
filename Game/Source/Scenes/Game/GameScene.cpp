@@ -15,34 +15,21 @@ GameScene::~GameScene()
 void GameScene::Update(float aDeltaTime)
 {
 	m_sceneManager.Update(aDeltaTime);
-	m_systemManager.Update(aDeltaTime); // or pass in all entities and let system update the ones they need...
 }
 
 void GameScene::LateUpdate(float aDeltaTime)
 {
 	m_sceneManager.LateUpdate(aDeltaTime);
-	m_systemManager.LateUpdate(aDeltaTime);
 }
 
 void GameScene::Draw() const
 {
 	m_sceneManager.Draw();
-	m_systemManager.Draw();
 }
 
 #include "Core/Resources/ResourceHolder.hpp"
-#include "../GameObject/Components/Core/Transform/C_Transform.h"
-#include "../GameObject/Components/Rendering/Camera/C_Camera.h"
-#include "../GameObject/Components/Rendering/Sprite/C_Sprite.h"
-#include "../GameObject/Components/Controllers/C_PlayerController.h"
-#include "../GameObject/Components/Physics/Movement/C_Movement.h"
-#include "../GameObject/Components/AI/SteeringBehavior/C_Behavior.h"
 //#include "../Gameplay/SteeringBehaviors/WanderSeekBehavior.h"
 //#include "../Gameplay/SteeringBehaviors/FlockBehavior.h"
-#include "../GameObject/Components/AI/BehaviorTree/C_BehaviorTree.h"
-
-#include "../GameObject/Components/Physics/Colliders/C_BoxCollider.h"
-
 #include "../AI/BehaviorTree/SelectorNode.h"
 #include "../AI/BehaviorTree/SequenceNode.h"
 #include "../AI/BehaviorTree/ActionNodes.h"
@@ -63,13 +50,11 @@ void GameScene::Draw() const
 #include "Input/InputSystem.h"
 #include "Controllers/PlayerControllerSystem.h"
 #include "Physics/MovementSystem.h"
-#include "World/DungeonScene.h"
-#include "World/OverworldScene.h"
+#include "Dungeon/DungeonScene.h"
+#include "Overworld/OverworldScene.h"
 
 void GameScene::OnCreated()
 {
-	m_systemManager.Init(&m_entityManager);
-
 	m_sceneManager.Register(std::make_unique<OverworldScene>(m_sharedContext),	eScene::Overworld);
 	m_sceneManager.Register(std::make_unique<DungeonScene>(m_sharedContext),	eScene::Dungeon);
 
@@ -78,6 +63,8 @@ void GameScene::OnCreated()
 
 void GameScene::OnEnter()
 {
+
+
 	//m_entityManager.LoadBlueprints("../Game/Assets/Json/Blueprints/blueprint_manifest.json");	// TODO; Load the needed blueprints for each scene... (clear when leaving the scene)
 
 

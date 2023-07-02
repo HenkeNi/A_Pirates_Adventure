@@ -14,6 +14,9 @@ EntityFactory::~EntityFactory()
 Entity EntityFactory::Create(const std::string& aType) const
 {
 	auto it = m_blueprints.find(aType);
+
+	// TODO; assert if blueprint is not found!
+
 	if (it != m_blueprints.end())
 	{
 		Entity entity;

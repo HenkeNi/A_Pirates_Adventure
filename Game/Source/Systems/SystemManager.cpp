@@ -2,10 +2,6 @@
 #include "SystemManager.h"
 
 
-
-
-//#include "../Entity/Entity.h"
-
 SystemManager::SystemManager()
 {
 	//PostMaster::GetInstance().Subscribe(eMessage::EntityCreated, this);

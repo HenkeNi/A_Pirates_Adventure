@@ -1,7 +1,7 @@
 #pragma once
 #include <Core/Application/Application.h>
+#include "Systems/SystemManager.h"
 #include "Scenes/SceneManager.h"
-#include "World/GameWorld.h"
 
 
 class Game : public Hi_Engine::Application
@@ -19,14 +19,10 @@ public:
 
 private:
 	void SetupScenes();
+	void RegisterSystems();		// Move to Generate??
 	void LoadResources();
 	void MapInput();
 
-	//GameWorld		m_gameWorld;
+	SystemManager	m_systemManager;
 	SceneManager	m_sceneManager;
 };
-
-//Hi_Engine::Application* Hi_Engine::CreateApplication()
-//{
-//	return new class Game; // new Game
-//}

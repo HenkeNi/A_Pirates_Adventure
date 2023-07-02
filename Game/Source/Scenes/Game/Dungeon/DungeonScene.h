@@ -1,6 +1,6 @@
 #pragma once
 #include "../../Scene.h"
-#include "../World/Map/Map.h"
+#include "../Map/Map.h"
 
 
 class DungeonScene : public Scene

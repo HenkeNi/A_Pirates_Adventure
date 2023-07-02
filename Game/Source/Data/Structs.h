@@ -1,7 +1,6 @@
 #pragma once
 #include "Enumerations.h"
 #include "SceneManagerProxy.h"
-
 #include <any>
 
 
@@ -9,7 +8,8 @@
 
 struct SharedContext
 {
-	SceneManagerProxy	 m_sceneManager;
+	SceneManagerProxy		m_sceneManager;
+	class SystemManager&	m_systemManager;
 };
 
 struct CompMessage

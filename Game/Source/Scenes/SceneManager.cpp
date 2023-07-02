@@ -26,7 +26,7 @@ void SceneManager::Init(int aSceneSet)
 	m_scenes[m_sceneStack.Top()]->OnEnter();
 }
 
-void SceneManager::Register(std::unique_ptr<Scene> aScene, eScene aType)
+void SceneManager::Register(ScenePtr_t aScene, eScene aType)
 {
 	assert(aScene != nullptr);
 

@@ -10,6 +10,9 @@
     "props": [
       "../Game/Assets/Json/Blueprints/Props/grass_prop.json",
       "../Game/Assets/Json/Blueprints/Props/palm_tree_prop.json"
+    ],
+    "cameras": [
+      "../Game/Assets/Json/Blueprints/Camera/camera.json"
     ]
   }
 }

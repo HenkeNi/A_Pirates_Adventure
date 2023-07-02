@@ -18,6 +18,8 @@ public:
 	SceneManager();
 	~SceneManager();
 
+	// LoadScene("MainMenu"	);
+
 	void Init(int aSceneSet);					
 	void Register(ScenePtr_t aScene, eScene aType);
 	void Push(eScene aType);

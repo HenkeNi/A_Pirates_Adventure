@@ -1,7 +1,7 @@
 #include "Pch.h"
 #include "MapRenderSystem.h"
-#include "../World/Map/Map.h"
-#include "../World/Map/MapChunk.h"
+#include "../Map/Map.h"
+#include "../Map/MapChunk.h"
 
 
 #include "../PostMaster/Subscriber.h"

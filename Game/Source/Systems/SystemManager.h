@@ -25,7 +25,6 @@ public:
 
 
 private:
-
 	Systems_t m_systems; // Separate between registed systems and active systems??
 
 	// system factory?? -> scene decides what systems to add (OnEnter) => clears on Exit?

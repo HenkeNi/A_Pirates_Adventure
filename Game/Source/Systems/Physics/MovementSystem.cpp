@@ -34,4 +34,6 @@ void MovementSystem::Update(float aDeltaTime)
 
 		std::cout << "Pos: " << transform->m_currentPos.x << ", " << transform->m_currentPos.y << ", " << transform->m_currentPos.z << '\n';
 	}
+
+	// TODO; update if AttackColliders, etc...
 }
