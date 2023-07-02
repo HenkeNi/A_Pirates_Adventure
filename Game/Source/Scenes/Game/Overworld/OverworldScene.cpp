@@ -62,26 +62,62 @@ void OverworldScene::OnEnter()
 		&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Billboard") };
 
 
-	// Palm
-	auto palm = m_entityManager.Create("PalmTree");
-	palm->AddComponent(new TransformComponent);
-	palm->AddComponent(new SpriteComponent);
-	palm->GetComponent<TransformComponent>()->m_currentPos = position;
-	auto treesprite = palm->GetComponent<SpriteComponent>();
-	treesprite->m_material = {
-		&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("palm_01"),
-		&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Billboard") };
-
-
 	// Camera
 	auto camera = m_entityManager.Create("Camera");
 	camera->GetComponent<TransformComponent>()->m_currentPos = { 0.f, 0.f, 2.f };
 	camera->GetComponent<CameraComponent>()->m_targetOffset = { 0.f, 0.f, 2.f };
-	camera->GetComponent<CameraComponent>()->m_target = *m_entityManager.FindAllWithComponents<TransformComponent>().begin();
+	camera->GetComponent<CameraComponent>()->m_target = *m_entityManager.FindAllWithComponents<PlayerControllerComponent>().begin();
+
+
+	// Trees
+	for (int i = 0; i < 70; ++i)
+	{
+		auto palm = m_entityManager.Create("PalmTree");
+		palm->AddComponent(new TransformComponent);
+		palm->AddComponent(new SpriteComponent);
+
+		palm->GetComponent<TransformComponent>()->m_currentPos = { (float)Random::InRange(2, 62), 0.45f, (float)Random::InRange(2, 62) };
+		palm->GetComponent<TransformComponent>()->m_scale = { 1.f, 1.35f, 1.f };
+
+		auto treesprite = palm->GetComponent<SpriteComponent>();
+		treesprite->m_material = {
+			&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("palm_01"),
+			&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Billboard") };
+	}
 
 
 	// Grass
+	for (int i = 0; i < 115; ++i)
+	{
+		auto grass = m_entityManager.Create("Grass");
+		grass->AddComponent(new TransformComponent);
+		grass->AddComponent(new SpriteComponent);
 
+		auto pos = CU::Vector3<float>{ (float)Random::InRange(2, 62), 0.45f, (float)Random::InRange(2, 62) };
+
+		grass->GetComponent<TransformComponent>()->m_currentPos = pos;
+		grass->GetComponent<TransformComponent>()->m_scale = { 0.75f, 0.75f, 0.75f };
+
+		auto grassSprite = grass->GetComponent<SpriteComponent>();
+		grassSprite->m_material = {
+			&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("grass"),
+			&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Billboard") };
+
+
+		// small grass
+		auto smallGrass = m_entityManager.Create("Grass");
+		smallGrass->AddComponent(new TransformComponent);
+		smallGrass->AddComponent(new SpriteComponent);
+
+		smallGrass->GetComponent<TransformComponent>()->m_currentPos = { pos.x, pos.y - 0.1f, pos.z + 0.1f };
+		smallGrass->GetComponent<TransformComponent>()->m_scale = { 0.5f, 0.5f, 0.5f };
+
+		auto smallGrassSprite = smallGrass->GetComponent<SpriteComponent>();
+		smallGrassSprite->m_material = {
+			&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("grass"),
+			&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Billboard") };
+
+	}
 
 
 
