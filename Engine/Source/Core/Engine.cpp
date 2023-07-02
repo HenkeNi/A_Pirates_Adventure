@@ -6,6 +6,7 @@
 #include "Resources/ResourceHolder.hpp"
 #include "Rendering/Renderers/SpriteRenderer/SpriteRenderer.h"
 #include "Rendering/Renderers/BillboardRenderer/BillboardRenderer.h"
+#include "Rendering/Renderers/PrimitiveRenderer/PrimitiveRenderer.h"
 #include "../Utility/Time/Timer.h"
 #include "../Messaging/Dispatcher/Dispatcher.h"
 
@@ -98,5 +99,6 @@ namespace Hi_Engine
 
 		BillboardRenderer::GetInstance().Init();
 		SpriteRenderer::GetInstance().Init();
+		PrimitiveRenderer::GetInstance().Init();
 	}
 }
