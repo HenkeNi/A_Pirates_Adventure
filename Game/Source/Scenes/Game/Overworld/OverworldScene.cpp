@@ -21,6 +21,7 @@ void OverworldScene::LateUpdate(float aDeltaTime)
 
 void OverworldScene::Draw() const
 {
+	m_map.Draw();
 }
 
 #include "Core/Resources/ResourceHolder.hpp"
@@ -54,7 +55,7 @@ void OverworldScene::OnEnter()
 
 	// Player
 	auto player = m_entityManager.Create("Player");
-	CU::Vector3<float> position = { (float)Random::InRange(2, 62), 0.3f, (float)Random::InRange(2, 62) };
+	CU::Vector3<float> position = { (float)Random::InRange(2, 62), 0.42f, (float)Random::InRange(2, 62) };
 	player->GetComponent<TransformComponent>()->m_currentPos = position;
 	auto sprite = player->GetComponent<SpriteComponent>();
 	sprite->m_material = {
@@ -76,8 +77,8 @@ void OverworldScene::OnEnter()
 		palm->AddComponent(new TransformComponent);
 		palm->AddComponent(new SpriteComponent);
 
-		palm->GetComponent<TransformComponent>()->m_currentPos = { (float)Random::InRange(2, 62), 0.45f, (float)Random::InRange(2, 62) };
-		palm->GetComponent<TransformComponent>()->m_scale = { 1.f, 1.35f, 1.f };
+		palm->GetComponent<TransformComponent>()->m_currentPos = { (float)Random::InRange(2, 62), 0.65f, (float)Random::InRange(2, 62) };
+		palm->GetComponent<TransformComponent>()->m_scale = { 1.f, 1.85f, 1.f };
 
 		auto treesprite = palm->GetComponent<SpriteComponent>();
 		treesprite->m_material = {
@@ -93,7 +94,7 @@ void OverworldScene::OnEnter()
 		grass->AddComponent(new TransformComponent);
 		grass->AddComponent(new SpriteComponent);
 
-		auto pos = CU::Vector3<float>{ (float)Random::InRange(2, 62), 0.45f, (float)Random::InRange(2, 62) };
+		auto pos = CU::Vector3<float>{ (float)Random::InRange(2, 62), 0.3f, (float)Random::InRange(2, 62) };
 
 		grass->GetComponent<TransformComponent>()->m_currentPos = pos;
 		grass->GetComponent<TransformComponent>()->m_scale = { 0.75f, 0.75f, 0.75f };

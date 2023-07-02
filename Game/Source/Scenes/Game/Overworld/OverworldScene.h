@@ -20,4 +20,3 @@ public:
 private:
 	Map	 m_map;
 };
-

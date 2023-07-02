@@ -63,56 +63,7 @@ void GameScene::OnCreated()
 
 void GameScene::OnEnter()
 {
-
-
 	//m_entityManager.LoadBlueprints("../Game/Assets/Json/Blueprints/blueprint_manifest.json");	// TODO; Load the needed blueprints for each scene... (clear when leaving the scene)
-
-
-	
-
-
-
-
-
-	// TODO; set EntityManager in Systems...
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	//m_map.Init();
-
-	
-
-	
-
-
-	//GameObject camera;
-	//camera.AddComponent(new C_Camera);
-	//camera.AddComponent(new C_Transform);
-	//camera.GetComponent<C_Transform>()->SetPosition({ 0.f, 0.f, 2.f });
-	//m_objectManager.AddObject(std::move(camera));
-
-	//int id = m_objectManager.GetAllObjects().begin()->GetID();
 
 	//GameObject player;
 	//player.AddComponent(new C_Sprite);
@@ -130,49 +81,6 @@ void GameScene::OnEnter()
 
 	//id = m_objectManager.GetAllObjects().back().GetID();
 	//m_objectManager.GetAllObjects()[0].GetComponent<C_Camera>()->SetTarget(&m_objectManager.GetAllObjects()[1]);
-
-
-
-	//for (int i = 0; i < 70; ++i)
-	//{
-	//	GameObject tree;
-	//	tree.AddComponent(new C_Transform);
-	//	tree.AddComponent(new C_Sprite);
-	//	tree.GetComponent<C_Sprite>()->SetMaterial({ 
-	//		&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("palm_01"),
-	//		&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Billboard") });
-	//	tree.GetComponent<C_Transform>()->SetPosition({ (float)Random::InRange(2, 62), 0.45f, (float)Random::InRange(2, 62) });
-	//	tree.GetComponent<C_Transform>()->SetScale({ 1.f, 1.35f, 1.f });
-
-	//	m_objectManager.AddObject(std::move(tree));
-	//}
-
-
-
-	//for (int i = 0; i < 115; ++i)
-	//{
-	//	GameObject grass;
-	//	grass.AddComponent(new C_Transform);
-	//	grass.AddComponent(new C_Sprite);
-	//	grass.GetComponent<C_Sprite>()->SetMaterial({
-	//		&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("grass"),
-	//		&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Billboard") });
-
-	//	CU::Vector3<float> position = { (float)Random::InRange(2, 62), 0.25f, (float)Random::InRange(2, 62) };
-	//	grass.GetComponent<C_Transform>()->SetPosition({ position });
-	//	grass.GetComponent<C_Transform>()->SetScale({ 0.75f, 0.75f, 0.75f });
-	//	m_objectManager.AddObject(std::move(grass));
-
-	//	GameObject smallGrass;
-	//	smallGrass.AddComponent(new C_Transform);
-	//	smallGrass.AddComponent(new C_Sprite);
-	//	smallGrass.GetComponent<C_Sprite>()->SetMaterial({
-	//		&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("grass"),
-	//		&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Billboard") });
-	//	smallGrass.GetComponent<C_Transform>()->SetPosition({ position.x, position.y - 0.1f, position.z + 0.1f });
-	//	smallGrass.GetComponent<C_Transform>()->SetScale({ 0.5f, 0.5f, 0.5f });
-	//	m_objectManager.AddObject(std::move(smallGrass));
-	//}
 
 
 	////for (int i = 0; i < 10; ++i)
