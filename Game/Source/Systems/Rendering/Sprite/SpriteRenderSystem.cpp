@@ -43,6 +43,7 @@ void SpriteRenderSystem::Draw()
 		auto scale		= transform->m_scale;
 		auto rotation	= transform->m_rotation;
 
-		Hi_Engine::BillboardRenderer::GetInstance().Render({ &material, { position.x, position.y, position.z }, { scale.x, scale.y }, rotation });
+		//Hi_Engine::BillboardRenderer::GetInstance().Render({ &material, { position.x, position.y, position.z }, { scale.x, scale.y }, rotation });
+		Hi_Engine::BillboardRenderer::GetInstance().Render(Hi_Engine::BillboardRenderData{ &material, { position.x, position.y, position.z }, { scale.x, scale.y }, rotation });
 	}
 }

@@ -24,9 +24,22 @@ void Game::OnLateUpdate(float aDeltaTime)
 	m_sceneManager.LateUpdate(aDeltaTime);
 	m_systemManager.LateUpdate(aDeltaTime);
 }
-
+//#include "Data/Structs.h"
+//#include "Core/Rendering/Renderers/PrimitiveRenderer/PrimitiveRenderer.h"
 void Game::OnDraw()
 {
+	// TEST (TPDP SET CAMERA!!)
+	s
+	Hi_Engine::PrimitiveRenderer::GetInstance().Render({ CU::Vector3<float>{ 0.5f, 0.3f, 0.3f }, 
+		&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Primitive"), { 0.f, 0.f, 0.f }, { 1.f, 1.f}, 0.f });
+	
+	// CU::Vector3<float>	m_color;
+	// class Shader* m_shader;
+	// glm::vec3			Position;
+	// glm::vec2			Scale;
+	// float				Rotation;
+	//
+
 	m_sceneManager.Draw();
 	m_systemManager.Draw();
 }
@@ -79,6 +92,7 @@ void Game::RegisterSystems()
 
 	m_systemManager.Register(std::make_unique<SpriteAnimationSystem>());
 	m_systemManager.Register(std::make_unique<CameraSystem>());
+	m_systemManager.Register(std::make_unique<DebugRenderSystem>());
 	m_systemManager.Register(std::make_unique<SpriteRenderSystem>());
 }
 
