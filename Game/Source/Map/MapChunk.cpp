@@ -3,8 +3,8 @@
 #include <Core/Resources/ResourceHolder.hpp>
 
 
-MapChunk::MapChunk()
-	: m_chunkWidth{ 10 }, m_chunkHeight{ 10 }, m_position{ 0.f, 0.f, 0.f }
+MapChunk::MapChunk(const CU::Vector3<float>& aStartPosition)
+	: m_chunkWidth{ 10 }, m_chunkHeight{ 10 }, m_position{ aStartPosition }
 {
 }
 
@@ -31,4 +31,9 @@ void MapChunk::CreateTiles()
 	}
 
 
+}
+
+void MapChunk::SetPosition(const CU::Vector3<float>& aStartPosition)
+{
+	m_position = aStartPosition;
 }

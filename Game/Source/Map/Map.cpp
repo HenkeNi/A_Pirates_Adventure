@@ -13,10 +13,23 @@ Map::Map()
 
 void Map::GenerateMap()
 {
-	MapChunk chunk;
-	chunk.CreateTiles();
+	unsigned tileSize = 1.f;
 
-	m_chunks.push_back(chunk);
+	for (int col = 0; col < 5; ++col)
+	{
+		for (int row = 0; row < 5; ++row)
+		{
+			MapChunk chunk{};
+			//chunk.SetPosition({ (float)col + chunk.m_chunkWidth * tileSize, 0.f, (float)row + chunk.m_chunkHeight * tileSize });
+			chunk.SetPosition({ (float)col * (chunk.m_chunkWidth * tileSize),  0.f, (float)row * (chunk.m_chunkHeight * tileSize) });
+
+			chunk.CreateTiles();
+			
+			m_chunks.push_back(chunk);
+		}
+	}
+
+
 
 
 	PostMaster::GetInstance().SendMessage(Message{ eMessage::MapCreated, this }); // Send event?
@@ -29,7 +42,22 @@ void Map::Update()
 
 void Map::Draw() const
 {
+	for (auto& chunk : m_chunks)
+	{
+		const auto& chunkPosition = chunk.m_position;
 
+		const auto& tiles = chunk.m_tiles;
+
+		for (const auto& tile : tiles)
+		{
+			glm::vec3 position = { chunkPosition.x, chunkPosition.y, chunkPosition.z };
+			position.x += tile.m_chunkCoordinates.x * tile.m_size;
+			position.z += tile.m_chunkCoordinates.y * tile.m_size;
+
+
+			Hi_Engine::BillboardRenderer::GetInstance().Render({ &tile.m_material, position, glm::vec3{ 1.f, 1.f, 1.f}, -90.f });
+		}
+	}
 }
 
 //void Map::Init()
