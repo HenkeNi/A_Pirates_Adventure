@@ -4,6 +4,8 @@
 #include "Controllers/ControllerComponents.h"
 #include "Core/CoreComponents.h"
 #include "Physics/PhysicsComponents.h"
+#include "Combat/CombatComponents.h"
+#include "Rendering/RenderComponents.h"
 
 
 PlayerControllerSystem::PlayerControllerSystem()
@@ -59,6 +61,22 @@ void PlayerControllerSystem::Update(float aDeltaTime)
 		else
 		{
 			velocity->m_velocity.x = 0;
+		}
+
+
+
+		auto* attackCollider = entity->GetComponent<AttackColliderComponent>(); // TODO; Null check
+		auto* rect = entity->GetComponent<RectComponent>();
+
+		if (input->m_inputStates[Hi_Engine::eInputType::Key_Space])
+		{
+			attackCollider->m_isEnabled = true;
+			rect->m_color = { 0.f, 1.f, 0.f, 1.f };
+		}
+		else
+		{
+			attackCollider->m_isEnabled = false;
+			rect->m_color = { 1.f, 0.f, 0.f, 1.f };
 		}
 
 

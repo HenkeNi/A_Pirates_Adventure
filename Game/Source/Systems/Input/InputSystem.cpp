@@ -69,5 +69,14 @@ void InputSystem::Update(float aDeltaTime)
 		{
 			inputComponent->m_inputStates.insert_or_assign(key::Key_D, false);
 		}
+
+		if (inputHandler::IsKeyHeld(key::Key_Space) || inputHandler::IsKeyPressed(key::Key_Space))
+		{
+			inputComponent->m_inputStates.insert_or_assign(key::Key_Space, true);
+		}
+		else
+		{
+			inputComponent->m_inputStates.insert_or_assign(key::Key_Space, false);
+		}
 	}
 }
