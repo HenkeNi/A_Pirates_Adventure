@@ -38,6 +38,7 @@ void OverworldScene::Draw() const
 #include "Rendering/RenderComponents.h"
 #include "Controllers/ControllerComponents.h"
 #include <Core/Resources/ResourceHolder.hpp>
+#include "Combat/CombatComponents.h"
 
 
 void OverworldScene::OnCreated()
@@ -61,7 +62,10 @@ void OverworldScene::OnEnter()
 	sprite->m_material = {
 		&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("pirate_idle"),
 		&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Billboard") };
-
+	auto rect = player->GetComponent<RectComponent>();
+	rect->m_shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Primitive");
+	auto attack = player->GetComponent<AttackColliderComponent>();
+	attack->m_collider.Init({ position.x + attack->m_offset.x - 2.f, position.x + attack->m_offset.x + 2.f }, { position.z + attack->m_offset.y - 2.f, position.z + attack->m_offset.y + 2.f });
 
 	// Camera
 	auto camera = m_entityManager.Create("Camera");

@@ -23,7 +23,8 @@ struct BodyColliderComponent : public ComponentBase
 
 struct AttackColliderComponent : public ComponentBase
 {
-	Hi_Engine::Physics::AABB2D<float> m_collider;
+	Hi_Engine::Physics::AABB2D<float>	m_collider;
+	CU::Vector3<float>					m_offset = { 20.f, 0.f, 20.f };
 	// circle collider?
-	bool m_isEnabled;
+	bool								m_isEnabled;
 };

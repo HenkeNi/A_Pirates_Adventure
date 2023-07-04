@@ -8,7 +8,9 @@
     "Velocity",
     "Animation",
     "Weapon",
-    "Health"
+    "Health",
+    "Rect",
+    "AttackCollider"
   ],
   "component_data": [
   ],

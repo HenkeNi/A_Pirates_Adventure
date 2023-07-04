@@ -15,5 +15,7 @@ public:
 	// All components that have transform and velocity...
 
 private:
+	void UpdatePosition();
+
 };
 

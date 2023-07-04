@@ -94,6 +94,8 @@ void EntityManager::RegisterComponentBuilders()
 	s_entityFactory.RegisterComponentBuilder("Weapon",				new ConcreteComponentBuilder<WeaponComponent>());
 	s_entityFactory.RegisterComponentBuilder("Health",				new ConcreteComponentBuilder<HealthComponent>());
 	s_entityFactory.RegisterComponentBuilder("Camera",				new ConcreteComponentBuilder<CameraComponent>());
+	s_entityFactory.RegisterComponentBuilder("Rect",				new ConcreteComponentBuilder<RectComponent>());
+	s_entityFactory.RegisterComponentBuilder("AttackCollider",		new ConcreteComponentBuilder<AttackColliderComponent>());
 }
 
 Entity* EntityManager::Create(const std::string& aType)

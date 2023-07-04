@@ -5,6 +5,8 @@
 
 #include "Core/CoreComponents.h"
 #include "Physics/PhysicsComponents.h"
+#include "Combat/CombatComponents.h"
+#include "Rendering/RenderComponents.h"
 
 
 MovementSystem::MovementSystem()
@@ -31,12 +33,30 @@ void MovementSystem::Update(float aDeltaTime)
 		auto* transform = entity->GetComponent<TransformComponent>();
 		auto* velocity = entity->GetComponent<VelocityComponent>();
 
+		transform->m_previousPos = transform->m_currentPos;
+
 		transform->m_currentPos += velocity->m_velocity * aDeltaTime;
 		velocity->m_velocity += velocity->m_acceleration * aDeltaTime;
 
 
-		std::cout << "Pos: " << transform->m_currentPos.x << ", " << transform->m_currentPos.y << ", " << transform->m_currentPos.z << '\n';
+		if (auto* attackCollider = entity->GetComponent<AttackColliderComponent>())
+		{
+			// Todo; dont forget to update AABB position...
+			auto& aabb = attackCollider->m_collider;
+			const auto newPosition = transform->m_currentPos + attackCollider->m_offset;
+
+			float halfWidth = aabb.GetWidth() * 0.5f;
+			float halfHeight = aabb.GetHeight() * 0.5f;
+
+			attackCollider->m_collider.Init({ newPosition.x - halfWidth, newPosition.x + halfWidth }, { newPosition.z - halfHeight, newPosition.z + halfHeight });
+		}
+
+		if (auto* rect = entity->GetComponent<RectComponent>())
+		{
+			// Have primitive shapes in Engine instead??
+			
+		}
+
 	}
 
-	// TODO; update if AttackColliders, etc...
 }
