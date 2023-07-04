@@ -36,12 +36,12 @@ void SpriteRenderSystem::Draw()
 
 	for (const Entity* entity : entities)
 	{
-		auto material = entity->GetComponent<SpriteComponent>()->m_material;
+		auto& material = entity->GetComponent<SpriteComponent>()->m_material;
 
-		auto transform  = entity->GetComponent<TransformComponent>();
-		auto position	= transform->m_currentPos;
-		auto scale		= transform->m_scale;
-		auto rotation	= transform->m_rotation;
+		const auto* transform	 = entity->GetComponent<TransformComponent>();
+		const auto& position	 = transform->m_currentPos;
+		const auto& scale		 = transform->m_scale;
+		const auto& rotation	 = transform->m_rotation;
 
 		//Hi_Engine::BillboardRenderer::GetInstance().Render({ &material, { position.x, position.y, position.z }, { scale.x, scale.y }, rotation });
 		Hi_Engine::BillboardRenderer::GetInstance().Render(Hi_Engine::BillboardRenderData{ &material, { position.x, position.y, position.z }, { scale.x, scale.y }, rotation });
