@@ -26,17 +26,16 @@ namespace Hi_Engine
 	{
 		float vertices[] =
 		{
-			// positions			// colors
-			 0.5f,  0.5f, 0.f,		1.f, 1.f, 1.f,
-			 0.5f, -0.5f, 0.f,		1.f, 1.f, 1.f,
-			-0.5f, -0.5f, 0.f,		1.f, 1.f, 1.f,
-			-0.5f,  0.5f, 0.f,		1.f, 1.f, 1.f,
+			// positions
+			 0.5f,  0.5f, 0.f,
+			 0.5f, -0.5f, 0.f,
+			-0.5f, -0.5f, 0.f,
+			-0.5f,  0.5f, 0.f
 		};
 
 		unsigned indices[] =
 		{
-			0, 2, 1,
-			0, 3, 2
+			0, 1, 2, 3
 		};
 
 		unsigned VBO, EBO;
@@ -57,11 +56,8 @@ namespace Hi_Engine
 
 		/* Position Attribute */
 		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 
-		/* Texture Coord Attribute */
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 
 		/* Unbind VBO and VAO */
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -95,10 +91,13 @@ namespace Hi_Engine
 		model = glm::scale(model, glm::vec3(someData.Scale, 1.0f));
 		shader->SetMatrix4("uModel", model);
 
+		/* Set color */
+		shader->SetVector4f("uColor", someData.m_color);
 
 		/* Draw */
 		glBindVertexArray(m_VAO);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_LINE_LOOP, 6, GL_UNSIGNED_INT, 0);
 
 		glBindVertexArray(0);
 	}

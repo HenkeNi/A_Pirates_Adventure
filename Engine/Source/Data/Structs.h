@@ -128,7 +128,7 @@ namespace Hi_Engine
 
 	struct PrimitiveRenderData
 	{
-		CU::Vector3<float>	m_color;
+		CU::Vector4<float>	m_color;
 		class Shader*		m_shader;
 		glm::vec3			Position;
 		glm::vec2			Scale;

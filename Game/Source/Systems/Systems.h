@@ -13,5 +13,5 @@
 
 #include "Rendering/Animation/SpriteAnimationSystem.h"
 #include "Rendering/Camera/CameraSystem.h"
-#include "Rendering/Debug/DebugRenderSystem.h"
+#include "Rendering/Primitive/PrimitiveRenderSystem.h"
 #include "Rendering/Sprite/SpriteRenderSystem.h"

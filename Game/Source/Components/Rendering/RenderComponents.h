@@ -23,7 +23,11 @@ struct CameraComponent : public ComponentBase
 	CU::Vector3<float>  m_targetOffset;
 };
 
-
+struct RectComponent : public ComponentBase
+{
+	Hi_Engine::Shader* m_shader;
+	CU::Vector4<float> m_color;
+};
 
 
 
