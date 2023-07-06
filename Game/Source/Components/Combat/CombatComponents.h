@@ -16,7 +16,8 @@ struct WeaponComponent : public ComponentBase
 	int		m_damageDealt;
 };
 
-struct BodyColliderComponent : public ComponentBase
+// Interaction component or HitboxComponent?
+struct HitboxColliderComponent : public ComponentBase
 {
 	Hi_Engine::Physics::AABB2D<float> m_collider; // or use circle...
 };
