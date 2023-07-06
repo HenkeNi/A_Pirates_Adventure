@@ -79,7 +79,32 @@ void PlayerControllerSystem::Update(float aDeltaTime)
 			rect->m_color = { 1.f, 0.f, 0.f, 1.f };
 		}
 
+		// Update position of attack collider...
+		auto colliderWidth = attackCollider->m_collider.GetWidth();
+		
+		attackCollider->m_offset.x = velocity->m_velocity.x > 0.f ? colliderWidth : velocity->m_velocity.x < 0.f ? -colliderWidth : 0;
+		attackCollider->m_offset.z = velocity->m_velocity.z > 0.f ? colliderWidth : velocity->m_velocity.z < 0.f ? -colliderWidth : 0;
+		//attackCollider->m_offset.x = velocity->m_velocity.x;
+		//attackCollider->m_offset.z = velocity->m_velocity.z;
 
+		//if (velocity->m_velocity.z > 0)
+		//	attackCollider->m_offset.z = 1.f;
+		//else if (velocity->m_velocity.z < 0)
+		//	attackCollider->m_offset.z = -1.f;
+		//else
+		//	attackCollider->m_offset.z = 0.f;
+
+		//if (velocity->m_velocity.x > 0)
+		//	attackCollider->m_offset.x = 1.f;
+		//	//attackCollider->m_offset = { 1.f, 0.f, 0.f };
+		//else if (velocity->m_velocity.x < 0)
+		//	attackCollider->m_offset.x = -1.f;
+		//else
+		//	attackCollider->m_offset.x = 0.f;
+
+
+
+		
 	}
 
 

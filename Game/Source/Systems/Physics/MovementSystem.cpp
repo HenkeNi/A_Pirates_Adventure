@@ -41,14 +41,13 @@ void MovementSystem::Update(float aDeltaTime)
 
 		if (auto* attackCollider = entity->GetComponent<AttackColliderComponent>())
 		{
-			// Todo; dont forget to update AABB position...
-			auto& aabb = attackCollider->m_collider;
-			const auto newPosition = transform->m_currentPos + attackCollider->m_offset;
+			auto& aabb				= attackCollider->m_collider;
+			const auto newPosition	= transform->m_currentPos + attackCollider->m_offset;
 
-			float halfWidth = aabb.GetWidth() * 0.5f;
-			float halfHeight = aabb.GetHeight() * 0.5f;
+			float halfWidth		= aabb.GetWidth() * 0.5f;
+			float halfHeight	= aabb.GetHeight() * 0.5f;
 
-			attackCollider->m_collider.Init({ newPosition.x - halfWidth, newPosition.x + halfWidth }, { newPosition.z - halfHeight, newPosition.z + halfHeight });
+			attackCollider->m_collider.Init({ newPosition.x - halfWidth, newPosition.z - halfHeight }, { newPosition.x + halfWidth, newPosition.z + halfHeight });
 		}
 
 		if (auto* rect = entity->GetComponent<RectComponent>())
