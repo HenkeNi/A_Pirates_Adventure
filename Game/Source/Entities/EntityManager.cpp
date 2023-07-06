@@ -96,6 +96,7 @@ void EntityManager::RegisterComponentBuilders()
 	s_entityFactory.RegisterComponentBuilder("Camera",				new ConcreteComponentBuilder<CameraComponent>());
 	s_entityFactory.RegisterComponentBuilder("Rect",				new ConcreteComponentBuilder<RectComponent>());
 	s_entityFactory.RegisterComponentBuilder("AttackCollider",		new ConcreteComponentBuilder<AttackColliderComponent>());
+	s_entityFactory.RegisterComponentBuilder("Hitbox",				new ConcreteComponentBuilder<HitboxColliderComponent>());
 }
 
 Entity* EntityManager::Create(const std::string& aType)

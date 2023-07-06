@@ -2,7 +2,9 @@
   "name": "PalmTree",
   "components": [
     "Transform",
-    "Sprite"
+    "Sprite",
+    "Hitbox",
+    "Rect"
   ],
   "component_data": [
     {
