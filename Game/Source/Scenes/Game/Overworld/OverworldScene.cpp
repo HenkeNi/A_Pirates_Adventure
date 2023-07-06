@@ -65,7 +65,14 @@ void OverworldScene::OnEnter()
 	auto rect = player->GetComponent<RectComponent>();
 	rect->m_shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Primitive");
 	auto attack = player->GetComponent<AttackColliderComponent>();
-	attack->m_collider.Init({ position.x + attack->m_offset.x - 2.f, position.x + attack->m_offset.x + 2.f }, { position.z + attack->m_offset.y - 2.f, position.z + attack->m_offset.y + 2.f });
+	attack->m_offset = { 1.f, 0.f, 0.f };
+
+	auto colliderPos = position + attack->m_offset;
+	auto size = 0.2f;
+
+	attack->m_collider.Init({ colliderPos.x - size, colliderPos.z - size }, { colliderPos.x + size, colliderPos.z + size });
+	//attack->m_collider.Init({ colliderPos.x - collider.GetWidth() * 0.5f, colliderPos.x + collider.GetWidth() * 0.5f }, { colliderPos.z - collider.GetHeight() * 0.5f, colliderPos.z + collider.GetHeight() * 0.5f });
+	//attack->m_collider.Init({ position.x + attack->m_offset.x 2.f, position.x + attack->m_offset.x + 2.f }, { position.z + attack->m_offset.y - 2.f, position.z + attack->m_offset.y + 2.f });
 
 	// Camera
 	auto camera = m_entityManager.Create("Camera");
@@ -81,13 +88,24 @@ void OverworldScene::OnEnter()
 		palm->AddComponent(new TransformComponent);
 		palm->AddComponent(new SpriteComponent);
 
-		palm->GetComponent<TransformComponent>()->m_currentPos = { (float)Random::InRange(2, 62), 0.65f, (float)Random::InRange(2, 62) };
+		CU::Vector3<float> palmPostition = { (float)Random::InRange(2, 62), 0.65f, (float)Random::InRange(2, 62) };
+		palm->GetComponent<TransformComponent>()->m_currentPos = palmPostition;
 		palm->GetComponent<TransformComponent>()->m_scale = { 1.f, 1.85f, 1.f };
 
 		auto treesprite = palm->GetComponent<SpriteComponent>();
 		treesprite->m_material = {
 			&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("palm_01"),
 			&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Billboard") };
+
+
+		// Collider...
+		auto palmRect = palm->GetComponent<RectComponent>();
+		palmRect->m_shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Primitive");
+		auto hitbox = palm->GetComponent<HitboxColliderComponent>();
+
+		auto palmSize = 0.2f;
+
+		hitbox->m_collider.Init({ palmPostition.x - palmSize, palmPostition.z - palmSize }, { palmPostition.x + palmSize, palmPostition.z + palmSize });
 	}
 
 
