@@ -36,7 +36,27 @@ void PrimitiveRenderSystem::Draw()
 		const auto& position			= collider.GetCenter();
 		const CU::Vector2<float>& scale = { collider.GetWidth(), collider.GetHeight() };
 
-		static float offset = 0.4f;
+		static float offset = -0.1f;	// Don't do this here... just fo rendering...
+
+		Hi_Engine::PrimitiveRenderer::GetInstance().Render(Hi_Engine::PrimitiveRenderData{ rect->m_color, rect->m_shader, { position.x, 0.f - offset, position.y }, { scale.x, scale.y }, -90.f });
+	}
+
+
+
+
+
+
+	auto otherEntities = m_entityManager->FindAllWithComponents<RectComponent, HitboxColliderComponent>();
+	for (const Entity* entity : otherEntities)
+	{
+		const auto* hitboxComponent = entity->GetComponent<HitboxColliderComponent>();
+		const auto* rect = entity->GetComponent<RectComponent>();
+
+		const auto& collider = hitboxComponent->m_collider;
+		const auto& position = collider.GetCenter();
+
+		static float offset = -0.1f;
+		const CU::Vector2<float>& scale = { collider.GetWidth(), collider.GetHeight() };
 
 		Hi_Engine::PrimitiveRenderer::GetInstance().Render(Hi_Engine::PrimitiveRenderData{ rect->m_color, rect->m_shader, { position.x, 0.f - offset, position.y }, { scale.x, scale.y }, -90.f });
 	}
