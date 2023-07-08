@@ -117,7 +117,6 @@ void OverworldScene::OnEnter()
 		grass->AddComponent(new SpriteComponent);
 
 		auto pos = CU::Vector3<float>{ (float)Random::InRange(2, 62), 0.3f, (float)Random::InRange(2, 62) };
-
 		grass->GetComponent<TransformComponent>()->m_currentPos = pos;
 		grass->GetComponent<TransformComponent>()->m_scale = { 0.75f, 0.75f, 0.75f };
 
@@ -125,6 +124,15 @@ void OverworldScene::OnEnter()
 		grassSprite->m_material = {
 			&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("grass"),
 			&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Billboard") };
+
+		// collider
+		auto grassRect = grass->GetComponent<RectComponent>();
+		grassRect->m_shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Primitive");
+		auto largehitbox = grass->GetComponent<HitboxColliderComponent>();
+
+		auto grassSize = 0.2f;
+
+		largehitbox->m_collider.Init({ pos.x - grassSize, pos.z - grassSize }, { pos.x + grassSize, pos.z + grassSize });
 
 
 		// small grass
@@ -139,6 +147,15 @@ void OverworldScene::OnEnter()
 		smallGrassSprite->m_material = {
 			&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("grass"),
 			&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Billboard") };
+
+
+
+		auto smallgrassRect = smallGrass->GetComponent<RectComponent>();
+		smallgrassRect->m_shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Primitive");
+		auto smallhitbox = smallGrass->GetComponent<HitboxColliderComponent>();
+
+		CU::Vector3<float> p = { pos.x, pos.y - 0.1f, pos.z + 0.1f };
+		smallhitbox->m_collider.Init({ p.x - grassSize, p.z - grassSize }, { p.x + grassSize, p.z + grassSize });
 
 	}
 

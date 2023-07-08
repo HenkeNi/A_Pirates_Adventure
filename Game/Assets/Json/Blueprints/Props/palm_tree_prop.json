@@ -4,6 +4,7 @@
     "Transform",
     "Sprite",
     "Hitbox",
+    "Health",
     "Rect"
   ],
   "component_data": [

@@ -5,6 +5,7 @@
 
 /* - Physics - */
 #include "Core/Physics/Shapes/2D/AABB2D.hpp"
+#include "Core/Physics/Intersections/Intersection2D.hpp"
 
 /* - Command - */
 #include "Core/Base/Command/Command.h"

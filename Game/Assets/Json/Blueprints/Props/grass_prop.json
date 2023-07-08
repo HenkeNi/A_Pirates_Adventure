@@ -2,7 +2,10 @@
   "name": "Grass",
   "components": [
     "Transform",
-    "Sprite"
+    "Sprite",
+    "Hitbox",
+    "Health",
+    "Rect"
   ],
   "component_data": [
     {
