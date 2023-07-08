@@ -16,7 +16,7 @@ namespace Hi_Engine::Physics
 		bool				IsInside(const Vector2<T>& aPoint)				const;
 
 		const Vector2<T>&	GetCenter()										const;
-		const T&			GetRadius()										const;
+		T					GetRadius()										const;
 
 	private:
 		Vector2<T>			m_center;
@@ -27,7 +27,7 @@ namespace Hi_Engine::Physics
 
 	template <class T>
 	Circle<T>::Circle()
-		: m_center{ T(), T() }, m_radius{ T() }
+		: m_center{}, m_radius{}
 	{
 	}
 
@@ -62,7 +62,7 @@ namespace Hi_Engine::Physics
 	}
 	
 	template <class T>
-	const T& Circle<T>::GetRadius() const
+	T Circle<T>::GetRadius() const
 	{
 		return m_radius;
 	}

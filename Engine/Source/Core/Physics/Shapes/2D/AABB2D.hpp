@@ -31,7 +31,7 @@ namespace Hi_Engine::Physics
 
 	template <class T>
 	AABB2D<T>::AABB2D()
-		: m_minPoint{ T(), T() }, m_maxPoint{ T(), T() }
+		: m_minPoint{}, m_maxPoint{}
 	{
 	}
 
@@ -80,7 +80,7 @@ namespace Hi_Engine::Physics
 	const Vector2<T>& AABB2D<T>::GetCenter() const
 	{
 		auto difference = Vector2<T>{ m_maxPoint - m_minPoint };
-		return m_minPoint + (difference * 0.5f);
+		return m_minPoint + (difference * T{ 0.5 });
 	}
 
 	template <class T>
