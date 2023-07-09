@@ -17,7 +17,7 @@ CombatSystem::~CombatSystem()
 void CombatSystem::Receive(Message& aMsg)
 {
 }
-
+#include "Stats/StatsComponents.h"
 void CombatSystem::Update(float aDeltaTime)
 {
 	if (!m_entityManager)

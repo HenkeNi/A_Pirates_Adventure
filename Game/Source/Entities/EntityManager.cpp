@@ -9,6 +9,7 @@
 #include "Controllers/ControllerComponents.h"
 #include "Physics/PhysicsComponents.h"
 #include "Combat/CombatComponents.h"
+#include <Stats/StatsComponents.h>
 
 
 EntityFactory EntityManager::s_entityFactory;
