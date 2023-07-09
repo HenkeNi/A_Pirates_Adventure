@@ -17,5 +17,9 @@ public:
 private:
 	void UpdatePosition();
 
+
+	bool HasMoved(class TransformComponent* aTransform) const;
+
 };
 
+	

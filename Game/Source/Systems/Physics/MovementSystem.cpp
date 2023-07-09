@@ -59,3 +59,9 @@ void MovementSystem::Update(float aDeltaTime)
 	}
 
 }
+
+bool MovementSystem::HasMoved(class TransformComponent* aTransform) const
+{
+	bool hasMoved = aTransform->m_currentPos != aTransform->m_previousPos;
+	return hasMoved;
+}
