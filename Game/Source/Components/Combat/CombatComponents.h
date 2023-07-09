@@ -3,11 +3,16 @@
 
 // Rename file??
 
-struct HealthComponent : public ComponentBase
-{
-	int		m_maxHealth;
-	int		m_currentHealth;
-};
+
+// Dont have health? Use Stats Component instead?
+//struct HealthComponent : public ComponentBase
+//{
+//	int		m_maxHealth;
+//	int		m_currentHealth;
+//};
+
+
+// Place in equipment??
 
 struct WeaponComponent : public ComponentBase
 {
@@ -15,6 +20,9 @@ struct WeaponComponent : public ComponentBase
 	float	m_attackSpeed;
 	int		m_damageDealt;
 };
+
+
+// place in Physics??
 
 // Interaction component or HitboxComponent?
 struct HitboxColliderComponent : public ComponentBase

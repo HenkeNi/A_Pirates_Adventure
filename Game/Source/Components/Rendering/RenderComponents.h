@@ -33,12 +33,12 @@ struct RectComponent : public ComponentBase
 
 
 
+// Shadow component??
 
 
 
 
-
-
+// REMOVE!!!
 struct TileComponent : public ComponentBase
 {
 	// Tile specific data..

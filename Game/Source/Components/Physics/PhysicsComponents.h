@@ -16,7 +16,8 @@ struct VelocityComponent : public ComponentBase
 
 struct BoxColliderComponent : public ComponentBase
 {
-	Hi_Engine::Physics::AABB2D<float> m_boundingBox;
+	Hi_Engine::Physics::AABB2D<float> m_boundingBox;	// USE?? 
+	// isStaic?
 };
 
 struct CircleColliderComponent : public ComponentBase
