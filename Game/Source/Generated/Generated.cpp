@@ -4,8 +4,6 @@
 #include "../Builders/ComponentBuilder.hpp"
 
 // Todo; Put in #include file?
-#include "../GameObject/Components/Rendering/Sprite/C_Sprite.h"
-#include "../GameObject/Components/Core/Transform/C_Transform.h"
 
 
 namespace Generated
