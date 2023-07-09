@@ -10,7 +10,7 @@ public:
 	SequenceNode();
 	~SequenceNode();
 
-	eBTNodeStatus	Execute(GameObject* anOwner)			override;
+	eBTNodeStatus	Execute(Entity* anEntity)			override;
 	void			Clear()									override;
 
 	void			AddChild(BehaviorTreeNode* aNode);

@@ -10,11 +10,11 @@ SequenceNode::~SequenceNode()
 {
 }
 
-eBTNodeStatus SequenceNode::Execute(GameObject* anOwner)
+eBTNodeStatus SequenceNode::Execute(Entity* anEntity)
 {
 	for (auto* child : m_children)
 	{
-		auto status = child->Execute(anOwner);
+		auto status = child->Execute(anEntity);
 
 		if (status == eBTNodeStatus::Running || status == eBTNodeStatus::Failure)
 			return status;

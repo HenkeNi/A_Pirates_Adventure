@@ -13,24 +13,23 @@
 
 // Todo, put in Engine??
 
-class GameObject;
 
 class MoveToTarget : public BehaviorTreeNode
 {
 public:
-	MoveToTarget(GameObject* aTarget = nullptr);
+	MoveToTarget(Entity* aTarget = nullptr);
 
-	eBTNodeStatus	Execute(GameObject* anOwner) override;
+	eBTNodeStatus	Execute(Entity* anEntity) override;
 	void			Clear()						 override;
 
 	void			SetCallback(const std::function<void()>& aCallback);
-	void			SetTarget(GameObject* aTarget);
+	void			SetTarget(Entity* aTarget);
 
 private:
 
 	// callback? or use derived classes??
 	std::function<void()>	m_callback;
-	GameObject*				m_target;
+	Entity*				m_target;
 };
 
 
@@ -38,14 +37,14 @@ private:
 class AttackTarget : public BehaviorTreeNode
 {
 public:
-	AttackTarget(GameObject* aTarget = nullptr);
+	AttackTarget(Entity* aTarget = nullptr);
 
-	eBTNodeStatus	Execute(GameObject* anOwner) override;
+	eBTNodeStatus	Execute(Entity* anEntity) override;
 	void			Clear()						 override;
 
-	void			SetTarget(GameObject* aTarget);
+	void			SetTarget(Entity* aTarget);
 private:
-	GameObject*		m_target;
+	Entity*		m_target;
 };
 
 
@@ -55,7 +54,7 @@ class Idle : public BehaviorTreeNode
 public:
 	Idle();
 
-	eBTNodeStatus	Execute(GameObject* anOwner) override;
+	eBTNodeStatus	Execute(Entity* anEntity) override;
 	void			Clear()						 override;
 
 };
