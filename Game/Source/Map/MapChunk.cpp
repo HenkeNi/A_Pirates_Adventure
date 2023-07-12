@@ -37,3 +37,13 @@ void MapChunk::SetPosition(const CU::Vector3<float>& aStartPosition)
 {
 	m_position = aStartPosition;
 }
+
+CU::Vector2<float> MapChunk::GetMinMaxWidth() const
+{
+	return CU::Vector2<float>();
+}
+
+CU::Vector2<float> MapChunk::GetMinMaxHeight() const
+{
+	return CU::Vector2<float>();
+}

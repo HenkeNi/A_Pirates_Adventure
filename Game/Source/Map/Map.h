@@ -3,7 +3,6 @@
 
 // Look at instancing...
 
-class MapRenderSystem;
 
 // TileMap?? WorldMap
 class Map
@@ -11,15 +10,19 @@ class Map
 public:
 	Map();
 
-	void GenerateMap();
+	//void GenerateMap();
+
+	void AddMapChunk(MapChunk aChunk);
 
 	void Update();
-	void Draw() const;
+	void Draw()			const;
+
+
+	// map can be queried
 
 	// Get avialable/open/traversable tiles near position?
 
 private:
-	friend class MapRenderSystem;
 
 	std::vector<MapChunk> m_chunks;
 

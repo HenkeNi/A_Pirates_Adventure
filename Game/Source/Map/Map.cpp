@@ -11,29 +11,34 @@ Map::Map()
 {
 }
 
-void Map::GenerateMap()
+void Map::AddMapChunk(MapChunk aChunk)
 {
-	unsigned tileSize = 1.f;
-
-	for (int col = 0; col < 5; ++col)
-	{
-		for (int row = 0; row < 5; ++row)
-		{
-			MapChunk chunk{};
-			//chunk.SetPosition({ (float)col + chunk.m_chunkWidth * tileSize, 0.f, (float)row + chunk.m_chunkHeight * tileSize });
-			chunk.SetPosition({ (float)col * (chunk.m_chunkWidth * tileSize),  0.f, (float)row * (chunk.m_chunkHeight * tileSize) });
-
-			chunk.CreateTiles();
-			
-			m_chunks.push_back(chunk);
-		}
-	}
-
-
-
-
-	PostMaster::GetInstance().SendMessage(Message{ eMessage::MapCreated, this }); // Send event?
+	m_chunks.push_back(aChunk);
 }
+
+//void Map::GenerateMap()
+//{
+//	unsigned tileSize = 1.f;
+//
+//	for (int col = 0; col < 5; ++col)
+//	{
+//		for (int row = 0; row < 5; ++row)
+//		{
+//			MapChunk chunk{};
+//			//chunk.SetPosition({ (float)col + chunk.m_chunkWidth * tileSize, 0.f, (float)row + chunk.m_chunkHeight * tileSize });
+//			chunk.SetPosition({ (float)col * (chunk.m_chunkWidth * tileSize),  0.f, (float)row * (chunk.m_chunkHeight * tileSize) });
+//
+//			chunk.CreateTiles();
+//			
+//			m_chunks.push_back(chunk);
+//		}
+//	}
+//
+//
+//
+//
+//	// PostMaster::GetInstance().SendMessage(Message{ eMessage::MapCreated, this }); // Send event?
+//}
 
 void Map::Update()
 {

@@ -1,19 +1,38 @@
+Systems
+- QuestSystem
+- DialogueSystem
+- Leveling/ProgressionSystem
+
+
+
+
 Update scene to not future Update, LateUpdate and Render?
 	- sends message when transitioning to a new scene? pass in bool if should clear entities?
 
 
 
 
+## MapSystem ##
+- consider integrate the map into the component system?
+	* Either map or MapChunks could be components?
 
 
 
 
+## GameWorld ##
+- consider adding a GameWorld class.
+	* Would be placed in Game as a member (the SceneManager would also be a member of Game)
+	* GameWorld would contain the EntityManager, and the SystemManager
+	* GameWorld would contain Update, LateUpdate and render functions	
+	* Scenes would no longer contain Update/Draw functions (unless necessary)
+		* Instead scenes would send event when transitioning to a new scene? 
+		* Scene would just handle data/logic for transitioning to a new scene, etc...
+	* Either Game or GameWorld have a pointer to the active scene
 
 
 
-
-
-
+## StateMachine ##
+	Scene(s) could have a StateMachine to represent states in the game, 
 
 
 
