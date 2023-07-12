@@ -15,3 +15,10 @@
 #include "Rendering/Camera/CameraSystem.h"
 #include "Rendering/Primitive/PrimitiveRenderSystem.h"
 #include "Rendering/Sprite/SpriteRenderSystem.h"
+
+#include "Stats/StatSystem.h"
+#include "Spawn/SpawnSystem.h"
+
+#include "Equipment/EquipmentSystem.h"
+#include "Resource/ResourceDropSystem.h"
+#include "Inventory/InventorySystem.h"

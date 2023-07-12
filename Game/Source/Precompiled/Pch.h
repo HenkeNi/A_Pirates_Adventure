@@ -23,6 +23,10 @@
 #include <variant>
 #include <vector>
 
+#include "../PostMaster/PostMaster.h"
+#include "../PostMaster/Subscriber.h"
+#include "../PostMaster/Message.h"
+
 
 #include <Hi_Engine.h>
 #include <document.h>

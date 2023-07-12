@@ -38,6 +38,8 @@ public:
 private:
 	void LoadScenes();
 
+	// SceneFactory??
+
 	std::unordered_map<eScene, ScenePtr_t>	m_scenes;
 	CU::Stack<eScene>						m_sceneStack;
 };

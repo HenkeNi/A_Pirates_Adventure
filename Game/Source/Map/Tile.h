@@ -13,5 +13,4 @@ struct Tile
 	float					m_size = 1.f; // make static?
 	unsigned				m_textureID;
 	CU::Vector2<unsigned>	m_chunkCoordinates; // or index? m_columnIndex; m_rowIndex;
-
 };

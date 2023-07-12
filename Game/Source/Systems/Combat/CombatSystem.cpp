@@ -5,6 +5,8 @@
 #include "Core/CoreComponents.h"
 #include "EntityManager.h"
 
+#include "Stats/StatsComponents.h"
+
 
 CombatSystem::CombatSystem()
 {
@@ -17,21 +19,21 @@ CombatSystem::~CombatSystem()
 void CombatSystem::Receive(Message& aMsg)
 {
 }
-#include "Stats/StatsComponents.h"
+
 void CombatSystem::Update(float aDeltaTime)
 {
 	if (!m_entityManager)
 		return;
 
-	auto attackers = m_entityManager->FindAllWithComponents<AttackColliderComponent, TransformComponent>();
+	std::vector<Entity*> entitiesToRemove;
 
-	std::vector<Entity*> tempToRemove;
+	auto attackers = m_entityManager->FindAllWithComponents<AttackColliderComponent, TransformComponent>();
 
 	for (auto* attacker : attackers)
 	{
-		auto* attackComponent = attacker->GetComponent<AttackColliderComponent>();
+		auto* attackCollider = attacker->GetComponent<AttackColliderComponent>();	// rename attackCollider?!
 
-		if (!attackComponent->m_isEnabled)
+		if (!attackCollider->m_isEnabled)
 			continue;
 
 		// Update color??
@@ -47,24 +49,38 @@ void CombatSystem::Update(float aDeltaTime)
 			auto hitbox = victim->GetComponent<HitboxColliderComponent>();
 
 			// if colliding...
-			if (Hi_Engine::Physics::Intersects(attackComponent->m_collider, hitbox->m_collider))
+			if (Hi_Engine::Physics::Intersects(attackCollider->m_collider, hitbox->m_collider))
 			{
-				// Destroy entity
+				PostMaster::GetInstance().SendMessage(Message{ eMessage::EntityAttacked, std::tuple{ attacker, victim } }); // Don't send event??
 
-				tempToRemove.push_back(victim); // TEMP!!!
-				//m_entityManager->Destroy(victim->GetID()); // Move to a Health/Stats system...
-
+				unsigned damage = GetDamageOutput(attacker);
+				if (ApplyDamageOutput(victim, damage))
+				{
+					entitiesToRemove.push_back(victim);
+				}
 			}
 		}
 	}
 
+	for (auto* entity : entitiesToRemove)
+	{
+		PostMaster::GetInstance().SendMessage(Message{ eMessage::EntityDied, entity });
+		m_entityManager->Destroy(entity->GetID());
+	}
+}
 
+unsigned CombatSystem::GetDamageOutput(Entity* anEntity) const
+{ 
+	// get weapon component?, check stats (attack, etc)
+	return 10;
+}
 
+bool CombatSystem::ApplyDamageOutput(Entity* anEntity, unsigned aDamage)
+{
+	auto* healthComponent = anEntity->GetComponent<HealthComponent>();
+	// Get stats, like defence, etc
 
+	healthComponent->m_currentValue -= aDamage;
 
-	// temp
-
-	for (auto v : tempToRemove)
-		m_entityManager->Destroy(v->GetID());
-
+	return healthComponent->m_currentValue <= 0;
 }

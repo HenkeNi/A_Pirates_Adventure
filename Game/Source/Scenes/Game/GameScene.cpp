@@ -46,7 +46,6 @@ void GameScene::Draw() const
 #include "Rendering/Sprite/SpriteRenderSystem.h"
 #include "SystemManager.h"
 #include "Rendering/Camera/CameraSystem.h"
-#include "Rendering/Map/MapRenderSystem.h"
 #include "Input/InputSystem.h"
 #include "Controllers/PlayerControllerSystem.h"
 #include "Physics/MovementSystem.h"

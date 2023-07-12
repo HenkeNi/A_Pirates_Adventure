@@ -35,7 +35,8 @@ void CameraSystem::Update(float aDeltaTime)
 	Hi_Engine::BillboardRenderer::GetInstance().SetCamera(&cameraComponent->m_camera);
 	Hi_Engine::PrimitiveRenderer::GetInstance().SetCamera(&cameraComponent->m_camera);
 
-	auto target = cameraComponent->m_target;
+	auto target = m_entityManager->Find(cameraComponent->m_targetID);
+	//auto target = cameraComponent->m_target;
 	if (target)
 	{
 		auto targetPosition = target->GetComponent<TransformComponent>()->m_currentPos;

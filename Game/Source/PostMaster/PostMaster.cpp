@@ -28,7 +28,7 @@ void PostMaster::Unsubscribe(const eMessage aMsgType, Subscriber* aSubscriber)
 
 void PostMaster::SendMessage(Message aMessage)
 {
-	for (auto& subsriber : m_subscribers[aMessage.GetMessageType()])
+ 	for (auto& subsriber : m_subscribers[aMessage.GetMessageType()])
 	{
 		if (aMessage.IsHandled())
 			break;
