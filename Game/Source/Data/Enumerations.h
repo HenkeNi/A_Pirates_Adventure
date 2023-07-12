@@ -19,6 +19,8 @@ enum class eMessage
 {
 	EntityCreated,
 	EntityDestroyed,
+	EntityDied,
+	EntityAttacked,				// rename AttackEvent?
 	MapCreated,
 };
 
@@ -52,4 +54,41 @@ enum class eBTNodeStatus
 enum class eTile
 {
 	Sand, Water
+};
+
+
+enum class eAttributes	// or major stats
+{
+	// S C U M
+
+	Strength,	// Physical Strength
+	Charisma,
+	Luck,
+
+
+	Constitution,	// Enduramce`?
+	Agility,	// Dexterity?
+
+	Cunning,		// inmteööogemce
+	Willpower,
+	Explosives,
+
+	Cool, 
+	Violence,
+
+	Fear // Liked? separate thing
+};
+
+
+
+
+enum class eSkills	// minor stats?
+{
+	FireResitance, // ??
+	AttackSpeed,
+	CriticalChance,
+	WeaponDamage, // ??
+	Dodge,
+	Block,
+
 };

@@ -23,12 +23,6 @@ struct CollisionData // Data used for resolving/handling collisions
 	unsigned m_damageDealt = 0;
 };
 
-struct Timer
-{
-	float m_elapsed;
-	float m_duration;
-};
-
 template <typename T>
 struct Range
 {

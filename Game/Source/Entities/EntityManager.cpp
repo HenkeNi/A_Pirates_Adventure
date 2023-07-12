@@ -10,6 +10,8 @@
 #include "Physics/PhysicsComponents.h"
 #include "Combat/CombatComponents.h"
 #include <Stats/StatsComponents.h>
+#include "Resource/ResourceComponents.h"
+#include "Inventory/InventoryComponents.h"
 
 
 EntityFactory EntityManager::s_entityFactory;
@@ -81,6 +83,12 @@ void EntityManager::LoadBlueprints(const std::string& aFilePath)
 		std::string path = blueprint.GetString();
 		loadBlueprintsFromJson(path);
 	}
+
+	for (auto& blueprint : document["blueprints"]["resources"].GetArray())
+	{
+		std::string path = blueprint.GetString();
+		loadBlueprintsFromJson(path);
+	}
 }
 
 void EntityManager::RegisterComponentBuilders()
@@ -98,6 +106,10 @@ void EntityManager::RegisterComponentBuilders()
 	s_entityFactory.RegisterComponentBuilder("Rect",				new ConcreteComponentBuilder<RectComponent>());
 	s_entityFactory.RegisterComponentBuilder("AttackCollider",		new ConcreteComponentBuilder<AttackColliderComponent>());
 	s_entityFactory.RegisterComponentBuilder("Hitbox",				new ConcreteComponentBuilder<HitboxColliderComponent>());
+
+	s_entityFactory.RegisterComponentBuilder("Resource",			new ConcreteComponentBuilder<ResourceComponent>());
+	s_entityFactory.RegisterComponentBuilder("Pickup",				new ConcreteComponentBuilder<PickupColliderComponent>());
+	s_entityFactory.RegisterComponentBuilder("Inventory",			new ConcreteComponentBuilder<InventoryComponent>());
 }
 
 Entity* EntityManager::Create(const std::string& aType)

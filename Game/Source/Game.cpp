@@ -92,6 +92,13 @@ void Game::RegisterSystems()
 	m_systemManager.Register(std::make_unique<CameraSystem>());
 	m_systemManager.Register(std::make_unique<PrimitiveRenderSystem>());
 	m_systemManager.Register(std::make_unique<SpriteRenderSystem>());
+
+	m_systemManager.Register(std::make_unique<StatSystem>());
+	m_systemManager.Register(std::make_unique<SpawnSystem>());
+
+	m_systemManager.Register(std::make_unique<EquipmentSystem>());
+	m_systemManager.Register(std::make_unique<ResourceDropSystem>());
+	m_systemManager.Register(std::make_unique<InventorySystem>());
 }
 
 void Game::LoadResources()
