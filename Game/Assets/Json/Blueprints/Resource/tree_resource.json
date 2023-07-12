@@ -1,12 +1,12 @@
 {
-  "name": "PalmTree",
+  "name": "Resource",
   "components": [
     "Transform",
     "Sprite",
     "Hitbox",
-    "Health",
     "Rect",
-    "Resource"
+    "Resource",
+    "Pickup"
   ],
   "component_data": [
     {
@@ -14,8 +14,8 @@
       "scale_y": 1.0
     },
     {
-      "texture_id": "Tree"
+      "texture_id": "Log"
     }
   ],
-  "layer": "Environment"
+  "layer": "Resource"
 }

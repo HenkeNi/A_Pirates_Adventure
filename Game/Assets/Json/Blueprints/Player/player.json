@@ -10,7 +10,8 @@
     "Weapon",
     "Health",
     "Rect",
-    "AttackCollider"
+    "AttackCollider",
+    "Inventory"
   ],
   "component_data": [
   ],

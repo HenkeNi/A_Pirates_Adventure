@@ -13,6 +13,9 @@
     ],
     "cameras": [
       "../Game/Assets/Json/Blueprints/Camera/camera.json"
+    ],
+    "resources": [
+      "../Game/Assets/Json/Blueprints/Resource/tree_resource.json"
     ]
   }
 }

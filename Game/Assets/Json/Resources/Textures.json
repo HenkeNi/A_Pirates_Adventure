@@ -73,6 +73,10 @@
     "name": "skeleton",
     "filepath": "../Game/Assets/Textures/skeleton.png",
     "alpha": true
+  },
+  {
+    "name": "Log",
+    "filepath": "../Game/Assets/Textures/log.png",
+    "alpha": true
   }
-
 ]
