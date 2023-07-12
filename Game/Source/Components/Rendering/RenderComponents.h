@@ -19,8 +19,9 @@ struct AnimationComponent : public ComponentBase
 struct CameraComponent : public ComponentBase
 {
 	Hi_Engine::Camera	m_camera;
-	class Entity*		m_target = nullptr;
 	CU::Vector3<float>  m_targetOffset;
+	//class Entity*		m_target = nullptr;
+	unsigned			m_targetID = 0;
 };
 
 struct RectComponent : public ComponentBase
@@ -29,6 +30,8 @@ struct RectComponent : public ComponentBase
 	CU::Vector4<float> m_color;
 };
 
+
+// SpriteSheet component? (stores texture atlas, also holds current frame, etc...)
 
 
 

@@ -37,3 +37,22 @@ struct AttackColliderComponent : public ComponentBase
 	// circle collider?
 	bool								m_isEnabled;
 };
+
+
+struct PickupColliderComponent : public ComponentBase
+{
+	Hi_Engine::Physics::AABB2D<float>	m_collider;
+};
+
+
+struct EnemySpawner : public ComponentBase
+{
+
+};
+
+
+
+struct ItemSpawner : public ComponentBase
+{
+
+};

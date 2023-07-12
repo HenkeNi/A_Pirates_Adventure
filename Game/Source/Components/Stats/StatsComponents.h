@@ -10,14 +10,28 @@
 //	std::unordered_map<std::string, StatModifier<unsigned>>		m_intStats;
 //};
 
-
+// Rename attributes?
 
 struct HealthComponent : public ComponentBase
 {
-	Stat<int>		m_healthStat;
-	int				m_currentValue; // make sure is updated when removing modifiers...
- 	bool			m_isAlive;		// Needed?
+	Stat<int>		m_healthStat; // DONT!?
+
+	// unsigned		m_maxHealth; // renaem?
+	int				m_currentValue = 100; // make sure is updated when removing modifiers... (100 is just temp -> init somewhere)...
+	bool			m_isInvincible;
+
+	// TODO; store in effects? Or have an effect component?
+
 };
+
+struct StaminaComponent : public ComponentBase
+{
+	unsigned m_maxStamina;
+	int m_currentValue;
+	// bool m_is;
+};
+
+
 
 
 
