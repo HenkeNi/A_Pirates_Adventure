@@ -18,6 +18,6 @@ private:
 	bool ShouldChangeDir() const;
 
 	Range<float>		m_walkDurationRange;
-	Timer				m_timer;
+	// Timer				m_timer;
 	CU::Vector3<float>	m_target;
 };

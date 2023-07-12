@@ -33,7 +33,7 @@ void WanderBehavior::Update(float aDeltaTime)
 {
 	//std::cout << "Wander: " << aPosition.x << ", " << aPosition.y << ", " << aPosition.z << "\n";
 
-	m_timer.m_elapsed += aDeltaTime;
+	//m_timer.m_elapsed += aDeltaTime;
 	if (ShouldChangeDir())
 	{
 		m_target = { (float)Random::InRange(2, 62), 0.f, (float)Random::InRange(2, 62) };
@@ -62,7 +62,7 @@ void WanderBehavior::SetNewTarget()
 
 bool WanderBehavior::ShouldChangeDir() const
 {
-	return m_timer.m_elapsed >= m_timer.m_duration;
+	return false; //m_timer.m_elapsed >= m_timer.m_duration;
 }
 
 void WanderBehavior::SetAngle(CU::Vector3<float>& aVelocity, float aValue)

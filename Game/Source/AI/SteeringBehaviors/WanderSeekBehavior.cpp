@@ -8,17 +8,17 @@ WanderSeekBehavior::WanderSeekBehavior()
 	m_walkDurationRange.m_min = 5.f;
 	m_walkDurationRange.m_max = 25.f;
 
-	m_timer.m_duration = 10.f;
-	m_timer.m_elapsed = 0.f;
+	//m_timer.m_duration = 10.f;
+	//m_timer.m_elapsed = 0.f;
 }
 
 void WanderSeekBehavior::Update(float aDeltaTime)
 {
-	m_timer.m_elapsed += aDeltaTime;	// Dont do in behavior???
+	//m_timer.m_elapsed += aDeltaTime;	// Dont do in behavior???
 	if (ShouldChangeDir())
 	{
 		SetRandomizedTarget();
-		m_timer.m_elapsed = 0.f;
+		//m_timer.m_elapsed = 0.f;
 	}
 }
 
@@ -54,5 +54,5 @@ void WanderSeekBehavior::SetRandomizedTarget()
 
 bool WanderSeekBehavior::ShouldChangeDir() const
 {
-	return m_timer.m_elapsed >= m_timer.m_duration;
+	return false; //  m_timer.m_elapsed >= m_timer.m_duration;
 }
