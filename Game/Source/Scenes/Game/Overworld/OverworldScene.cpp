@@ -50,7 +50,7 @@ void OverworldScene::OnEnter()
 	auto& systemManager = m_sharedContext.m_systemManager;
 	systemManager.Init(&m_entityManager);
 
-	m_entityManager.LoadBlueprints("../Game/Assets/Json/Blueprints/blueprint_manifest.json");
+	m_entityManager.GetFactory().LoadBlueprints("../Game/Assets/Json/Blueprints/blueprint_manifest.json");
 
 	m_mapSystem.Init(&m_entityManager);
 
