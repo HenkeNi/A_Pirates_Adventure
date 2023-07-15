@@ -4,6 +4,8 @@
 #include "../PostMaster/Message.h"
 #include "../PostMaster/PostMaster.h"
 
+#include "../Utility/JsonParser.h"
+
 #include "Rendering/RenderComponents.h"
 #include "Core/CoreComponents.h"
 #include "Controllers/ControllerComponents.h"
@@ -13,9 +15,7 @@
 #include "Resource/ResourceComponents.h"
 #include "Inventory/InventoryComponents.h"
 
-
 EntityFactory EntityManager::s_entityFactory;
-
 
 EntityManager::EntityManager()
 {
@@ -42,12 +42,90 @@ void EntityManager::LoadBlueprints(const std::string& aFilePath)
 
 		EntityBlueprint blueprint;
 
-		for (auto& componentType : document["components"].GetArray())
+		for (auto& component : document["components"].GetArray())
 		{
-			blueprint.AddComponentType(componentType.GetString());
-		}
+			std::unordered_map<std::string, std::any> componentData;
+			
+			std::string type = component["type"].GetString(); // noT WOKRIG!!! ALSO EXPAND WITH MORE CASES
 
-		// TODO; find a way to read the component_data!!
+			if (type == "Transform")
+			{
+				JsonParser::ParseTransformComponent(component, componentData);			
+			}
+			else if (type == "Sprite")
+			{
+				JsonParser::ParseSpriteComponent(component, componentData);
+			}
+			else if (type == "Input")
+			{
+				JsonParser::ParseInputComponent(component, componentData);
+			}
+			else if (type == "Velocity")
+			{
+				JsonParser::ParseVelocityComponent(component, componentData);
+			}
+			else if (type == "Hitbox")
+			{
+				JsonParser::ParseHitboxComponent(component, componentData);
+			}
+			else if (type == "Health")
+			{
+				JsonParser::ParseHealthComponent(component, componentData);
+			}
+			else if (type == "Rect")
+			{
+				JsonParser::ParseRectComponent(component, componentData);
+			}
+			else if (type == "Resource")
+			{
+				JsonParser::ParseResourceComponent(component, componentData);
+			}
+			else if (type == "BehaviorTree")
+			{
+				JsonParser::ParseBehaviorTreeComponent(component, componentData);
+			}
+			else if (type == "SteeringBehavior")
+			{
+				JsonParser::ParseSteeringBehaviorComponent(component, componentData);
+			}
+			else if (type == "Camera")
+			{
+				JsonParser::ParseCameraComponent(component, componentData);
+			}
+			else if (type == "PlayerController")
+			{
+				JsonParser::ParsePlayerControllerComponent(component, componentData);
+			}
+			else if (type == "Pickup")
+			{
+				JsonParser::ParsePickupComponent(component, componentData);
+			}
+			else if (type == "Animation")
+			{
+				JsonParser::ParseAnimationComponent(component, componentData);
+			}
+			else if (type == "AttackCollider")
+			{
+				JsonParser::ParseAttackComponent(component, componentData);
+			}
+			else if (type == "Weapon")
+			{
+				JsonParser::ParseWeaponComponent(component, componentData);
+			}
+			else if (type == "Inventory")
+			{
+				JsonParser::ParseInventoryComponent(component, componentData);
+			}
+			else if (type == "Stamina")
+			{
+				JsonParser::ParseStaminaComponent(component, componentData);
+			}
+			else if (type == "Timer")
+			{
+				JsonParser::ParseTimerComponent(component, componentData);
+			}
+			blueprint.AddComponent(type, componentData);
+		}
 
 		s_entityFactory.RegisterBlueprint(identifier, blueprint);
 	};
@@ -62,54 +140,28 @@ void EntityManager::LoadBlueprints(const std::string& aFilePath)
 	
 	for (auto& blueprint : document["blueprints"]["player"].GetArray())
 	{
-		std::string path = blueprint.GetString();
-		loadBlueprintsFromJson(path);
+		loadBlueprintsFromJson(blueprint.GetString());
 	}
 
 	for (auto& blueprint : document["blueprints"]["enemies"].GetArray())
 	{
-		std::string path = blueprint.GetString();
-		loadBlueprintsFromJson(path);
+		loadBlueprintsFromJson(blueprint.GetString());
 	}
 
 	for (auto& blueprint : document["blueprints"]["props"].GetArray())
 	{
-		std::string path = blueprint.GetString();
-		loadBlueprintsFromJson(path);
+		loadBlueprintsFromJson(blueprint.GetString());
 	}
 
 	for (auto& blueprint : document["blueprints"]["cameras"].GetArray())
 	{
-		std::string path = blueprint.GetString();
-		loadBlueprintsFromJson(path);
+		loadBlueprintsFromJson(blueprint.GetString());
 	}
 
 	for (auto& blueprint : document["blueprints"]["resources"].GetArray())
 	{
-		std::string path = blueprint.GetString();
-		loadBlueprintsFromJson(path);
+		loadBlueprintsFromJson(blueprint.GetString());
 	}
-}
-
-void EntityManager::RegisterComponentBuilders()
-{
-	s_entityFactory.RegisterComponentBuilder("Sprite",				new ConcreteComponentBuilder<SpriteComponent>());
-	s_entityFactory.RegisterComponentBuilder("Transform",			new ConcreteComponentBuilder<TransformComponent>());
-	s_entityFactory.RegisterComponentBuilder("Input",				new ConcreteComponentBuilder<InputComponent>());
-	s_entityFactory.RegisterComponentBuilder("Animation",			new ConcreteComponentBuilder<AnimationComponent>());
-
-	s_entityFactory.RegisterComponentBuilder("PlayerController",	new ConcreteComponentBuilder<PlayerControllerComponent>());
-	s_entityFactory.RegisterComponentBuilder("Velocity",			new ConcreteComponentBuilder<VelocityComponent>());
-	s_entityFactory.RegisterComponentBuilder("Weapon",				new ConcreteComponentBuilder<WeaponComponent>());
-	s_entityFactory.RegisterComponentBuilder("Health",				new ConcreteComponentBuilder<HealthComponent>());
-	s_entityFactory.RegisterComponentBuilder("Camera",				new ConcreteComponentBuilder<CameraComponent>());
-	s_entityFactory.RegisterComponentBuilder("Rect",				new ConcreteComponentBuilder<RectComponent>());
-	s_entityFactory.RegisterComponentBuilder("AttackCollider",		new ConcreteComponentBuilder<AttackColliderComponent>());
-	s_entityFactory.RegisterComponentBuilder("Hitbox",				new ConcreteComponentBuilder<HitboxColliderComponent>());
-
-	s_entityFactory.RegisterComponentBuilder("Resource",			new ConcreteComponentBuilder<ResourceComponent>());
-	s_entityFactory.RegisterComponentBuilder("Pickup",				new ConcreteComponentBuilder<PickupColliderComponent>());
-	s_entityFactory.RegisterComponentBuilder("Inventory",			new ConcreteComponentBuilder<InventoryComponent>());
 }
 
 Entity* EntityManager::Create(const std::string& aType)

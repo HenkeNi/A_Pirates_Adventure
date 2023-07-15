@@ -1,18 +1,18 @@
 {
   "name": "Skeleton",
+  "layer": "Enemy",
   "components": [
-    "Transform",
-    "Sprite",
-    "Animation"
-  ],
-  "component_data": [
     {
-      "scale_x": 1.0,
-      "scale_y": 1.0
+      "type": "Transform",
+      "position": [ 0.0, 0.0, 0.0 ],
+      "scale": [ 1.0, 1.0, 1.0 ],
+      "rotation": 0.0
     },
     {
-      "texture_id": "Placeholder_Skeleton.jpg"
+      "type": "Sprite",
+      "shader": "Billboard",
+      "texture": "crab",
+      "color": [ 1.0, 1.0, 1.0, 1.0 ]
     }
-  ],
-  "layer": "Enemy"
+  ]
 }

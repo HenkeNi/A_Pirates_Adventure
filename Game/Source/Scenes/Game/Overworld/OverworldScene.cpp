@@ -58,21 +58,7 @@ void OverworldScene::OnEnter()
 	auto player = m_entityManager.Create("Player");
 	CU::Vector3<float> position = { (float)Random::InRange(2, 62), 0.42f, (float)Random::InRange(2, 62) };
 	player->GetComponent<TransformComponent>()->m_currentPos = position;
-	auto sprite = player->GetComponent<SpriteComponent>();
-	sprite->m_material = {
-		&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("pirate_idle"),
-		&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Billboard") };
-	auto rect = player->GetComponent<RectComponent>();
-	rect->m_shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Primitive");
-	auto attack = player->GetComponent<AttackColliderComponent>();
-	attack->m_offset = { 1.f, 0.f, 0.f };
 
-	auto colliderPos = position + attack->m_offset;
-	auto size = 0.2f;
-
-	attack->m_collider.Init({ colliderPos.x - size, colliderPos.z - size }, { colliderPos.x + size, colliderPos.z + size });
-	//attack->m_collider.Init({ colliderPos.x - collider.GetWidth() * 0.5f, colliderPos.x + collider.GetWidth() * 0.5f }, { colliderPos.z - collider.GetHeight() * 0.5f, colliderPos.z + collider.GetHeight() * 0.5f });
-	//attack->m_collider.Init({ position.x + attack->m_offset.x 2.f, position.x + attack->m_offset.x + 2.f }, { position.z + attack->m_offset.y - 2.f, position.z + attack->m_offset.y + 2.f });
 
 	// Camera
 	auto camera = m_entityManager.Create("Camera");

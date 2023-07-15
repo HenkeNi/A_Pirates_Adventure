@@ -1,21 +1,34 @@
 {
   "name": "PalmTree",
+  "layer": "Environment",
   "components": [
-    "Transform",
-    "Sprite",
-    "Hitbox",
-    "Health",
-    "Rect",
-    "Resource"
-  ],
-  "component_data": [
     {
-      "scale_x": 1.0,
-      "scale_y": 1.0
+      "type": "Transform",
+      "position": [ 0.0, 1.2, 0.0 ],
+      "scale": [ 1.4, 2.4, 1.0 ],
+      "rotation": 0.0
     },
     {
-      "texture_id": "Tree"
+      "type": "Sprite",
+      "shader": "Billboard",
+      "texture": "palm_01",
+      "color": [ 1.0, 1.0, 1.0, 1.0 ]
+    },
+    {
+      "type": "Hitbox",
+      "half_size": 0.1
+    },
+    {
+      "type": "Health",
+      "value": 100
+    },
+    {
+      "type": "Rect",
+      "shader": "Primitive"
+    },
+    {
+      "type": "Resource",
+      "quantity": 5
     }
-  ],
-  "layer": "Environment"
+  ]
 }

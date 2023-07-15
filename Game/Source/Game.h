@@ -18,8 +18,6 @@ public:
 	void OnDestroy()					override;
 
 private:
-	void SetupScenes();
-	void RegisterSystems();		// Move to Generate??
 	void LoadResources();
 	void MapInput();
 

@@ -29,3 +29,36 @@ struct Range
 	T m_min;
 	T m_max;
 };
+
+
+
+
+
+
+
+struct BaseComponentData
+{
+	virtual ~BaseComponentData() {}
+};
+
+
+template <typename Derived>
+struct ComponentData
+{
+	Derived* Get()
+	{
+		return static_cast<Derived*>(this);
+	}
+};
+
+
+struct TransformComponentData : public ComponentData<TransformComponentData>
+{
+	float m_x;
+	float m_y;
+};
+
+struct SpriteComponentData : public ComponentData<SpriteComponentData>
+{
+	std::string m_sprite;
+};

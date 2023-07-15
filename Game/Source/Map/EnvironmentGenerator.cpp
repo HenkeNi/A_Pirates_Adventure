@@ -28,78 +28,32 @@ void EnvironmentGenerator::PopulateMapChunk(class MapChunk& aChunk)
 		return;
 
 
-	// Read chunk data (tile types, etc...)
+	GenerateFoilage("PalmTree", 2, { 2, 2 }, { 62, 62 });
+	GenerateFoilage("Grass", 7, { 2, 2 }, { 62, 62 });
+}
 
 
-
-	// Add some tress....
-	for (int i = 0; i < 2; ++i)
+void EnvironmentGenerator::GenerateFoilage(const std::string& aType, unsigned anAmount, const CU::Vector2<float> someMinPositions, const CU::Vector2<float> someMaxPositions)	// Maybe pass in a position?
+{
+	for (int i = 0; i < anAmount; ++i)
 	{
-		CU::Vector3<float> position = { (float)Random::InRange(2, 62), 0.65f, (float)Random::InRange(2, 62) };
+		auto* entity = m_entityManager->Create(aType);
+		auto* transform = entity->GetComponent<TransformComponent>();
 
-		auto palm = m_entityManager->Create("PalmTree");
-		palm->GetComponent<TransformComponent>()->m_currentPos = position;
-		palm->GetComponent<TransformComponent>()->m_scale = { 1.f, 1.85f, 1.f };
+		CU::Vector2<float> position = { (float)Random::InRange(someMinPositions.x, someMaxPositions.x), (float)Random::InRange(someMinPositions.y, someMaxPositions.y) };
+		
+		transform->m_currentPos = transform->m_previousPos = { position.x, transform->m_currentPos.y, position.y };
+		//transform->m_scale = { 0.75f, 0.75f, 0.75f };														// should be read from json...
 
-		auto treesprite = palm->GetComponent<SpriteComponent>();
-		treesprite->m_material = {
-			&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("palm_01"),
-			&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Billboard") };
+		//auto rect = entity->GetComponent<RectComponent>();
+		//rect->m_shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Primitive");
 
-		// Collider...
-		auto palmRect = palm->GetComponent<RectComponent>();
-		palmRect->m_shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Primitive");
-		auto hitbox = palm->GetComponent<HitboxColliderComponent>();
+		// Fix somehow => need to work even if not moving
+		auto hitbox = entity->GetComponent<HitboxColliderComponent>();
 
-		auto palmSize = 0.2f;
-		hitbox->m_collider.Init({ position.x - palmSize, position.z - palmSize }, { position.x + palmSize, position.z + palmSize });
-	}
+		static float size = 0.2f;
 
-
-
-
-	// some gras...
-	for (int i = 0; i < 5; ++i)
-	{
-		auto* grass = m_entityManager->Create("Grass");
-		auto pos = CU::Vector3<float>{ (float)Random::InRange(2, 62), 0.3f, (float)Random::InRange(2, 62) };
-		grass->GetComponent<TransformComponent>()->m_currentPos = pos;
-		grass->GetComponent<TransformComponent>()->m_scale = { 0.75f, 0.75f, 0.75f };
-
-		auto grassSprite = grass->GetComponent<SpriteComponent>();
-		grassSprite->m_material = {
-			&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("grass"),
-			&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Billboard") };
-
-		// collider
-		auto grassRect = grass->GetComponent<RectComponent>();
-		grassRect->m_shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Primitive");
-		auto largehitbox = grass->GetComponent<HitboxColliderComponent>();
-
-		auto grassSize = 0.2f;
-
-		largehitbox->m_collider.Init({ pos.x - grassSize, pos.z - grassSize }, { pos.x + grassSize, pos.z + grassSize });
-
-
-		// small grass
-		auto* smallGrass = m_entityManager->Create("Grass");
-		smallGrass->GetComponent<TransformComponent>()->m_currentPos = { pos.x, pos.y - 0.1f, pos.z + 0.1f };
-		smallGrass->GetComponent<TransformComponent>()->m_scale = { 0.5f, 0.5f, 0.5f };
-
-		auto smallGrassSprite = smallGrass->GetComponent<SpriteComponent>();
-		smallGrassSprite->m_material = {
-			&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("grass"),
-			&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Billboard") };
-
-
-		auto smallgrassRect = smallGrass->GetComponent<RectComponent>();
-		smallgrassRect->m_shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Primitive");
-		auto smallhitbox = smallGrass->GetComponent<HitboxColliderComponent>();
-
-		CU::Vector3<float> p = { pos.x, pos.y - 0.1f, pos.z + 0.1f };
-		smallhitbox->m_collider.Init({ p.x - grassSize, p.z - grassSize }, { p.x + grassSize, p.z + grassSize });
+		hitbox->m_collider.Init({ position.x - size, position.y - size }, { position.x + size, position.y + size });
 
 	}
-
-
 }

@@ -2,6 +2,11 @@
 #include "Entity.h"
 #include "EntityFactory.h"
 
+namespace Registration
+{
+	void RegisterComponents();
+}
+
 class EntityManager
 {
 public:
@@ -9,7 +14,6 @@ public:
 	~EntityManager();
 
 	static void LoadBlueprints(const std::string& aFilePath);
-	static void RegisterComponentBuilders();
 
 	Entity* Create(const std::string& aType);
 	Entity* Find(unsigned anID);					// Rename GetEntity?
@@ -20,11 +24,12 @@ public:
 	void Destroy(unsigned anID);
 	void DestroyAll();
 
-	
 private:
+	friend void Registration::RegisterComponents();
+
 	static EntityFactory	s_entityFactory;
+
 	std::vector<Entity>		m_entities;
-	
 	// std::unordered_map<eLayer, std::vector<Entity>> m_layeredEntities;
 };
 

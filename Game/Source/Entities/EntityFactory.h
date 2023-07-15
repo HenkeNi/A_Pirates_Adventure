@@ -1,7 +1,8 @@
 #pragma once
 #include "Entity.h"
 #include "../Blueprints/EntityBlueprint.h"
-#include "../Builders/ComponentBaseBuilder.hpp"
+#include "ComponentFactory.h"
+//#include "../Builders/ComponentBaseBuilder.hpp"
 //#include "../Prototypes/Prototypes.h"
 
 class ComponentBaseBuilder;
@@ -18,16 +19,19 @@ public:
 	EntityFactory();
 	~EntityFactory();
 
-	Entity	Create(Identifier& aType)								const;	// Todo; fix!! 
-	Entity	CreateFromBlueprint(const EntityBlueprint& aBlueprint)	const;
+	Entity  Create(Identifier& aType);																		// REmove again?! -> initialize outside of factory??
+	Entity	CreateFromBlueprint(const EntityBlueprint& aBlueprint);
+	//Entity	Create(Identifier& aType)								const;	// Todo; fix!! 
+	//Entity	CreateFromBlueprint(const EntityBlueprint& aBlueprint)	const;
 
 	void	RegisterBlueprint(Identifier& aType, EntityBlueprint aBlueprint);
 	void	RegisterComponentBuilder(Identifier& aType, ComponentBaseBuilder* aBuilder);
 
 private:
-
 	std::unordered_map<std::string, EntityBlueprint>	m_blueprints;
 	CU::Factory<ComponentBaseBuilder, ComponentBase>	m_componentFactory;
+	// ComponentFactory									m_componentFactory;
+
 
 
 	// static class ComponentFactory* s_componentFactory;

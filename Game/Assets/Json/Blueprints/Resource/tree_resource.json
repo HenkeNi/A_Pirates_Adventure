@@ -1,21 +1,29 @@
 {
   "name": "Resource",
+  "layer": "Resource",
   "components": [
-    "Transform",
-    "Sprite",
-    "Hitbox",
-    "Rect",
-    "Resource",
-    "Pickup"
-  ],
-  "component_data": [
     {
-      "scale_x": 1.0,
-      "scale_y": 1.0
+      "type": "Transform",
+      "position": [ 0.0, 0.0, 0.0 ],
+      "scale": [ 1.0, 1.0, 1.0 ],
+      "rotation": 0.0
     },
     {
-      "texture_id": "Log"
+      "type": "Sprite",
+      "shader": "Billboard",
+      "texture": "Log",
+      "color": [ 1.0, 1.0, 1.0, 1.0 ]
+    },
+    {
+      "type": "Rect",
+      "shader": "Primitive"
+    },
+    {
+      "type": "Resource",
+      "quantity": 5
+    },
+    {
+      "type": "Pickup"
     }
-  ],
-  "layer": "Resource"
+  ]
 }

@@ -1,7 +1,7 @@
 #include "Pch.h"
 #include "Game.h"
-#include "Scenes/Scenes.h"
-#include "Systems/Systems.h"
+// #include "Scenes/Scenes.h"
+#include "Registration/Registration.h"
 #include <Core/Resources/ResourceHolder.hpp>
 
 
@@ -24,34 +24,24 @@ void Game::OnLateUpdate(float aDeltaTime)
 	m_sceneManager.LateUpdate(aDeltaTime);
 	m_systemManager.LateUpdate(aDeltaTime);
 }
-//#include "Data/Structs.h"
-//#include "Core/Rendering/Renderers/PrimitiveRenderer/PrimitiveRenderer.h"
+
 void Game::OnDraw()
 {
-	// TEST (TPDP SET CAMERA!!)
-	
-	
-	// CU::Vector3<float>	m_color;
-	// class Shader* m_shader;
-	// glm::vec3			Position;
-	// glm::vec2			Scale;
-	// float				Rotation;
-	//
-
 	m_sceneManager.Draw();
 	m_systemManager.Draw();
 }
 
 void Game::OnCreate()
 {
-	EntityManager::RegisterComponentBuilders();
-	RegisterSystems();
-
 	LoadResources();
-	SetupScenes();
 
-	//Generated::RegisterComponents();
-	//Generated::RegisterPrototypes();	
+	Registration::RegisterComponents();
+	Registration::RegisterBlueprints();
+	Registration::RegisterSystems(m_systemManager);
+	Registration::RegisterScenes(m_sceneManager, m_systemManager);
+
+	m_sceneManager.Init((int)eScene::Game); // Rename, set active scnee?
+	//m_sceneManager.Init(eScene::Game | eScene::Menu | eScene::Loading | eScene::Title);
 
 	MapInput();
 }
@@ -60,45 +50,6 @@ void Game::OnDestroy()
 {
 	m_systemManager.Clear();
 	m_sceneManager.Clear();
-}
-
-void Game::SetupScenes()
-{
-	SceneManagerProxy proxy{ m_sceneManager };
-
-	m_sceneManager.Register(std::make_unique<GameScene>(SharedContext{ proxy, m_systemManager }), eScene::Game);
-	//m_sceneManager.Register(std::make_unique<LoadingScene>(proxy),  eScene::Loading);
-	//m_sceneManager.Register(std::make_unique<MenuScene>(proxy),		eScene::Menu);
-	//m_sceneManager.Register(std::make_unique<PauseScene>(proxy),	eScene::Pause);
-	//m_sceneManager.Register(std::make_unique<TitleScene>(proxy),	eScene::Title);
-		
-	//m_sceneManager.Init(eScene::Game | eScene::Menu | eScene::Loading | eScene::Title);
-	m_sceneManager.Init((int)eScene::Game);
-}
-
-void Game::RegisterSystems()
-{
-	m_systemManager.Register(std::make_unique<CombatSystem>());
-	m_systemManager.Register(std::make_unique<MeleeCombatSystem>());
-	m_systemManager.Register(std::make_unique<RangedCombatSystem>());
-	
-	m_systemManager.Register(std::make_unique<PlayerControllerSystem>());
-	m_systemManager.Register(std::make_unique<InputSystem>());
-
-	m_systemManager.Register(std::make_unique<CollisionSystem>());
-	m_systemManager.Register(std::make_unique<MovementSystem>());
-
-	m_systemManager.Register(std::make_unique<SpriteAnimationSystem>());
-	m_systemManager.Register(std::make_unique<CameraSystem>());
-	m_systemManager.Register(std::make_unique<PrimitiveRenderSystem>());
-	m_systemManager.Register(std::make_unique<SpriteRenderSystem>());
-
-	m_systemManager.Register(std::make_unique<StatSystem>());
-	m_systemManager.Register(std::make_unique<SpawnSystem>());
-
-	m_systemManager.Register(std::make_unique<EquipmentSystem>());
-	m_systemManager.Register(std::make_unique<ResourceDropSystem>());
-	m_systemManager.Register(std::make_unique<InventorySystem>());
 }
 
 void Game::LoadResources()

@@ -1,20 +1,34 @@
 {
   "name": "Grass",
+  "layer": "Environment",
   "components": [
-    "Transform",
-    "Sprite",
-    "Hitbox",
-    "Health",
-    "Rect"
-  ],
-  "component_data": [
     {
-      "scale_x": 1.0,
-      "scale_y": 1.0
+      "type": "Transform",
+      "position": [ 0.0, 0.41, 0.0 ],
+      "scale": [ 0.8, 0.8, 1.0 ],
+      "rotation": 0.0
     },
     {
-      "texture_id": "Grass"
+      "type": "Sprite",
+      "shader": "Billboard",
+      "texture": "grass",
+      "color": [ 1.0, 1.0, 1.0, 1.0 ]
+    },
+    {
+      "type": "Hitbox",
+      "half_size": 0.1
+    },
+    {
+      "type": "Health",
+      "value": 50
+    },
+    {
+      "type": "Rect",
+      "shader": "Primitive"
+    },
+    {
+      "type": "Resource",
+      "quantity": 5
     }
-  ],
-  "layer": "Environment"
+  ]
 }

@@ -50,7 +50,7 @@ void InventorySystem::Update(float aDeltaTime)
 				currentValue = itr->second;
 			}
 
-			// TODO; fetch resource type from ResourceComponent
+			// TODO; fetch resource type from ResourceComponent	
 			inventoryComponent->m_inventory.insert_or_assign("log", currentValue + 1);
 
 			std::cout << "added resource to inventory!: " << currentValue + 1 << " logs!\n";

@@ -1,19 +1,55 @@
 {
   "name": "Player",
+  "layer": "Player",
   "components": [
-    "Transform",
-    "Sprite",
-    "Input",
-    "PlayerController",
-    "Velocity",
-    "Animation",
-    "Weapon",
-    "Health",
-    "Rect",
-    "AttackCollider",
-    "Inventory"
-  ],
-  "component_data": [
-  ],
-  "layer": "Player"
+    {
+      "type": "Transform",
+      "position": [ 0.0, 0.0, 0.0 ],
+      "scale": [ 1.0, 1.0, 1.0 ],
+      "rotation": 0.0
+    },
+    {
+      "type": "Input"
+    },
+    {
+      "type": "PlayerController"
+    },
+    {
+      "type": "Velocity"
+    },
+    {
+      "type": "Animation"
+    },
+    {
+      "type": "AttackCollider"
+    },
+    {
+      "type": "Weapon"
+    },
+    {
+      "type": "Inventory"
+    },
+    {
+      "type": "Sprite",
+      "shader": "Billboard",
+      "texture": "pirate_idle",
+      "color": [ 1.0, 1.0, 1.0, 1.0 ]
+    },
+    {
+      "type": "Hitbox",
+      "half_size": 0.1
+    },
+    {
+      "type": "Health",
+      "value": 100
+    },
+    {
+      "type": "Rect",
+      "shader": "Primitive"
+    },
+    {
+      "type": "Resource",
+      "quantity": 5
+    }
+  ]
 }

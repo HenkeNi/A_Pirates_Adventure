@@ -11,29 +11,33 @@ EntityFactory::~EntityFactory()
 {
 }
 
-Entity EntityFactory::Create(const std::string& aType) const
+Entity EntityFactory::Create(const std::string& aType)
 {
-	auto it = m_blueprints.find(aType);
+	auto iterator = m_blueprints.find(aType);
 
-	assert(it != m_blueprints.end() && "Failed to find blueprint!");
+	assert(iterator != m_blueprints.end() && "ERROR: Failed to create entity - Couldn't find blueprint!");
 
 	Entity entity;
-	
-	for (const auto& type : it->second.m_componentTypes)
-	{
-		auto data = it->second.m_componentData;
-		auto component = m_componentFactory.Build(type); // TODO; pass in data in constructor? perfect forwarding?
 
-		entity.AddComponent(component);
-			
+	for (const auto& type : iterator->second.m_componentData)
+	{
+		// auto data = type.second;
+		auto component = m_componentFactory.Build(type.first, type.second); // TODO; pass in data in constructor? perfect forwarding?
+		
+		//auto component = m_componentFactory.Create(type);
+		//auto component = m_componentFactory.Create(type, data);
 		
 
+		// &component = data; // Convert data to an initializer list?
+
+
+		entity.AddComponent(component);
 	}
 
 	return entity;
 }
 
-Entity EntityFactory::CreateFromBlueprint(const EntityBlueprint& aBlueprint) const
+Entity EntityFactory::CreateFromBlueprint(const EntityBlueprint& aBlueprint)
 {
 	return {};
 }
@@ -47,3 +51,4 @@ void EntityFactory::RegisterComponentBuilder(Identifier& aType, ComponentBaseBui
 {
 	m_componentFactory.RegisterBuilder(aType, aBuilder);
 }
+

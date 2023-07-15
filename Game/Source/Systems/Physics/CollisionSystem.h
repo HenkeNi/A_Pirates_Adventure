@@ -7,6 +7,8 @@ public:
 	CollisionSystem();
 	~CollisionSystem();
 
+	// maybe init/or  function => sets colliders to their correct position?!
+
 	void Receive(Message& aMsg)			override;
 	void LateUpdate(float aDeltaTime)	override;
 

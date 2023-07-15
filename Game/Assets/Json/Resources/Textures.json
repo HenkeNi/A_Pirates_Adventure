@@ -78,5 +78,10 @@
     "name": "Log",
     "filepath": "../Game/Assets/Textures/log.png",
     "alpha": true
+  },
+  {
+    "name": "Rock",
+    "filepath": "../Game/Assets/Textures/rock.png",
+    "alpha": true
   }
 ]

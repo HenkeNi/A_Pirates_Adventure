@@ -11,6 +11,8 @@ public:
 	void Receive(Message& aMsg)		override;
 	void Update(float aDeltaTime)	override;
 
+	// void InitComponents();  - possible!
+
 
 	// All components that have transform and velocity...
 

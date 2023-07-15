@@ -14,15 +14,18 @@ namespace CommonUtilities
 		Factory();
 		~Factory();
 
-		ReturnType* Build(const Identifier& aType)												const;	// Perfect forward`??
+		template	<typename... Args>
+		ReturnType* Build(const Identifier& aType, Args&&... args);
+	//	ReturnType* Build(const Identifier& aType)												const;	// Perfect forward`??
+
 		bool		HasComponent(const Identifier& aType)										const;
 
-		bool		RegisterBuilder(const Identifier& aType, const BuilderType* aBuilder);
+		bool		RegisterBuilder(const Identifier& aType, BuilderType* aBuilder);
 		void		RemoveBuilder(const Identifier& aType);
 		void		Clear();
 
 	private:
-		std::unordered_map<Identifier, const BuilderType*> m_builders;
+		std::unordered_map<Identifier, BuilderType*> m_builders;
 	};
 
 #pragma region Constructors
@@ -43,11 +46,19 @@ namespace CommonUtilities
 #pragma region Method_Definitions
 
 	template <typename BuilderType, typename ReturnType, typename Identifier>
-	ReturnType* Factory<BuilderType, ReturnType, Identifier>::Build(const Identifier& aType) const
+	template <typename... Args>
+	ReturnType* Factory<BuilderType, ReturnType, Identifier>::Build(const Identifier& aType, Args&&... args)
 	{
 		assert(HasComponent(aType) && "No Builder for type found!");
-		return m_builders.at(aType)->Build();
+		return m_builders.at(aType)->Build(std::forward<Args>(args)...);
 	}
+
+	//template <typename BuilderType, typename ReturnType, typename Identifier>
+	//ReturnType* Factory<BuilderType, ReturnType, Identifier>::Build(const Identifier& aType) const
+	//{
+	//	assert(HasComponent(aType) && "No Builder for type found!");
+	//	return m_builders.at(aType)->Build();
+	//}
 
 	template <typename BuilderType, typename ReturnType, typename Identifier>
 	bool Factory<BuilderType, ReturnType, Identifier>::HasComponent(const Identifier& aType) const
@@ -56,7 +67,7 @@ namespace CommonUtilities
 	}
 
 	template <typename BuilderType, typename ReturnType, typename Identifier>
-	bool Factory<BuilderType, ReturnType, Identifier>::RegisterBuilder(const Identifier& aType, const BuilderType* aBuilder)
+	bool Factory<BuilderType, ReturnType, Identifier>::RegisterBuilder(const Identifier& aType, BuilderType* aBuilder)
 	{
 		assert(aBuilder && "Can't register a Builder containing a nullptr");	// TODO; dont assert??
 
