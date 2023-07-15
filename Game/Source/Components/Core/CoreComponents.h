@@ -1,6 +1,6 @@
 #pragma once
 #include <Utility/Math/Vectors/Vector3.hpp>
-#include "../ComponentBase.h"
+#include "../Base/ComponentBase.h"
 
 namespace CU = CommonUtilities;
 

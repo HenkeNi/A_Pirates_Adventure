@@ -1,6 +1,6 @@
 #include "Pch.h"
 #include "Entity.h"
-#include "ComponentBase.h"
+#include "Base/ComponentBase.h"
 
 
 Entity::Entity()

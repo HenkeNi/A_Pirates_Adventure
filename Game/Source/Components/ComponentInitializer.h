@@ -1,0 +1,110 @@
+#pragma once
+#include "Components.h"
+#include <Core/Resources/ResourceHolder.hpp>
+
+#include "../Blueprints/EntityBlueprint.h" // DON'T?
+
+// struct ComponentData;
+
+class ComponentInitializer
+{
+public:
+	// using ComponentData = std::unordered_map<std::string, std::any>;
+
+	template <typename T>
+	static void InitializeComponent(T* aComponent, const ComponentData& someData) 
+	{
+	}
+
+	template <>
+	static void InitializeComponent<AnimationComponent>(AnimationComponent* aComponent, const ComponentData& someData)
+	{
+		int xx = 20;
+		xx += 20;
+	}
+	
+	template <>
+	static void InitializeComponent<AttackColliderComponent>(AttackColliderComponent* aComponent, const ComponentData& someData)
+	{
+		auto startPos = CU::Vector3<float>{ 0.f, 0.f, 0.f };
+		auto colliderSize = 0.2f;								// FIX!
+
+		aComponent->m_offset = { 1.0f, 0.f, 0.f };
+		aComponent->m_collider.Init({ startPos.x - colliderSize, startPos.y - colliderSize }, { startPos.x + colliderSize, startPos.y + colliderSize });
+	}
+
+	template <>
+	static void InitializeComponent<CameraComponent>(CameraComponent* aComponent, const ComponentData& someData)
+	{
+		int xx = 20;
+		xx += 20;
+	}
+
+	template <>
+	static void InitializeComponent<HealthComponent>(HealthComponent* aComponent, const ComponentData& someData)
+	{
+		int value = std::any_cast<int>(someData.at("value"));
+		aComponent->m_currentValue = value;
+
+		// TODO; set health stat?!
+	}
+
+	template <>
+	static void InitializeComponent<HitboxColliderComponent>(HitboxColliderComponent* aComponent, const ComponentData& someData)
+	{
+		CU::Vector3<float> position = { 0.f, 0.f, 0.f };
+		auto halfSize = std::any_cast<float>(someData.at("halfSize"));
+
+		aComponent->m_collider.Init({ position.x - halfSize, position.z - halfSize }, { position.x + halfSize, position.y + halfSize });
+	}
+
+	template <>
+	static void InitializeComponent<InventoryComponent>(InventoryComponent* aComponent, const ComponentData& someData)
+	{
+		int xx = 20;
+		xx += 20;
+	}
+
+	template <>
+	static void InitializeComponent<SpriteComponent>(SpriteComponent* aComponent, const ComponentData& someData)
+	{
+		auto shader = std::any_cast<std::string>(someData.at("shader"));
+		auto texture = std::any_cast<std::string>(someData.at("texture"));
+		auto color = std::any_cast<std::array<float, 4>>(someData.at("color"));
+
+		aComponent->m_material = {
+			&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource(texture),
+			&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource(shader)
+		};
+
+		aComponent->m_material.SetColor({ color[0], color[1], color[2], color[3] });
+	}
+
+	template <>
+	static void InitializeComponent<TransformComponent>(TransformComponent* aComponent, const ComponentData& someData)
+	{
+		auto position = std::any_cast<std::array<float, 3>>(someData.at("position"));
+		auto scale = std::any_cast<std::array<float, 3>>(someData.at("scale"));
+		float rotation = std::any_cast<float>(someData.at("rotation"));
+
+		aComponent->m_currentPos = aComponent->m_previousPos = { position[0], position[1], position[2] };
+		aComponent->m_scale = { scale[0], scale[1], scale[2] };
+		aComponent->m_rotation = rotation;
+	}
+
+	template <>
+	static void InitializeComponent<RectComponent>(RectComponent* aComponent, const ComponentData& someData)
+	{
+		auto shader = std::any_cast<std::string>(someData.at("shader"));
+
+		aComponent->m_shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource(shader);
+		aComponent->m_color = { 1.f, 1.f, 1.f, 1.f }; // TODO; read from json..
+	}
+
+	template <>
+	static void InitializeComponent<ResourceComponent>(ResourceComponent* aComponent, const ComponentData& someData)
+	{
+		int quantity = std::any_cast<int>(someData.at("quantity"));
+		aComponent->m_quantity = (unsigned)quantity;
+	}
+};

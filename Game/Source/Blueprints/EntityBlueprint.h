@@ -18,7 +18,7 @@ public:
 		m_identifier = anIdentifier;
 	}
 
-	void AddComponent(const std::string& aType, const std::unordered_map<std::string, std::any>& someData)
+	void AddComponent(const std::string& aType, const ComponentData& someData)
 	{
 		m_componentData.insert_or_assign(aType, someData);
 
@@ -40,7 +40,7 @@ private:
 	friend class EntityFactory;
 
 	std::string m_identifier;
-	std::unordered_map<std::string, std::unordered_map<std::string, std::any>>	m_componentData;
+	std::unordered_map<std::string, ComponentData>	m_componentData;
 
 
 

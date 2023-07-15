@@ -1,5 +1,5 @@
 #pragma once
-#include "../ComponentBase.h"
+#include "../Base/ComponentBase.h"
 #include "Stat.hpp"
 
 // Stats such as Health, Stamina, Armor(?), Regeneration -> separate stat components or all in one?

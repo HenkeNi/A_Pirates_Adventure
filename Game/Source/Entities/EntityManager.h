@@ -13,7 +13,7 @@ public:
 	EntityManager();
 	~EntityManager();
 
-	static void LoadBlueprints(const std::string& aFilePath);
+	// static void LoadBlueprints(const std::string& aFilePath);
 
 	Entity* Create(const std::string& aType);
 	Entity* Find(unsigned anID);					// Rename GetEntity?
@@ -23,6 +23,8 @@ public:
 
 	void Destroy(unsigned anID);
 	void DestroyAll();
+
+	static EntityFactory& GetFactory();		// replace with freiend function?
 
 private:
 	friend void Registration::RegisterComponents();
