@@ -2,8 +2,8 @@
 #include "BehaviorTreeNode.h"
 
 
-BehaviorTreeNode::BehaviorTreeNode()
-//	: m_status{ eBTNodeStatus::Invalid }
+BehaviorTreeNode::BehaviorTreeNode(int anOwnerID)
+	: m_ownerID{ anOwnerID } //	: m_status{ eBTNodeStatus::Invalid }
 {
 }
 

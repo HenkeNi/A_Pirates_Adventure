@@ -3,9 +3,13 @@
 #include <Core/Resources/ResourceHolder.hpp>
 
 
+unsigned MapChunk::s_widthInTiles = 0;
+
+
 MapChunk::MapChunk(const CU::Vector3<float>& aStartPosition)
 	: m_chunkWidth{ 10 }, m_chunkHeight{ 10 }, m_position{ aStartPosition }
 {
+	s_widthInTiles = m_chunkWidth * 1.f; //Tile::m_size;
 }
 
 MapChunk::~MapChunk()
@@ -38,12 +42,30 @@ void MapChunk::SetPosition(const CU::Vector3<float>& aStartPosition)
 	m_position = aStartPosition;
 }
 
-CU::Vector2<float> MapChunk::GetMinMaxWidth() const
+CU::Vector2<float> MapChunk::GetStartPosition() const
 {
-	return CU::Vector2<float>();
+	return { m_position.x, m_position.z };
+
+	//return CU::Vector2<float>();
 }
 
-CU::Vector2<float> MapChunk::GetMinMaxHeight() const
+CU::Vector2<float> MapChunk::GetEndPosition() const
 {
-	return CU::Vector2<float>();
+	static float tileSize = 1.f; // FIX!
+	return { m_position.x + s_widthInTiles * tileSize, m_position.z + s_widthInTiles * tileSize };
 }
+
+float MapChunk::GetSize()
+{
+	return s_widthInTiles;
+}
+
+//CU::Vector2<float> MapChunk::GetMinMaxWidth() const
+//{
+//	return CU::Vector2<float>();
+//}
+//
+//CU::Vector2<float> MapChunk::GetMinMaxHeight() const
+//{
+//	return CU::Vector2<float>();
+//}

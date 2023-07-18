@@ -34,6 +34,16 @@ public:
 	}
 
 	template <>
+	static void InitializeComponent<BehaviorTreeComponent>(BehaviorTreeComponent* aComponent, const ComponentData& someData)
+	{
+		// DO IN system instead??
+		// aComponent->m_rootNode = new SelectorNode;
+
+		// auto attackSequence = new SequenceNode;
+		//attackSequence->AddChild(new TargetInRange)
+	}
+
+	template <>
 	static void InitializeComponent<CameraComponent>(CameraComponent* aComponent, const ComponentData& someData)
 	{
 		int xx = 20;
@@ -63,6 +73,20 @@ public:
 	{
 		int xx = 20;
 		xx += 20;
+	}
+
+	template <>
+	static void InitializeComponent<SpawnComponent>(SpawnComponent* aComponent, const ComponentData& someData)
+	{
+		std::string spawned	= std::any_cast<std::string>(someData.at("spawned"));
+		int amount			= std::any_cast<int>(someData.at("amount"));
+		float interval		= std::any_cast<float>(someData.at("interval"));
+
+		aComponent->m_spawned	= spawned;
+		aComponent->m_amount	= amount;
+		aComponent->m_interval	= interval;		
+		aComponent->m_elapsedTime = 0.f;
+		aComponent->m_spawnedAmount = 0;
 	}
 
 	template <>
@@ -106,5 +130,12 @@ public:
 	{
 		int quantity = std::any_cast<int>(someData.at("quantity"));
 		aComponent->m_quantity = (unsigned)quantity;
+	}
+	
+	template <>
+	static void InitializeComponent<VelocityComponent>(VelocityComponent* aComponent, const ComponentData& someData)
+	{
+		float speed = std::any_cast<float>(someData.at("speed"));
+		aComponent->m_speed = speed;
 	}
 };

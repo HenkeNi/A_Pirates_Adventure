@@ -5,7 +5,7 @@
 #include "Rendering/RenderComponents.h"
 #include <Core/Resources/ResourceHolder.hpp>
 #include "Combat/CombatComponents.h"
-
+#include "MapChunk.h"
 
 
 EnvironmentGenerator::EnvironmentGenerator()
@@ -23,13 +23,23 @@ void EnvironmentGenerator::Init(EntityManager* anEntityManager)
 }
 
 void EnvironmentGenerator::PopulateMapChunk(class MapChunk& aChunk)
-{
+{ 
 	if (!m_entityManager)
 		return;
 
+	auto start = aChunk.GetStartPosition();
+	auto end = aChunk.GetEndPosition();
 
-	GenerateFoilage("PalmTree", 2, { 2, 2 }, { 62, 62 });
-	GenerateFoilage("Grass", 7, { 2, 2 }, { 62, 62 });
+//	auto width = aChunk. GetMinMaxWidth();  
+	//auto height = aChunk.GetMinMaxHeight();
+
+	GenerateFoilage("PalmTree", 2, start, end); // TODO; fix position
+	GenerateFoilage("Grass", 7, start, end);
+
+	static int count = 0;
+
+	if ((count++) % 5 == 0)
+		GenerateFoilage("SkeletonSpawner", 1, start, end);
 }
 
 

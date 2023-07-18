@@ -6,15 +6,15 @@
 class TargetInView : public BehaviorTreeNode
 {
 public:
-	TargetInView(const Entity* aTarget = nullptr);
+	TargetInView(int anOwnerID, int aTargetID = -1);
 
-	eBTNodeStatus	Execute(Entity* anEntity) override;
-	void			Clear()						 override;
+	eBTNodeStatus	Execute(EntityManager* anEntityManager)	override;
+	void			Clear()									override;
 
 
 private:
-	const Entity* m_target;
-	float			  m_radius;
+	int				m_targetID;
+	float			m_radius;
 };
 
 
@@ -24,13 +24,13 @@ class GameObject;
 class TargetInRange : public BehaviorTreeNode
 {
 public:
-	TargetInRange(const Entity* aTarget = nullptr);
+	TargetInRange(int anOwnerID, int aTargetID = -1);
 
-	eBTNodeStatus	Execute(Entity* anEntity) override;
-	void			Clear()						 override;
+	eBTNodeStatus	Execute(EntityManager* anEntityManager)	override;
+	void			Clear()									override;
 
 
 private:
-	const Entity*	m_target;
-	float				m_radius;
+	int				m_targetID;
+	float			m_radius;
 };

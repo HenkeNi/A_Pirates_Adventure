@@ -1,0 +1,42 @@
+{
+  "name": "SkeletonSpawner",
+  "layer": "Environment",
+  "components": [
+    {
+      "type": "Transform",
+      "position": [ 0.0, 0.2, 0.0 ],
+      "scale": [ 0.5, 0.5, 1.0 ],
+      "rotation": 0.0
+    },
+    {
+      "type": "Sprite",
+      "shader": "Billboard",
+      "texture": "Skeleton_Pile",
+      "color": [ 1.0, 1.0, 1.0, 1.0 ]
+    },
+    {
+      "type": "Hitbox",
+      "half_size": 0.1
+    },
+    {
+      "type": "Health",
+      "value": 100
+    },
+    {
+      "type": "Rect",
+      "shader": "Primitive"
+    },
+    {
+      "type": "Resource",
+      "quantity": 5
+    },
+    {
+      "type": "Spawner",
+      "spawned": "Skeleton",
+      "amount": 5,
+      "interval": 2.0
+    }
+  ]
+}
+
+

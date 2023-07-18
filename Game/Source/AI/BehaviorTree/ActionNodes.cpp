@@ -1,26 +1,38 @@
 #include "Pch.h"
 #include "ActionNodes.h"
+#include "Components.h"
+#include "Entity.h"
+#include "EntityManager.h"
 
 
-MoveToTarget::MoveToTarget(Entity* aTarget)
-	: m_target{ aTarget }
+MoveToTarget::MoveToTarget(int anOwnerID, int aTargetID)
+	: BehaviorTreeNode{ anOwnerID }, m_targetID{ aTargetID }, m_arriveRange{ 0.2f }
 {
 }
 
-eBTNodeStatus MoveToTarget::Execute(Entity* anOwner)
+eBTNodeStatus MoveToTarget::Execute(EntityManager* anEntityManager)
 {
-	if (m_target && anOwner)
+	if (IsValidTarget() && anEntityManager)
 	{
-		//auto targetPosition = m_target->GetComponent<C_Transform>()->GetPosition();
-		//auto ownerPosition = anOwner->GetComponent<C_Transform>()->GetPosition();	// use ENemy/NPC controller instead??
-		//
-		//CU::Vector3<float> direction = targetPosition - ownerPosition;
-		//direction.y = 0.f;
+		// use Enemy/NPC controllers instead??
+		auto target = anEntityManager->Find(m_targetID);
+		auto owner	= anEntityManager->Find(m_ownerID);
 
-		//if (direction.Length() != 0.f)
-		//	direction.Normalize();
+		if (!target || !owner)
+			return eBTNodeStatus::Failure; // Return failure??
 
-		//anOwner->GetComponent<C_Movement>()->SetVelocity(direction);
+		const auto targetPosition	= target->GetComponent<TransformComponent>()->m_currentPos;
+		const auto ownerPosition	= owner->GetComponent<TransformComponent>()->m_currentPos;
+
+		auto direction = targetPosition - ownerPosition;
+		direction.y = 0.f;
+
+		// TODO; Check distance to target
+
+		if (direction.Length() != 0.f)
+			direction.Normalize();
+
+		owner->GetComponent<VelocityComponent>()->m_velocity = direction;
 	}
 
 	return eBTNodeStatus::Running;
@@ -36,27 +48,36 @@ void MoveToTarget::SetCallback(const std::function<void()>& aCallback)
 	m_callback = aCallback;
 }
 
-void MoveToTarget::SetTarget(Entity* aTarget)
+void MoveToTarget::SetTargetID(int aTargetID)
 {
-	m_target = aTarget;
+	m_targetID = aTargetID;
+}
+
+bool MoveToTarget::IsValidTarget() const
+{
+	return m_targetID != -1;
 }
 
 
 
-
-
-
-AttackTarget::AttackTarget(Entity* aTarget)
-	: m_target{ aTarget }
+AttackTarget::AttackTarget(int anOwnerID, int aTargetID)
+	: BehaviorTreeNode{ anOwnerID }, m_targetID{ aTargetID }
 {
 }
 
-eBTNodeStatus AttackTarget::Execute(Entity* anEntity)
+eBTNodeStatus AttackTarget::Execute(EntityManager* anEntityManager)
 {
 	std::cout << "Attaclomg..\n";
 
+	if (!anEntityManager)
+		return eBTNodeStatus::Failure; // CORRECT OT RETURN FAILURE??
 
-	// anEntity->GetComponent<C_Movement>()->SetVelocity({ 0.f, 0.f, 0.f });
+	if (auto* owner = anEntityManager->Find(m_ownerID))
+	{
+		owner->GetComponent<VelocityComponent>()->m_velocity = { 0.f, 0.f, 0.f };
+	}
+
+	// enable attack hitbox 
 
 	return eBTNodeStatus::Running;
 }
@@ -66,9 +87,9 @@ void AttackTarget::Clear()
 
 }
 
-void AttackTarget::SetTarget(Entity* aTarget)
+void AttackTarget::SetTargetID(int aTargetID)
 {
-	m_target = aTarget;
+	m_targetID = aTargetID;
 }
 
 
@@ -77,12 +98,20 @@ void AttackTarget::SetTarget(Entity* aTarget)
 
 
 
-Idle::Idle()
+Idle::Idle(int anOwnerID)
+	: BehaviorTreeNode{ anOwnerID }
 {
 }
 
-eBTNodeStatus Idle::Execute(Entity* anEntity)
+eBTNodeStatus Idle::Execute(EntityManager* anEntityManager)
 {
+	if (anEntityManager)
+	{
+		auto* owner = anEntityManager->Find(m_ownerID);
+
+		owner->GetComponent<VelocityComponent>()->m_velocity = { 0.f, 0.f, 0.f };
+	}
+
 	return eBTNodeStatus::Invalid;
 }
 

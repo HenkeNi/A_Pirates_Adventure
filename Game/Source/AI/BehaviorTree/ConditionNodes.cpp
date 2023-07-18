@@ -1,26 +1,31 @@
 #include "Pch.h"
 #include "ConditionNodes.h"
 #include "Entity.h"
+#include "EntityManager.h"
+#include "Components.h"
 
 
-TargetInView::TargetInView(const Entity* aTarget)
-	: m_target{ aTarget }, m_radius{ 600.f }
+TargetInView::TargetInView(int anOwnerID, int aTargetID)
+	: BehaviorTreeNode{ anOwnerID }, m_targetID{ aTargetID }, m_radius{ 2.f }
 {
 }
 
-eBTNodeStatus TargetInView::Execute(Entity* anEntity)
+eBTNodeStatus TargetInView::Execute(EntityManager* anEntityManager)
 {
-	if (m_target)
+	if (anEntityManager)
 	{
-		/*auto currentPosition = anOwner->GetComponent<C_Transform>()->GetPosition();
-		auto targetPosition = m_target->GetComponent<C_Transform>()->GetPosition();
+		auto* owner = anEntityManager->Find(m_ownerID);
+		auto* target = anEntityManager->Find(m_targetID);
+
+		auto currentPosition = owner->GetComponent<TransformComponent>()->m_currentPos;
+		auto targetPosition = target->GetComponent<TransformComponent>()->m_currentPos;
 
 		float distance = currentPosition.DistanceTo(targetPosition);
 
 		if (distance <= m_radius)
 		{
 			return eBTNodeStatus::Success;
-		}*/
+		}
 	}
 	return eBTNodeStatus::Failure;
 }
@@ -36,25 +41,28 @@ void TargetInView::Clear()
 
 
 
-TargetInRange::TargetInRange(const Entity* aTarget)
-	: m_target{ aTarget }, m_radius{ 0.5f }
+TargetInRange::TargetInRange(int anOwnerID, int aTargetID)
+	: BehaviorTreeNode{ anOwnerID }, m_targetID{ aTargetID }, m_radius{ 0.5f }
 {
 }
 
-eBTNodeStatus TargetInRange::Execute(Entity* anEntity)
+eBTNodeStatus TargetInRange::Execute(EntityManager* anEntityManager)
 {
-	if (m_target)
+	if (anEntityManager)
 	{
-		//auto currentPosition = anOwner->GetComponent<C_Transform>()->GetPosition();
-		//auto targetPosition = m_target->GetComponent<C_Transform>()->GetPosition();
+		auto* owner = anEntityManager->Find(m_ownerID);
+		auto* target = anEntityManager->Find(m_targetID);
 
-		//float distance = currentPosition.DistanceTo(targetPosition);
+		auto currentPosition = owner->GetComponent<TransformComponent>()->m_currentPos;
+		auto targetPosition = target->GetComponent<TransformComponent>()->m_currentPos;
 
-		//if (distance <= m_radius)
-		//{
+		float distance = currentPosition.DistanceTo(targetPosition);
+
+		if (distance <= m_radius)
+		{
 		//	// set attacking to true => walking to false?
-		//	return eBTNodeStatus::Success;
-		//}
+			return eBTNodeStatus::Success;
+		}
 	}
 	return eBTNodeStatus::Failure;
 }

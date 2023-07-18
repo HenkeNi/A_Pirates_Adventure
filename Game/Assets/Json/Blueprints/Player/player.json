@@ -15,7 +15,8 @@
       "type": "PlayerController"
     },
     {
-      "type": "Velocity"
+      "type": "Velocity",
+      "speed": 1.0
     },
     {
       "type": "Animation"

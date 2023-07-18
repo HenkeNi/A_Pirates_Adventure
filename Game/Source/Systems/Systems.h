@@ -1,5 +1,7 @@
 #pragma once
 
+#include "AI/BehaviorTreeSystem.h"
+
 #include "Combat/CombatSystem.h"
 #include "Combat/MeleeCombatSystem.h"
 #include "Combat/RangedCombatSystem.h"
@@ -17,6 +19,7 @@
 #include "Rendering/Sprite/SpriteRenderSystem.h"
 
 #include "Stats/StatSystem.h"
+#include "Spawn/EnemySpawnSystem.h"
 #include "Spawn/SpawnSystem.h"
 
 #include "Equipment/EquipmentSystem.h"

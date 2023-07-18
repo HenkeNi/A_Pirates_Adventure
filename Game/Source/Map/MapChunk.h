@@ -17,8 +17,13 @@ public:
 
 	void SetPosition(const CU::Vector3<float>& aStartPosition);
 
-	CU::Vector2<float> GetMinMaxWidth()		const;
-	CU::Vector2<float> GetMinMaxHeight()	const;
+	CU::Vector2<float> GetStartPosition()	const;
+	CU::Vector2<float> GetEndPosition()		const;
+
+	/*CU::Vector2<float> GetMinMaxWidth()		const;
+	CU::Vector2<float> GetMinMaxHeight()	const;*/
+
+	static float GetSize();
 
 
 private:

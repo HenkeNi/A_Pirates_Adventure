@@ -69,22 +69,7 @@ void GameScene::OnEnter()
 {
 	//m_entityManager.LoadBlueprints("../Game/Assets/Json/Blueprints/blueprint_manifest.json");	// TODO; Load the needed blueprints for each scene... (clear when leaving the scene)
 
-	//GameObject player;
-	//player.AddComponent(new C_Sprite);
-	//player.AddComponent(new C_Transform);
-	//player.AddComponent(new C_Movement);
-	//player.AddComponent(new C_PlayerController);
-	//player.AddComponent(new C_BoxCollider);
 
-	//CU::Vector3<float> playerPos = { (float)Random::InRange(2, 62), 0.3f, (float)Random::InRange(2, 62) };
-	//player.GetComponent<C_Transform>()->SetPosition(playerPos);
-	//player.GetComponent<C_Sprite>()->SetMaterial({ 
-	//	&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("pirate_idle"), 
-	//	&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Billboard") });
-	//m_objectManager.AddObject(std::move(player));
-
-	//id = m_objectManager.GetAllObjects().back().GetID();
-	//m_objectManager.GetAllObjects()[0].GetComponent<C_Camera>()->SetTarget(&m_objectManager.GetAllObjects()[1]);
 
 
 	////for (int i = 0; i < 10; ++i)
@@ -103,8 +88,6 @@ void GameScene::OnEnter()
 	////	m_objectManager.AddObject(std::move(fish));
 	////}
 
-
-
 	//GameObject crab;
 	//crab.AddComponent(new C_Sprite);
 	//crab.AddComponent(new C_Transform);
@@ -121,19 +104,10 @@ void GameScene::OnEnter()
 
 
 	//GameObject skeleton;
-	//skeleton.AddComponent(new C_Sprite);
-	//skeleton.AddComponent(new C_Transform);
-	//skeleton.AddComponent(new C_Movement);
 	//skeleton.AddComponent(new C_BehaviorTree);
-	//skeleton.GetComponent<C_Sprite>()->SetMaterial({
-	//	&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("skeleton"),
-	//	&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Billboard") });
 	//skeleton.GetComponent<C_Transform>()->SetPosition({ playerPos.x, 0.1f, playerPos.z });
 	//skeleton.GetComponent<C_Transform>()->SetScale({ 0.4f, 0.4f, 0.4f });
 	//skeleton.GetComponent<C_Movement>()->SetMovementSpeed(0.5f);
-	//
-
-	//m_objectManager.AddObject(std::move(skeleton));
 
 	//auto root = new SelectorNode;
 
@@ -180,13 +154,6 @@ void GameScene::OnEnter()
 	////inputListener.CreateComponent<C_
 
 
-	///*GameObject background;
-	//auto* transform = background.GetComponent<C_Transform>();
-	//transform->SetPosition({ 0, 0, 0 });
-	//auto* sprite = background.CreateComponent<C_Sprite>();
-	//auto& texture = Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("title_screen");
-	//sprite->SetTexture(&texture);*/
-	////m_objectManager.AddObject(background);
 
 
 

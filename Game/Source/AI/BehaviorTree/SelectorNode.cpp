@@ -2,7 +2,8 @@
 #include "SelectorNode.h"
 
 
-SelectorNode::SelectorNode()
+SelectorNode::SelectorNode(int anOwnerID)
+	: BehaviorTreeNode{ anOwnerID }
 {
 }
 
@@ -10,11 +11,11 @@ SelectorNode::~SelectorNode()
 {
 }
 
-eBTNodeStatus SelectorNode::Execute(Entity* anEntity)
+eBTNodeStatus SelectorNode::Execute(EntityManager* anEntityManager)
 {
 	for (auto* child : m_children)
 	{
-		auto status = child->Execute(anEntity);
+		auto status = child->Execute(anEntityManager);
 
 		if (status == eBTNodeStatus::Running || status == eBTNodeStatus::Success)
 			return status;

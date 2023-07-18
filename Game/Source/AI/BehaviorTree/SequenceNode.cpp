@@ -2,7 +2,8 @@
 #include "SequenceNode.h"
 
 
-SequenceNode::SequenceNode()
+SequenceNode::SequenceNode(int anOwnerID)
+	: BehaviorTreeNode{ anOwnerID }
 {
 }
 
@@ -10,11 +11,11 @@ SequenceNode::~SequenceNode()
 {
 }
 
-eBTNodeStatus SequenceNode::Execute(Entity* anEntity)
+eBTNodeStatus SequenceNode::Execute(EntityManager* anEntityManager)
 {
 	for (auto* child : m_children)
 	{
-		auto status = child->Execute(anEntity);
+		auto status = child->Execute(anEntityManager);
 
 		if (status == eBTNodeStatus::Running || status == eBTNodeStatus::Failure)
 			return status;

@@ -27,6 +27,8 @@ namespace Registration
 		EntityManager::s_entityFactory.RegisterComponentBuilder("Resource",			new ConcreteComponentBuilder<ResourceComponent>());
 		EntityManager::s_entityFactory.RegisterComponentBuilder("Pickup",			new ConcreteComponentBuilder<PickupColliderComponent>());
 		EntityManager::s_entityFactory.RegisterComponentBuilder("Inventory",		new ConcreteComponentBuilder<InventoryComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("Spawner",			new ConcreteComponentBuilder<SpawnComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("BehaviorTree",		new ConcreteComponentBuilder<BehaviorTreeComponent>());
 	}
 
 	void RegisterBlueprints()
@@ -38,27 +40,27 @@ namespace Registration
 
 	void RegisterSystems(SystemManager& aSystemManager)
 	{
+		aSystemManager.Register(std::make_unique<BehaviorTreeSystem>());
+		aSystemManager.Register(std::make_unique<CameraSystem>());
+		aSystemManager.Register(std::make_unique<CollisionSystem>());
 		aSystemManager.Register(std::make_unique<CombatSystem>());
-		aSystemManager.Register(std::make_unique<MeleeCombatSystem>());
-		aSystemManager.Register(std::make_unique<RangedCombatSystem>());
-
-		aSystemManager.Register(std::make_unique<PlayerControllerSystem>());
+		aSystemManager.Register(std::make_unique<EnemySpawnSystem>());
+		aSystemManager.Register(std::make_unique<EquipmentSystem>());
 		aSystemManager.Register(std::make_unique<InputSystem>());
 
-		aSystemManager.Register(std::make_unique<CollisionSystem>());
+		aSystemManager.Register(std::make_unique<InventorySystem>());
+		aSystemManager.Register(std::make_unique<MeleeCombatSystem>());
 		aSystemManager.Register(std::make_unique<MovementSystem>());
 
-		aSystemManager.Register(std::make_unique<SpriteAnimationSystem>());
-		aSystemManager.Register(std::make_unique<CameraSystem>());
-		aSystemManager.Register(std::make_unique<PrimitiveRenderSystem>());
-		aSystemManager.Register(std::make_unique<SpriteRenderSystem>());
-
-		aSystemManager.Register(std::make_unique<StatSystem>());
-		aSystemManager.Register(std::make_unique<SpawnSystem>());
-
-		aSystemManager.Register(std::make_unique<EquipmentSystem>());
+		aSystemManager.Register(std::make_unique<PlayerControllerSystem>());
+		aSystemManager.Register(std::make_unique<RangedCombatSystem>());
 		aSystemManager.Register(std::make_unique<ResourceDropSystem>());
-		aSystemManager.Register(std::make_unique<InventorySystem>());
+
+		aSystemManager.Register(std::make_unique<SpawnSystem>());
+		aSystemManager.Register(std::make_unique<SpriteAnimationSystem>());
+		aSystemManager.Register(std::make_unique<SpriteRenderSystem>());
+		aSystemManager.Register(std::make_unique<StatSystem>());
+		aSystemManager.Register(std::make_unique<PrimitiveRenderSystem>());
 	}
 
 	void RegisterScenes(SceneManager& aSceneManager, SystemManager& aSystemManager)

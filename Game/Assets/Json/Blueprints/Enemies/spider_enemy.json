@@ -13,6 +13,9 @@
       "shader": "Billboard",
       "texture": "crab",
       "color": [ 1.0, 1.0, 1.0, 1.0 ]
+    },
+    {
+      "type": "BehaviorTree"
     }
   ]
 }

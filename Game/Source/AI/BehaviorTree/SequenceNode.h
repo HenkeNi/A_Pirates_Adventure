@@ -7,11 +7,11 @@
 class SequenceNode : public BehaviorTreeNode
 {
 public:
-	SequenceNode();
+	SequenceNode(int anOwnerID);
 	~SequenceNode();
 
-	eBTNodeStatus	Execute(Entity* anEntity)			override;
-	void			Clear()									override;
+	eBTNodeStatus	Execute(EntityManager* anEntityManager)		override;
+	void			Clear()										override;
 
 	void			AddChild(BehaviorTreeNode* aNode);
 

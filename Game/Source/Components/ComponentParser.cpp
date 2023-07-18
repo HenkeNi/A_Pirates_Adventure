@@ -101,6 +101,21 @@ ComponentData ComponentParser::ParseResourceComponent(JsonValue aValue)
 	return data;
 }
 
+ComponentData ComponentParser::ParseSpawnComponent(JsonValue aValue)
+{
+	ComponentData data;
+
+	std::string spawned = aValue["spawned"].GetString();
+	int amount			= aValue["amount"].GetInt();
+	float interval		= aValue["interval"].GetFloat();
+
+	data.insert(std::make_pair("spawned",	spawned));
+	data.insert(std::make_pair("amount",	amount));
+	data.insert(std::make_pair("interval",	interval));
+	
+	return data;
+}
+
 ComponentData ComponentParser::ParseSpriteComponent(JsonValue aValue)
 {
 	ComponentData data;
@@ -146,7 +161,12 @@ ComponentData ComponentParser::ParseTransformComponent(JsonValue aValue)
 
 ComponentData ComponentParser::ParseVelocityComponent(JsonValue aValue)
 {
-	return ComponentData();
+	ComponentData data;
+
+	float speed = aValue["speed"].GetFloat();
+	data.insert(std::make_pair("speed", speed));
+	
+	return data;
 }
 
 ComponentData ComponentParser::ParseWeaponComponent(JsonValue aValue)
@@ -172,6 +192,7 @@ void ComponentParser::Initialize()
 	m_parsers.insert(std::make_pair("Rect",				&ParseRectComponent));
 
 	m_parsers.insert(std::make_pair("Resource",			&ParseResourceComponent));
+	m_parsers.insert(std::make_pair("Spawner",			&ParseSpawnComponent));
 	m_parsers.insert(std::make_pair("Sprite",			&ParseSpriteComponent));
 	m_parsers.insert(std::make_pair("Stamina",			&ParseStaminaComponent));
 	m_parsers.insert(std::make_pair("SteeringBehavior", &ParseSteeringBehaviorComponent));

@@ -55,7 +55,7 @@ T* Entity::GetComponent()
 	auto it = m_components.find(std::type_index(typeid(T)));
 
 	bool found = (it != m_components.end());
-	assert(found && "Couldn't find component!");
+	// assert(found && "Couldn't find component!");
 
 	if (found)
 	{

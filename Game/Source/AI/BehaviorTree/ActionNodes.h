@@ -13,23 +13,26 @@
 
 // Todo, put in Engine??
 
+class EntityManager;
 
 class MoveToTarget : public BehaviorTreeNode
 {
 public:
-	MoveToTarget(Entity* aTarget = nullptr);
+	MoveToTarget(int anOwnerID, int aTargetID = -1);
 
-	eBTNodeStatus	Execute(Entity* anEntity) override;
-	void			Clear()						 override;
+	eBTNodeStatus	Execute(EntityManager* anEntityManager)		override;
+	void			Clear()										override;
 
 	void			SetCallback(const std::function<void()>& aCallback);
-	void			SetTarget(Entity* aTarget);
+	void			SetTargetID(int aTargetID);
 
 private:
+	bool			IsValidTarget() const;
 
 	// callback? or use derived classes??
 	std::function<void()>	m_callback;
-	Entity*				m_target;
+	int						m_targetID;
+	float					m_arriveRange;
 };
 
 
@@ -37,14 +40,14 @@ private:
 class AttackTarget : public BehaviorTreeNode
 {
 public:
-	AttackTarget(Entity* aTarget = nullptr);
+	AttackTarget(int anOwnerID, int aTargetID = -1);
 
-	eBTNodeStatus	Execute(Entity* anEntity) override;
-	void			Clear()						 override;
+	eBTNodeStatus	Execute(EntityManager* anEntityManager)	override;
+	void			Clear()									override;
 
-	void			SetTarget(Entity* aTarget);
+	void			SetTargetID(int aTargetID);
 private:
-	Entity*		m_target;
+	int				m_targetID;
 };
 
 
@@ -52,9 +55,8 @@ private:
 class Idle : public BehaviorTreeNode
 {
 public:
-	Idle();
+	Idle(int anOwnerID);
 
-	eBTNodeStatus	Execute(Entity* anEntity) override;
-	void			Clear()						 override;
-
+	eBTNodeStatus	Execute(EntityManager* anEntityManager)	override;
+	void			Clear()									override;
 };

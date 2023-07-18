@@ -40,6 +40,8 @@ public:
 
 	static ComponentData ParseResourceComponent(JsonValue aValue);
 
+	static ComponentData ParseSpawnComponent(JsonValue aValue);
+
 	static ComponentData ParseSpriteComponent(JsonValue aValue);
 
 	static ComponentData ParseStaminaComponent(JsonValue aValue);

@@ -83,5 +83,10 @@
     "name": "Rock",
     "filepath": "../Game/Assets/Textures/rock.png",
     "alpha": true
+  },
+  {
+    "name": "Skeleton_Pile",
+    "filepath": "../Game/Assets/Textures/skeleton_pile.png",
+    "alpha": true
   }
 ]

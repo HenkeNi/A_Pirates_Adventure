@@ -16,6 +16,9 @@
     ],
     "resources": [
       "../Game/Assets/Json/Blueprints/Resource/tree_resource.json"
+    ],
+    "spawners": [
+      "../Game/Assets/Json/Blueprints/Spawner/skeleton_spawner.json"
     ]
   }
 }
