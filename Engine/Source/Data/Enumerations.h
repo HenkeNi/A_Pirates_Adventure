@@ -17,6 +17,7 @@ namespace Hi_Engine
 		Key_Enter,
 		Key_Space,
 		Key_Escape,
+		Key_Shift,
 		Key_W,
 		Key_A,
 		Key_S,

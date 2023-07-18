@@ -35,9 +35,10 @@ void MovementSystem::Update(float aDeltaTime)
 
 		transform->m_previousPos = transform->m_currentPos;
 
-		transform->m_currentPos += velocity->m_velocity * aDeltaTime;
-		velocity->m_velocity += velocity->m_acceleration * aDeltaTime;
-
+		transform->m_currentPos += velocity->m_speed * velocity->m_velocity * aDeltaTime;
+		//transform->m_currentPos += velocity->m_velocity * aDeltaTime;
+		//velocity->m_velocity += velocity->m_acceleration * aDeltaTime;
+		
 
 		if (auto* attackCollider = entity->GetComponent<AttackColliderComponent>())
 		{

@@ -69,6 +69,9 @@ namespace Hi_Engine
 		case GLFW_KEY_SPACE:
 			s_inputStates[eInputType::Key_Space] = GetKeyState(anAction);	
 			break;
+		case GLFW_KEY_LEFT_SHIFT:
+			s_inputStates[eInputType::Key_Shift] = GetKeyState(anAction);
+			break;
 		}
 	}
 

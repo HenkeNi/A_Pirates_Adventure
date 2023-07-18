@@ -79,6 +79,8 @@ void PlayerControllerSystem::Update(float aDeltaTime)
 			rect->m_color = { 1.f, 0.f, 0.f, 1.f };
 		}
 
+
+
 		// Update position of attack collider...
 		auto colliderWidth = attackCollider->m_collider.GetWidth();
 		
@@ -104,6 +106,16 @@ void PlayerControllerSystem::Update(float aDeltaTime)
 
 
 
+		if (input->m_inputStates[Hi_Engine::eInputType::Key_Shift])
+		{
+			//velocity->m_acceleration = { 2.5f, 0.f, 2.5f };
+			velocity->m_speed = 3.f;
+		}
+		else
+		{
+			//velocity->m_acceleration = { 1.f, 0.f, 1.f };
+			velocity->m_speed = 1.f;
+		}
 		
 	}
 
