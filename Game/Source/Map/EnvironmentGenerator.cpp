@@ -27,8 +27,18 @@ void EnvironmentGenerator::PopulateMapChunk(class MapChunk& aChunk)
 	if (!m_entityManager)
 		return;
 
+	// check if map chunk is water..? 
+
+	// generate for foilage per tile?
+
+	if (aChunk.IsWater())
+		return;
+
 	auto start = aChunk.GetStartPosition();
 	auto end = aChunk.GetEndPosition();
+	end.x -= 1.f;
+	end.y -= 1.f;
+
 
 //	auto width = aChunk. GetMinMaxWidth();  
 	//auto height = aChunk.GetMinMaxHeight();

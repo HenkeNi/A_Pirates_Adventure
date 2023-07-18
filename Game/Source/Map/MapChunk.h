@@ -14,6 +14,7 @@ public:
 
 
 	void CreateTiles();
+	void CreateTiles(bool isLand);
 
 	void SetPosition(const CU::Vector3<float>& aStartPosition);
 
@@ -25,6 +26,10 @@ public:
 
 	static float GetSize();
 
+	inline bool IsWater() const // FIX!
+	{
+		return m_isWater;
+	}
 
 private:
 	friend class MapSystem;
@@ -33,7 +38,7 @@ private:
 
 	static unsigned		s_widthInTiles;
 
-
+	bool m_isWater = false; // FIX!
 
 	CU::Vector3<float>	m_position;	// rename worldPosiiton??	Upper left corner??
 	std::vector<Tile>	m_tiles;

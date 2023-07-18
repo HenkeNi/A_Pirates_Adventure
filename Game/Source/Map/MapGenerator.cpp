@@ -25,9 +25,13 @@ std::vector<MapChunk> MapGenerator::GenerateStartArea()
 			//chunk.SetPosition({ (float)col + chunk.m_chunkWidth * tileSize, 0.f, (float)row + chunk.m_chunkHeight * tileSize });
 			chunk.SetPosition({ (float)col * (chunk.m_chunkWidth * tileSize),  0.f, (float)row * (chunk.m_chunkHeight * tileSize) });
 
-			chunk.CreateTiles();
+			bool isLand = (col > 0 && col < 4) && (row > 0 && row < 4);
+			chunk.m_isWater = !isLand;
+			chunk.CreateTiles(isLand);
 
 			mapChunks.push_back(chunk);
+
+			// generate foilage here?
 		}
 	}
 
