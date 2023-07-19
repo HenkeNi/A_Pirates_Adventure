@@ -1,7 +1,6 @@
 #pragma once
 #include "../Scene.h"
 #include "../SceneManager.h"
-#include "../Map/Map.h"
 
 
 class GameScene : public Scene
@@ -23,5 +22,4 @@ public:
 
 private:
 	SceneManager	m_sceneManager;	// will contain WorldScene and IndoorScene... (amongst others)...
-	// Map				m_map;
 };

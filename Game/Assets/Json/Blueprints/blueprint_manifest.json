@@ -19,6 +19,9 @@
     ],
     "spawners": [
       "../Game/Assets/Json/Blueprints/Spawner/skeleton_spawner.json"
+    ],
+    "map": [
+      "../Game/Assets/Json/Blueprints/Map/map_chunk.json"
     ]
   }
 }

@@ -8,7 +8,7 @@ std::unordered_map<std::string, std::function<ComponentData(JsonValue)>> Compone
 bool ComponentParser::m_isInitialized = false;
 
 ComponentData ComponentParser::ParseComponentFromJson(const std::string& aType, JsonValue aValue)
-{
+{ 
 	if (!m_isInitialized)
 	{
 		Initialize();
@@ -69,6 +69,19 @@ ComponentData ComponentParser::ParseInputComponent(JsonValue aValue)
 ComponentData ComponentParser::ParseInventoryComponent(JsonValue aValue)
 {
 	return ComponentData();
+}
+
+ComponentData ComponentParser::ParseMapChunkComponent(JsonValue aValue)
+{
+	ComponentData data;
+
+	int width = aValue["width"].GetInt();
+	int height = aValue["height"].GetInt();
+
+	data.insert(std::make_pair("width", width));
+	data.insert(std::make_pair("height", height));
+
+	return data;
 }
 
 ComponentData ComponentParser::ParsePickupComponent(JsonValue aValue)
@@ -186,6 +199,7 @@ void ComponentParser::Initialize()
 
 	m_parsers.insert(std::make_pair("Input",			&ParseInputComponent));
 	m_parsers.insert(std::make_pair("Inventory",		&ParseInventoryComponent));
+	m_parsers.insert(std::make_pair("MapChunk",			&ParseMapChunkComponent));
 	m_parsers.insert(std::make_pair("Pickup",			&ParsePickupComponent));
 
 	m_parsers.insert(std::make_pair("PlayerController", &ParsePlayerControllerComponent));

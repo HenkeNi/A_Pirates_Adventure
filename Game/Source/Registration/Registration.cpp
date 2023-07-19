@@ -29,6 +29,8 @@ namespace Registration
 		EntityManager::s_entityFactory.RegisterComponentBuilder("Inventory",		new ConcreteComponentBuilder<InventoryComponent>());
 		EntityManager::s_entityFactory.RegisterComponentBuilder("Spawner",			new ConcreteComponentBuilder<SpawnComponent>());
 		EntityManager::s_entityFactory.RegisterComponentBuilder("BehaviorTree",		new ConcreteComponentBuilder<BehaviorTreeComponent>());
+
+		EntityManager::s_entityFactory.RegisterComponentBuilder("MapChunk",			new ConcreteComponentBuilder<MapChunkComponent>());
 	}
 
 	void RegisterBlueprints()
@@ -61,6 +63,10 @@ namespace Registration
 		aSystemManager.Register(std::make_unique<SpriteRenderSystem>());
 		aSystemManager.Register(std::make_unique<StatSystem>());
 		aSystemManager.Register(std::make_unique<PrimitiveRenderSystem>());
+
+		aSystemManager.Register(std::make_unique<MapRenderSystem>());
+		aSystemManager.Register(std::make_unique<MapGenerationSystem>());
+		aSystemManager.Register(std::make_unique<MapDecorationSystem>());
 	}
 
 	void RegisterScenes(SceneManager& aSceneManager, SystemManager& aSystemManager)

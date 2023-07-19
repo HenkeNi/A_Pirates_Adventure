@@ -1,0 +1,21 @@
+{
+  "name": "MapChunk",
+  "layer": "Map",
+  "components": [
+    {
+      "type": "Transform",
+      "position": [ 0.0, 0.0, 0.0 ],
+      "scale": [ 1.0, 1.0, 1.0 ],
+      "rotation": 0.0
+    },
+    {
+      "type": "MapChunk",
+      "width": 10,
+      "height": 10
+    },
+    {
+      "type": "Rect",
+      "shader": "Primitive"
+    }
+  ]
+}

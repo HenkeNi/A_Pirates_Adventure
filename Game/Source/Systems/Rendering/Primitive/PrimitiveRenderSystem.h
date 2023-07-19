@@ -12,5 +12,5 @@ public:
 	void Draw()					override;
 
 private:
-	Hi_Engine::Shader* m_shader;
+	Hi_Engine::Shader* m_shader;	// Needed??
 };

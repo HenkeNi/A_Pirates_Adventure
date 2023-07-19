@@ -6,6 +6,7 @@
 #include "Controllers/ControllerComponents.h"
 #include "Core/CoreComponents.h"
 #include "Inventory/InventoryComponents.h"
+#include "Map/MapComponents.h"
 #include "Physics/PhysicsComponents.h"
 #include "Rendering/RenderComponents.h"
 #include "Resource/ResourceComponents.h"

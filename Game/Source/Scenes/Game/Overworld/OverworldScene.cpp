@@ -21,7 +21,7 @@ void OverworldScene::LateUpdate(float aDeltaTime)
 
 void OverworldScene::Draw() const
 {
-	m_mapSystem.Draw();
+	// m_mapSystem.Draw();
 }
 
 #include "Core/Resources/ResourceHolder.hpp"
@@ -47,12 +47,17 @@ void OverworldScene::OnCreated()
 
 void OverworldScene::OnEnter()
 {
+
+
 	auto& systemManager = m_sharedContext.m_systemManager;
 	systemManager.Init(&m_entityManager);
 
 	m_entityManager.GetFactory().LoadBlueprints("../Game/Assets/Json/Blueprints/blueprint_manifest.json");
 
-	m_mapSystem.Init(&m_entityManager);
+	PostMaster::GetInstance().SendMessage({ eMessage::GameStarted, true }); 	// FIX
+
+
+	// m_mapSystem.Init(&m_entityManager);
 
 	// Player
 	auto player = m_entityManager.Create("Player");

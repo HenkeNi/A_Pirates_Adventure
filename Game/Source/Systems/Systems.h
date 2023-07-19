@@ -25,3 +25,8 @@
 #include "Equipment/EquipmentSystem.h"
 #include "Resource/ResourceDropSystem.h"
 #include "Inventory/InventorySystem.h"
+
+
+#include "Map/MapGenerationSystem.h"
+#include "Map/MapDecorationSystem.h"
+#include "Rendering/Map/MapRenderSystem.h"

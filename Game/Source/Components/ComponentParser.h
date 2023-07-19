@@ -32,6 +32,8 @@ public:
 
 	static ComponentData ParseInventoryComponent(JsonValue aValue);
 
+	static ComponentData ParseMapChunkComponent(JsonValue aValue);
+
 	static ComponentData ParsePickupComponent(JsonValue aValue);
 
 	static ComponentData ParsePlayerControllerComponent(JsonValue aValue);

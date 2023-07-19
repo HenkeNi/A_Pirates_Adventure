@@ -1,6 +1,5 @@
 #pragma once
 #include "../../Scene.h"
-#include "../Map/MapSystem.h"
 
 class OverworldScene : public Scene
 {
@@ -17,5 +16,4 @@ public:
 	void OnExit()							  override;
 
 private:
-	MapSystem m_mapSystem;
 };

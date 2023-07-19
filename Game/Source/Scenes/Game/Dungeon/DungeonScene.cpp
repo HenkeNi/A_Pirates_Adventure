@@ -21,7 +21,7 @@ void DungeonScene::LateUpdate(float aDeltaTime)
 
 void DungeonScene::Draw() const
 {
-	m_map.Draw();
+	// m_map.Draw();
 }
 
 void DungeonScene::OnCreated()

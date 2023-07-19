@@ -31,7 +31,14 @@ struct Range
 };
 
 
-
+struct Tile
+{
+	Hi_Engine::Material m_material;
+	CU::Vector3<float>	m_position;			// store chunk coordiante instead?
+	CU::Vector2<int>	m_coordinates;			// Use only one!!
+	eTile				m_type;
+	bool				m_isCollidable;
+};
 
 
 

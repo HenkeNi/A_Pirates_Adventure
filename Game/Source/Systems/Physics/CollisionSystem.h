@@ -1,6 +1,8 @@
 #pragma once
 #include "Base/System.h"
 
+//class MapChunk;
+
 class CollisionSystem : public System
 {
 public:
@@ -17,5 +19,7 @@ public:
 private:
 	// Check collisions
 	// Handle Collision / Resolve Collisions
+
+	//7std::vector<MapChunk*> m_mapChunks;
 };
 

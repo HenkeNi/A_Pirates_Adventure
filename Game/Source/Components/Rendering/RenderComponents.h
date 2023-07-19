@@ -42,22 +42,22 @@ struct RectComponent : public ComponentBase
 
 
 // REMOVE!!!
-struct TileComponent : public ComponentBase
-{
-	// Tile specific data..
-	CU::Vector2<float>	m_size;
-	unsigned			m_type;		
-	bool				m_isTraversable; // Needed???
-};
-
-struct MapChunkComponent : public ComponentBase
-{
-	CU::Vector2<unsigned>	m_size;
-	CU::Vector2<int>		m_position;
-	unsigned				m_chunkID;
-
-
-	// Data for chunk of tiles
- };
+//struct TileComponent : public ComponentBase
+//{
+//	// Tile specific data..
+//	CU::Vector2<float>	m_size;
+//	unsigned			m_type;		
+//	bool				m_isTraversable; // Needed???
+//};
+//
+//struct MapChunkComponent : public ComponentBase
+//{
+//	CU::Vector2<unsigned>	m_size;
+//	CU::Vector2<int>		m_position;
+//	unsigned				m_chunkID;
+//
+//
+//	// Data for chunk of tiles
+// };
 
 // Store each tile as an Entity? depending on which chunk it is in => render it or not..???

@@ -74,6 +74,16 @@ public:
 		int xx = 20;
 		xx += 20;
 	}
+	
+	template <>
+	static void InitializeComponent<MapChunkComponent>(MapChunkComponent* aComponent, const ComponentData& someData)
+	{
+		int width = std::any_cast<int>(someData.at("width"));
+		int height = std::any_cast<int>(someData.at("height"));
+
+		aComponent->m_width = width;
+		aComponent->m_height = height;
+	}
 
 	template <>
 	static void InitializeComponent<SpawnComponent>(SpawnComponent* aComponent, const ComponentData& someData)

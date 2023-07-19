@@ -21,7 +21,11 @@ enum class eMessage
 	EntityDestroyed,
 	EntityDied,
 	EntityAttacked,				// rename AttackEvent?
-	MapCreated,
+	
+	GameStarted,
+	MapChunkGenerated,
+	// MapChunkCreated,
+	//MapChunkDestroyed
 };
 
 
