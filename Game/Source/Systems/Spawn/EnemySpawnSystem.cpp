@@ -44,9 +44,6 @@ void EnemySpawnSystem::Update(float aDeltaTime)
 			spawnComponent->m_elapsedTime = 0.f;
 			++spawnComponent->m_amount;
 
-
-			std::cout << "Spawning..\n";
-
 			SpawnEnemy(spawnComponent->m_spawned, spawner->GetComponent<TransformComponent>()->m_currentPos);
 		}
 	}

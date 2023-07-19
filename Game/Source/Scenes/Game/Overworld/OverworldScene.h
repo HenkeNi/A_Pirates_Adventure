@@ -8,7 +8,7 @@ public:
 	~OverworldScene();
 
 	void Update(float aDeltaTime)			  override;
-	void LateUpdate(float aDeltaTime)		  override;
+	void LateUpdate(float aDeltaTime)		  override; 
 	void Draw()							const override;
 
 	void OnCreated()						  override;

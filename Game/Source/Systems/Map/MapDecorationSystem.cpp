@@ -47,7 +47,7 @@ void MapDecorationSystem::PopulateWithFoilage(const Entity* aMapChunk)
 			auto* entity = m_entityManager->Create(aType);
 			auto* transform = entity->GetComponent<TransformComponent>();
 
-			CU::Vector2<float> position = { (float)Random::InRange(chunkPosition.x, endPosition.x), (float)Random::InRange(chunkPosition.y, endPosition.y) };
+			CU::Vector2<float> position = { (float)Random::InRange(chunkPosition.x + 1.f, endPosition.x - 1.f), (float)Random::InRange(chunkPosition.z + 1.f, endPosition.y - 1.f) };
 
 			transform->m_currentPos = transform->m_previousPos = { position.x, transform->m_currentPos.y, position.y };
 			//transform->m_scale = { 0.75f, 0.75f, 0.75f };														// should be read from json...
