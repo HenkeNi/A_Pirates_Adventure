@@ -72,6 +72,7 @@ void MapDecorationSystem::PopulateWithFoilage(const Entity* aMapChunk)
 	
 	generateFoilage("PalmTree", 2, aMapChunk);
 	generateFoilage("Grass", 7, aMapChunk);
+	generateFoilage("Rock", 1, aMapChunk);
 
 	static int count = 0;
 

@@ -1,5 +1,5 @@
 {
-  "name": "Resource",
+  "name": "Wood_Resource",
   "layer": "Resource",
   "components": [
     {
@@ -20,7 +20,7 @@
     },
     {
       "type": "Resource",
-      "quantity": 5
+      "resource": "Wood"
     },
     {
       "type": "Pickup"

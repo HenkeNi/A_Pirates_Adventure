@@ -9,13 +9,16 @@
     ],
     "props": [
       "../Game/Assets/Json/Blueprints/Props/grass_prop.json",
-      "../Game/Assets/Json/Blueprints/Props/palm_tree_prop.json"
+      "../Game/Assets/Json/Blueprints/Props/palm_tree_prop.json",
+      "../Game/Assets/Json/Blueprints/Props/rock_prop.json"
     ],
     "cameras": [
       "../Game/Assets/Json/Blueprints/Camera/camera.json"
     ],
     "resources": [
-      "../Game/Assets/Json/Blueprints/Resource/tree_resource.json"
+      "../Game/Assets/Json/Blueprints/Resource/fiber_resource.json",
+      "../Game/Assets/Json/Blueprints/Resource/stone_resource.json",
+      "../Game/Assets/Json/Blueprints/Resource/wood_resource.json"
     ],
     "spawners": [
       "../Game/Assets/Json/Blueprints/Spawner/skeleton_spawner.json"

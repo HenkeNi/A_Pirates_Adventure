@@ -1,17 +1,17 @@
 {
-  "name": "PalmTree",
+  "name": "Rock",
   "layer": "Environment",
   "components": [
     {
       "type": "Transform",
-      "position": [ 0.0, 1.2, 0.0 ],
-      "scale": [ 1.4, 2.4, 1.0 ],
+      "position": [ 0.0, 0.1, 0.0 ],
+      "scale": [ 0.5, 0.5, 1.0 ],
       "rotation": 0.0
     },
     {
       "type": "Sprite",
       "shader": "Billboard",
-      "texture": "palm_01",
+      "texture": "Rock",
       "color": [ 1.0, 1.0, 1.0, 1.0 ]
     },
     {
@@ -20,7 +20,7 @@
     },
     {
       "type": "Health",
-      "value": 100
+      "value": 50
     },
     {
       "type": "Rect",
@@ -28,7 +28,7 @@
     },
     {
       "type": "Harvestable",
-      "resource_type": "Wood_Resource",
+      "resource_type": "Stone_Resource",
       "yield": 5
     }
   ]

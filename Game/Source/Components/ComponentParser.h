@@ -24,6 +24,8 @@ public:
 	
 	static ComponentData ParseCameraComponent(JsonValue aValue);
 
+	static ComponentData ParseHarvestableComponent(JsonValue aValue);
+
 	static ComponentData ParseHealthComponent(JsonValue aValue);
 
 	static ComponentData ParseHitboxComponent(JsonValue aValue);

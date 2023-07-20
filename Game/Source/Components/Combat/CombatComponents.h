@@ -45,14 +45,14 @@ struct PickupColliderComponent : public ComponentBase
 };
 
 
-struct EnemySpawner : public ComponentBase
+struct EnemySpawnerComponent : public ComponentBase
 {
 
 };
 
 
 
-struct ItemSpawner : public ComponentBase
+struct ItemSpawnerComponent : public ComponentBase
 {
 
 };

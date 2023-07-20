@@ -27,8 +27,9 @@
       "shader": "Primitive"
     },
     {
-      "type": "Resource",
-      "quantity": 5
+      "type": "Harvestable",
+      "resource_type": "Fiber_Resource",
+      "yield": 5
     }
   ]
 }

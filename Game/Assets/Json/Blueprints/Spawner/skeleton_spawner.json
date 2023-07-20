@@ -27,10 +27,6 @@
       "shader": "Primitive"
     },
     {
-      "type": "Resource",
-      "quantity": 5
-    },
-    {
       "type": "Spawner",
       "spawned": "Skeleton",
       "amount": 5,

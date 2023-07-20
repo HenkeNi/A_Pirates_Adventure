@@ -26,26 +26,32 @@ void ResourceDropSystem::Receive(Message& aMsg)
 
 	auto data = std::any_cast<Entity*>(aMsg.GetData());
 
-	if (data->HasComponents<ResourceComponent>())
+	//if (data->HasComponents<ResourceComponent>())
+	if (data->HasComponents<HarvestableComponent>())
 	{
-		auto* resourceComponent = data->GetComponent<ResourceComponent>(); // Check if not nullptr ionstead of has component?? -> remove assert in that case 
-		auto droppedResource = m_entityManager->Create(resourceComponent->m_entityToCreate);
+		
+		auto* harvestableComponent = data->GetComponent<HarvestableComponent>();
 
-		auto transformComponent = droppedResource->GetComponent<TransformComponent>();
+		auto* resource = m_entityManager->Create(harvestableComponent->m_resourceType);
+
+		//auto* resourceComponent = data->GetComponent<ResourceComponent>(); // Check if not nullptr ionstead of has component?? -> remove assert in that case 
+		//auto droppedResource = m_entityManager->Create(resourceComponent->m_entityToCreate);
+
+		auto transformComponent = resource->GetComponent<TransformComponent>();
 		transformComponent->m_currentPos = data->GetComponent<TransformComponent>()->m_currentPos;
 		transformComponent->m_currentPos.y = 0.1f;
 		transformComponent->m_scale = { 0.2f, 0.2f, 0.2f };
 
-		auto spriteComponent = droppedResource->GetComponent<SpriteComponent>();
+		auto spriteComponent = resource->GetComponent<SpriteComponent>();
 		spriteComponent->m_material = {
 			&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("Log"),				// FIX!
 			&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Billboard") };
 		
 
-		auto rect = droppedResource->GetComponent<RectComponent>();
+		auto rect = resource->GetComponent<RectComponent>();
 		rect->m_shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Primitive");			// TODO; add box collider component => trigger?
 
-		auto pickupCollider = droppedResource->GetComponent<PickupColliderComponent>();
+		auto pickupCollider = resource->GetComponent<PickupColliderComponent>();
 		auto colliderSize = 0.2f;	// take halfsize instead?
 		pickupCollider->m_collider.Init({ transformComponent->m_currentPos.x - colliderSize, transformComponent->m_currentPos.z - colliderSize }, { transformComponent->m_currentPos.x + colliderSize, transformComponent->m_currentPos.z + colliderSize });
 	}

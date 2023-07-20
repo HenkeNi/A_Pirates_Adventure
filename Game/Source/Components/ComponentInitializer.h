@@ -51,6 +51,16 @@ public:
 	}
 
 	template <>
+	static void InitializeComponent<HarvestableComponent>(HarvestableComponent* aComponent, const ComponentData& someData)
+	{
+		std::string resourceType = std::any_cast<std::string>(someData.at("resource_type"));
+		int yield = std::any_cast<int>(someData.at("yield"));
+
+		aComponent->m_yield = yield;
+		aComponent->m_resourceType = resourceType;
+	}
+
+	template <>
 	static void InitializeComponent<HealthComponent>(HealthComponent* aComponent, const ComponentData& someData)
 	{
 		int value = std::any_cast<int>(someData.at("value"));
@@ -138,8 +148,11 @@ public:
 	template <>
 	static void InitializeComponent<ResourceComponent>(ResourceComponent* aComponent, const ComponentData& someData)
 	{
-		int quantity = std::any_cast<int>(someData.at("quantity"));
-		aComponent->m_quantity = (unsigned)quantity;
+		std::string resource = std::any_cast<std::string>(someData.at("resource"));
+		//int quantity = std::any_cast<int>(someData.at("quantity"));
+
+		//aComponent->m_quantity			= (unsigned)quantity;
+		aComponent->m_resourceType = resource;
 	}
 	
 	template <>

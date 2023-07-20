@@ -1,0 +1,29 @@
+{
+  "name": "Fiber_Resource",
+  "layer": "Resource",
+  "components": [
+    {
+      "type": "Transform",
+      "position": [ 0.0, 0.0, 0.0 ],
+      "scale": [ 1.0, 1.0, 1.0 ],
+      "rotation": 0.0
+    },
+    {
+      "type": "Sprite",
+      "shader": "Billboard",
+      "texture": "Log",
+      "color": [ 1.0, 1.0, 1.0, 1.0 ]
+    },
+    {
+      "type": "Rect",
+      "shader": "Primitive"
+    },
+    {
+      "type": "Resource",
+      "resource": "Fiber"
+    },
+    {
+      "type": "Pickup"
+    }
+  ]
+}

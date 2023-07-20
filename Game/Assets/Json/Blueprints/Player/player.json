@@ -47,10 +47,6 @@
     {
       "type": "Rect",
       "shader": "Primitive"
-    },
-    {
-      "type": "Resource",
-      "quantity": 5
     }
   ]
 }

@@ -23,6 +23,7 @@ namespace Registration
 		EntityManager::s_entityFactory.RegisterComponentBuilder("Rect",				new ConcreteComponentBuilder<RectComponent>());
 		EntityManager::s_entityFactory.RegisterComponentBuilder("AttackCollider",	new ConcreteComponentBuilder<AttackColliderComponent>());
 		EntityManager::s_entityFactory.RegisterComponentBuilder("Hitbox",			new ConcreteComponentBuilder<HitboxColliderComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("Harvestable",		new ConcreteComponentBuilder<HarvestableComponent>());
 
 		EntityManager::s_entityFactory.RegisterComponentBuilder("Resource",			new ConcreteComponentBuilder<ResourceComponent>());
 		EntityManager::s_entityFactory.RegisterComponentBuilder("Pickup",			new ConcreteComponentBuilder<PickupColliderComponent>());

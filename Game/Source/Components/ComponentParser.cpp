@@ -40,6 +40,19 @@ ComponentData ComponentParser::ParseCameraComponent(JsonValue aValue)
 	return ComponentData();
 }
 
+ComponentData ComponentParser::ParseHarvestableComponent(JsonValue aValue)
+{
+	ComponentData data;
+
+	int yield = aValue["yield"].GetInt();
+	std::string resource = aValue["resource_type"].GetString();
+
+	data.insert(std::make_pair("resource_type", resource));
+	data.insert(std::make_pair("yield", yield));
+
+	return data;
+}
+
 ComponentData ComponentParser::ParseHealthComponent(JsonValue aValue)
 {
 	ComponentData data;
@@ -107,11 +120,13 @@ ComponentData ComponentParser::ParseRectComponent(JsonValue aValue)
 ComponentData ComponentParser::ParseResourceComponent(JsonValue aValue)
 {
 	ComponentData data;
-	auto quantity = aValue["quantity"].GetInt();
+	std::string resource = aValue["resource"].GetString();
 
-	data.insert(std::make_pair("quantity", quantity));
+	data.insert(std::make_pair("resource", resource));
 
 	return data;
+
+
 }
 
 ComponentData ComponentParser::ParseSpawnComponent(JsonValue aValue)
@@ -194,6 +209,7 @@ void ComponentParser::Initialize()
 
 	m_parsers.insert(std::make_pair("BehaviorTree",		&ParseBehaviorTreeComponent));
 	m_parsers.insert(std::make_pair("Camera",			&ParseCameraComponent));
+	m_parsers.insert(std::make_pair("Harvestable",		&ParseHarvestableComponent));
 	m_parsers.insert(std::make_pair("Health",			&ParseHealthComponent));
 	m_parsers.insert(std::make_pair("Hitbox",			&ParseHitboxComponent));
 
