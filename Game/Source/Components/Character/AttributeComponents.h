@@ -9,3 +9,12 @@ struct AttributeComponent : public ComponentBase
 
 };
 
+struct CharacterStateComponent : public ComponentBase
+{
+	bool m_isIdle;
+	bool m_isWalking;
+	bool m_isRunning;
+	bool m_isJumping;
+	bool m_isAttacking;
+	bool m_isAlive;
+};

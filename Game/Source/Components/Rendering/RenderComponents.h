@@ -1,5 +1,6 @@
 #pragma once
 #include "../Base/ComponentBase.h"
+#include "../Data/Structs.h"
 
 
 struct SpriteComponent : public ComponentBase
@@ -9,14 +10,19 @@ struct SpriteComponent : public ComponentBase
 
 struct AnimationComponent : public ComponentBase
 {
-	std::string m_identifier;
+	std::unordered_map<std::string, Animation>	m_animations;	// replace with Array??
+	std::string									m_active;		// index instead??
+
+	// store default??
+
+	/*std::string m_identifier;
 	std::vector<std::string> m_animations;
 	unsigned	m_totalFrames; 
 	unsigned	m_currentFrame;
 	float		m_frameDuration;
 	float		m_elapsedFrameTime;
 	bool		m_isPlaying;
-	bool		m_isLooping;
+	bool		m_isLooping;*/
 };
 
 struct CameraComponent : public ComponentBase

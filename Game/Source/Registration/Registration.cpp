@@ -32,6 +32,7 @@ namespace Registration
 		EntityManager::s_entityFactory.RegisterComponentBuilder("BehaviorTree",		new ConcreteComponentBuilder<BehaviorTreeComponent>());
 
 		EntityManager::s_entityFactory.RegisterComponentBuilder("MapChunk",			new ConcreteComponentBuilder<MapChunkComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("CharacterState",	new ConcreteComponentBuilder<CharacterStateComponent>());
 	}
 
 	void RegisterBlueprints()

@@ -15,26 +15,62 @@
       "type": "PlayerController"
     },
     {
+      "type": "CharacterState"
+    },
+    {
       "type": "Velocity",
       "speed": 1.0
     },
     {
       "type": "Animation",
-      "identifier": "Idle",
+      "active": "Idle",
       "animations": [
-        "pirate_idle_00",
-        "pirate_idle_01",
-        "pirate_idle_02",
-        "pirate_idle_03",
-        "pirate_idle_04",
-        "pirate_idle_05",
-        "pirate_idle_06"
-      ],
-      "frames": 7,
-      "start_frame": 0,
-      "frame_duration": 0.1,
-      "is_looping": true,
-      "is_playing": true
+        {
+          "identifier": "Idle",
+          "sprites": [
+            "pirate_idle_00",
+            "pirate_idle_01",
+            "pirate_idle_02",
+            "pirate_idle_03",
+            "pirate_idle_04",
+            "pirate_idle_05",
+            "pirate_idle_06"
+          ],
+          "frame_duration": 0.1,
+          "is_looping": true,
+          "is_playing": true
+        },
+        {
+          "identifier": "Walk",
+          "sprites": [
+            "pirate_walk_00",
+            "pirate_walk_01",
+            "pirate_walk_02",
+            "pirate_walk_03",
+            "pirate_walk_04",
+            "pirate_walk_05",
+            "pirate_walk_06"
+          ],
+          "frame_duration": 0.025,
+          "is_looping": true,
+          "is_playing": true
+        },
+        {
+          "identifier": "Attack",
+          "sprites": [
+            "pirate_attack_00",
+            "pirate_attack_01",
+            "pirate_attack_02",
+            "pirate_attack_03",
+            "pirate_attack_04",
+            "pirate_attack_05",
+            "pirate_attack_06"
+          ],
+          "frame_duration": 0.025,
+          "is_looping": false,
+          "is_playing": true
+        }
+      ]
     },
     {
       "type": "AttackCollider"

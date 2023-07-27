@@ -1,5 +1,6 @@
 #include "Pch.h"
 #include "ComponentParser.h"
+#include "../Data/Structs.h"
 
 using ComponentData = std::unordered_map<std::string, std::any>;
 using JsonValue = const rapidjson::Value&;
@@ -24,25 +25,39 @@ ComponentData ComponentParser::ParseAnimationComponent(JsonValue aValue)
 {
 	ComponentData data;
 
-	std::string identifier	= aValue["identifier"].GetString();
+	std::unordered_map<std::string, Animation> animationMap;
 
-	std::vector<std::string> animations;
-	for (const auto& anim : aValue["animations"].GetArray())
-		animations.push_back(anim.GetString());
+	for (const auto& animation : aValue["animations"].GetArray())
+	{
+		Animation animationSequence;
 
-	int frames				= aValue["frames"].GetInt();
-	int startFrame			= aValue["start_frame"].GetInt();
-	float frameDuration		= aValue["frame_duration"].GetFloat();
-	bool isLooping			= aValue["is_looping"].GetBool();
-	bool isPlaying			= aValue["is_playing"].GetBool();
+		std::vector<std::string> sprites;
+		for (const auto& sprite : animation["sprites"].GetArray())
+			sprites.push_back(sprite.GetString());
 
-	data.insert(std::make_pair("identifier",	identifier));
+		animationSequence.m_sprites				= sprites;
+		animationSequence.m_totalFrames			= sprites.size();
+		animationSequence.m_currentFrame		= 0;
+		animationSequence.m_elapsedFrameTime	= 0.f;
+		animationSequence.m_frameDuration		= animation["frame_duration"].GetFloat();
+		animationSequence.m_isLooping			=	animation["is_looping"].GetBool();
+		animationSequence.m_isPlaying			= animation["is_playing"].GetBool();
+
+		std::string identifier	= animation["identifier"].GetString();
+		animationMap.insert_or_assign(identifier, animationSequence);
+	}
+
+	std::string active = aValue["active"].GetString();
+
+	data.insert(std::make_pair("animationMap", animationMap));
+	data.insert(std::make_pair("active", active));
+	/*data.insert(std::make_pair("identifier",	identifier));
 	data.insert(std::make_pair("animations",	animations));
 	data.insert(std::make_pair("frames",		frames));
 	data.insert(std::make_pair("startFrame",	startFrame));
 	data.insert(std::make_pair("frameDuration", frameDuration));
 	data.insert(std::make_pair("isLooping",		isLooping));
-	data.insert(std::make_pair("isPlaying",		isPlaying));
+	data.insert(std::make_pair("isPlaying",		isPlaying));*/
 
 	return data;
 }
@@ -58,6 +73,11 @@ ComponentData ComponentParser::ParseBehaviorTreeComponent(JsonValue aValue)
 }
 
 ComponentData ComponentParser::ParseCameraComponent(JsonValue aValue)
+{
+	return ComponentData();
+}
+
+ComponentData ComponentParser::ParseCharacterStateComponent(JsonValue aValue)
 {
 	return ComponentData();
 }
@@ -253,4 +273,5 @@ void ComponentParser::Initialize()
 	m_parsers.insert(std::make_pair("Transform",		&ParseTransformComponent));
 	m_parsers.insert(std::make_pair("Velocity",			&ParseVelocityComponent));
 	m_parsers.insert(std::make_pair("Weapon",			&ParseWeaponComponent));
+	m_parsers.insert(std::make_pair("CharacterState",	&ParseCharacterStateComponent));
 }

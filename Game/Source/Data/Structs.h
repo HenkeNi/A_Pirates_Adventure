@@ -40,7 +40,17 @@ struct Tile
 	bool				m_isCollidable;
 };
 
-
+// Put in Engine??
+struct Animation
+{
+	std::vector<std::string>	m_sprites;
+	unsigned					m_totalFrames;
+	unsigned					m_currentFrame;
+	float						m_frameDuration;
+	float						m_elapsedFrameTime;
+	bool						m_isPlaying;
+	bool						m_isLooping;
+};
 
 
 //struct BaseComponentData

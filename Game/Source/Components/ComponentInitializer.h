@@ -19,7 +19,10 @@ public:
 	template <>
 	static void InitializeComponent<AnimationComponent>(AnimationComponent* aComponent, const ComponentData& someData)
 	{
-		std::string identifier				= std::any_cast<std::string>(someData.at("identifier"));
+		aComponent->m_animations = std::any_cast<std::unordered_map<std::string, Animation>>(someData.at("animationMap"));
+		aComponent->m_active = std::any_cast<std::string>(someData.at("active"));
+
+		/*std::string identifier				= std::any_cast<std::string>(someData.at("identifier"));
 		std::vector<std::string> animations = std::any_cast<std::vector<std::string>>(someData.at("animations"));
 		int frames							= std::any_cast<int>(someData.at("frames"));
 		int startFrame						= std::any_cast<int>(someData.at("startFrame"));
@@ -34,7 +37,7 @@ public:
 		aComponent->m_frameDuration			= frameDuration;
 		aComponent->m_elapsedFrameTime		= 0.f;
 		aComponent->m_isLooping				= isLooping;
-		aComponent->m_isPlaying				= isPlaying;
+		aComponent->m_isPlaying				= isPlaying;*/
 	}
 	
 	template <>
@@ -62,6 +65,17 @@ public:
 	{
 		int xx = 20;
 		xx += 20;
+	}
+	
+	template <>
+	static void InitializeComponent<CharacterStateComponent>(CharacterStateComponent* aComponent, const ComponentData& someData)
+	{
+		aComponent->m_isIdle = true;
+		aComponent->m_isAlive = true;
+		aComponent->m_isWalking = false;
+		aComponent->m_isRunning = false;
+		aComponent->m_isJumping = false;
+		aComponent->m_isAttacking = false;
 	}
 
 	template <>

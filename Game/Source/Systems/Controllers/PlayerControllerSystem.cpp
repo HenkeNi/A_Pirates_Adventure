@@ -27,21 +27,29 @@ void PlayerControllerSystem::Update(float aDeltaTime)
 	if (!m_entityManager)
 		return;
 
-	auto entities = m_entityManager->FindAllWithComponents<PlayerControllerComponent, InputComponent>();
+	auto entities = m_entityManager->FindAllWithComponents<PlayerControllerComponent, CharacterStateComponent, InputComponent>();
 
 	for (auto entity : entities)
 	{
-		auto controller = entity->GetComponent<PlayerControllerComponent>();
-		auto input = entity->GetComponent<InputComponent>();
-		auto velocity = entity->GetComponent<VelocityComponent>();
+		auto controller		= entity->GetComponent<PlayerControllerComponent>();
+		auto characterState = entity->GetComponent<CharacterStateComponent>();
+		auto input			= entity->GetComponent<InputComponent>();
+		auto velocity		= entity->GetComponent<VelocityComponent>();
+
+		bool isWalking = false;
+		bool isAttacking = false;
 
 		if (input->m_inputStates[Hi_Engine::eInputType::Key_W])
 		{
 			velocity->m_velocity.z = -1;
+			characterState->m_isWalking = true;
+
+			isWalking = true;
 		}
 		else if (input->m_inputStates[Hi_Engine::eInputType::Key_S])
 		{
 			velocity->m_velocity.z = 1;
+			isWalking = true;
 		}
 		else
 		{ 
@@ -53,10 +61,12 @@ void PlayerControllerSystem::Update(float aDeltaTime)
 		if (input->m_inputStates[Hi_Engine::eInputType::Key_A])
 		{
 			velocity->m_velocity.x = -1;
+			isWalking = true;
 		}
 		else if (input->m_inputStates[Hi_Engine::eInputType::Key_D])
 		{
 			velocity->m_velocity.x = 1;
+			isWalking = true;
 		}
 		else
 		{
@@ -64,12 +74,22 @@ void PlayerControllerSystem::Update(float aDeltaTime)
 		}
 
 
+		if (isWalking)
+			PostMaster::GetInstance().SendMessage({ eMessage::EntityWalking, entity });
 
+
+
+
+
+		// TODO; listen to event instead??
 		auto* attackCollider = entity->GetComponent<AttackColliderComponent>(); // TODO; Null check
 		auto* rect = entity->GetComponent<RectComponent>();
 
 		if (input->m_inputStates[Hi_Engine::eInputType::Key_Space])
 		{
+			PostMaster::GetInstance().SendMessage({ eMessage::EntityAttacking, entity });
+
+			isAttacking = true;
 			attackCollider->m_isEnabled = true;
 			rect->m_color = { 0.f, 1.f, 0.f, 1.f };
 		}
@@ -116,6 +136,16 @@ void PlayerControllerSystem::Update(float aDeltaTime)
 			//velocity->m_acceleration = { 1.f, 0.f, 1.f };
 			velocity->m_speed = 1.f;
 		}
+
+
+
+		if (!isAttacking && !isWalking)
+		{
+			PostMaster::GetInstance().SendMessage({ eMessage::EntityIdle, entity });
+		}
+
+
+
 		
 	}
 

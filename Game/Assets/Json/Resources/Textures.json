@@ -92,7 +92,41 @@
 
 
 
-
+  {
+    "name": "pirate_attack_00",
+    "filepath": "../Game/Assets/Textures/Pirate/Attack/1_entity_000_ATTACK_000.png",
+    "alpha": true
+  },
+  {
+    "name": "pirate_attack_01",
+    "filepath": "../Game/Assets/Textures/Pirate/Attack/1_entity_000_ATTACK_001.png",
+    "alpha": true
+  },
+  {
+    "name": "pirate_attack_02",
+    "filepath": "../Game/Assets/Textures/Pirate/Attack/1_entity_000_ATTACK_002.png",
+    "alpha": true
+  },
+  {
+    "name": "pirate_attack_03",
+    "filepath": "../Game/Assets/Textures/Pirate/Attack/1_entity_000_ATTACK_003.png",
+    "alpha": true
+  },
+  {
+    "name": "pirate_attack_04",
+    "filepath": "../Game/Assets/Textures/Pirate/Attack/1_entity_000_ATTACK_004.png",
+    "alpha": true
+  },
+  {
+    "name": "pirate_attack_05",
+    "filepath": "../Game/Assets/Textures/Pirate/Attack/1_entity_000_ATTACK_005.png",
+    "alpha": true
+  },
+  {
+    "name": "pirate_attack_06",
+    "filepath": "../Game/Assets/Textures/Pirate/Attack/1_entity_000_ATTACK_006.png",
+    "alpha": true
+  },
 
 
 
@@ -129,6 +163,49 @@
   {
     "name": "pirate_idle_06",
     "filepath": "../Game/Assets/Textures/Pirate/Idle/1_entity_000_IDLE_006.png",
+    "alpha": true
+  },
+
+
+
+
+
+
+
+
+  {
+    "name": "pirate_walk_00",
+    "filepath": "../Game/Assets/Textures/Pirate/Walk/1_entity_000_WALK_000.png",
+    "alpha": true
+  },
+  {
+    "name": "pirate_walk_01",
+    "filepath": "../Game/Assets/Textures/Pirate/Walk/1_entity_000_WALK_001.png",
+    "alpha": true
+  },
+  {
+    "name": "pirate_walk_02",
+    "filepath": "../Game/Assets/Textures/Pirate/Walk/1_entity_000_WALK_002.png",
+    "alpha": true
+  },
+  {
+    "name": "pirate_walk_03",
+    "filepath": "../Game/Assets/Textures/Pirate/Walk/1_entity_000_WALK_003.png",
+    "alpha": true
+  },
+  {
+    "name": "pirate_walk_04",
+    "filepath": "../Game/Assets/Textures/Pirate/Walk/1_entity_000_WALK_004.png",
+    "alpha": true
+  },
+  {
+    "name": "pirate_walk_05",
+    "filepath": "../Game/Assets/Textures/Pirate/Walk/1_entity_000_WALK_005.png",
+    "alpha": true
+  },
+  {
+    "name": "pirate_walk_06",
+    "filepath": "../Game/Assets/Textures/Pirate/Walk/1_entity_000_WALK_006.png",
     "alpha": true
   }
 ]
