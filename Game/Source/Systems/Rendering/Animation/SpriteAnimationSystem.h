@@ -7,7 +7,9 @@ public:
 	SpriteAnimationSystem();
 	~SpriteAnimationSystem();
 
-	void Receive(Message& aMsg)	override;
-	void Draw()					override;
+	void Receive(Message& aMsg)		override;
+	void Update(float aDeltaTime)	override;
+
+	// void Draw()					override;
 };
 
