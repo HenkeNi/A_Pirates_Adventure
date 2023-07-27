@@ -52,7 +52,7 @@ void Game::OnDestroy()
 	m_sceneManager.Clear();
 }
 
-void Game::LoadResources()
+void Game::LoadResources()	// Todo, do in Registration?
 {
 	Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().FetchAll("../Game/Assets/Json/Resources/Textures.json");
 	Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().FetchAll("../Engine/Assets/Json/Resources/Shaders.json");

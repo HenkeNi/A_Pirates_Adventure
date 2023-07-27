@@ -39,7 +39,7 @@ namespace Hi_Engine
 		assert(m_application && "Failed to launch application");
 		Timer timer;
 
-		while (IsRunning())
+		while (IsRunning())	// Todo, use enum for GameState instead? !GameState::EXIT
 		{
 			timer.Update();
 			const float deltaTime = timer.GetDeltaTime();
