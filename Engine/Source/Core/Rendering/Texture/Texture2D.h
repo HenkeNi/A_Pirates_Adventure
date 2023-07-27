@@ -10,12 +10,15 @@ namespace Hi_Engine
 		Texture2D(bool hasAlpha = false);
 		~Texture2D();
 
-		void		Init(const CU::Vector2<int>& aSize, unsigned char* someData);	// Take in texturedata...
-		void		Bind()																const;
-		void		Unbind()															const;
+		void					Init(const CU::Vector2<int>& aSize, unsigned char* someData);		// Take in texturedata...
+		void					Bind()																const;
+		void					Unbind()															const;
+
+		const CU::Vector2<int>& GetSize()															const;
 
 	private:
-		int			m_internalFormat, m_imageFormat;
-		unsigned	m_id;
+		CU::Vector2<int>		m_size;
+		int						m_internalFormat, m_imageFormat;
+		unsigned				m_id;
 	};
 }

@@ -4,7 +4,7 @@
 namespace Hi_Engine
 {
 	Texture2D::Texture2D(bool hasAlpha)
-		: m_internalFormat{ hasAlpha ? GL_RGBA : GL_RGB }, m_imageFormat{ m_internalFormat }, m_id{ 0 }
+		: m_internalFormat{ hasAlpha ? GL_RGBA : GL_RGB }, m_imageFormat{ m_internalFormat }, m_id{ 0 }, m_size{ 0.f, 0.f }
 	{
 	}
 
@@ -17,6 +17,8 @@ namespace Hi_Engine
 	void Texture2D::Init(const CU::Vector2<int>& aSize, unsigned char* someData)
 	{
 		assert(someData);
+
+		m_size = aSize;
 
 		/* Generate Texture */
 		glGenTextures(1, &m_id);
@@ -42,5 +44,10 @@ namespace Hi_Engine
 	void Texture2D::Unbind() const
 	{
 		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+
+	const CU::Vector2<int>& Texture2D::GetSize() const
+	{
+		return m_size;
 	}
 }
