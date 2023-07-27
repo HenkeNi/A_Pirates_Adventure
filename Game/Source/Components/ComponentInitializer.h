@@ -19,8 +19,22 @@ public:
 	template <>
 	static void InitializeComponent<AnimationComponent>(AnimationComponent* aComponent, const ComponentData& someData)
 	{
-		int xx = 20;
-		xx += 20;
+		std::string identifier				= std::any_cast<std::string>(someData.at("identifier"));
+		std::vector<std::string> animations = std::any_cast<std::vector<std::string>>(someData.at("animations"));
+		int frames							= std::any_cast<int>(someData.at("frames"));
+		int startFrame						= std::any_cast<int>(someData.at("startFrame"));
+		float frameDuration					= std::any_cast<float>(someData.at("frameDuration"));
+		bool isLooping						= std::any_cast<bool>(someData.at("isLooping"));
+		bool isPlaying						= std::any_cast<bool>(someData.at("isPlaying"));
+
+		aComponent->m_identifier			= identifier;
+		aComponent->m_animations			= animations;
+		aComponent->m_totalFrames			= frames;
+		aComponent->m_currentFrame			= startFrame;
+		aComponent->m_frameDuration			= frameDuration;
+		aComponent->m_elapsedFrameTime		= 0.f;
+		aComponent->m_isLooping				= isLooping;
+		aComponent->m_isPlaying				= isPlaying;
 	}
 	
 	template <>

@@ -22,7 +22,29 @@ ComponentData ComponentParser::ParseComponentFromJson(const std::string& aType, 
 
 ComponentData ComponentParser::ParseAnimationComponent(JsonValue aValue)
 {
-	return ComponentData();
+	ComponentData data;
+
+	std::string identifier	= aValue["identifier"].GetString();
+
+	std::vector<std::string> animations;
+	for (const auto& anim : aValue["animations"].GetArray())
+		animations.push_back(anim.GetString());
+
+	int frames				= aValue["frames"].GetInt();
+	int startFrame			= aValue["start_frame"].GetInt();
+	float frameDuration		= aValue["frame_duration"].GetFloat();
+	bool isLooping			= aValue["is_looping"].GetBool();
+	bool isPlaying			= aValue["is_playing"].GetBool();
+
+	data.insert(std::make_pair("identifier",	identifier));
+	data.insert(std::make_pair("animations",	animations));
+	data.insert(std::make_pair("frames",		frames));
+	data.insert(std::make_pair("startFrame",	startFrame));
+	data.insert(std::make_pair("frameDuration", frameDuration));
+	data.insert(std::make_pair("isLooping",		isLooping));
+	data.insert(std::make_pair("isPlaying",		isPlaying));
+
+	return data;
 }
 
 ComponentData ComponentParser::ParseAttackComponent(JsonValue aValue)
