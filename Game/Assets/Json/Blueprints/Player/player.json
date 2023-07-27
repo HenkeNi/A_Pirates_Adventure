@@ -19,7 +19,22 @@
       "speed": 1.0
     },
     {
-      "type": "Animation"
+      "type": "Animation",
+      "identifier": "Idle",
+      "animations": [
+        "pirate_idle_00",
+        "pirate_idle_01",
+        "pirate_idle_02",
+        "pirate_idle_03",
+        "pirate_idle_04",
+        "pirate_idle_05",
+        "pirate_idle_06"
+      ],
+      "frames": 7,
+      "start_frame": 0,
+      "frame_duration": 0.1,
+      "is_looping": true,
+      "is_playing": true
     },
     {
       "type": "AttackCollider"
@@ -32,8 +47,8 @@
     },
     {
       "type": "Sprite",
-      "shader": "Billboard",
-      "texture": "pirate_idle",
+      "shader": "Sprite",
+      "texture": "pirate_idle_00",
       "color": [ 1.0, 1.0, 1.0, 1.0 ]
     },
     {

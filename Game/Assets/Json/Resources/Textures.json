@@ -88,5 +88,47 @@
     "name": "Skeleton_Pile",
     "filepath": "../Game/Assets/Textures/skeleton_pile.png",
     "alpha": true
+  },
+
+
+
+
+
+
+
+  {
+    "name": "pirate_idle_00",
+    "filepath": "../Game/Assets/Textures/Pirate/Idle/1_entity_000_IDLE_000.png",
+    "alpha": true
+  },
+  {
+    "name": "pirate_idle_01",
+    "filepath": "../Game/Assets/Textures/Pirate/Idle/1_entity_000_IDLE_001.png",
+    "alpha": true
+  },
+  {
+    "name": "pirate_idle_02",
+    "filepath": "../Game/Assets/Textures/Pirate/Idle/1_entity_000_IDLE_002.png",
+    "alpha": true
+  },
+  {
+    "name": "pirate_idle_03",
+    "filepath": "../Game/Assets/Textures/Pirate/Idle/1_entity_000_IDLE_003.png",
+    "alpha": true
+  },
+  {
+    "name": "pirate_idle_04",
+    "filepath": "../Game/Assets/Textures/Pirate/Idle/1_entity_000_IDLE_004.png",
+    "alpha": true
+  },
+  {
+    "name": "pirate_idle_05",
+    "filepath": "../Game/Assets/Textures/Pirate/Idle/1_entity_000_IDLE_005.png",
+    "alpha": true
+  },
+  {
+    "name": "pirate_idle_06",
+    "filepath": "../Game/Assets/Textures/Pirate/Idle/1_entity_000_IDLE_006.png",
+    "alpha": true
   }
 ]

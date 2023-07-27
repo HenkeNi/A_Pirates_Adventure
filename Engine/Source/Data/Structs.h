@@ -104,25 +104,40 @@ namespace Hi_Engine
 		float						Rotation;
 	};
 
-	struct SpriteRendererData // rename renderer data??
+	struct SpriteRendererData
 	{
-		GLuint QuadVA = 0;	// Put in SpriteRendere instead??
-		GLuint QuadVB = 0;
-		GLuint QuadIB = 0;
-
-		GLuint WhiteTexture = 0;
-		uint32_t WhiteTextureSlot = 0;
-
-		uint32_t IndexCount = 0;			// How many indices needs to be drawn...
-
-		Vertex* QuadBuffer = nullptr;
-		Vertex* QuadBufferPtr = nullptr;
-
-		static const size_t MaxTextures = 32;
-
-		std::array<uint32_t, MaxTextures> TextureSlots;
-		uint32_t TextureSlotIndex = 1;
+		const Material*				Material;
+		glm::vec3					Position;
+		glm::vec2					Scale;
+		float						Rotation;
 	};
+
+
+	//struct SpriteSheet
+	//{
+
+	//};
+
+	
+	//struct SpriteRendererData // rename renderer data??
+	//{
+	//	GLuint QuadVA = 0;	// Put in SpriteRendere instead??
+	//	GLuint QuadVB = 0;
+	//	GLuint QuadIB = 0;
+
+	//	GLuint WhiteTexture = 0;
+	//	uint32_t WhiteTextureSlot = 0;
+
+	//	uint32_t IndexCount = 0;			// How many indices needs to be drawn...
+
+	//	Vertex* QuadBuffer = nullptr;
+	//	Vertex* QuadBufferPtr = nullptr;
+
+	//	static const size_t MaxTextures = 32;
+
+	//	std::array<uint32_t, MaxTextures> TextureSlots;
+	//	uint32_t TextureSlotIndex = 1;
+	//};
 
 
 

@@ -6,5 +6,9 @@
   {
     "name": "Primitive",
     "filepath": "../Engine/Assets/Shaders/"
+  },
+  {
+    "name": "Sprite",
+    "filepath": "../Engine/Assets/Shaders/"
   }
 ]
