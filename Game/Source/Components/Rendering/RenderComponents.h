@@ -4,14 +4,17 @@
 
 struct SpriteComponent : public ComponentBase
 {
-	Hi_Engine::Material m_material;
+	Hi_Engine::Material m_material;	// Store strings instead?? keys..
 };
 
 struct AnimationComponent : public ComponentBase
 {
-	float		m_frameDuration; // or total duration?
-	unsigned	m_numOfFrames; // Frame amount
+	std::string m_identifier;
+	std::vector<std::string> m_animations;
+	unsigned	m_totalFrames; 
 	unsigned	m_currentFrame;
+	float		m_frameDuration;
+	float		m_elapsedFrameTime;
 	bool		m_isPlaying;
 	bool		m_isLooping;
 };
