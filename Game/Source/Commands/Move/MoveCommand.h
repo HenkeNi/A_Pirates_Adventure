@@ -14,10 +14,10 @@ public:
 	MoveCommand();
 	MoveCommand(const CU::Vector2<float>& aDirection);
 
+	void			Execute()		  override;
+
 	void			SetComponents(VelocityComponent* aVelocityComponent, CharacterStateComponent* aStateComponent);
 
-	void			Execute()		  override;
-	MoveCommand*	Clone()		const override;
 	//void Execute(GameObject& aGameObject) override;	// do this instead...?? or pass in constructor as member??
 
 private:

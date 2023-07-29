@@ -13,12 +13,6 @@ MoveCommand::MoveCommand(const CU::Vector2<float>& aDirection)
 {
 }
 
-void MoveCommand::SetComponents(VelocityComponent* aVelocityComponent, CharacterStateComponent* aStateComponent)
-{
-	m_velocityComponent = aVelocityComponent;
-	m_characterStateComponent = aStateComponent;
-}
-
 void MoveCommand::Execute()
 {
 	if (!m_velocityComponent || !m_characterStateComponent)
@@ -40,7 +34,8 @@ void MoveCommand::Execute()
 	// x += 20;
 }
 
-MoveCommand* MoveCommand::Clone() const
+void MoveCommand::SetComponents(VelocityComponent* aVelocityComponent, CharacterStateComponent* aStateComponent)
 {
-	return nullptr;
+	m_velocityComponent = aVelocityComponent;
+	m_characterStateComponent = aStateComponent;
 }

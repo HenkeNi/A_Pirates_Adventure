@@ -6,20 +6,13 @@
 
 
 AttackCommand::AttackCommand()
-	: m_attackComponent{ nullptr }, m_rectComponent{ nullptr }
+	: m_attackComponent{ nullptr }, m_stateComponent{ nullptr }, m_rectComponent{ nullptr }
 {
-}
-
-void AttackCommand::SetComponent(AttackColliderComponent* anAttackComponent, CharacterStateComponent* aStateComponent, RectComponent* aRectComponent)
-{
-	m_attackComponent = anAttackComponent;
-	m_stateComponent  = aStateComponent;
-	m_rectComponent   = aRectComponent;
 }
 
 void AttackCommand::Execute()
 {
-	if (!m_attackComponent || !m_rectComponent)
+	if (!m_attackComponent || !m_stateComponent || !m_rectComponent)
 		return;
 
 	if (m_stateComponent->m_isAttacking)
@@ -30,7 +23,9 @@ void AttackCommand::Execute()
 	m_rectComponent->m_color = { 0.f, 1.0f, 0.f, 1.f }; // Do in Primitive systtem
 }
 
-AttackCommand* AttackCommand::Clone() const
+void AttackCommand::SetComponent(AttackColliderComponent* anAttackComponent, CharacterStateComponent* aStateComponent, DebugRectComponent* aRectComponent)
 {
-	return nullptr;
+	m_attackComponent = anAttackComponent;
+	m_stateComponent  = aStateComponent;
+	m_rectComponent   = aRectComponent;
 }
