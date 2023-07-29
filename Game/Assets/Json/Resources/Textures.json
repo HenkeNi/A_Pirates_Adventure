@@ -170,6 +170,44 @@
 
 
 
+  {
+    "name": "pirate_run_00",
+    "filepath": "../Game/Assets/Textures/Pirate/Run/1_entity_000_RUN_000.png",
+    "alpha": true
+  },
+  {
+    "name": "pirate_run_01",
+    "filepath": "../Game/Assets/Textures/Pirate/Run/1_entity_000_RUN_001.png",
+    "alpha": true
+  },
+  {
+    "name": "pirate_run_02",
+    "filepath": "../Game/Assets/Textures/Pirate/Run/1_entity_000_RUN_002.png",
+    "alpha": true
+  },
+  {
+    "name": "pirate_run_03",
+    "filepath": "../Game/Assets/Textures/Pirate/Run/1_entity_000_RUN_003.png",
+    "alpha": true
+  },
+  {
+    "name": "pirate_run_04",
+    "filepath": "../Game/Assets/Textures/Pirate/Run/1_entity_000_RUN_004.png",
+    "alpha": true
+  },
+  {
+    "name": "pirate_run_05",
+    "filepath": "../Game/Assets/Textures/Pirate/Run/1_entity_000_RUN_005.png",
+    "alpha": true
+  },
+  {
+    "name": "pirate_run_06",
+    "filepath": "../Game/Assets/Textures/Pirate/Run/1_entity_000_RUN_006.png",
+    "alpha": true
+  },
+
+
+
 
 
 

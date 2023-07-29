@@ -65,7 +65,7 @@
           ],
           "frame_duration": 0.025,
           "is_looping": true,
-          "is_playing": true
+          "is_playing": false
         },
         {
           "identifier": "Attack",
@@ -80,7 +80,22 @@
           ],
           "frame_duration": 0.025,
           "is_looping": false,
-          "is_playing": true
+          "is_playing": false
+        },
+        {
+          "identifier": "Run",
+          "sprites": [
+            "pirate_run_00",
+            "pirate_run_01",
+            "pirate_run_02",
+            "pirate_run_03",
+            "pirate_run_04",
+            "pirate_run_05",
+            "pirate_run_06"
+          ],
+          "frame_duration": 0.025,
+          "is_looping": true,
+          "is_playing": false
         }
       ]
     },
