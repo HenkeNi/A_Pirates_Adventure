@@ -6,6 +6,7 @@
 
 #include "../Commands/Move/MoveCommand.h"
 #include "../Commands/Attack/AttackCommand.h"
+#include "../Commands/Sprint/SprintCommand.h"
 
 // struct ComponentData;
 
@@ -151,6 +152,7 @@ public:
 		aComponent->m_inputMapping.insert(std::make_pair(Hi_Engine::eInputType::Key_D, new MoveCommand{{ 1.f,  0.f } }));
 
 		aComponent->m_inputMapping.insert(std::make_pair(Hi_Engine::eInputType::Key_Space, new AttackCommand));
+		aComponent->m_inputMapping.insert(std::make_pair(Hi_Engine::eInputType::Key_Shift, new SprintCommand));
 	}
 
 	template <>

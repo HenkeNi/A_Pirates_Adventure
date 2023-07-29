@@ -7,6 +7,8 @@
 #include "Combat/CombatComponents.h"
 #include "Rendering/RenderComponents.h"
 
+#include "../Commands/Sprint/SprintCommand.h"
+
 
 PlayerControllerSystem::PlayerControllerSystem()
 {
@@ -54,6 +56,21 @@ void PlayerControllerSystem::Update(float aDeltaTime)
 		}
 
 
+		// TEMP
+		// m_velocity = 
+
+		// TODO; Decrease in MovementSystem; 
+		if (input->m_inputStates[Hi_Engine::eInputType::Key_Shift])
+		{
+			//velocity->m_acceleration = { 2.5f, 0.f, 2.5f };
+			// velocity->m_speed = 3.f;
+		}
+		else
+		{
+			//velocity->m_acceleration = { 1.f, 0.f, 1.f };
+			velocity->m_speed = 1.f;
+			characterState->m_isRunning = false;
+		}
 
 
 		// Update position of attack collider...
@@ -155,17 +172,7 @@ void PlayerControllerSystem::Update(float aDeltaTime)
 
 
 
-		if (input->m_inputStates[Hi_Engine::eInputType::Key_Shift])
-		{
-			//velocity->m_acceleration = { 2.5f, 0.f, 2.5f };
-			velocity->m_speed = 3.f;
-		}
-		else
-		{
-			//velocity->m_acceleration = { 1.f, 0.f, 1.f };
-			velocity->m_speed = 1.f;
-		}
-
+		
 
 
 		
@@ -212,7 +219,13 @@ void PlayerControllerSystem::InitCommands()
 			{
 				auto attackCommand = static_cast<AttackCommand*>(command.second);
 
-				attackCommand->SetComponent(entity->GetComponent<AttackColliderComponent>(), entity->GetComponent<CharacterStateComponent>(), entity->GetComponent<RectComponent>());
+				attackCommand->SetComponent(entity->GetComponent<AttackColliderComponent>(), entity->GetComponent<CharacterStateComponent>(), entity->GetComponent<DebugRectComponent>());
+			}
+
+			if (command.first == Hi_Engine::eInputType::Key_Shift)
+			{
+				auto sprintCommand = static_cast<SprintCommand*>(command.second);
+				sprintCommand->SetComponent(entity->GetComponent<VelocityComponent>(), entity->GetComponent<CharacterStateComponent>());
 			}
 		}
 	}
