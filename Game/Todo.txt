@@ -3,7 +3,7 @@ Systems
 - DialogueSystem
 - Leveling/ProgressionSystem
 
-
+// Maybe; Have base class RenderSystem, and UpdateSystem?
 
 
 Update scene to not future Update, LateUpdate and Render?

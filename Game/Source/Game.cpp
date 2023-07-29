@@ -42,8 +42,6 @@ void Game::OnCreate()
 
 	m_sceneManager.Init((int)eScene::Game); // Rename, set active scnee?
 	//m_sceneManager.Init(eScene::Game | eScene::Menu | eScene::Loading | eScene::Title);
-
-	MapInput();
 }
 
 void Game::OnDestroy()
@@ -56,12 +54,4 @@ void Game::LoadResources()	// Todo, do in Registration?
 {
 	Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().FetchAll("../Game/Assets/Json/Resources/Textures.json");
 	Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().FetchAll("../Engine/Assets/Json/Resources/Shaders.json");
-}
-
-void Game::MapInput() // or MapControlls? // Rename ConfigureInput?? Move to InputSystem??
-{
-	//Hi_Engine::InputHandler::MapCommand(Hi_Engine::eInputType::Key_W, new MoveCommand{  0.f, -1.f });
-	//Hi_Engine::InputHandler::MapCommand(Hi_Engine::eInputType::Key_A, new MoveCommand{ -1.f,  0.f });
-	//Hi_Engine::InputHandler::MapCommand(Hi_Engine::eInputType::Key_S, new MoveCommand{  0.f,  1.f });
-	//Hi_Engine::InputHandler::MapCommand(Hi_Engine::eInputType::Key_D, new MoveCommand{  1.f,  0.f });
 }

@@ -7,35 +7,35 @@
 
 SpriteAnimationSystem::SpriteAnimationSystem()
 {
-	PostMaster::GetInstance().Subscribe(eMessage::EntityAttacking, this);
-	PostMaster::GetInstance().Subscribe(eMessage::EntityWalking, this);
-	PostMaster::GetInstance().Subscribe(eMessage::EntityIdle, this);
+	//PostMaster::GetInstance().Subscribe(eMessage::EntityAttacking, this);
+	//PostMaster::GetInstance().Subscribe(eMessage::EntityWalking, this);
+	//PostMaster::GetInstance().Subscribe(eMessage::EntityIdle, this);
 }
 
 SpriteAnimationSystem::~SpriteAnimationSystem()
 {
-	PostMaster::GetInstance().Unsubscribe(eMessage::EntityAttacking, this);
+	/*PostMaster::GetInstance().Unsubscribe(eMessage::EntityAttacking, this);
 	PostMaster::GetInstance().Unsubscribe(eMessage::EntityWalking, this);
-	PostMaster::GetInstance().Unsubscribe(eMessage::EntityIdle, this);
+	PostMaster::GetInstance().Unsubscribe(eMessage::EntityIdle, this);*/
 }
 
 // TODO; pass animation state? or player state?
 void SpriteAnimationSystem::Receive(Message& aMsg)
 {
-	auto entity = std::any_cast<Entity*>(aMsg.GetData());
+	//auto entity = std::any_cast<Entity*>(aMsg.GetData());
 
-	switch (aMsg.GetMessageType())
-	{
-	case eMessage::EntityAttacking:
-		entity->GetComponent<AnimationComponent>()->m_active = "Attack";
-		break;
-	case eMessage::EntityWalking:
-		entity->GetComponent<AnimationComponent>()->m_active = "Walk";
-		break;
-	case eMessage::EntityIdle:
-		entity->GetComponent<AnimationComponent>()->m_active = "Idle";
-		break;
-	}
+	//switch (aMsg.GetMessageType())
+	//{
+	//case eMessage::EntityAttacking:
+	//	entity->GetComponent<AnimationComponent>()->m_active = "Attack";
+	//	break;
+	//case eMessage::EntityWalking:
+	//	entity->GetComponent<AnimationComponent>()->m_active = "Walk";
+	//	break;
+	//case eMessage::EntityIdle:
+	//	entity->GetComponent<AnimationComponent>()->m_active = "Idle";
+	//	break;
+	//}
 
 
 	// listens for events?? AttackStarted, AttackFinished? AnimationCOmpinnet contains cuurent animation	 state??
@@ -48,10 +48,16 @@ void SpriteAnimationSystem::Update(float aDeltaTime)
 
 	auto entities = m_entityManager->FindAllWithComponents<TransformComponent, AnimationComponent, SpriteComponent>();
 
-	for (auto& entity : entities)
+	for (auto* entity : entities)
 	{
 		auto* animationComponent = entity->GetComponent<AnimationComponent>();
-		auto& animation = animationComponent->m_animations[animationComponent->m_active];
+	
+		const std::string currentState = GetCurrentState(entity);								// won't work with animated trees?? (maybe won't be animated? -> maybe shader instead)?
+		auto& animation = animationComponent->m_animations[currentState];
+		
+
+
+
 
 		// TODO; get direction of entity (movemeent => if any)
 
@@ -71,12 +77,36 @@ void SpriteAnimationSystem::Update(float aDeltaTime)
 				{
 					// Set default animation...
 
-					animationComponent->m_active = "Idle";
 
 					// Reset animation? Make class?
 					animation.m_currentFrame = 0;
 					animation.m_elapsedFrameTime = 0.f;
 					animation.m_isPlaying = false;
+					
+
+
+					// PostMaster::GetInstance().SendMessage({ eMessage::AnimationComplete, entity });
+
+					if (currentState == "Attack") // Fix...
+					{
+						PostMaster::GetInstance().SendMessage({ eMessage::AttackAnimationFinished, entity });
+					}
+					//else if (characterStateComponent->m_isRunning)
+					//{
+
+					//}
+					//else if (characterStateComponent->m_isWalking)
+					//{
+					//	entity->GetComponent<AnimationComponent>()->m_active = "Walk";
+					//}
+					//else if (characterStateComponent->m_isIdle)
+					//{
+					//	entity->GetComponent<AnimationComponent>()->m_active = "Idle";
+					//}
+
+
+
+					// animationComponent->m_active = "Idle";
 
 					return;
 				}
@@ -97,3 +127,32 @@ void SpriteAnimationSystem::Update(float aDeltaTime)
 //void SpriteAnimationSystem::Draw()
 //{
 //}
+
+// Todo; no need for m_active?
+std::string SpriteAnimationSystem::GetCurrentState(Entity* anEntity) const
+{
+	auto* characterStateComponent	= anEntity->GetComponent<CharacterStateComponent>();
+	auto* animationComponent		= anEntity->GetComponent<AnimationComponent>();
+
+	// Todo; create map?
+
+	if (characterStateComponent->m_isAttacking)
+	{
+		//animationComponent->m_active = "Attack";
+		return "Attack";
+	}
+	else if (characterStateComponent->m_isRunning)
+	{
+		return "Run";
+	}
+	else if (characterStateComponent->m_isWalking)
+	{
+		return "Walk";
+	}
+	else if (characterStateComponent->m_isIdle)
+	{
+		return "Idle";
+	}
+
+	return "Idle";
+}

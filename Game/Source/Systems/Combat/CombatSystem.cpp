@@ -10,69 +10,120 @@
 
 CombatSystem::CombatSystem()
 {
+	PostMaster::GetInstance().Subscribe(eMessage::AttackAnimationFinished, this);
 }
 
 CombatSystem::~CombatSystem()
 {
+	PostMaster::GetInstance().Unsubscribe(eMessage::AttackAnimationFinished, this);
 }
 
 void CombatSystem::Receive(Message& aMsg)
 {
-}
-
-void CombatSystem::Update(float aDeltaTime)
-{
 	if (!m_entityManager)
 		return;
-
+	
 	std::vector<Entity*> entitiesToRemove;
 
-	auto attackers = m_entityManager->FindAllWithComponents<AttackColliderComponent, TransformComponent>();
+	auto entity = std::any_cast<Entity*>(aMsg.GetData());
+	auto* attackCollider = entity->GetComponent<AttackColliderComponent>();
 
-	for (auto* attacker : attackers)
+	// necessary, or do earlier?
+	//if (!attackCollider->m_isEnabled)
+		//return;
+
+	auto targets = GetNearbyEntities();
+		
+	for (auto target : targets)
 	{
-		auto* attackCollider = attacker->GetComponent<AttackColliderComponent>();	// rename attackCollider?!
-
-		if (!attackCollider->m_isEnabled)
+		if (target->GetID() == entity->GetID())
 			continue;
 
-		// Update color??
+		auto hitbox = target->GetComponent<HitboxColliderComponent>();
 
-		// for all with health component (in nearby area)
-		auto victims = m_entityManager->FindAllWithComponents<HealthComponent, HitboxColliderComponent, TransformComponent>();
-
-		for (auto victim : victims)
+		// if colliding...
+		if (Hi_Engine::Physics::Intersects(attackCollider->m_collider, hitbox->m_collider))
 		{
-			if (victim->GetID() == attacker->GetID())
-				continue;
+			//PostMaster::GetInstance().SendMessage(Message{ eMessage::EntityAttacked, std::tuple{ attacker, target } }); // Don't send event??
 
-			auto hitbox = victim->GetComponent<HitboxColliderComponent>();
-
-			// if colliding...
-			if (Hi_Engine::Physics::Intersects(attackCollider->m_collider, hitbox->m_collider))
+			unsigned damage = GetDamageOutput(entity);
+			if (ApplyDamageOutput(target, damage))
 			{
-				PostMaster::GetInstance().SendMessage(Message{ eMessage::EntityAttacked, std::tuple{ attacker, victim } }); // Don't send event??
-
-				unsigned damage = GetDamageOutput(attacker);
-				if (ApplyDamageOutput(victim, damage))
-				{
-					entitiesToRemove.push_back(victim);
-				}
+				entitiesToRemove.push_back(target);
 			}
 		}
 	}
+	
+	entity->GetComponent<CharacterStateComponent>()->m_isAttacking = false;
 
 	for (auto* entity : entitiesToRemove)
 	{
 		PostMaster::GetInstance().SendMessage(Message{ eMessage::EntityDied, entity });
 		m_entityManager->Destroy(entity->GetID());
 	}
+
+}
+
+void CombatSystem::Update(float aDeltaTime)
+{
+	//if (!m_entityManager)
+	//	return;
+
+	//std::vector<Entity*> entitiesToRemove;
+
+	//auto attackers = m_entityManager->FindAllWithComponents<AttackColliderComponent, TransformComponent>();
+
+	//for (auto* attacker : attackers)
+	//{
+	//	auto* attackCollider = attacker->GetComponent<AttackColliderComponent>();
+	//	
+	//	if (!attackCollider->m_isEnabled || !IsCorrectAnimationFrame(attacker))	// TODO; listen to animation event instead?
+	//		continue;
+
+	//	// Update color??
+
+	//	// Todo; filter for entities in nearby area!!
+	//	auto targets = m_entityManager->FindAllWithComponents<HealthComponent, HitboxColliderComponent, TransformComponent>();
+
+	//	for (auto target : targets)
+	//	{
+	//		if (target->GetID() == attacker->GetID())
+	//			continue;
+
+	//		auto hitbox = target->GetComponent<HitboxColliderComponent>();
+
+	//		// if colliding...
+	//		if (Hi_Engine::Physics::Intersects(attackCollider->m_collider, hitbox->m_collider))
+	//		{
+	//			PostMaster::GetInstance().SendMessage(Message{ eMessage::EntityAttacked, std::tuple{ attacker, target } }); // Don't send event??
+
+	//			unsigned damage = GetDamageOutput(attacker);
+	//			if (ApplyDamageOutput(target, damage))
+	//			{
+	//				entitiesToRemove.push_back(target);
+	//			}
+	//		}
+	//	}
+	//}
+
+	//for (auto* entity : entitiesToRemove)
+	//{
+	//	PostMaster::GetInstance().SendMessage(Message{ eMessage::EntityDied, entity });
+	//	m_entityManager->Destroy(entity->GetID());
+	//}
 }
 
 unsigned CombatSystem::GetDamageOutput(Entity* anEntity) const
 { 
 	// get weapon component?, check stats (attack, etc)
 	return 10;
+}
+
+std::vector<Entity*> CombatSystem::GetNearbyEntities() const
+{
+	// Todo; filter for entities in nearby area!!
+	auto targets = m_entityManager->FindAllWithComponents<HealthComponent, HitboxColliderComponent, TransformComponent>();
+	return targets;
 }
 
 bool CombatSystem::ApplyDamageOutput(Entity* anEntity, unsigned aDamage)

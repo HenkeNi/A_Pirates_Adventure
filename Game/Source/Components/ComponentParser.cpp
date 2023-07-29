@@ -82,6 +82,16 @@ ComponentData ComponentParser::ParseCharacterStateComponent(JsonValue aValue)
 	return ComponentData();
 }
 
+ComponentData ComponentParser::ParseDebugRectComponent(JsonValue aValue)
+{
+	ComponentData data;
+	std::string shader = aValue["shader"].GetString();
+
+	data.insert(std::make_pair("shader", shader));
+
+	return data;
+}
+
 ComponentData ComponentParser::ParseHarvestableComponent(JsonValue aValue)
 {
 	ComponentData data;
@@ -146,7 +156,26 @@ ComponentData ComponentParser::ParsePickupComponent(JsonValue aValue)
 
 ComponentData ComponentParser::ParsePlayerControllerComponent(JsonValue aValue)
 {
-	return ComponentData();
+	ComponentData data;
+	
+	//std::unordered_map<Hi_Engine::eInputType, Hi_Engine::Command*> commands;
+	//std::unordered_map<Hi_Engine::eInputType, Hi_Engine::Command*> commands;
+
+	//for (const auto& command : aValue["commands"].GetArray())
+	//{
+	//	std::string type = command["input"].GetString();
+	//	if (type == "MoveCommand")
+	//	{
+	//		// TODO; how to map key?
+	//		commands.insert(std::make_pair<> ) // Todo; use builder?
+
+	//	}
+
+	//}
+
+	//data.insert(std::make_pair("commands", commands));
+	
+	return data;
 }
 
 ComponentData ComponentParser::ParseRectComponent(JsonValue aValue)
@@ -251,6 +280,7 @@ void ComponentParser::Initialize()
 
 	m_parsers.insert(std::make_pair("BehaviorTree",		&ParseBehaviorTreeComponent));
 	m_parsers.insert(std::make_pair("Camera",			&ParseCameraComponent));
+	m_parsers.insert(std::make_pair("DebugRect",		&ParseDebugRectComponent));
 	m_parsers.insert(std::make_pair("Harvestable",		&ParseHarvestableComponent));
 	m_parsers.insert(std::make_pair("Health",			&ParseHealthComponent));
 	m_parsers.insert(std::make_pair("Hitbox",			&ParseHitboxComponent));

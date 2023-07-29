@@ -1,6 +1,8 @@
 #pragma once
 #include "Base/System.h"
+#include "Data/Enumerations.h"
 
+class Entity;
 
 class MovementSystem : public System
 {
@@ -8,20 +10,16 @@ public:
 	MovementSystem();
 	~MovementSystem();
 
-	void Receive(Message& aMsg)		override;
-	void Update(float aDeltaTime)	override;
+	void				Receive(Message& aMsg)		override;
+	void				Update(float aDeltaTime)	override;
+
+	static bool			HasMoved(const Entity* anEntity);
+
 
 	// void InitComponents();  - possible!
 
-
-	// All components that have transform and velocity...
-
 private:
-	void UpdatePosition();
-
-
-	bool HasMoved(class TransformComponent* aTransform) const;
-
+	void				UpdateColliders(Entity* anEntity, class TransformComponent* aTransformComponent, class VelocityComponent* aVelocityComponent);
 };
 
 	

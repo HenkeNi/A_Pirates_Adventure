@@ -10,14 +10,17 @@
 
 PlayerControllerSystem::PlayerControllerSystem()
 {
+	PostMaster::GetInstance().Subscribe(eMessage::GameStarted, this);
 }
 
 PlayerControllerSystem::~PlayerControllerSystem()
 {
+	PostMaster::GetInstance().Unsubscribe(eMessage::GameStarted, this);
 }
 
 void PlayerControllerSystem::Receive(Message& aMsg)
 {
+	InitCommands();
 }
 
 void PlayerControllerSystem::Update(float aDeltaTime)
@@ -31,25 +34,54 @@ void PlayerControllerSystem::Update(float aDeltaTime)
 
 	for (auto entity : entities)
 	{
+		auto id = entity;
+
 		auto controller		= entity->GetComponent<PlayerControllerComponent>();
 		auto characterState = entity->GetComponent<CharacterStateComponent>();
 		auto input			= entity->GetComponent<InputComponent>();
 		auto velocity		= entity->GetComponent<VelocityComponent>();
 
-		bool isWalking = false;
-		bool isAttacking = false;
 
-		if (input->m_inputStates[Hi_Engine::eInputType::Key_W])
+
+		//characterState->m_isIdle = true;
+
+		for (const auto& command : controller->m_inputMapping)
+		{
+			if (input->m_inputStates[command.first])
+			{
+				command.second->Execute();
+			}
+		}
+
+
+
+
+		// Update position of attack collider...
+	/*	auto colliderWidth = attackCollider->m_collider.GetWidth();
+
+		attackCollider->m_offset.x = velocity->m_velocity.x > 0.f ? colliderWidth : velocity->m_velocity.x < 0.f ? -colliderWidth : 0;
+		attackCollider->m_offset.z = velocity->m_velocity.z > 0.f ? colliderWidth : velocity->m_velocity.z < 0.f ? -colliderWidth : 0;
+*/
+
+
+
+
+
+
+
+
+
+
+
+		/*if (input->m_inputStates[Hi_Engine::eInputType::Key_W])
 		{
 			velocity->m_velocity.z = -1;
 			characterState->m_isWalking = true;
-
-			isWalking = true;
 		}
 		else if (input->m_inputStates[Hi_Engine::eInputType::Key_S])
 		{
 			velocity->m_velocity.z = 1;
-			isWalking = true;
+			characterState->m_isWalking = true;
 		}
 		else
 		{ 
@@ -57,55 +89,52 @@ void PlayerControllerSystem::Update(float aDeltaTime)
 		}
 
 
-
 		if (input->m_inputStates[Hi_Engine::eInputType::Key_A])
 		{
 			velocity->m_velocity.x = -1;
-			isWalking = true;
+			characterState->m_isWalking = true;
 		}
 		else if (input->m_inputStates[Hi_Engine::eInputType::Key_D])
 		{
 			velocity->m_velocity.x = 1;
-			isWalking = true;
+			characterState->m_isWalking = true;
 		}
 		else
 		{
 			velocity->m_velocity.x = 0;
-		}
+		}*/
 
 
-		if (isWalking)
-			PostMaster::GetInstance().SendMessage({ eMessage::EntityWalking, entity });
-
-
+		
 
 
 
 		// TODO; listen to event instead??
-		auto* attackCollider = entity->GetComponent<AttackColliderComponent>(); // TODO; Null check
-		auto* rect = entity->GetComponent<RectComponent>();
+		//auto* attackCollider = entity->GetComponent<AttackColliderComponent>(); // TODO; Null check
+		//auto* rect = entity->GetComponent<RectComponent>();
 
-		if (input->m_inputStates[Hi_Engine::eInputType::Key_Space])
-		{
-			PostMaster::GetInstance().SendMessage({ eMessage::EntityAttacking, entity });
+		//if (input->m_inputStates[Hi_Engine::eInputType::Key_Space])
+		//{
+		//	if (!characterState->m_isAttacking)
+		//	{
+		//		characterState->m_isAttacking = true;
+		//		
+		//		attackCollider->m_isEnabled = true;		 // HERE??
+		//		rect->m_color = { 0.f, 1.f, 0.f, 1.f };  // HERE??
+		//	}
+		//}
+		//else
+		//{
+		//	attackCollider->m_isEnabled = false;		// HERE
+		//	rect->m_color = { 1.f, 0.f, 0.f, 1.f };		// HERE
+		//}
 
-			isAttacking = true;
-			attackCollider->m_isEnabled = true;
-			rect->m_color = { 0.f, 1.f, 0.f, 1.f };
-		}
-		else
-		{
-			attackCollider->m_isEnabled = false;
-			rect->m_color = { 1.f, 0.f, 0.f, 1.f };
-		}
 
 
-
-		// Update position of attack collider...
-		auto colliderWidth = attackCollider->m_collider.GetWidth();
 		
-		attackCollider->m_offset.x = velocity->m_velocity.x > 0.f ? colliderWidth : velocity->m_velocity.x < 0.f ? -colliderWidth : 0;
-		attackCollider->m_offset.z = velocity->m_velocity.z > 0.f ? colliderWidth : velocity->m_velocity.z < 0.f ? -colliderWidth : 0;
+
+
+
 		//attackCollider->m_offset.x = velocity->m_velocity.x;
 		//attackCollider->m_offset.z = velocity->m_velocity.z;
 
@@ -139,15 +168,53 @@ void PlayerControllerSystem::Update(float aDeltaTime)
 
 
 
-		if (!isAttacking && !isWalking)
+		
+		if (velocity->m_velocity.x == 0.f && velocity->m_velocity.z == 0.f)
 		{
-			PostMaster::GetInstance().SendMessage({ eMessage::EntityIdle, entity });
+			characterState->m_isWalking = false;
+			
+			if (!characterState->m_isAttacking)
+			{
+				characterState->m_isIdle = true;
+			}
 		}
-
+		else
+			characterState->m_isIdle = false;
 
 
 		
 	}
 
+
+}
+
+
+void PlayerControllerSystem::InitCommands()
+{
+	auto entities = m_entityManager->FindAllWithComponents<PlayerControllerComponent, CharacterStateComponent, InputComponent>();
+
+	for (auto entity : entities)
+	{
+		auto playerController = entity->GetComponent<PlayerControllerComponent>();
+
+		for (auto command : playerController->m_inputMapping)
+		{
+			// TODO; fix...
+			if (command.first == Hi_Engine::eInputType::Key_W || command.first == Hi_Engine::eInputType::Key_S ||
+				command.first == Hi_Engine::eInputType::Key_A || command.first == Hi_Engine::eInputType::Key_D)
+			{
+				auto moveCommand = static_cast<MoveCommand*>(command.second);
+
+				moveCommand->SetComponents(entity->GetComponent<VelocityComponent>(), entity->GetComponent<CharacterStateComponent>());
+			}
+
+			if (command.first == Hi_Engine::eInputType::Key_Space)
+			{
+				auto attackCommand = static_cast<AttackCommand*>(command.second);
+
+				attackCommand->SetComponent(entity->GetComponent<AttackColliderComponent>(), entity->GetComponent<CharacterStateComponent>(), entity->GetComponent<RectComponent>());
+			}
+		}
+	}
 
 }

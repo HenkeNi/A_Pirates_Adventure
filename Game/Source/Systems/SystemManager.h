@@ -5,6 +5,7 @@
 namespace
 {
 	using Systems_t = std::vector<std::unique_ptr<System>>;
+	// using SystemFactory = CU::Factory<SystemBuilder, System> m_systemFactory;
 }
 
 class EntityManager;
@@ -23,25 +24,7 @@ public:
 	void Register(std::unique_ptr<System> aSystem);
 	void Clear();
 
-
 private:
-	Systems_t m_systems; // Separate between registed systems and active systems??
-
-	// system factory?? -> scene decides what systems to add (OnEnter) => clears on Exit?
+	Systems_t		m_systems; // Separate between registed systems and active systems??
+	// SystemFactory	m_systemFactory; -> scene decides what systems to add (OnEnter) => clears on Exit?
 };
-
-// Maybe; Have base class RenderSystem, and UpdateSystem?
-
-/*
-* 
-
-
-
-Store ID for relevant entities??
-	->
-
-// instead of Entities or EntityManager => a Wrapper class?? and store ID
-	
-	GameWorld? Contains pointer (or the actual implementation) Of EntityManager, and Systems
-
-*/

@@ -26,6 +26,11 @@ enum class eMessage
 	EntityWalking,
 	EntityIdle,
 
+	//AttackFinished,
+	AnimationComplete,
+	
+	AttackAnimationFinished,
+
 	GameStarted,
 	MapChunkGenerated,
 	// MapChunkCreated,
@@ -62,6 +67,20 @@ enum class eBTNodeStatus
 enum class eTile
 {
 	Sand, Water
+};
+
+
+enum class eMovementDir
+{
+	None,
+	Up,
+	Down,
+	Left,
+	Right,
+	UpLeft,
+	UpRight,
+	DownLeft,
+	DownRight
 };
 
 

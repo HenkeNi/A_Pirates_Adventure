@@ -26,6 +26,8 @@ public:
 
 	static ComponentData ParseCharacterStateComponent(JsonValue aValue);
 
+	static ComponentData ParseDebugRectComponent(JsonValue aValue);
+
 	static ComponentData ParseHarvestableComponent(JsonValue aValue);
 
 	static ComponentData ParseHealthComponent(JsonValue aValue);

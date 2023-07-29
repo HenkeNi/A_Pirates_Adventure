@@ -8,7 +8,6 @@ public:
 	SpriteRenderSystem();
 	~SpriteRenderSystem();
 
-	void Receive(Message& aMsg)							override;
-	void Draw()											override;
-
+	void Receive(Message& aMsg)	override;
+	void Draw()					override;
 };

@@ -12,9 +12,9 @@ public:
 
 	void Init(EntityManager* anEntityManager);
 
-	virtual void Update(float aDeltaTime)						{};
-	virtual	void LateUpdate(float aDeltaTime)					{};
-	virtual void Draw()											{};
+	virtual void Update(float aDeltaTime)		{};
+	virtual	void LateUpdate(float aDeltaTime)	{};
+	virtual void Draw()							{};
 
 protected:
 	EntityManager*	 m_entityManager;

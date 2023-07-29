@@ -19,6 +19,7 @@ MovementSystem::~MovementSystem()
 
 void MovementSystem::Receive(Message& aMsg)
 {
+	// Update collider when game starts?
 }
 
 void MovementSystem::Update(float aDeltaTime)
@@ -34,35 +35,44 @@ void MovementSystem::Update(float aDeltaTime)
 		auto* velocity = entity->GetComponent<VelocityComponent>();
 
 		transform->m_previousPos = transform->m_currentPos;
-
 		transform->m_currentPos += velocity->m_speed * velocity->m_velocity * aDeltaTime;
-		//transform->m_currentPos += velocity->m_velocity * aDeltaTime;
-		//velocity->m_velocity += velocity->m_acceleration * aDeltaTime;
-		
 
-		if (auto* attackCollider = entity->GetComponent<AttackColliderComponent>())
-		{
-			auto& aabb				= attackCollider->m_collider;
-			const auto newPosition	= transform->m_currentPos + attackCollider->m_offset;
+		UpdateColliders(entity, transform, velocity);
 
-			float halfWidth		= aabb.GetWidth() * 0.5f;
-			float halfHeight	= aabb.GetHeight() * 0.5f;
+		// TODO; update RectComponent?
 
-			attackCollider->m_collider.Init({ newPosition.x - halfWidth, newPosition.z - halfHeight }, { newPosition.x + halfWidth, newPosition.z + halfHeight });
-		}
-
-		if (auto* rect = entity->GetComponent<RectComponent>())
-		{
-			// Have primitive shapes in Engine instead??
-			
-		}
-
+		// TODO; decrease velocity...
+		velocity->m_velocity = { 0.f, 0.f, 0.f };
 	}
-
 }
 
-bool MovementSystem::HasMoved(class TransformComponent* aTransform) const
+bool MovementSystem::HasMoved(const Entity* anEntity)
 {
-	bool hasMoved = aTransform->m_currentPos != aTransform->m_previousPos;
-	return hasMoved;
+	auto transform = anEntity->GetComponent<TransformComponent>();
+	return transform->m_currentPos != transform->m_previousPos;
+}
+
+void MovementSystem::UpdateColliders(Entity* anEntity, TransformComponent* aTransformComponent, VelocityComponent* aVelocityComponent)
+{
+	if (auto* attackCollider = anEntity->GetComponent<AttackColliderComponent>())
+	{
+		const auto& velocity = aVelocityComponent->m_velocity;
+
+		auto& aabb	 = attackCollider->m_collider;
+		auto& offset = attackCollider->m_offset;
+
+		// Update collider offset
+		auto colliderWidth = aabb.GetWidth();
+
+		offset.x = velocity.x > 0.f ? colliderWidth : velocity.x < 0.f ? -colliderWidth : 0;
+		offset.z = velocity.z > 0.f ? colliderWidth : velocity.z < 0.f ? -colliderWidth : 0;
+		
+		// Update collider position
+		const auto position = aTransformComponent->m_currentPos + attackCollider->m_offset;
+
+		float halfWidth  = aabb.GetWidth()  * 0.5f;
+		float halfHeight = aabb.GetHeight() * 0.5f;
+
+		aabb.Init({ position.x - halfWidth, position.z - halfHeight }, { position.x + halfWidth, position.z + halfHeight });
+	}
 }

@@ -51,17 +51,20 @@ eBTNodeStatus TargetInRange::Execute(EntityManager* anEntityManager)
 	if (anEntityManager)
 	{
 		auto* owner = anEntityManager->Find(m_ownerID);
-		auto* target = anEntityManager->Find(m_targetID);
 
-		auto currentPosition = owner->GetComponent<TransformComponent>()->m_currentPos;
-		auto targetPosition = target->GetComponent<TransformComponent>()->m_currentPos;
-
-		float distance = currentPosition.DistanceTo(targetPosition);
-
-		if (distance <= m_radius)
+		if (auto* target = anEntityManager->Find(m_targetID))
 		{
-		//	// set attacking to true => walking to false?
-			return eBTNodeStatus::Success;
+
+			auto currentPosition = owner->GetComponent<TransformComponent>()->m_currentPos;
+			auto targetPosition = target->GetComponent<TransformComponent>()->m_currentPos;
+
+			float distance = currentPosition.DistanceTo(targetPosition);
+
+			if (distance <= m_radius)
+			{
+			//	// set attacking to true => walking to false?
+				return eBTNodeStatus::Success;
+			}
 		}
 	}
 	return eBTNodeStatus::Failure;

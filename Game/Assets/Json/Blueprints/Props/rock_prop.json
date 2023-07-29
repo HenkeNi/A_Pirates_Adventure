@@ -23,7 +23,7 @@
       "value": 50
     },
     {
-      "type": "Rect",
+      "type": "DebugRect",
       "shader": "Primitive"
     },
     {

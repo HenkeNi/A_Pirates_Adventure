@@ -54,7 +54,6 @@ void OverworldScene::OnEnter()
 
 	m_entityManager.GetFactory().LoadBlueprints("../Game/Assets/Json/Blueprints/blueprint_manifest.json");
 
-	PostMaster::GetInstance().SendMessage({ eMessage::GameStarted, true }); 	// FIX
 
 
 	// m_mapSystem.Init(&m_entityManager);
@@ -71,6 +70,8 @@ void OverworldScene::OnEnter()
 	camera->GetComponent<CameraComponent>()->m_targetOffset = { 0.f, 0.f, 2.f };
 	camera->GetComponent<CameraComponent>()->m_targetID = (* m_entityManager.FindAllWithComponents<PlayerControllerComponent>().begin())->GetID();
 	//camera->GetComponent<CameraComponent>()->m_target = *m_entityManager.FindAllWithComponents<PlayerControllerComponent>().begin();
+
+	PostMaster::GetInstance().SendMessage({ eMessage::GameStarted, true }); 	// FIX
 }
 
 void OverworldScene::OnExit()

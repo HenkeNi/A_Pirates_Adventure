@@ -1,5 +1,6 @@
 #pragma once
 
+// AI - systems
 #include "AI/BehaviorTreeSystem.h"
 
 #include "Combat/CombatSystem.h"
@@ -13,10 +14,12 @@
 #include "Physics/CollisionSystem.h"
 #include "Physics/MovementSystem.h"
 
+// Rendering - systems
 #include "Rendering/Animation/SpriteAnimationSystem.h"
 #include "Rendering/Camera/CameraSystem.h"
 #include "Rendering/Primitive/PrimitiveRenderSystem.h"
 #include "Rendering/Sprite/SpriteRenderSystem.h"
+#include "Rendering/Debug/DebugRenderSystem.h"
 
 #include "Stats/StatSystem.h"
 #include "Spawn/EnemySpawnSystem.h"

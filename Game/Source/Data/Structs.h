@@ -50,6 +50,9 @@ struct Animation
 	float						m_elapsedFrameTime;
 	bool						m_isPlaying;
 	bool						m_isLooping;
+
+
+	// TODO; store keyframes??
 };
 
 

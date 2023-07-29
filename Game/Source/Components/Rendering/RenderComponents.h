@@ -33,6 +33,19 @@ struct CameraComponent : public ComponentBase
 	unsigned			m_targetID = 0;
 };
 
+
+
+
+
+struct DebugRectComponent : public ComponentBase
+{
+	Hi_Engine::Shader* m_shader;
+	CU::Vector4<float> m_color;
+};
+
+
+
+
 struct RectComponent : public ComponentBase
 {
 	Hi_Engine::Shader* m_shader;

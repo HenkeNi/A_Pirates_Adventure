@@ -4,6 +4,9 @@
 
 #include "../Blueprints/EntityBlueprint.h" // DON'T?
 
+#include "../Commands/Move/MoveCommand.h"
+#include "../Commands/Attack/AttackCommand.h"
+
 // struct ComponentData;
 
 class ComponentInitializer
@@ -46,6 +49,7 @@ public:
 		auto startPos = CU::Vector3<float>{ 0.f, 0.f, 0.f };
 		auto colliderSize = 0.2f;								// FIX!
 
+		// Do in MovementSystem init?
 		aComponent->m_offset = { 1.0f, 0.f, 0.f };
 		aComponent->m_collider.Init({ startPos.x - colliderSize, startPos.y - colliderSize }, { startPos.x + colliderSize, startPos.y + colliderSize });
 	}
@@ -76,6 +80,15 @@ public:
 		aComponent->m_isRunning = false;
 		aComponent->m_isJumping = false;
 		aComponent->m_isAttacking = false;
+	}
+
+	template <>
+	static void InitializeComponent<DebugRectComponent>(DebugRectComponent* aComponent, const ComponentData& someData)
+	{
+		auto shader = std::any_cast<std::string>(someData.at("shader"));
+
+		aComponent->m_shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource(shader);
+		aComponent->m_color = { 1.f, 1.f, 1.f, 1.f }; // TODO; read from json..
 	}
 
 	template <>
@@ -121,6 +134,23 @@ public:
 
 		aComponent->m_width = width;
 		aComponent->m_height = height;
+	}
+
+	template <>
+	static void InitializeComponent<PlayerControllerComponent>(PlayerControllerComponent* aComponent, const ComponentData& someData)
+	{
+		// Temp
+
+		// USe builder/factory?
+
+		// Pass in Entity??
+		
+		aComponent->m_inputMapping.insert(std::make_pair(Hi_Engine::eInputType::Key_W, new MoveCommand{{ 0.f,   -1.f }}));
+		aComponent->m_inputMapping.insert(std::make_pair(Hi_Engine::eInputType::Key_S, new MoveCommand{{ 0.f,	 1.f } }));
+		aComponent->m_inputMapping.insert(std::make_pair(Hi_Engine::eInputType::Key_A, new MoveCommand{{ -1.f,	 0.f } }));
+		aComponent->m_inputMapping.insert(std::make_pair(Hi_Engine::eInputType::Key_D, new MoveCommand{{ 1.f,  0.f } }));
+
+		aComponent->m_inputMapping.insert(std::make_pair(Hi_Engine::eInputType::Key_Space, new AttackCommand));
 	}
 
 	template <>

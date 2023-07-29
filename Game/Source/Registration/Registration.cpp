@@ -21,6 +21,7 @@ namespace Registration
 		EntityManager::s_entityFactory.RegisterComponentBuilder("Health",			new ConcreteComponentBuilder<HealthComponent>());
 		EntityManager::s_entityFactory.RegisterComponentBuilder("Camera",			new ConcreteComponentBuilder<CameraComponent>());
 		EntityManager::s_entityFactory.RegisterComponentBuilder("Rect",				new ConcreteComponentBuilder<RectComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("DebugRect",		new ConcreteComponentBuilder<DebugRectComponent>());
 		EntityManager::s_entityFactory.RegisterComponentBuilder("AttackCollider",	new ConcreteComponentBuilder<AttackColliderComponent>());
 		EntityManager::s_entityFactory.RegisterComponentBuilder("Hitbox",			new ConcreteComponentBuilder<HitboxColliderComponent>());
 		EntityManager::s_entityFactory.RegisterComponentBuilder("Harvestable",		new ConcreteComponentBuilder<HarvestableComponent>());
@@ -65,6 +66,7 @@ namespace Registration
 		aSystemManager.Register(std::make_unique<SpriteRenderSystem>());
 		aSystemManager.Register(std::make_unique<StatSystem>());
 		aSystemManager.Register(std::make_unique<PrimitiveRenderSystem>());
+		aSystemManager.Register(std::make_unique<DebugRenderSystem>());
 
 		aSystemManager.Register(std::make_unique<MapRenderSystem>());
 		aSystemManager.Register(std::make_unique<MapGenerationSystem>());
