@@ -4,7 +4,7 @@
 #include "Messaging/Events/SystemEvents/SystemEvents.h"
 
 
-#include "Base/Command/Command.h"
+// #include "Base/Command/Command.h"
 
 namespace Hi_Engine
 {
@@ -36,7 +36,7 @@ namespace Hi_Engine
 		{
 			if (IsCommandMapped(inputState.first) && inputState.second == eInputState::Press)
 			{
-				s_mappedCommands[inputState.first]->Execute();
+				// s_mappedCommands[inputState.first]->Execute();
 			}
 			// for each key... 
 				// also send the key's previous frames state...

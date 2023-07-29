@@ -12,7 +12,19 @@
       "type": "Input"
     },
     {
-      "type": "PlayerController"
+      "type": "PlayerController",
+      "commands": [
+        {
+          "type": "MoveCommand",
+          "input": "up",
+          "direction": [ 0.0, -1.0 ]
+        },
+        {
+          "type": "MoveCommand",
+          "input": "down",
+          "direction": [ 0.0, -1.0 ]
+        }
+      ]
     },
     {
       "type": "CharacterState"
@@ -96,7 +108,7 @@
       "value": 100
     },
     {
-      "type": "Rect",
+      "type": "DebugRect",
       "shader": "Primitive"
     }
   ]
