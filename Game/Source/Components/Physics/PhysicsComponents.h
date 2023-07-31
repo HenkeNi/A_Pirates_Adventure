@@ -14,6 +14,8 @@ struct VelocityComponent : public ComponentBase
 	// Speed? direction?
 };
 
+
+// Use to determine if colliding??
 struct BoxColliderComponent : public ComponentBase
 {
 	Hi_Engine::Physics::AABB2D<float> m_boundingBox;	// USE?? 

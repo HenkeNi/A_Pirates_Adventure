@@ -24,7 +24,7 @@ struct WeaponComponent : public ComponentBase
 
 // place in Physics??
 
-// Interaction component or HitboxComponent?
+// Interaction component or HitboxComponent? Combine or replace with BoxColliderComponent??
 struct HitboxColliderComponent : public ComponentBase
 {
 	Hi_Engine::Physics::AABB2D<float> m_collider; // or use circle...

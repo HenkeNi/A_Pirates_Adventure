@@ -60,7 +60,8 @@ void OverworldScene::OnEnter()
 
 	// Player
 	auto player = m_entityManager.Create("Player");
-	CU::Vector3<float> position = { (float)Random::InRange(2, 62), 0.42f, (float)Random::InRange(2, 62) };
+	//CU::Vector3<float> position = { (float)Random::InRange(2, 62), 0.42f, (float)Random::InRange(2, 62) };
+	CU::Vector3<float> position = { 27.f, 0.42f, 25.f };
 	player->GetComponent<TransformComponent>()->m_currentPos = position;
 
 

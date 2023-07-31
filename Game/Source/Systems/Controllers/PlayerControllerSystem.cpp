@@ -44,7 +44,6 @@ void PlayerControllerSystem::Update(float aDeltaTime)
 		auto velocity		= entity->GetComponent<VelocityComponent>();
 
 
-
 		//characterState->m_isIdle = true;
 
 		for (const auto& command : controller->m_inputMapping)

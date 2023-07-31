@@ -3,6 +3,8 @@
 
 //class MapChunk;
 
+class Entity;
+
 class CollisionSystem : public System
 {
 public:
@@ -14,9 +16,16 @@ public:
 	void Receive(Message& aMsg)			override;
 	void LateUpdate(float aDeltaTime)	override;
 
+	// Entity* GetMapChunkContainingEntity(const Entity* anEntity);	// move to MapGenerationSystem?
+
 	// TODO; abstract collision checks into functions that can be called from other systems
 
+
 private:
+	void CheckMapCollisions(Entity* anEntity);
+
+	void ResolveCollision();
+
 	// Check collisions
 	// Handle Collision / Resolve Collisions
 

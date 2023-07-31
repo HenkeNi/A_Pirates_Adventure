@@ -1,6 +1,7 @@
 #pragma once
 #include "../Base/System.h"
 
+
 class MapGenerationSystem : public System
 {
 public:
@@ -12,4 +13,5 @@ public:
 
 private:
 	void GenerateStartArea();
+	void GenerateMapChunk();
 };
