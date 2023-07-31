@@ -119,9 +119,10 @@ ComponentData ComponentParser::ParseHitboxComponent(JsonValue aValue)
 {
 	ComponentData data;
 	auto halfSize = aValue["half_size"].GetFloat();
+	bool isStatic = aValue["is_static"].GetBool();
 
 	data.insert(std::make_pair("halfSize", halfSize));
-
+	data.insert(std::make_pair("isStatic", isStatic));
 
 	return data;
 }

@@ -9,7 +9,7 @@ class MapUtils
 public:
 	static Entity*	GetMapChunkAtPosition(const std::vector<Entity*>& someMapChunks, const CU::Vector2<float>& aPosition);
 
-	static Tile*	GetTileAtPosition(const std::vector<Entity*>& someMapChunks, const CU::Vector2<float>& aPosition);
+	static Tile*	GetTileAtWorldPosition(Entity* aMapChunk, const CU::Vector2<float>& aWorldPosition);
 
 
 };

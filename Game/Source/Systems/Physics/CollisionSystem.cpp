@@ -33,7 +33,8 @@ void CollisionSystem::LateUpdate(float aDeltaTime)
 	for (auto& entity : entities)
 	{
 		auto* collider = entity->GetComponent<HitboxColliderComponent>();
-		
+		if (collider->m_isStatic)
+			continue;
 		// TODO; check if collider is static...
 
 		// Check entity - entity collisions...
@@ -76,8 +77,19 @@ void CollisionSystem::CheckMapCollisions(Entity* anEntity)
 
 	// temp
 	auto center = hitbox->m_collider.GetCenter();
-	auto mapChunk = MapUtils::GetMapChunkAtPosition(m_entityManager->FindAllWithComponents<MapChunkComponent>(), center);
 
+	auto mapChunk = MapUtils::GetMapChunkAtPosition(m_entityManager->FindAllWithComponents<MapChunkComponent>(), center);
+	Tile* tile = MapUtils::GetTileAtWorldPosition(mapChunk, center);
+	if (!tile)
+		return;
+
+	if (tile->m_isCollidable)
+	{
+		ResolveCollision(anEntity, tile);
+		
+	}
+
+	//std::cout << "Tile: " << tile->m_coordinates.x << ", " << tile->m_coordinates.y << '\n';
 
 	// get tile player is occupying...
 
@@ -104,5 +116,32 @@ void CollisionSystem::CheckMapCollisions(Entity* anEntity)
 
 	//	if (entityPosition.x > chunkPosition.x + mapChunkChunk->m_width || entityPosition.y > chunkPosition.y + mapChunkChunk->m_height)
 	//		continue;
+
+}
+
+void CollisionSystem::ResolveCollision(Entity* anEntity, Tile* aTile)
+{
+	// Move first x, then y-axis? each step check collisions...
+	
+	auto transformComponent = anEntity->GetComponent<TransformComponent>();
+	transformComponent->m_currentPos = transformComponent->m_previousPos;
+
+	//auto velocityComponent = anEntity->GetComponent<VelocityComponent>();
+
+	//static float tileSize = 1.f;
+
+	//if (velocityComponent->m_velocity.z < 0.f)
+	//	transformComponent->m_currentPos.z += 1;
+	//	//transformComponent->m_currentPos.z = aTile->m_position.z + tileSize;
+	//else
+	//	transformComponent->m_currentPos.z -= 1;
+	//	//transformComponent->m_currentPos.z = aTile->m_position.z;
+
+	//if (velocityComponent->m_velocity.x < 0.f)
+	//	transformComponent->m_currentPos.x += 1;
+	//	//transformComponent->m_currentPos.x = aTile->m_position.x + tileSize;
+	//else 
+	//	transformComponent->m_currentPos.x -= 1;
+	//	//transformComponent->m_currentPos.x = aTile->m_position.x;
 
 }

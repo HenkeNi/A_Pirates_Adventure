@@ -30,31 +30,56 @@ Entity* MapUtils::GetMapChunkAtPosition(const std::vector<Entity*>& someMapChunk
 	return nullptr;
 }
 
-Tile* MapUtils::GetTileAtPosition(const std::vector<Entity*>& someMapChunks, const CU::Vector2<float>& aPosition)
+Tile* MapUtils::GetTileAtWorldPosition(Entity* aMapChunk, const CU::Vector2<float>& aWorldPosition)
 {
-	auto mapChunk = GetMapChunkAtPosition(someMapChunks, aPosition);
+	static float tileSize = 1.f;
 
-	auto mapChunkComponent = mapChunk->GetComponent<MapChunkComponent>();
+	auto mapChunkTransform = aMapChunk->GetComponent<TransformComponent>();
+	auto mapChunkComponent = aMapChunk->GetComponent<MapChunkComponent>();
 
-	Tile* tile = nullptr;
+	// calculate local position
+	const CU::Vector2<float> localPosition = aWorldPosition - CU::Vector2<float>{ mapChunkTransform->m_currentPos.x, mapChunkTransform->m_currentPos.z };
 
-	for (const auto& tile : mapChunkComponent->m_tiles)
-	{
-		// if (tile.m_position.x)
+	//std::cout << "Locla: " << localPosition.x << ", " << localPosition.y << '\n';
 
-	}
+	int tileRow = (int)localPosition.y / tileSize;
+	int tileCol = (int)localPosition.x / tileSize;
+
+	//std::cout << tileRow << ", col: " << tileCol << '\n';
+
+	int tileIndex = tileRow * 10 + tileCol;
+
+	std::cout << "Index: " << tileIndex << '\n';
+
+	return &mapChunkComponent->m_tiles.at(tileIndex);
+
+	//Tile* tile = nullptr;
+
+	//for (auto& tile : mapChunkComponent->m_tiles)
+	//{
 
 
 
-	int width  = mapChunkComponent->m_width;
-	int height = mapChunkComponent->m_height;
+
+	//	if (aPosition.x < tile.m_position.x || aPosition.y < tile.m_position.z || aPosition.x > (tile.m_position.x + tileSize) || aPosition.y > (tile.m_position.z + tileSize))
+	//		continue;
+
+
+	//	return &tile;
+	//}
+
+
+
+	//int width  = mapChunkComponent->m_width;
+	//int height = mapChunkComponent->m_height;
 
 	/*if (aPosition.x >= 0 && aXCoord < width && aPosition.y >= 0 && aYCoord < height)
 	{
 		return &mapChunkComponent->m_tiles[aPosition.y * width * aPosition.x];
 	}*/
 
-	return tile;
+	return nullptr;
+	//return tile;
 }
 
 

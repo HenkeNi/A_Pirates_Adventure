@@ -24,7 +24,7 @@ public:
 private:
 	void CheckMapCollisions(Entity* anEntity);
 
-	void ResolveCollision();
+	void ResolveCollision(Entity* anEntity, class Tile* aTile);
 
 	// Check collisions
 	// Handle Collision / Resolve Collisions

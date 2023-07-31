@@ -75,4 +75,15 @@ void MovementSystem::UpdateColliders(Entity* anEntity, TransformComponent* aTran
 
 		aabb.Init({ position.x - halfWidth, position.z - halfHeight }, { position.x + halfWidth, position.z + halfHeight });
 	}
+
+	if (auto* hitboxCollider = anEntity->GetComponent<HitboxColliderComponent>())
+	{
+		auto& aabb = hitboxCollider->m_collider;
+		const auto position = aTransformComponent->m_currentPos;
+
+		float halfWidth = aabb.GetWidth() * 0.5f;
+		float halfHeight = aabb.GetHeight() * 0.5f;
+
+		aabb.Init({ position.x - halfWidth, position.z - halfHeight }, { position.x + halfWidth, position.z + halfHeight });
+	}
 }

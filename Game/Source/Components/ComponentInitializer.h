@@ -116,8 +116,10 @@ public:
 	{
 		CU::Vector3<float> position = { 0.f, 0.f, 0.f };
 		auto halfSize = std::any_cast<float>(someData.at("halfSize"));
+		bool isStatic = std::any_cast<bool>(someData.at("isStatic"));
 
 		aComponent->m_collider.Init({ position.x - halfSize, position.z - halfSize }, { position.x + halfSize, position.y + halfSize });
+		aComponent->m_isStatic = isStatic;
 	}
 
 	template <>

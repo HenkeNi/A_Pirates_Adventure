@@ -27,7 +27,8 @@ struct WeaponComponent : public ComponentBase
 // Interaction component or HitboxComponent? Combine or replace with BoxColliderComponent??
 struct HitboxColliderComponent : public ComponentBase
 {
-	Hi_Engine::Physics::AABB2D<float> m_collider; // or use circle...
+	Hi_Engine::Physics::AABB2D<float>	m_collider; // or use circle...
+	bool								m_isStatic;
 };
 
 struct AttackColliderComponent : public ComponentBase
