@@ -89,6 +89,16 @@
     "filepath": "../Game/Assets/Textures/skeleton_pile.png",
     "alpha": true
   },
+  {
+    "name": "Rock_Fragment",
+    "filepath": "../Game/Assets/Textures/rock_fragment.png",
+    "alpha": true
+  },
+  {
+    "name": "Fiber",
+    "filepath": "../Game/Assets/Textures/grass.png",
+    "alpha": true
+  },
 
 
 

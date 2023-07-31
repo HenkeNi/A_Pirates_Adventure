@@ -42,11 +42,11 @@ void ResourceDropSystem::Receive(Message& aMsg)
 		transformComponent->m_currentPos.y = 0.1f;
 		transformComponent->m_scale = { 0.2f, 0.2f, 0.2f };
 
-		auto spriteComponent = resource->GetComponent<SpriteComponent>();
-		spriteComponent->m_material = {
-			&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("Log"),				// FIX!
-			&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Billboard") };
-		
+		//auto spriteComponent = resource->GetComponent<SpriteComponent>();
+		//spriteComponent->m_material = {
+		//	&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("Log"),				// FIX! ResourceType..
+		//	&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Billboard") };
+		//
 
 		auto rect = resource->GetComponent<RectComponent>();
 		rect->m_shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Primitive");			// TODO; add box collider component => trigger?
