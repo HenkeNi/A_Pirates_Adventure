@@ -4,15 +4,6 @@
 
 #include "ComponentParser.h"
 
-#include "Rendering/RenderComponents.h"
-#include "Core/CoreComponents.h"
-#include "Controllers/ControllerComponents.h"
-#include "Physics/PhysicsComponents.h"
-#include "Combat/CombatComponents.h"
-#include <Stats/StatsComponents.h>
-#include "Resource/ResourceComponents.h"
-#include "Inventory/InventoryComponents.h"
-
 EntityFactory::EntityFactory()
 {
 }
@@ -80,6 +71,11 @@ void EntityFactory::LoadBlueprints(const std::string& aFilePath)
 	}
 
 	for (auto& blueprint : document["blueprints"]["spawners"].GetArray())
+	{
+		loadBlueprintsFromJson(blueprint.GetString());
+	}
+
+	for (auto& blueprint : document["blueprints"]["ships"].GetArray())
 	{
 		loadBlueprintsFromJson(blueprint.GetString());
 	}

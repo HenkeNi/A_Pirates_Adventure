@@ -99,6 +99,11 @@
     "filepath": "../Game/Assets/Textures/grass.png",
     "alpha": true
   },
+  {
+    "name": "Raft",
+    "filepath": "../Game/Assets/Textures/raft.png",
+    "alpha": true
+  },
 
 
 

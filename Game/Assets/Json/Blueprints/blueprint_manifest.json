@@ -23,6 +23,9 @@
     "spawners": [
       "../Game/Assets/Json/Blueprints/Spawner/skeleton_spawner.json"
     ],
+    "ships": [
+      "../Game/Assets/Json/Blueprints/Ships/ship_raft.json"
+    ],
     "map": [
       "../Game/Assets/Json/Blueprints/Map/map_chunk.json"
     ]

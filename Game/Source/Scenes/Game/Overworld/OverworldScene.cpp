@@ -65,6 +65,9 @@ void OverworldScene::OnEnter()
 	player->GetComponent<TransformComponent>()->m_currentPos = position;
 
 
+	auto raft = m_entityManager.Create("Raft");
+	raft->GetComponent<TransformComponent>()->m_currentPos = { 10.f, 0.42f, 10.f };
+
 	// Camera
 	auto camera = m_entityManager.Create("Camera");
 	camera->GetComponent<TransformComponent>()->m_currentPos = { 0.f, 0.f, 2.f };

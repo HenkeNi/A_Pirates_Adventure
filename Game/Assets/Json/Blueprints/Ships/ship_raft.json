@@ -1,0 +1,26 @@
+{
+  "name": "Raft",
+  "layer": "Ship",
+  "components": [
+    {
+      "type": "Transform",
+      "position": [ 0.0, 0.0, 0.0 ],
+      "scale": [ 1.0, 1.0, 1.0 ],
+      "rotation": 0.0
+    },
+    {
+      "type": "Sprite",
+      "shader": "Billboard",
+      "texture": "Raft",
+      "color": [ 1.0, 1.0, 1.0, 1.0 ]
+    },
+    {
+      "type": "Trigger",
+      "half_size": 0.1
+    },
+    {
+      "type": "DebugRect",
+      "shader": "Primitive"
+    }
+  ]
+}

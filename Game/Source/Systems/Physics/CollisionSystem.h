@@ -13,6 +13,8 @@ public:
 
 	// maybe init/or  function => sets colliders to their correct position?!
 
+	void Init();
+
 	void Receive(Message& aMsg)			override;
 	void LateUpdate(float aDeltaTime)	override;
 
