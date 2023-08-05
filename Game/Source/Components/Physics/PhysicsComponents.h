@@ -3,7 +3,7 @@
 
 namespace CU = CommonUtilities;
 
-// Rename MotionComponent? or MovementComponent?
+
 struct VelocityComponent : public ComponentBase
 {
 	CU::Vector3<float>	m_velocity;
@@ -15,12 +15,14 @@ struct VelocityComponent : public ComponentBase
 };
 
 
-// Use to determine if colliding??
-struct BoxColliderComponent : public ComponentBase
+// Use to determine if colliding
+struct RectangleColliderComponent : public ComponentBase
 {
-	Hi_Engine::Physics::AABB2D<float> m_boundingBox;	// USE?? 
+	Hi_Engine::Physics::AABB2D<float>	m_collider; 
+	bool								m_isStatic;
 	// isStaic?
 };
+
 
 struct CircleColliderComponent : public ComponentBase
 {

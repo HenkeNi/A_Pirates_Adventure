@@ -1,7 +1,27 @@
 #pragma once
 #include "../Base/ComponentBase.h"
 
-// Rename file??
+
+struct HitboxComponent : public ComponentBase
+{
+	Hi_Engine::Physics::AABB2D<float>	m_collider; // or use circle...
+	bool								m_isStatic;
+};
+
+struct AttackComponent : public ComponentBase
+{
+	Hi_Engine::Physics::AABB2D<float>	m_collider;
+	CU::Vector3<float>					m_offset = { 20.f, 0.f, 20.f };
+	// circle collider?
+	bool								m_isEnabled;
+};
+
+
+
+
+
+
+
 
 
 // Dont have health? Use Stats Component instead?
@@ -24,26 +44,12 @@ struct WeaponComponent : public ComponentBase
 
 // place in Physics??
 
-// Interaction component or HitboxComponent? Combine or replace with BoxColliderComponent??
-struct HitboxColliderComponent : public ComponentBase
-{
-	Hi_Engine::Physics::AABB2D<float>	m_collider; // or use circle...
-	bool								m_isStatic;
-};
-
-struct AttackColliderComponent : public ComponentBase
-{
-	Hi_Engine::Physics::AABB2D<float>	m_collider;
-	CU::Vector3<float>					m_offset = { 20.f, 0.f, 20.f };
-	// circle collider?
-	bool								m_isEnabled;
-};
 
 
-struct PickupColliderComponent : public ComponentBase
-{
-	Hi_Engine::Physics::AABB2D<float>	m_collider;
-};
+
+
+
+// MOVE
 
 
 struct EnemySpawnerComponent : public ComponentBase

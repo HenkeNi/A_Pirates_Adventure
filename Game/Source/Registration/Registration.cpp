@@ -22,8 +22,8 @@ namespace Registration
 		EntityManager::s_entityFactory.RegisterComponentBuilder("Camera",			new ConcreteComponentBuilder<CameraComponent>());
 		EntityManager::s_entityFactory.RegisterComponentBuilder("Rect",				new ConcreteComponentBuilder<RectComponent>());
 		EntityManager::s_entityFactory.RegisterComponentBuilder("DebugRect",		new ConcreteComponentBuilder<DebugRectComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("AttackCollider",	new ConcreteComponentBuilder<AttackColliderComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Hitbox",			new ConcreteComponentBuilder<HitboxColliderComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("AttackCollider",	new ConcreteComponentBuilder<AttackComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("Hitbox",			new ConcreteComponentBuilder<HitboxComponent>());
 		EntityManager::s_entityFactory.RegisterComponentBuilder("Harvestable",		new ConcreteComponentBuilder<HarvestableComponent>());
 
 		EntityManager::s_entityFactory.RegisterComponentBuilder("Resource",			new ConcreteComponentBuilder<ResourceComponent>());
@@ -31,6 +31,8 @@ namespace Registration
 		EntityManager::s_entityFactory.RegisterComponentBuilder("Inventory",		new ConcreteComponentBuilder<InventoryComponent>());
 		EntityManager::s_entityFactory.RegisterComponentBuilder("Spawner",			new ConcreteComponentBuilder<SpawnComponent>());
 		EntityManager::s_entityFactory.RegisterComponentBuilder("BehaviorTree",		new ConcreteComponentBuilder<BehaviorTreeComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("Trigger",			new ConcreteComponentBuilder<TriggerComponent>());
+
 
 		EntityManager::s_entityFactory.RegisterComponentBuilder("MapChunk",			new ConcreteComponentBuilder<MapChunkComponent>());
 		EntityManager::s_entityFactory.RegisterComponentBuilder("CharacterState",	new ConcreteComponentBuilder<CharacterStateComponent>());

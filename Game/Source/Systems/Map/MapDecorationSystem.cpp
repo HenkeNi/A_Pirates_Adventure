@@ -56,7 +56,7 @@ void MapDecorationSystem::PopulateWithFoilage(const Entity* aMapChunk)
 			//rect->m_shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Primitive");
 
 			// Fix somehow => need to work even if not moving
-			auto hitbox = entity->GetComponent<HitboxColliderComponent>();
+			auto hitbox = entity->GetComponent<HitboxComponent>();
 
 			static float size = 0.2f;
 

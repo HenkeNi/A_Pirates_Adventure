@@ -4,7 +4,7 @@
 #include "Combat/CombatComponents.h"
 #include "Controllers/ControllerComponents.h"
 #include "Core/CoreComponents.h"
-#include "Inventory/InventoryComponents.h"
+#include "Gameplay/GameplayComponents.h"
 
 
 InventorySystem::InventorySystem()

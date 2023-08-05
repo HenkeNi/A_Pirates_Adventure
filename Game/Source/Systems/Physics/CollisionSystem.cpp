@@ -7,6 +7,7 @@
 #include "Core/CoreComponents.h"
 #include "../Utility/Map/MapUtils.h"
 
+
 CollisionSystem::CollisionSystem()
 	: System{ 1 }
 {
@@ -14,6 +15,11 @@ CollisionSystem::CollisionSystem()
 
 CollisionSystem::~CollisionSystem()
 {
+}
+
+void CollisionSystem::Init()
+{
+	// TODO initialize collider positions...
 }
 
 void CollisionSystem::Receive(Message& aMsg)
@@ -27,12 +33,12 @@ void CollisionSystem::LateUpdate(float aDeltaTime)
 
 	// query for tilemap component?!
 
-	auto entities = m_entityManager->FindAllWithComponents<HitboxColliderComponent, TransformComponent>();
+	auto entities = m_entityManager->FindAllWithComponents<HitboxComponent, TransformComponent>();
 	// auto mapChunks = m_entityManager->FindAllWithComponents<MapChunkComponent>();
 
 	for (auto& entity : entities)
 	{
-		auto* collider = entity->GetComponent<HitboxColliderComponent>();
+		auto* collider = entity->GetComponent<HitboxComponent>();
 		if (collider->m_isStatic)
 			continue;
 		// TODO; check if collider is static...
@@ -73,7 +79,7 @@ void CollisionSystem::CheckMapCollisions(Entity* anEntity)
 	
 	// Check all 4 corners of the collider...?
 
-	auto hitbox = anEntity->GetComponent<HitboxColliderComponent>();
+	auto hitbox = anEntity->GetComponent<HitboxComponent>();
 
 	// temp
 	auto center = hitbox->m_collider.GetCenter();

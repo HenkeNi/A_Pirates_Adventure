@@ -2,8 +2,8 @@
 #include "ResourceDropSystem.h"
 #include "Entity.h"
 #include "EntityManager.h"
-#include "Resource/ResourceComponents.h"
 #include "Core/CoreComponents.h"
+#include "Gameplay/GameplayComponents.h"
 #include "Rendering/RenderComponents.h"
 #include "Combat/CombatComponents.h"
 #include <Core/Resources/ResourceHolder.hpp>

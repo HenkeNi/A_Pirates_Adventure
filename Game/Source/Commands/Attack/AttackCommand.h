@@ -1,7 +1,7 @@
 #pragma once
 #include "../Base/Command.h"
 
-class AttackColliderComponent;
+class AttackComponent;
 class CharacterStateComponent;
 class DebugRectComponent; // REMOVE LATER...
 
@@ -12,10 +12,10 @@ public:
 
 	void			Execute()		  override;
 
-	void			SetComponent(AttackColliderComponent* anAttackComponent, CharacterStateComponent* aStateComponent, DebugRectComponent* aRectComponent);
+	void			SetComponent(AttackComponent* anAttackComponent, CharacterStateComponent* aStateComponent, DebugRectComponent* aRectComponent);
 
 private:
-	AttackColliderComponent* m_attackComponent;
+	AttackComponent* m_attackComponent;
 	CharacterStateComponent* m_stateComponent;
 	DebugRectComponent* m_rectComponent;
 };

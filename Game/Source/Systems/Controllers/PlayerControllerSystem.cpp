@@ -218,7 +218,7 @@ void PlayerControllerSystem::InitCommands()
 			{
 				auto attackCommand = static_cast<AttackCommand*>(command.second);
 
-				attackCommand->SetComponent(entity->GetComponent<AttackColliderComponent>(), entity->GetComponent<CharacterStateComponent>(), entity->GetComponent<DebugRectComponent>());
+				attackCommand->SetComponent(entity->GetComponent<AttackComponent>(), entity->GetComponent<CharacterStateComponent>(), entity->GetComponent<DebugRectComponent>());
 			}
 
 			if (command.first == Hi_Engine::eInputType::Key_Shift)

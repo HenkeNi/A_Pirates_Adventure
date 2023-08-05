@@ -23,7 +23,7 @@ void AttackCommand::Execute()
 	m_rectComponent->m_color = { 0.f, 1.0f, 0.f, 1.f }; // Do in Primitive systtem
 }
 
-void AttackCommand::SetComponent(AttackColliderComponent* anAttackComponent, CharacterStateComponent* aStateComponent, DebugRectComponent* aRectComponent)
+void AttackCommand::SetComponent(AttackComponent* anAttackComponent, CharacterStateComponent* aStateComponent, DebugRectComponent* aRectComponent)
 {
 	m_attackComponent = anAttackComponent;
 	m_stateComponent  = aStateComponent;

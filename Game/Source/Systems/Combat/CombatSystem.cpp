@@ -18,15 +18,25 @@ CombatSystem::~CombatSystem()
 	PostMaster::GetInstance().Unsubscribe(eMessage::AttackAnimationFinished, this);
 }
 
-void CombatSystem::Receive(Message& aMsg)
+void CombatSystem::Receive(Message& aMsg)	// Listen to collisions from physics
 {
 	if (!m_entityManager)
 		return;
 	
+
+
+	// Listen for animation finished => activate collider
+
+	// Listen for collision (from physics system)
+
+
+
+
+
 	std::vector<Entity*> entitiesToRemove;
 
 	auto entity = std::any_cast<Entity*>(aMsg.GetData());
-	auto* attackCollider = entity->GetComponent<AttackColliderComponent>();
+	auto* attackCollider = entity->GetComponent<AttackComponent>();
 
 	// necessary, or do earlier?
 	//if (!attackCollider->m_isEnabled)
@@ -39,9 +49,9 @@ void CombatSystem::Receive(Message& aMsg)
 		if (target->GetID() == entity->GetID())
 			continue;
 
-		auto hitbox = target->GetComponent<HitboxColliderComponent>();
+		auto hitbox = target->GetComponent<HitboxComponent>();
 
-		// if colliding...
+		// if colliding... (move to COllisionSystem)
 		if (Hi_Engine::Physics::Intersects(attackCollider->m_collider, hitbox->m_collider))
 		{
 			//PostMaster::GetInstance().SendMessage(Message{ eMessage::EntityAttacked, std::tuple{ attacker, target } }); // Don't send event??
@@ -71,11 +81,11 @@ void CombatSystem::Update(float aDeltaTime)
 
 	//std::vector<Entity*> entitiesToRemove;
 
-	//auto attackers = m_entityManager->FindAllWithComponents<AttackColliderComponent, TransformComponent>();
+	//auto attackers = m_entityManager->FindAllWithComponents<AttackComponent, TransformComponent>();
 
 	//for (auto* attacker : attackers)
 	//{
-	//	auto* attackCollider = attacker->GetComponent<AttackColliderComponent>();
+	//	auto* attackCollider = attacker->GetComponent<AttackComponent>();
 	//	
 	//	if (!attackCollider->m_isEnabled || !IsCorrectAnimationFrame(attacker))	// TODO; listen to animation event instead?
 	//		continue;
@@ -83,14 +93,14 @@ void CombatSystem::Update(float aDeltaTime)
 	//	// Update color??
 
 	//	// Todo; filter for entities in nearby area!!
-	//	auto targets = m_entityManager->FindAllWithComponents<HealthComponent, HitboxColliderComponent, TransformComponent>();
+	//	auto targets = m_entityManager->FindAllWithComponents<HealthComponent, HitboxComponent, TransformComponent>();
 
 	//	for (auto target : targets)
 	//	{
 	//		if (target->GetID() == attacker->GetID())
 	//			continue;
 
-	//		auto hitbox = target->GetComponent<HitboxColliderComponent>();
+	//		auto hitbox = target->GetComponent<HitboxComponent>();
 
 	//		// if colliding...
 	//		if (Hi_Engine::Physics::Intersects(attackCollider->m_collider, hitbox->m_collider))
@@ -122,7 +132,7 @@ unsigned CombatSystem::GetDamageOutput(Entity* anEntity) const
 std::vector<Entity*> CombatSystem::GetNearbyEntities() const
 {
 	// Todo; filter for entities in nearby area!!
-	auto targets = m_entityManager->FindAllWithComponents<HealthComponent, HitboxColliderComponent, TransformComponent>();
+	auto targets = m_entityManager->FindAllWithComponents<HealthComponent, HitboxComponent, TransformComponent>();
 	return targets;
 }
 
