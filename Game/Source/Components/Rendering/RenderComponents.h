@@ -53,6 +53,16 @@ struct RectComponent : public ComponentBase
 };
 
 
+struct TextComponent : public ComponentBase
+{
+	std::string			m_text;
+	Hi_Engine::Shader*	m_shader;
+	Hi_Engine::Font*	m_font;
+	// float				m_scale; use transform instead..
+	CU::Vector3<float>	m_color;
+};
+
+
 // SpriteSheet component? (stores texture atlas, also holds current frame, etc...)
 
 

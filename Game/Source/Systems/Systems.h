@@ -20,6 +20,8 @@
 #include "Rendering/Primitive/PrimitiveRenderSystem.h"
 #include "Rendering/Sprite/SpriteRenderSystem.h"
 #include "Rendering/Debug/DebugRenderSystem.h"
+#include "Rendering/Text/TextRenderSystem.h"
+
 
 #include "Stats/StatSystem.h"
 #include "Spawn/EnemySpawnSystem.h"

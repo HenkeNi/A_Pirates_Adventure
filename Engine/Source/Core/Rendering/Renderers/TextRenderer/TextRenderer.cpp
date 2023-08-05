@@ -47,15 +47,9 @@ namespace Hi_Engine
 
 	void TextRenderer::Render(const TextRenderData& someData)
 	{
-        auto text = someData.m_text;
-
         // activate corresponding render state	
         someData.m_shader->Activate();
         someData.m_shader->SetVector3f("textColor", someData.m_color);
-
-
-        // use scale?? => and do it here??
-        auto scale = someData.m_scale;
 
         glm::mat4 projection = glm::ortho(0.0f, (float)m_windowSize.x, 0.0f, (float)m_windowSize.y);
         someData.m_shader->SetMatrix4("projection", projection);
@@ -64,14 +58,12 @@ namespace Hi_Engine
         glBindVertexArray(m_VAO);
 
         // iterate through all characters
-        auto position = someData.m_position; // 812.9  (150 is half size!
+        auto position = someData.m_position;
         const auto& characters = someData.m_font->m_characters;
 
-        position.x -= (someData.m_text.size() * characters.begin()->second.m_size.x) * 0.5f; // TEST!!  
+        // position.x -= (someData.m_text.size() * characters.begin()->second.m_size.x) * 0.5f; // TEST!!  
 
         
-
-        //for (const auto& character : characters)
         for (const char& c : someData.m_text)
         {
             const auto& ch = someData.m_font->m_characters[c];

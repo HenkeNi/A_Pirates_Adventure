@@ -29,11 +29,6 @@ void Game::OnDraw()
 {
 	m_sceneManager.Draw();
 	m_systemManager.Draw();
-
-	// TEST
-	auto& shader = Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Text");
-	auto& font = Hi_Engine::ResourceHolder<Hi_Engine::Font>::GetInstance().GetResource("Basic");
-	Hi_Engine::TextRenderer::GetInstance().Render({ &shader, &font, 10.f, 10.f, 1.f, { 1.f, 1.f, 1.f }, { 230.f, 338.f}, "GHello world" });
 }
 
 void Game::OnCreate()

@@ -165,14 +165,8 @@ namespace Hi_Engine
 	{
 		class Shader*	m_shader;
 		class Font*		m_font;
-
-		float m_x;
-		float m_y;
 		float m_scale;
 		CU::Vector3<float> m_color;
-		//glm::vec3 m_color;
-
-
 		CU::Vector2<float> m_position; //??
 		std::string			m_text;
 
@@ -182,11 +176,9 @@ namespace Hi_Engine
 
 
 
-	struct Character {
+	struct Character 
+	{
 		std::string m_textureID;
-		// Texture2D	m_texture;
-		//Texture2D*m_texture;
-		// unsigned int m_textureID;  // ID handle of the glyph texture
 		glm::ivec2   m_size;       // Size of glyph
 		glm::ivec2   m_bearing;    // Offset from baseline to left/top of glyph
 		unsigned int m_advance;    // Offset to advance to next glyph

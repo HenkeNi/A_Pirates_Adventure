@@ -69,10 +69,13 @@ namespace Registration
 		aSystemManager.Register(std::make_unique<StatSystem>());
 		aSystemManager.Register(std::make_unique<PrimitiveRenderSystem>());
 		aSystemManager.Register(std::make_unique<DebugRenderSystem>());
-
+		
 		aSystemManager.Register(std::make_unique<MapRenderSystem>());
 		aSystemManager.Register(std::make_unique<MapGenerationSystem>());
 		aSystemManager.Register(std::make_unique<MapDecorationSystem>());
+
+
+		aSystemManager.Register(std::make_unique<TextRenderSystem>());
 	}
 
 	void RegisterScenes(SceneManager& aSceneManager, SystemManager& aSystemManager)
