@@ -25,8 +25,8 @@ namespace Hi_Engine
 	private:
 		SpriteRenderer();
 
-		Camera*		m_camera;
+		Camera*					m_camera;
 		CU::Vector2<unsigned>	m_windowSize;	// FIX LATER...
-		unsigned	m_VAO;
+		unsigned				m_VAO;
 	};
 }

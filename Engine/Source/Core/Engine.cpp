@@ -7,6 +7,7 @@
 #include "Rendering/Renderers/SpriteRenderer/SpriteRenderer.h"
 #include "Rendering/Renderers/BillboardRenderer/BillboardRenderer.h"
 #include "Rendering/Renderers/PrimitiveRenderer/PrimitiveRenderer.h"
+#include "Rendering/Renderers/TextRenderer/TextRenderer.h"
 #include "../Utility/Time/Timer.h"
 #include "../Messaging/Dispatcher/Dispatcher.h"
 
@@ -27,7 +28,15 @@ namespace Hi_Engine
 		if (!CreateWindow() || glewInit() != GLEW_OK || !m_application)
 			return false;
 
-		SetupRendering();
+		ConfigureRenderStates();
+
+		BillboardRenderer::GetInstance().Init();
+		SpriteRenderer::GetInstance().Init();
+		PrimitiveRenderer::GetInstance().Init();
+		TextRenderer::GetInstance().Init();
+
+		// TEMP;
+		TextRenderer::GetInstance().LoadFont("../Engine/Assets/Fonts/PipeDream-1Zwg.ttf", 48);
 
 		m_application->OnCreate(); 
 
@@ -57,6 +66,9 @@ namespace Hi_Engine
 			/* - Render - */
 			m_window.ClearScreen();
 			m_application->OnDraw();
+
+			TextRenderer::GetInstance().Render({ &ResourceHolder<Shader>::GetInstance().GetResource("Text"), 10.f, 10.f, 1.f, { 1.f, 1.f, 1.f }, { 230.f, 338.f}, "Hello world"});
+
 			m_window.SwapBuffers();
 		}
 	}
@@ -87,18 +99,10 @@ namespace Hi_Engine
 		return m_window.Init(windowData);
 	}
 
-	void Engine::SetupRendering()
+	void Engine::ConfigureRenderStates()
 	{
-		stbi_set_flip_vertically_on_load(true);
-
-		glEnable(GL_DEPTH_TEST);		
-		// glEnable(GL_BLEND) ?? does what?
-		// glEnable(GL_CULL_FACE);		// Disable back faces?? only for 3D?!
-		// glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC1_ALPHA);*/
-		// glFrontFace(GL_CCW);		// Counter clockwise
-
-		BillboardRenderer::GetInstance().Init();
-		SpriteRenderer::GetInstance().Init();
-		PrimitiveRenderer::GetInstance().Init();
+		glEnable(GL_DEPTH_TEST);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);			
+		glEnable(GL_BLEND);
 	}
 }

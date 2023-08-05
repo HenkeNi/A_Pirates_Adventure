@@ -125,6 +125,8 @@ namespace Hi_Engine
 	template <>
 	inline void ResourceHolder<Texture2D, std::string>::Load(const std::string& aResourceName, const std::string& aPath, bool alpha)
 	{
+		stbi_set_flip_vertically_on_load(true);
+
 		auto texture = std::make_unique<Texture2D>(alpha);
 
 		int width, height, nrChannels;

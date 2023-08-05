@@ -42,3 +42,7 @@
 #include <gtc/matrix_transform.hpp> 
 #include <gtc/type_ptr.hpp>
 #include <stb_image.h>
+
+
+#include <ft2build.h>
+#include FT_FREETYPE_H  

@@ -17,10 +17,10 @@ namespace Hi_Engine
 		bool Init();
 		void GameLoop();
 		void Shutdown();
-		bool IsRunning()		const;
+		bool IsRunning() const;
 		
 	private:
-		void SetupRendering(); 
+		void ConfigureRenderStates(); 
 		bool CreateWindow();		
 
 		InputHandler	m_inputHandler;

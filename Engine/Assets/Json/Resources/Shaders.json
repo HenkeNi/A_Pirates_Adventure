@@ -10,5 +10,9 @@
   {
     "name": "Sprite",
     "filepath": "../Engine/Assets/Shaders/"
+  },
+  {
+    "name": "Text",
+    "filepath": "../Engine/Assets/Shaders/"
   }
 ]
