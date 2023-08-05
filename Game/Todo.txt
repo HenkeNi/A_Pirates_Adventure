@@ -12,10 +12,6 @@ Update scene to not future Update, LateUpdate and Render?
 
 
 
-## MapSystem ##
-- consider integrate the map into the component system?
-	* Either map or MapChunks could be components?
-
 
 
 
@@ -139,10 +135,6 @@ should world be x and z (laying flat) or x and y (standing up/on its edge)
 	
 * make sure to always delete a pointer before setting it...
 
-
-
-
-Put assets folder in game??
 
 
 
@@ -512,26 +504,6 @@ In each Scene => GameObjectManager
 
 
 
-Components;
-
-* SpriteRenderer OR C_Sprite??
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 SceneLoader...
 
@@ -550,9 +522,6 @@ auto* gameObject = GameFactory::GetInstance().Create(type);
 gameObject.AddComponent??
 
 m_gameObject.push_back(gameObject);
-
-
-
 
 
 
