@@ -45,7 +45,7 @@ struct DebugRectComponent : public ComponentBase
 
 
 
-
+// Rename?
 struct RectComponent : public ComponentBase
 {
 	Hi_Engine::Shader* m_shader;

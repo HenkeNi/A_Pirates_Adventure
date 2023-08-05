@@ -45,7 +45,7 @@ public:
 	}
 	
 	template <>
-	static void InitializeComponent<AttackColliderComponent>(AttackColliderComponent* aComponent, const ComponentData& someData)
+	static void InitializeComponent<AttackComponent>(AttackComponent* aComponent, const ComponentData& someData)
 	{
 		auto startPos = CU::Vector3<float>{ 0.f, 0.f, 0.f };
 		auto colliderSize = 0.2f;								// FIX!
@@ -112,7 +112,7 @@ public:
 	}
 
 	template <>
-	static void InitializeComponent<HitboxColliderComponent>(HitboxColliderComponent* aComponent, const ComponentData& someData)
+	static void InitializeComponent<HitboxComponent>(HitboxComponent* aComponent, const ComponentData& someData)
 	{
 		CU::Vector3<float> position = { 0.f, 0.f, 0.f };
 		auto halfSize = std::any_cast<float>(someData.at("halfSize"));
@@ -196,6 +196,15 @@ public:
 		aComponent->m_currentPos = aComponent->m_previousPos = { position[0], position[1], position[2] };
 		aComponent->m_scale = { scale[0], scale[1], scale[2] };
 		aComponent->m_rotation = rotation;
+	}
+
+	template <>
+	static void InitializeComponent<TriggerComponent>(TriggerComponent* aComponent, const ComponentData& someData)
+	{
+		CU::Vector3<float> position = { 0.f, 0.f, 0.f };					// TODO; 
+		auto halfSize = std::any_cast<float>(someData.at("halfSize"));
+
+		aComponent->m_collider.Init({ position.x - halfSize, position.z - halfSize }, { position.x + halfSize, position.y + halfSize });
 	}
 
 	template <>

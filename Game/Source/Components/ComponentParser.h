@@ -6,6 +6,7 @@
 
 //#include "../Blueprints/EntityBlueprint.h"
 
+// put in utils?
 
 class ComponentParser
 {
@@ -59,6 +60,8 @@ public:
 	static ComponentData ParseTimerComponent(JsonValue aValue);
 
 	static ComponentData ParseTransformComponent(JsonValue aValue);
+
+	static ComponentData ParseTriggerComponent(JsonValue aValue);
 	
 	static ComponentData ParseVelocityComponent(JsonValue aValue);
 

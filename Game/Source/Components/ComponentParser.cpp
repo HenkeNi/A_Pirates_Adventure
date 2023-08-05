@@ -259,6 +259,15 @@ ComponentData ComponentParser::ParseTransformComponent(JsonValue aValue)
 	return data;
 }
 
+ComponentData ComponentParser::ParseTriggerComponent(JsonValue aValue)
+{
+	ComponentData data;
+	auto halfSize = aValue["half_size"].GetFloat();
+
+	data.insert(std::make_pair("halfSize", halfSize));
+	return data;
+}
+
 ComponentData ComponentParser::ParseVelocityComponent(JsonValue aValue)
 {
 	ComponentData data;
@@ -302,6 +311,7 @@ void ComponentParser::Initialize()
 
 	m_parsers.insert(std::make_pair("Timer",			&ParseTimerComponent));
 	m_parsers.insert(std::make_pair("Transform",		&ParseTransformComponent));
+	m_parsers.insert(std::make_pair("Trigger",			&ParseTriggerComponent));
 	m_parsers.insert(std::make_pair("Velocity",			&ParseVelocityComponent));
 	m_parsers.insert(std::make_pair("Weapon",			&ParseWeaponComponent));
 	m_parsers.insert(std::make_pair("CharacterState",	&ParseCharacterStateComponent));
