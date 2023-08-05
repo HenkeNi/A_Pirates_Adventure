@@ -35,9 +35,6 @@ namespace Hi_Engine
 		PrimitiveRenderer::GetInstance().Init();
 		TextRenderer::GetInstance().Init();
 
-		// TEMP;
-		TextRenderer::GetInstance().LoadFont("../Engine/Assets/Fonts/PipeDream-1Zwg.ttf", 48);
-
 		m_application->OnCreate(); 
 
 		return (m_isRunning = true);
@@ -66,8 +63,6 @@ namespace Hi_Engine
 			/* - Render - */
 			m_window.ClearScreen();
 			m_application->OnDraw();
-
-			TextRenderer::GetInstance().Render({ &ResourceHolder<Shader>::GetInstance().GetResource("Text"), 10.f, 10.f, 1.f, { 1.f, 1.f, 1.f }, { 230.f, 338.f}, "Hello world"});
 
 			m_window.SwapBuffers();
 		}

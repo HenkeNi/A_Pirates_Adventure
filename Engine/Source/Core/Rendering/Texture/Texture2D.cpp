@@ -3,8 +3,8 @@
 
 namespace Hi_Engine
 {
-	Texture2D::Texture2D(bool hasAlpha)
-		: m_internalFormat{ hasAlpha ? GL_RGBA : GL_RGB }, m_imageFormat{ m_internalFormat }, m_id{ 0 }, m_size{ 0.f, 0.f }
+	Texture2D::Texture2D(GLenum aTextureFormat)
+		: m_internalFormat{ aTextureFormat }, m_imageFormat{ aTextureFormat }, m_id{ 0 }, m_size{ 0.f, 0.f }
 	{
 	}
 
@@ -16,8 +16,7 @@ namespace Hi_Engine
 
 	void Texture2D::Init(const CU::Vector2<int>& aSize, unsigned char* someData)
 	{
-		assert(someData);
-
+		// assert(someData);
 		m_size = aSize;
 
 		/* Generate Texture */
@@ -27,10 +26,10 @@ namespace Hi_Engine
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		/* Set Texture Wrap and Filter Modes */
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_internalFormat == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_internalFormat == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR /*GL_LINEAR_MIPMAP_LINEAR*/); // Or just GL_Linear??
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR /*GL_LINEAR_MIPMAP_LINEAR*/);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_internalFormat != GL_RGB ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_internalFormat != GL_RGB ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		/* Unbind Texture */
 		glBindTexture(GL_TEXTURE_2D, 0);
@@ -49,5 +48,10 @@ namespace Hi_Engine
 	const CU::Vector2<int>& Texture2D::GetSize() const
 	{
 		return m_size;
+	}
+
+	unsigned Texture2D::GetID() const
+	{
+		return m_id;
 	}
 }

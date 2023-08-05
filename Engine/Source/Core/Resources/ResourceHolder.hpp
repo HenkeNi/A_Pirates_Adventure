@@ -2,14 +2,16 @@
 //#include "Math/Vectors/Vector.hpp"
 #include "Core/Rendering/Shader/Shader.h"
 #include "Core/Rendering/Texture/Texture2D.h"
-//#include "Rendering/Shader/Shader.h"
-//#include "Rendering/Texture/Texture2D.h"
+#include "Core/Rendering/Font/Font.h"
 #include <document.h>
 #include <memory>
 #include <string>
 #include <unordered_map>
 #include <stb_image.h>
 #include <fstream>
+
+#include <ft2build.h>
+#include FT_FREETYPE_H  
 
 // TODO; rename ResourceManager? 
 
@@ -32,8 +34,9 @@ namespace Hi_Engine
 
 		void					FetchAll(const std::string& aFilePath);
 		void					Insert(Identifier anID, std::unique_ptr<Resource> aResource);
-		void					Load(const Identifier& anID, const std::string& aPath, bool alpha);
+		void					Load(const Identifier& anID, const std::string& aPath, bool alpha);	// Perfect forwarding posible? take in GLenum instead!
 		void					Load(const Identifier& anID, const std::string& aPath);
+		void					Load(const Identifier& anID, const std::string& aPath, int aSize);	// rename aSize to aFontSize?
 		void					Clear();
 
 	private:
@@ -99,7 +102,12 @@ namespace Hi_Engine
 			auto name = value["name"].GetString();
 			auto path = value["filepath"].GetString();
 
-			value.HasMember("alpha") ? Load(name, path, value["alpha"].GetBool()) : Load(name, path);
+			if (value.HasMember("alpha"))
+				Load(name, path, value["alpha"].GetBool());
+			else if (value.HasMember("size"))
+				Load(name, path, value["size"].GetInt());
+			else
+				Load(name, path);
 		}
 	}
 
@@ -121,13 +129,19 @@ namespace Hi_Engine
 	{
 		assert(false && "*** No Function Overload Found! ***");
 	}
+	
+	template <class Resource, typename Identifier>
+	void ResourceHolder<Resource, Identifier>::Load(const Identifier& anID, const std::string& aPath, int aSize)
+	{
+		assert(false && "*** No Function Overload Found! ***");
+	}
 
 	template <>
 	inline void ResourceHolder<Texture2D, std::string>::Load(const std::string& aResourceName, const std::string& aPath, bool alpha)
 	{
 		stbi_set_flip_vertically_on_load(true);
 
-		auto texture = std::make_unique<Texture2D>(alpha);
+		auto texture = std::make_unique<Texture2D>(alpha ? GL_RGBA : GL_RGB);
 
 		int width, height, nrChannels;
 		unsigned char* data = stbi_load(aPath.c_str(), &width, &height, &nrChannels, 0);
@@ -156,6 +170,62 @@ namespace Hi_Engine
 		shader->Init(vertex.c_str(), fragment.c_str(), nullptr);
 
 		Insert(aResourceName, std::move(shader));
+	}
+
+	template <>
+	inline void ResourceHolder<Font, std::string>::Load(const std::string& aResourceName, const std::string& aPath, int aSize)
+	{
+		auto font = std::make_unique<Font>();
+		
+		// Initialize (and load) the FreeType library			- need to do every time?
+		FT_Library ft;
+		if (FT_Init_FreeType(&ft))
+			assert(false && "ERROR: Could not init FreeType Library");
+
+		// Load font as face
+		FT_Face face;
+		if (FT_New_Face(ft, aPath.c_str(), 0, &face))
+			assert(false && "ERROR: Failed to load font");
+
+		// Set size to load glyphs as
+		FT_Set_Pixel_Sizes(face, 0, aSize);
+		
+		// Disable byte-alignment restriction
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+		const auto& glyph = face->glyph;
+
+		// Compile, and store, the first 128 ASCII characters
+		for (unsigned char c = 0; c < 128; ++c)
+		{
+			// Load character glyph 
+			if (FT_Load_Char(face, c, FT_LOAD_RENDER))
+			{
+				std::cout << "ERROR: Failed to load Glyph\n";
+				continue;
+			}
+
+			std::string identifier = aResourceName + "_" + std::to_string(c);
+			ResourceHolder<Texture2D>::GetInstance().Insert(identifier, std::make_unique<Texture2D>(GL_RED));
+			ResourceHolder<Texture2D>::GetInstance().GetResource(identifier)
+				.Init({ (int)glyph->bitmap.width, (int)glyph->bitmap.rows }, glyph->bitmap.buffer);
+			
+			Character character;
+			character.m_size = { glyph->bitmap.width, glyph->bitmap.rows };
+			character.m_bearing = { (int)glyph->bitmap_left, (int)glyph->bitmap_top };
+			character.m_textureID = identifier;
+			character.m_advance = glyph->advance.x;
+			
+			font->AddCharacter(c, std::move(character));
+		}
+
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+		// destroy FreeType once we're finished
+		FT_Done_Face(face);
+		FT_Done_FreeType(ft);
+
+		Insert(aResourceName, std::move(font));
 	}
 
 	template <class Resource, typename Identifier>

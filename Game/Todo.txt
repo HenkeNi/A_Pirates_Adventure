@@ -1,3 +1,18 @@
+
+
+
+IF not compile in relase,
+	put FT_Library.dll in bin with .exe for launcher...
+
+
+
+
+
+
+
+
+
+
 Systems
 - QuestSystem
 - DialogueSystem

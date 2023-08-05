@@ -1,4 +1,5 @@
 #pragma once
+#include <../../../ThirdParty/GLEW/include/GL/glew.h>
 
 namespace Hi_Engine
 {
@@ -7,7 +8,7 @@ namespace Hi_Engine
 	class Texture2D
 	{
 	public:
-		Texture2D(bool hasAlpha = false);
+		Texture2D(GLenum aTextureFormat = GL_RGB);
 		~Texture2D();
 
 		void					Init(const CU::Vector2<int>& aSize, unsigned char* someData);		// Take in texturedata...
@@ -15,10 +16,11 @@ namespace Hi_Engine
 		void					Unbind()															const;
 
 		const CU::Vector2<int>& GetSize()															const;
+		unsigned				GetID()																const;
 
 	private:
 		CU::Vector2<int>		m_size;
-		int						m_internalFormat, m_imageFormat;
+		GLenum					m_internalFormat, m_imageFormat;
 		unsigned				m_id;
 	};
 }

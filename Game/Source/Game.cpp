@@ -29,6 +29,11 @@ void Game::OnDraw()
 {
 	m_sceneManager.Draw();
 	m_systemManager.Draw();
+
+	// TEST
+	auto& shader = Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Text");
+	auto& font = Hi_Engine::ResourceHolder<Hi_Engine::Font>::GetInstance().GetResource("Basic");
+	Hi_Engine::TextRenderer::GetInstance().Render({ &shader, &font, 10.f, 10.f, 1.f, { 1.f, 1.f, 1.f }, { 230.f, 338.f}, "GHello world" });
 }
 
 void Game::OnCreate()
@@ -54,4 +59,5 @@ void Game::LoadResources()	// Todo, do in Registration?
 {
 	Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().FetchAll("../Game/Assets/Json/Resources/Textures.json");
 	Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().FetchAll("../Engine/Assets/Json/Resources/Shaders.json");
+	Hi_Engine::ResourceHolder<Hi_Engine::Font>::GetInstance().FetchAll("../Game/Assets/Json/Resources/Fonts.json");
 }

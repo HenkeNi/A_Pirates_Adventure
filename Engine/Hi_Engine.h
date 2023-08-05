@@ -16,7 +16,11 @@
 #include "Core/Rendering/Renderers/SpriteRenderer/SpriteRenderer.h"
 #include "Core/Rendering/Renderers/BillboardRenderer/BillboardRenderer.h"
 #include "Core/Rendering/Renderers/PrimitiveRenderer/PrimitiveRenderer.h"
+#include "Core/Rendering/Renderers/TextRenderer/TextRenderer.h"
 #include "Core/Rendering/Material/Material.h"
+#include "Core/Rendering/Font/Font.h"
+#include "Core/Rendering/Shader/Shader.h"
+#include "Core/Rendering/Texture/Texture2D.h"
 
 /* - Messaging - */
 #include "Core/Messaging/Dispatcher/Dispatcher.h"

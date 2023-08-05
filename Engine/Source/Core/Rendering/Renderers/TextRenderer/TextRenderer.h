@@ -22,8 +22,11 @@ namespace Hi_Engine
 		void Init();
 		void Shutdown();
 
-		void LoadFont(const std::string& aPath, unsigned aFontSize);	// Register font instead?
+		// void LoadFont(const std::string& aPath, unsigned aFontSize);	// Register font instead?
 		void Render(const TextRenderData& someData);
+
+
+
 
 	private:
 		TextRenderer();
@@ -32,8 +35,8 @@ namespace Hi_Engine
 		CU::Vector2<unsigned>	m_windowSize;	// FIX LATER...
 		unsigned	m_VAO, m_VBO;
 
-		std::unordered_map<GLchar, Character>   m_characters;
-
+		//std::unordered_map<GLchar, Character>   m_characters;
+		//class Shader* m_textShader;
 		// TODO; store text/fonts in resource holder?!
 	};
 }
