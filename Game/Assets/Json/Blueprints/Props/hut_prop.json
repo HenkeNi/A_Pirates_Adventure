@@ -1,0 +1,27 @@
+{
+  "name": "Hut",
+  "layer": "Environment",
+  "components": [
+    {
+      "type": "Transform",
+      "position": [ 0.0, 1.0, 0.0 ],
+      "scale": [ 2.0, 2.0, 2.0 ],
+      "rotation": 0.0
+    },
+    {
+      "type": "Sprite",
+      "shader": "Sprite",
+      "texture": "Hut",
+      "color": [ 1.0, 1.0, 1.0, 1.0 ]
+    },
+    {
+      "type": "Hitbox",
+      "half_size": 0.1,
+      "is_static": true
+    },
+    {
+      "type": "DebugRect",
+      "shader": "Primitive"
+    }
+  ]
+}

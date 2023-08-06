@@ -104,6 +104,13 @@
     "filepath": "../Game/Assets/Textures/raft.png",
     "alpha": true
   },
+  {
+    "name": "Hut",
+    "filepath": "../Game/Assets/Textures/hut.png",
+    "alpha": true
+  },
+
+
 
 
 
