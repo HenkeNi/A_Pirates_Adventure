@@ -80,10 +80,16 @@ void EntityFactory::LoadBlueprints(const std::string& aFilePath)
 		loadBlueprintsFromJson(blueprint.GetString());
 	}
 
+	for (auto& blueprint : document["blueprints"]["ui"].GetArray())
+	{
+		loadBlueprintsFromJson(blueprint.GetString());
+	}
+
 	for (auto& blueprint : document["blueprints"]["map"].GetArray())
 	{
 		loadBlueprintsFromJson(blueprint.GetString());
 	}
+
 }
 
 Entity EntityFactory::Create(const std::string& aType)

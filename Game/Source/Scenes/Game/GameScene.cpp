@@ -62,7 +62,7 @@ void GameScene::OnCreated()
 	m_sceneManager.Register(std::make_unique<OverworldScene>(m_sharedContext),	eScene::Overworld);
 	m_sceneManager.Register(std::make_unique<DungeonScene>(m_sharedContext),	eScene::Dungeon);
 
-	m_sceneManager.Init((int)eScene::Overworld);
+	m_sceneManager.Init((int)eScene::Overworld); // TODO; FIX!
 }
 
 void GameScene::OnEnter()

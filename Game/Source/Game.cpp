@@ -41,6 +41,8 @@ void Game::OnCreate()
 	Registration::RegisterScenes(m_sceneManager, m_systemManager);
 
 	m_sceneManager.Init((int)eScene::Game); // Rename, set active scnee?
+	//m_sceneManager.Init((int)eScene::Title); // Rename, set active scnee?
+	//m_sceneManager.Init((int)eScene::Game | (int)eScene::Title); // Rename, set active scnee?
 	//m_sceneManager.Init(eScene::Game | eScene::Menu | eScene::Loading | eScene::Title);
 }
 

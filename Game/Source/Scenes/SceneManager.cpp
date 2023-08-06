@@ -18,9 +18,12 @@ void SceneManager::Init(int aSceneSet)
 	{
 		auto type = static_cast<eScene>(i);
 
-		if (aSceneSet & (int)type)
+		//if (aSceneSet & (int)type)
+		if ((aSceneSet & i) == i)
 			m_sceneStack.Push(type);
 	}
+
+	//m_sceneStack.Push(eScene::Title);
 
 	LoadScenes();
 	m_scenes[m_sceneStack.Top()]->OnEnter();
