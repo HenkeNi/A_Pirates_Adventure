@@ -1,14 +1,10 @@
 [
   {
-    "name": "Billboard",
+    "name": "Sprite",
     "filepath": "../Engine/Assets/Shaders/"
   },
   {
     "name": "Primitive",
-    "filepath": "../Engine/Assets/Shaders/"
-  },
-  {
-    "name": "Sprite",
     "filepath": "../Engine/Assets/Shaders/"
   },
   {

@@ -9,6 +9,7 @@
     ],
     "props": [
       "../Game/Assets/Json/Blueprints/Props/grass_prop.json",
+      "../Game/Assets/Json/Blueprints/Props/hut_prop.json",
       "../Game/Assets/Json/Blueprints/Props/palm_tree_prop.json",
       "../Game/Assets/Json/Blueprints/Props/rock_prop.json"
     ],
@@ -25,6 +26,9 @@
     ],
     "ships": [
       "../Game/Assets/Json/Blueprints/Ships/ship_raft.json"
+    ],
+    "ui": [
+      "../Game/Assets/Json/Blueprints/UI/title_background.json"
     ],
     "map": [
       "../Game/Assets/Json/Blueprints/Map/map_chunk.json"

@@ -10,7 +10,7 @@
     },
     {
       "type": "Sprite",
-      "shader": "Billboard",
+      "shader": "Sprite",
       "texture": "crab",
       "color": [ 1.0, 1.0, 1.0, 1.0 ]
     },

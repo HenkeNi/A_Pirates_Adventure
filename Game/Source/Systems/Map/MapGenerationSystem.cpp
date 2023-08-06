@@ -70,7 +70,7 @@ void MapGenerationSystem::GenerateStartArea()
 					tile.m_isCollidable = !isLand;
 					tile.m_material = {
 						&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource(isLand ? "sand01" : "sea"),
-						&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Billboard")
+						&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Sprite")
 					};
 					
 					mapChunkComponent->m_tiles.push_back(tile);
