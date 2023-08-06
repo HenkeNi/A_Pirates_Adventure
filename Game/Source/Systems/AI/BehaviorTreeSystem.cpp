@@ -40,7 +40,8 @@ void BehaviorTreeSystem::Update(float aDeltaTime)
 	{
 		auto* behaviorComponent = entity->GetComponent<BehaviorTreeComponent>();
 		
-		behaviorComponent->m_rootNode->Execute(m_entityManager);
+		if (auto rootNode = behaviorComponent->m_rootNode)
+			rootNode->Execute(m_entityManager);
 	}
 
 }

@@ -4,7 +4,7 @@
 
 struct BehaviorTreeComponent : public ComponentBase
 {
-	class BehaviorTreeNode* m_rootNode;				// Call Execute in Update
+	class BehaviorTreeNode* m_rootNode = nullptr;				// Call Execute in Update
 	// current node?
 };
 
