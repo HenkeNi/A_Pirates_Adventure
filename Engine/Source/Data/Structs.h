@@ -2,13 +2,11 @@
 #include "../Utility/Math/Vectors/Vector.hpp"
 #include "../Core/Messaging/Events/Event.h"
 #include "../Core/Rendering/Texture/Texture2D.h"
-#include <functional>
 
 #include <../glm/glm.hpp>
-//#include "../glm/glm.hpp"
-//#include <GL/glew.h>
 #include <../GLEW/include/GL/glew.h>
 #include <array>
+#include <functional>
 
 namespace CU = CommonUtilities;
 
@@ -41,7 +39,17 @@ namespace Hi_Engine
 		float m_roll;
 	};
 
+	// Remove later?
+	struct Rect
+	{
+		float Top;
+		float Bottom;
+		float Left;
+		float Right;
+	};
+
 #pragma endregion Camera_Structs
+
 
 #pragma region Window_Structs
 	
@@ -52,6 +60,7 @@ namespace Hi_Engine
 	};
 
 #pragma endregion Window_Structs
+
 
 #pragma region Rendering_Structs
 
@@ -99,7 +108,6 @@ namespace Hi_Engine
 		std::string			m_text;
 	};
 
-
 	struct SpriteSheet
 	{
 	};
@@ -107,98 +115,7 @@ namespace Hi_Engine
 #pragma endregion Rendering_Structs
 
 
-
-
-
-	
-
-
-
-
-
-
-	
-
-
-
-
-
-
-	
-
-
-
-
-	struct Rect
-	{
-		float Top;
-		float Bottom;
-		float Left;
-		float Right;
-	};
-
-
-
-	struct Quad	// or QuadVertex , QuadData?? combine with render data somehow??
-	{
-		CU::Vector4<float> m_color;
-		CU::Vector3<float> m_position;
-		CU::Vector2<float> m_texCoord;
-	};
-
-
-	template <typename Type>
-	struct Point
-	{
-		Type m_X;
-		Type m_Y;
-	};
-
-
-
-
-
-
-	struct TimerRequest
-	{
-		double					m_durationInSecs, m_timeOfRequest;
-		std::function<void()>	m_callback = nullptr;
-
-		//TimeObserver*			m_observer = nullptr;
-	};
-
-
-
-
-
-
-
-
-	//??
-	//struct Position
-	//{
-	//
-	//	union 
-	//	{
-	//		struct
-	//		{
-	//			float x, y;
-	//		};
-	//
-	//		CU::Vector2<float> vec2;
-	//	};
-	//
-	//	//union 
-	//	//{
-	//	//	CU::Vector2<float> m_position,
-	//	//	float x, float y
-	//	//};
-	//
-	//
-	//
-	//};
-
-
+#pragma region Event_Structs
 
 	/* Comparers */
 	struct EventCompare
@@ -209,5 +126,48 @@ namespace Hi_Engine
 		}
 	};
 
-}
+#pragma endregion Event_Structs
 
+
+#pragma region Utility_Structs	
+
+	template <typename Type>
+	struct Point
+	{
+		Type m_X;
+		Type m_Y;
+	};
+
+	struct TimerRequest
+	{
+		double					m_durationInSecs, m_timeOfRequest;
+		std::function<void()>	m_callback = nullptr;
+
+		//TimeObserver*			m_observer = nullptr;
+	};
+
+//struct Position
+//{
+//
+//	union 
+//	{
+//		struct
+//		{
+//			float x, y;
+//		};
+//
+//		CU::Vector2<float> vec2;
+//	};
+//
+//	//union 
+//	//{
+//	//	CU::Vector2<float> m_position,
+//	//	float x, float y
+//	//};
+//
+//
+//
+//};
+
+#pragma endregion Utility_Structs	
+}
