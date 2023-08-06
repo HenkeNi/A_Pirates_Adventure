@@ -14,7 +14,6 @@
 #include "Core/Rendering/Camera/Camera.h"
 #include "Core/Rendering/Camera/OrthographicCamera.h"
 #include "Core/Rendering/Renderers/SpriteRenderer/SpriteRenderer.h"
-#include "Core/Rendering/Renderers/BillboardRenderer/BillboardRenderer.h"
 #include "Core/Rendering/Renderers/PrimitiveRenderer/PrimitiveRenderer.h"
 #include "Core/Rendering/Renderers/TextRenderer/TextRenderer.h"
 #include "Core/Rendering/Material/Material.h"

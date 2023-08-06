@@ -45,6 +45,6 @@ void MapRenderSystem::DrawMapChunk(MapChunkComponent* aMapChunk, const CU::Vecto
 		position.z += tile.m_coordinates.y * size;
 		
 		// auto position = tile.m_position;
-		Hi_Engine::BillboardRenderer::GetInstance().Render({ &tile.m_material, { position.x, position.y, position.z } , glm::vec3{1.f, 1.f, 1.f}, -90.f});
+		Hi_Engine::SpriteRenderer::GetInstance().Render({ &tile.m_material, { position.x, position.y, position.z } , glm::vec3{1.f, 1.f, 1.f}, -90.f});
 	}
 }

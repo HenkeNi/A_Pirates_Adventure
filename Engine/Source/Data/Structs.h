@@ -16,6 +16,8 @@ namespace CU = CommonUtilities;
 
 namespace Hi_Engine
 {
+#pragma region Camera_Structs
+
 	struct CameraMatrices
 	{
 		glm::mat4 View{ 1.f };
@@ -23,41 +25,9 @@ namespace Hi_Engine
 		glm::mat4 ProjectionView;
 	};
 
-
-
-
-
-	struct Vertex	// rename VertexData or VertexLayout? change to CU::Vector instead? or glm::vec3
-	{
-		glm::vec3	Position; // Change to CU::Vector3 instead??
-		glm::vec4	Color;
-		glm::vec2	TexCoords;
-		float		TexIndex;
-	};
-
-	struct WindowData
-	{
-		CU::Vector2<unsigned>	m_size;
-		std::string				m_identifier, m_iconPath;
-	};
-
-
-
-
-	//struct CameraData
-	//{
-	//	CU::Vector3<float>	m_position  = { 0.f, 0.f,  3.f };
-	//	CU::Vector3<float>	m_front		= { 0.f, 0.f, -1.f }; // m_right; // make struct for coordinate system?		Rename m_forwardDir;
-	//	CU::Vector3<float>	m_up		= { 0.f, 1.f,  0.f };					// reame m_upDir;
-	//	//CU::Vector3<float>	m_worldUp;
-
-	//	//float				m_movementSpeed, m_zoomSpeed;
-	//};
-
-
 	struct CameraAttributes
 	{
-		glm::vec3 m_position;	// change to glm::vec3??
+		glm::vec3 m_position;
 		glm::vec3 m_front;
 		glm::vec3 m_up;
 		glm::vec3 m_right;
@@ -71,76 +41,44 @@ namespace Hi_Engine
 		float m_roll;
 	};
 
+#pragma endregion Camera_Structs
 
-	class Material;
-	//class Texture2D;
-	class Shader;
+#pragma region Window_Structs
+	
+	struct WindowData
+	{
+		CU::Vector2<unsigned>	m_size;
+		std::string				m_identifier, m_iconPath;
+	};
+
+#pragma endregion Window_Structs
+
+#pragma region Rendering_Structs
+
+	// Rename VertexData or VertexLayout?
+	struct Vertex	
+	{
+		glm::vec3	Position; // Change to CU::Vector3 instead??
+		glm::vec4	Color;
+		glm::vec2	TexCoords;
+		float		TexIndex;
+	};
+
+	struct Character
+	{
+		std::string		m_textureID;
+		glm::ivec2		m_size;       // Size of glyph
+		glm::ivec2		m_bearing;    // Offset from baseline to left/top of glyph
+		unsigned int	m_advance;    // Offset to advance to next glyph
+	};
 
 	struct SpriteRenderData
 	{
-		const Material*				Material;
-		glm::vec3					Position; // CU::Vector3<float>
-		glm::vec2					Scale;			// Rename Scale or Size?? CU::Vector2<float>
-		float						Rotation;
+		const class Material*	Material;
+		glm::vec3				Position;	// CU::Vector3<float>
+		glm::vec2				Scale;		// Rename size?? CU::Vector2<float>
+		float					Rotation;
 	};
-
-	class Camera;
-	struct SpriteData
-	{
-		const class Texture2D*		m_texture;
-		const Shader*				m_shader;
-		const CU::Vector4<float>	m_color;
-		const CU::Vector3<float>	m_position;
-		const CU::Vector3<float>	m_size;			// Rename Scale?? vec2 or vec3
-		const float					m_rotation;
-
-		Camera*						m_cameraData;
-	};
-
-	struct BillboardRenderData
-	{
-		const Material*				Material;
-		glm::vec3					Position;
-		glm::vec2					Scale;
-		float						Rotation;
-	};
-
-	struct SpriteRendererData
-	{
-		const Material*				Material;
-		glm::vec3					Position;
-		glm::vec2					Scale;
-		float						Rotation;
-	};
-
-
-	//struct SpriteSheet
-	//{
-
-	//};
-
-	
-	//struct SpriteRendererData // rename renderer data??
-	//{
-	//	GLuint QuadVA = 0;	// Put in SpriteRendere instead??
-	//	GLuint QuadVB = 0;
-	//	GLuint QuadIB = 0;
-
-	//	GLuint WhiteTexture = 0;
-	//	uint32_t WhiteTextureSlot = 0;
-
-	//	uint32_t IndexCount = 0;			// How many indices needs to be drawn...
-
-	//	Vertex* QuadBuffer = nullptr;
-	//	Vertex* QuadBufferPtr = nullptr;
-
-	//	static const size_t MaxTextures = 32;
-
-	//	std::array<uint32_t, MaxTextures> TextureSlots;
-	//	uint32_t TextureSlotIndex = 1;
-	//};
-
-
 
 	struct PrimitiveRenderData
 	{
@@ -151,38 +89,42 @@ namespace Hi_Engine
 		float				Rotation;
 	};
 
-	struct TextureData
-	{
-
-	};
-
-
-
-
-
-
 	struct TextRenderData
 	{
-		class Shader*	m_shader;
-		class Font*		m_font;
-		float m_scale;
-		CU::Vector3<float> m_color;
-		CU::Vector2<float> m_position; //??
+		class Shader*		m_shader;
+		class Font*			m_font;
+		float				m_scale;
+		CU::Vector3<float>	m_color;
+		CU::Vector2<float>	m_position; //??
 		std::string			m_text;
-
 	};
 
 
-
-
-
-	struct Character 
+	struct SpriteSheet
 	{
-		std::string m_textureID;
-		glm::ivec2   m_size;       // Size of glyph
-		glm::ivec2   m_bearing;    // Offset from baseline to left/top of glyph
-		unsigned int m_advance;    // Offset to advance to next glyph
 	};
+
+#pragma endregion Rendering_Structs
+
+
+
+
+
+	
+
+
+
+
+
+
+	
+
+
+
+
+
+
+	
 
 
 
@@ -215,29 +157,9 @@ namespace Hi_Engine
 
 
 
-	// Put in Game??
-	class InputHandler;
-	class Window;
-
-	struct SharedContext
-	{
-		// SceneManagerProxy	m_sceneManager;
-		// Window&				m_window;
-		InputHandler& m_inputHandler; // Pass around?? Or do everytihng with events??
-		// Timer& m_timer; // ?? or a proxy??
-	};
 
 
-
-
-
-
-
-
-
-	//class TimeObserver; // RENAME??
-
-	struct TimerRequest // RENAME??
+	struct TimerRequest
 	{
 		double					m_durationInSecs, m_timeOfRequest;
 		std::function<void()>	m_callback = nullptr;

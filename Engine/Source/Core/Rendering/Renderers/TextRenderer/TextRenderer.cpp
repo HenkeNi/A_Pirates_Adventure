@@ -49,10 +49,10 @@ namespace Hi_Engine
 	{
         // activate corresponding render state	
         someData.m_shader->Activate();
-        someData.m_shader->SetVector3f("textColor", someData.m_color);
+        someData.m_shader->SetVector3f("uTextColor", someData.m_color);
 
         glm::mat4 projection = glm::ortho(0.0f, (float)m_windowSize.x, 0.0f, (float)m_windowSize.y);
-        someData.m_shader->SetMatrix4("projection", projection);
+        someData.m_shader->SetMatrix4("uProjection", projection);
       
         glActiveTexture(GL_TEXTURE0); // ????????????????????
         glBindVertexArray(m_VAO);

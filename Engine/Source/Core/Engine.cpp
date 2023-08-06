@@ -5,7 +5,6 @@
 #include "FileIO/Parsers/WindowParser.h"
 #include "Resources/ResourceHolder.hpp"
 #include "Rendering/Renderers/SpriteRenderer/SpriteRenderer.h"
-#include "Rendering/Renderers/BillboardRenderer/BillboardRenderer.h"
 #include "Rendering/Renderers/PrimitiveRenderer/PrimitiveRenderer.h"
 #include "Rendering/Renderers/TextRenderer/TextRenderer.h"
 #include "../Utility/Time/Timer.h"
@@ -30,7 +29,6 @@ namespace Hi_Engine
 
 		ConfigureRenderStates();
 
-		BillboardRenderer::GetInstance().Init();
 		SpriteRenderer::GetInstance().Init();
 		PrimitiveRenderer::GetInstance().Init();
 		TextRenderer::GetInstance().Init();
@@ -73,8 +71,9 @@ namespace Hi_Engine
 		if (m_window.IsOpen())
 			m_window.Close();
 
-		BillboardRenderer::GetInstance().Shutdown();
 		SpriteRenderer::GetInstance().Shutdown();
+		TextRenderer::GetInstance().Shutdown();
+		PrimitiveRenderer::GetInstance().Shutdown();
 
 		if (m_application)
 		{

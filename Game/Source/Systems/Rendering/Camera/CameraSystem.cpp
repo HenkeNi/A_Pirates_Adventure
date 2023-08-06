@@ -33,7 +33,6 @@ void CameraSystem::Update(float aDeltaTime)
 	auto cameraComponent = camera->GetComponent<CameraComponent>();
 	
 	Hi_Engine::SpriteRenderer::GetInstance().SetCamera(&cameraComponent->m_camera);
-	Hi_Engine::BillboardRenderer::GetInstance().SetCamera(&cameraComponent->m_camera);
 	Hi_Engine::PrimitiveRenderer::GetInstance().SetCamera(&cameraComponent->m_camera);
 
 	auto target = m_entityManager->Find(cameraComponent->m_targetID);

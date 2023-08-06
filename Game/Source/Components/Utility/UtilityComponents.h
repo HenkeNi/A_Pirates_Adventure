@@ -7,6 +7,8 @@ struct TimerComponent : public ComponentBase
 	float m_elapsed;
 	float m_duration;
 	bool m_isRunning = false;
+
+	// std::function<void()>	m_callback = nullptr; ?? or observers??
 };
 
 
