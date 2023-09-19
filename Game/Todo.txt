@@ -1,3 +1,59 @@
+Rendering;
+	Send events?
+		* Begin batch
+		* Draw commands
+		* Render/Display?
+
+	
+	* Text is also handled by the renderer!?
+		- put in queue?
+
+
+
+
+
+
+
+
+
+
+UI System => creates entities?
+	-> hides/shows them based on how much health left player has...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Activate/Deactivate systems when transitioning to new scene?
+
+
+register commands in engine/input handler?
+
+
+splines--!?
+
+
+
+
+
+
+
+add .ZeroVector to vector classes??
+
+
+
 
 
 
