@@ -1,0 +1,25 @@
+{
+  "name": "Castaway",
+  "layer": "NPC",
+  "components": [
+    {
+      "type": "Transform",
+      "position": [ 0.0, 0.3, 0.0 ],
+      "scale": [ 4.5, 4.5, 4.5 ],
+      "rotation": 0.0
+    },
+    {
+      "type": "Velocity",
+      "speed": 1.0
+    },
+    {
+      "type": "Sprite",
+      "shader": "Sprite",
+      "texture": "Castaway",
+      "color": [ 1.0, 1.0, 1.0, 1.0 ]
+    },
+    {
+      "type": "BehaviorTree"
+    }
+  ]
+}

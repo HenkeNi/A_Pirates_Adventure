@@ -7,6 +7,9 @@
       "../Game/Assets/Json/Blueprints/Enemies/skeleton_enemy.json",
       "../Game/Assets/Json/Blueprints/Enemies/spider_enemy.json"
     ],
+    "npc": [
+      "../Game/Assets/Json/Blueprints/NPC/castaway_npc.json"
+    ],
     "props": [
       "../Game/Assets/Json/Blueprints/Props/grass_prop.json",
       "../Game/Assets/Json/Blueprints/Props/hut_prop.json",
@@ -32,6 +35,13 @@
     ],
     "map": [
       "../Game/Assets/Json/Blueprints/Map/map_chunk.json"
+    ],
+    "utility": [
+      "../Game/Assets/Json/Blueprints/Utility/world_time.json"
+    ],
+    "animals": [
+      "../Game/Assets/Json/Blueprints/Animals/fish_animal.json",
+      "../Game/Assets/Json/Blueprints/Animals/crab_animal.json"
     ]
   }
 }

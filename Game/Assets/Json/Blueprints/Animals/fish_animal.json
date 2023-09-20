@@ -1,0 +1,30 @@
+{
+  "name": "Fish",
+  "layer": "Animal",
+  "components": [
+    {
+      "type": "Transform",
+      "position": [ 0.0, 0.3, 0.0 ],
+      "scale": [ 0.5, 0.5, 0.5 ],
+      "rotation": 0.0
+    },
+    {
+      "type": "Velocity",
+      "speed": 1.0
+    },
+    {
+      "type": "Sprite",
+      "shader": "Sprite",
+      "texture": "fish",
+      "color": [ 1.0, 1.0, 1.0, 1.0 ]
+    },
+    {
+      "type": "SteeringBehavior",
+      "behavior": "flock_behavior",
+      "layer": "fish"
+    },
+    {
+      "type": "FlockBehavior"
+    }
+  ]
+}

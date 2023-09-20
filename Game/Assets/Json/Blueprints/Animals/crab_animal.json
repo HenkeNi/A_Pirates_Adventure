@@ -1,0 +1,35 @@
+{
+  "name": "Crab",
+  "layer": "Animal",
+  "components": [
+    {
+      "type": "Transform",
+      "position": [ 0.0, 0.2, 0.0 ],
+      "scale": [ 0.5, 0.5, 0.5 ],
+      "rotation": 0.0
+    },
+    {
+      "type": "Velocity",
+      "speed": 1.0
+    },
+    {
+      "type": "Sprite",
+      "shader": "Sprite",
+      "texture": "crab",
+      "color": [ 1.0, 1.0, 1.0, 1.0 ]
+    },
+    {
+      "type": "StateMachine",
+      "states": [ "idle", "walk", "flee", "attack", "death" ],
+      "active_state": "idle"
+    },
+    {
+      "type": "SteeringBehavior",
+      "behavior": "wander_behavior",
+      "layer": "animal"
+    },
+    {
+      "type": "WanderBehavior"
+    }
+  ]
+}
