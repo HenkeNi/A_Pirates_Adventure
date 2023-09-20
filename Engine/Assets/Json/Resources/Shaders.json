@@ -4,6 +4,10 @@
     "filepath": "../Engine/Assets/Shaders/"
   },
   {
+    "name": "sprite_batch",
+    "filepath": "../Engine/Assets/Shaders/"
+  },
+  {
     "name": "Primitive",
     "filepath": "../Engine/Assets/Shaders/"
   },
