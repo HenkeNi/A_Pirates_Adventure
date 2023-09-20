@@ -1,9 +1,9 @@
 #pragma once
 #include "../Base/Command.h"
 
-class AttackComponent;
-class CharacterStateComponent;
-class DebugRectComponent; // REMOVE LATER...
+struct AttackComponent;
+struct CharacterStateComponent;
+struct DebugRectComponent; // REMOVE LATER...
 
 class AttackCommand : public Command
 {

@@ -5,5 +5,5 @@ class Command
 public:
 	virtual ~Command() = default;
 
-	virtual void Execute() = 0;
+	virtual void Execute() = 0;	// pass in an Entity?!
 };

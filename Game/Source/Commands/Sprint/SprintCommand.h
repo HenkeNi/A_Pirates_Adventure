@@ -1,8 +1,8 @@
 #pragma once
 #include "../Base/Command.h"
 
-class CharacterStateComponent;
-class VelocityComponent;
+struct CharacterStateComponent;
+struct VelocityComponent;
 
 class SprintCommand : public Command
 {

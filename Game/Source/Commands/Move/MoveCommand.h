@@ -5,8 +5,8 @@
 
 namespace CU = CommonUtilities;
 
-class VelocityComponent;
-class CharacterStateComponent;
+struct VelocityComponent;
+struct CharacterStateComponent;
 
 class MoveCommand : public Command	// derive from EntityCommand? (GlobalCommand)
 {
