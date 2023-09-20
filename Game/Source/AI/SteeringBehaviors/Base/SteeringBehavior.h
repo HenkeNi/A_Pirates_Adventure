@@ -1,5 +1,6 @@
 #pragma once
 
+namespace CU = CommonUtilities;
 
 // Consider making all Behaviors components? C_WanderBehavior, etc... (?)
 class SteeringBehavior

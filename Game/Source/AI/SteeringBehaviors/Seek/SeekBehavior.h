@@ -1,5 +1,5 @@
 #pragma once
-#include "SteeringBehavior.h"
+#include "../Base/SteeringBehavior.h"
 
 
 class SeekBehavior
