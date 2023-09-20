@@ -1,7 +1,26 @@
 [
   {
+    "id": 1,
+    "name": "sand",
+    "filepath": "../Game/Assets/Textures/sand01.png",
+    "alpha": true
+  },
+  {
+    "id": 2,
+    "name": "sea",
+    "filepath": "../Game/Assets/Textures/sea.png",
+    "alpha": true
+  },
+  {
+    "id": 3,
     "name": "grass",
     "filepath": "../Game/Assets/Textures/grass.png",
+    "alpha": true
+  },
+  {
+    "id": 4,
+    "name": "palm_01",
+    "filepath": "../Game/Assets/Textures/palm01.png",
     "alpha": true
   },
   {
@@ -25,23 +44,8 @@
     "alpha": true
   },
   {
-    "name": "palm_01",
-    "filepath": "../Game/Assets/Textures/palm01.png",
-    "alpha": true
-  },
-  {
     "name": "palm_02",
     "filepath": "../Game/Assets/Textures/palmtree02.png",
-    "alpha": true
-  },
-  {
-    "name": "sand",
-    "filepath": "../Game/Assets/Textures/sand.jpg",
-    "alpha": false
-  },
-  {
-    "name": "sand01",
-    "filepath": "../Game/Assets/Textures/sand01.png",
     "alpha": true
   },
   {
@@ -52,11 +56,6 @@
   {
     "name": "crab",
     "filepath": "../Game/Assets/Textures/crab.png",
-    "alpha": true
-  },
-  {
-    "name": "sea",
-    "filepath": "../Game/Assets/Textures/sea.png",
     "alpha": true
   },
   {
@@ -109,7 +108,11 @@
     "filepath": "../Game/Assets/Textures/hut.png",
     "alpha": true
   },
-
+  {
+    "name": "Castaway",
+    "filepath": "../Game/Assets/Textures/castaway.png",
+    "alpha": true
+  },
 
 
 
