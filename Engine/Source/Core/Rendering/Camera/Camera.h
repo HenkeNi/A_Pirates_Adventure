@@ -36,6 +36,8 @@ namespace Hi_Engine
 		// TOOD; get virtual destructor...
 		
 		glm::mat4 GetViewMatrix();
+		glm::mat4 GetProjectionMatrix();
+		
 		//virtual ~Camera() = default;	// Remove??
 
 		void Init(const CU::Vector3<float> aPosition);	// Parse from json...? CameraData?
@@ -59,6 +61,8 @@ namespace Hi_Engine
 
 		void UpdateFrontVector(); // reanem RecalculateFrontVector??
 
+		void OnWindowResized(const CU::Vector2<unsigned>& aSize);
+
 		//void CalculateCamera();
 		
 		//glm::quat m_orientation;
@@ -78,6 +82,7 @@ namespace Hi_Engine
 
 		float m_zoom;
 
+		CU::Vector2<unsigned> m_windowSize;
 
 		// FOV
 		// aspect?

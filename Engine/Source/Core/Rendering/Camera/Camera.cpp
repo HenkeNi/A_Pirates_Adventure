@@ -5,7 +5,7 @@
 namespace Hi_Engine
 {
 	Camera::Camera()
-		: m_zoom{ 45.f }
+		: m_zoom{ 45.f }, m_windowSize{ 1400, 800 } // TODO; FIX! Listen to event?!
 	{
 		SetDefaultData();
 
@@ -25,6 +25,12 @@ namespace Hi_Engine
 	{
 		auto position = m_attributes.m_position;
 		return glm::lookAt(m_attributes.m_position, m_attributes.m_position + m_attributes.m_front, m_attributes.m_up);
+	}
+
+	glm::mat4 Camera::GetProjectionMatrix()
+	{
+		// precalculate every time window changes??
+		return glm::perspective(glm::radians(GetZoom()), (float)m_windowSize.x / (float)m_windowSize.y, 0.1f, 100.0f);
 	}
 
 	void Camera::Init(const CU::Vector3<float> aPosition)
@@ -55,5 +61,10 @@ namespace Hi_Engine
 	{
 		glm::vec3 m_front;
 		//front.x
+	}
+
+	void Camera::OnWindowResized(const CU::Vector2<unsigned>& aSize)
+	{
+
 	}
 }
