@@ -14,8 +14,11 @@ namespace Hi_Engine::Physics
 
 		void				Init(const Vector2<T>& aStart, const Vector2<T>& anEnd);
 
-		const Vector2<T>&	GetStartPoint()		const;
-		const Vector2<T>&	GetEndPoint()		const;
+		const Vector2<T>&	GetStartPoint()			const;
+		const Vector2<T>&	GetEndPoint()			const;
+
+		Vector2<T>			GetPointAlongLine(T t)	const;
+		Vector2<T>			GetDirection()			const;
 
 	private:
 		Vector2<T>			m_startPoint;
@@ -57,6 +60,19 @@ namespace Hi_Engine::Physics
 	const Vector2<T>& LineSegment2D<T>::GetEndPoint() const
 	{
 		return m_endPoint;
+	}
+
+	template <class T>
+	Vector2<T> LineSegment2D<T>::GetPointAlongLine(T t)	const
+	{
+		auto direction = m_endPoint - m_startPoint;
+		return m_startPoint + (direction * t);
+	}
+
+	template <class T>
+	Vector2<T> LineSegment2D<T>::GetDirection() const
+	{
+		return m_endPoint - m_startPoint;
 	}
 
 #pragma endregion Method_Definitions

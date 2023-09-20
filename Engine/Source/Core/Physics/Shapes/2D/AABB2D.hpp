@@ -17,7 +17,7 @@ namespace Hi_Engine::Physics
 
 		const Vector2<T>&		GetMinPoint()												const;
 		const Vector2<T>&		GetMaxPoint()												const;
-		const Vector2<T>&		GetCenter()													const;
+		Vector2<T>				GetCenter()													const;
 
 		T						GetWidth()													const;
 		T						GetHeight()													const;
@@ -77,7 +77,7 @@ namespace Hi_Engine::Physics
 	}
 
 	template <class T>
-	const Vector2<T>& AABB2D<T>::GetCenter() const
+	Vector2<T> AABB2D<T>::GetCenter() const
 	{
 		auto difference = Vector2<T>{ m_maxPoint - m_minPoint };
 		return m_minPoint + (difference * T{ 0.5 });

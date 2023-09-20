@@ -1,4 +1,4 @@
-#pragma once
+ #pragma once
 #include "../Shapes/2D/AABB2D.hpp"
 #include "../Shapes/2D/Circle.hpp"
 #include "../Lines/2D/Line2D.hpp"
@@ -86,9 +86,59 @@ namespace Hi_Engine::Physics
         return Intersects(anAABB, aLine);
     }
 
+    // TODO; outCollisionData (struct that contains info) or two different functions; one returns bool, other eturns collision data??
+    template <typename T>
+    bool Intersects(const AABB2D<T>& anAABB, const LineSegment2D<T>& aLineSegment, 
+        Vector2<T>& outContactPoint, Vector2<T>& outContactNormal, float& tHitNear)
+    {
+        // Check for 0 division?
+        CU::Vector2<T> tNear = (anAABB.GetMinPoint() - aLineSegment.GetStartPoint()) / aLineSegment.GetDirection();
+        CU::Vector2<T> tFar = (anAABB.GetMaxPoint() - aLineSegment.GetStartPoint()) / aLineSegment.GetDirection();
+    
+        if (tNear.x > tFar.x)
+            std::swap(tNear.x, tFar.x);
+
+        if (tNear.y > tFar.y)
+            std::swap(tNear.y, tFar.y);
+
+
+        if (tNear.x > tFar.y || tNear.y > tFar.x)
+            return false;
 
 
 
+        tHitNear = std::max(tNear.x, tNear.y);
+        float tHitFar = std::min(tFar.x, tFar.y);
+
+        if (tHitFar < 0)
+            return false; 
+
+
+        outContactPoint = aLineSegment.GetStartPoint() + tHitNear * aLineSegment.GetDirection();
+
+        if (tNear.x > tNear.y)
+        {
+            if (aLineSegment.GetDirection().x < 0)
+                outContactNormal = { 1, 0 };
+            else
+                outContactNormal = { -1, 0 };
+        }
+        else if (tNear.x < tNear.y)
+        {
+            if (aLineSegment.GetDirection().y < 0)
+                outContactNormal = { 0, 1 };
+            else
+                outContactNormal = { 0, -1 };
+        }
+
+        return true;
+    }
+
+    template <typename T>
+    bool Intersects(const LineSegment2D<T>& aLineSegment, const AABB2D<T>& anAABB)
+    {
+        return Intersects(anAABB, aLineSegment);
+    }
 
 
  /*   template <typename T>
