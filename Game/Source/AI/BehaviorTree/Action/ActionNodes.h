@@ -1,5 +1,5 @@
 #pragma once
-#include "BehaviorTreeNode.h"
+#include "../Base/BehaviorTreeNode.h"
 
 #include <functional>  // remove later...
 // Maybe add an ActionNode base class??
@@ -15,10 +15,46 @@
 
 class EntityManager;
 
-class MoveToTarget : public BehaviorTreeNode
+
+
+
+class IdleNode : public BehaviorTreeNode
 {
 public:
-	MoveToTarget(int anOwnerID, int aTargetID = -1);
+	IdleNode(int anOwnerID);
+
+	eBTNodeStatus	Execute(EntityManager* anEntityManager)	override;
+	void			Clear()									override;
+};
+
+
+
+
+
+
+//class Wander : public BehaviorTreeNode
+//{
+//public:
+//
+//private:
+//
+//};
+
+
+
+
+
+
+
+
+
+
+
+
+class MoveToTargetNode : public BehaviorTreeNode
+{
+public:
+	MoveToTargetNode(int anOwnerID, int aTargetID = -1);
 
 	eBTNodeStatus	Execute(EntityManager* anEntityManager)		override;
 	void			Clear()										override;
@@ -37,10 +73,10 @@ private:
 
 
 
-class AttackTarget : public BehaviorTreeNode
+class AttackTargetNode : public BehaviorTreeNode
 {
 public:
-	AttackTarget(int anOwnerID, int aTargetID = -1);
+	AttackTargetNode(int anOwnerID, int aTargetID = -1);
 
 	eBTNodeStatus	Execute(EntityManager* anEntityManager)	override;
 	void			Clear()									override;
@@ -52,11 +88,3 @@ private:
 
 
 
-class Idle : public BehaviorTreeNode
-{
-public:
-	Idle(int anOwnerID);
-
-	eBTNodeStatus	Execute(EntityManager* anEntityManager)	override;
-	void			Clear()									override;
-};

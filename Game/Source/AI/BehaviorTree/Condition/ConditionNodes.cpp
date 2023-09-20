@@ -5,17 +5,17 @@
 #include "Components.h"
 
 
-TargetInView::TargetInView(int anOwnerID, int aTargetID)
+TargetInViewNode::TargetInViewNode(int anOwnerID, int aTargetID)
 	: BehaviorTreeNode{ anOwnerID }, m_targetID{ aTargetID }, m_radius{ 2.f }
 {
 }
 
-eBTNodeStatus TargetInView::Execute(EntityManager* anEntityManager)
+eBTNodeStatus TargetInViewNode::Execute(EntityManager* anEntityManager)
 {
 	if (anEntityManager)
 	{
 		auto* owner = anEntityManager->Find(m_ownerID);
-		auto* target = anEntityManager->Find(m_targetID);
+		auto* target = anEntityManager->Find(m_targetID); // target ID becomes invalid..
 
 		auto currentPosition = owner->GetComponent<TransformComponent>()->m_currentPos;
 		auto targetPosition = target->GetComponent<TransformComponent>()->m_currentPos;
@@ -30,7 +30,7 @@ eBTNodeStatus TargetInView::Execute(EntityManager* anEntityManager)
 	return eBTNodeStatus::Failure;
 }
 
-void TargetInView::Clear()
+void TargetInViewNode::Clear()
 {
 
 }
@@ -41,12 +41,12 @@ void TargetInView::Clear()
 
 
 
-TargetInRange::TargetInRange(int anOwnerID, int aTargetID)
+TargetInRangeNode::TargetInRangeNode(int anOwnerID, int aTargetID)
 	: BehaviorTreeNode{ anOwnerID }, m_targetID{ aTargetID }, m_radius{ 0.5f }
 {
 }
 
-eBTNodeStatus TargetInRange::Execute(EntityManager* anEntityManager)
+eBTNodeStatus TargetInRangeNode::Execute(EntityManager* anEntityManager)
 {
 	if (anEntityManager)
 	{
@@ -70,7 +70,7 @@ eBTNodeStatus TargetInRange::Execute(EntityManager* anEntityManager)
 	return eBTNodeStatus::Failure;
 }
 
-void TargetInRange::Clear()
+void TargetInRangeNode::Clear()
 {
 
 }

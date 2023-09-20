@@ -1,12 +1,12 @@
 #pragma once
-#include "BehaviorTreeNode.h"
+#include "../Base/BehaviorTreeNode.h"
 
 // Have nodes derive from ConditionNode??
 
-class TargetInView : public BehaviorTreeNode
+class TargetInViewNode : public BehaviorTreeNode
 {
 public:
-	TargetInView(int anOwnerID, int aTargetID = -1);
+	TargetInViewNode(int anOwnerID, int aTargetID = -1);
 
 	eBTNodeStatus	Execute(EntityManager* anEntityManager)	override;
 	void			Clear()									override;
@@ -21,10 +21,10 @@ private:
 
 class GameObject;
 
-class TargetInRange : public BehaviorTreeNode
+class TargetInRangeNode : public BehaviorTreeNode
 {
 public:
-	TargetInRange(int anOwnerID, int aTargetID = -1);
+	TargetInRangeNode(int anOwnerID, int aTargetID = -1);
 
 	eBTNodeStatus	Execute(EntityManager* anEntityManager)	override;
 	void			Clear()									override;

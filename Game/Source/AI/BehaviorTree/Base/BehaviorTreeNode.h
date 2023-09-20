@@ -1,12 +1,13 @@
 #pragma once
-#include "../../Data/Enumerations.h"
+#include "../../../Data/Enumerations.h"
 
-// class BTNode? 
-//class GameObject; // Find better way, maybe blackboard?!
+
+ //class GameObject; // Find better way, maybe blackboard?!
 
 class Entity;
 class EntityManager;
 
+// Todo; rename BTNode?
 class BehaviorTreeNode
 {
 public:
