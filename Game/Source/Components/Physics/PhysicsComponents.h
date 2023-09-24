@@ -1,5 +1,6 @@
 #pragma once
 #include "../Base/ComponentBase.h"
+#include "../Data/Enumerations.h"
 
 namespace CU = CommonUtilities;
 
@@ -15,12 +16,27 @@ struct VelocityComponent : public ComponentBase
 };
 
 
-// Use to determine if colliding
+
+
+
+
+struct ColliderComponent : public ComponentBase
+{
+	Hi_Engine::Physics::AABB2D<float>	m_collider;
+	CU::Vector3<float>					m_offset;
+	eCollisionLayer						m_layer;
+	bool								m_isStatic;					// enum for type (trigger, static?
+};
+
+
+
+
+// inherit from ColliderComponent?
 struct RectangleColliderComponent : public ComponentBase
 {
 	Hi_Engine::Physics::AABB2D<float>	m_collider; 
 	bool								m_isStatic;
-	// isStaic?
+	// isTrigger?
 };
 
 
@@ -30,3 +46,15 @@ struct CircleColliderComponent : public ComponentBase
 
 
 
+
+
+
+
+struct CollisionComponent : public ComponentBase
+{
+
+	bool m_isTrigger;
+};
+
+
+// staticCollider & DynamicCollider

@@ -6,6 +6,10 @@
 struct SpriteComponent : public ComponentBase
 {
 	Hi_Engine::Material m_material;	// Store strings instead?? keys..
+
+	// int m_textureID; ?
+	// int m_shaderID; ?
+	// width, hight??
 };
 
 struct AnimationComponent : public ComponentBase
@@ -45,11 +49,17 @@ struct DebugRectComponent : public ComponentBase
 
 
 
-// Rename?
+// Rename? PrimitiveRect or DebugRect? 
 struct RectComponent : public ComponentBase
 {
 	Hi_Engine::Shader* m_shader;
 	CU::Vector4<float> m_color;
+};
+
+
+struct LineComponent : public ComponentBase
+{
+	Hi_Engine::Physics::LineSegment2D<float> m_lineSegment;
 };
 
 
@@ -61,6 +71,26 @@ struct TextComponent : public ComponentBase
 	// float				m_scale; use transform instead..
 	CU::Vector3<float>	m_color;
 };
+
+
+
+
+
+
+// HERE?? Or maybe use two sprites instead?? add system HealthBarSystem?
+struct HealthBarComponent : public ComponentBase
+{
+	Hi_Engine::Material m_container;
+	Hi_Engine::Material m_bar;
+	// position? size?
+};
+
+
+
+
+
+
+
 
 
 // SpriteSheet component? (stores texture atlas, also holds current frame, etc...)

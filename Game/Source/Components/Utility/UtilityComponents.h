@@ -1,5 +1,26 @@
 #pragma once
 #include "../Base/ComponentBase.h"
+#include "Data/Enumerations.h"
+
+
+
+ 
+struct WorldTimeComponent : public ComponentBase
+{
+	unsigned m_day;
+
+	eTimeOfDay m_timeOfDay;
+
+	float m_currentDayProgress = 0.f;
+	float m_dayDuration = 20.f;
+
+
+	static const int s_dayDurationInRealWorldMinues = 2; // FIX!
+	// bool shouldSkipDay?
+};
+
+
+
 
 
 struct TimerComponent : public ComponentBase

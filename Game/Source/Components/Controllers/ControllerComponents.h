@@ -8,6 +8,11 @@ struct PlayerControllerComponent : ComponentBase
 	// - Input/Gamepad mappings -> key, command?
 };
 
+struct AIController : ComponentBase
+{
+
+};
+
 
 //struct EnemyControllerComponent : ComponentBase
 //{

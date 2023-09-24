@@ -24,6 +24,10 @@ struct AttackComponent : public ComponentBase
 
 
 
+
+
+
+
 // Dont have health? Use Stats Component instead?
 //struct HealthComponent : public ComponentBase
 //{
