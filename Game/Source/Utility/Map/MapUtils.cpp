@@ -49,7 +49,7 @@ Tile* MapUtils::GetTileAtWorldPosition(Entity* aMapChunk, const CU::Vector2<floa
 
 	int tileIndex = tileRow * 10 + tileCol;
 
-	std::cout << "Index: " << tileIndex << '\n';
+	// std::cout << "Index: " << tileIndex << '\n';
 
 	return &mapChunkComponent->m_tiles.at(tileIndex);
 

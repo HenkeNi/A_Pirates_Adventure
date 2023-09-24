@@ -3,7 +3,6 @@
 
 class EntityManager;
 
-
 class System : public Subscriber
 {
 public:
