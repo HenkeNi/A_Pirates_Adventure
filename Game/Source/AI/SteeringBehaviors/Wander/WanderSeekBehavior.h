@@ -21,5 +21,5 @@ private:
 
 	Range<float>		m_walkDurationRange;
 	// Timer				m_timer;
-	CU::Vector3<float>	m_target;
+	CU::Vector3<float>	m_window;
 };

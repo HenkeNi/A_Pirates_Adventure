@@ -34,7 +34,7 @@ const CU::Vector3<float> WanderSeekBehavior::GetSteeringForce(const CU::Vector3<
 	static float maxVelocity = 50.f;
 
 	// Seek towards target...
-	auto desiredVelocity = m_target - aPosition;
+	auto desiredVelocity = m_window - aPosition;
 
 	if (desiredVelocity.Length() == 0)
 		desiredVelocity.Normalize();
@@ -49,7 +49,7 @@ const CU::Vector3<float> WanderSeekBehavior::GetSteeringForce(const CU::Vector3<
 
 void WanderSeekBehavior::SetRandomizedTarget()
 {
-	m_target = { (float)Random::InRange(2, 62), 0.f, (float)Random::InRange(2, 62) };
+	m_window = { (float)Random::InRange(2, 62), 0.f, (float)Random::InRange(2, 62) };
 }
 
 bool WanderSeekBehavior::ShouldChangeDir() const

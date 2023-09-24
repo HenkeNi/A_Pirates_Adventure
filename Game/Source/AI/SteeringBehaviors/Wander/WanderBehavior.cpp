@@ -36,7 +36,7 @@ void WanderBehavior::Update(float aDeltaTime)
 	//m_timer.m_elapsed += aDeltaTime;
 	if (ShouldChangeDir())
 	{
-		m_target = { (float)Random::InRange(2, 62), 0.f, (float)Random::InRange(2, 62) };
+		m_window = { (float)Random::InRange(2, 62), 0.f, (float)Random::InRange(2, 62) };
 	}
 
 	

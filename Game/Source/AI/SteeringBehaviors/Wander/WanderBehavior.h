@@ -29,7 +29,7 @@ private:
 
 	Range<float> m_walkDuration;
 	//Timer		 m_timer;
-	CU::Vector3<float> m_target;
+	CU::Vector3<float> m_window;
 
 	/* Larger distance to circle means wider movement arcs - will cover more ground before changing direction.. smaller will result in more  tighter turns and more frequent changes in direction */
 	const float m_distanceToSteeringCircle; // circleDistance
