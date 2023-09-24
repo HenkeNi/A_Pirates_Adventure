@@ -55,6 +55,11 @@ void EntityFactory::LoadBlueprints(const std::string& aFilePath)
 		loadBlueprintsFromJson(blueprint.GetString());
 	}
 
+	for (auto& blueprint : document["blueprints"]["npc"].GetArray())
+	{
+		loadBlueprintsFromJson(blueprint.GetString());
+	}
+
 	for (auto& blueprint : document["blueprints"]["props"].GetArray())
 	{
 		loadBlueprintsFromJson(blueprint.GetString());
@@ -90,6 +95,15 @@ void EntityFactory::LoadBlueprints(const std::string& aFilePath)
 		loadBlueprintsFromJson(blueprint.GetString());
 	}
 
+	for (auto& blueprint : document["blueprints"]["utility"].GetArray())
+	{
+		loadBlueprintsFromJson(blueprint.GetString());
+	}
+
+	for (auto& blueprint : document["blueprints"]["animals"].GetArray())
+	{
+		loadBlueprintsFromJson(blueprint.GetString());
+	}
 }
 
 Entity EntityFactory::Create(const std::string& aType)
