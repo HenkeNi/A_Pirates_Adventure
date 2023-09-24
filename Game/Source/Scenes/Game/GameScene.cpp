@@ -19,26 +19,26 @@ void GameScene::Register(ScenePtr_t aScene, eScene aType)
 
 void GameScene::Update(float aDeltaTime)
 {
-	m_sceneManager.Update(aDeltaTime);
+	m_sceneManager.Update(aDeltaTime); // not needed??
 }
 
 void GameScene::LateUpdate(float aDeltaTime)
 {
-	m_sceneManager.LateUpdate(aDeltaTime);
+	m_sceneManager.LateUpdate(aDeltaTime); // not needed??
 }
 
 void GameScene::Draw() const
 {
-	m_sceneManager.Draw();
+	m_sceneManager.Draw(); // not needed??
 }
 
 #include "Core/Resources/ResourceHolder.hpp"
 //#include "../Gameplay/SteeringBehaviors/WanderSeekBehavior.h"
 //#include "../Gameplay/SteeringBehaviors/FlockBehavior.h"
-#include "../AI/BehaviorTree/SelectorNode.h"
-#include "../AI/BehaviorTree/SequenceNode.h"
-#include "../AI/BehaviorTree/ActionNodes.h"
-#include "../AI/BehaviorTree/ConditionNodes.h"
+#include "../AI/BehaviorTree/Composite/CompositeNodes.h"
+#include "../AI/BehaviorTree/Action/ActionNodes.h"
+#include "../AI/BehaviorTree/Condition/ConditionNodes.h"
+
 
 #include "Entity.h"
 #include "Core/CoreComponents.h"

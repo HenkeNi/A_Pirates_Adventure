@@ -25,10 +25,9 @@ void OverworldScene::Draw() const
 }
 
 #include "Core/Resources/ResourceHolder.hpp"
-#include "../AI/BehaviorTree/SelectorNode.h"
-#include "../AI/BehaviorTree/SequenceNode.h"
-#include "../AI/BehaviorTree/ActionNodes.h"
-#include "../AI/BehaviorTree/ConditionNodes.h"
+#include "../AI/BehaviorTree/Composite/CompositeNodes.h"
+#include "../AI/BehaviorTree/Action/ActionNodes.h"
+#include "../AI/BehaviorTree/Condition/ConditionNodes.h"
 
 #include "Entity.h"
 #include "Core/CoreComponents.h"
@@ -64,12 +63,28 @@ void OverworldScene::OnEnter()
 	CU::Vector3<float> position = { 27.f, 0.42f, 25.f };
 	player->GetComponent<TransformComponent>()->m_currentPos = position;
 
+	auto time = m_entityManager.Create("WorldTime");
+
+
+	for (int i = 0; i < 10; ++i)
+	{
+		float x = 0.1 * i;
+		auto* fish = m_entityManager.Create("Fish");
+		fish->GetComponent<TransformComponent>()->m_currentPos = { 10.f + x, 0.42f, 12.f };
+	}
+
+
+	auto crab = m_entityManager.Create("Crab");
+	crab->GetComponent<TransformComponent>()->m_currentPos = { 30.f, 0.42f, 30.f };
 
 	auto raft = m_entityManager.Create("Raft");
 	raft->GetComponent<TransformComponent>()->m_currentPos = { 10.f, 0.42f, 10.f };
 
 	auto hut = m_entityManager.Create("Hut");
-	hut->GetComponent<TransformComponent>()->m_currentPos = { 20.f, 0.42f, 30.f };
+	hut->GetComponent<TransformComponent>()->m_currentPos = { 20.f, 0.85f, 30.f };
+
+	auto npc = m_entityManager.Create("Castaway");
+	npc->GetComponent<TransformComponent>()->m_currentPos = { 15.f, 0.42f, 30.f };
 
 	// Camera
 	auto camera = m_entityManager.Create("Camera");
