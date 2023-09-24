@@ -6,7 +6,4 @@ class ComponentBase
 {
 public:
 	virtual ~ComponentBase() {};
-
-	virtual void Init()		 {};
-	virtual void Update()	 {};
 };
