@@ -11,7 +11,9 @@ TitleScene::~TitleScene()
 {
 }
 
-void TitleScene::Update(float aDeltaTime) {}
+void TitleScene::Update(float aDeltaTime) 
+{
+}
 
 void TitleScene::LateUpdate(float aDeltaTime) {}
 
@@ -33,6 +35,9 @@ void TitleScene::OnEnter()
 
 	m_entityManager.GetFactory().LoadBlueprints("../Game/Assets/Json/Blueprints/blueprint_manifest.json");
 
+
+	// trigger component?
+
 	// TODO; load in relevant systems..
 
 
@@ -40,6 +45,8 @@ void TitleScene::OnEnter()
 
 	auto background = m_entityManager.Create("title_background");
 	
+	// Add triiger componnet??
+
 
 	auto camera = m_entityManager.Create("Camera");
 	camera->GetComponent<TransformComponent>()->m_currentPos = { 0.f, 0.f, 2.f };

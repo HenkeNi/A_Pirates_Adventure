@@ -9,6 +9,19 @@ Rendering;
 		- put in queue?
 
 
+		How to deal with Rendering;
+
+	Opt 1:
+		* pass the Renderer in the Game's constructor... or onCreated? onDraw?
+		- how would system access it? maybe have a pointer or refernece to it?
+
+	Opt 2:
+		Singleton / static
+
+
+	Opt 3:
+		events?
+
 
 
 
