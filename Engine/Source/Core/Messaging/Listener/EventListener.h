@@ -7,6 +7,7 @@ namespace Hi_Engine
 	class WindowEvent;
 	class KeyEvent;
 	class MouseEvent;
+	class RenderEvent;
 	class RenderSpriteEvent;
 
 
@@ -19,6 +20,7 @@ namespace Hi_Engine
 		virtual void HandleEvent(WindowEvent& anEvent)			{};
 		virtual void HandleEvent(KeyEvent& anEvent)				{};
 		virtual void HandleEvent(MouseEvent& anEvent)			{};
+		virtual void HandleEvent(RenderEvent& anEvent)			{};
 		virtual void HandleEvent(RenderSpriteEvent& anEvent)	{};
 	};
 }

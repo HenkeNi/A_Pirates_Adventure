@@ -6,6 +6,29 @@ namespace Hi_Engine
 {
 	namespace CU = CommonUtilities;
 
+
+
+	class RenderEvent : public Event
+	{
+	public:
+		RenderEvent();
+		~RenderEvent();
+
+		void Dispatch(EventListener& aListener)			override;
+		void Destroy()									override;
+		void Clean()									override;
+
+		void Init(const std::queue<RenderCommand>& someCommands);
+		//void AddRenderCommand(const RenderCommand& aCommand);
+
+		const std::queue<RenderCommand>& GetCommands() const;
+
+	private:
+		std::queue<RenderCommand> m_renderCommands;
+	};
+
+
+
 	class RenderSpriteEvent : public Event
 	{
 	public:

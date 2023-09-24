@@ -2,9 +2,12 @@
 
 /* - Core - */
 #include "Core/Application/Application.h"
+#include "Core/Engine.h"
 
 /* - Physics - */
 #include "Core/Physics/Shapes/2D/AABB2D.hpp"
+#include "Core/Physics/Lines/2D/Line2D.hpp"
+#include "Core/Physics/Lines/2D/LineSegment2D.hpp"
 #include "Core/Physics/Intersections/Intersection2D.hpp"
 
 /* - Input - */
@@ -13,9 +16,7 @@
 /* - Rendering - */
 #include "Core/Rendering/Camera/Camera.h"
 #include "Core/Rendering/Camera/OrthographicCamera.h"
-#include "Core/Rendering/Renderers/SpriteRenderer/SpriteRenderer.h"
-#include "Core/Rendering/Renderers/PrimitiveRenderer/PrimitiveRenderer.h"
-#include "Core/Rendering/Renderers/TextRenderer/TextRenderer.h"
+#include "Core/Rendering/Renderer/TextRenderer/TextRenderer.h"
 #include "Core/Rendering/Material/Material.h"
 #include "Core/Rendering/Font/Font.h"
 #include "Core/Rendering/Shader/Shader.h"
@@ -43,6 +44,7 @@
 /* - Utility - */
 #include "Utility/Utility/UtilityFunctions.hpp"
 #include "Utility/Random/Random.h"
+#include "Utility/Time/Timer.h"
 
 
 /* - Data (Expose???) - */

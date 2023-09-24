@@ -42,4 +42,20 @@ namespace Hi_Engine
 	{
 		Forward, Backward, Left, Right
 	};
+
+	enum class eTextAlginment
+	{
+		Align_Left,
+		Align_Center,
+		Align_Right,
+		Align_Top,
+		Align_Bottom,
+	};
+
+	enum class eRenderCommandType
+	{
+		SetShader,
+		SetCamera,
+		DrawSprite
+	};
 }

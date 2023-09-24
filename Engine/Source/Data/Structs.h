@@ -3,8 +3,9 @@
 #include "../Core/Messaging/Events/Event.h"
 #include "../Core/Rendering/Texture/Texture2D.h"
 
-#include <../glm/glm.hpp>
-#include <../GLEW/include/GL/glew.h>
+#include <../../ThirdParty/glm/glm.hpp>
+// #include <../glm/glm.hpp>
+#include <../../ThirdParty/GLEW/include/GL/glew.h>
 #include <array>
 #include <functional>
 
@@ -64,13 +65,13 @@ namespace Hi_Engine
 
 #pragma region Rendering_Structs
 
-	// Rename VertexData or VertexLayout?
 	struct Vertex	
 	{
-		glm::vec3	Position; // Change to CU::Vector3 instead??
-		glm::vec4	Color;
-		glm::vec2	TexCoords;
+		glm::vec3	Position;  // float Position[3];		// Change to CU::Vector3 instead??
+		glm::vec4	Color;	   // float Color[4];			
+		glm::vec2	TexCoords; // float TexCoords[2];		
 		float		TexIndex;
+		//GLint		TexIndex;
 	};
 
 	struct Character
@@ -87,26 +88,64 @@ namespace Hi_Engine
 		glm::vec3				Position;	// CU::Vector3<float>
 		glm::vec2				Scale;		// Rename size?? CU::Vector2<float>
 		float					Rotation;
-	};
 
-	struct PrimitiveRenderData
-	{
-		CU::Vector4<float>	m_color;
-		class Shader*		m_shader;
-		glm::vec3			Position;
-		glm::vec2			Scale;
-		float				Rotation;
+		// key to shader, and key to texture..
 	};
-
+	
 	struct TextRenderData
 	{
-		class Shader*		m_shader;
-		class Font*			m_font;
+		class Shader* m_shader;
+		class Font* m_font;
 		float				m_scale;
 		CU::Vector3<float>	m_color;
 		CU::Vector2<float>	m_position; //??
 		std::string			m_text;
 	};
+	
+	struct PrimitiveRenderData
+	{
+		CU::Vector4<float>	m_color;
+		// class Shader*		m_shader;
+		glm::vec3			Position;
+		glm::vec2			Scale;
+		float				Rotation;
+	};
+
+	struct QuadRenderData
+	{
+		glm::vec3			Position;
+		glm::vec4			Color;
+		glm::vec2			Scale;
+		float				TexIndex;
+		float				Rotation;
+	};
+
+
+	struct RenderContext
+	{
+		class Shader*		Shader			= nullptr;
+		Vertex*				Buffer			= nullptr;
+		Vertex*				CurrentVertex	= nullptr;		// unsigned	m_currentBufferIndex;
+		uint16_t			IndexCount		= 0;
+		unsigned			VAO, VBO, EBO;
+	};
+
+	struct RenderStats
+	{
+		unsigned TotalDraws = 0;
+		unsigned TotalQuads = 0;
+	};
+
+	struct LineRenderData
+	{
+
+	};
+
+
+	struct RectRenderData
+	{};
+
+
 
 	struct SpriteSheet
 	{
@@ -124,6 +163,18 @@ namespace Hi_Engine
 		{
 			return aFirst->GetPriority() < aSecond->GetPriority();
 		}
+	};
+
+	struct RenderCommand
+	{
+		eRenderCommandType		m_type;
+
+		union
+		{
+			SpriteRenderData	m_spriteRenderData;
+			class Shader*		m_shader;
+			class Camera*		m_camera;
+		};
 	};
 
 #pragma endregion Event_Structs

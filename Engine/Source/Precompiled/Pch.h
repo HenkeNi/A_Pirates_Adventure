@@ -27,6 +27,12 @@
 #include <vector>
 
 
+/* - Event system - */
+#include "Messaging/Dispatcher/Dispatcher.h"
+#include "Messaging/Events/RenderEvents/RenderEvents.h"
+#include "Messaging/Events/SystemEvents/SystemEvents.h"
+#include "Messaging/Listener/EventListener.h"
+
 /* - CommonUtilities - */
 #include "Utility/Math/Vectors/Vector.hpp"
 #include "Utility/Math/Matrices/Matrix3x3.hpp"
