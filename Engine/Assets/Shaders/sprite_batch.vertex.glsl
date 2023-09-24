@@ -9,8 +9,7 @@ out vec4 Color;
 out vec2 TexCoord;
 out float TexIndex;
 
-uniform mat4 uView;
-uniform mat4 uProjection;
+uniform mat4 uViewProjection;
 
 void main()
 {
@@ -18,5 +17,5 @@ void main()
 	TexCoord = aTexCoord;
 	TexIndex = aTexIndex;
 
-	gl_Position = uProjection * uView * vec4(aPosition, 1.0);
+	gl_Position = uViewProjection * vec4(aPosition, 1.0);
 }

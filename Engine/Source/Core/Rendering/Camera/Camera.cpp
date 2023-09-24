@@ -21,13 +21,18 @@ namespace Hi_Engine
 
 	}
 
-	glm::mat4 Camera::GetViewMatrix()
+	glm::mat4 Camera::GetViewProjectionMatrix() const
+	{
+		return GetProjectionMatrix() * GetViewMatrix();
+	}
+
+	glm::mat4 Camera::GetViewMatrix() const
 	{
 		auto position = m_attributes.m_position;
 		return glm::lookAt(m_attributes.m_position, m_attributes.m_position + m_attributes.m_front, m_attributes.m_up);
 	}
 
-	glm::mat4 Camera::GetProjectionMatrix()
+	glm::mat4 Camera::GetProjectionMatrix() const
 	{
 		// precalculate every time window changes??
 		return glm::perspective(glm::radians(GetZoom()), (float)m_windowSize.x / (float)m_windowSize.y, 0.1f, 100.0f);

@@ -47,6 +47,8 @@ namespace Hi_Engine
 
 	void TextRenderer::Render(const TextRenderData& someData)
 	{
+        return;
+
         // activate corresponding render state	
         someData.m_shader->Activate();
         someData.m_shader->SetVector3f("uTextColor", someData.m_color);

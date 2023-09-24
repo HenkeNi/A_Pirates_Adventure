@@ -35,8 +35,9 @@ namespace Hi_Engine
 		Camera();
 		// TOOD; get virtual destructor...
 		
-		glm::mat4 GetViewMatrix();
-		glm::mat4 GetProjectionMatrix();
+		glm::mat4 GetViewProjectionMatrix() const;
+		glm::mat4 GetViewMatrix() const;
+		glm::mat4 GetProjectionMatrix() const;
 		
 		//virtual ~Camera() = default;	// Remove??
 
