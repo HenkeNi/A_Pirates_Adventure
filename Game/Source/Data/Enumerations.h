@@ -37,14 +37,6 @@ enum class eMessage
 	//MapChunkDestroyed
 };
 
-
-// TODO: remove
-enum class eComponentMessage
-{
-	PositionChanged, 
-	Colliding
-};
-
 enum class eLayer
 {
 	Terrain,
@@ -59,16 +51,15 @@ enum class eLayer
 enum class eBTNodeStatus
 {
 	Invalid,
-	Running,
 	Success,
-	Failure
+	Failure,
+	Running
 };
 
 enum class eTile
 {
 	Sand, Water
 };
-
 
 enum class eMovementDir
 {
@@ -81,6 +72,29 @@ enum class eMovementDir
 	UpRight,
 	DownLeft,
 	DownRight
+};
+
+enum eCollisionLayer
+{
+	Default,
+	Player,
+	Friendly,
+	Hostile,
+	Projectiles,
+	Obstacles,
+	Collectibles,
+	Triggers,
+	Terrain,
+	UI,
+	Interactables,
+};
+
+enum class eTimeOfDay
+{
+	Dawn,
+	Day,
+	Dusk, 
+	Night,
 };
 
 

@@ -1,8 +1,12 @@
 #pragma once
 #include "Enumerations.h"
-#include "SceneManagerProxy.h"
+#include "../Scenes/SceneManagerProxy.h"
 #include <any>
+//#include <Hi_Engine.h> // Fix
+#include  <../../../Engine/Source/Utility/Math/Vectors/Vector.hpp>
+#include  <../../../Engine/Source/Core/Rendering/Material/Material.h>
 
+namespace CU = CommonUtilities;
 
 // Todo; change naming convention to sceneManager, rather thna m_sceneManager;
 
@@ -12,11 +16,6 @@ struct SharedContext
 	class SystemManager&	m_systemManager;
 };
 
-struct CompMessage
-{
-	eComponentMessage	m_messageType;
-	const std::any&		m_data;
-};
 
 struct CollisionData // Data used for resolving/handling collisions
 {
