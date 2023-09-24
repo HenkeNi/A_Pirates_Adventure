@@ -10,7 +10,7 @@
 // TODO: Separete between key and joystick?? => use GLFW_KEY as key in map instead???
 // TODO; make singleton?? or figure out best way for Game to be able to communicate with input handler...
 
-class GLFWwindow;
+struct GLFWwindow;	// NEEDED??
 
 namespace Hi_Engine
 {

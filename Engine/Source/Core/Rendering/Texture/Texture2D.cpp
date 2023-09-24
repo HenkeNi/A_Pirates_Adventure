@@ -4,8 +4,11 @@
 namespace Hi_Engine
 {
 	Texture2D::Texture2D(GLenum aTextureFormat)
-		: m_internalFormat{ aTextureFormat }, m_imageFormat{ aTextureFormat }, m_id{ 0 }, m_size{ 0.f, 0.f }
+		: m_internalFormat{ aTextureFormat }, m_imageFormat{ aTextureFormat }, m_id{ 0 }, m_size{ 0.f, 0.f } //  todo fix texture id... (maybe frm json??)
 	{
+		//static unsigned ID = 1;
+		//m_id = ID;
+		//++ID;
 	}
 
 	Texture2D::~Texture2D()

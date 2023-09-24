@@ -115,6 +115,16 @@ namespace Hi_Engine
         aType != "PROGRAM" ? glGetShaderiv(anObject, GL_COMPILE_STATUS, &success) : glGetProgramiv(anObject, GL_LINK_STATUS, &success);
 
         if (!success)
+        {
+            glGetProgramInfoLog(anObject, 1024, nullptr, infoLog);
             std::cout << "ERROR::SHADER -> " << aType << '\n' << infoLog << '\n';
+        }
+        //int		success;
+        //char	infoLog[1024];
+
+        //aType != "PROGRAM" ? glGetShaderiv(anObject, GL_COMPILE_STATUS, &success) : glGetProgramiv(anObject, GL_LINK_STATUS, &success);
+
+        //if (!success)
+        //    std::cout << "ERROR::SHADER -> " << aType << '\n' << infoLog << '\n';
     }
 }

@@ -1,10 +1,11 @@
 #pragma once
-#include "Data/Structs.h"
-
+// #include "Data/Structs.h"
+#include "../../../Data/Structs.h"
 
 namespace Hi_Engine
 {
 	class TextRenderer;
+	// struct Character;
 
 	class Font
 	{

@@ -123,7 +123,7 @@ namespace Hi_Engine
 
 	void FrameBufferSizeCallback(GLFWwindow* aWindow, int aWidth, int aHeight)
 	{
-		glViewport(0, 0, aWidth, aHeight);
+		glViewport(0, 0, aWidth, aHeight);	// Todo; send event?
 	}
 
 	void WindowFocusCallback(GLFWwindow* aWindow, int aFocused)

@@ -3,14 +3,17 @@
 #include "Core/Rendering/Shader/Shader.h"
 #include "Core/Rendering/Texture/Texture2D.h"
 #include "Core/Rendering/Font/Font.h"
-#include <document.h>
+#include <../../ThirdParty/rapidjson/document.h>
+// #include <document.h>
 #include <memory>
 #include <string>
 #include <unordered_map>
-#include <stb_image.h>
+#include <../../ThirdParty/stb_image/stb_image.h>
 #include <fstream>
+#include <iostream>
 
-#include <ft2build.h>
+#include <../../ThirdParty/FreeType/include/ft2build.h>
+//#include <ft2build.h>
 #include FT_FREETYPE_H  
 
 // TODO; rename ResourceManager? 

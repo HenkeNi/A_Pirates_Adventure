@@ -4,7 +4,8 @@
 
 namespace Hi_Engine
 {
-	class Timer
+	// make static?
+	class Timer	
 	{
 	public:
 		Timer();
@@ -15,6 +16,8 @@ namespace Hi_Engine
 		void		Update();
 
 		float		GetDeltaTime()					const;
+		float		GetAverageDeltaTime()			const;	// NEEDED??
+		float		GetAverageFPS()					const;
 		double		GetTotalTime()					const;
 
 		void		NotifyOnTimePassed(TimerRequest aRequest); // Rename; (doesnt notify... isntead does callback...)
@@ -27,8 +30,16 @@ namespace Hi_Engine
 		std::chrono::time_point<std::chrono::high_resolution_clock> m_previousTimePoint;
 		std::chrono::duration<double>								m_deltaTime, m_totalTime;
 		
+		// DONT??
 		std::vector<TimerRequest> m_timeRequests; // Use observer pattern instead?? - need to create an observer class...
 
+		float	m_averageFPS = 0.f;
+		int		m_totalFrames = 0;
+		float	m_elapsedTime = 0.f; // rename TotalTime?!
+
+		float	m_averageDeltaTime = 0.f;
+		int m_numFrames = 0;
+		float m_totalDeltaTime = 0.f;
 		//std::vector<TimeObserver> m_timeObservers;
 		//std::unordered_map<TimeObserver*, TimeNotificationRequest> m_observers;
 	};

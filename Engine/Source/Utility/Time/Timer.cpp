@@ -18,6 +18,32 @@ namespace Hi_Engine
 		m_totalTime += elapsed;
 		m_previousTimePoint = current;
 
+		
+		
+		
+		// Calculate average Delta time
+		m_totalDeltaTime += GetDeltaTime();
+		++m_numFrames;
+
+		if (m_numFrames >= 20) // Larger tha number of frames to average
+		{
+			m_averageDeltaTime = m_totalDeltaTime / m_numFrames;
+			m_totalDeltaTime = 0.f;
+			m_numFrames = 0;
+		}
+		
+
+
+		// Calculate average fps
+		++m_totalFrames;
+		if ((m_elapsedTime += GetDeltaTime()) >= 1.f)
+		{
+			m_averageFPS = m_totalFrames / m_elapsedTime;
+			m_totalFrames = 0;
+			m_elapsedTime = 0.f;
+		}
+
+
 		if (ContainsTimerRequests())
 		{
 			CheckTimerRequests();
@@ -27,6 +53,11 @@ namespace Hi_Engine
 	float Timer::GetDeltaTime() const
 	{
 		return m_deltaTime.count();
+	}
+
+	float Timer::GetAverageFPS() const
+	{
+		return m_averageFPS;
 	}
 
 	double Timer::GetTotalTime() const
