@@ -14,6 +14,6 @@ public:
 	void Update(float aDeltaTime)	override;
 
 private:
-
+	void ClearBehaviorTreeNodes();
 };
 

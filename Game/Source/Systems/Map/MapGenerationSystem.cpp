@@ -30,7 +30,12 @@ void MapGenerationSystem::Update(float aDeltaTime)
 
 	// auto mapChunks = m_entityManager->FindAllWithComponents<MapChunkComponent>();
 
-	auto player = m_entityManager->FindAllWithComponents<PlayerControllerComponent>()[0];
+	auto players = m_entityManager->FindAllWithComponents<PlayerControllerComponent>();
+
+	if (players.empty())
+		return;
+
+	auto player = players[0];
 	auto playerPosition = player->GetComponent<TransformComponent>()->m_currentPos;			// Todo, check all 4 corners of player (Get hitboxCollider)
 
 	auto* mapChunk = MapUtils::GetMapChunkAtPosition(m_entityManager->FindAllWithComponents<MapChunkComponent>(), { playerPosition.x, playerPosition.z });
@@ -69,7 +74,7 @@ void MapGenerationSystem::GenerateStartArea()
 					tile.m_coordinates = { height, width };
 					tile.m_isCollidable = !isLand;
 					tile.m_material = {
-						&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource(isLand ? "sand01" : "sea"),
+						&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource(isLand ? "sand" : "sea"),
 						&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Sprite")
 					};
 					

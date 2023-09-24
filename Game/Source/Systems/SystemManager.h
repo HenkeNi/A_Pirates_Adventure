@@ -1,4 +1,4 @@
- #pragma once
+	 #pragma once
 #include "Base/System.h"
 
 
@@ -19,7 +19,7 @@ public:
 	void Init(EntityManager* aManager);
 	void Update(float aDeltaTime);
 	void LateUpdate(float aDeltaTime);
-	void Draw() const;
+	void Draw()	const;
 
 	void Register(std::unique_ptr<System> aSystem);
 	void Clear();

@@ -2,11 +2,9 @@
 #include "EnemySpawnSystem.h"
 #include "EntityManager.h"
 #include "Entity.h"
-#include "../AI/BehaviorTree/SequenceNode.h"
-#include "../AI/BehaviorTree/SelectorNode.h"
-#include "../AI/BehaviorTree/ActionNodes.h"
-#include "../AI/BehaviorTree/CompositeNodes.h"
-#include "../AI/BehaviorTree/ConditionNodes.h"
+#include "../AI/BehaviorTree/Composite/CompositeNodes.h"
+#include "../AI/BehaviorTree/Action/ActionNodes.h"
+#include "../AI/BehaviorTree/Condition/ConditionNodes.h"
 
 
 
@@ -88,14 +86,14 @@ void EnemySpawnSystem::SpawnEnemy(const std::string& aType, const CU::Vector3<fl
 	auto* root = new SelectorNode{ entityID };
 
 	auto attackSequence = new SequenceNode{ entityID };
-	attackSequence->AddChild(new TargetInRange{ entityID, playerID });
-	attackSequence->AddChild(new AttackTarget{ entityID, playerID });
+	attackSequence->AddChild(new TargetInRangeNode{ entityID, playerID });
+	attackSequence->AddChild(new AttackTargetNode{ entityID, playerID });
 
 	auto alertSequence = new SequenceNode{ entityID };
-	alertSequence->AddChild(new TargetInView{ entityID, playerID });
-	alertSequence->AddChild(new MoveToTarget{ entityID, playerID });
+	alertSequence->AddChild(new TargetInViewNode{ entityID, playerID });
+	alertSequence->AddChild(new MoveToTargetNode{ entityID, playerID });
 
-	auto idle = new Idle{ entityID };
+	auto idle = new IdleNode{ entityID };
 
 	root->AddChild(attackSequence);
 	root->AddChild(alertSequence);

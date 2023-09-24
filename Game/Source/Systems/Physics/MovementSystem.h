@@ -19,7 +19,7 @@ public:
 	// void InitComponents();  - possible!
 
 private:
-	void				UpdateColliders(Entity* anEntity, class TransformComponent* aTransformComponent, class VelocityComponent* aVelocityComponent);
+	void				UpdateColliders(Entity* anEntity, struct TransformComponent* aTransformComponent, struct VelocityComponent* aVelocityComponent);
 };
 
 	

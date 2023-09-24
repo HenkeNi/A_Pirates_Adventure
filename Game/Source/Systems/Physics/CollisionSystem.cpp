@@ -38,6 +38,9 @@ void CollisionSystem::LateUpdate(float aDeltaTime)
 
 	for (auto& entity : entities)
 	{
+		//if (entity->GetComponent<>) contains line render component??
+			// SweptAABB(entity);
+
 		auto* collider = entity->GetComponent<HitboxComponent>();
 		if (collider->m_isStatic)
 			continue;
@@ -150,4 +153,15 @@ void CollisionSystem::ResolveCollision(Entity* anEntity, Tile* aTile)
 	//	transformComponent->m_currentPos.x -= 1;
 	//	//transformComponent->m_currentPos.x = aTile->m_position.x;
 
+}
+
+float CollisionSystem::SweptAABB(Entity* anEntity)
+{
+	auto* hitbox = anEntity->GetComponent<HitboxComponent>();
+	auto* velocity = anEntity->GetComponent<VelocityComponent>();
+
+
+
+
+	return 0.f;
 }

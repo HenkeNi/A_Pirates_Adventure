@@ -18,5 +18,7 @@ public:
 private:
 
 	std::string GetCurrentState(Entity* anEntity) const; // ???
+
+	void SetSpriteOrientation(struct AnimationComponent* anAnimationComponent, struct VelocityComponent* aVelocityComponent);
 };
 

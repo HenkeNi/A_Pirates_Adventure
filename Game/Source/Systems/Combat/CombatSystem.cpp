@@ -143,5 +143,8 @@ bool CombatSystem::ApplyDamageOutput(Entity* anEntity, unsigned aDamage)
 
 	healthComponent->m_currentValue -= aDamage;
 
+	// CurrentHeatValue = std::max(CurrentHeatValue - Amount, 0.f);
+
+
 	return healthComponent->m_currentValue <= 0;
 }

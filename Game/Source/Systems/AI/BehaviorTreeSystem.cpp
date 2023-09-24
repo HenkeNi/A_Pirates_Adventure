@@ -2,31 +2,20 @@
 #include "BehaviorTreeSystem.h"
 #include "EntityManager.h"
 #include "AI/AIComponents.h"
-#include "../AI/BehaviorTree/BehaviorTreeNode.h"
+#include "../AI/BehaviorTree/Base/BehaviorTreeNode.h"
 
 
 BehaviorTreeSystem::BehaviorTreeSystem()
 {
-
 }
 
 BehaviorTreeSystem::~BehaviorTreeSystem()
 {
-	auto entities = m_entityManager->FindAllWithComponents<BehaviorTreeComponent>();
-	
-	for (auto& entity : entities)
-	{
-		auto behaviorComponet = entity->GetComponent<BehaviorTreeComponent>();
-		behaviorComponet->m_rootNode->Clear();
-
-		delete behaviorComponet->m_rootNode;
-		behaviorComponet->m_rootNode = nullptr;
-	}
+	ClearBehaviorTreeNodes();
 }
 
 void BehaviorTreeSystem::Receive(Message& aMsg)
 {
-
 }
 
 void BehaviorTreeSystem::Update(float aDeltaTime)
@@ -38,10 +27,26 @@ void BehaviorTreeSystem::Update(float aDeltaTime)
 
 	for (auto& entity : entities)
 	{
-		auto* behaviorComponent = entity->GetComponent<BehaviorTreeComponent>();
-		
-		if (auto rootNode = behaviorComponent->m_rootNode)
-			rootNode->Execute(m_entityManager);
+		if (auto* behaviorComponent = entity->GetComponent<BehaviorTreeComponent>())
+		{
+			if (auto rootNode = behaviorComponent->m_rootNode)
+				rootNode->Execute(m_entityManager);
+		}
 	}
+}
 
+void BehaviorTreeSystem::ClearBehaviorTreeNodes()
+{
+	auto entities = m_entityManager->FindAllWithComponents<BehaviorTreeComponent>();
+
+	for (auto& entity : entities)
+	{
+		if (auto* behaviorComponet = entity->GetComponent<BehaviorTreeComponent>())
+		{
+			behaviorComponet->m_rootNode->Clear();
+		
+			delete behaviorComponet->m_rootNode;
+			behaviorComponet->m_rootNode = nullptr;
+		}
+	}
 }

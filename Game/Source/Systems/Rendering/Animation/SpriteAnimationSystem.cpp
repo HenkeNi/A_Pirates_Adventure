@@ -55,6 +55,10 @@ void SpriteAnimationSystem::Update(float aDeltaTime)
 		const std::string currentState = GetCurrentState(entity);								// won't work with animated trees?? (maybe won't be animated? -> maybe shader instead)?
 		auto& animation = animationComponent->m_animations[currentState];
 		
+		if (auto* velocityComponent = entity->GetComponent<VelocityComponent>())
+		{
+			SetSpriteOrientation(animationComponent, velocityComponent); // pass in entity instead?+
+		}
 
 
 
@@ -155,4 +159,9 @@ std::string SpriteAnimationSystem::GetCurrentState(Entity* anEntity) const
 	}
 
 	return "Idle";
+}
+
+void SpriteAnimationSystem::SetSpriteOrientation(struct AnimationComponent* anAnimationComponent, struct VelocityComponent* aVelocityComponent)
+{
+
 }

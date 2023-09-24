@@ -2,6 +2,8 @@
 
 // AI - systems
 #include "AI/BehaviorTreeSystem.h"
+#include "AI/SteeringBehaviorSystem.h"
+#include "AI/StateMachineSystem.h"
 
 #include "Combat/CombatSystem.h"
 #include "Combat/MeleeCombatSystem.h"
@@ -35,3 +37,5 @@
 #include "Map/MapGenerationSystem.h"
 #include "Map/MapDecorationSystem.h"
 #include "Rendering/Map/MapRenderSystem.h"
+
+#include "Time/TimeSystem.h"

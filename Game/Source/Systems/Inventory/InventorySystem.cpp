@@ -25,9 +25,12 @@ void InventorySystem::Update(float aDeltaTime)
 		return;
 
 	auto pickups = m_entityManager->FindAllWithComponents<PickupColliderComponent>();
-	auto* player = m_entityManager->FindAllWithComponents<PlayerControllerComponent>()[0];		// ADD FindOne or just Find()??
+	auto players = m_entityManager->FindAllWithComponents<PlayerControllerComponent>();		// ADD FindOne or just Find()??
 
-	auto playerTransform = player->GetComponent<TransformComponent>();
+	if (players.empty() || !players[0])
+		return;
+
+	auto playerTransform = players[0]->GetComponent<TransformComponent>();
 
 	std::vector<Entity*> entitiesToRemove;
 
@@ -40,7 +43,7 @@ void InventorySystem::Update(float aDeltaTime)
 		float distance = pickupTransform->m_currentPos.DistanceTo(playerTransform->m_currentPos);
 		if (distance < 0.5f)
 		{
-			auto inventoryComponent = player->GetComponent<InventoryComponent>();
+			auto inventoryComponent = players[0]->GetComponent<InventoryComponent>();
 
 			unsigned currentValue = 0;
 

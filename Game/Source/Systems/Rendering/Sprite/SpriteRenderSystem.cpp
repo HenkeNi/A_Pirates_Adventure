@@ -25,6 +25,8 @@ void SpriteRenderSystem::Draw()
 	if (!m_entityManager)
 		return;
 
+	std::queue<Hi_Engine::RenderCommand> commandQueue;
+
 	auto entities = m_entityManager->FindAllWithComponents<SpriteComponent, TransformComponent>();
 
 	for (const Entity* entity : entities)
@@ -36,7 +38,13 @@ void SpriteRenderSystem::Draw()
 		const auto& scale		 = transform->m_scale;
 		const auto& rotation	 = transform->m_rotation;
 
-		//Hi_Engine::BillboardRenderer::GetInstance().Render({ &material, { position.x, position.y, position.z }, { scale.x, scale.y }, rotation });
-		Hi_Engine::SpriteRenderer::GetInstance().Render(Hi_Engine::SpriteRenderData{ &material, { position.x, position.y, position.z }, { scale.x, scale.y }, rotation });
+		Hi_Engine::RenderCommand command;
+		command.m_type = Hi_Engine::eRenderCommandType::DrawSprite;
+		command.m_spriteRenderData = { &material, { position.x, position.y, position.z }, { scale.x, scale.y }, rotation };
+	
+		commandQueue.push(command);
+		// Hi_Engine::SpriteRenderer::GetInstance().Render(Hi_Engine::SpriteRenderData{ &material, { position.x, position.y, position.z }, { scale.x, scale.y }, rotation });
 	}
+
+	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::RenderEvent>(commandQueue);
 }

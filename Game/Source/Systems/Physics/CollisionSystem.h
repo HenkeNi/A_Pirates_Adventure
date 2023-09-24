@@ -26,11 +26,15 @@ public:
 private:
 	void CheckMapCollisions(Entity* anEntity);
 
-	void ResolveCollision(Entity* anEntity, class Tile* aTile);
+	void ResolveCollision(Entity* anEntity, struct Tile* aTile);
 
 	// Check collisions
 	// Handle Collision / Resolve Collisions
 
 	//7std::vector<MapChunk*> m_mapChunks;
+
+
+
+	float SweptAABB(Entity* anEntity);
 };
 

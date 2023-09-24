@@ -30,10 +30,19 @@ void CameraSystem::Update(float aDeltaTime)
 	if (!camera)
 		return;
 
+	// loop through all cameras... see if active..?
+
 	auto cameraComponent = camera->GetComponent<CameraComponent>();
 	
-	Hi_Engine::SpriteRenderer::GetInstance().SetCamera(&cameraComponent->m_camera);
-	Hi_Engine::PrimitiveRenderer::GetInstance().SetCamera(&cameraComponent->m_camera);
+	Hi_Engine::RenderCommand command;
+	command.m_type = Hi_Engine::eRenderCommandType::SetCamera;
+	command.m_camera = &cameraComponent->m_camera;
+
+	std::queue<Hi_Engine::RenderCommand> commandQueue;
+	commandQueue.push(command);
+
+	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::RenderEvent>(commandQueue);
+
 
 	auto target = m_entityManager->Find(cameraComponent->m_targetID);
 	//auto target = cameraComponent->m_target;
