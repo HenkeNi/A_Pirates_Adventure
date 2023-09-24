@@ -4,9 +4,8 @@
 #include "FileIO/FileSystem.h"
 #include "FileIO/Parsers/WindowParser.h"
 #include "Resources/ResourceHolder.hpp"
-#include "Rendering/Renderers/SpriteRenderer/SpriteRenderer.h"
-#include "Rendering/Renderers/PrimitiveRenderer/PrimitiveRenderer.h"
-#include "Rendering/Renderers/TextRenderer/TextRenderer.h"
+
+#include "Rendering/Renderer/TextRenderer/TextRenderer.h"
 #include "../Utility/Time/Timer.h"
 #include "../Messaging/Dispatcher/Dispatcher.h"
 
@@ -27,21 +26,48 @@ namespace Hi_Engine
 		if (!CreateWindow() || glewInit() != GLEW_OK || !m_application)
 			return false;
 
-		ConfigureRenderStates();
+		//ConfigureRenderStates();
+		glEnable(GL_DEPTH_TEST);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_BLEND);
 
-		SpriteRenderer::GetInstance().Init();
-		PrimitiveRenderer::GetInstance().Init();
+		// REMOVE...
 		TextRenderer::GetInstance().Init();
+
+		// TEMP
+		m_renderer.Init();
+		m_renderer.SetRenderTarget(&m_window);
 
 		m_application->OnCreate(); 
 
+
+		m_renderer.SetShader(&ResourceHolder<Shader>::GetInstance().GetResource("sprite_batch")); // Rename default_sprite_bact
+
+		
 		return (m_isRunning = true);
+	}
+
+	void Engine::Shutdown()
+	{
+		if (m_window.IsOpen())
+			m_window.Close();
+
+		m_renderer.Shutdown();
+
+		TextRenderer::GetInstance().Shutdown();
+
+		if (m_application)
+		{
+			m_application->OnDestroy();
+			delete m_application;
+		}
 	}
 
 	void Engine::GameLoop()
 	{
 		assert(m_application && "Failed to launch application");
-		Timer timer;
+		Timer& timer = GetTimer();
+		//Timer timer;
 
 		while (IsRunning())	// Todo, use enum for GameState instead? !GameState::EXIT
 		{
@@ -59,26 +85,12 @@ namespace Hi_Engine
 			m_application->OnLateUpdate(deltaTime);
 
 			/* - Render - */
-			m_window.ClearScreen();
+			m_renderer.BeginFrame();
 			m_application->OnDraw();
-
-			m_window.SwapBuffers();
-		}
-	}
-
-	void Engine::Shutdown()
-	{
-		if (m_window.IsOpen())
-			m_window.Close();
-
-		SpriteRenderer::GetInstance().Shutdown();
-		TextRenderer::GetInstance().Shutdown();
-		PrimitiveRenderer::GetInstance().Shutdown();
-
-		if (m_application)
-		{
-			m_application->OnDestroy();
-			delete m_application;
+			m_renderer.Display();
+			m_renderer.EndFrame();
+	
+			std::cout << timer.GetAverageFPS() << '\n';	// Figure out how to make accessible in the rest of the program! send event? or pass with delta time?
 		}
 	}
 		
@@ -87,16 +99,22 @@ namespace Hi_Engine
 		return m_window.IsOpen() && m_isRunning;
 	}
 
+	Timer& Engine::GetTimer()
+	{
+		static Timer timer;
+		return timer;
+	}
+
 	bool Engine::CreateWindow()
 	{
 		auto windowData = FileSystem::ParseJson<WindowParser, WindowData>("../Engine/Assets/Json/Window/Window.json");
 		return m_window.Init(windowData);
 	}
 
-	void Engine::ConfigureRenderStates()
-	{
-		glEnable(GL_DEPTH_TEST);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);			
-		glEnable(GL_BLEND);
-	}
+	//void Engine::ConfigureRenderStates()
+	//{
+	//	glEnable(GL_DEPTH_TEST);
+	//	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);			
+	//	glEnable(GL_BLEND);
+	//}
 }
