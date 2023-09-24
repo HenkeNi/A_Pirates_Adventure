@@ -237,7 +237,15 @@ ComponentData ComponentParser::ParseStaminaComponent(JsonValue aValue)
 
 ComponentData ComponentParser::ParseSteeringBehaviorComponent(JsonValue aValue)
 {
-	return ComponentData();
+	ComponentData data;
+	
+	std::string behavior = aValue["behavior"].GetString();
+	std::string layer = aValue["layer"].GetString();
+	
+	data.insert(std::make_pair("behavior",	behavior));
+	data.insert(std::make_pair("layer",		layer));
+
+	return data;
 }
 
 ComponentData ComponentParser::ParseTimerComponent(JsonValue aValue)
@@ -283,6 +291,55 @@ ComponentData ComponentParser::ParseWeaponComponent(JsonValue aValue)
 	return ComponentData();
 }
 
+ComponentData ComponentParser::ParseWorldTimeComponent(JsonValue aValue)
+{
+	ComponentData data;
+
+	float dayDuration = aValue["day_duration"].GetFloat();
+	data.insert(std::make_pair("dayDuration", dayDuration));
+
+	return data;
+}
+
+ComponentData ComponentParser::ParseWanderBehaviorComponent(JsonValue aValue)
+{
+	ComponentData data;
+	return data;
+}
+
+ComponentData ComponentParser::ParseFlockBehaviorComponent(JsonValue aValue)
+{
+	ComponentData data;
+	return data;
+}
+
+ComponentData ComponentParser::ParseSeekBehaviorComponent(JsonValue aValue)
+{
+	ComponentData data;
+	return data;
+}
+
+ComponentData ComponentParser::ParseFleeBehaviorComponent(JsonValue aValue)
+{
+	ComponentData data;
+	return data;
+}
+
+ComponentData ComponentParser::ParseStateMachineComponent(JsonValue aValue)
+{
+	ComponentData data;
+	
+	std::vector<std::string> states;
+	
+	for (const auto& state : aValue["states"].GetArray())
+	{
+		states.push_back(state.GetString());
+	}
+
+	data.insert(std::make_pair("states", states));
+	return data;
+}
+
 void ComponentParser::Initialize()
 {
 	m_parsers.insert(std::make_pair("Animation",		&ParseAnimationComponent));
@@ -314,5 +371,16 @@ void ComponentParser::Initialize()
 	m_parsers.insert(std::make_pair("Trigger",			&ParseTriggerComponent));
 	m_parsers.insert(std::make_pair("Velocity",			&ParseVelocityComponent));
 	m_parsers.insert(std::make_pair("Weapon",			&ParseWeaponComponent));
+	m_parsers.insert(std::make_pair("WorldTime",		&ParseWorldTimeComponent));
+
 	m_parsers.insert(std::make_pair("CharacterState",	&ParseCharacterStateComponent));
+	
+	
+	
+	m_parsers.insert(std::make_pair("WanderBehavior",	&ParseWanderBehaviorComponent));
+	m_parsers.insert(std::make_pair("FlockBehavior",	&ParseFlockBehaviorComponent));
+	m_parsers.insert(std::make_pair("SeekBehavior",		&ParseSeekBehaviorComponent));
+	m_parsers.insert(std::make_pair("FleeBehavior",		&ParseFleeBehaviorComponent));
+	m_parsers.insert(std::make_pair("StateMachine",		&ParseStateMachineComponent));
+
 }

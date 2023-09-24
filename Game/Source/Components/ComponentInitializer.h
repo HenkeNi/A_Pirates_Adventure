@@ -8,6 +8,14 @@
 #include "../Commands/Attack/AttackCommand.h"
 #include "../Commands/Sprint/SprintCommand.h"
 
+#include "../AI/SteeringBehaviors/Flock/FlockBehavior.h"
+#include "../AI/SteeringBehaviors/Wander/WanderBehavior.h"
+
+#include "../AI/StateMachine/States/Idle/IdleState.h"
+#include "../AI/StateMachine/States/Walk/WalkState.h"
+
+#include "../AI/StateMachine/Conditions/Time/TimeConditions.h"
+
 // struct ComponentData;
 
 class ComponentInitializer
@@ -187,6 +195,24 @@ public:
 	}
 
 	template <>
+	static void InitializeComponent<SteeringBehaviorComponent>(SteeringBehaviorComponent* aComponent, const ComponentData& someData)
+	{
+		std::string behaviorType = std::any_cast<std::string>(someData.at("behavior"));
+		std::string layer = std::any_cast<std::string>(someData.at("layer"));
+
+		if (behaviorType == "flock_behavior")
+		{
+			aComponent->m_activeBehavior = new FlockBehavior{};	// FIX! don't new? Make sure to delete...
+			aComponent->m_layer = layer;
+		}
+		if (behaviorType == "wander_behavior")
+		{
+			aComponent->m_activeBehavior = new WanderBehavior{};
+			aComponent->m_layer = layer;
+		}
+	}
+
+	template <>
 	static void InitializeComponent<TransformComponent>(TransformComponent* aComponent, const ComponentData& someData)
 	{
 		auto position = std::any_cast<std::array<float, 3>>(someData.at("position"));
@@ -231,5 +257,94 @@ public:
 	{
 		float speed = std::any_cast<float>(someData.at("speed"));
 		aComponent->m_speed = speed;
+	}
+
+	template <>
+	static void InitializeComponent<WorldTimeComponent>(WorldTimeComponent* aComponent, const ComponentData& someData)
+	{
+		float dayDuration = std::any_cast<float>(someData.at("dayDuration"));
+		aComponent->m_dayDuration = dayDuration;
+	}
+
+
+
+
+	template <>
+	static void InitializeComponent<WanderBehaviorComponent>(WanderBehaviorComponent* aComponent, const ComponentData& someData)
+	{
+		aComponent->m_behavior = new WanderBehavior{}; // Don't new....
+	}
+
+	template <>
+	static void InitializeComponent<FlockBehaviorComponent>(FlockBehaviorComponent* aComponent, const ComponentData& someData)
+	{
+		aComponent->m_behavior = new FlockBehavior{};	// Make sure to delete...
+	}
+
+	template <>
+	static void InitializeComponent<SeekBehaviorComponent>(SeekBehaviorComponent* aComponent, const ComponentData& someData)
+	{
+		// aComponent->m_behavior = new SeekBehavior{}; // Don't new....
+	}
+
+	template <>
+	static void InitializeComponent<FleeBehaviorComponent>(FleeBehaviorComponent* aComponent, const ComponentData& someData)
+	{
+		// aComponent->m_behavior = new FleeBehavior{}; // Don't new....
+
+	}
+
+	template <>
+	static void InitializeComponent<StateMachineComponent>(StateMachineComponent* aComponent, const ComponentData& someData)
+	{
+		std::vector<std::string> states = std::any_cast<std::vector<std::string>>(someData.at("states"));
+
+		// Fetch state machine from factory??
+		for (const auto& state : states)
+		{
+			if (state == "idle")
+			{
+				aComponent->m_states.push_back(new IdleState{});
+			}
+			else if (state == "walk")
+			{
+				aComponent->m_states.push_back(new WalkState{});
+			}
+			else if (state == "flee")
+			{ }
+			else if (state == "attack")
+			{ }
+			else if (state == "death")
+			{ }
+		}
+
+		// Temp
+		aComponent->m_activeState = aComponent->m_states[0];
+
+		// TEmp
+		// add durtaion condition
+		ElapsedTimeCondition* elapsedTime = new ElapsedTimeCondition{ 20.f }; // FIX deletion!
+		Transition idleToWalk;
+		idleToWalk.SetCondition(elapsedTime);
+
+		aComponent->m_states[0]->AddTransition(idleToWalk);
+
+		Transition walkToIdle;
+		walkToIdle.SetCondition(elapsedTime); // use same condition? => cant delte in desturtor then....
+		aComponent->m_states[1]->AddTransition(walkToIdle); // duraion condition
+
+
+		// TODO; connect the states
+		// set start time in condition	
+
+
+		
+		// add duration condition to idle state.... and duration condition to walk state...
+
+
+
+		// unoredred map? string, state?
+		// c
+
 	}
 };

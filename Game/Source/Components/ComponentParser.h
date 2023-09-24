@@ -67,6 +67,19 @@ public:
 
 	static ComponentData ParseWeaponComponent(JsonValue aValue);
 
+	static ComponentData ParseWorldTimeComponent(JsonValue aValue);
+
+	/* AI-Components */
+	static ComponentData ParseWanderBehaviorComponent(JsonValue aValue);
+
+	static ComponentData ParseFlockBehaviorComponent(JsonValue aValue);
+	
+	static ComponentData ParseSeekBehaviorComponent(JsonValue aValue);
+
+	static ComponentData ParseFleeBehaviorComponent(JsonValue aValue);
+	
+	static ComponentData ParseStateMachineComponent(JsonValue aValue);
+
 private:
 	static void Initialize();
 
