@@ -10,32 +10,41 @@ namespace Registration
 {
 	void RegisterComponents()
 	{
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Sprite",			new ConcreteComponentBuilder<SpriteComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Transform",		new ConcreteComponentBuilder<TransformComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Input",			new ConcreteComponentBuilder<InputComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Animation",		new ConcreteComponentBuilder<AnimationComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("Sprite",				new ConcreteComponentBuilder<SpriteComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("Transform",			new ConcreteComponentBuilder<TransformComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("Input",				new ConcreteComponentBuilder<InputComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("Animation",			new ConcreteComponentBuilder<AnimationComponent>());
 
-		EntityManager::s_entityFactory.RegisterComponentBuilder("PlayerController", new ConcreteComponentBuilder<PlayerControllerComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Velocity",			new ConcreteComponentBuilder<VelocityComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Weapon",			new ConcreteComponentBuilder<WeaponComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Health",			new ConcreteComponentBuilder<HealthComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Camera",			new ConcreteComponentBuilder<CameraComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Rect",				new ConcreteComponentBuilder<RectComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("DebugRect",		new ConcreteComponentBuilder<DebugRectComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("AttackCollider",	new ConcreteComponentBuilder<AttackComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Hitbox",			new ConcreteComponentBuilder<HitboxComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Harvestable",		new ConcreteComponentBuilder<HarvestableComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("PlayerController",		new ConcreteComponentBuilder<PlayerControllerComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("Velocity",				new ConcreteComponentBuilder<VelocityComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("Weapon",				new ConcreteComponentBuilder<WeaponComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("Health",				new ConcreteComponentBuilder<HealthComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("Camera",				new ConcreteComponentBuilder<CameraComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("Rect",					new ConcreteComponentBuilder<RectComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("DebugRect",			new ConcreteComponentBuilder<DebugRectComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("AttackCollider",		new ConcreteComponentBuilder<AttackComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("Hitbox",				new ConcreteComponentBuilder<HitboxComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("Harvestable",			new ConcreteComponentBuilder<HarvestableComponent>());
 
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Resource",			new ConcreteComponentBuilder<ResourceComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Pickup",			new ConcreteComponentBuilder<PickupColliderComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Inventory",		new ConcreteComponentBuilder<InventoryComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Spawner",			new ConcreteComponentBuilder<SpawnComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("BehaviorTree",		new ConcreteComponentBuilder<BehaviorTreeComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Trigger",			new ConcreteComponentBuilder<TriggerComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("Resource",				new ConcreteComponentBuilder<ResourceComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("Pickup",				new ConcreteComponentBuilder<PickupColliderComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("Inventory",			new ConcreteComponentBuilder<InventoryComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("Spawner",				new ConcreteComponentBuilder<SpawnComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("BehaviorTree",			new ConcreteComponentBuilder<BehaviorTreeComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("Trigger",				new ConcreteComponentBuilder<TriggerComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("WorldTime",			new ConcreteComponentBuilder<WorldTimeComponent>());
 
-
-		EntityManager::s_entityFactory.RegisterComponentBuilder("MapChunk",			new ConcreteComponentBuilder<MapChunkComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("CharacterState",	new ConcreteComponentBuilder<CharacterStateComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("MapChunk",				new ConcreteComponentBuilder<MapChunkComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("CharacterState",		new ConcreteComponentBuilder<CharacterStateComponent>());
+		
+		/* AI-Components */
+		EntityManager::s_entityFactory.RegisterComponentBuilder("SteeringBehavior",		new ConcreteComponentBuilder<SteeringBehaviorComponent>()); // REMOVE?
+		EntityManager::s_entityFactory.RegisterComponentBuilder("WanderBehavior",		new ConcreteComponentBuilder<WanderBehaviorComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("FlockBehavior",		new ConcreteComponentBuilder<FlockBehaviorComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("SeekBehavior",			new ConcreteComponentBuilder<SeekBehaviorComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("FleeBehavior",			new ConcreteComponentBuilder<FleeBehaviorComponent>());
+	
+		EntityManager::s_entityFactory.RegisterComponentBuilder("StateMachine",			new ConcreteComponentBuilder<StateMachineComponent>());
 	}
 
 	void RegisterBlueprints()
@@ -48,6 +57,9 @@ namespace Registration
 	void RegisterSystems(SystemManager& aSystemManager)
 	{
 		aSystemManager.Register(std::make_unique<BehaviorTreeSystem>());
+		aSystemManager.Register(std::make_unique<SteeringBehaviorSystem>());
+		aSystemManager.Register(std::make_unique<StateMachineSystem>());
+
 		aSystemManager.Register(std::make_unique<CameraSystem>());
 		aSystemManager.Register(std::make_unique<CollisionSystem>());
 		aSystemManager.Register(std::make_unique<CombatSystem>());
@@ -70,10 +82,11 @@ namespace Registration
 		aSystemManager.Register(std::make_unique<PrimitiveRenderSystem>());
 		aSystemManager.Register(std::make_unique<DebugRenderSystem>());
 		
+
 		aSystemManager.Register(std::make_unique<MapRenderSystem>());
 		aSystemManager.Register(std::make_unique<MapGenerationSystem>());
 		aSystemManager.Register(std::make_unique<MapDecorationSystem>());
-
+		aSystemManager.Register(std::make_unique<TimeSystem>());
 
 		aSystemManager.Register(std::make_unique<TextRenderSystem>());
 	}
