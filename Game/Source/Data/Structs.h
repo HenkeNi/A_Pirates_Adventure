@@ -5,6 +5,7 @@
 //#include <Hi_Engine.h> // Fix
 #include  <../../../Engine/Source/Utility/Math/Vectors/Vector.hpp>
 #include  <../../../Engine/Source/Core/Rendering/Material/Material.h>
+#include  <../../../Engine/Source/Core/Rendering/Texture/Subtexture2D.h>
 
 namespace CU = CommonUtilities;
 
@@ -32,7 +33,8 @@ struct Range
 
 struct Tile
 {
-	Hi_Engine::Material m_material;
+	//Hi_Engine::Material m_material;
+	class Hi_Engine::Subtexture2D* m_subtexture;
 	CU::Vector3<float>	m_position;			// store chunk coordiante instead?
 	CU::Vector2<int>	m_coordinates;			// Use only one!!
 	eTile				m_type;

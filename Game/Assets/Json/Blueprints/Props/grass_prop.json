@@ -10,8 +10,8 @@
     },
     {
       "type": "Sprite",
-      "shader": "Sprite",
-      "texture": "grass",
+      "shader": "sprite_batch",
+      "texture": "grass_00",
       "color": [ 1.0, 1.0, 1.0, 1.0 ]
     },
     {
@@ -25,7 +25,7 @@
     },
     {
       "type": "DebugRect",
-      "shader": "Primitive"
+      "shader": "sprite_batch"
     },
     {
       "type": "Harvestable",

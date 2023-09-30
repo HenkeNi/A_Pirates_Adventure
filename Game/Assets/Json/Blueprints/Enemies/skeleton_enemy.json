@@ -14,8 +14,8 @@
     },
     {
       "type": "Sprite",
-      "shader": "Sprite",
-      "texture": "skeleton",
+      "shader": "sprite_batch",
+      "texture": "skeleton_00",
       "color": [ 1.0, 1.0, 1.0, 1.0 ]
     },
     {

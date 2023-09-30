@@ -10,8 +10,8 @@
     },
     {
       "type": "Sprite",
-      "shader": "Sprite",
-      "texture": "Hut",
+      "shader": "sprite_batch",
+      "texture": "hut_00",
       "color": [ 1.0, 1.0, 1.0, 1.0 ]
     },
     {
@@ -21,7 +21,7 @@
     },
     {
       "type": "DebugRect",
-      "shader": "Primitive"
+      "shader": "sprite_batch"
     }
   ]
 }

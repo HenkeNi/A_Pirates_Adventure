@@ -21,6 +21,7 @@
 #include "Core/Rendering/Font/Font.h"
 #include "Core/Rendering/Shader/Shader.h"
 #include "Core/Rendering/Texture/Texture2D.h"
+#include "Core/Rendering/Texture/Subtexture2D.h"
 
 /* - Messaging - */
 #include "Core/Messaging/Dispatcher/Dispatcher.h"

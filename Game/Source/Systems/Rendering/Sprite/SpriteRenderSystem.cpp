@@ -31,7 +31,8 @@ void SpriteRenderSystem::Draw()
 
 	for (const Entity* entity : entities)
 	{
-		auto& material = entity->GetComponent<SpriteComponent>()->m_material;
+		//auto& material = entity->GetComponent<SpriteComponent>()->m_material;
+		const auto& subtexture = entity->GetComponent<SpriteComponent>()->m_subtexture;
 
 		const auto* transform	 = entity->GetComponent<TransformComponent>();
 		const auto& position	 = transform->m_currentPos;
@@ -40,7 +41,7 @@ void SpriteRenderSystem::Draw()
 
 		Hi_Engine::RenderCommand command;
 		command.m_type = Hi_Engine::eRenderCommandType::DrawSprite;
-		command.m_spriteRenderData = { &material, { position.x, position.y, position.z }, { scale.x, scale.y }, rotation };
+		command.m_spriteRenderData = { subtexture, { position.x, position.y, position.z }, { scale.x, scale.y }, rotation };
 	
 		commandQueue.push(command);
 		// Hi_Engine::SpriteRenderer::GetInstance().Render(Hi_Engine::SpriteRenderData{ &material, { position.x, position.y, position.z }, { scale.x, scale.y }, rotation });

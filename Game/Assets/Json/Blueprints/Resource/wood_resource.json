@@ -10,13 +10,13 @@
     },
     {
       "type": "Sprite",
-      "shader": "Sprite",
-      "texture": "Log",
+      "shader": "sprite_batch",
+      "texture": "log_00",
       "color": [ 1.0, 1.0, 1.0, 1.0 ]
     },
     {
       "type": "Rect",
-      "shader": "Primitive"
+      "shader": "sprite_batch"
     },
     {
       "type": "Resource",

@@ -14,8 +14,8 @@
     },
     {
       "type": "Sprite",
-      "shader": "Sprite",
-      "texture": "crab",
+      "shader": "sprite_batch",
+      "texture": "crab_00",
       "color": [ 1.0, 1.0, 1.0, 1.0 ]
     },
     {

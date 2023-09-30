@@ -1,0 +1,31 @@
+{
+  "textures": [
+    {
+      "id": "ground_tiles",
+      "path": "../Game/Assets/Textures/ground_tiles.png",
+      "alpha": true,
+      "width": 96,
+      "height": 32
+    }
+  ],
+  "subtextures": [
+    {
+      "id": "sand_tile",
+      "parent_id": "ground_tiles",
+      "min_uv": [ 0.0, 0.0 ],
+      "max_uv": [ 0.333, 0.333 ]
+    },
+    {
+      "id": "water_tile",
+      "parent_id": "ground_tiles",
+      "min_uv": [ 0.333, 0.0 ],
+      "max_uv": [ 0.667, 0.333 ]
+    },
+    {
+      "id": "grass_tile",
+      "parent_id": "ground_tiles",
+      "min_uv": [ 0.667, 0.0 ],
+      "max_uv": [ 1.0, 0.333 ]
+    }
+  ]
+}

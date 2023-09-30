@@ -10,13 +10,13 @@
     },
     {
       "type": "Sprite",
-      "shader": "Sprite",
-      "texture": "Rock_Fragment",
+      "shader": "sprite_batch",
+      "texture": "rock_fragment_00",
       "color": [ 1.0, 1.0, 1.0, 1.0 ]
     },
     {
       "type": "Rect",
-      "shader": "Primitive"
+      "shader": "sprite_batch"
     },
     {
       "type": "Resource",

@@ -32,7 +32,8 @@ namespace Hi_Engine
 		void Display();
 		void EndFrame();
 
-		void DrawSprite(const SpriteRenderData& someData);
+		void DrawSprite(const SpriteRenderData& someData);	// rename SpriteData?
+		//void DrawSprite(const SpriteSheetData& someData);	// FIX!					maybe all textures have a coordinate instead??
 		void DrawQuad(const QuadRenderData& someData);
 		
 		void SetRenderTarget(Window* aWindow);

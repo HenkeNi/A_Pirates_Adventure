@@ -10,8 +10,8 @@
     },
     {
       "type": "Sprite",
-      "shader": "Sprite",
-      "texture": "Raft",
+      "shader": "sprite_batch",
+      "texture": "raft_00",
       "color": [ 1.0, 1.0, 1.0, 1.0 ]
     },
     {
@@ -20,7 +20,7 @@
     },
     {
       "type": "DebugRect",
-      "shader": "Primitive"
+      "shader": "sprite_batch"
     }
   ]
 }

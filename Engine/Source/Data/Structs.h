@@ -84,13 +84,22 @@ namespace Hi_Engine
 
 	struct SpriteRenderData
 	{
-		const class Material*	Material;
+		// const class Material*	Material;
+		const class Subtexture2D*		m_subtexture;
 		glm::vec3				Position;	// CU::Vector3<float>
 		glm::vec2				Scale;		// Rename size?? CU::Vector2<float>
 		float					Rotation;
 
 		// key to shader, and key to texture..
 	};
+
+	//struct SpriteSheetData
+	//{
+	//	class Subtexture2D*		m_subtexture;
+	//	glm::vec3				Position;
+	//	glm::vec2				Scale;
+	//	float					Rotation;
+	//};
 	
 	struct TextRenderData
 	{

@@ -10,8 +10,8 @@
     },
     {
       "type": "Sprite",
-      "shader": "Sprite",
-      "texture": "title_screen",
+      "shader": "sprite_batch",
+      "texture": "title_screen_00",
       "color": [ 1.0, 1.0, 1.0, 1.0 ]
     }
   ]

@@ -73,10 +73,11 @@ void MapGenerationSystem::GenerateStartArea()
 					Tile tile;
 					tile.m_coordinates = { height, width };
 					tile.m_isCollidable = !isLand;
-					tile.m_material = {
+					tile.m_subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource(isLand ? "ground_tiles_00" : "ground_tiles_01");
+					/*tile.m_material = {
 						&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource(isLand ? "sand" : "sea"),
-						&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Sprite")
-					};
+						&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("sprite_batch")
+					};*/
 					
 					mapChunkComponent->m_tiles.push_back(tile);
 				}

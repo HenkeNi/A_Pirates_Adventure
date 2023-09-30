@@ -186,12 +186,14 @@ public:
 		auto texture = std::any_cast<std::string>(someData.at("texture"));
 		auto color = std::any_cast<std::array<float, 4>>(someData.at("color"));
 
-		aComponent->m_material = {
-			&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource(texture),
-			&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource(shader)
-		};
+		aComponent->m_subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource(texture);
 
-		aComponent->m_material.SetColor({ color[0], color[1], color[2], color[3] });
+		//aComponent->m_material = {
+		//	&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource(texture),
+		//	&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource(shader)
+		//};
+
+		// aComponent->m_material.SetColor({ color[0], color[1], color[2], color[3] });
 	}
 
 	template <>

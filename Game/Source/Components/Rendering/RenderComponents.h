@@ -5,7 +5,8 @@
 
 struct SpriteComponent : public ComponentBase
 {
-	Hi_Engine::Material m_material;	// Store strings instead?? keys..
+	Hi_Engine::Subtexture2D* m_subtexture;
+	// Hi_Engine::Material m_material;	// Store strings instead?? keys..
 
 	// int m_textureID; ?
 	// int m_shaderID; ?

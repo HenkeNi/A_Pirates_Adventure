@@ -110,7 +110,7 @@
     },
     {
       "type": "Sprite",
-      "shader": "Sprite",
+      "shader": "sprite_batch",
       "texture": "pirate_idle_00",
       "color": [ 1.0, 1.0, 1.0, 1.0 ]
     },
@@ -125,7 +125,7 @@
     },
     {
       "type": "DebugRect",
-      "shader": "Primitive"
+      "shader": "sprite_batch"
     }
   ]
 }

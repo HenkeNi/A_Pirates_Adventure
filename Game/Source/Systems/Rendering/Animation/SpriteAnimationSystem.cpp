@@ -122,7 +122,8 @@ void SpriteAnimationSystem::Update(float aDeltaTime)
 			std::string sprite = animation.m_sprites[animation.m_currentFrame];
 
 			auto* spriteComponent = entity->GetComponent<SpriteComponent>();
-			spriteComponent->m_material.SetTexture(&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource(sprite));
+			spriteComponent->m_subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource(sprite);
+			//spriteComponent->m_material.SetTexture(&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource(sprite));
 		}
 	}
 }

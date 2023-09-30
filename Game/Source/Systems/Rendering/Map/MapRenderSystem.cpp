@@ -49,7 +49,8 @@ void MapRenderSystem::DrawMapChunk(MapChunkComponent* aMapChunk, const CU::Vecto
 		
 		Hi_Engine::RenderCommand command;
 		command.m_type = Hi_Engine::eRenderCommandType::DrawSprite;
-		command.m_spriteRenderData = { &tile.m_material, { position.x, position.y, position.z } , glm::vec3{1.f, 1.f, 1.f}, -90.f };
+		command.m_spriteRenderData = { tile.m_subtexture, { position.x, position.y, position.z } , glm::vec3{1.f, 1.f, 1.f}, -90.f };
+		//command.m_spriteRenderData = { &tile.m_material, { position.x, position.y, position.z } , glm::vec3{1.f, 1.f, 1.f}, -90.f };
 
 		//renderEvent.AddRenderCommand(command);
 
@@ -57,7 +58,7 @@ void MapRenderSystem::DrawMapChunk(MapChunkComponent* aMapChunk, const CU::Vecto
 
 		// auto position = tile.m_position;
 		//Hi_Engine::SpriteRenderer::GetInstance().Render({ &tile.m_material, { position.x, position.y, position.z } , glm::vec3{1.f, 1.f, 1.f}, -90.f});
-	}
+ 	}
 	
 
 	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::RenderEvent>(commandQueue);

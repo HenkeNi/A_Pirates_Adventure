@@ -19,6 +19,18 @@
   },
   {
     "id": 4,
+    "name": "ground_tiles",
+    "filepath": "../Game/Assets/Textures/ground_tiles.png",
+    "alpha": true,
+    "subtextures": [
+      {
+        "row": 0,
+        "col": 0
+      }
+    ]
+  },
+  {
+    "id": 5,
     "name": "palm_01",
     "filepath": "../Game/Assets/Textures/palm01.png",
     "alpha": true

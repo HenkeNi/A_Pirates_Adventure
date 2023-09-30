@@ -26,20 +26,6 @@ void Game::OnLateUpdate(float aDeltaTime)
 
 void Game::OnDraw()
 {
-	/*for (int i = 0; i < 100; ++i)
-	{
-		for (int j = 0; j < 100; ++j)
-		{
-			aRenderer.DrawQuad(glm::vec2{ i, j }, { 0.2f, 0.2f }, { 1.f, 1.f, 1.f, 1.f });
-		}
-	}
-
-	aRenderer.DrawQuad(glm::vec2{ 0.5f, 0.5f }, { 0.2f, 0.2f }, { 0.1f, 0.3f, 0.4f, 1.f });
-	aRenderer.DrawQuad(glm::vec2{ -0.5f, -0.5f }, { 0.2f, 0.2f }, 2);
-
-
-
-	return;*/
 	m_sceneManager.Draw();
 	m_systemManager.Draw();
 }
@@ -67,14 +53,10 @@ void Game::OnDestroy()
 
 void Game::LoadResources()	// Todo, do in Registration?
 {
-	Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().FetchAll("../Game/Assets/Json/Resources/Textures.json");
+	//Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().FetchAll("../Game/Assets/Json/Resources/Textures.json");
+	Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().FetchAll("../Game/Assets/Json/Resources/Textures2.json");
+	// Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().FetchAll("../Game/Assets/Json/Resources/Subtextures.json");
+	
 	Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().FetchAll("../Engine/Assets/Json/Resources/Shaders.json");
 	Hi_Engine::ResourceHolder<Hi_Engine::Font>::GetInstance().FetchAll("../Game/Assets/Json/Resources/Fonts.json");
-
-
-
-	// TEMP...
-
-	//Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("grass").Bind();
-	// Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource("palm_01").Bind();
 }

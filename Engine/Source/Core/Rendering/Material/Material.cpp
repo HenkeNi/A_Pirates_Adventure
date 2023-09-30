@@ -9,6 +9,11 @@ namespace Hi_Engine
 	{
 	}
 
+	//Material::Material(Subtexture2D* aSubtexture, Shader* aShader)
+	//	: m_subtexture{ aSubtexture }, m_shader{ aShader }, m_color{ 1.f, 1.f, 1.f, 1.f }
+	//{
+	//}
+
 	Material::Material(Texture2D* aTexture, Shader* aShader)
 		: m_texture{ aTexture }, m_shader{ aShader }, m_color{ 1.f, 1.f, 1.f, 1.f }
 	{
@@ -18,6 +23,11 @@ namespace Hi_Engine
 	{
 		m_color = aColor;
 	}
+
+	//void Material::SetSubtexture(const Subtexture2D* aSubtexture)
+	//{
+	//	m_subtexture = aSubtexture;
+	//}
 
 	void Material::SetTexture(const Texture2D* aTexture)
 	{
@@ -33,6 +43,11 @@ namespace Hi_Engine
 	{
 		return m_color;
 	}
+
+	/*const Subtexture2D* Material::GetSubtexture()	const
+	{
+		return m_subtexture;
+	}*/
 
 	const Texture2D* Material::GetTexture() const
 	{

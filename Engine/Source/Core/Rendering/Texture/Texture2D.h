@@ -8,7 +8,7 @@ namespace Hi_Engine
 	class Texture2D
 	{
 	public:
-		Texture2D(GLenum aTextureFormat = GL_RGB);
+		Texture2D(GLenum aTextureFormat = GL_RGB, bool aLinearFiltering = true);
 		~Texture2D();
 
 		void					Init(const CU::Vector2<int>& aSize, unsigned char* someData);		// Take in texturedata...
@@ -22,5 +22,7 @@ namespace Hi_Engine
 		CU::Vector2<int>		m_size;
 		GLenum					m_internalFormat, m_imageFormat;
 		unsigned				m_id;
+
+		bool m_linearFiltering;
 	};
 }
