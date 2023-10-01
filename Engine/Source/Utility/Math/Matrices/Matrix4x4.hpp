@@ -27,7 +27,7 @@ namespace CommonUtilities
 		static Matrix4x4	Transpose(const Matrix4x4& aMatrixToTranspose);
 
 	private:
-		std::array<Vector4<T>, 4> myMatrix;
+		std::array<Vector4<T>, 4> m_matrix;
 
 	};
 
@@ -37,15 +37,15 @@ namespace CommonUtilities
 	template <typename T>
 	Matrix4x4<T>::Matrix4x4()
 	{
-		myMatrix[0] = { 1.f, 0.f, 0.f, 0.f };
-		myMatrix[1] = { 0.f, 1.f, 0.f, 0.f };
-		myMatrix[2] = { 0.f, 0.f, 1.f, 0.f };
-		myMatrix[3] = { 0.f, 0.f, 0.f, 1.f };
+		m_matrix[0] = { 1.f, 0.f, 0.f, 0.f };
+		m_matrix[1] = { 0.f, 1.f, 0.f, 0.f };
+		m_matrix[2] = { 0.f, 0.f, 1.f, 0.f };
+		m_matrix[3] = { 0.f, 0.f, 0.f, 1.f };
 	}
 
 	template <typename T>
 	Matrix4x4<T>::Matrix4x4(const Matrix4x4& aMatrix)
-		: myMatrix{ aMatrix.myMatrix }
+		: m_matrix{ aMatrix.m_matrix }
 	{
 	}
 
@@ -53,10 +53,10 @@ namespace CommonUtilities
 	Matrix4x4<T> Matrix4x4<T>::CreateRotationAroundX(T anAngleInRadians)
 	{
 		Matrix4x4<T> matrix;
-		matrix.myMatrix[0] = { 1.f, 0.f, 0.f, 0.f };
-		matrix.myMatrix[1] = { 0.f,  cos(anAngleInRadians), sin(anAngleInRadians), 0.f };
-		matrix.myMatrix[2] = { 0.f, -sin(anAngleInRadians), cos(anAngleInRadians), 0.f };
-		matrix.myMatrix[3] = { 0.f, 0.f, 0.f, 1.f };
+		matrix.m_matrix[0] = { 1.f, 0.f, 0.f, 0.f };
+		matrix.m_matrix[1] = { 0.f,  cos(anAngleInRadians), sin(anAngleInRadians), 0.f };
+		matrix.m_matrix[2] = { 0.f, -sin(anAngleInRadians), cos(anAngleInRadians), 0.f };
+		matrix.m_matrix[3] = { 0.f, 0.f, 0.f, 1.f };
 
 		return matrix;
 	}
@@ -65,10 +65,10 @@ namespace CommonUtilities
 	Matrix4x4<T> Matrix4x4<T>::CreateRotationAroundY(T anAngleInRadians)
 	{
 		Matrix4x4<T> matrix;
-		matrix.myMatrix[0] = { cos(anAngleInRadians), 0.f, -sin(anAngleInRadians), 0.f };
-		matrix.myMatrix[1] = { 0.f, 1.f, 0.f, 0.f };
-		matrix.myMatrix[2] = { sin(anAngleInRadians), 0.f, cos(anAngleInRadians), 0.f };
-		matrix.myMatrix[3] = { 0.f, 0.f, 0.f, 1.f };
+		matrix.m_matrix[0] = { cos(anAngleInRadians), 0.f, -sin(anAngleInRadians), 0.f };
+		matrix.m_matrix[1] = { 0.f, 1.f, 0.f, 0.f };
+		matrix.m_matrix[2] = { sin(anAngleInRadians), 0.f, cos(anAngleInRadians), 0.f };
+		matrix.m_matrix[3] = { 0.f, 0.f, 0.f, 1.f };
 
 		return matrix;
 	}
@@ -77,10 +77,10 @@ namespace CommonUtilities
 	Matrix4x4<T> Matrix4x4<T>::CreateRotationAroundZ(T anAngleInRadians)
 	{
 		Matrix4x4<T> matrix;
-		matrix.myMatrix[0] = { cos(anAngleInRadians), sin(anAngleInRadians), 0.f, 0.f };
-		matrix.myMatrix[1] = { -sin(anAngleInRadians), cos(anAngleInRadians), 0.f, 0.f };
-		matrix.myMatrix[2] = { 0.f, 0.f, 1.f, 0.f };
-		matrix.myMatrix[3] = { 0.f, 0.f, 0.f, 1.f };
+		matrix.m_matrix[0] = { cos(anAngleInRadians), sin(anAngleInRadians), 0.f, 0.f };
+		matrix.m_matrix[1] = { -sin(anAngleInRadians), cos(anAngleInRadians), 0.f, 0.f };
+		matrix.m_matrix[2] = { 0.f, 0.f, 1.f, 0.f };
+		matrix.m_matrix[3] = { 0.f, 0.f, 0.f, 1.f };
 
 		return matrix;
 	}
@@ -123,15 +123,15 @@ namespace CommonUtilities
 	template <typename T>
 	Vector4<T>& Matrix4x4<T>::operator()(const int aRow)
 	{
-		assert(aRow > 0 && aRow <= myMatrix.size());
-		return myMatrix[aRow - 1];
+		assert(aRow > 0 && aRow <= m_matrix.size());
+		return m_matrix[aRow - 1];
 	}
 
 	template <typename T>
 	const Vector4<T>& Matrix4x4<T>::operator()(const int aRow) const
 	{
-		assert(aRow > 0 && aRow <= myMatrix.size());
-		return myMatrix[aRow - 1];
+		assert(aRow > 0 && aRow <= m_matrix.size());
+		return m_matrix[aRow - 1];
 	}
 
 	template <typename T>
@@ -140,7 +140,7 @@ namespace CommonUtilities
 		assert(aRow > 0 && aRow <= 4);
 		assert(aColumn > 0 && aColumn <= 4);
 
-		return aColumn == 1 ? myMatrix[aRow - 1].x : aColumn == 2 ? myMatrix[aRow - 1].y : aColumn == 3 ? myMatrix[aRow - 1].z : myMatrix[aRow - 1].w;
+		return aColumn == 1 ? m_matrix[aRow - 1].x : aColumn == 2 ? m_matrix[aRow - 1].y : aColumn == 3 ? m_matrix[aRow - 1].z : m_matrix[aRow - 1].w;
 	}
 
 	template <typename T>
@@ -149,7 +149,7 @@ namespace CommonUtilities
 		assert(aRow > 0 && aRow <= 4);
 		assert(aColumn > 0 && aColumn <= 4);
 
-		return aColumn == 1 ? myMatrix[aRow - 1].x : aColumn == 2 ? myMatrix[aRow - 1].y : aColumn == 3 ? myMatrix[aRow - 1].z : myMatrix[aRow - 1].w;
+		return aColumn == 1 ? m_matrix[aRow - 1].x : aColumn == 2 ? m_matrix[aRow - 1].y : aColumn == 3 ? m_matrix[aRow - 1].z : m_matrix[aRow - 1].w;
 	}
 
 	template <typename T>

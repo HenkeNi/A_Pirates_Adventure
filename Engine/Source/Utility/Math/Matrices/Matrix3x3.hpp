@@ -29,7 +29,7 @@ namespace CommonUtilities
 		static Matrix3x3	Transpose(const Matrix3x3& aMatrixToTranspose);
 
 	private:
-		std::array<Vector3<T>, 3> myMatrix;
+		std::array<Vector3<T>, 3> m_matrix;
 	};
 
 #pragma region Method_Definitions
@@ -38,15 +38,15 @@ namespace CommonUtilities
 	template <typename T>
 	Matrix3x3<T>::Matrix3x3()
 	{
-		myMatrix[0] = { 1.f, 0.f, 0.f };
-		myMatrix[1] = { 0.f, 1.f, 0.f };
-		myMatrix[2] = { 0.f, 0.f, 1.f };
+		m_matrix[0] = { 1.f, 0.f, 0.f };
+		m_matrix[1] = { 0.f, 1.f, 0.f };
+		m_matrix[2] = { 0.f, 0.f, 1.f };
 	}
 
 	/* - Copy constructor - */
 	template <typename T>
 	Matrix3x3<T>::Matrix3x3(const Matrix3x3<T>& aMatrix)
-		: myMatrix{ aMatrix.myMatrix }
+		: m_matrix{ aMatrix.m_matrix }
 	{
 	}
 
@@ -62,9 +62,9 @@ namespace CommonUtilities
 	Matrix3x3<T> Matrix3x3<T>::CreateRotationAroundX(T anAngleInRadians)
 	{
 		Matrix3x3<T> matrix;
-		matrix.myMatrix[0] = { 1.f, 0.f, 0.f };
-		matrix.myMatrix[1] = { 0.f, cos(anAngleInRadians), sin(anAngleInRadians) };
-		matrix.myMatrix[2] = { 0.f, -sin(anAngleInRadians), cos(anAngleInRadians) };
+		matrix.m_matrix[0] = { 1.f, 0.f, 0.f };
+		matrix.m_matrix[1] = { 0.f, cos(anAngleInRadians), sin(anAngleInRadians) };
+		matrix.m_matrix[2] = { 0.f, -sin(anAngleInRadians), cos(anAngleInRadians) };
 
 		return matrix;
 	}
@@ -74,9 +74,9 @@ namespace CommonUtilities
 	Matrix3x3<T> Matrix3x3<T>::CreateRotationAroundY(T anAngleInRadians)
 	{
 		Matrix3x3<T> matrix;
-		matrix.myMatrix[0] = { cos(anAngleInRadians), 0, -sin(anAngleInRadians) };
-		matrix.myMatrix[1] = { 0, 1, 0 };
-		matrix.myMatrix[2] = { sin(anAngleInRadians), 0, cos(anAngleInRadians) };
+		matrix.m_matrix[0] = { cos(anAngleInRadians), 0, -sin(anAngleInRadians) };
+		matrix.m_matrix[1] = { 0, 1, 0 };
+		matrix.m_matrix[2] = { sin(anAngleInRadians), 0, cos(anAngleInRadians) };
 
 		return matrix;
 	}
@@ -86,9 +86,9 @@ namespace CommonUtilities
 	Matrix3x3<T> Matrix3x3<T>::CreateRotationAroundZ(T anAngleInRadians)
 	{
 		Matrix3x3<T> matrix;
-		matrix.myMatrix[0] = { cos(anAngleInRadians), sin(anAngleInRadians), 0 };
-		matrix.myMatrix[1] = { -sin(anAngleInRadians), cos(anAngleInRadians), 0 };
-		matrix.myMatrix[2] = { 0, 0, 1 };
+		matrix.m_matrix[0] = { cos(anAngleInRadians), sin(anAngleInRadians), 0 };
+		matrix.m_matrix[1] = { -sin(anAngleInRadians), cos(anAngleInRadians), 0 };
+		matrix.m_matrix[2] = { 0, 0, 1 };
 
 		return matrix;
 	}
@@ -129,16 +129,16 @@ namespace CommonUtilities
 	template <typename T>
 	Vector3<T>& Matrix3x3<T>::operator()(const int aRow)
 	{
-		assert(aRow > 0 && aRow <= myMatrix.size());
-		return myMatrix[aRow - 1];
+		assert(aRow > 0 && aRow <= m_matrix.size());
+		return m_matrix[aRow - 1];
 	}
 
 	/* - Access Vector3 at specified row (read only) - */
 	template <typename T>
 	const Vector3<T>& Matrix3x3<T>::operator()(const int aRow) const
 	{
-		assert(aRow > 0 && aRow <= myMatrix.size());
-		return myMatrix[aRow - 1];
+		assert(aRow > 0 && aRow <= m_matrix.size());
+		return m_matrix[aRow - 1];
 	}
 
 	/* - Access element at specified position - */
@@ -148,7 +148,7 @@ namespace CommonUtilities
 		assert(aRow > 0 && aRow <= 3); // myMatrix.size());
 		assert(aColumn > 0 && aColumn <= 3);
 
-		return aColumn == 1 ? myMatrix[aRow - 1].x : aColumn == 2 ? myMatrix[aRow - 1].y : myMatrix[aRow - 1].z;
+		return aColumn == 1 ? m_matrix[aRow - 1].x : aColumn == 2 ? m_matrix[aRow - 1].y : m_matrix[aRow - 1].z;
 	}
 
 	/* - Access element at specified position (read only) - */
@@ -158,7 +158,7 @@ namespace CommonUtilities
 		assert(aRow > 0 && aRow <= 3);
 		assert(aColumn > 0 && aColumn <= 3);
 
-		return aColumn == 1 ? myMatrix[aRow - 1].x : aColumn == 2 ? myMatrix[aRow - 1].y : myMatrix[aRow - 1].z;
+		return aColumn == 1 ? m_matrix[aRow - 1].x : aColumn == 2 ? m_matrix[aRow - 1].y : m_matrix[aRow - 1].z;
 	}
 
 	template <typename T>
