@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 namespace Hi_Engine::Constants
 {
@@ -9,6 +10,5 @@ namespace Hi_Engine::Constants
 	constexpr size_t maxIndexCount	= maxQuadCount * 6;
 
 	constexpr uint32_t maxTextureSlots = 32;		// Or max textures?
-	//constexpr uint32_t maxTextureSlots = 32;
 
 }

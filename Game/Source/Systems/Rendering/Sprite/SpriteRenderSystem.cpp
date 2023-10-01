@@ -41,7 +41,7 @@ void SpriteRenderSystem::Draw()
 
 		Hi_Engine::RenderCommand command;
 		command.m_type = Hi_Engine::eRenderCommandType::DrawSprite;
-		command.m_spriteRenderData = { subtexture, { position.x, position.y, position.z }, { scale.x, scale.y }, rotation };
+		command.m_spriteRenderData = { subtexture, { 1.f, 1.f, 1.f, 1.f }, { position.x, position.y, position.z }, { scale.x, scale.y }, rotation };
 	
 		commandQueue.push(command);
 		// Hi_Engine::SpriteRenderer::GetInstance().Render(Hi_Engine::SpriteRenderData{ &material, { position.x, position.y, position.z }, { scale.x, scale.y }, rotation });

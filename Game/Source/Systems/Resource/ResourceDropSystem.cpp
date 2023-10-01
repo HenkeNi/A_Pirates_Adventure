@@ -32,7 +32,7 @@ void ResourceDropSystem::Receive(Message& aMsg)
 		
 		auto* harvestableComponent = data->GetComponent<HarvestableComponent>();
 
-		auto* resource = m_entityManager->Create(harvestableComponent->m_resourceType);
+		auto* resource = m_entityManager->CreateResources(harvestableComponent->m_resourceType);
 
 		//auto* resourceComponent = data->GetComponent<ResourceComponent>(); // Check if not nullptr ionstead of has component?? -> remove assert in that case 
 		//auto droppedResource = m_entityManager->Create(resourceComponent->m_entityToCreate);

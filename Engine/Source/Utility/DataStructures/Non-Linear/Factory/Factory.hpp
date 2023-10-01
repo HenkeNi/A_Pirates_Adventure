@@ -18,7 +18,7 @@ namespace CommonUtilities
 		ReturnType* Build(const Identifier& aType, Args&&... args);
 	//	ReturnType* Build(const Identifier& aType)												const;	// Perfect forward`??
 
-		bool		HasComponent(const Identifier& aType)										const;
+		bool		HasResource(const Identifier& aType)										const;
 
 		bool		RegisterBuilder(const Identifier& aType, BuilderType* aBuilder);
 		void		RemoveBuilder(const Identifier& aType);
@@ -49,7 +49,7 @@ namespace CommonUtilities
 	template <typename... Args>
 	ReturnType* Factory<BuilderType, ReturnType, Identifier>::Build(const Identifier& aType, Args&&... args)
 	{
-		assert(HasComponent(aType) && "No Builder for type found!");
+		assert(HasResource(aType) && "No Builder for type found!");
 		return m_builders.at(aType)->Build(std::forward<Args>(args)...);
 	}
 
@@ -61,7 +61,7 @@ namespace CommonUtilities
 	//}
 
 	template <typename BuilderType, typename ReturnType, typename Identifier>
-	bool Factory<BuilderType, ReturnType, Identifier>::HasComponent(const Identifier& aType) const
+	bool Factory<BuilderType, ReturnType, Identifier>::HasResource(const Identifier& aType) const
 	{
 		return m_builders.find(aType) != m_builders.end();
 	}
@@ -71,13 +71,13 @@ namespace CommonUtilities
 	{
 		assert(aBuilder && "Can't register a Builder containing a nullptr");	// TODO; dont assert??
 
-		return !HasComponent(aType) ? m_builders.insert({ aType, aBuilder }).second : false;
+		return !HasResource(aType) ? m_builders.insert({ aType, aBuilder }).second : false;
 	}
 
 	template <typename BuilderType, typename ReturnType, typename Identifier>
 	void Factory<BuilderType, ReturnType, Identifier>::RemoveBuilder(const Identifier& aType)
 	{
-		if (HasComponent(aType))	// Check if needed??!
+		if (HasResource(aType))	// Check if needed??!
 		{
 			delete m_builders[aType];
 			m_builders[aType] = nullptr; // Delete as well??

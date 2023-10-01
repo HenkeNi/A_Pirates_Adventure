@@ -54,9 +54,9 @@ void Game::OnDestroy()
 void Game::LoadResources()	// Todo, do in Registration?
 {
 	//Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().FetchAll("../Game/Assets/Json/Resources/Textures.json");
-	Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().FetchAll("../Game/Assets/Json/Resources/Textures2.json");
+	Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().LoadResources("../Game/Assets/Json/Resources/Textures2.json");
 	// Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().FetchAll("../Game/Assets/Json/Resources/Subtextures.json");
 	
-	Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().FetchAll("../Engine/Assets/Json/Resources/Shaders.json");
-	Hi_Engine::ResourceHolder<Hi_Engine::Font>::GetInstance().FetchAll("../Game/Assets/Json/Resources/Fonts.json");
+	Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().LoadResources("../Engine/Assets/Json/Resources/Shaders.json");
+	Hi_Engine::ResourceHolder<Hi_Engine::Font>::GetInstance().LoadResources("../Game/Assets/Json/Resources/Fonts.json");
 }

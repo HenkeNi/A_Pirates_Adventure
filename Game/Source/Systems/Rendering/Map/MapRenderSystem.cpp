@@ -49,7 +49,9 @@ void MapRenderSystem::DrawMapChunk(MapChunkComponent* aMapChunk, const CU::Vecto
 		
 		Hi_Engine::RenderCommand command;
 		command.m_type = Hi_Engine::eRenderCommandType::DrawSprite;
-		command.m_spriteRenderData = { tile.m_subtexture, { position.x, position.y, position.z } , glm::vec3{1.f, 1.f, 1.f}, -90.f };
+
+		glm::vec4 color = { tile.m_color.x, tile.m_color.y, tile.m_color.z, tile.m_color.w };
+		command.m_spriteRenderData = { tile.m_subtexture, color, { position.x, position.y, position.z } , glm::vec3{1.f, 1.f, 1.f}, -90.f };
 		//command.m_spriteRenderData = { &tile.m_material, { position.x, position.y, position.z } , glm::vec3{1.f, 1.f, 1.f}, -90.f };
 
 		//renderEvent.AddRenderCommand(command);

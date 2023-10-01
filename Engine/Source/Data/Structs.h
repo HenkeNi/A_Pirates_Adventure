@@ -85,12 +85,19 @@ namespace Hi_Engine
 	struct SpriteRenderData
 	{
 		// const class Material*	Material;
-		const class Subtexture2D*		m_subtexture;
-		glm::vec3				Position;	// CU::Vector3<float>
-		glm::vec2				Scale;		// Rename size?? CU::Vector2<float>
-		float					Rotation;
+		const class Subtexture2D*	m_subtexture;
+		glm::vec4					Color;
+		glm::vec3					Position;	// CU::Vector3<float>
+		glm::vec2					Scale;		// Rename size?? CU::Vector2<float>
+		float						Rotation;
+	};	
 
-		// key to shader, and key to texture..
+	struct QuadRenderData
+	{
+		glm::vec3			Position;
+		glm::vec4			Color;
+		glm::vec2			Scale;
+		float				Rotation;
 	};
 
 	//struct SpriteSheetData
@@ -120,14 +127,7 @@ namespace Hi_Engine
 		float				Rotation;
 	};
 
-	struct QuadRenderData
-	{
-		glm::vec3			Position;
-		glm::vec4			Color;
-		glm::vec2			Scale;
-		float				TexIndex;
-		float				Rotation;
-	};
+
 
 
 	struct RenderContext

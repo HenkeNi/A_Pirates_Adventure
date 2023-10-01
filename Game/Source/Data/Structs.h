@@ -35,6 +35,7 @@ struct Tile
 {
 	//Hi_Engine::Material m_material;
 	class Hi_Engine::Subtexture2D* m_subtexture;
+	CU::Vector4<float> m_color  = { 1.f, 1.f, 1.f, 1.f }; // DO ELSEWHER!?
 	CU::Vector3<float>	m_position;			// store chunk coordiante instead?
 	CU::Vector2<int>	m_coordinates;			// Use only one!!
 	eTile				m_type;

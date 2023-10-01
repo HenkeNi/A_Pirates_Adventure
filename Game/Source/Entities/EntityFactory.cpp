@@ -106,7 +106,7 @@ void EntityFactory::LoadBlueprints(const std::string& aFilePath)
 	}
 }
 
-Entity EntityFactory::Create(const std::string& aType)
+Entity EntityFactory::CreateResources(const std::string& aType)
 {
 	auto iterator = m_blueprints.find(aType);
 

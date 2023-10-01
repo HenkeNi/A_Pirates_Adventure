@@ -65,7 +65,7 @@ void EnemySpawnSystem::SpawnEnemy(const std::string& aType, const CU::Vector3<fl
 	if (!player)
 		return;
 	
-	auto entity = m_entityManager->Create(aType);
+	auto entity = m_entityManager->CreateResources(aType);
 
 	auto transform = entity->GetComponent<TransformComponent>();
 	transform->m_currentPos = aPosition;

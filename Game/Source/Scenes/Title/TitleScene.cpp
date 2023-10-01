@@ -43,12 +43,12 @@ void TitleScene::OnEnter()
 
 	// TODO; Load in new entities...
 
-	auto background = m_entityManager.Create("title_background");
+	auto background = m_entityManager.CreateResources("title_background");
 	
 	// Add triiger componnet??
 
 
-	auto camera = m_entityManager.Create("Camera");
+	auto camera = m_entityManager.CreateResources("Camera");
 	camera->GetComponent<TransformComponent>()->m_currentPos = { 0.f, 0.f, 2.f };
 	camera->GetComponent<CameraComponent>()->m_targetOffset = { 0.f, 0.f, 2.f };
 	camera->GetComponent<CameraComponent>()->m_targetID = background->GetID();

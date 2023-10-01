@@ -15,7 +15,7 @@ public:
 
 	// static void LoadBlueprints(const std::string& aFilePath);
 
-	Entity* Create(const std::string& aType);
+	Entity* CreateResources(const std::string& aType);
 	Entity* Find(unsigned anID);					// Rename GetEntity?
 
 	template <typename... Components>

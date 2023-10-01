@@ -24,7 +24,7 @@ public:
 
 
 
-	Entity  Create(Identifier& aType);																		// REmove again?! -> initialize outside of factory??
+	Entity  CreateResources(Identifier& aType);																		// REmove again?! -> initialize outside of factory??
 	Entity	CreateFromBlueprint(const EntityBlueprint& aBlueprint);
 	//Entity	Create(Identifier& aType)								const;	// Todo; fix!! 
 	//Entity	CreateFromBlueprint(const EntityBlueprint& aBlueprint)	const;

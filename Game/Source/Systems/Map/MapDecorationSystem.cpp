@@ -44,7 +44,7 @@ void MapDecorationSystem::PopulateWithFoilage(const Entity* aMapChunk)
 
 		for (int i = 0; i < anAmount; ++i)
 		{
-			auto* entity = m_entityManager->Create(aType);
+			auto* entity = m_entityManager->CreateResources(aType);
 			auto* transform = entity->GetComponent<TransformComponent>();
 
 			CU::Vector2<float> position = { (float)Random::InRange(chunkPosition.x + 1.f, endPosition.x - 1.f), (float)Random::InRange(chunkPosition.z + 1.f, endPosition.y - 1.f) };

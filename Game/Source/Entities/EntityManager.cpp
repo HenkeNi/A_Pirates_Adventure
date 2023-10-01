@@ -21,9 +21,9 @@ EntityManager::~EntityManager()
 //	
 //}
 
-Entity* EntityManager::Create(const std::string& aType)
+Entity* EntityManager::CreateResources(const std::string& aType)
 {
-	auto entity = s_entityFactory.Create(aType);
+	auto entity = s_entityFactory.CreateResources(aType);
 
 	m_entities.push_back(std::move(entity));
 

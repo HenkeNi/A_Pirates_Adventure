@@ -6,6 +6,7 @@
 struct SpriteComponent : public ComponentBase
 {
 	Hi_Engine::Subtexture2D* m_subtexture;
+	CU::Vector4<float> m_color = { 1.f, 1.f, 1.f, 1.f };
 	// Hi_Engine::Material m_material;	// Store strings instead?? keys..
 
 	// int m_textureID; ?

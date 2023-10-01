@@ -5,6 +5,7 @@
 #include "../Texture/Subtexture2D.h"
 #include "../Camera/Camera.h" // TEMP..
 #include "../Window/Window.h"
+#include "../Shader/Shader.h"
 
 #define INDICES_PER_QUAD 6
 #define VERTICES_PER_QUAD 4
@@ -32,40 +33,6 @@ namespace Hi_Engine
 		}
 	}
 
-	void SetupVertices(Vertex** aTarget, const glm::vec3& aPosition, const glm::vec2& aScale, const glm::vec4& aColor, float aTexIndex, float aRotation = 0.f)
-	{
-		static glm::vec4 vertexCoords[4] = {
-			{ -0.5f, -0.5f, 0.f, 1.f },
-			{  0.5f, -0.5f, 0.f, 1.f },
-			{  0.5f,  0.5f, 0.f, 1.f },
-			{ -0.5f,  0.5f, 0.f, 1.f }
-		};
-
-		static glm::vec2 textureCoords[4] = {			// TODO; pass in textureCoords??
-			{ 0.f, 0.f },
-			{ 1.f, 0.f },
-			{ 1.f, 1.f },
-			{ 0.f, 1.f }
-		};
-
-		static glm::vec3 rotationAxis = { 1.f, 0.f, 0.f };
-
-		// Create a transformation matrix
-		glm::mat4 transform = glm::mat4(1.f);
-		transform = glm::translate(transform, glm::vec3(aPosition.x, aPosition.y, aPosition.z));
-		transform = glm::rotate(transform, glm::radians(aRotation), rotationAxis);
-		transform = glm::scale(transform, glm::vec3(aScale.x, aScale.y, 1.0f));
-
-		for (int i = 0; i < VERTICES_PER_QUAD; ++i)
-		{
-			(*aTarget)->Position = transform * vertexCoords[i];
-			(*aTarget)->Color = aColor;
-			(*aTarget)->TexCoords = textureCoords[i];	// use textureCoords instead...  
-			(*aTarget)->TexIndex = aTexIndex + 0.1f;		// (aTexIndex / 10);	// small hack; makes it 1.1 instead of 1.0 (shader error when converting it to an int)
-			++(*aTarget);
-		}
-	}
-
 	void SetupVertices(Vertex** aTarget, const glm::vec3& aPosition, const glm::vec2& aScale, const glm::vec4& aColor, const glm::vec2* someTexCoords, float aTexIndex, float aRotation = 0.f)
 	{
 		static glm::vec4 vertexCoords[4] = {
@@ -87,8 +54,8 @@ namespace Hi_Engine
 		{
 			(*aTarget)->Position = transform * vertexCoords[i];
 			(*aTarget)->Color = aColor;
-			(*aTarget)->TexCoords = someTexCoords[i];	// use textureCoords instead...  
-			(*aTarget)->TexIndex = aTexIndex + 0.1f;		// (aTexIndex / 10);	// small hack; makes it 1.1 instead of 1.0 (shader error when converting it to an int)
+			(*aTarget)->TexCoords = someTexCoords[i];
+			(*aTarget)->TexIndex = aTexIndex + 0.1f;	// small hack; makes it 1.1 instead of 1.0 (shader error when converting it to an int)
 			++(*aTarget);
 		}
 	}
@@ -154,6 +121,74 @@ namespace Hi_Engine
 
 			commands.pop();
 		}
+	}
+
+	bool Renderer::IsTextureBound(unsigned aTexID, float& outTexIndex)
+	{
+		for (uint32_t i = 1; i < m_textureSlotIndex; ++i)
+		{
+			if (m_textureSlots[i] == aTexID)
+			{
+				outTexIndex = (float)i;
+				return true;
+			}
+		}
+		return false;
+	}
+
+	void Renderer::DrawSprite(const SpriteRenderData& someData)
+	{
+		unsigned id = someData.m_subtexture->GetTexture().GetID();
+
+		float textureIndex = 0;
+
+		/* Check if this texture is already bound to a slot */
+		if (!IsTextureBound(id, textureIndex))
+		{
+			textureIndex = (float)m_textureSlotIndex;
+			m_textureSlots[m_textureSlotIndex] = id;
+
+			++m_textureSlotIndex;
+		}
+
+
+		//accept/pass around SpriteRenderData?? call get texturecoords from subtexture?? => how to render just quad without texture??
+		//DrawQuad(QuadRenderData{ someData.Position, glm::vec4{ 1.f, 1.f, 1.f, 1.f }, someData.Scale, textureIndex, someData.Rotation}); use setupvertices that accepts texture coords...
+
+		if (m_quadContext.IndexCount >= Constants::maxIndexCount)
+		{
+			Display();
+			BeginFrame();
+		}
+
+		// Fix order...
+		SetupVertices(&m_quadContext.CurrentVertex, someData.Position, someData.Scale, someData.Color, someData.m_subtexture->GetTexCoords(), textureIndex, someData.Rotation);
+
+		m_quadContext.IndexCount += INDICES_PER_QUAD;
+		++m_stats.TotalQuads;
+	}
+
+	void Renderer::DrawQuad(const QuadRenderData& someData)
+	{
+		// Check if buffer is full
+		if (m_quadContext.IndexCount >= Constants::maxIndexCount)
+		{
+			Display();
+			BeginFrame();
+		}
+
+		static const glm::vec2 textureCoords[4] = {
+			{ 0.f, 0.f },
+			{ 1.f, 0.f },
+			{ 1.f, 1.f },
+			{ 0.f, 1.f }
+		};
+
+		// Fix order...
+		SetupVertices(&m_quadContext.CurrentVertex, someData.Position, someData.Scale, someData.Color, textureCoords, 0.f, someData.Rotation);
+
+		m_quadContext.IndexCount += INDICES_PER_QUAD;
+		++m_stats.TotalQuads;
 	}
 
 	void Renderer::Init()
@@ -259,97 +294,7 @@ namespace Hi_Engine
 		m_stats.TotalDraws = 0;
 		m_stats.TotalQuads = 0;
 	}
-
-	void Renderer::DrawSprite(const SpriteRenderData& someData)
-	{
-		// Fix? 
-		unsigned id = someData.m_subtexture->GetTexture().GetID();
-		// unsigned id = someData.Material->GetTexture()->GetID();
-
-		float textureIndex = 0;
-
-		// Create function bool IsTexutreBound(textreIndex, &outIndex)
-		// check if this texture has already been used...
-		for (uint32_t i = 1; i < m_textureSlotIndex; ++i)
-		{
-			if (m_textureSlots[i] == id)
-			{
-				textureIndex = (float)i;
-				break;
-			}
-		}
-
-		if (textureIndex == 0.f)
-		{
-			textureIndex = (float)m_textureSlotIndex;
-			m_textureSlots[m_textureSlotIndex] = id;
-			++m_textureSlotIndex;
-		}
-
-		//accept/pass around SpriteRenderData?? call get texturecoords from subtexture?? => how to render just quad without texture??
-		// TODO, fix color 
-		//DrawQuad(QuadRenderData{ someData.Position, glm::vec4{ 1.f, 1.f, 1.f, 1.f }, someData.Scale, textureIndex, someData.Rotation}); use setupvertices that accepts texture coords...
-
-		if (m_quadContext.IndexCount >= Constants::maxIndexCount)
-		{
-			Display();
-			BeginFrame();
-		}
-
-		// Fix order...
-		SetupVertices(&m_quadContext.CurrentVertex, someData.Position, someData.Scale, glm::vec4{ 1.f, 1.f, 1.f, 1.f }, someData.m_subtexture->GetTexCoords(), textureIndex, someData.Rotation);
-
-		m_quadContext.IndexCount += INDICES_PER_QUAD;
-		++m_stats.TotalQuads;
-
-	}
-
-	//void Renderer::DrawSprite(const SpriteSheetData& someData)
-	//{
-	//	// Fix? 
-	//	//unsigned id = someData.m_subtexture->GetID();
-	//	unsigned id = 1;
-
-	//	float textureIndex = 0;
-
-	//	// Create function bool IsTexutreBound(textreIndex, &outIndex)
-	//	// check if this texture has already been used...
-	//	for (uint32_t i = 1; i < m_textureSlotIndex; ++i)
-	//	{
-	//		if (m_textureSlots[i] == id)
-	//		{
-	//			textureIndex = (float)i;
-	//			break;
-	//		}
-	//	}
-
-	//	if (textureIndex == 0.f)
-	//	{
-	//		textureIndex = (float)m_textureSlotIndex;
-	//		m_textureSlots[m_textureSlotIndex] = id;
-	//		++m_textureSlotIndex;
-	//	}
-
-	//	// TODO, fix color
-	//	DrawQuad(QuadRenderData{ someData.Position, glm::vec4{ 1.f, 1.f, 1.f, 1.f }, someData.Scale, textureIndex, someData.Rotation });
-	//}
-
-	void Renderer::DrawQuad(const QuadRenderData& someData)
-	{
-		// Check if quad-buffer is full
-		if (m_quadContext.IndexCount >= Constants::maxIndexCount)
-		{
-			Display();
-			BeginFrame();
-		}
-
-		// Fix order...
-		SetupVertices(&m_quadContext.CurrentVertex, someData.Position, someData.Scale, someData.Color, someData.TexIndex, someData.Rotation);
-
-		m_quadContext.IndexCount += INDICES_PER_QUAD;
-		++m_stats.TotalQuads;
-	}
-
+	
 	void Renderer::SetRenderTarget(Window* aWindow)
 	{
 		m_window = aWindow;
@@ -467,6 +412,5 @@ namespace Hi_Engine
 
 		//glBindVertexArray(0);
 		//glBindTexture(GL_TEXTURE_2D, 0);
-	}
-
+	}	
 }

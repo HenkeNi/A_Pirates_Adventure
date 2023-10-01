@@ -2,43 +2,21 @@
 
 
 
+
 ShaderManager
     .> can bind shaders?
 
 
 
-
-
-
-
-
-
-
-    sprite sheet class...
-        rename Shader to ShaderProgram...
-
-
-        use batch rendeirng in spriterenderer...
-
-        check how to do batch, spritesheet,
-
-
-            
-            game scene has a scene manager
-                * contains indoor scene, cave scene, etc...
-
+          
+ game scene has a scene manager
+    * contains indoor scene, cave scene, etc...
 
 
 
 Rendering;
 
 BeginScene(Camrea* aCamera); 
-
-
-
-
-
-
 
 
 
@@ -49,20 +27,8 @@ BeginScene(Camrea* aCamera);
 
 
 
-
 engine config class? 
 	* opengl version...
-
-
-
-
-## Batch rendering ##
-
-- if want to render more than 30 texture sloths => break up into more render calls  
-
-
-
-
 
 
 
@@ -78,26 +44,14 @@ Commands;
 
 
 
-
-
 namespaces?!
 	put data structures in Hi_Engine::DataStructures??
 		
 	Hi_Engine::Algorithms??
 
 
-
-
-
-
-
-
-
 Instance rendering;
 	* draw same data in multiple different posiitons
-
-
-
 
 
 
@@ -109,17 +63,6 @@ Instance rendering;
 	- returned objects are smart pointers, tells memory pool when out of scope?
 	- flags to mark if destroyed, object ppol checks each frame if set to true...
 	- objects are subjects and memory pool observer..
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -323,21 +266,6 @@ Polling vs Pushing;
 
 	Maybe put GameObject in Engine (as well as Component - base)
 		and the rest inside the Game??
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

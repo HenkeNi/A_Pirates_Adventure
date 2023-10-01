@@ -32,7 +32,7 @@ public:
 
 private:
 	template		<typename T>
-	bool			HasComponent()							   const;
+	bool			HasResource()							   const;
 
 	unsigned		GenerateID()							   const;
 	void			OnDestroy();
@@ -82,11 +82,11 @@ const T* Entity::GetComponent() const
 template <typename... T>
 bool Entity::HasComponents() const
 {
-	return (HasComponent<T>() && ...);
+	return (HasResource<T>() && ...);
 }
 
 template <typename T>
-bool Entity::HasComponent() const
+bool Entity::HasResource() const
 {
 	return m_components.find(std::type_index(typeid(T))) != m_components.end();
 }

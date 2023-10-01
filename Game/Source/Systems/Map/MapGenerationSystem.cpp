@@ -57,7 +57,7 @@ void MapGenerationSystem::GenerateStartArea()
 			bool isLand = col > 0 && col < 4 && row < 4 && row > 0;
 
 			// create mapChunk..
-			auto entity = m_entityManager->Create("MapChunk");
+			auto entity = m_entityManager->CreateResources("MapChunk");
 
 			auto* mapChunkComponent		= entity->GetComponent<MapChunkComponent>();
 			auto* transformComponent	= entity->GetComponent<TransformComponent>();

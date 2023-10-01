@@ -58,36 +58,36 @@ void OverworldScene::OnEnter()
 	// m_mapSystem.Init(&m_entityManager);
 
 	// Player
-	auto player = m_entityManager.Create("Player");
+	auto player = m_entityManager.CreateResources("Player");
 	//CU::Vector3<float> position = { (float)Random::InRange(2, 62), 0.42f, (float)Random::InRange(2, 62) };
 	CU::Vector3<float> position = { 27.f, 0.42f, 25.f };
 	player->GetComponent<TransformComponent>()->m_currentPos = position;
 
-	auto time = m_entityManager.Create("WorldTime");
+	auto time = m_entityManager.CreateResources("WorldTime");
 
 
 	for (int i = 0; i < 10; ++i)
 	{
 		float x = 0.1 * i;
-		auto* fish = m_entityManager.Create("Fish");
+		auto* fish = m_entityManager.CreateResources("Fish");
 		fish->GetComponent<TransformComponent>()->m_currentPos = { 10.f + x, 0.42f, 12.f };
 	}
 
 
-	auto crab = m_entityManager.Create("Crab");
+	auto crab = m_entityManager.CreateResources("Crab");
 	crab->GetComponent<TransformComponent>()->m_currentPos = { 30.f, 0.42f, 30.f };
 
-	auto raft = m_entityManager.Create("Raft");
+	auto raft = m_entityManager.CreateResources("Raft");
 	raft->GetComponent<TransformComponent>()->m_currentPos = { 10.f, 0.42f, 10.f };
 
-	auto hut = m_entityManager.Create("Hut");
+	auto hut = m_entityManager.CreateResources("Hut");
 	hut->GetComponent<TransformComponent>()->m_currentPos = { 20.f, 0.85f, 30.f };
 
-	auto npc = m_entityManager.Create("Castaway");
+	auto npc = m_entityManager.CreateResources("Castaway");
 	npc->GetComponent<TransformComponent>()->m_currentPos = { 15.f, 0.42f, 30.f };
 
 	// Camera
-	auto camera = m_entityManager.Create("Camera");
+	auto camera = m_entityManager.CreateResources("Camera");
 	camera->GetComponent<TransformComponent>()->m_currentPos = { 0.f, 0.f, 2.f };
 	camera->GetComponent<CameraComponent>()->m_targetOffset = { 0.f, 0.f, 2.f };
 	camera->GetComponent<CameraComponent>()->m_targetID = (* m_entityManager.FindAllWithComponents<PlayerControllerComponent>().begin())->GetID();
