@@ -1,5 +1,7 @@
-
-
+RenderEngine
+    * Contains active renderer??
+    * Renderers (multiple => inherits from Renderer?)
+    * Contains ResourceManager? or pointer?
 
 
 
