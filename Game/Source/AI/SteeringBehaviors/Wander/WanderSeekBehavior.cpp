@@ -5,8 +5,8 @@
 
 WanderSeekBehavior::WanderSeekBehavior()
 {
-	m_walkDurationRange.m_min = 5.f;
-	m_walkDurationRange.m_max = 25.f;
+	m_walkDurationRange.Min = 5.f;
+	m_walkDurationRange.Max = 25.f;
 
 	//m_timer.m_duration = 10.f;
 	//m_timer.m_elapsed = 0.f;

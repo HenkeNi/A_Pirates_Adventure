@@ -48,7 +48,7 @@ void OverworldScene::OnEnter()
 {
 
 
-	auto& systemManager = m_sharedContext.m_systemManager;
+	auto& systemManager = m_sharedContext.SystemManager;
 	systemManager.Init(&m_entityManager);
 
 
@@ -61,7 +61,7 @@ void OverworldScene::OnEnter()
 	auto player = m_entityManager.CreateResources("Player");
 	//CU::Vector3<float> position = { (float)Random::InRange(2, 62), 0.42f, (float)Random::InRange(2, 62) };
 	CU::Vector3<float> position = { 27.f, 0.42f, 25.f };
-	player->GetComponent<TransformComponent>()->m_currentPos = position;
+	player->GetComponent<TransformComponent>()->CurrentPos = position;
 
 	auto time = m_entityManager.CreateResources("WorldTime");
 
@@ -70,27 +70,27 @@ void OverworldScene::OnEnter()
 	{
 		float x = 0.1 * i;
 		auto* fish = m_entityManager.CreateResources("Fish");
-		fish->GetComponent<TransformComponent>()->m_currentPos = { 10.f + x, 0.42f, 12.f };
+		fish->GetComponent<TransformComponent>()->CurrentPos = { 10.f + x, 0.42f, 12.f };
 	}
 
 
 	auto crab = m_entityManager.CreateResources("Crab");
-	crab->GetComponent<TransformComponent>()->m_currentPos = { 30.f, 0.42f, 30.f };
+	crab->GetComponent<TransformComponent>()->CurrentPos = { 30.f, 0.42f, 30.f };
 
 	auto raft = m_entityManager.CreateResources("Raft");
-	raft->GetComponent<TransformComponent>()->m_currentPos = { 10.f, 0.42f, 10.f };
+	raft->GetComponent<TransformComponent>()->CurrentPos = { 10.f, 0.42f, 10.f };
 
 	auto hut = m_entityManager.CreateResources("Hut");
-	hut->GetComponent<TransformComponent>()->m_currentPos = { 20.f, 0.85f, 30.f };
+	hut->GetComponent<TransformComponent>()->CurrentPos = { 20.f, 0.85f, 30.f };
 
 	auto npc = m_entityManager.CreateResources("Castaway");
-	npc->GetComponent<TransformComponent>()->m_currentPos = { 15.f, 0.42f, 30.f };
+	npc->GetComponent<TransformComponent>()->CurrentPos = { 15.f, 0.42f, 30.f };
 
 	// Camera
 	auto camera = m_entityManager.CreateResources("Camera");
-	camera->GetComponent<TransformComponent>()->m_currentPos = { 0.f, 0.f, 2.f };
-	camera->GetComponent<CameraComponent>()->m_targetOffset = { 0.f, 0.f, 2.f };
-	camera->GetComponent<CameraComponent>()->m_targetID = (* m_entityManager.FindAllWithComponents<PlayerControllerComponent>().begin())->GetID();
+	camera->GetComponent<TransformComponent>()->CurrentPos = { 0.f, 0.f, 2.f };
+	camera->GetComponent<CameraComponent>()->TargetOffset = { 0.f, 0.f, 2.f };
+	camera->GetComponent<CameraComponent>()->TargetID = (* m_entityManager.FindAllWithComponents<PlayerControllerComponent>().begin())->GetID();
 	//camera->GetComponent<CameraComponent>()->m_target = *m_entityManager.FindAllWithComponents<PlayerControllerComponent>().begin();
 
 	PostMaster::GetInstance().SendMessage({ eMessage::GameStarted, true }); 	// FIX

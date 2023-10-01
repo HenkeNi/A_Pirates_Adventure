@@ -34,32 +34,32 @@ void MovementSystem::Update(float aDeltaTime)
 		auto* transform = entity->GetComponent<TransformComponent>();
 		auto* velocity = entity->GetComponent<VelocityComponent>();
 
-		transform->m_previousPos = transform->m_currentPos;
-		transform->m_currentPos += velocity->m_speed * velocity->m_velocity * aDeltaTime;
+		transform->PreviousPos = transform->CurrentPos;
+		transform->CurrentPos += velocity->Speed * velocity->Velocity * aDeltaTime;
 
 		UpdateColliders(entity, transform, velocity);
 
 		// TODO; update RectComponent?
 
 		// TODO; decrease velocity...
-		velocity->m_velocity = { 0.f, 0.f, 0.f };
+		velocity->Velocity = { 0.f, 0.f, 0.f };
 	}
 }
 
 bool MovementSystem::HasMoved(const Entity* anEntity)
 {
 	auto transform = anEntity->GetComponent<TransformComponent>();
-	return transform->m_currentPos != transform->m_previousPos;
+	return transform->CurrentPos != transform->PreviousPos;
 }
 
 void MovementSystem::UpdateColliders(Entity* anEntity, TransformComponent* aTransformComponent, VelocityComponent* aVelocityComponent)
 {
 	if (auto* attackCollider = anEntity->GetComponent<AttackComponent>())
 	{
-		const auto& velocity = aVelocityComponent->m_velocity;
+		const auto& velocity = aVelocityComponent->Velocity;
 
-		auto& aabb	 = attackCollider->m_collider;
-		auto& offset = attackCollider->m_offset;
+		auto& aabb	 = attackCollider->Collider;
+		auto& offset = attackCollider->Offset;
 
 		// Update collider offset
 		auto colliderWidth = aabb.GetWidth();
@@ -68,7 +68,7 @@ void MovementSystem::UpdateColliders(Entity* anEntity, TransformComponent* aTran
 		offset.z = velocity.z > 0.f ? colliderWidth : velocity.z < 0.f ? -colliderWidth : 0;
 		
 		// Update collider position
-		const auto position = aTransformComponent->m_currentPos + attackCollider->m_offset;
+		const auto position = aTransformComponent->CurrentPos + attackCollider->Offset;
 
 		float halfWidth  = aabb.GetWidth()  * 0.5f;
 		float halfHeight = aabb.GetHeight() * 0.5f;
@@ -78,8 +78,8 @@ void MovementSystem::UpdateColliders(Entity* anEntity, TransformComponent* aTran
 
 	if (auto* hitboxCollider = anEntity->GetComponent<HitboxComponent>())
 	{
-		auto& aabb = hitboxCollider->m_collider;
-		const auto position = aTransformComponent->m_currentPos;
+		auto& aabb = hitboxCollider->Collider;
+		const auto position = aTransformComponent->CurrentPos;
 
 		float halfWidth = aabb.GetWidth() * 0.5f;
 		float halfHeight = aabb.GetHeight() * 0.5f;

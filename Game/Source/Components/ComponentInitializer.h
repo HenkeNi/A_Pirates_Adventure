@@ -31,8 +31,8 @@ public:
 	template <>
 	static void InitializeComponent<AnimationComponent>(AnimationComponent* aComponent, const ComponentData& someData)
 	{
-		aComponent->m_animations = std::any_cast<std::unordered_map<std::string, Animation>>(someData.at("animationMap"));
-		aComponent->m_active = std::any_cast<std::string>(someData.at("active"));
+		aComponent->Animations = std::any_cast<std::unordered_map<std::string, Animation>>(someData.at("animationMap"));
+		aComponent->Active = std::any_cast<std::string>(someData.at("active"));
 
 		/*std::string identifier				= std::any_cast<std::string>(someData.at("identifier"));
 		std::vector<std::string> animations = std::any_cast<std::vector<std::string>>(someData.at("animations"));
@@ -59,8 +59,8 @@ public:
 		auto colliderSize = 0.2f;								// FIX!
 
 		// Do in MovementSystem init?
-		aComponent->m_offset = { 1.0f, 0.f, 0.f };
-		aComponent->m_collider.Init({ startPos.x - colliderSize, startPos.y - colliderSize }, { startPos.x + colliderSize, startPos.y + colliderSize });
+		aComponent->Offset = { 1.0f, 0.f, 0.f };
+		aComponent->Collider.Init({ startPos.x - colliderSize, startPos.y - colliderSize }, { startPos.x + colliderSize, startPos.y + colliderSize });
 	}
 
 	template <>
@@ -83,12 +83,12 @@ public:
 	template <>
 	static void InitializeComponent<CharacterStateComponent>(CharacterStateComponent* aComponent, const ComponentData& someData)
 	{
-		aComponent->m_isIdle = true;
-		aComponent->m_isAlive = true;
-		aComponent->m_isWalking = false;
-		aComponent->m_isRunning = false;
-		aComponent->m_isJumping = false;
-		aComponent->m_isAttacking = false;
+		aComponent->IsIdle = true;
+		aComponent->IsAlive = true;
+		aComponent->IsWalking = false;
+		aComponent->IsRunning = false;
+		aComponent->IsJumping = false;
+		aComponent->IsAttacking = false;
 	}
 
 	template <>
@@ -96,8 +96,8 @@ public:
 	{
 		auto shader = std::any_cast<std::string>(someData.at("shader"));
 
-		aComponent->m_shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource(shader);
-		aComponent->m_color = { 1.f, 1.f, 1.f, 1.f }; // TODO; read from json..
+		aComponent->Shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource(shader);
+		aComponent->Color = { 1.f, 1.f, 1.f, 1.f }; // TODO; read from json..
 	}
 
 	template <>
@@ -106,15 +106,15 @@ public:
 		std::string resourceType = std::any_cast<std::string>(someData.at("resource_type"));
 		int yield = std::any_cast<int>(someData.at("yield"));
 
-		aComponent->m_yield = yield;
-		aComponent->m_resourceType = resourceType;
+		aComponent->Yield = yield;
+		aComponent->ResourceType = resourceType;
 	}
 
 	template <>
 	static void InitializeComponent<HealthComponent>(HealthComponent* aComponent, const ComponentData& someData)
 	{
 		int value = std::any_cast<int>(someData.at("value"));
-		aComponent->m_currentValue = value;
+		aComponent->CurrentValue = value;
 
 		// TODO; set health stat?!
 	}
@@ -126,8 +126,8 @@ public:
 		auto halfSize = std::any_cast<float>(someData.at("halfSize"));
 		bool isStatic = std::any_cast<bool>(someData.at("isStatic"));
 
-		aComponent->m_collider.Init({ position.x - halfSize, position.z - halfSize }, { position.x + halfSize, position.y + halfSize });
-		aComponent->m_isStatic = isStatic;
+		aComponent->Collider.Init({ position.x - halfSize, position.z - halfSize }, { position.x + halfSize, position.y + halfSize });
+		aComponent->IsStatic = isStatic;
 	}
 
 	template <>
@@ -143,8 +143,8 @@ public:
 		int width = std::any_cast<int>(someData.at("width"));
 		int height = std::any_cast<int>(someData.at("height"));
 
-		aComponent->m_width = width;
-		aComponent->m_height = height;
+		aComponent->Width = width;
+		aComponent->Height = height;
 	}
 
 	template <>
@@ -156,13 +156,13 @@ public:
 
 		// Pass in Entity??
 		
-		aComponent->m_inputMapping.insert(std::make_pair(Hi_Engine::eInputType::Key_W, new MoveCommand{{ 0.f,   -1.f }}));
-		aComponent->m_inputMapping.insert(std::make_pair(Hi_Engine::eInputType::Key_S, new MoveCommand{{ 0.f,	 1.f } }));
-		aComponent->m_inputMapping.insert(std::make_pair(Hi_Engine::eInputType::Key_A, new MoveCommand{{ -1.f,	 0.f } }));
-		aComponent->m_inputMapping.insert(std::make_pair(Hi_Engine::eInputType::Key_D, new MoveCommand{{ 1.f,  0.f } }));
+		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eInputType::Key_W, new MoveCommand{{ 0.f,   -1.f }}));
+		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eInputType::Key_S, new MoveCommand{{ 0.f,	 1.f } }));
+		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eInputType::Key_A, new MoveCommand{{ -1.f,	 0.f } }));
+		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eInputType::Key_D, new MoveCommand{{ 1.f,  0.f } }));
 
-		aComponent->m_inputMapping.insert(std::make_pair(Hi_Engine::eInputType::Key_Space, new AttackCommand));
-		aComponent->m_inputMapping.insert(std::make_pair(Hi_Engine::eInputType::Key_Shift, new SprintCommand));
+		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eInputType::Key_Space, new AttackCommand));
+		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eInputType::Key_Shift, new SprintCommand));
 	}
 
 	template <>
@@ -172,11 +172,11 @@ public:
 		int amount			= std::any_cast<int>(someData.at("amount"));
 		float interval		= std::any_cast<float>(someData.at("interval"));
 
-		aComponent->m_spawned	= spawned;
-		aComponent->m_amount	= amount;
-		aComponent->m_interval	= interval;		
-		aComponent->m_elapsedTime = 0.f;
-		aComponent->m_spawnedAmount = 0;
+		aComponent->Spawned	= spawned;
+		aComponent->Amount	= amount;
+		aComponent->Interval	= interval;
+		aComponent->ElapsedTime = 0.f;
+		aComponent->SpawnedAmount = 0;
 	}
 
 	template <>
@@ -186,7 +186,7 @@ public:
 		auto texture = std::any_cast<std::string>(someData.at("texture"));
 		auto color = std::any_cast<std::array<float, 4>>(someData.at("color"));
 
-		aComponent->m_subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource(texture);
+		aComponent->Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource(texture);
 
 		//aComponent->m_material = {
 		//	&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource(texture),
@@ -204,13 +204,13 @@ public:
 
 		if (behaviorType == "flock_behavior")
 		{
-			aComponent->m_activeBehavior = new FlockBehavior{};	// FIX! don't new? Make sure to delete...
-			aComponent->m_layer = layer;
+			aComponent->ActiveBehavior = new FlockBehavior{};	// FIX! don't new? Make sure to delete...
+			aComponent->Layer = layer;
 		}
 		if (behaviorType == "wander_behavior")
 		{
-			aComponent->m_activeBehavior = new WanderBehavior{};
-			aComponent->m_layer = layer;
+			aComponent->ActiveBehavior = new WanderBehavior{};
+			aComponent->Layer = layer;
 		}
 	}
 
@@ -221,9 +221,9 @@ public:
 		auto scale = std::any_cast<std::array<float, 3>>(someData.at("scale"));
 		float rotation = std::any_cast<float>(someData.at("rotation"));
 
-		aComponent->m_currentPos = aComponent->m_previousPos = { position[0], position[1], position[2] };
-		aComponent->m_scale = { scale[0], scale[1], scale[2] };
-		aComponent->m_rotation = rotation;
+		aComponent->CurrentPos = aComponent->PreviousPos = { position[0], position[1], position[2] };
+		aComponent->Scale = { scale[0], scale[1], scale[2] };
+		aComponent->Rotation = rotation;
 	}
 
 	template <>
@@ -232,7 +232,7 @@ public:
 		CU::Vector3<float> position = { 0.f, 0.f, 0.f };					// TODO; 
 		auto halfSize = std::any_cast<float>(someData.at("halfSize"));
 
-		aComponent->m_collider.Init({ position.x - halfSize, position.z - halfSize }, { position.x + halfSize, position.y + halfSize });
+		aComponent->Collider.Init({ position.x - halfSize, position.z - halfSize }, { position.x + halfSize, position.y + halfSize });
 	}
 
 	template <>
@@ -240,8 +240,8 @@ public:
 	{
 		auto shader = std::any_cast<std::string>(someData.at("shader"));
 
-		aComponent->m_shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource(shader);
-		aComponent->m_color = { 1.f, 1.f, 1.f, 1.f }; // TODO; read from json..
+		aComponent->Shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource(shader);
+		aComponent->Color = { 1.f, 1.f, 1.f, 1.f }; // TODO; read from json..
 	}
 
 	template <>
@@ -251,21 +251,21 @@ public:
 		//int quantity = std::any_cast<int>(someData.at("quantity"));
 
 		//aComponent->m_quantity			= (unsigned)quantity;
-		aComponent->m_resourceType = resource;
+		aComponent->ResourceType = resource;
 	}
 	
 	template <>
 	static void InitializeComponent<VelocityComponent>(VelocityComponent* aComponent, const ComponentData& someData)
 	{
 		float speed = std::any_cast<float>(someData.at("speed"));
-		aComponent->m_speed = speed;
+		aComponent->Speed = speed;
 	}
 
 	template <>
 	static void InitializeComponent<WorldTimeComponent>(WorldTimeComponent* aComponent, const ComponentData& someData)
 	{
 		float dayDuration = std::any_cast<float>(someData.at("dayDuration"));
-		aComponent->m_dayDuration = dayDuration;
+		aComponent->DayDuration = dayDuration;
 	}
 
 
@@ -274,13 +274,13 @@ public:
 	template <>
 	static void InitializeComponent<WanderBehaviorComponent>(WanderBehaviorComponent* aComponent, const ComponentData& someData)
 	{
-		aComponent->m_behavior = new WanderBehavior{}; // Don't new....
+		aComponent->Behavior = new WanderBehavior{}; // Don't new....
 	}
 
 	template <>
 	static void InitializeComponent<FlockBehaviorComponent>(FlockBehaviorComponent* aComponent, const ComponentData& someData)
 	{
-		aComponent->m_behavior = new FlockBehavior{};	// Make sure to delete...
+		aComponent->Behavior = new FlockBehavior{};	// Make sure to delete...
 	}
 
 	template <>
@@ -306,11 +306,11 @@ public:
 		{
 			if (state == "idle")
 			{
-				aComponent->m_states.push_back(new IdleState{});
+				aComponent->States.push_back(new IdleState{});
 			}
 			else if (state == "walk")
 			{
-				aComponent->m_states.push_back(new WalkState{});
+				aComponent->States.push_back(new WalkState{});
 			}
 			else if (state == "flee")
 			{ }
@@ -321,7 +321,7 @@ public:
 		}
 
 		// Temp
-		aComponent->m_activeState = aComponent->m_states[0];
+		aComponent->ActiveState = aComponent->States[0];
 
 		// TEmp
 		// add durtaion condition
@@ -329,11 +329,11 @@ public:
 		Transition idleToWalk;
 		idleToWalk.SetCondition(elapsedTime);
 
-		aComponent->m_states[0]->AddTransition(idleToWalk);
+		aComponent->States[0]->AddTransition(idleToWalk);
 
 		Transition walkToIdle;
 		walkToIdle.SetCondition(elapsedTime); // use same condition? => cant delte in desturtor then....
-		aComponent->m_states[1]->AddTransition(walkToIdle); // duraion condition
+		aComponent->States[1]->AddTransition(walkToIdle); // duraion condition
 
 
 		// TODO; connect the states

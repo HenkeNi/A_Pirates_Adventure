@@ -42,7 +42,7 @@ void CollisionSystem::LateUpdate(float aDeltaTime)
 			// SweptAABB(entity);
 
 		auto* collider = entity->GetComponent<HitboxComponent>();
-		if (collider->m_isStatic)
+		if (collider->IsStatic)
 			continue;
 		// TODO; check if collider is static...
 
@@ -85,14 +85,14 @@ void CollisionSystem::CheckMapCollisions(Entity* anEntity)
 	auto hitbox = anEntity->GetComponent<HitboxComponent>();
 
 	// temp
-	auto center = hitbox->m_collider.GetCenter();
+	auto center = hitbox->Collider.GetCenter();
 
 	auto mapChunk = MapUtils::GetMapChunkAtPosition(m_entityManager->FindAllWithComponents<MapChunkComponent>(), center);
 	Tile* tile = MapUtils::GetTileAtWorldPosition(mapChunk, center);
 	if (!tile)
 		return;
 
-	if (tile->m_isCollidable)
+	if (tile->IsCollidable)
 	{
 		ResolveCollision(anEntity, tile);
 		
@@ -133,7 +133,7 @@ void CollisionSystem::ResolveCollision(Entity* anEntity, Tile* aTile)
 	// Move first x, then y-axis? each step check collisions...
 	
 	auto transformComponent = anEntity->GetComponent<TransformComponent>();
-	transformComponent->m_currentPos = transformComponent->m_previousPos;
+	transformComponent->CurrentPos = transformComponent->PreviousPos;
 
 	//auto velocityComponent = anEntity->GetComponent<VelocityComponent>();
 

@@ -67,7 +67,7 @@ namespace Hi_Engine
 
 	void Timer::NotifyOnTimePassed(TimerRequest aRequest)
 	{
-		aRequest.m_timeOfRequest = GetTotalTime();
+		aRequest.TimeOfRequest = GetTotalTime();
 		m_timeRequests.push_back(aRequest);
 	}
 
@@ -85,9 +85,9 @@ namespace Hi_Engine
 	{
 		for (int i = m_timeRequests.size() - 1; i >= 0; --i)
 		{
-			if (HasTimeElapsed(m_timeRequests[i].m_durationInSecs, m_timeRequests[i].m_timeOfRequest))
+			if (HasTimeElapsed(m_timeRequests[i].DurationInSecs, m_timeRequests[i].TimeOfRequest))
 			{
-				m_timeRequests[i].m_callback();
+				m_timeRequests[i].Callback();
 				m_timeRequests.erase(m_timeRequests.begin() + i);
 			}
 		}

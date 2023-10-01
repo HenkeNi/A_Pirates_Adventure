@@ -31,8 +31,8 @@ namespace Hi_Engine
 
 		glfwSetKeyCallback(m_window, InputHandler::KeyCallback);
 
-		glViewport(0, 0, m_data.m_size.x, m_data.m_size.y);
-		SetIcon(m_data.m_iconPath);
+		glViewport(0, 0, m_data.Size.x, m_data.Size.y);
+		SetIcon(m_data.IconPath);
 
 		return true;
 	}
@@ -44,7 +44,7 @@ namespace Hi_Engine
 
 	const CU::Vector2<unsigned>& Window::GetSize() const
 	{
-		return m_data.m_size;
+		return m_data.Size;
 	}
 
 	void Window::PollEvents() const
@@ -71,12 +71,12 @@ namespace Hi_Engine
 	void Window::SetSize(const CU::Vector2<unsigned>& aSize)
 	{
 		glfwSetWindowSize(m_window, aSize.x, aSize.y);
-		m_data.m_size = aSize;
+		m_data.Size = aSize;
 	}
 
 	void Window::SetIcon(const std::string& aTexturePath)
 	{
-		m_data.m_iconPath = aTexturePath;
+		m_data.IconPath = aTexturePath;
 
 		GLFWimage image;
 		image.pixels = stbi_load(aTexturePath.c_str(), &image.width, &image.height, 0, 4);
@@ -108,7 +108,7 @@ namespace Hi_Engine
 
 	bool Window::CreateWindow()
 	{
-		m_window = glfwCreateWindow(m_data.m_size.x, m_data.m_size.y, m_data.m_identifier.c_str(), nullptr, nullptr);
+		m_window = glfwCreateWindow(m_data.Size.x, m_data.Size.y, m_data.Identifier.c_str(), nullptr, nullptr);
 		if (!m_window)
 		{
 			glfwTerminate();

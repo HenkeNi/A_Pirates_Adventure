@@ -27,9 +27,9 @@ void TextRenderSystem::Draw()
 		const auto& textComponent		= entity->GetComponent<TextComponent>();
 		const auto& transformComponent	= entity->GetComponent<TransformComponent>();
 
-		const auto& position = CU::Vector2<float>{ transformComponent->m_currentPos.x, transformComponent->m_currentPos.y };
+		const auto& position = CU::Vector2<float>{ transformComponent->CurrentPos.x, transformComponent->CurrentPos.y };
 
-		Hi_Engine::TextRenderer::GetInstance().Render({ textComponent->m_shader, textComponent->m_font, transformComponent->m_scale.x, textComponent->m_color, position, textComponent->m_text });
+		Hi_Engine::TextRenderer::GetInstance().Render({ textComponent->Shader, textComponent->Font, transformComponent->Scale.x, textComponent->Color, position, textComponent->Text });
 	}
 
 	// TEST

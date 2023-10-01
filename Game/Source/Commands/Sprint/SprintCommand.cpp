@@ -14,8 +14,8 @@ void SprintCommand::Execute()
 	if (!m_stateComponent || !m_velocityComponent)
 		return;
 
-	m_stateComponent->m_isRunning = true;
-	m_velocityComponent->m_speed = 3;
+	m_stateComponent->IsRunning = true;
+	m_velocityComponent->Speed = 3;
 }
 
 void SprintCommand::SetComponent(VelocityComponent* aVelocityComponent, CharacterStateComponent* aStateComponent)

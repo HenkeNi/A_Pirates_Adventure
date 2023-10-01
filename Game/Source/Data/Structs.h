@@ -13,45 +13,45 @@ namespace CU = CommonUtilities;
 
 struct SharedContext
 {
-	SceneManagerProxy		m_sceneManager;
-	class SystemManager&	m_systemManager;
+	SceneManagerProxy		SceneManager;
+	class SystemManager&	SystemManager;
 };
 
 
 struct CollisionData // Data used for resolving/handling collisions
 {
-	unsigned m_damageDealt = 0;
+	unsigned DamageDealt = 0;
 };
 
 template <typename T>
 struct Range
 {
-	T m_min;
-	T m_max;
+	T Min;
+	T Max;
 };
 
 
 struct Tile
 {
 	//Hi_Engine::Material m_material;
-	class Hi_Engine::Subtexture2D* m_subtexture;
-	CU::Vector4<float> m_color  = { 1.f, 1.f, 1.f, 1.f }; // DO ELSEWHER!?
-	CU::Vector3<float>	m_position;			// store chunk coordiante instead?
-	CU::Vector2<int>	m_coordinates;			// Use only one!!
-	eTile				m_type;
-	bool				m_isCollidable;
+	class Hi_Engine::Subtexture2D* Subtexture;
+	CU::Vector4<float>	Color  = { 1.f, 1.f, 1.f, 1.f }; // DO ELSEWHER!?
+	CU::Vector3<float>	Position;			// store chunk coordiante instead?
+	CU::Vector2<int>	Coordinates;			// Use only one!!
+	eTile				Type;
+	bool				IsCollidable;
 };
 
 // Put in Engine??
 struct Animation
 {
-	std::vector<std::string>	m_sprites;
-	unsigned					m_totalFrames;
-	unsigned					m_currentFrame;
-	float						m_frameDuration;
-	float						m_elapsedFrameTime;
-	bool						m_isPlaying;
-	bool						m_isLooping;
+	std::vector<std::string>	Sprites;
+	unsigned					TotalFrames;
+	unsigned					CurrentFrame;
+	float						FrameDuration;
+	float						ElapsedFrameTime;
+	bool						IsPlaying;
+	bool						IsLooping;
 
 
 	// TODO; store keyframes??

@@ -32,17 +32,17 @@ void EnemySpawnSystem::Update(float aDeltaTime)
 	{
 		auto* spawnComponent = spawner->GetComponent<SpawnComponent>();
 
-		spawnComponent->m_elapsedTime += aDeltaTime;
+		spawnComponent->ElapsedTime += aDeltaTime;
 
-		bool isTimeToSpawn = spawnComponent->m_elapsedTime >= spawnComponent->m_interval;
-		bool isSpawnLimitReached = spawnComponent->m_spawnedAmount >= spawnComponent->m_amount;
+		bool isTimeToSpawn = spawnComponent->ElapsedTime >= spawnComponent->Interval;
+		bool isSpawnLimitReached = spawnComponent->SpawnedAmount >= spawnComponent->Amount;
 
 		if (isTimeToSpawn && !isSpawnLimitReached)
 		{
-			spawnComponent->m_elapsedTime = 0.f;
-			++spawnComponent->m_amount;
+			spawnComponent->ElapsedTime = 0.f;
+			++spawnComponent->Amount;
 
-			SpawnEnemy(spawnComponent->m_spawned, spawner->GetComponent<TransformComponent>()->m_currentPos);
+			SpawnEnemy(spawnComponent->Spawned, spawner->GetComponent<TransformComponent>()->CurrentPos);
 		}
 	}
 	//
@@ -68,7 +68,7 @@ void EnemySpawnSystem::SpawnEnemy(const std::string& aType, const CU::Vector3<fl
 	auto entity = m_entityManager->CreateResources(aType);
 
 	auto transform = entity->GetComponent<TransformComponent>();
-	transform->m_currentPos = aPosition;
+	transform->CurrentPos = aPosition;
 
 	
 
@@ -99,7 +99,7 @@ void EnemySpawnSystem::SpawnEnemy(const std::string& aType, const CU::Vector3<fl
 	root->AddChild(alertSequence);
 	root->AddChild(idle);
 
-	behaviorTree->m_rootNode = root;
+	behaviorTree->RootNode = root;
 
 	//auto root = new WalkToTarget{ &m_objectManager.GetAllObjects().back() };
 	//root->SetTarget(&m_objectManager.GetAllObjects()[1]);

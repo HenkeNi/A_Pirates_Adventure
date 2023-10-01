@@ -6,8 +6,8 @@ namespace Hi_Engine
 	namespace CU = CommonUtilities;
 
 	class Shader;
-	//class Subtexture2D;
 	class Texture2D;
+	//class Subtexture2D;
 
 	class Material
 	{

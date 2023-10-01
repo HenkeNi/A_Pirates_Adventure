@@ -40,21 +40,21 @@ void InventorySystem::Update(float aDeltaTime)
 
 		auto pickupTransform = pickup->GetComponent<TransformComponent>();
 
-		float distance = pickupTransform->m_currentPos.DistanceTo(playerTransform->m_currentPos);
+		float distance = pickupTransform->CurrentPos.DistanceTo(playerTransform->CurrentPos);
 		if (distance < 0.5f)
 		{
 			auto inventoryComponent = players[0]->GetComponent<InventoryComponent>();
 
 			unsigned currentValue = 0;
 
-			auto itr = inventoryComponent->m_inventory.find("log");
-			if (itr != inventoryComponent->m_inventory.end())
+			auto itr = inventoryComponent->Inventory.find("log");
+			if (itr != inventoryComponent->Inventory.end())
 			{
 				currentValue = itr->second;
 			}
 
 			// TODO; fetch resource type from ResourceComponent	
-			inventoryComponent->m_inventory.insert_or_assign("log", currentValue + 1);
+			inventoryComponent->Inventory.insert_or_assign("log", currentValue + 1);
 
 			std::cout << "added resource to inventory!: " << currentValue + 1 << " logs!\n";
 			entitiesToRemove.push_back(pickup);

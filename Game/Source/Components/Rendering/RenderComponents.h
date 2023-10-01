@@ -5,8 +5,8 @@
 
 struct SpriteComponent : public ComponentBase
 {
-	Hi_Engine::Subtexture2D* m_subtexture;
-	CU::Vector4<float> m_color = { 1.f, 1.f, 1.f, 1.f };
+	Hi_Engine::Subtexture2D* Subtexture;
+	CU::Vector4<float> Color = { 1.f, 1.f, 1.f, 1.f };
 	// Hi_Engine::Material m_material;	// Store strings instead?? keys..
 
 	// int m_textureID; ?
@@ -16,8 +16,8 @@ struct SpriteComponent : public ComponentBase
 
 struct AnimationComponent : public ComponentBase
 {
-	std::unordered_map<std::string, Animation>	m_animations;	// replace with Array??
-	std::string									m_active;		// index instead??
+	std::unordered_map<std::string, Animation>	Animations;	// replace with Array??
+	std::string									Active;		// index instead??
 
 	// store default??
 
@@ -33,10 +33,10 @@ struct AnimationComponent : public ComponentBase
 
 struct CameraComponent : public ComponentBase
 {
-	Hi_Engine::Camera	m_camera;
-	CU::Vector3<float>  m_targetOffset;
+	Hi_Engine::Camera	Camera;
+	CU::Vector3<float>  TargetOffset;
 	//class Entity*		m_target = nullptr;
-	unsigned			m_targetID = 0;
+	unsigned			TargetID = 0;
 };
 
 
@@ -45,8 +45,8 @@ struct CameraComponent : public ComponentBase
 
 struct DebugRectComponent : public ComponentBase
 {
-	Hi_Engine::Shader* m_shader;
-	CU::Vector4<float> m_color;
+	Hi_Engine::Shader* Shader;
+	CU::Vector4<float> Color;
 };
 
 
@@ -54,24 +54,24 @@ struct DebugRectComponent : public ComponentBase
 // Rename? PrimitiveRect or DebugRect? 
 struct RectComponent : public ComponentBase
 {
-	Hi_Engine::Shader* m_shader;
-	CU::Vector4<float> m_color;
+	Hi_Engine::Shader* Shader;
+	CU::Vector4<float> Color;
 };
 
 
 struct LineComponent : public ComponentBase
 {
-	Hi_Engine::Physics::LineSegment2D<float> m_lineSegment;
+	Hi_Engine::Physics::LineSegment2D<float> LineSegment;
 };
 
 
 struct TextComponent : public ComponentBase
 {
-	std::string			m_text;
-	Hi_Engine::Shader*	m_shader;
-	Hi_Engine::Font*	m_font;
+	std::string			Text;
+	Hi_Engine::Shader*	Shader;
+	Hi_Engine::Font*	Font;
 	// float				m_scale; use transform instead..
-	CU::Vector3<float>	m_color;
+	CU::Vector3<float>	Color;
 };
 
 
@@ -82,8 +82,8 @@ struct TextComponent : public ComponentBase
 // HERE?? Or maybe use two sprites instead?? add system HealthBarSystem?
 struct HealthBarComponent : public ComponentBase
 {
-	Hi_Engine::Material m_container;
-	Hi_Engine::Material m_bar;
+	Hi_Engine::Material Container;
+	Hi_Engine::Material Bar;
 	// position? size?
 };
 

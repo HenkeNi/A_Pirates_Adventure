@@ -3,5 +3,5 @@
 
 struct ButtonComponent : public ComponentBase
 {
-	class Command* m_command; // ??
+	class Command* Command; // ??
 };

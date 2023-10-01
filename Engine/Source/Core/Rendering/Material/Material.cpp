@@ -1,6 +1,8 @@
 #include "Pch.h"
 #include "Material.h"
 #include "../Shader/Shader.h"
+#include "../Texture/Texture2D.h"
+
 
 namespace Hi_Engine
 {

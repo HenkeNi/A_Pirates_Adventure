@@ -30,7 +30,7 @@ void TitleScene::OnCreated()
 
 void TitleScene::OnEnter()
 {
-	auto& systemManager = m_sharedContext.m_systemManager;
+	auto& systemManager = m_sharedContext.SystemManager;
 	systemManager.Init(&m_entityManager);
 
 	m_entityManager.GetFactory().LoadBlueprints("../Game/Assets/Json/Blueprints/blueprint_manifest.json");
@@ -49,9 +49,9 @@ void TitleScene::OnEnter()
 
 
 	auto camera = m_entityManager.CreateResources("Camera");
-	camera->GetComponent<TransformComponent>()->m_currentPos = { 0.f, 0.f, 2.f };
-	camera->GetComponent<CameraComponent>()->m_targetOffset = { 0.f, 0.f, 2.f };
-	camera->GetComponent<CameraComponent>()->m_targetID = background->GetID();
+	camera->GetComponent<TransformComponent>()->CurrentPos = { 0.f, 0.f, 2.f };
+	camera->GetComponent<CameraComponent>()->TargetOffset = { 0.f, 0.f, 2.f };
+	camera->GetComponent<CameraComponent>()->TargetID = background->GetID();
 
 }
 

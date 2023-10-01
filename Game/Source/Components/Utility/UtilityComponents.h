@@ -7,15 +7,15 @@
  
 struct WorldTimeComponent : public ComponentBase
 {
-	unsigned m_day;
+	unsigned Day;
 
-	eTimeOfDay m_timeOfDay;
+	eTimeOfDay TimeOfDay;
 
-	float m_currentDayProgress = 0.f;
-	float m_dayDuration = 20.f;
+	float CurrentDayProgress = 0.f;
+	float DayDuration = 20.f;
 
 
-	static const int s_dayDurationInRealWorldMinues = 2; // FIX!
+	static const int DayDurationInRealWorldMinues = 2; // FIX!
 	// bool shouldSkipDay?
 };
 
@@ -25,9 +25,9 @@ struct WorldTimeComponent : public ComponentBase
 
 struct TimerComponent : public ComponentBase
 {
-	float m_elapsed;
-	float m_duration;
-	bool m_isRunning = false;
+	float Elapsed;
+	float Duration;
+	bool IsRunning = false;
 
 	// std::function<void()>	m_callback = nullptr; ?? or observers??
 };
@@ -35,9 +35,9 @@ struct TimerComponent : public ComponentBase
 
 struct SpawnComponent : public ComponentBase
 {
-	std::string m_spawned;
-	float		m_interval = 2.f;	// Todo; Give small individual delay..
-	float		m_elapsedTime = 0.f;
-	int			m_amount = 10;
-	int			m_spawnedAmount = 0; // Rename..
+	std::string Spawned;
+	float		Interval = 2.f;	// Todo; Give small individual delay..
+	float		ElapsedTime = 0.f;
+	int			Amount = 10;
+	int			SpawnedAmount = 0; // Rename..
 };

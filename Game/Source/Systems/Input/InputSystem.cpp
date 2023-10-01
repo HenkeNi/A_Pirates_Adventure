@@ -36,56 +36,56 @@ void InputSystem::Update(float aDeltaTime)
 
 		if (inputHandler::IsKeyHeld(key::Key_W) || inputHandler::IsKeyPressed(key::Key_W))
 		{
-			inputComponent->m_inputStates.insert_or_assign(key::Key_W, true);
+			inputComponent->InputStates.insert_or_assign(key::Key_W, true);
 		}
 		else
 		{
-			inputComponent->m_inputStates.insert_or_assign(key::Key_W, false);
+			inputComponent->InputStates.insert_or_assign(key::Key_W, false);
 		}
 		
 		if (inputHandler::IsKeyHeld(key::Key_S) || inputHandler::IsKeyPressed(key::Key_S))
 		{
-			inputComponent->m_inputStates.insert_or_assign(key::Key_S, true);
+			inputComponent->InputStates.insert_or_assign(key::Key_S, true);
 		}
 		else
 		{
-			inputComponent->m_inputStates.insert_or_assign(key::Key_S, false);
+			inputComponent->InputStates.insert_or_assign(key::Key_S, false);
 		}
 
 		if (inputHandler::IsKeyHeld(key::Key_A) || inputHandler::IsKeyPressed(key::Key_A))
 		{
-			inputComponent->m_inputStates.insert_or_assign(key::Key_A, true);
+			inputComponent->InputStates.insert_or_assign(key::Key_A, true);
 		}
 		else
 		{
-			inputComponent->m_inputStates.insert_or_assign(key::Key_A, false);
+			inputComponent->InputStates.insert_or_assign(key::Key_A, false);
 		}
 
 		if (inputHandler::IsKeyHeld(key::Key_D) || inputHandler::IsKeyPressed(key::Key_D))
 		{
-			inputComponent->m_inputStates.insert_or_assign(key::Key_D, true);
+			inputComponent->InputStates.insert_or_assign(key::Key_D, true);
 		}
 		else
 		{
-			inputComponent->m_inputStates.insert_or_assign(key::Key_D, false);
+			inputComponent->InputStates.insert_or_assign(key::Key_D, false);
 		}
 
 		if (inputHandler::IsKeyHeld(key::Key_Space) || inputHandler::IsKeyPressed(key::Key_Space))
 		{
-			inputComponent->m_inputStates.insert_or_assign(key::Key_Space, true);
+			inputComponent->InputStates.insert_or_assign(key::Key_Space, true);
 		}
 		else
 		{
-			inputComponent->m_inputStates.insert_or_assign(key::Key_Space, false);
+			inputComponent->InputStates.insert_or_assign(key::Key_Space, false);
 		}
 
 		if (inputHandler::IsKeyHeld(key::Key_Shift) || inputHandler::IsKeyPressed(key::Key_Shift))
 		{
-			inputComponent->m_inputStates.insert_or_assign(key::Key_Shift, true);
+			inputComponent->InputStates.insert_or_assign(key::Key_Shift, true);
 		}
 		else
 		{
-			inputComponent->m_inputStates.insert_or_assign(key::Key_Shift, false);
+			inputComponent->InputStates.insert_or_assign(key::Key_Shift, false);
 		}
 	}
 }

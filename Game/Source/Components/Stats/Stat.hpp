@@ -18,9 +18,9 @@ enum class eModifierType
 template <typename T>
 struct StatModifier
 {
-	eModifierType	m_type;
-	std::string		m_identifier;
-	T				m_value;
+	eModifierType	Type;
+	std::string		Identifier;
+	T				Value;
 };
 
 

@@ -28,8 +28,8 @@ namespace Hi_Engine
 
 	glm::mat4 Camera::GetViewMatrix() const
 	{
-		auto position = m_attributes.m_position;
-		return glm::lookAt(m_attributes.m_position, m_attributes.m_position + m_attributes.m_front, m_attributes.m_up);
+		auto position = m_attributes.Position;
+		return glm::lookAt(m_attributes.Position, m_attributes.Position + m_attributes.Front, m_attributes.Up);
 	}
 
 	glm::mat4 Camera::GetProjectionMatrix() const
@@ -44,27 +44,27 @@ namespace Hi_Engine
 
 	void Camera::SetPosition(const CU::Vector3<float> aPosition)
 	{
-		m_attributes.m_position = { aPosition.x, aPosition.y, aPosition.z };
+		m_attributes.Position = { aPosition.x, aPosition.y, aPosition.z };
 	}
 
 	void Camera::SetDefaultData()
 	{
 		/* Set default position */
-		m_attributes.m_position = { 0.f, 0.f, 3.f };
+		m_attributes.Position = { 0.f, 0.f, 3.f };
 
-		m_attributes.m_up = { 0.f, 1.f, 0.f };
+		m_attributes.Up = { 0.f, 1.f, 0.f };
 
-		m_attributes.m_front = { 0.f, 0.f, -1.f };
+		m_attributes.Front = { 0.f, 0.f, -1.f };
 
 		/* Set default front */
-		m_attributes.m_front;
-		m_attributes.m_up;
+		m_attributes.Front;
+		m_attributes.Up;
 
 	}
 
 	void Camera::UpdateFrontVector()
 	{
-		glm::vec3 m_front;
+		glm::vec3 Front;
 		//front.x
 	}
 

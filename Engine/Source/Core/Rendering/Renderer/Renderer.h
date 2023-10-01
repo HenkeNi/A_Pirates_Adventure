@@ -43,12 +43,12 @@ namespace Hi_Engine
 		void DisplayText();
 
 		Window*		m_window;
-		Camera*		m_camera;			// Pass along the camera instead??
+		Camera*		m_camera;			// Pass along the camera instead?? or maybbe no need to store? instead set the uProjectioView in shader when needed? 
 
 		// store a viewport?
 
 		// Texture manager?
-		std::array<uint32_t, Constants::maxTextureSlots> m_textureSlots;
+		std::array<uint32_t, Constants::MaxTextureSlots> m_textureSlots;
 		uint32_t	m_textureSlotIndex = 1; // texture 0 == white texture...
 		GLuint		m_whiteTexture = 0;
 		uint32_t	m_whiteTextureSlot = 0;

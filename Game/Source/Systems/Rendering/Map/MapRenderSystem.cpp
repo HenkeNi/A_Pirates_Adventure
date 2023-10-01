@@ -28,7 +28,7 @@ void MapRenderSystem::Draw()
 	for (auto entity : entities)
 	{
 		auto* mapChunk = entity->GetComponent<MapChunkComponent>();
-		auto currentPosition = entity->GetComponent<TransformComponent>()->m_currentPos;
+		auto currentPosition = entity->GetComponent<TransformComponent>()->CurrentPos;
 
 		DrawMapChunk(mapChunk, currentPosition);
 	}
@@ -41,17 +41,17 @@ void MapRenderSystem::DrawMapChunk(MapChunkComponent* aMapChunk, const CU::Vecto
 	//Hi_Engine::RenderEvent renderEvent;
 	std::queue<Hi_Engine::RenderCommand> commandQueue;
 
-	for (const auto& tile : aMapChunk->m_tiles)
+	for (const auto& tile : aMapChunk->Tiles)
 	{
 		glm::vec3 position = { aPosition.x, aPosition.y, aPosition.z };
-		position.x += tile.m_coordinates.x * size;
-		position.z += tile.m_coordinates.y * size;
+		position.x += tile.Coordinates.x * size;
+		position.z += tile.Coordinates.y * size;
 		
-		Hi_Engine::RenderCommand command;
-		command.m_type = Hi_Engine::eRenderCommandType::DrawSprite;
+		Hi_Engine::RenderCommand command{};
+		command.Type = Hi_Engine::eRenderCommandType::DrawSprite;
 
-		glm::vec4 color = { tile.m_color.x, tile.m_color.y, tile.m_color.z, tile.m_color.w };
-		command.m_spriteRenderData = { tile.m_subtexture, color, { position.x, position.y, position.z } , glm::vec3{1.f, 1.f, 1.f}, -90.f };
+		glm::vec4 color = { tile.Color.x, tile.Color.y, tile.Color.z, tile.Color.w };
+		command.SpriteRenderData = { tile.Subtexture, color, Hi_Engine::Transform{ { position.x, position.y, position.z }, {1.f, 1.f}, -90.f } };
 		//command.m_spriteRenderData = { &tile.m_material, { position.x, position.y, position.z } , glm::vec3{1.f, 1.f, 1.f}, -90.f };
 
 		//renderEvent.AddRenderCommand(command);

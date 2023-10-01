@@ -14,11 +14,11 @@
 
 struct HealthComponent : public ComponentBase
 {
-	Stat<int>		m_healthStat; // DONT!?
+	Stat<int>		HealthStat; // DONT!?
 
 	// unsigned		m_maxHealth; // renaem?
-	int				m_currentValue = 100; // make sure is updated when removing modifiers... (100 is just temp -> init somewhere)...
-	bool			m_isInvincible;
+	int				CurrentValue = 100; // make sure is updated when removing modifiers... (100 is just temp -> init somewhere)...
+	bool			IsInvincible;
 
 	// TODO; store in effects? Or have an effect component?
 
@@ -26,8 +26,8 @@ struct HealthComponent : public ComponentBase
 
 struct StaminaComponent : public ComponentBase
 {
-	unsigned m_maxStamina;
-	int m_currentValue;
+	unsigned MaxStamina;
+	int CurrentValue;
 	// bool m_is;
 };
 
@@ -38,7 +38,7 @@ struct StaminaComponent : public ComponentBase
 // HERE??? or Needed???
 struct PhysicalNeeds : public ComponentBase
 {
-	std::unordered_map<std::string, float> m_needs;
+	std::unordered_map<std::string, float> Needs;
 
 };
 

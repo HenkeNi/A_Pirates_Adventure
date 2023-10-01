@@ -31,14 +31,14 @@ void TimeSystem::Update(float aDeltaTime)
 	{
 		auto worldTimeComponent = entity->GetComponent<WorldTimeComponent>();
 
-		float& progress = worldTimeComponent->m_currentDayProgress;
+		float& progress = worldTimeComponent->CurrentDayProgress;
 		
 
 		//if ((progress += aDeltaTime) >= worldTimeComponent->m_dayDuration)
-		if ((progress += scaledDeltaTime) >= worldTimeComponent->m_dayDuration)
+		if ((progress += scaledDeltaTime) >= worldTimeComponent->DayDuration)
 		{
 			progress = 0.f;
-			worldTimeComponent->m_day += 1; // Notify on day changed
+			worldTimeComponent->Day += 1; // Notify on day changed
 
 			std::cout << "New dayy!";
 		}

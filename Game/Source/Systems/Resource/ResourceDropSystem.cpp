@@ -32,15 +32,15 @@ void ResourceDropSystem::Receive(Message& aMsg)
 		
 		auto* harvestableComponent = data->GetComponent<HarvestableComponent>();
 
-		auto* resource = m_entityManager->CreateResources(harvestableComponent->m_resourceType);
+		auto* resource = m_entityManager->CreateResources(harvestableComponent->ResourceType);
 
 		//auto* resourceComponent = data->GetComponent<ResourceComponent>(); // Check if not nullptr ionstead of has component?? -> remove assert in that case 
 		//auto droppedResource = m_entityManager->Create(resourceComponent->m_entityToCreate);
 
 		auto transformComponent = resource->GetComponent<TransformComponent>();
-		transformComponent->m_currentPos = data->GetComponent<TransformComponent>()->m_currentPos;
-		transformComponent->m_currentPos.y = 0.1f;
-		transformComponent->m_scale = { 0.2f, 0.2f, 0.2f };
+		transformComponent->CurrentPos = data->GetComponent<TransformComponent>()->CurrentPos;
+		transformComponent->CurrentPos.y = 0.1f;
+		transformComponent->Scale = { 0.2f, 0.2f, 0.2f };
 
 		//auto spriteComponent = resource->GetComponent<SpriteComponent>();
 		//spriteComponent->m_material = {
@@ -49,11 +49,11 @@ void ResourceDropSystem::Receive(Message& aMsg)
 		//
 
 		auto rect = resource->GetComponent<RectComponent>();
-		rect->m_shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Primitive");			// TODO; add box collider component => trigger?
+		rect->Shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Primitive");			// TODO; add box collider component => trigger?
 
 		auto pickupCollider = resource->GetComponent<PickupColliderComponent>();
 		auto colliderSize = 0.2f;	// take halfsize instead?
-		pickupCollider->m_collider.Init({ transformComponent->m_currentPos.x - colliderSize, transformComponent->m_currentPos.z - colliderSize }, { transformComponent->m_currentPos.x + colliderSize, transformComponent->m_currentPos.z + colliderSize });
+		pickupCollider->Collider.Init({ transformComponent->CurrentPos.x - colliderSize, transformComponent->CurrentPos.z - colliderSize }, { transformComponent->CurrentPos.x + colliderSize, transformComponent->CurrentPos.z + colliderSize });
 	}
 }
 

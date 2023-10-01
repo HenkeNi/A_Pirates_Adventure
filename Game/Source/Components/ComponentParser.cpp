@@ -35,13 +35,13 @@ ComponentData ComponentParser::ParseAnimationComponent(JsonValue aValue)
 		for (const auto& sprite : animation["sprites"].GetArray())
 			sprites.push_back(sprite.GetString());
 
-		animationSequence.m_sprites				= sprites;
-		animationSequence.m_totalFrames			= sprites.size();
-		animationSequence.m_currentFrame		= 0;
-		animationSequence.m_elapsedFrameTime	= 0.f;
-		animationSequence.m_frameDuration		= animation["frame_duration"].GetFloat();
-		animationSequence.m_isLooping			=	animation["is_looping"].GetBool();
-		animationSequence.m_isPlaying			= animation["is_playing"].GetBool();
+		animationSequence.Sprites				= sprites;
+		animationSequence.TotalFrames			= sprites.size();
+		animationSequence.CurrentFrame		= 0;
+		animationSequence.ElapsedFrameTime	= 0.f;
+		animationSequence.FrameDuration		= animation["frame_duration"].GetFloat();
+		animationSequence.IsLooping			=	animation["is_looping"].GetBool();
+		animationSequence.IsPlaying			= animation["is_playing"].GetBool();
 
 		std::string identifier	= animation["identifier"].GetString();
 		animationMap.insert_or_assign(identifier, animationSequence);

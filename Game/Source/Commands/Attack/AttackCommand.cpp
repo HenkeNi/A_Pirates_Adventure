@@ -15,12 +15,12 @@ void AttackCommand::Execute()
 	if (!m_attackComponent || !m_stateComponent || !m_rectComponent)
 		return;
 
-	if (m_stateComponent->m_isAttacking)
+	if (m_stateComponent->IsAttacking)
 		return;
 
-	m_stateComponent->m_isAttacking = true;
-	m_attackComponent->m_isEnabled = true;
-	m_rectComponent->m_color = { 0.f, 1.0f, 0.f, 1.f }; // Do in Primitive systtem
+	m_stateComponent->IsAttacking = true;
+	m_attackComponent->IsEnabled = true;
+	m_rectComponent->Color = { 0.f, 1.0f, 0.f, 1.f }; // Do in Primitive systtem
 }
 
 void AttackCommand::SetComponent(AttackComponent* anAttackComponent, CharacterStateComponent* aStateComponent, DebugRectComponent* aRectComponent)

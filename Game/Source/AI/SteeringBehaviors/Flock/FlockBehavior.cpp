@@ -61,8 +61,8 @@ CU::Vector3<float> FlockBehavior::CalculateSeparationForce() const
 		auto ownerTransformComponent = m_owner->GetComponent<TransformComponent>();
 		auto otherTransformComponent = member->GetComponent<TransformComponent>();
 
-		auto ownPosition = ownerTransformComponent->m_currentPos;
-		auto otherPosition = otherTransformComponent->m_currentPos;
+		auto ownPosition = ownerTransformComponent->CurrentPos;
+		auto otherPosition = otherTransformComponent->CurrentPos;
 
 
 		auto distance = ownPosition.DistanceTo(otherPosition);
@@ -90,7 +90,7 @@ CU::Vector3<float> FlockBehavior::CalculateSeparationForce() const
 
 CU::Vector3<float> FlockBehavior::CalculateCohesionForce() const
 {
-	auto centerOfMass = m_owner->GetComponent<TransformComponent>()->m_currentPos;
+	auto centerOfMass = m_owner->GetComponent<TransformComponent>()->CurrentPos;
 	int neighbours = 0;
 
 	for (auto* member : m_flockMembers)
@@ -101,8 +101,8 @@ CU::Vector3<float> FlockBehavior::CalculateCohesionForce() const
 		auto otherTransformComponent = member->GetComponent<TransformComponent>();
 		auto otherVelocityComponent = member->GetComponent<VelocityComponent>();
 
-		auto otherPosition = otherTransformComponent->m_currentPos;
-		auto otherVelocity = otherVelocityComponent->m_velocity;
+		auto otherPosition = otherTransformComponent->CurrentPos;
+		auto otherVelocity = otherVelocityComponent->Velocity;
 		//auto ownPosition = m_owner->GetComponent<TransformComponent>()->m_currentPos;
 		// auto distance = ownPosition.DistanceTo(otherPosition);
 
@@ -131,12 +131,12 @@ CU::Vector3<float> FlockBehavior::CalculateAlignmentForce() const
 		auto ownerTransformComponent = m_owner->GetComponent<TransformComponent>();
 		auto otherTransformComponent = member->GetComponent<TransformComponent>();
 
-		auto ownPosition = ownerTransformComponent->m_currentPos;
-		auto otherPosition = otherTransformComponent->m_currentPos;
+		auto ownPosition = ownerTransformComponent->CurrentPos;
+		auto otherPosition = otherTransformComponent->CurrentPos;
 
 		if (ownPosition.DistanceTo(otherPosition) < 4.f)
 		{
-			auto otherVelocity = member->GetComponent<VelocityComponent>()->m_velocity;
+			auto otherVelocity = member->GetComponent<VelocityComponent>()->Velocity;
 			alignmentForce += otherVelocity;
 
 			++neighbours;

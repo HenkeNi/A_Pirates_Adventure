@@ -53,7 +53,7 @@ void SpriteAnimationSystem::Update(float aDeltaTime)
 		auto* animationComponent = entity->GetComponent<AnimationComponent>();
 	
 		const std::string currentState = GetCurrentState(entity);								// won't work with animated trees?? (maybe won't be animated? -> maybe shader instead)?
-		auto& animation = animationComponent->m_animations[currentState];
+		auto& animation = animationComponent->Animations[currentState];
 		
 		if (auto* velocityComponent = entity->GetComponent<VelocityComponent>())
 		{
@@ -65,27 +65,27 @@ void SpriteAnimationSystem::Update(float aDeltaTime)
 
 		// TODO; get direction of entity (movemeent => if any)
 
-		float& elapsedTime = animation.m_elapsedFrameTime;
+		float& elapsedTime = animation.ElapsedFrameTime;
 
 		elapsedTime += aDeltaTime;
 
-		if (elapsedTime >= animation.m_frameDuration)
+		if (elapsedTime >= animation.FrameDuration)
 		{
 			elapsedTime = 0.f;
 			//++animationComponent->m_currentFrame;
-			animation.m_currentFrame += 1;
+			animation.CurrentFrame += 1;
 
-			if (animation.m_currentFrame >= animation.m_totalFrames)
+			if (animation.CurrentFrame >= animation.TotalFrames)
 			{
-				if (!animation.m_isLooping)
+				if (!animation.IsLooping)
 				{
 					// Set default animation...
 
 
 					// Reset animation? Make class?
-					animation.m_currentFrame = 0;
-					animation.m_elapsedFrameTime = 0.f;
-					animation.m_isPlaying = false;
+					animation.CurrentFrame = 0;
+					animation.ElapsedFrameTime = 0.f;
+					animation.IsPlaying = false;
 					
 
 
@@ -115,14 +115,14 @@ void SpriteAnimationSystem::Update(float aDeltaTime)
 					return;
 				}
 
-				animation.m_currentFrame = 0;
+				animation.CurrentFrame = 0;
 			}
 
 			// TODO; Set correct sprite image...
-			std::string sprite = animation.m_sprites[animation.m_currentFrame];
+			std::string sprite = animation.Sprites[animation.CurrentFrame];
 
 			auto* spriteComponent = entity->GetComponent<SpriteComponent>();
-			spriteComponent->m_subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource(sprite);
+			spriteComponent->Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource(sprite);
 			//spriteComponent->m_material.SetTexture(&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource(sprite));
 		}
 	}
@@ -141,20 +141,20 @@ std::string SpriteAnimationSystem::GetCurrentState(Entity* anEntity) const
 
 	// Todo; create map?
 
-	if (characterStateComponent->m_isAttacking)
+	if (characterStateComponent->IsAttacking)
 	{
 		//animationComponent->m_active = "Attack";
 		return "Attack";
 	}
-	else if (characterStateComponent->m_isRunning)
+	else if (characterStateComponent->IsRunning)
 	{
 		return "Run";
 	}
-	else if (characterStateComponent->m_isWalking)
+	else if (characterStateComponent->IsWalking)
 	{
 		return "Walk";
 	}
-	else if (characterStateComponent->m_isIdle)
+	else if (characterStateComponent->IsIdle)
 	{
 		return "Idle";
 	}

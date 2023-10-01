@@ -4,16 +4,16 @@
 
 struct HitboxComponent : public ComponentBase
 {
-	Hi_Engine::Physics::AABB2D<float>	m_collider; // or use circle...
-	bool								m_isStatic;
+	Hi_Engine::Physics::AABB2D<float>	Collider; // or use circle...
+	bool								IsStatic;
 };
 
 struct AttackComponent : public ComponentBase
 {
-	Hi_Engine::Physics::AABB2D<float>	m_collider;
-	CU::Vector3<float>					m_offset = { 20.f, 0.f, 20.f };
+	Hi_Engine::Physics::AABB2D<float>	Collider;
+	CU::Vector3<float>					Offset = { 20.f, 0.f, 20.f };
 	// circle collider?
-	bool								m_isEnabled;
+	bool								IsEnabled;
 };
 
 
@@ -40,9 +40,9 @@ struct AttackComponent : public ComponentBase
 
 struct WeaponComponent : public ComponentBase
 {
-	float	m_attackRange;
-	float	m_attackSpeed;
-	int		m_damageDealt;
+	float	AttackRange;
+	float	AttackSpeed;
+	int		DamageDealt;
 };
 
 

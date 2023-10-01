@@ -5,7 +5,7 @@
 
 struct BehaviorTreeComponent : public ComponentBase
 {
-	class BehaviorTreeNode* m_rootNode = nullptr;				// Call Execute in Update
+	class BehaviorTreeNode* RootNode = nullptr;				// Call Execute in Update
 	// current node?
 };
 
@@ -15,26 +15,26 @@ struct BehaviorTreeComponent : public ComponentBase
 /* Steering Behaviors */
 struct WanderBehaviorComponent : public ComponentBase
 {
-	class WanderBehavior*	m_behavior = nullptr;
-	CU::Vector2<float>		m_window;
-	bool					m_isActive; // Put in base?
+	class WanderBehavior*	Behavior = nullptr;
+	CU::Vector2<float>		Window;
+	bool					IsActive; // Put in base?
 };
 
 struct FlockBehaviorComponent : public ComponentBase
 {
-	class FlockBehavior*	m_behavior = nullptr;
-	unsigned				m_flockID;
+	class FlockBehavior*	Behavior = nullptr;
+	unsigned				FlockID;
 };
 
 struct SeekBehaviorComponent : public ComponentBase
 {
-	class SeekBehavior*		m_behavior = nullptr;
-	CU::Vector2<float>		m_taget; // Or entityID?
+	class SeekBehavior*		Behavior = nullptr;
+	CU::Vector2<float>		Target; // Or entityID?
 };
 
 struct FleeBehaviorComponent : public ComponentBase
 {
-	class FleeBehavior*		m_behavior = nullptr;
+	class FleeBehavior*		Behavior = nullptr;
 };
 
 
@@ -46,8 +46,8 @@ struct FleeBehaviorComponent : public ComponentBase
 
 struct StateMachineComponent : public ComponentBase
 {
-	class State*				m_activeState;
-	std::vector<class State*>	m_states;
+	class State*				ActiveState;
+	std::vector<class State*>	States;
 
 	// class StateMachine* m_stateMachine;
 };
@@ -58,8 +58,8 @@ struct StateMachineComponent : public ComponentBase
 // Remove??
 struct SteeringBehaviorComponent : public ComponentBase
 {
-	class SteeringBehavior* m_activeBehavior = nullptr;
-	std::string				m_layer;
+	class SteeringBehavior* ActiveBehavior = nullptr;
+	std::string				Layer;
 };
 
 

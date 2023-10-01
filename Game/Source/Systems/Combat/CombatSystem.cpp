@@ -52,7 +52,7 @@ void CombatSystem::Receive(Message& aMsg)	// Listen to collisions from physics
 		auto hitbox = target->GetComponent<HitboxComponent>();
 
 		// if colliding... (move to COllisionSystem)
-		if (Hi_Engine::Physics::Intersects(attackCollider->m_collider, hitbox->m_collider))
+		if (Hi_Engine::Physics::Intersects(attackCollider->Collider, hitbox->Collider))
 		{
 			//PostMaster::GetInstance().SendMessage(Message{ eMessage::EntityAttacked, std::tuple{ attacker, target } }); // Don't send event??
 
@@ -64,7 +64,7 @@ void CombatSystem::Receive(Message& aMsg)	// Listen to collisions from physics
 		}
 	}
 	
-	entity->GetComponent<CharacterStateComponent>()->m_isAttacking = false;
+	entity->GetComponent<CharacterStateComponent>()->IsAttacking = false;
 
 	for (auto* entity : entitiesToRemove)
 	{
@@ -141,10 +141,10 @@ bool CombatSystem::ApplyDamageOutput(Entity* anEntity, unsigned aDamage)
 	auto* healthComponent = anEntity->GetComponent<HealthComponent>();
 	// Get stats, like defence, etc
 
-	healthComponent->m_currentValue -= aDamage;
+	healthComponent->CurrentValue -= aDamage;
 
 	// CurrentHeatValue = std::max(CurrentHeatValue - Amount, 0.f);
 
 
-	return healthComponent->m_currentValue <= 0;
+	return healthComponent->CurrentValue <= 0;
 }

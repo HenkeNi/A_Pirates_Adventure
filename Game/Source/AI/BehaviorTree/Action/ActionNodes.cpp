@@ -19,7 +19,7 @@ eBTNodeStatus IdleNode::Execute(EntityManager* anEntityManager)
 	{
 		auto* owner = anEntityManager->Find(m_ownerID);
 
-		owner->GetComponent<VelocityComponent>()->m_velocity = { 0.f, 0.f, 0.f };
+		owner->GetComponent<VelocityComponent>()->Velocity = { 0.f, 0.f, 0.f };
 	}
 
 	return eBTNodeStatus::Invalid;
@@ -56,8 +56,8 @@ eBTNodeStatus MoveToTargetNode::Execute(EntityManager* anEntityManager)
 
 		// Get wander behavior... or seek... set target... 
 
-		const auto targetPosition	= target->GetComponent<TransformComponent>()->m_currentPos;
-		const auto ownerPosition	= owner->GetComponent<TransformComponent>()->m_currentPos; 
+		const auto targetPosition	= target->GetComponent<TransformComponent>()->CurrentPos;
+		const auto ownerPosition	= owner->GetComponent<TransformComponent>()->CurrentPos; 
 
 		auto direction = targetPosition - ownerPosition;
 		direction.y = 0.f;
@@ -67,7 +67,7 @@ eBTNodeStatus MoveToTargetNode::Execute(EntityManager* anEntityManager)
 		if (direction.Length() != 0.f)
 			direction.Normalize();
 
-		owner->GetComponent<VelocityComponent>()->m_velocity = direction;
+		owner->GetComponent<VelocityComponent>()->Velocity = direction;
 	}
 
 	return eBTNodeStatus::Running;
@@ -112,7 +112,7 @@ eBTNodeStatus AttackTargetNode::Execute(EntityManager* anEntityManager)
 
 	if (auto* owner = anEntityManager->Find(m_ownerID))
 	{
-		owner->GetComponent<VelocityComponent>()->m_velocity = { 0.f, 0.f, 0.f };
+		owner->GetComponent<VelocityComponent>()->Velocity = { 0.f, 0.f, 0.f };
 	}
 
 	// enable attack hitbox 

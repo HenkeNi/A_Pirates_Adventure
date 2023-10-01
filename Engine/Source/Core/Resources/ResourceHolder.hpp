@@ -252,7 +252,7 @@ namespace Hi_Engine
 					.Init({ (int)glyph->bitmap.width, (int)glyph->bitmap.rows }, glyph->bitmap.buffer);
 
 				Character character;
-				character.m_size = { glyph->bitmap.width, glyph->bitmap.rows };
+				character.Size = { glyph->bitmap.width, glyph->bitmap.rows };
 				character.m_bearing = { (int)glyph->bitmap_left, (int)glyph->bitmap_top };
 				character.m_textureID = identifier;
 				character.m_advance = glyph->advance.x;

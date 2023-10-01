@@ -17,7 +17,7 @@ namespace Hi_Engine
 		uint32_t offset = 0;
 
 		/* Generate all available indices */
-		for (auto i = 0; i < Constants::maxIndexCount; i += 6)
+		for (auto i = 0; i < Constants::MaxIndexCount; i += 6)
 		{
 			// first triangle
 			someIndices[i + 0] = 0 + offset;
@@ -33,7 +33,7 @@ namespace Hi_Engine
 		}
 	}
 
-	void SetupVertices(Vertex** aTarget, const glm::vec3& aPosition, const glm::vec2& aScale, const glm::vec4& aColor, const glm::vec2* someTexCoords, float aTexIndex, float aRotation = 0.f)
+	void SetupVertices(Vertex** aTarget, const Transform& aTransform, const glm::vec4& aColor, const glm::vec2* someTexCoords, float aTexIndex)
 	{
 		static glm::vec4 vertexCoords[4] = {
 			{ -0.5f, -0.5f, 0.f, 1.f },
@@ -46,9 +46,9 @@ namespace Hi_Engine
 
 		// Create a transformation matrix
 		glm::mat4 transform = glm::mat4(1.f);
-		transform = glm::translate(transform, glm::vec3(aPosition.x, aPosition.y, aPosition.z));
-		transform = glm::rotate(transform, glm::radians(aRotation), rotationAxis);
-		transform = glm::scale(transform, glm::vec3(aScale.x, aScale.y, 1.0f));
+		transform = glm::translate(transform, glm::vec3(aTransform.Position.x, aTransform.Position.y, aTransform.Position.z));
+		transform = glm::rotate(transform, glm::radians(aTransform.Rotation), rotationAxis);
+		transform = glm::scale(transform, glm::vec3(aTransform.Scale.x, aTransform.Scale.y, 1.0f));
 
 		for (int i = 0; i < VERTICES_PER_QUAD; ++i)
 		{
@@ -65,7 +65,7 @@ namespace Hi_Engine
 	{
 		Dispatcher::GetInstance().Subscribe(this);
 
-		m_quadContext.Buffer = new Vertex[Constants::maxVertexCount];
+		m_quadContext.Buffer = new Vertex[Constants::MaxVertexCount];
 
 		///* Configure render states */
 		//glEnable(GL_DEPTH_TEST);
@@ -88,7 +88,7 @@ namespace Hi_Engine
 
 		//memset(m_textureSlots + 1, 0, (Constants::maxTextureSlots - 1) * sizeof(uint32_t));
 
-		for (auto i = 1; i < Constants::maxTextureSlots; ++i)
+		for (auto i = 1; i < Constants::MaxTextureSlots; ++i)
 			m_textureSlots[i] = 0;
 	}
 
@@ -106,17 +106,17 @@ namespace Hi_Engine
 		while (!commands.empty())
 		{
 			auto command = commands.front();
-			if (command.m_type == eRenderCommandType::DrawSprite)
+			if (command.Type == eRenderCommandType::DrawSprite)
 			{
-				DrawSprite(command.m_spriteRenderData);
+				DrawSprite(command.SpriteRenderData);
 			}
-			else if (command.m_type == eRenderCommandType::SetShader)
+			else if (command.Type == eRenderCommandType::SetShader)
 			{
 				// m_activeShader = command.m_shader;
 			}
-			else if (command.m_type == eRenderCommandType::SetCamera)
+			else if (command.Type == eRenderCommandType::SetCamera)
 			{
-				m_camera = command.m_camera;
+				m_camera = command.Camera;
 			}
 
 			commands.pop();
@@ -138,7 +138,7 @@ namespace Hi_Engine
 
 	void Renderer::DrawSprite(const SpriteRenderData& someData)
 	{
-		unsigned id = someData.m_subtexture->GetTexture().GetID();
+		unsigned id = someData.Subtexture->GetTexture().GetID();
 
 		float textureIndex = 0;
 
@@ -151,18 +151,13 @@ namespace Hi_Engine
 			++m_textureSlotIndex;
 		}
 
-
-		//accept/pass around SpriteRenderData?? call get texturecoords from subtexture?? => how to render just quad without texture??
-		//DrawQuad(QuadRenderData{ someData.Position, glm::vec4{ 1.f, 1.f, 1.f, 1.f }, someData.Scale, textureIndex, someData.Rotation}); use setupvertices that accepts texture coords...
-
-		if (m_quadContext.IndexCount >= Constants::maxIndexCount)
+		if (m_quadContext.IndexCount >= Constants::MaxIndexCount)
 		{
 			Display();
 			BeginFrame();
 		}
 
-		// Fix order...
-		SetupVertices(&m_quadContext.CurrentVertex, someData.Position, someData.Scale, someData.Color, someData.m_subtexture->GetTexCoords(), textureIndex, someData.Rotation);
+		SetupVertices(&m_quadContext.CurrentVertex, someData.Transform, someData.Color, someData.Subtexture->GetTexCoords(), textureIndex);
 
 		m_quadContext.IndexCount += INDICES_PER_QUAD;
 		++m_stats.TotalQuads;
@@ -171,7 +166,7 @@ namespace Hi_Engine
 	void Renderer::DrawQuad(const QuadRenderData& someData)
 	{
 		// Check if buffer is full
-		if (m_quadContext.IndexCount >= Constants::maxIndexCount)
+		if (m_quadContext.IndexCount >= Constants::MaxIndexCount)
 		{
 			Display();
 			BeginFrame();
@@ -184,8 +179,7 @@ namespace Hi_Engine
 			{ 0.f, 1.f }
 		};
 
-		// Fix order...
-		SetupVertices(&m_quadContext.CurrentVertex, someData.Position, someData.Scale, someData.Color, textureCoords, 0.f, someData.Rotation);
+		SetupVertices(&m_quadContext.CurrentVertex, someData.Transform, someData.Color, textureCoords, 0.f);
 
 		m_quadContext.IndexCount += INDICES_PER_QUAD;
 		++m_stats.TotalQuads;
@@ -202,7 +196,7 @@ namespace Hi_Engine
 		/* Create vertex buffer object */
 		glGenBuffers(1, &m_quadContext.VBO);
 		glBindBuffer(GL_ARRAY_BUFFER, m_quadContext.VBO);
-		glBufferData(GL_ARRAY_BUFFER, Constants::maxVertexCount * sizeof(Vertex), nullptr, GL_DYNAMIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, Constants::MaxVertexCount * sizeof(Vertex), nullptr, GL_DYNAMIC_DRAW);
 
 		/* Specify layout of the vertex data */
 
@@ -223,7 +217,7 @@ namespace Hi_Engine
 		glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexIndex));
 
 		/* Populate indices */
-		uint32_t indices[Constants::maxIndexCount];
+		uint32_t indices[Constants::MaxIndexCount];
 		GenerateIndices(indices);
 
 		/* Create element buffer object */

@@ -34,9 +34,9 @@ void CameraSystem::Update(float aDeltaTime)
 
 	auto cameraComponent = camera->GetComponent<CameraComponent>();
 	
-	Hi_Engine::RenderCommand command;
-	command.m_type = Hi_Engine::eRenderCommandType::SetCamera;
-	command.m_camera = &cameraComponent->m_camera;
+	Hi_Engine::RenderCommand command{};
+	command.Type = Hi_Engine::eRenderCommandType::SetCamera;
+	command.Camera = &cameraComponent->Camera;
 
 	std::queue<Hi_Engine::RenderCommand> commandQueue;
 	commandQueue.push(command);
@@ -44,14 +44,14 @@ void CameraSystem::Update(float aDeltaTime)
 	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::RenderEvent>(commandQueue);
 
 
-	auto target = m_entityManager->Find(cameraComponent->m_targetID);
+	auto target = m_entityManager->Find(cameraComponent->TargetID);
 	//auto target = cameraComponent->m_target;
 	if (target)
 	{
-		auto targetPosition = target->GetComponent<TransformComponent>()->m_currentPos;
-		auto newPosition = targetPosition + cameraComponent->m_targetOffset;
+		auto targetPosition = target->GetComponent<TransformComponent>()->CurrentPos;
+		auto newPosition = targetPosition + cameraComponent->TargetOffset;
 
-		cameraComponent->m_camera.SetPosition(newPosition);
-		camera->GetComponent<TransformComponent>()->m_currentPos = newPosition;
+		cameraComponent->Camera.SetPosition(newPosition);
+		camera->GetComponent<TransformComponent>()->CurrentPos = newPosition;
 	}
 }

@@ -5,20 +5,20 @@
 
 struct TriggerComponent : public ComponentBase
 {
-	Hi_Engine::Physics::AABB2D<float>	m_collider;
+	Hi_Engine::Physics::AABB2D<float>	Collider;
 };
 
 
 struct PickupColliderComponent : public ComponentBase
 {
-	Hi_Engine::Physics::AABB2D<float>	m_collider;
+	Hi_Engine::Physics::AABB2D<float>	Collider;
 };
 
 
 struct ItemComponent : public ComponentBase
 {
-	std::string m_identifier;
-	std::string m_iconTexture;
+	std::string Identifier;
+	std::string IconTexture;
 };
 
 struct EquipmentComponent : public ComponentBase
@@ -27,19 +27,19 @@ struct EquipmentComponent : public ComponentBase
 
 struct InventoryComponent : public ComponentBase
 {
-	std::unordered_map<std::string, unsigned> m_inventory; // Or list of entities? or list of ItemCOmponents?
+	std::unordered_map<std::string, unsigned> Inventory; // Or list of entities? or list of ItemCOmponents?
 	// array of entiity pointers (or IDs)..??
 
-	unsigned m_maxCapacity; // every item has a weight?
-	unsigned m_currentCapacity;
+	unsigned MaxCapacity; // every item has a weight?
+	unsigned CurrentCapacity;
 };
 
 
 
 struct RecipeComponent : public ComponentBase
 {
-	std::string m_craftedItem;
-	std::unordered_map<std::string, unsigned> m_requiredItems;
+	std::string CraftedItem;
+	std::unordered_map<std::string, unsigned> RequiredItems;
 };
 
 
@@ -51,7 +51,7 @@ struct ResourceComponent : ComponentBase
 	// std::string m_entityToCreate = "Resource";	// FIX!
 
 	// TODO; 
-	std::string m_resourceType;
+	std::string ResourceType;
 	// unsigned	m_quantity;
 };
 
@@ -61,14 +61,14 @@ struct ResourceComponent : ComponentBase
 
 struct HarvestableComponent : ComponentBase
 {
-	std::string m_resourceType;	 // Rename??
-	int			m_yield;
+	std::string ResourceType;	 // Rename??
+	int			Yield;
 };
 
 
 // Replace with ItemSpawner??
 struct ResourceProducerComponent : ComponentBase
 {
-	std::string		m_droppedResource;
-	unsigned		m_quantity;
+	std::string		DroppedResource;
+	unsigned		Quantity;
 };

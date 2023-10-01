@@ -46,9 +46,9 @@ void PlayerControllerSystem::Update(float aDeltaTime)
 
 		//characterState->m_isIdle = true;
 
-		for (const auto& command : controller->m_inputMapping)
+		for (const auto& command : controller->InputMapping)
 		{
-			if (input->m_inputStates[command.first])
+			if (input->InputStates[command.first])
 			{
 				command.second->Execute();
 			}
@@ -59,7 +59,7 @@ void PlayerControllerSystem::Update(float aDeltaTime)
 		// m_velocity = 
 
 		// TODO; Decrease in MovementSystem; 
-		if (input->m_inputStates[Hi_Engine::eInputType::Key_Shift])
+		if (input->InputStates[Hi_Engine::eInputType::Key_Shift])
 		{
 			//velocity->m_acceleration = { 2.5f, 0.f, 2.5f };
 			// velocity->m_speed = 3.f;
@@ -67,8 +67,8 @@ void PlayerControllerSystem::Update(float aDeltaTime)
 		else
 		{
 			//velocity->m_acceleration = { 1.f, 0.f, 1.f };
-			velocity->m_speed = 1.f;
-			characterState->m_isRunning = false;
+			velocity->Speed = 1.f;
+			characterState->IsRunning = false;
 		}
 
 
@@ -175,17 +175,17 @@ void PlayerControllerSystem::Update(float aDeltaTime)
 
 
 		
-		if (velocity->m_velocity.x == 0.f && velocity->m_velocity.z == 0.f)
+		if (velocity->Velocity.x == 0.f && velocity->Velocity.z == 0.f)
 		{
-			characterState->m_isWalking = false;
+			characterState->IsWalking = false;
 			
-			if (!characterState->m_isAttacking)
+			if (!characterState->IsAttacking)
 			{
-				characterState->m_isIdle = true;
+				characterState->IsIdle = true;
 			}
 		}
 		else
-			characterState->m_isIdle = false;
+			characterState->IsIdle = false;
 
 
 		
@@ -203,7 +203,7 @@ void PlayerControllerSystem::InitCommands()
 	{
 		auto playerController = entity->GetComponent<PlayerControllerComponent>();
 
-		for (auto command : playerController->m_inputMapping)
+		for (auto command : playerController->InputMapping)
 		{
 			// TODO; fix...
 			if (command.first == Hi_Engine::eInputType::Key_W || command.first == Hi_Engine::eInputType::Key_S ||

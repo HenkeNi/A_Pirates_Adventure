@@ -35,11 +35,11 @@ void SteeringBehaviorSystem::UpdateWanderBehavior(float aDeltaTime)
 		auto* behaviorComponent = entity->GetComponent<WanderBehaviorComponent>();
 		auto* velocityComponent = entity->GetComponent<VelocityComponent>();
 
-		if (auto* activeBehavior = behaviorComponent->m_behavior)
+		if (auto* activeBehavior = behaviorComponent->Behavior)
 		{
 			activeBehavior->Update(aDeltaTime);
 			
-			auto currentVelocity = velocityComponent->m_velocity;
+			auto currentVelocity = velocityComponent->Velocity;
 			auto steeringForce = activeBehavior->GetSteeringForce(currentVelocity);
 
 
@@ -65,7 +65,7 @@ void SteeringBehaviorSystem::UpdateWanderBehavior(float aDeltaTime)
 			}
 
 			//std::cout << "combined: " << combined.x << ", " << combined.y << ", " << combined.z << '\n';
-			velocityComponent->m_velocity = combined;
+			velocityComponent->Velocity = combined;
 
 
 
@@ -95,21 +95,21 @@ void SteeringBehaviorSystem::UpdateFlockBehavior(float aDeltaTime)
 	for (auto* entity : entities)
 	{
 		auto steeringBehaviorComponent = entity->GetComponent<SteeringBehaviorComponent>();
-		auto layer = steeringBehaviorComponent->m_layer;
+		auto layer = steeringBehaviorComponent->Layer;
 
 		// flock id...
 
 		// FIX...
 		// if (steeringBehaviorComponent-> )
 
-		auto flockBehavior = static_cast<FlockBehavior*>(steeringBehaviorComponent->m_activeBehavior);
+		auto flockBehavior = static_cast<FlockBehavior*>(steeringBehaviorComponent->ActiveBehavior);
 		flockBehavior->SetOwner(entity);
 		flockBehavior->SetFlockMembers(entities);
 		// flockBehavior->Update(aDeltaTime);
 
 		auto force = flockBehavior->GetSteeringForce({ 0.f, 0.f, 0.f });
 		force.y = 0.f;
-		entity->GetComponent<VelocityComponent>()->m_velocity = force;
+		entity->GetComponent<VelocityComponent>()->Velocity = force;
 		//for (auto* otherEntity : entities)
 		//{
 		//	auto* otherSteeringBehaviorComponent = otherEntity->GetComponent<SteeringBehaviorComponent>();

@@ -29,7 +29,7 @@ void BehaviorTreeSystem::Update(float aDeltaTime)
 	{
 		if (auto* behaviorComponent = entity->GetComponent<BehaviorTreeComponent>())
 		{
-			if (auto rootNode = behaviorComponent->m_rootNode)
+			if (auto rootNode = behaviorComponent->RootNode)
 				rootNode->Execute(m_entityManager);
 		}
 	}
@@ -43,10 +43,10 @@ void BehaviorTreeSystem::ClearBehaviorTreeNodes()
 	{
 		if (auto* behaviorComponet = entity->GetComponent<BehaviorTreeComponent>())
 		{
-			behaviorComponet->m_rootNode->Clear();
+			behaviorComponet->RootNode->Clear();
 		
-			delete behaviorComponet->m_rootNode;
-			behaviorComponet->m_rootNode = nullptr;
+			delete behaviorComponet->RootNode;
+			behaviorComponet->RootNode = nullptr;
 		}
 	}
 }

@@ -15,6 +15,55 @@ namespace CU = CommonUtilities;
 
 namespace Hi_Engine
 {
+#pragma region Utility_Structs	
+
+	template <typename Type>
+	struct Point
+	{
+		Type X;
+		Type Y;
+	};
+
+	struct Transform
+	{
+		glm::vec3	Position = { 0.f, 0.f, 0.f };
+		glm::vec2	Scale = { 1.f, 1.f };
+		float		Rotation = 0.f;
+	};
+
+	struct TimerRequest
+	{
+		double					DurationInSecs, TimeOfRequest;
+		std::function<void()>	Callback = nullptr;
+
+		//TimeObserver*			m_observer = nullptr;
+	};
+
+	//struct Position
+	//{
+	//
+	//	union 
+	//	{
+	//		struct
+	//		{
+	//			float x, y;
+	//		};
+	//
+	//		CU::Vector2<float> vec2;
+	//	};
+	//
+	//	//union 
+	//	//{
+	//	//	CU::Vector2<float> m_position,
+	//	//	float x, float y
+	//	//};
+	//
+	//
+	//
+	//};
+
+#pragma endregion Utility_Structs	
+
 #pragma region Camera_Structs
 
 	struct CameraMatrices
@@ -26,18 +75,18 @@ namespace Hi_Engine
 
 	struct CameraAttributes
 	{
-		glm::vec3 m_position;
-		glm::vec3 m_front;
-		glm::vec3 m_up;
-		glm::vec3 m_right;
-		glm::vec3 m_worldUp;
+		glm::vec3 Position;
+		glm::vec3 Front;
+		glm::vec3 Up;
+		glm::vec3 Right;
+		glm::vec3 WorldUp;
 	};
 
 	struct EulerAngles
 	{
-		float m_yaw;
-		float m_pitch;
-		float m_roll;
+		float Yaw;
+		float Pitch;
+		float Roll;
 	};
 
 	// Remove later?
@@ -56,8 +105,8 @@ namespace Hi_Engine
 	
 	struct WindowData
 	{
-		CU::Vector2<unsigned>	m_size;
-		std::string				m_identifier, m_iconPath;
+		CU::Vector2<unsigned>	Size;
+		std::string				Identifier, IconPath;
 	};
 
 #pragma endregion Window_Structs
@@ -77,7 +126,7 @@ namespace Hi_Engine
 	struct Character
 	{
 		std::string		m_textureID;
-		glm::ivec2		m_size;       // Size of glyph
+		glm::ivec2		Size;       // Size of glyph
 		glm::ivec2		m_bearing;    // Offset from baseline to left/top of glyph
 		unsigned int	m_advance;    // Offset to advance to next glyph
 	};
@@ -85,19 +134,22 @@ namespace Hi_Engine
 	struct SpriteRenderData
 	{
 		// const class Material*	Material;
-		const class Subtexture2D*	m_subtexture;
-		glm::vec4					Color;
-		glm::vec3					Position;	// CU::Vector3<float>
-		glm::vec2					Scale;		// Rename size?? CU::Vector2<float>
-		float						Rotation;
+		const class Subtexture2D*	Subtexture = nullptr;
+		glm::vec4					Color = { 1.f, 1.f, 1.f, 1.f };
+		Transform					Transform{};
+
+		//glm::vec3					Position;	// CU::Vector3<float>
+		//glm::vec2					Scale;		// Rename size?? CU::Vector2<float>
+		//float						Rotation;
 	};	
 
 	struct QuadRenderData
 	{
-		glm::vec3			Position;
+		Transform			Transform;
 		glm::vec4			Color;
-		glm::vec2			Scale;
-		float				Rotation;
+		//glm::vec3			Position;
+		//glm::vec2			Scale;
+		//float				Rotation;
 	};
 
 	//struct SpriteSheetData
@@ -110,22 +162,22 @@ namespace Hi_Engine
 	
 	struct TextRenderData
 	{
-		class Shader* m_shader;
-		class Font* m_font;
-		float				m_scale;
-		CU::Vector3<float>	m_color;
-		CU::Vector2<float>	m_position; //??
-		std::string			m_text;
+		class Shader*		Shader;
+		class Font*			Font;
+		float				Scale;
+		CU::Vector3<float>	Color;
+		CU::Vector2<float>	Position; //??
+		std::string			Text;
 	};
 	
-	struct PrimitiveRenderData
-	{
-		CU::Vector4<float>	m_color;
-		// class Shader*		m_shader;
-		glm::vec3			Position;
-		glm::vec2			Scale;
-		float				Rotation;
-	};
+	//struct PrimitiveRenderData
+	//{
+	//	CU::Vector4<float>	m_color;
+	//	// class Shader*		m_shader;
+	//	glm::vec3			Position;
+	//	glm::vec2			Scale;
+	//	float				Rotation;
+	//};
 
 
 
@@ -176,58 +228,17 @@ namespace Hi_Engine
 
 	struct RenderCommand
 	{
-		eRenderCommandType		m_type;
+		//SpriteRenderData RenderData;
+
+		eRenderCommandType		Type;
 
 		union
 		{
-			SpriteRenderData	m_spriteRenderData;
-			class Shader*		m_shader;
-			class Camera*		m_camera;
+			SpriteRenderData	SpriteRenderData;
+			class Shader*		Shader;
+			class Camera*		Camera;
 		};
 	};
 
 #pragma endregion Event_Structs
-
-
-#pragma region Utility_Structs	
-
-	template <typename Type>
-	struct Point
-	{
-		Type m_X;
-		Type m_Y;
-	};
-
-	struct TimerRequest
-	{
-		double					m_durationInSecs, m_timeOfRequest;
-		std::function<void()>	m_callback = nullptr;
-
-		//TimeObserver*			m_observer = nullptr;
-	};
-
-//struct Position
-//{
-//
-//	union 
-//	{
-//		struct
-//		{
-//			float x, y;
-//		};
-//
-//		CU::Vector2<float> vec2;
-//	};
-//
-//	//union 
-//	//{
-//	//	CU::Vector2<float> m_position,
-//	//	float x, float y
-//	//};
-//
-//
-//
-//};
-
-#pragma endregion Utility_Structs	
 }

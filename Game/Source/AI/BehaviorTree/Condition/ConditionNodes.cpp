@@ -17,8 +17,8 @@ eBTNodeStatus TargetInViewNode::Execute(EntityManager* anEntityManager)
 		auto* owner = anEntityManager->Find(m_ownerID);
 		auto* target = anEntityManager->Find(m_targetID); // target ID becomes invalid..
 
-		auto currentPosition = owner->GetComponent<TransformComponent>()->m_currentPos;
-		auto targetPosition = target->GetComponent<TransformComponent>()->m_currentPos;
+		auto currentPosition = owner->GetComponent<TransformComponent>()->CurrentPos;
+		auto targetPosition = target->GetComponent<TransformComponent>()->CurrentPos;
 
 		float distance = currentPosition.DistanceTo(targetPosition);
 
@@ -55,8 +55,8 @@ eBTNodeStatus TargetInRangeNode::Execute(EntityManager* anEntityManager)
 		if (auto* target = anEntityManager->Find(m_targetID))
 		{
 
-			auto currentPosition = owner->GetComponent<TransformComponent>()->m_currentPos;
-			auto targetPosition = target->GetComponent<TransformComponent>()->m_currentPos;
+			auto currentPosition = owner->GetComponent<TransformComponent>()->CurrentPos;
+			auto targetPosition = target->GetComponent<TransformComponent>()->CurrentPos;
 
 			float distance = currentPosition.DistanceTo(targetPosition);
 

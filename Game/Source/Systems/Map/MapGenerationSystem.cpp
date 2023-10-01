@@ -36,7 +36,7 @@ void MapGenerationSystem::Update(float aDeltaTime)
 		return;
 
 	auto player = players[0];
-	auto playerPosition = player->GetComponent<TransformComponent>()->m_currentPos;			// Todo, check all 4 corners of player (Get hitboxCollider)
+	auto playerPosition = player->GetComponent<TransformComponent>()->CurrentPos;			// Todo, check all 4 corners of player (Get hitboxCollider)
 
 	auto* mapChunk = MapUtils::GetMapChunkAtPosition(m_entityManager->FindAllWithComponents<MapChunkComponent>(), { playerPosition.x, playerPosition.z });
 
@@ -48,7 +48,7 @@ void MapGenerationSystem::GenerateStartArea()
 {
 	static const float tileSize = 1.f;
 
-	unsigned size = Constants::g_initialChunkSquareSize;
+	unsigned size = Constants::InitialChunkSquareSize;
 
 	for (int col = 0; col < size; ++col)
 	{
@@ -62,24 +62,24 @@ void MapGenerationSystem::GenerateStartArea()
 			auto* mapChunkComponent		= entity->GetComponent<MapChunkComponent>();
 			auto* transformComponent	= entity->GetComponent<TransformComponent>();
 
-			transformComponent->m_currentPos = { (float)col * (mapChunkComponent->m_width * tileSize), 0.f, (float)row * (mapChunkComponent->m_height * tileSize) };
-			mapChunkComponent->m_coordinates = { col, row };
+			transformComponent->CurrentPos = { (float)col * (mapChunkComponent->Width * tileSize), 0.f, (float)row * (mapChunkComponent->Height * tileSize) };
+			mapChunkComponent->Coordinates = { col, row };
 
 			// populate with tiles
-			for (int height = 0; height < mapChunkComponent->m_height; ++height)
+			for (int height = 0; height < mapChunkComponent->Height; ++height)
 			{
-				for (int width = 0; width < mapChunkComponent->m_width; ++width)
+				for (int width = 0; width < mapChunkComponent->Width; ++width)
 				{
 					Tile tile;
-					tile.m_coordinates = { height, width };
-					tile.m_isCollidable = !isLand;
-					tile.m_subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource(isLand ? "ground_tiles_00" : "ground_tiles_01");
+					tile.Coordinates = { height, width };
+					tile.IsCollidable = !isLand;
+					tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource(isLand ? "ground_tiles_00" : "ground_tiles_01");
 					/*tile.m_material = {
 						&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource(isLand ? "sand" : "sea"),
 						&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("sprite_batch")
 					};*/
 					
-					mapChunkComponent->m_tiles.push_back(tile);
+					mapChunkComponent->Tiles.push_back(tile);
 				}
 			}
 

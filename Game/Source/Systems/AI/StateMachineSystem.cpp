@@ -27,7 +27,7 @@ void StateMachineSystem::Update(float aDeltaTime)
 	{
 		auto* stateMachineComponent = entity->GetComponent<StateMachineComponent>();
 
-		if (auto* activeState = stateMachineComponent->m_activeState)
+		if (auto* activeState = stateMachineComponent->ActiveState)
 		{
 			activeState = activeState->Update(aDeltaTime);
 

@@ -38,8 +38,8 @@ void MapDecorationSystem::PopulateWithFoilage(const Entity* aMapChunk)
 		auto mapChunkComponent		= aMapChunk->GetComponent<MapChunkComponent>();
 		auto mapTransformComponent	= aMapChunk->GetComponent<TransformComponent>();
 
-		auto chunkPosition = mapTransformComponent->m_currentPos;
-		auto endPosition = CU::Vector2<float>{ chunkPosition.x + mapChunkComponent->m_width * tileSize, chunkPosition.z + mapChunkComponent->m_height * tileSize };
+		auto chunkPosition = mapTransformComponent->CurrentPos;
+		auto endPosition = CU::Vector2<float>{ chunkPosition.x + mapChunkComponent->Width * tileSize, chunkPosition.z + mapChunkComponent->Height * tileSize };
 
 
 		for (int i = 0; i < anAmount; ++i)
@@ -49,7 +49,7 @@ void MapDecorationSystem::PopulateWithFoilage(const Entity* aMapChunk)
 
 			CU::Vector2<float> position = { (float)Random::InRange(chunkPosition.x + 1.f, endPosition.x - 1.f), (float)Random::InRange(chunkPosition.z + 1.f, endPosition.y - 1.f) };
 
-			transform->m_currentPos = transform->m_previousPos = { position.x, transform->m_currentPos.y, position.y };
+			transform->CurrentPos = transform->PreviousPos = { position.x, transform->CurrentPos.y, position.y };
 			//transform->m_scale = { 0.75f, 0.75f, 0.75f };														// should be read from json...
 
 			//auto rect = entity->GetComponent<RectComponent>();
@@ -60,7 +60,7 @@ void MapDecorationSystem::PopulateWithFoilage(const Entity* aMapChunk)
 
 			static float size = 0.2f;
 
-			hitbox->m_collider.Init({ position.x - size, position.y - size }, { position.x + size, position.y + size });
+			hitbox->Collider.Init({ position.x - size, position.y - size }, { position.x + size, position.y + size });
 
 		}
 	};

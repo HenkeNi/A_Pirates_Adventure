@@ -6,13 +6,15 @@ namespace CU = CommonUtilities;
 
 struct TransformComponent : public ComponentBase
 {
-	CU::Vector3<float> m_currentPos = { 0.f, 0.f, 0.f };
-	CU::Vector3<float> m_previousPos = { 0.f, 0.f, 0.f };	// add desired position?
-	CU::Vector3<float> m_scale		= { 1.f, 1.f, 1.f };
-	float							m_rotation	= 0.f;
+	Hi_Engine::Transform Transform;
+
+	CU::Vector3<float> CurrentPos = { 0.f, 0.f, 0.f };
+	CU::Vector3<float> PreviousPos = { 0.f, 0.f, 0.f };	// add desired position?
+	CU::Vector3<float> Scale		= { 1.f, 1.f, 1.f };
+	float							Rotation	= 0.f;
 };
 
 struct InputComponent : public ComponentBase
 {
-	std::unordered_map<Hi_Engine::eInputType, bool> m_inputStates; // replace with state instead of bool??
+	std::unordered_map<Hi_Engine::eInputType, bool> InputStates; // replace with state instead of bool??
 };

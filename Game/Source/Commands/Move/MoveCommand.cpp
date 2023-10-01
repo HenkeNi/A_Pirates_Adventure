@@ -19,14 +19,14 @@ void MoveCommand::Execute()
 		return;
 
 	// FIX!
-	m_velocityComponent->m_velocity.x = m_direction.x == 0.f ? m_velocityComponent->m_velocity.x : m_direction.x;
-	m_velocityComponent->m_velocity.z = m_direction.y == 0.f ? m_velocityComponent->m_velocity.z : m_direction.y;
+	m_velocityComponent->Velocity.x = m_direction.x == 0.f ? m_velocityComponent->Velocity.x : m_direction.x;
+	m_velocityComponent->Velocity.z = m_direction.y == 0.f ? m_velocityComponent->Velocity.z : m_direction.y;
 
 	//m_velocityComponent->m_velocity.x = m_direction.x; // Do += (clamp later)?!
 	//m_velocityComponent->m_velocity.z = m_direction.y;
 
-	m_characterStateComponent->m_isWalking = true;
-	m_characterStateComponent->m_isIdle = false;
+	m_characterStateComponent->IsWalking = true;
+	m_characterStateComponent->IsIdle = false;
 
 	// if (auto* target = ) -> need an entitymanager!
 

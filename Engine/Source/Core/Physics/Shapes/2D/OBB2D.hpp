@@ -47,7 +47,7 @@ namespace Hi_Engine::Physics
 	void OBB2D<T>::Init(const Vector2<T>& aCenter, const Vector2<T>& aSize, T aRotation)
 	{
 		m_center = aCenter;
-		m_size	= aSize;
+		m_size = aSize;
 		m_rotation = aRotation;
 	}
 

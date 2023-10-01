@@ -50,31 +50,31 @@ namespace Hi_Engine
         return;
 
         // activate corresponding render state	
-        someData.m_shader->Activate();
-        someData.m_shader->SetVector3f("uTextColor", someData.m_color);
+        someData.Shader->Activate();
+        someData.Shader->SetVector3f("uTextColor", someData.Color);
 
         glm::mat4 projection = glm::ortho(0.0f, (float)m_windowSize.x, 0.0f, (float)m_windowSize.y);
-        someData.m_shader->SetMatrix4("uProjection", projection);
+        someData.Shader->SetMatrix4("uProjection", projection);
       
         glActiveTexture(GL_TEXTURE0); // ????????????????????
         glBindVertexArray(m_VAO);
 
         // iterate through all characters
-        auto position = someData.m_position;
-        const auto& characters = someData.m_font->m_characters;
+        auto position = someData.Position;
+        const auto& characters = someData.Font->m_characters;
 
         // position.x -= (someData.m_text.size() * characters.begin()->second.m_size.x) * 0.5f; // TEST!!  
 
         
-        for (const char& c : someData.m_text)
+        for (const char& c : someData.Text)
         {
-            const auto& ch = someData.m_font->m_characters[c];
+            const auto& ch = someData.Font->m_characters[c];
                      
-            float xpos = position.x + ch.m_bearing.x * someData.m_scale;
-            float ypos = position.y - (ch.m_size.y - ch.m_bearing.y) * someData.m_scale;
+            float xpos = position.x + ch.m_bearing.x * someData.Scale;
+            float ypos = position.y - (ch.Size.y - ch.m_bearing.y) * someData.Scale;
 
-            float w = ch.m_size.x * someData.m_scale;
-            float h = ch.m_size.y * someData.m_scale;
+            float w = ch.Size.x * someData.Scale;
+            float h = ch.Size.y * someData.Scale;
             // update VBO for each character
             float vertices[6][4] = {
                 { xpos,     ypos + h,   0.0f, 0.0f },
@@ -101,7 +101,7 @@ namespace Hi_Engine
             // render quad
             glDrawArrays(GL_TRIANGLES, 0, 6);
             // now advance cursors for next glyph (note that advance is number of 1/64 pixels)
-            position.x += (ch.m_advance >> 6) * someData.m_scale; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
+            position.x += (ch.m_advance >> 6) * someData.Scale; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
             
             
             

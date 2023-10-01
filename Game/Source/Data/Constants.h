@@ -3,7 +3,7 @@
 
 namespace Constants
 {
-	constexpr const char*		g_Filepath = "../Bin/Assets/";	// place in dir class??
-	constexpr const unsigned	g_initialChunkSquareSize = 5;
-	constexpr const float		g_tileSize = 1.f;					// make static member of tile instead?
+	constexpr const char*		Filepath = "../Bin/Assets/";	// place in dir class??
+	constexpr const unsigned	InitialChunkSquareSize = 5;
+	constexpr const float		TileSize = 1.f;					// make static member of tile instead?
 }
