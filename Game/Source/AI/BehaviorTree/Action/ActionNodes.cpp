@@ -105,7 +105,7 @@ AttackTargetNode::AttackTargetNode(int anOwnerID, int aTargetID)
 
 eBTNodeStatus AttackTargetNode::Execute(EntityManager* anEntityManager)
 {
-	std::cout << "Attaclomg..\n";
+	//std::cout << "Attaclomg..\n";
 
 	if (!anEntityManager)
 		return eBTNodeStatus::Failure; // CORRECT OT RETURN FAILURE??

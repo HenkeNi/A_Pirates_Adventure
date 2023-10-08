@@ -90,7 +90,7 @@ void SteeringBehaviorSystem::UpdateFlockBehavior(float aDeltaTime)
 
 	// auto entities = m_entityManager->FindAllWithComponents<SteeringBehaviorComponent>();
 
-	std::cout << "Updating stereing components..." << entities.size() << '\n';
+	//std::cout << "Updating stereing components..." << entities.size() << '\n';
 
 	for (auto* entity : entities)
 	{

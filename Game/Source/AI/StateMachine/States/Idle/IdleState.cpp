@@ -11,7 +11,7 @@ State* IdleState::Update(float aDeltaTime)
 {
 	m_elapsedTime += aDeltaTime;
 
-	std::cout << "Ideling..\n";
+	//std::cout << "Ideling..\n";
 
 
 	// FUNCTION?

@@ -9,7 +9,7 @@ State* WalkState::Update(float aDeltaTime)
 {
 	m_elapsedTime += aDeltaTime;
 
-	std::cout << "Walking..\n";
+	// std::cout << "Walking..\n";
 
 	// FUNCTION?
 	for (const auto& transition : m_transitions)
