@@ -140,25 +140,17 @@ void SpriteAnimationSystem::UpdateSpriteOrientation(struct VelocityComponent* aV
 {
 	if (aVelocityComponent->Velocity.x >= 1.f)
 	{
-		if (aTransformComponent->Scale.x == -1.f)
-			aTransformComponent->Scale.x = 1.f;
+		if (aTransformComponent->Scale.x < 0.f)
+			aTransformComponent->Scale.x *= -1.f;
 
-		//if (subtexture->IsInverted())
-		//{
-		//	//subtexture->Invert();
-		//	std::cout << "Right\n";
-		//}
+		//if (aTransformComponent->Scale.x == -1.f)
+		//	aTransformComponent->Scale.x = 1.f;
 	}
 	else if (aVelocityComponent->Velocity.x <= -1.f)
 	{
-		if (aTransformComponent->Scale.x == 1.f)
-			aTransformComponent->Scale.x = -1.f;
-
-
-		/*if (!subtexture->IsInverted())
-		{
-			std::cout << "Left\n";
-			subtexture->Invert();
-		}*/
+		if (aTransformComponent->Scale.x > 0.f)
+			aTransformComponent->Scale.x *= -1.f;
+		//if (aTransformComponent->Scale.x == 1.f)
+		//	aTransformComponent->Scale.x = -1.f;
 	}
 }

@@ -86,7 +86,7 @@ void OverworldScene::OnEnter()
 	auto npc = m_entityManager.CreateResources("Castaway");
 	npc->GetComponent<TransformComponent>()->CurrentPos = { 15.f, 0.42f, 30.f };
 
-	// Camera
+	// Camera => do in camera system??
 	auto camera = m_entityManager.CreateResources("Camera");
 	camera->GetComponent<TransformComponent>()->CurrentPos = { 0.f, 0.f, 2.f };
 	camera->GetComponent<CameraComponent>()->TargetOffset = { 0.f, 0.f, 2.f };
