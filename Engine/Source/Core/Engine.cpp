@@ -71,7 +71,7 @@ namespace Hi_Engine
 
 		while (IsRunning())	// Todo, use enum for GameState instead? !GameState::EXIT
 		{
-			timer.Update();
+ 			timer.Update();
 			const float deltaTime = timer.GetDeltaTime();
 
 			Dispatcher::GetInstance().DispatchEvents();
@@ -87,10 +87,9 @@ namespace Hi_Engine
 			/* - Render - */
 			m_renderer.BeginFrame();
 			m_application->OnDraw();
-			m_renderer.Display();
-			m_renderer.EndFrame();
+			m_renderer.EndFrame();	// Always call Display in EndFrame?
 	
-			std::cout << timer.GetAverageFPS() << '\n';	// Figure out how to make accessible in the rest of the program! send event? or pass with delta time?
+			m_window.SetTitle("Fps: " + std::to_string((int)timer.GetAverageFPS()));
 		}
 	}
 		

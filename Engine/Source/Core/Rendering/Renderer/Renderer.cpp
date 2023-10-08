@@ -282,6 +282,8 @@ namespace Hi_Engine
 	void Renderer::EndFrame()
 	{
 		assert(m_window && "ERROR: found nullptr when accessing Window!");
+
+		Display();
 		m_window->SwapBuffers();
 
 		// Reset stats
