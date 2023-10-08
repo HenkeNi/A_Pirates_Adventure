@@ -29,6 +29,7 @@ namespace Hi_Engine
 		void			SwapBuffers()									const;
 		void			Close();
 
+		void			SetTitle(const std::string& aTitle);
 		void			SetSize(const CU::Vector2<unsigned>& aSize);
 		void			SetIcon(const std::string& aTexturePath);
 		void			ToggleFullscreen();

@@ -68,6 +68,11 @@ namespace Hi_Engine
 		glfwSetWindowShouldClose(m_window, true);
 	}
 
+	void Window::SetTitle(const std::string& aTitle)
+	{
+		glfwSetWindowTitle(m_window, aTitle.c_str());
+	}
+
 	void Window::SetSize(const CU::Vector2<unsigned>& aSize)
 	{
 		glfwSetWindowSize(m_window, aSize.x, aSize.y);
