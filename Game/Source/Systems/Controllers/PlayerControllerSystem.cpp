@@ -174,7 +174,7 @@ void PlayerControllerSystem::Update(float aDeltaTime)
 		
 
 
-		
+		// TODO; check near equal instead.. Or dont use velicuty??
 		if (velocity->Velocity.x == 0.f && velocity->Velocity.z == 0.f)
 		{
 			characterState->IsWalking = false;

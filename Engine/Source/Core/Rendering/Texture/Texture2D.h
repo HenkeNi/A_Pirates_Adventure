@@ -23,6 +23,6 @@ namespace Hi_Engine
 		GLenum					m_internalFormat, m_imageFormat;
 		unsigned				m_id;
 
-		bool m_linearFiltering;
+		bool m_linearFiltering;	// replace with GLInt?? 
 	};
 }

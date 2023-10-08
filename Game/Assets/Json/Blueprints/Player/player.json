@@ -48,7 +48,7 @@
             "pirate_idle_05",
             "pirate_idle_06"
           ],
-          "frame_duration": 0.1,
+          "frame_duration": 0.2,
           "is_looping": true,
           "is_playing": true
         },
@@ -63,7 +63,7 @@
             "pirate_walk_05",
             "pirate_walk_06"
           ],
-          "frame_duration": 0.025,
+          "frame_duration": 0.15,
           "is_looping": true,
           "is_playing": false
         },
@@ -78,7 +78,7 @@
             "pirate_attack_05",
             "pirate_attack_06"
           ],
-          "frame_duration": 0.025,
+          "frame_duration": 0.05,
           "is_looping": false,
           "is_playing": false
         },
@@ -93,7 +93,7 @@
             "pirate_run_05",
             "pirate_run_06"
           ],
-          "frame_duration": 0.025,
+          "frame_duration": 0.1,
           "is_looping": true,
           "is_playing": false
         }

@@ -17,4 +17,7 @@ struct CharacterStateComponent : public ComponentBase
 	bool IsJumping;
 	bool IsAttacking;
 	bool IsAlive;
+
+
+	// State machine??
 };

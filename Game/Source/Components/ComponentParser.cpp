@@ -1,6 +1,7 @@
 #include "Pch.h"
 #include "ComponentParser.h"
 #include "../Data/Structs.h"
+#include <Core/Resources/ResourceHolder.hpp>
 
 using ComponentData = std::unordered_map<std::string, std::any>;
 using JsonValue = const rapidjson::Value&;
@@ -31,12 +32,12 @@ ComponentData ComponentParser::ParseAnimationComponent(JsonValue aValue)
 	{
 		Animation animationSequence;
 
-		std::vector<std::string> sprites;
+		std::vector<Hi_Engine::Subtexture2D*> animations;
 		for (const auto& sprite : animation["sprites"].GetArray())
-			sprites.push_back(sprite.GetString());
+			animations.push_back(&Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource(sprite.GetString()));
 
-		animationSequence.Sprites				= sprites;
-		animationSequence.TotalFrames			= sprites.size();
+		animationSequence.Animations = animations;
+		animationSequence.TotalFrames		= animations.size();
 		animationSequence.CurrentFrame		= 0;
 		animationSequence.ElapsedFrameTime	= 0.f;
 		animationSequence.FrameDuration		= animation["frame_duration"].GetFloat();

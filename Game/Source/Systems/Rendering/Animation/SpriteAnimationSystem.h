@@ -3,7 +3,6 @@
 
 class Entity;
 
-// rename AnimationSystem?
 class SpriteAnimationSystem : public System
 {
 public:
@@ -13,12 +12,10 @@ public:
 	void Receive(Message& aMsg)		override;
 	void Update(float aDeltaTime)	override;
 
-	// void Draw()					override;
-
 private:
-
 	std::string GetCurrentState(Entity* anEntity) const; // ???
 
-	void SetSpriteOrientation(struct AnimationComponent* anAnimationComponent, struct VelocityComponent* aVelocityComponent);
+	void UpdateSpriteOrientation(struct VelocityComponent* aVelocityComponent, struct TransformComponent* aTransformComponent);
+
 };
 

@@ -16,8 +16,11 @@ struct SpriteComponent : public ComponentBase
 
 struct AnimationComponent : public ComponentBase
 {
-	std::unordered_map<std::string, Animation>	Animations;	// replace with Array??
+	std::unordered_map<std::string, Animation>	Animations;	// replace with Array?? or enum for key?
 	std::string									Active;		// index instead??
+
+
+
 
 	// store default??
 
