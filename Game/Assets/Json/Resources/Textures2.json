@@ -10,6 +10,16 @@
     "cols": 4
   },
   {
+    "id": "island_tileset",
+    "path": "../Game/Assets/Textures/island_tileset.png",
+    "alpha": true,
+    "filtering": "Nearest",
+    "width": 2048,
+    "height": 768,
+    "rows": 6,
+    "cols": 16
+  },
+  {
     "id": "pirate_idle",
     "path": "../Game/Assets/Textures/pirate_idle.png",
     "alpha": true,
