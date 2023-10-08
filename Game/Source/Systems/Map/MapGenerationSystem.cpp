@@ -50,11 +50,14 @@ void MapGenerationSystem::GenerateStartArea()
 
 	unsigned size = Constants::InitialChunkSquareSize;
 
+	// For each chunk..
 	for (int col = 0; col < size; ++col)
 	{
 		for (int row = 0; row < size; ++row)
 		{
-			bool isLand = col > 0 && col < 4 && row < 4 && row > 0;
+			bool isLand = col > 0 && col < 4 && row < 4 && row > 0; 
+
+			bool isGrass = col == 2 && row == 3;
 
 			// create mapChunk..
 			auto entity = m_entityManager->CreateResources("MapChunk");
@@ -73,7 +76,8 @@ void MapGenerationSystem::GenerateStartArea()
 					Tile tile;
 					tile.Coordinates = { height, width };
 					tile.IsCollidable = !isLand;
-					tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource(isLand ? "ground_tiles_00" : "ground_tiles_01");
+					tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource(isGrass ? "island_tileset_47" : isLand ? "island_tileset_13" : "ground_tiles_01"); // Sprite sheet is revered??
+					//tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource(isLand ? "ground_tiles_00" : "ground_tiles_01");
 					/*tile.m_material = {
 						&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource(isLand ? "sand" : "sea"),
 						&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("sprite_batch")

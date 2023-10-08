@@ -13,6 +13,8 @@ struct VelocityComponent : public ComponentBase
 	CU::Vector3<float>	Acceleration;
 	float				Speed;
 	// Speed? direction?
+
+
 };
 
 

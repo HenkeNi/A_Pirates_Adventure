@@ -42,20 +42,60 @@ struct Tile
 	bool				IsCollidable;
 };
 
-// Put in Engine??
+// Put in Engine?? => wrap a texture instead?? => specify coordiantes and stuff...
 struct Animation
 {
-	std::vector<std::string>	Sprites;
+	std::vector<class Hi_Engine::Subtexture2D*> Animations; // rename AnimationFrames or Frames
+	// std::vector<std::string>	Sprites;
 	unsigned					TotalFrames;
 	unsigned					CurrentFrame;
 	float						FrameDuration;
 	float						ElapsedFrameTime;
 	bool						IsPlaying;
 	bool						IsLooping;
+	
+	bool						IsInverted;
 
 
 	// TODO; store keyframes??
 };
+
+//struct AnimationSequence
+//{ 
+//	//class Hi_Engine::Subtexture2D*	Subtexture;
+//	class Hi_Engine::Texture2D*		Texture;
+//	unsigned						TotalFrames;
+//	unsigned						CurrentFame;
+//	float							FrameDuration;
+//	float							ElapsedFrameTime;
+//	bool							IsPlaying;
+//	bool							IsLooping;
+//
+//
+//	// wraps a subtexture... sets coordinates??
+//};
+//
+
+
+
+//
+//
+//class Animation
+//{
+//public:
+//	Animation();
+//
+//private:
+//	class Hi_Engine::Texture2D* m_texture;
+//	glm::vec2 m_coordinates[4]  m_texCoords;
+//
+//
+//};
+
+
+
+
+
 
 
 //struct BaseComponentData
@@ -71,16 +111,4 @@ struct Animation
 //	{
 //		return static_cast<Derived*>(this);
 //	}
-//};
-//
-//
-//struct TransformComponentData : public ComponentData<TransformComponentData>
-//{
-//	float m_x;
-//	float m_y;
-//};
-//
-//struct SpriteComponentData : public ComponentData<SpriteComponentData>
-//{
-//	std::string m_sprite;
 //};

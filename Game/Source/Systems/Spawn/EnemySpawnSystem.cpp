@@ -30,7 +30,7 @@ void EnemySpawnSystem::Update(float aDeltaTime)
 
 	for (auto& spawner : spawners)
 	{
-		auto* spawnComponent = spawner->GetComponent<SpawnComponent>();
+ 		auto* spawnComponent = spawner->GetComponent<SpawnComponent>();
 
 		spawnComponent->ElapsedTime += aDeltaTime;
 
