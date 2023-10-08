@@ -29,4 +29,9 @@ namespace CommonUtilities
 	{
 		return glm::vec3{ aVector.x, aVector.y, aVector.z };
 	}
+
+	inline bool IsNearlyEqual(float aFirst, float aSecond, float anEpsilon = 0.0001f) // not checked...
+	{
+		return std::abs(aFirst - aSecond) < anEpsilon * std::abs(aFirst);
+	}
 }
