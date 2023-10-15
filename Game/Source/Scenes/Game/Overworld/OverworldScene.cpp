@@ -13,6 +13,8 @@ OverworldScene::~OverworldScene()
 
 void OverworldScene::Update(float aDeltaTime)
 {
+
+
 }
 
 void OverworldScene::LateUpdate(float aDeltaTime)

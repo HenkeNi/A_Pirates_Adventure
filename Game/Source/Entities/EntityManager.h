@@ -21,6 +21,9 @@ public:
 	template <typename... Components>
 	std::vector<Entity*> FindAllWithComponents();
 
+	template <typename... Components>
+	Entity* FindFirstWithComponents();
+
 	void Destroy(unsigned anID);
 	void DestroyAll();
 
@@ -49,5 +52,18 @@ std::vector<Entity*> EntityManager::FindAllWithComponents()
 	}
 	return found;
 }
+
+template <typename... Components>
+Entity* EntityManager::FindFirstWithComponents()
+{
+	for (auto& entity : m_entities)
+	{
+		if (entity.HasComponents<Components...>())
+			return &entity;
+	}
+
+	return nullptr;
+}
+
 
 #pragma endregion Method_Definitions

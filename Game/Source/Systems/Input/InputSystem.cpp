@@ -30,6 +30,9 @@ void InputSystem::Update(float aDeltaTime)
 	using inputHandler = Hi_Engine::InputHandler;
 	using key = Hi_Engine::eInputType;
 
+	auto mousePos = inputHandler::GetMousePosition();
+
+
 	for (auto entity : entities) // TEMP...
 	{
 		auto inputComponent = entity->GetComponent<InputComponent>();
@@ -87,5 +90,11 @@ void InputSystem::Update(float aDeltaTime)
 		{
 			inputComponent->InputStates.insert_or_assign(key::Key_Shift, false);
 		}
+
+
+		inputComponent->MousePosition = { mousePos.x, mousePos.y };
+
+
+		// inputComponent->MousePosition = inputHandler::GetN
 	}
 }

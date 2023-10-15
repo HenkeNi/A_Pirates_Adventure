@@ -70,11 +70,13 @@ struct LineComponent : public ComponentBase
 
 struct TextComponent : public ComponentBase
 {
-	std::string			Text;
-	Hi_Engine::Shader*	Shader;
-	Hi_Engine::Font*	Font;
+	class Hi_Engine::Font* Font;
+	std::string				Text;
+	unsigned				Size = 32;
+	//Hi_Engine::Shader*	Shader;
+	//Hi_Engine::Font*	Font;
 	// float				m_scale; use transform instead..
-	CU::Vector3<float>	Color;
+	CU::Vector4<float>		Color;
 };
 
 

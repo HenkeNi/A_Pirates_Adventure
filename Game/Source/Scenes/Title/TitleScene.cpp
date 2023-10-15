@@ -13,13 +13,19 @@ TitleScene::~TitleScene()
 
 void TitleScene::Update(float aDeltaTime) 
 {
+	// TEMP
+	static float elapsedTime = 0.f;
+
+	elapsedTime += aDeltaTime;
+	if (elapsedTime >= 5.f)
+	{
+		m_sharedContext.SceneManager.Pop();
+	}
 }
 
 void TitleScene::LateUpdate(float aDeltaTime) {}
 
-void TitleScene::Draw() const
-{
-}
+void TitleScene::Draw() const {}
 
 //void TitleScene::Draw() const {}
 
@@ -37,25 +43,39 @@ void TitleScene::OnEnter()
 
 
 	// trigger component?
-
 	// TODO; load in relevant systems..
-
-
 	// TODO; Load in new entities...
 
-	auto background = m_entityManager.CreateResources("title_background");
-	
+
+
+	auto* background = m_entityManager.CreateResources("title_background");
+	auto* transformComponent = background->GetComponent<TransformComponent>();
+	transformComponent->Scale *= 1.5f;
+	transformComponent->CurrentPos.y = 0.5f;
+	// INput component, and a trigger component...
+
+
+
+
+
 	// Add triiger componnet??
 
+	// TODO; read from json?? Title_text.json...
+	auto* title = m_entityManager.CreateResources("title_text");
+	title->GetComponent<TransformComponent>()->CurrentPos = { 230.f, 650.f, 0.f };
+	title->GetComponent<TextComponent>()->Text = "A Pirate's Adventure";
 
-	auto camera = m_entityManager.CreateResources("Camera");
+
+	// auto* inputListener = m_entityManager.CreateResources()
+
+	auto* camera = m_entityManager.CreateResources("Camera");
 	camera->GetComponent<TransformComponent>()->CurrentPos = { 0.f, 0.f, 2.f };
 	camera->GetComponent<CameraComponent>()->TargetOffset = { 0.f, 0.f, 2.f };
 	camera->GetComponent<CameraComponent>()->TargetID = background->GetID();
-
 }
 
 void TitleScene::OnExit() 
 {
+	m_entityManager.DestroyAll();
 	// TODO; Clear entities...
 }

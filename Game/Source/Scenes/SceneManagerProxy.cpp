@@ -32,3 +32,8 @@ bool SceneManagerProxy::IsEmpty() const
 {
 	return m_sceneManager.IsEmpty();
 }
+
+//Scene& SceneManagerProxy::GetActiveScene()
+//{
+//	return m_sceneManager.GetActiveScene();
+//}

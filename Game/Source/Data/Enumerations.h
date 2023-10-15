@@ -3,14 +3,14 @@
 
 enum class eScene
 {
-	Game		= 1, 
-	Pause		= 2,
-	Menu		= 4,
-	Loading		= 8, 
-	Title		= 16,
-	Overworld	= 32,
-	Dungeon		= 64,
-	Count		= 128
+	Game		/*= 1*/, 
+	Pause		/*= 2*/,
+	Menu		/*= 4*/,
+	Loading		/*= 8*/, 
+	Title		/*= 16*/,
+	Overworld	/*= 32*/,
+	Dungeon		/*= 64*/,
+	Count		/*= 128*/
 	//Settings, 
 	//GameOver, 
 };

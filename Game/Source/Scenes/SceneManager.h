@@ -3,13 +3,17 @@
 //  #include <Hi_Engine.h>
 #include <Utility/DataStructures/Linear/Dynamic/Stack/Stack.hpp>
 
+#include <bitset>
+
 namespace CU = CommonUtilities;
 
 class Scene;
 
 namespace
 {
-	using ScenePtr_t = std::unique_ptr<Scene>;
+	using SceneMap = std::unordered_map<eScene, std::shared_ptr<Scene>>;
+	using ScenePtr_t = std::shared_ptr<Scene>;
+	//using ScenePtr_t = std::unique_ptr<Scene>;
 }
 
 class SceneManager
@@ -20,7 +24,8 @@ public:
 
 	// LoadScene("MainMenu"	);
 
-	void Init(int aSceneSet);					
+	//void Init(int aSceneSet);					
+	void Init(std::bitset<(int)eScene::Count> someScenes);
 	void Register(ScenePtr_t aScene, eScene aType);
 	void Push(eScene aType);
 	void Pop();
@@ -28,10 +33,15 @@ public:
 	void Clear();
 	bool IsEmpty()			const;
 
-	void Update(float aDeltaTime);	
-	void LateUpdate(float aDeltaTime);
-	void Draw()				const;
+	//void Update(float aDeltaTime);	
+	//void LateUpdate(float aDeltaTime);
+	//void Draw()				const;
 
+
+	std::shared_ptr<Scene>		 GetActiveScene();
+	std::shared_ptr<const Scene> GetActiveScene() const;
+
+	//Scene& GetActiveScene();
 	//void LoadScene();
 	// void UnloadScene()
 
@@ -40,6 +50,8 @@ private:
 
 	// SceneFactory??
 
-	std::unordered_map<eScene, ScenePtr_t>	m_scenes;
-	CU::Stack<eScene>						m_sceneStack;
+	
+		
+	SceneMap			m_scenes;			// STore by value?
+	CU::Stack<eScene>	m_sceneStack;
 };

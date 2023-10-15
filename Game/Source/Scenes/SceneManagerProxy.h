@@ -14,6 +14,8 @@ public:
 	void Clear();
 	bool IsEmpty() const;
 
+	//class Scene& GetActiveScene();
+
 private:
 	SceneManager& m_sceneManager;
 };

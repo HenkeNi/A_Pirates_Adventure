@@ -30,7 +30,7 @@
 #include "Spawn/SpawnSystem.h"
 
 #include "Equipment/EquipmentSystem.h"
-#include "Resource/ResourceDropSystem.h"
+#include "Resource/ResourceSpawnSystem.h"
 #include "Inventory/InventorySystem.h"
 
 

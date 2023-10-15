@@ -25,7 +25,8 @@ void CameraSystem::Update(float aDeltaTime)
 
 	// Do every frame? or just at the beginning of new Scene?
 
-	auto camera = m_entityManager->FindAllWithComponents<CameraComponent>()[0]; // Get first
+	auto* camera = m_entityManager->FindFirstWithComponents<CameraComponent>(); // Get first
+	//auto camera = m_entityManager->FindAllWithComponents<CameraComponent>()[0]; // Get first
 
 	if (!camera)
 		return;

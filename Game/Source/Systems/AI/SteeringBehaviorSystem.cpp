@@ -28,6 +28,9 @@ void SteeringBehaviorSystem::Update(float aDeltaTime)
 
 void SteeringBehaviorSystem::UpdateWanderBehavior(float aDeltaTime)
 {
+	if (!m_entityManager)
+		return;
+
 	auto entities = m_entityManager->FindAllWithComponents<WanderBehaviorComponent>();
 
 	for (auto entity : entities)

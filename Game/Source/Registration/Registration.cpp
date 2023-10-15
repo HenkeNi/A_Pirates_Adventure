@@ -32,6 +32,7 @@ namespace Registration
 		EntityManager::s_entityFactory.RegisterComponentBuilder("Spawner",				new ConcreteComponentBuilder<SpawnComponent>());
 		EntityManager::s_entityFactory.RegisterComponentBuilder("BehaviorTree",			new ConcreteComponentBuilder<BehaviorTreeComponent>());
 		EntityManager::s_entityFactory.RegisterComponentBuilder("Trigger",				new ConcreteComponentBuilder<TriggerComponent>());
+		EntityManager::s_entityFactory.RegisterComponentBuilder("Text",					new ConcreteComponentBuilder<TextComponent>());
 		EntityManager::s_entityFactory.RegisterComponentBuilder("WorldTime",			new ConcreteComponentBuilder<WorldTimeComponent>());
 
 		EntityManager::s_entityFactory.RegisterComponentBuilder("MapChunk",				new ConcreteComponentBuilder<MapChunkComponent>());
@@ -73,7 +74,7 @@ namespace Registration
 
 		aSystemManager.Register(std::make_unique<PlayerControllerSystem>());
 		aSystemManager.Register(std::make_unique<RangedCombatSystem>());
-		aSystemManager.Register(std::make_unique<ResourceDropSystem>());
+		aSystemManager.Register(std::make_unique<ResourceSpawnSystem>());
 
 		aSystemManager.Register(std::make_unique<SpawnSystem>());
 		aSystemManager.Register(std::make_unique<SpriteAnimationSystem>());

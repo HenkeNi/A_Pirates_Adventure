@@ -22,6 +22,8 @@ void TextRenderSystem::Draw()
 
 	auto entities = m_entityManager->FindAllWithComponents<TextComponent, TransformComponent>();
 
+	auto* shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Text"); // FIX!! set in Renderer before...
+
 	for (const auto& entity : entities)
 	{
 		const auto& textComponent		= entity->GetComponent<TextComponent>();
@@ -29,11 +31,14 @@ void TextRenderSystem::Draw()
 
 		const auto& position = CU::Vector2<float>{ transformComponent->CurrentPos.x, transformComponent->CurrentPos.y };
 
-		Hi_Engine::TextRenderer::GetInstance().Render({ textComponent->Shader, textComponent->Font, transformComponent->Scale.x, textComponent->Color, position, textComponent->Text });
+
+		auto color = textComponent->Color; // FIX!
+
+		Hi_Engine::TextRenderer::GetInstance().Render({ shader, textComponent->Font, transformComponent->Scale.x, { color.x, color.y, color.z }, position, textComponent->Text});
 	}
 
 	// TEST
-	auto& shader = Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Text");
-	auto& font = Hi_Engine::ResourceHolder<Hi_Engine::Font>::GetInstance().GetResource("Basic");
-	Hi_Engine::TextRenderer::GetInstance().Render({ &shader, &font, 2.f, { 1.f, 1.f, 1.f }, { 230.f, 338.f}, "GHello world" });
+	//auto& shader = Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Text");
+	//auto& font = Hi_Engine::ResourceHolder<Hi_Engine::Font>::GetInstance().GetResource("Basic");
+	// Hi_Engine::TextRenderer::GetInstance().Render({ shader, &font, 2.f, { 1.f, 1.f, 1.f }, { 230.f, 338.f}, "GHello world" });
 }

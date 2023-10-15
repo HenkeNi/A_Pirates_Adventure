@@ -12,22 +12,49 @@ SceneManager::~SceneManager()
 	Clear();
 }
 
-void SceneManager::Init(int aSceneSet)
+void SceneManager::Init(std::bitset<(int)eScene::Count> someScenes)
 {
-	for (int i = 1; i < (int)eScene::Count; i <<= 1)
+	for (int i = 0; i < (int)eScene::Count; ++i)
 	{
-		auto type = static_cast<eScene>(i);
+		if (someScenes[i])
+		{
+			// auto t = (eScene)i;
 
-		//if (aSceneSet & (int)type)
-		if ((aSceneSet & i) == i)
-			m_sceneStack.Push(type);
+			m_sceneStack.Push((eScene)i);
+		}
+
+		//int index = (int)static_cast<eScene>(i);
+		//if (someScenes[index])
+		//{
+		//	eScene type = static_cast<eScene>(i);
+
+		//	int xx = 20;
+		//	xx += 20;
+		//	//auto type = static_cast<eScene>(i);
+		//}
+
 	}
 
-	//m_sceneStack.Push(eScene::Title);
-
-	LoadScenes();
-	m_scenes[m_sceneStack.Top()]->OnEnter();
+	//LoadScenes();
+	//m_scenes[m_sceneStack.Top()]->OnEnter();
 }
+
+//void SceneManager::Init(int aSceneSet)
+//{
+//	for (int i = 1; i < (int)eScene::Count; i <<= 1)
+//	{
+//		auto type = static_cast<eScene>(i);
+//
+//		//if (aSceneSet & (int)type)
+//		if ((aSceneSet & i) == i)
+//			m_sceneStack.Push(type);
+//	}
+//
+//	//m_sceneStack.Push(eScene::Title);
+//
+//	LoadScenes();
+//	m_scenes[m_sceneStack.Top()]->OnEnter();
+//}
 
 void SceneManager::Register(ScenePtr_t aScene, eScene aType)
 {
@@ -87,43 +114,53 @@ bool SceneManager::IsEmpty() const
 	return m_sceneStack.IsEmpty();
 }
 
-void SceneManager::Update(float aDeltaTime)
+//void SceneManager::Update(float aDeltaTime)
+//{
+//	if (!IsEmpty()) 
+//	{  
+//		m_scenes[m_sceneStack.Top()]->Update(aDeltaTime);
+//	}
+//}
+//
+//void SceneManager::LateUpdate(float aDeltaTime)
+//{
+//	if (!IsEmpty()) 
+//	{
+//		m_scenes[m_sceneStack.Top()]->LateUpdate(aDeltaTime);
+//	}
+//}
+
+//void SceneManager::Draw() const
+//{
+//	if (!IsEmpty()) 
+//	{ 
+//		const auto iterator = m_scenes.find(m_sceneStack.Top());
+//		if (iterator != m_scenes.end())
+//		{
+//			// TODO;
+//			// Always render the game scene if the scene is transparent?? or render all scenes in the stack...
+//			if (iterator->second->IsTransparent() && m_sceneStack.Top() != eScene::Game)
+//			{
+//				auto gameSceneItr = m_scenes.find(eScene::Game);
+//				if (gameSceneItr != m_scenes.end())
+//				{
+//					gameSceneItr->second->Draw();
+//				}
+//			}
+//
+//			iterator->second->Draw();
+//		}
+//	}
+//}
+
+std::shared_ptr<Scene> SceneManager::GetActiveScene()
 {
-	if (!IsEmpty()) 
-	{  
-		m_scenes[m_sceneStack.Top()]->Update(aDeltaTime);
-	}
+	return m_scenes[m_sceneStack.Top()];
 }
 
-void SceneManager::LateUpdate(float aDeltaTime)
+std::shared_ptr<const Scene> SceneManager::GetActiveScene() const
 {
-	if (!IsEmpty()) 
-	{
-		m_scenes[m_sceneStack.Top()]->LateUpdate(aDeltaTime);
-	}
-}
-
-void SceneManager::Draw() const
-{
-	if (!IsEmpty()) 
-	{ 
-		const auto iterator = m_scenes.find(m_sceneStack.Top());
-		if (iterator != m_scenes.end())
-		{
-			// TODO;
-			// Always render the game scene if the scene is transparent?? or render all scenes in the stack...
-			if (iterator->second->IsTransparent() && m_sceneStack.Top() != eScene::Game)
-			{
-				auto gameSceneItr = m_scenes.find(eScene::Game);
-				if (gameSceneItr != m_scenes.end())
-				{
-					gameSceneItr->second->Draw();
-				}
-			}
-
-			iterator->second->Draw();
-		}
-	}
+	return m_scenes.at(m_sceneStack.Top());
 }
 
 void SceneManager::LoadScenes()
