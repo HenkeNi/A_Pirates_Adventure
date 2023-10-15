@@ -31,7 +31,8 @@
       "../Game/Assets/Json/Blueprints/Ships/ship_raft.json"
     ],
     "ui": [
-      "../Game/Assets/Json/Blueprints/UI/title_background.json"
+      "../Game/Assets/Json/Blueprints/UI/title_background.json",
+      "../Game/Assets/Json/Blueprints/UI/title_text.json"
     ],
     "map": [
       "../Game/Assets/Json/Blueprints/Map/map_chunk.json"
