@@ -9,5 +9,11 @@ uniform vec3 uTextColor;
 void main()
 {    
     vec4 sampled = vec4(1.0, 1.0, 1.0, texture(uText, TexCoord).r);
-    FragColor = vec4(uTextColor, 1.0) * sampled;
+    //FragColor = vec4(uTextColor, 1.0) * sampled;
+    vec4 texColor = vec4(uTextColor, 1.0) * sampled;
+
+    if (texColor.a < 0.1)
+        discard;
+
+    FragColor = texColor;
 }

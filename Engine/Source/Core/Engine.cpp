@@ -31,6 +31,8 @@ namespace Hi_Engine
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_BLEND);
 
+		m_inputHandler.Init(m_window.m_window);
+
 		// REMOVE...
 		TextRenderer::GetInstance().Init();
 

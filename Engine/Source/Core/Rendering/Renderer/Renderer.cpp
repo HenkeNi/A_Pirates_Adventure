@@ -187,8 +187,6 @@ namespace Hi_Engine
 
 	void Renderer::Init()
 	{
-		//--------------- Setup Quad Buffers ---------------//
-
 		/* Create vertex array object */
 		glGenVertexArrays(1, &m_quadContext.VAO);
 		glBindVertexArray(m_quadContext.VAO);
@@ -228,25 +226,6 @@ namespace Hi_Engine
 		/* Unbind VBO and VAO */
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
-
-
-
-		//--------------- Setup Text Buffers ---------------//
-
-		glGenVertexArrays(1, &m_textContext.VAO);
-		glGenBuffers(1, &m_textContext.VBO);
-		glBindVertexArray(m_textContext.VAO);
-		glBindBuffer(GL_ARRAY_BUFFER, m_textContext.VBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
-
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
-
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindVertexArray(0);
 	}
 
 	void Renderer::Shutdown()
@@ -275,6 +254,32 @@ namespace Hi_Engine
 
 	void Renderer::Display()
 	{
+		/* Pass data to the buffer (VBO) */
+		GLsizeiptr size = (uint8_t*)m_quadContext.CurrentVertex - (uint8_t*)m_quadContext.Buffer;
+		glBindBuffer(GL_ARRAY_BUFFER, m_quadContext.VBO);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, size, m_quadContext.Buffer);
+
+		/* Activate and bind used textures */
+		for (uint32_t i = 0; i < m_textureSlotIndex; ++i)
+		{
+			glActiveTexture(GL_TEXTURE0 + i);
+			glBindTexture(GL_TEXTURE_2D, m_textureSlots[i]);
+		}
+
+		// m_activeShader->SetIntArray("uTextures", m_textureSlots, m_textureSlotIndex);	// NEEDED??
+		m_quadContext.Shader->Activate();	// Fetch instead from ResourceHolder??
+
+		/* Set view-projection matrix */
+		glm::mat4 viewProjection = m_camera->GetViewProjectionMatrix();
+		m_quadContext.Shader->SetMatrix4("uViewProjection", viewProjection);
+
+		glBindVertexArray(m_quadContext.VAO);
+		glDrawElements(GL_TRIANGLES, m_quadContext.IndexCount, GL_UNSIGNED_INT, nullptr);
+
+		++m_stats.TotalDraws;
+
+
+
 		DisplayQuads();
 		// DisplayText();
 	}
@@ -296,19 +301,16 @@ namespace Hi_Engine
 		m_window = aWindow;
 	}
 
-	void Renderer::SetShader(Shader* aShader, bool aSpriteShader)
+	void Renderer::SetShader(Shader* aShader)
 	{
-		if (aSpriteShader)
-		{
-			m_quadContext.Shader = aShader;
-			m_quadContext.Shader->Activate();
+		m_quadContext.Shader = aShader;
+		m_quadContext.Shader->Activate();
 
-			int samplers[32];
-			for (int i = 0; i < 32; ++i)
-				samplers[i] = i;
+		int samplers[32];
+		for (int i = 0; i < 32; ++i)
+			samplers[i] = i;
 
-			m_quadContext.Shader->SetIntArray("uTextures", samplers, 32);
-		}
+		m_quadContext.Shader->SetIntArray("uTextures", samplers, 32);
 	}
 
 	void Renderer::SetCamera(Camera* aCamera)
@@ -318,29 +320,7 @@ namespace Hi_Engine
 
 	void Renderer::DisplayQuads()
 	{
-		/* Pass data to the buffer (VBO) */
-		GLsizeiptr size = (uint8_t*)m_quadContext.CurrentVertex - (uint8_t*)m_quadContext.Buffer;
-		glBindBuffer(GL_ARRAY_BUFFER, m_quadContext.VBO);	
-		glBufferSubData(GL_ARRAY_BUFFER, 0, size, m_quadContext.Buffer);
-
-		/* Activate and bind used textures */
-		for (uint32_t i = 0; i < m_textureSlotIndex; ++i)
-		{
-			glActiveTexture(GL_TEXTURE0 + i);
-			glBindTexture(GL_TEXTURE_2D, m_textureSlots[i]);
-		}
-
-		// m_activeShader->SetIntArray("uTextures", m_textureSlots, m_textureSlotIndex);	// NEEDED??
-		m_quadContext.Shader->Activate();	// Fetch instead from ResourceHolder??
-
-		/* Set view-projection matrix */
-		glm::mat4 viewProjection = m_camera->GetViewProjectionMatrix();
-		m_quadContext.Shader->SetMatrix4("uViewProjection", viewProjection);
-
-		glBindVertexArray(m_quadContext.VAO);
-		glDrawElements(GL_TRIANGLES, m_quadContext.IndexCount, GL_UNSIGNED_INT, nullptr);
-
-		++m_stats.TotalDraws;
+		
 	}
 
 	void Renderer::DisplayText()
@@ -348,7 +328,7 @@ namespace Hi_Engine
 		auto* shader = m_textContext.Shader;
 
 		shader->Activate();
-		shader->SetVector4f("uTextColor", { 1.f, 1.f, 1.f, 1.f }); // TODO; fix color...
+		shader->SetVector4f("uText Color", { 1.f, 1.f, 1.f, 1.f }); // TODO; fix color...
 
 		glm::mat4 projection = m_camera->GetProjectionMatrix();
 		shader->SetMatrix4("uProjection", projection);

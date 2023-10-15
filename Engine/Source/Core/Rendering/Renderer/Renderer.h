@@ -33,7 +33,7 @@ namespace Hi_Engine
 		void EndFrame();
 
 		void SetRenderTarget(Window* aWindow);
-		void SetShader(Shader* aShader, bool aSpriteShader = true);
+		void SetShader(Shader* aShader);
 		void SetCamera(Camera* aCamera);		// Pass in instead??
 
 		void ProcessCommands();					// ??? ProcessDrawCalls();

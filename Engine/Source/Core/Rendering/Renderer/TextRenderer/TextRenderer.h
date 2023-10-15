@@ -7,8 +7,6 @@ namespace Hi_Engine
 
 	struct TextRenderData;
 	
-	
-
 
 	class TextRenderer
 	{
@@ -31,9 +29,13 @@ namespace Hi_Engine
 	private:
 		TextRenderer();
 
+
+		RenderContext	m_textContext;
+
+
 		class Camera* m_camera;
 		CU::Vector2<unsigned>	m_windowSize;	// FIX LATER...
-		unsigned	m_VAO, m_VBO;
+		// unsigned	m_VAO, m_VBO;
 
 		//std::unordered_map<GLchar, Character>   m_characters;
 		//class Shader* m_textShader;

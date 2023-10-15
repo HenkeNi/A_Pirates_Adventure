@@ -25,17 +25,24 @@ namespace Hi_Engine
 
 	void TextRenderer::Init()
 	{
-        glGenVertexArrays(1, &m_VAO);
-        glGenBuffers(1, &m_VBO);
-        glBindVertexArray(m_VAO);
-        glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
+        glGenVertexArrays(1, &m_textContext.VAO);
+        glBindVertexArray(m_textContext.VAO);
 
+        glGenBuffers(1, &m_textContext.VBO);
+        glBindBuffer(GL_ARRAY_BUFFER, m_textContext.VBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * sizeof(Text), nullptr, GL_DYNAMIC_DRAW); // FIX THE SIZE of the buffer!
+
+        /* Position Attribute */
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Text), (void*)offsetof(Text, Position));
 
+        /* Color Attribute */
         glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Text), (void*)offsetof(Text, Color));
+
+        /* Texture Coord Attribute */
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Text), (void*)offsetof(Text, TexCoords));
 
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
@@ -47,7 +54,7 @@ namespace Hi_Engine
 
 	void TextRenderer::Render(const TextRenderData& someData)
 	{
-        return;
+       // return;
 
         // activate corresponding render state	
         someData.Shader->Activate();
@@ -57,11 +64,10 @@ namespace Hi_Engine
         someData.Shader->SetMatrix4("uProjection", projection);
       
         glActiveTexture(GL_TEXTURE0); // ????????????????????
-        glBindVertexArray(m_VAO);
+        glBindVertexArray(m_textContext.VAO);
 
         // iterate through all characters
         auto position = someData.Position;
-        const auto& characters = someData.Font->m_characters;
 
         // position.x -= (someData.m_text.size() * characters.begin()->second.m_size.x) * 0.5f; // TEST!!  
 
@@ -76,14 +82,17 @@ namespace Hi_Engine
             float w = ch.Size.x * someData.Scale;
             float h = ch.Size.y * someData.Scale;
             // update VBO for each character
-            float vertices[6][4] = {
-                { xpos,     ypos + h,   0.0f, 0.0f },
-                { xpos,     ypos,       0.0f, 1.0f },
-                { xpos + w, ypos,       1.0f, 1.0f },
+            glm::vec4 color = { 1.f, 1.f, 1.f, 1.f };
 
-                { xpos,     ypos + h,   0.0f, 0.0f },
-                { xpos + w, ypos,       1.0f, 1.0f },
-                { xpos + w, ypos + h,   1.0f, 0.0f }
+            float vertices[6][8] = 
+            {                           // color                                    // Texture coords
+                { xpos,     ypos + h,   color.x, color.y, color.z, color.w,         0.0f, 0.0f },
+                { xpos,     ypos,       color.x, color.y, color.z, color.w,         0.0f, 1.0f },
+                { xpos + w, ypos,       color.x, color.y, color.z, color.w,         1.0f, 1.0f },
+
+                { xpos,     ypos + h,   color.x, color.y, color.z, color.w,         0.0f, 0.0f },
+                { xpos + w, ypos,       color.x, color.y, color.z, color.w,         1.0f, 1.0f },
+                { xpos + w, ypos + h,   color.x, color.y, color.z, color.w,         1.0f, 0.0f }
             };
             // render glyph texture over quad
 
@@ -94,7 +103,7 @@ namespace Hi_Engine
             //glBindTexture(GL_TEXTURE_2D, ch.m_textureID);   // use texture pointer instead..
             
             // update content of VBO memory
-            glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+            glBindBuffer(GL_ARRAY_BUFFER, m_textContext.VBO);
             glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); // be sure to use glBufferSubData and not glBufferData
 
             glBindBuffer(GL_ARRAY_BUFFER, 0);
