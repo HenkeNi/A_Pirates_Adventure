@@ -2,11 +2,11 @@
 #include "Base/System.h"
 
 
-class HealthBarSystem : public System
+class HUDSystem : public System
 {
 public:
-	HealthBarSystem();
-	~HealthBarSystem();
+	HUDSystem();
+	~HUDSystem();
 
 	void Receive(Message& aMsg)		override;
 	void Update(float aDeltaTime)	override;

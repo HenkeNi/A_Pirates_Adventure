@@ -1,5 +1,5 @@
 #include "Pch.h"
-#include "ResourceDropSystem.h"
+#include "ResourceSpawnSystem.h"
 #include "Entity.h"
 #include "EntityManager.h"
 #include "Core/CoreComponents.h"
@@ -9,17 +9,17 @@
 #include <Core/Resources/ResourceHolder.hpp>
 
 
-ResourceDropSystem::ResourceDropSystem()
+ResourceSpawnSystem::ResourceSpawnSystem()
 {
 	PostMaster::GetInstance().Subscribe(eMessage::EntityDied, this);
 }
 
-ResourceDropSystem::~ResourceDropSystem()
+ResourceSpawnSystem::~ResourceSpawnSystem()
 {
 	PostMaster::GetInstance().Unsubscribe(eMessage::EntityDied, this);
 }
 
-void ResourceDropSystem::Receive(Message& aMsg)
+void ResourceSpawnSystem::Receive(Message& aMsg)
 {
 	if (!m_entityManager)
 		return;
@@ -48,8 +48,8 @@ void ResourceDropSystem::Receive(Message& aMsg)
 		//	&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Billboard") };
 		//
 
-		auto rect = resource->GetComponent<RectComponent>();
-		rect->Shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Primitive");			// TODO; add box collider component => trigger?
+		//auto rect = resource->GetComponent<RectComponent>();
+		//rect->Shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Primitive");			// TODO; add box collider component => trigger?
 
 		auto pickupCollider = resource->GetComponent<PickupColliderComponent>();
 		auto colliderSize = 0.2f;	// take halfsize instead?
@@ -57,6 +57,6 @@ void ResourceDropSystem::Receive(Message& aMsg)
 	}
 }
 
-void ResourceDropSystem::Update(float aDeltaTime)
+void ResourceSpawnSystem::Update(float aDeltaTime)
 {
 }
