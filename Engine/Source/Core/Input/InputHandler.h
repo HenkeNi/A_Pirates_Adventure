@@ -22,16 +22,21 @@ namespace Hi_Engine
 		InputHandler();
 		~InputHandler();
 
-		void				Init();
+		void				Init(GLFWwindow* aWindow);
 		void				ProcessInput();
 		void				ProcessCommands();		// ??
 		void				ClearCommands();
 		
 		static void			KeyCallback(GLFWwindow* aWindow, int aKey, int aScanCode, int anAction, int someMods);
+		static void			CursorCallback(GLFWwindow* aWindow, double xPos, double yPos);
+		static void			MouseButtonCallback(GLFWwindow* window, int aButton, int anAction, int someMods);
+		
 		static void			MapCommand(eInputType anInput, Command* aCommand);	// Rename: Map or bInd? RegisterCommand?? 
 		static bool			IsKeyPressed(eInputType anInput);
 		static bool			IsKeyHeld(eInputType anInput);
 		static bool			IsKeyReleased(eInputType anInput);
+
+		static glm::vec2	GetMousePosition();
 
 	private:
 		static eInputState	GetKeyState(int anAction);	// renaem GetInputState??
@@ -40,6 +45,8 @@ namespace Hi_Engine
 		void				SendMessage(eInputType anInput);
 
 		static std::unordered_map<eInputType, eInputState>	s_inputStates;	// Store previous input as well? mappedInput mappedInputStates
+		static glm::vec2									s_mousePosition;
+
 		static std::unordered_map<eInputType, Command*>		s_mappedCommands; // or just commands?
 	};
 }

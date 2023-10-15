@@ -1,6 +1,5 @@
 #include "Pch.h"
 #include "Window.h"
-#include "InputHandler.h"
 
 
 namespace Hi_Engine
@@ -28,8 +27,6 @@ namespace Hi_Engine
 
 		glfwSetFramebufferSizeCallback(m_window, FrameBufferSizeCallback);
 		glfwSetWindowFocusCallback(m_window, WindowFocusCallback);
-
-		glfwSetKeyCallback(m_window, InputHandler::KeyCallback);
 
 		glViewport(0, 0, m_data.Size.x, m_data.Size.y);
 		SetIcon(m_data.IconPath);

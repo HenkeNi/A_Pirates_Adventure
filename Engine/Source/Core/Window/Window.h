@@ -35,8 +35,10 @@ namespace Hi_Engine
 		void			ToggleFullscreen();
 
 	private:
-		bool			InitGlfw()										const;
-		bool			CreateWindow();
+		bool			InitGlfw()										const;	// integrate in Init?
+		bool			CreateWindow();	// static?
+
+		friend	class Engine;
 
 		WindowData		m_data;
 		GLFWwindow*		m_window;

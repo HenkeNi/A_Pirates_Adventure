@@ -9,6 +9,7 @@
 namespace Hi_Engine
 {
 	std::unordered_map<eInputType, eInputState>		InputHandler::s_inputStates;
+	glm::vec2										InputHandler::s_mousePosition;
 	std::unordered_map<eInputType, Command*>		InputHandler::s_mappedCommands;
 
 	InputHandler::InputHandler()
@@ -23,9 +24,11 @@ namespace Hi_Engine
 		}
 	}
 
-	void InputHandler::Init()
+	void InputHandler::Init(GLFWwindow* aWindow)
 	{
-
+		glfwSetKeyCallback(aWindow, InputHandler::KeyCallback); // Do in InputHandler instead??
+		glfwSetCursorPosCallback(aWindow, InputHandler::CursorCallback);
+		glfwSetMouseButtonCallback(aWindow, InputHandler::MouseButtonCallback);
 	}
 
 	void InputHandler::ProcessInput()
@@ -75,6 +78,24 @@ namespace Hi_Engine
 		}
 	}
 
+	void InputHandler::CursorCallback(GLFWwindow* aWindow, double xPos, double yPos)
+	{
+		s_mousePosition.x = xPos;
+		s_mousePosition.y = yPos;
+	}
+
+	void InputHandler::MouseButtonCallback(GLFWwindow* window, int aButton, int anAction, int someMods)
+	{
+		if (aButton == GLFW_MOUSE_BUTTON_LEFT)
+		{
+			s_inputStates[eInputType::Mouse_LeftBtn] = GetKeyState(anAction);
+		}
+		if (aButton == GLFW_MOUSE_BUTTON_RIGHT)
+		{
+			s_inputStates[eInputType::Mouse_RightBtn] = GetKeyState(anAction);
+		}
+	}
+
 	void InputHandler::MapCommand(eInputType anInput, Command* aCommand)
 	{
 		//s_mappedCommands[anInput] = std::move(aCommand);
@@ -96,8 +117,15 @@ namespace Hi_Engine
 		return s_inputStates[anInput] == eInputState::Release;
 	}
 
+	glm::vec2 InputHandler::GetMousePosition()
+	{
+		return s_mousePosition;
+	}
+
 	eInputState	InputHandler::GetKeyState(int anAction)
 	{
+		// if anAction == GLFW_PRESS ...
+
 		static std::array<eInputState, 3> possibleInputStates{ eInputState::Release, eInputState::Press, eInputState::Repeat };	// Make member?? make map??
 		
 		assert(anAction >= 0 && anAction <= 2);
