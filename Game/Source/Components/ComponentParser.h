@@ -80,6 +80,11 @@ public:
 	
 	static ComponentData ParseStateMachineComponent(JsonValue aValue);
 
+
+	/* UI-Components */
+	static ComponentData ParseTextComponent(JsonValue aValue);
+	
+
 private:
 	static void Initialize();
 

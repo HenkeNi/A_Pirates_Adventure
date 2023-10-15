@@ -29,7 +29,7 @@ namespace Hi_Engine
 		Key_ArrowRight,
 		Mouse_LeftBtn,
 		Mouse_RightBtn,
-		Mouse_Moved,
+		// Mouse_Moved,
 		Count
 	};
 

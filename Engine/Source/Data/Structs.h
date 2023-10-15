@@ -123,6 +123,13 @@ namespace Hi_Engine
 		//GLint		TexIndex;
 	};
 
+	struct Text
+	{
+		glm::vec2	Position;
+		glm::vec4	Color;
+		glm::vec2	TexCoords;
+	};
+
 	struct Character
 	{
 		std::string		m_textureID;

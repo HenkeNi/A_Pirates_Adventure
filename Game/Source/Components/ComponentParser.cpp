@@ -341,6 +341,21 @@ ComponentData ComponentParser::ParseStateMachineComponent(JsonValue aValue)
 	return data;
 }
 
+ComponentData ComponentParser::ParseTextComponent(JsonValue aValue)
+{
+	ComponentData data;
+
+	std::string font = aValue["font"].GetString();
+	int size = aValue["size"].GetInt();
+	auto color = aValue["color"].GetArray();
+
+	data.insert(std::make_pair("font", font));
+	data.insert(std::make_pair("size", size));
+	data.insert(std::make_pair("color", std::array<float, 4>{ color[0].GetFloat(), color[1].GetFloat(), color[2].GetFloat(), color[3].GetFloat() }));
+
+	return data;
+}
+
 void ComponentParser::Initialize()
 {
 	m_parsers.insert(std::make_pair("Animation",		&ParseAnimationComponent));
@@ -384,4 +399,5 @@ void ComponentParser::Initialize()
 	m_parsers.insert(std::make_pair("FleeBehavior",		&ParseFleeBehaviorComponent));
 	m_parsers.insert(std::make_pair("StateMachine",		&ParseStateMachineComponent));
 
+	m_parsers.insert(std::make_pair("Text",				&ParseTextComponent));
 }

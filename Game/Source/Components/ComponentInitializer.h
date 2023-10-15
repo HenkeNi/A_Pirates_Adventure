@@ -16,6 +16,7 @@
 
 #include "../AI/StateMachine/Conditions/Time/TimeConditions.h"
 
+
 // struct ComponentData;
 
 class ComponentInitializer
@@ -233,6 +234,18 @@ public:
 		auto halfSize = std::any_cast<float>(someData.at("halfSize"));
 
 		aComponent->Collider.Init({ position.x - halfSize, position.z - halfSize }, { position.x + halfSize, position.y + halfSize });
+	}
+
+	template <>
+	static void InitializeComponent<TextComponent>(TextComponent* aComponent, const ComponentData& someData)
+	{
+		std::string font	= std::any_cast<std::string>(someData.at("font"));
+		int size			= std::any_cast<int>(someData.at("size"));
+		auto color			= std::any_cast<std::array<float, 4>>(someData.at("color"));
+
+		aComponent->Font = &Hi_Engine::ResourceHolder<Hi_Engine::Font>::GetInstance().GetResource(font);
+		aComponent->Color = { color[0], color[1], color[2], color[3] };
+		aComponent->Size = size;
 	}
 
 	template <>

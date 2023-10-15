@@ -1,3 +1,25 @@
+TODO;
+
+	* TEXT
+
+	* Render thread...
+
+	* UI
+
+
+	* Component that hnadles scene transitions??s
+
+		SceneTransition Entity?
+
+
+
+
+
+
+
+
+
+
 Rendering;
 	Send events?
 		* Begin batch

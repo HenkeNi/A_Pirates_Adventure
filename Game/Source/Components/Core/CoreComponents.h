@@ -17,4 +17,5 @@ struct TransformComponent : public ComponentBase
 struct InputComponent : public ComponentBase
 {
 	std::unordered_map<Hi_Engine::eInputType, bool> InputStates; // replace with state instead of bool??
+	CU::Vector2<double>							MousePosition;
 };
