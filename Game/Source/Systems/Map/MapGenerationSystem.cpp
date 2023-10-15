@@ -22,6 +22,9 @@ void MapGenerationSystem::Receive(Message& aMsg)
 
 void MapGenerationSystem::Update(float aDeltaTime)
 {
+	if (!m_entityManager)
+		return;
+
 	// get player position? if left area, make more chunks...
 
 	// auto player = m_entityManager->FindAllWithComponents<PlayerControllerComponent>()[0];

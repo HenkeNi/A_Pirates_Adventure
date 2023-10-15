@@ -20,6 +20,9 @@ MovementSystem::~MovementSystem()
 void MovementSystem::Receive(Message& aMsg)
 {
 	// Update collider when game starts?
+
+
+	// LITEN FOR ENTITY DEATH... (if has falling component... play it? => tree falling...)
 }
 
 void MovementSystem::Update(float aDeltaTime)

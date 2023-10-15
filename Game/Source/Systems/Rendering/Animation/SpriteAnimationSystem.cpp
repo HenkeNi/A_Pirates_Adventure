@@ -102,11 +102,6 @@ void SpriteAnimationSystem::Update(float aDeltaTime)
 	}
 }
 
-
-//void SpriteAnimationSystem::Draw()
-//{
-//}
-
 // Todo; no need for m_active?
 std::string SpriteAnimationSystem::GetCurrentState(Entity* anEntity) const
 {
