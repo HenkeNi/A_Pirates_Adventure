@@ -63,7 +63,6 @@ void Game::OnCreate()
 
 	m_sceneManager.Init(scenes);
 	
-
 	std::weak_ptr<Scene> activeScene = m_sceneManager.GetActiveScene();
 	if (auto scene = activeScene.lock())
 	{

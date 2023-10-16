@@ -42,19 +42,63 @@ void OverworldScene::Draw() const
 #include "Combat/CombatComponents.h"
 
 
+#include "../Gameplay/SkillTree.h"
+
 void OverworldScene::OnCreated()
 {
 }
 
 void OverworldScene::OnEnter()
 {
-
-
 	auto& systemManager = m_sharedContext.SystemManager;
 	systemManager.Init(&m_entityManager);
 
 
 	m_entityManager.GetFactory().LoadBlueprints("../Game/Assets/Json/Blueprints/blueprint_manifest.json");
+
+
+	SkillTree skillTree;
+	skillTree.RegisterSkill("Base", "A-Base");
+	skillTree.RegisterSkill("Base", "B-Base");
+	skillTree.RegisterSkill("Base", "C-Base");
+
+	skillTree.RegisterSkill("A-Base",   "A-Tier1-01");
+	skillTree.RegisterSkill("A-Base", "A-Tier1-02");
+	skillTree.RegisterSkill("A-Base", "A-Tier1-03");
+
+	skillTree.RegisterSkill("A-Tier1-01", "A-Tier2-01");
+	skillTree.RegisterSkill("A-Tier1-01", "A-Tier2-02");
+	skillTree.RegisterSkill("A-Tier1-01", "A-Tier2-03");
+
+	skillTree.RegisterSkill("B-Base", "B-Tier1-01");
+	skillTree.RegisterSkill("B-Base", "B-Tier1-02");
+	skillTree.RegisterSkill("B-Base", "B-Tier1-03");
+
+	skillTree.RegisterSkill("C-Base", "C-Tier1-01");
+	skillTree.RegisterSkill("C-Base", "C-Tier1-02");
+	skillTree.RegisterSkill("C-Base", "C-Tier1-03");
+
+
+	skillTree.RegisterSkill("A-Tier1-01", "A-Tier2-04");
+	skillTree.RegisterSkill("A-Tier1-01", "A-Tier2-05");
+	skillTree.RegisterSkill("A-Tier1-01", "A-Tier2-06");
+
+
+
+	//skillTree.PrintLevelOrder(skillTree.GetRoot());
+
+	for (auto* node : skillTree.GetNextUnlockableNodes())
+		std::cout << node->Identifier << ' ';
+
+
+
+
+
+
+
+
+
+
 
 
 	// m_mapSystem.Init(&m_entityManager);

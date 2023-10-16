@@ -91,7 +91,7 @@ namespace Hi_Engine
 			m_application->OnDraw();
 			m_renderer.EndFrame();	// Always call Display in EndFrame?
 	
-			m_window.SetTitle("Fps: " + std::to_string((int)timer.GetAverageFPS()));
+			m_window.SetTitle("Fps: " + std::to_string((int)timer.GetAverageFPS())); // TODO; Get Draw calls...
 		}
 	}
 		
