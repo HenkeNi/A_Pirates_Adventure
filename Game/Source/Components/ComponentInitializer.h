@@ -157,13 +157,13 @@ public:
 
 		// Pass in Entity??
 		
-		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eInputType::Key_W, new MoveCommand{{ 0.f,   -1.f }}));
-		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eInputType::Key_S, new MoveCommand{{ 0.f,	 1.f } }));
-		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eInputType::Key_A, new MoveCommand{{ -1.f,	 0.f } }));
-		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eInputType::Key_D, new MoveCommand{{ 1.f,  0.f } }));
+		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_W, new MoveCommand{{ 0.f,   -1.f }}));
+		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_S, new MoveCommand{{ 0.f,	 1.f } }));
+		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_A, new MoveCommand{{ -1.f,	 0.f } }));
+		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_D, new MoveCommand{{ 1.f,  0.f } }));
 
-		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eInputType::Key_Space, new AttackCommand));
-		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eInputType::Key_Shift, new SprintCommand));
+		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_Space, new AttackCommand));
+		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_LShift, new SprintCommand));
 	}
 
 	template <>

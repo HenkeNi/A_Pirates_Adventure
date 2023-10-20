@@ -21,7 +21,6 @@
 #include "Rendering/Camera/CameraSystem.h"
 #include "Rendering/Primitive/PrimitiveRenderSystem.h"
 #include "Rendering/Sprite/SpriteRenderSystem.h"
-#include "Rendering/Debug/DebugRenderSystem.h"
 #include "Rendering/Text/TextRenderSystem.h"
 
 

@@ -206,22 +206,22 @@ void PlayerControllerSystem::InitCommands()
 		for (auto command : playerController->InputMapping)
 		{
 			// TODO; fix...
-			if (command.first == Hi_Engine::eInputType::Key_W || command.first == Hi_Engine::eInputType::Key_S ||
-				command.first == Hi_Engine::eInputType::Key_A || command.first == Hi_Engine::eInputType::Key_D)
+			if (command.first == Hi_Engine::eKey::Key_W || command.first == Hi_Engine::eKey::Key_S ||
+				command.first == Hi_Engine::eKey::Key_A || command.first == Hi_Engine::eKey::Key_D)
 			{
 				auto moveCommand = static_cast<MoveCommand*>(command.second);
 
 				moveCommand->SetComponents(entity->GetComponent<VelocityComponent>(), entity->GetComponent<CharacterStateComponent>());
 			}
 
-			if (command.first == Hi_Engine::eInputType::Key_Space)
+			if (command.first == Hi_Engine::eKey::Key_Space)
 			{
 				auto attackCommand = static_cast<AttackCommand*>(command.second);
 
 				attackCommand->SetComponent(entity->GetComponent<AttackComponent>(), entity->GetComponent<CharacterStateComponent>(), entity->GetComponent<DebugRectComponent>());
 			}
 
-			if (command.first == Hi_Engine::eInputType::Key_Shift)
+			if (command.first == Hi_Engine::eKey::Key_LShift)
 			{
 				auto sprintCommand = static_cast<SprintCommand*>(command.second);
 				sprintCommand->SetComponent(entity->GetComponent<VelocityComponent>(), entity->GetComponent<CharacterStateComponent>());

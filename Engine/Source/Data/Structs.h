@@ -8,6 +8,7 @@
 #include <../../ThirdParty/GLEW/include/GL/glew.h>
 #include <array>
 #include <functional>
+#include <string>
 
 namespace CU = CommonUtilities;
 

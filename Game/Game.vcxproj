@@ -107,7 +107,6 @@
     <ClInclude Include="Source\Scenes\Game\Inventory\InventoryScene.h" />
     <ClInclude Include="Source\Systems\Crafting\CraftingSystem.h" />
     <ClInclude Include="Source\Utility\Map\MapUtils.h" />
-    <ClInclude Include="Source\Systems\Rendering\Debug\DebugRenderSystem.h" />
     <ClInclude Include="Source\Commands\Attack\AttackCommand.h" />
     <ClInclude Include="Source\Commands\Base\Command.h" />
     <ClInclude Include="Source\Systems\Map\MapDecorationSystem.h" />
@@ -226,7 +225,6 @@
     <ClCompile Include="Source\Systems\Inventory\InventorySystem.cpp" />
     <ClCompile Include="Source\Systems\Map\MapDecorationSystem.cpp" />
     <ClCompile Include="Source\Systems\Map\MapGenerationSystem.cpp" />
-    <ClCompile Include="Source\Systems\Rendering\Debug\DebugRenderSystem.cpp" />
     <ClCompile Include="Source\Systems\Rendering\Map\MapRenderSystem.cpp" />
     <ClCompile Include="Source\Systems\Rendering\Text\TextRenderSystem.cpp" />
     <ClCompile Include="Source\Systems\Resource\ResourceSpawnSystem.cpp" />
