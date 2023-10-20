@@ -28,7 +28,7 @@ void InputSystem::Update(float aDeltaTime)
 	auto entities = m_entityManager->FindAllWithComponents<InputComponent>();
 
 	using inputHandler = Hi_Engine::InputHandler;
-	using key = Hi_Engine::eInputType;
+	using key = Hi_Engine::eKey;
 
 	auto mousePos = inputHandler::GetMousePosition();
 
@@ -82,13 +82,13 @@ void InputSystem::Update(float aDeltaTime)
 			inputComponent->InputStates.insert_or_assign(key::Key_Space, false);
 		}
 
-		if (inputHandler::IsKeyHeld(key::Key_Shift) || inputHandler::IsKeyPressed(key::Key_Shift))
+		if (inputHandler::IsKeyHeld(key::Key_LShift) || inputHandler::IsKeyPressed(key::Key_LShift))
 		{
-			inputComponent->InputStates.insert_or_assign(key::Key_Shift, true);
+			inputComponent->InputStates.insert_or_assign(key::Key_LShift, true);
 		}
 		else
 		{
-			inputComponent->InputStates.insert_or_assign(key::Key_Shift, false);
+			inputComponent->InputStates.insert_or_assign(key::Key_LShift, false);
 		}
 
 

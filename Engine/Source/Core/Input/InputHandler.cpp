@@ -1,4 +1,4 @@
-#include "Pch.h"
+	#include "Pch.h"
 #include "InputHandler.h"
 #include "Messaging/Dispatcher/Dispatcher.h"
 #include "Messaging/Events/SystemEvents/SystemEvents.h"
@@ -8,7 +8,10 @@
 
 namespace Hi_Engine
 {
-	std::unordered_map<eInputType, eInputState>		InputHandler::s_inputStates;
+	std::unordered_map<eKey, eInputState> InputHandler::s_keyStates;
+
+
+	// std::unordered_map<eInputType, eInputState>		InputHandler::s_inputStates;
 	glm::vec2										InputHandler::s_mousePosition;
 	std::unordered_map<eInputType, Command*>		InputHandler::s_mappedCommands;
 
@@ -35,12 +38,12 @@ namespace Hi_Engine
 	{
 		// TODO: save previous frame's key status?!
 
-		for (const auto& inputState : s_inputStates)
+		for (const auto& inputState : s_keyStates)
 		{
-			if (IsCommandMapped(inputState.first) && inputState.second == eInputState::Press)
-			{
-				// s_mappedCommands[inputState.first]->Execute();
-			}
+			//if (IsCommandMapped(inputState.first) && inputState.second == eInputState::Press)
+			//{
+			//	// s_mappedCommands[inputState.first]->Execute();
+			//}
 			// for each key... 
 				// also send the key's previous frames state...
 			Dispatcher::GetInstance().AddEvent<KeyEvent>(inputState.second, (int)inputState.first);
@@ -55,7 +58,12 @@ namespace Hi_Engine
 	{
 		// Maybe; replace key with an int?? (m_commands[GLFW_Key_W] = ....???
 
-		switch (aKey)
+		s_keyStates.insert_or_assign((eKey)aKey, (eInputState)anAction);
+
+		//m_keyStates
+
+
+		/*switch (aKey)
 		{
 		case GLFW_KEY_W:
 			s_inputStates[eInputType::Key_W] = GetKeyState(anAction);
@@ -75,7 +83,7 @@ namespace Hi_Engine
 		case GLFW_KEY_LEFT_SHIFT:
 			s_inputStates[eInputType::Key_Shift] = GetKeyState(anAction);
 			break;
-		}
+		}*/
 	}
 
 	void InputHandler::CursorCallback(GLFWwindow* aWindow, double xPos, double yPos)
@@ -88,11 +96,11 @@ namespace Hi_Engine
 	{
 		if (aButton == GLFW_MOUSE_BUTTON_LEFT)
 		{
-			s_inputStates[eInputType::Mouse_LeftBtn] = GetKeyState(anAction);
+			// s_inputStates[eInputType::Mouse_LeftBtn] = GetKeyState(anAction);
 		}
 		if (aButton == GLFW_MOUSE_BUTTON_RIGHT)
 		{
-			s_inputStates[eInputType::Mouse_RightBtn] = GetKeyState(anAction);
+			// s_inputStates[eInputType::Mouse_RightBtn] = GetKeyState(anAction);
 		}
 	}
 
@@ -102,19 +110,19 @@ namespace Hi_Engine
 		s_mappedCommands.insert_or_assign(anInput, aCommand); 
 	}
 
-	bool InputHandler::IsKeyPressed(eInputType anInput)
+	bool InputHandler::IsKeyPressed(eKey aKey)
 	{
-		return s_inputStates[anInput] == eInputState::Press;
+		return s_keyStates[aKey] == eInputState::Press;		// TODO; check instead for glfwGetKey?
 	}
 
-	bool InputHandler::IsKeyHeld(eInputType anInput)
+	bool InputHandler::IsKeyHeld(eKey aKey)
 	{
-		return s_inputStates[anInput] == eInputState::Repeat;
+		return s_keyStates[aKey] == eInputState::Repeat;
 	}
 
-	bool InputHandler::IsKeyReleased(eInputType anInput)
+	bool InputHandler::IsKeyReleased(eKey aKey)
 	{
-		return s_inputStates[anInput] == eInputState::Release;
+		return s_keyStates[aKey] == eInputState::Release;
 	}
 
 	glm::vec2 InputHandler::GetMousePosition()
@@ -122,15 +130,15 @@ namespace Hi_Engine
 		return s_mousePosition;
 	}
 
-	eInputState	InputHandler::GetKeyState(int anAction)
-	{
-		// if anAction == GLFW_PRESS ...
+	//eInputState	InputHandler::GetKeyState(int anAction)
+	//{
+	//	// if anAction == GLFW_PRESS ...
 
-		static std::array<eInputState, 3> possibleInputStates{ eInputState::Release, eInputState::Press, eInputState::Repeat };	// Make member?? make map??
-		
-		assert(anAction >= 0 && anAction <= 2);
-		return possibleInputStates[anAction];
-	}
+	//	static std::array<eInputState, 3> possibleInputStates{ eInputState::Release, eInputState::Press, eInputState::Repeat };	// Make member?? make map??
+	//	
+	//	assert(anAction >= 0 && anAction <= 2);
+	//	return possibleInputStates[anAction];
+	//}
 
 	bool InputHandler::IsCommandMapped(eInputType anInput) const
 	{

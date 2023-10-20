@@ -47,7 +47,7 @@ namespace Hi_Engine
 #pragma region KEY_EVENT
 
 	KeyEvent::KeyEvent()
-		: Event{ ePriority::High }, m_keyState{ eInputState::None }, m_keyCode{ -1 } 
+		: Event{ ePriority::High }, m_keyState{ eInputState::Release }, m_keyCode{ -1 }
 	{
 	}
 

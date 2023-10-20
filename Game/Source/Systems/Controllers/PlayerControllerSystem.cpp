@@ -59,7 +59,7 @@ void PlayerControllerSystem::Update(float aDeltaTime)
 		// m_velocity = 
 
 		// TODO; Decrease in MovementSystem; 
-		if (input->InputStates[Hi_Engine::eInputType::Key_Shift])
+		if (input->InputStates[Hi_Engine::eKey::Key_LShift])
 		{
 			//velocity->m_acceleration = { 2.5f, 0.f, 2.5f };
 			// velocity->m_speed = 3.f;

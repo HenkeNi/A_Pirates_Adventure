@@ -32,22 +32,26 @@ namespace Hi_Engine
 		static void			MouseButtonCallback(GLFWwindow* window, int aButton, int anAction, int someMods);
 		
 		static void			MapCommand(eInputType anInput, Command* aCommand);	// Rename: Map or bInd? RegisterCommand?? 
-		static bool			IsKeyPressed(eInputType anInput);
-		static bool			IsKeyHeld(eInputType anInput);
-		static bool			IsKeyReleased(eInputType anInput);
+		static bool			IsKeyPressed(eKey aKey);
+		static bool			IsKeyHeld(eKey aKey);
+		static bool			IsKeyReleased(eKey aKey);
 
 		static glm::vec2	GetMousePosition();
 
 	private:
-		static eInputState	GetKeyState(int anAction);	// renaem GetInputState??
+		// static eInputState	GetKeyState(int anAction);	// renaem GetInputState??
 		
 		bool				IsCommandMapped(eInputType anInput) const;
 		void				SendMessage(eInputType anInput);
 
-		static std::unordered_map<eInputType, eInputState>	s_inputStates;	// Store previous input as well? mappedInput mappedInputStates
+		//static std::unordered_map<eInputType, eInputState>	s_inputStates;	// Store previous input as well? mappedInput mappedInputStates
 		static glm::vec2									s_mousePosition;
 
 		static std::unordered_map<eInputType, Command*>		s_mappedCommands; // or just commands?
+	
+	
+	
+		static std::unordered_map<eKey, eInputState> s_keyStates;
 	};
 }
 
