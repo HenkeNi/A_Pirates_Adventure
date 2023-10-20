@@ -15,16 +15,10 @@ project "Engine"
 	{
 		"%{prj.name}/Source/**.h",
 		"%{prj.name}/Source/**.cpp",
-
-		-- WHY? Or do in general LUA script?
-		"%ThirdParty/stb_image/**.h",
-		"%ThirdParty/stb_image/**.cpp",
-		"%ThirdParty/glm/glm/**.hpp",
-		"%ThirdParty/glm/glm/**.inl"
 	}
 
 
-	-- Include directories are relative to root folder (solution directory) 
+	-- Include directories are relative to root folder (solution directory)  (Creates a table)
 	IncludeDir = {}
 	IncludeDir["FreeType"]  = "ThirdParty/FreeType/include"
 	IncludeDir["rapidjson"] = "ThirdParty/rapidjson"
@@ -34,15 +28,17 @@ project "Engine"
 	IncludeDir["glm"]		= "ThirdParty/glm"
 
 
-group "Dependencies"
-	include "ThirdParty/GLEW"
-	include "ThirdParty/GLFW" 
-group ""
+-- group "Dependencies"
+	-- include "ThirdParty/GLEW"
+	-- include "ThirdParty/GLFW" 
+-- group ""
+
+	-- Equivalent to 'C/C++ -> Preprocessor -> Preprocessor Definitions
+	defines
+	{}
 
 
-
-
-
+	-- Equivalent to 'C/C++ -> General -> Additional Include Directories'
 	includedirs
 	{
 		"%{prj.name}/Source",

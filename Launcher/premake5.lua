@@ -37,16 +37,14 @@ project "Launcher"
 	filter "system:windows"
 		systemversion "latest"
 	
-		defines
-		{
-			"GLEW_STATIC"
-		}
-
 	filter "configurations:Debug"
+		defines "Debug"
 		symbols "on"
 
 	filter "configurations:Release"
+		defines "Release"
 		optimize "on"
 
 	filter "configurations:Dist"
+		defines "Release"
 		optimize "on"

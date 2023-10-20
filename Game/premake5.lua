@@ -38,12 +38,13 @@ project "Game"
 		}
 
 	filter "configurations:Debug"
-		defines "_DEBUG"
+		defines "Debug"
 		symbols "on"
 
 	filter "configurations:Release"
-		defines "_RELEASE"
+		defines "Release"
 		optimize "on"
 
 	filter "configurations:Dist"
+		defines "Release"
 		optimize "on"
