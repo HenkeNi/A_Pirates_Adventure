@@ -5,8 +5,6 @@ project "Game"
 	cppdialect "C++20"
 	staticruntime "on"
 
-	outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
-
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 

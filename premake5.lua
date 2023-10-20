@@ -4,7 +4,8 @@ workspace "A_Pirates_Adventure"
 	startproject "Launcher"
 	configurations { "Debug", "Release", "Dist" }
 
+	outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
-#include "Engine"
-#include "Game"
-#include "Launcher"
+include "Engine"
+include "Game"
+include "Launcher"
