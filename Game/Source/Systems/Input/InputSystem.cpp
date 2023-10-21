@@ -8,10 +8,20 @@
 
 InputSystem::InputSystem()
 {
+	Hi_Engine::Dispatcher::GetInstance().Subscribe(this);
 }
 
 InputSystem::~InputSystem()
 {
+	Hi_Engine::Dispatcher::GetInstance().Unsubscribe(this);
+}
+
+void InputSystem::HandleEvent(Hi_Engine::InputEvent& anEvent)
+{
+	auto keyState = anEvent.GetKeyState(Hi_Engine::eKey::Key_W);
+
+	if (keyState == Hi_Engine::eInputState::Press)
+		std::cout << "PRESS W";
 }
 
 void InputSystem::Receive(Message& aMsg)

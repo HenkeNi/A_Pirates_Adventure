@@ -26,8 +26,36 @@ namespace Hi_Engine
 	};
 
 
+	
+	class InputHandler;
+	class InputEvent : public Event
+	{
+	public:
+		InputEvent();
+		//InputEvent(const std::unordered_map<eKey, eInputState>& someKeyStates,
+		//	const std::unordered_map<eMouseBtn, eInputState>& someMouseBtnStates, 
+		//	const glm::vec2& aMousePos);																// FIX!
 
-	class KeyEvent : public Event
+		void				Dispatch(EventListener& aListener)   override;
+		void				Destroy()							 override;
+		void				Clean()								 override;
+		void Init(const std::unordered_map<eKey, eInputState>& someKeyStates,
+			const std::unordered_map<eMouseBtn, eInputState>& someMouseBtnStates,
+			const glm::vec2& aMousePos);
+
+		eInputState			GetKeyState(eKey aKey)				    const;
+		eInputState			GetMouseBtnState(eMouseBtn aBtn)		const;
+		const glm::vec2&	GetMousePosition()						const;
+
+	private:
+		friend class InputHandler;
+
+		std::unordered_map<eKey, eInputState>		m_keyStates;
+		std::unordered_map<eMouseBtn, eInputState>	m_mouseButtonStates;
+		glm::vec2									m_mousePosition;
+	};
+
+	/*class KeyEvent : public Event
 	{
 	public:
 		KeyEvent();
@@ -45,29 +73,29 @@ namespace Hi_Engine
 	private:
 		eInputState	m_keyState;
 		int			m_keyCode;
-	};
+	};*/
 
 
 
 	// OR KEy mesage and mouse messag (current pos, last pos, maybe keypressed as well (rather tha having to listen for a key)) or combine it all and send a Input Event?
 	// Maybe store relevant keys here as well??
-	class MouseEvent : public Event
-	{
-	public:
-		MouseEvent();
-		~MouseEvent();
+	//class MouseEvent : public Event
+	//{
+	//public:
+	//	MouseEvent();
+	//	~MouseEvent();
 
-		void	Dispatch(EventListener& aListener)	override;
-		void	Destroy()							override;
-		void	Clean()								override;
-		void	Init(const CU::Vector2<unsigned>& aCurrentMousePos, const CU::Vector2<unsigned>& aPrevMousePos);
+	//	void	Dispatch(EventListener& aListener)	override;
+	//	void	Destroy()							override;
+	//	void	Clean()								override;
+	//	void	Init(const CU::Vector2<unsigned>& aCurrentMousePos, const CU::Vector2<unsigned>& aPrevMousePos);
 
-		const CU::Vector2<unsigned>& GetCurrentMousePos() const;
+	//	const CU::Vector2<unsigned>& GetCurrentMousePos() const;
 
-	private:
-		// Store under struct MouseData??
-		CU::Vector2<unsigned>	m_currMousePos, m_prevMousePos;
-		bool					m_leftMouseCliked; // STATE? Clicked, Held, Releasd?	map for different buttons??
-	};
+	//private:
+	//	// Store under struct MouseData??
+	//	CU::Vector2<unsigned>	m_currMousePos, m_prevMousePos;
+	//	bool					m_leftMouseCliked; // STATE? Clicked, Held, Releasd?	map for different buttons??
+	//};
 
 }

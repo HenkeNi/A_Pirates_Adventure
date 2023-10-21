@@ -44,9 +44,64 @@ namespace Hi_Engine
 #pragma endregion WINDOW_EVENT
 
 
+#pragma region INPUT_EVENT
+
+	InputEvent::InputEvent()
+	{}
+
+	/*InputEvent::InputEvent(const std::unordered_map<eKey, eInputState>& someKeyStates,
+		const std::unordered_map<eMouseBtn, eInputState>& someMouseBtnStates,
+		const glm::vec2& aMousePos)
+		: m_keyStates{ someKeyStates }, m_mouseButtonStates{ someMouseBtnStates }, m_mousePosition{ aMousePos }
+	{
+	}*/
+
+	void InputEvent::Dispatch(EventListener& aListener) 
+	{
+		aListener.HandleEvent(*this);
+	}
+
+	void InputEvent::Destroy()
+	{
+		CU::MemoryPool<InputEvent>::GetInstance().ReturnResource(this);
+	}
+
+	void InputEvent::Clean()
+	{
+	}
+
+	void InputEvent::Init(const std::unordered_map<eKey, eInputState>& someKeyStates,
+		const std::unordered_map<eMouseBtn, eInputState>& someMouseBtnStates,
+		const glm::vec2& aMousePos)
+	{
+		m_keyStates = someKeyStates;
+		m_mouseButtonStates = someMouseBtnStates;
+		m_mousePosition = aMousePos;	
+	}
+
+	eInputState InputEvent::GetKeyState(eKey aKey) const
+	{
+		if (m_keyStates.contains(aKey))
+			return m_keyStates.at(aKey);
+	}
+	
+	eInputState InputEvent::GetMouseBtnState(eMouseBtn aBtn) const
+	{
+		if (m_mouseButtonStates.contains(aBtn))
+			return m_mouseButtonStates.at(aBtn);
+	}
+
+	const glm::vec2& InputEvent::GetMousePosition() const
+	{
+		return m_mousePosition;
+	}
+
+#pragma endregion INPUT_EVENT
+
+
 #pragma region KEY_EVENT
 
-	KeyEvent::KeyEvent()
+	/*KeyEvent::KeyEvent()
 		: Event{ ePriority::High }, m_keyState{ eInputState::Release }, m_keyCode{ -1 }
 	{
 	}
@@ -88,7 +143,7 @@ namespace Hi_Engine
 	int	KeyEvent::GetKeyCode() const
 	{
 		return m_keyCode;
-	}
+	}*/
 
 #pragma endregion KEY_EVENT
 
@@ -96,7 +151,7 @@ namespace Hi_Engine
 
 #pragma region MOUSE_EVENT
 
-	MouseEvent::MouseEvent()
+	/*MouseEvent::MouseEvent()
 		: Event{ ePriority::Low }, m_currMousePos{ 0, 0 }, m_prevMousePos{ 0, 0 }
 	{
 	}
@@ -128,7 +183,7 @@ namespace Hi_Engine
 	const CU::Vector2<unsigned>& MouseEvent::GetCurrentMousePos() const
 	{
 		return m_currMousePos;
-	}
+	}*/
 
 #pragma endregion MOUSE_EVENT
 }

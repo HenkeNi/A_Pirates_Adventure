@@ -65,6 +65,13 @@ namespace Hi_Engine
 		Key_Right	= GLFW_KEY_RIGHT
 	};
 
+	enum class eMouseBtn
+	{
+		LeftBtn		= GLFW_MOUSE_BUTTON_LEFT,
+		RightBtn	= GLFW_MOUSE_BUTTON_RIGHT,
+		MouseWheel  = GLFW_MOUSE_BUTTON_MIDDLE
+	};
+
 	enum class eInputState
 	{
 		Press		= GLFW_PRESS, 
@@ -73,26 +80,26 @@ namespace Hi_Engine
 	};
 
 
-	enum class eInputType
-	{
-		Key_Enter   = GLFW_KEY_ENTER,
-		Key_Space	= GLFW_KEY_SPACE,
-		Key_Escape	= GLFW_KEY_ESCAPE,
-		Key_Shift   = GLFW_KEY_LEFT_SHIFT,
-		Key_W,
-		Key_A,
-		Key_S,
-		Key_D,
-		Key_P,
-		Key_ArrowUp,
-		Key_ArrowDown,
-		Key_ArrowLeft,
-		Key_ArrowRight,
-		Mouse_LeftBtn,
-		Mouse_RightBtn,
-		// Mouse_Moved,
-		Count
-	};
+	//enum class eInputType
+	//{
+	//	Key_Enter   = GLFW_KEY_ENTER,
+	//	Key_Space	= GLFW_KEY_SPACE,
+	//	Key_Escape	= GLFW_KEY_ESCAPE,
+	//	Key_Shift   = GLFW_KEY_LEFT_SHIFT,
+	//	Key_W,
+	//	Key_A,
+	//	Key_S,
+	//	Key_D,
+	//	Key_P,
+	//	Key_ArrowUp,
+	//	Key_ArrowDown,
+	//	Key_ArrowLeft,
+	//	Key_ArrowRight,
+	//	Mouse_LeftBtn,
+	//	Mouse_RightBtn,
+	//	// Mouse_Moved,
+	//	Count
+	//};
 
 	
 
