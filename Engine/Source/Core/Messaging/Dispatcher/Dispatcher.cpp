@@ -32,22 +32,28 @@ namespace Hi_Engine
 	{
 		while (!m_events.empty())
 		{
-			if (Event* event = m_events.top())
+			if (auto* event = m_events.top())
 			{
 				BroadcastEvent(event);				
-				event->Destroy();
-			}
+				event->Reset();
 
+				delete event;
+			}
 			m_events.pop();
 		}
 	} 
+
+	void Dispatcher::SendEventInstantly(BaseEvent* anEvent)
+	{
+		BroadcastEvent(anEvent);
+	}
 
 	bool Dispatcher::IsQueueFull() const
 	{
 		return false;
 	}
 
-	void Dispatcher::BroadcastEvent(Event* anEvent)
+	void Dispatcher::BroadcastEvent(BaseEvent* anEvent)
 	{
 		assert(anEvent && "Event is not valid!");
 

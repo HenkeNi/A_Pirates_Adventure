@@ -30,8 +30,13 @@ namespace Hi_Engine
 	void InputHandler::ProcessInput()
 	{
 		// TODO: save previous frame's key status?!
+		InputEvent* inputEvent = new InputEvent;
+		Dispatcher::GetInstance().SendEventInstantly(inputEvent);
 
-		Dispatcher::GetInstance().AddEvent<InputEvent>(s_keyStates, s_mouseButtonStates, s_mousePosition);
+		delete inputEvent;
+
+		//Dispatcher::GetInstance().SendEventInstantly<InputEvent>(s_keyStates, s_mouseButtonStates, s_mousePosition);
+		//Dispatcher::GetInstance().AddEvent<InputEvent>(s_keyStates, s_mouseButtonStates, s_mousePosition);
 	}
 
 	void InputHandler::KeyCallback(GLFWwindow* aWindow, int aKey, int aScanCode, int anAction, int someMods)

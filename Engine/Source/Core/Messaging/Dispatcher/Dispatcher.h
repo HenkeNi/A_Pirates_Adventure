@@ -6,14 +6,14 @@
 
 
 // TODO: replace array with Binary Search Tree Set or AVL or SPlay Tree? or map
-// Todo: rename EventSystem?? or MessageSystem??
 // TODO; check if sorting after importance works?
 
+// Todo: rename EventSystem?? or MessageSystem??
 namespace Hi_Engine
 {
 	namespace CU = CommonUtilities;
 
-	class Event;
+	class BaseEvent;
 	class EventListener;
 
 	class Dispatcher
@@ -27,25 +27,26 @@ namespace Hi_Engine
 		void Subscribe(EventListener* aSubscriber);
 		void Unsubscribe(EventListener* aSubscriber);
 
-		void DispatchEvents();								// Rename Broadcast or BroadcastEvents?
+		void DispatchEvents();	// Rename Broadcast or BroadcastEvents?
 			
 		template <typename T, typename... Args>
 		void SendEventInstantly(Args&&... args);			
+		void SendEventInstantly(BaseEvent* anEvent);			
 
 		template <typename T, typename... Args>
 		void AddEvent(Args&&... args);
 
 		template <typename T>
-		void AddEvent();
+		void AddEvent();		// rename, or take in pointer?
 
 	private:
 		Dispatcher() = default;
 
 		bool IsQueueFull() const;
-		void BroadcastEvent(Event* anEvent);
+		void BroadcastEvent(BaseEvent* anEvent);
 		 
-		std::priority_queue<Event*, std::vector<Event*>, EventCompare>	m_events;				// TODO; Own heap or priority queue?
-		std::vector<EventListener*>										m_listeners;	
+		std::priority_queue<BaseEvent*, std::vector<BaseEvent*>, EventCompare>	m_events;	 // TODO; Own heap or priority queue?
+		std::vector<EventListener*>												m_listeners;	
 	};
 
 #pragma region Method_Definitions
@@ -53,19 +54,18 @@ namespace Hi_Engine
 	template <typename T, typename... Args>
 	void Dispatcher::SendEventInstantly(Args&&... args)
 	{
-		T* newEvent = CU::MemoryPool<T>::GetInstance().GetResource();
+		T* newEvent = new T();
 		newEvent->Init(std::forward<Args>(args)...);
 
 		BroadcastEvent(newEvent);
-
-		CU::MemoryPool<T>::GetInstance().ReturnResource(newEvent); // return resource again...
+		delete newEvent;
 	}
 
 	template <typename T, typename... Args>
 	void Dispatcher::AddEvent(Args&&... args)
 	{
-		T* newEvent = CU::MemoryPool<T>::GetInstance().GetResource();
-		newEvent->Init(std::forward<Args>(args)...);						// Override placement new instead??
+		T* newEvent = new T();
+		newEvent->Init(std::forward<Args>(args)...);
 
 		m_events.push(newEvent);
 	}
@@ -73,7 +73,7 @@ namespace Hi_Engine
 	template <typename T>
 	void Dispatcher::AddEvent()
 	{
-		T* newEvent = CU::MemoryPool<T>::GetInstance().GetResource();
+		T* newEvent = new T();
 		m_events.push(newEvent);
 	}
 

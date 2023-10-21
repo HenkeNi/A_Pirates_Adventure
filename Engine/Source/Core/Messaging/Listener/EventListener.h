@@ -3,7 +3,9 @@
 
 namespace Hi_Engine
 {
-	class Event;
+	//class Event;
+	class BaseEvent;
+
 	class WindowEvent;
 	class InputEvent;
 //	class KeyEvent;
@@ -17,7 +19,7 @@ namespace Hi_Engine
 	class EventListener
 	{
 	public:
-		virtual void HandleEvent(Event& anEvent)				{};
+		virtual void HandleEvent(BaseEvent& anEvent)			{};
 		virtual void HandleEvent(WindowEvent& anEvent)			{};
 		//virtual void HandleEvent(KeyEvent& anEvent)				{};
 		//virtual void HandleEvent(MouseEvent& anEvent)			{};

@@ -78,8 +78,9 @@ namespace CommonUtilities
 	template <class Type, typename SizeType, SizeType size>
 	void MemoryPool<Type, SizeType, size>::ReturnResource(Type* aResource)
 	{
+		if (aResource)	// Assert if null?
+			m_availableResources.push(aResource);
 		// TODO: "Clean" resource... (set to inactive if possible) call a clear function...
-		m_availableResources.push(aResource);
 	}
 
 	template <class Type, typename SizeType, SizeType size>

@@ -8,15 +8,14 @@ namespace Hi_Engine
 
 
 
-	class RenderEvent : public Event
+	class RenderEvent : public Event<RenderEvent>
 	{
 	public:
 		RenderEvent();
 		~RenderEvent();
 
 		void Dispatch(EventListener& aListener)			override;
-		void Destroy()									override;
-		void Clean()									override;
+		void Reset()									override;
 
 		void Init(const std::queue<RenderCommand>& someCommands);
 		//void AddRenderCommand(const RenderCommand& aCommand);
@@ -29,15 +28,14 @@ namespace Hi_Engine
 
 
 
-	class RenderSpriteEvent : public Event
+	class RenderSpriteEvent : public Event<RenderSpriteEvent>
 	{
 	public:
 		RenderSpriteEvent();
 		~RenderSpriteEvent();
 
 		void Dispatch(EventListener& aListener)			override;
-		void Destroy()									override;
-		void Clean()									override;
+		void Reset()									override;
 		void Init(const SpriteRenderData& someData);
 
 		const SpriteRenderData& GetRenderData()			   const;

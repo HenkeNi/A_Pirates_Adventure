@@ -7,15 +7,14 @@ namespace Hi_Engine
 {
 	namespace CU = CommonUtilities;
 
-	class WindowEvent : public Event
+	class WindowEvent : public Event<WindowEvent>
 	{
 	public:
 		WindowEvent();			// Overload new operatp`?? placement new?? 
 		~WindowEvent();
 
 		void					Dispatch(EventListener& aListener)	override;
-		void					Destroy()							override;
-		void					Clean()								override;
+		void					Reset()								override;
 		void					Init(eWindowEvent aType);
 
 		eWindowEvent			GetEventType()						   const;
@@ -28,17 +27,14 @@ namespace Hi_Engine
 
 	
 	class InputHandler;
-	class InputEvent : public Event
+	class InputEvent : public Event<InputEvent>
 	{
 	public:
 		InputEvent();
-		//InputEvent(const std::unordered_map<eKey, eInputState>& someKeyStates,
-		//	const std::unordered_map<eMouseBtn, eInputState>& someMouseBtnStates, 
-		//	const glm::vec2& aMousePos);																// FIX!
 
 		void				Dispatch(EventListener& aListener)   override;
-		void				Destroy()							 override;
-		void				Clean()								 override;
+		void				Reset()								 override;
+
 		void Init(const std::unordered_map<eKey, eInputState>& someKeyStates,
 			const std::unordered_map<eMouseBtn, eInputState>& someMouseBtnStates,
 			const glm::vec2& aMousePos);

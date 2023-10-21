@@ -19,12 +19,7 @@ namespace Hi_Engine
 		aListener.HandleEvent(*this);
 	}
 
-	void RenderEvent::Destroy()						
-	{
-		CU::MemoryPool<RenderEvent>::GetInstance().ReturnResource(this); // TODO; Make more generic
-	}
-
-	void RenderEvent::Clean()						
+	void RenderEvent::Reset()						
 	{
 	}
 
@@ -72,12 +67,7 @@ namespace Hi_Engine
 		aListener.HandleEvent(*this);
 	}
 
-	void RenderSpriteEvent::Destroy()							
-	{
-		//CommonUtilities::MemoryPool<RenderSpriteEvent>::GetInstance().ReturnResource(this); // Else where???
-	}
-
-	void RenderSpriteEvent::Clean()								
+	void RenderSpriteEvent::Reset()								
 	{
 	}
 

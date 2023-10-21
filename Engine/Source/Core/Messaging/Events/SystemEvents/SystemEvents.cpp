@@ -21,12 +21,7 @@ namespace Hi_Engine
 		aListener.HandleEvent(*this);
 	}
 
-	void WindowEvent::Destroy()
-	{
-		CU::MemoryPool<WindowEvent>::GetInstance().ReturnResource(this);
-	}
-
-	void WindowEvent::Clean()
+	void WindowEvent::Reset()
 	{
 	}
 	
@@ -61,16 +56,11 @@ namespace Hi_Engine
 		aListener.HandleEvent(*this);
 	}
 
-	void InputEvent::Destroy()
-	{
-		CU::MemoryPool<InputEvent>::GetInstance().ReturnResource(this);
-	}
-
-	void InputEvent::Clean()
+	void InputEvent::Reset()
 	{
 	}
 
-	void InputEvent::Init(const std::unordered_map<eKey, eInputState>& someKeyStates,
+		void InputEvent::Init(const std::unordered_map<eKey, eInputState>& someKeyStates,
 		const std::unordered_map<eMouseBtn, eInputState>& someMouseBtnStates,
 		const glm::vec2& aMousePos)
 	{

@@ -1,22 +1,33 @@
 #pragma once
 #include "../Data/Enumerations.h"
+#include "../Utility/DataStructures/Linear/Static/MemoryPool/MemoryPool.hpp"
 
 namespace Hi_Engine
 {
 	class EventListener;
+	class BaseEvent
+	{
+	public:
+		virtual ~BaseEvent() {}
 
-	class Event
+		virtual void		Dispatch(EventListener& aListener)		  = 0;
+		virtual ePriority	GetPriority()						const = 0;
+		virtual bool		IsHandled()							const = 0;
+		virtual void		Reset()									  = 0;
+	};
+
+	template <typename Derived>
+	class Event : public BaseEvent
 	{
 	public:
 		Event(ePriority aPriority = ePriority::Moderate);
-		virtual	~Event() = default;
+		~Event();
 
-		virtual void	Dispatch(EventListener& aListener)	  = 0;
-		virtual void	Destroy()							  = 0;
-		virtual void	Clean()								  = 0;
+		void*			operator new (size_t aSize);
+		void			operator delete(void* aPointer);
 
-		ePriority		GetPriority()						const;
-		bool			IsHandled()							const;
+		ePriority		GetPriority()						const override;
+		bool			IsHandled()							const override;
 		void			HandleEvent();
 
 	protected:
@@ -25,4 +36,53 @@ namespace Hi_Engine
 		ePriority		m_priority;
 		bool			m_isHandled;
 	};
+
+#pragma region Constructors
+
+	template <typename Derived>
+	Event<Derived>::Event(ePriority aPriority)
+		: m_priority{ aPriority }, m_isHandled{ false }
+	{
+	}
+	
+	template <typename Derived>
+	Event<Derived>::~Event()
+	{
+	}
+
+#pragma endregion Constructors
+
+#pragma region Method_Definitions
+
+	template<typename Derived>
+	void* Event<Derived>::operator new(size_t aSize)
+	{
+		return CommonUtilities::MemoryPool<Derived>::GetInstance().GetResource();
+	}
+
+	template<typename Derived>
+	void Event<Derived>::operator delete(void* aPointer)
+	{
+		CommonUtilities::MemoryPool<Derived>::GetInstance().ReturnResource(static_cast<Derived*>(aPointer));
+	}
+
+	template<typename Derived>
+	ePriority Event<Derived>::GetPriority() const
+	{
+		return m_priority;
+	}
+
+	template<typename Derived>
+	bool Event<Derived>::IsHandled() const
+	{
+		return m_isHandled;
+	}
+
+	template<typename Derived>
+	void Event<Derived>::HandleEvent()
+	{
+		m_isHandled = true;
+	}
+
+#pragma endregion Method_Definitions
 }
