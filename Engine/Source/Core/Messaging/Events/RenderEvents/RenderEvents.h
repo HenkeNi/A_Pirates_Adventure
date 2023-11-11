@@ -43,4 +43,15 @@ namespace Hi_Engine
 	private:
 		SpriteRenderData m_renderData;
 	};
+
+
+	class ClearBufferEvent : public Event<ClearBufferEvent>
+	{
+	public:
+		void Dispatch(EventListener& aListener)			override;
+		void Reset()									override;
+
+		void Init();
+
+	};
 }

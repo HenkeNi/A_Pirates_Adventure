@@ -204,6 +204,12 @@ namespace Hi_Engine
 		//}
 	}
 
+	void Renderer::HandleEvent(ClearBufferEvent& anEvent)
+	{
+		std::queue<RenderCommand> empty;
+		m_backBuffer.swap(empty);
+	}
+
 	bool Renderer::IsTextureBound(unsigned aTexID, float& outTexIndex)
 	{
 		for (uint32_t i = 1; i < m_textureSlotIndex; ++i)

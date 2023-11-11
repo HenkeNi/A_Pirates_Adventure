@@ -104,7 +104,12 @@ namespace Hi_Engine
 			Dispatcher::GetInstance().DispatchEvents();
 
 			/* - Process input - */
-			//m_window.PollEvents();						
+			/*{
+				std::lock_guard<std::mutex> lock{ m_mutex };
+				m_window.PollEvents();
+				m_inputHandler.ProcessInput();
+			}*/
+			//m_window.PollEvents();
 			//m_inputHandler.ProcessInput();
 
 			/* - Update - */
@@ -114,6 +119,8 @@ namespace Hi_Engine
 			/* - Render - */
 			{
 				std::lock_guard<std::mutex> lock{ m_mutex };
+				Dispatcher::GetInstance().SendEventInstantly<ClearBufferEvent>();
+
 				m_application->OnDraw();
 				DataReady.store(true);
 				m_cv.notify_one();
@@ -159,8 +166,11 @@ namespace Hi_Engine
 		renderer.SetShader(&ResourceHolder<Shader>::GetInstance().GetResource("sprite_batch")); // Rename default_sprite_bact
 	
 		// pass in window??
-		while (m_window.IsOpen()) 
+		while (m_window.IsOpen())	// Dont use window?? use bool?!
 		{
+			m_window.PollEvents();
+			m_inputHandler.ProcessInput();
+
 			std::unique_lock<std::mutex> lock{ m_mutex };
 			m_cv.wait(lock, [this]() { return DataReady.load(); });	// or something that evaluates to true/false
 			//m_cv.wait(lock, [&]() { return renderer.IsReady(); });	// or something that evaluates to true/false

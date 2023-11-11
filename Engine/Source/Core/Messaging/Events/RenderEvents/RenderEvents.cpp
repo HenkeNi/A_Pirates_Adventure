@@ -80,4 +80,21 @@ namespace Hi_Engine
 	{
 		return m_renderData;
 	}
+
+
+
+
+
+
+	void ClearBufferEvent::Dispatch(EventListener& aListener)
+	{
+		aListener.HandleEvent(*this);
+	}
+
+	void ClearBufferEvent::Reset()
+	{
+	}
+
+	void ClearBufferEvent::Init()
+	{ }
 }

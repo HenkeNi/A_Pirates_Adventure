@@ -27,6 +27,8 @@ namespace Hi_Engine
 		void SwapBuffers();
 
 		void HandleEvent(RenderEvent& anEvent) override;
+		void HandleEvent(ClearBufferEvent& anEvent) override;
+		
 		bool IsTextureBound(unsigned aTexID, float& outTexIndex);
 		void ProcessCommands();
 
@@ -59,7 +61,9 @@ namespace Hi_Engine
 
 		std::queue<RenderCommand> m_frontBuffer; // Array instead?? dont pop?!
 		std::queue<RenderCommand> m_backBuffer;
-	
+
+
+
 		//std::mutex m_queueMutex;
 
 

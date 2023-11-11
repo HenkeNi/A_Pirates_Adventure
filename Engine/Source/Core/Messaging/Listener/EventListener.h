@@ -12,6 +12,7 @@ namespace Hi_Engine
 //	class MouseEvent;
 	class RenderEvent;
 	class RenderSpriteEvent;
+	class ClearBufferEvent;
 
 
 	class EntityEvent;
@@ -26,5 +27,6 @@ namespace Hi_Engine
 		virtual void HandleEvent(InputEvent& anEvent)			{};
 		virtual void HandleEvent(RenderEvent& anEvent)			{};
 		virtual void HandleEvent(RenderSpriteEvent& anEvent)	{};
+		virtual void HandleEvent(ClearBufferEvent& anEvent)		{};
 	};
 }
