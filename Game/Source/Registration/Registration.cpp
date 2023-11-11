@@ -76,6 +76,8 @@ namespace Registration
 		aSystemManager.Register(std::make_unique<RangedCombatSystem>());
 		aSystemManager.Register(std::make_unique<ResourceSpawnSystem>());
 
+		aSystemManager.Register(std::make_unique<HUDSystem>());
+
 		aSystemManager.Register(std::make_unique<SpawnSystem>());
 		aSystemManager.Register(std::make_unique<SpriteAnimationSystem>());
 		aSystemManager.Register(std::make_unique<SpriteRenderSystem>());

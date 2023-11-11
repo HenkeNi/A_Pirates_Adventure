@@ -25,6 +25,7 @@ namespace Hi_Engine
 		if (!InitGlfw() || !CreateWindow())
 			return false;
 
+		glfwMakeContextCurrent(m_window);
 		glfwSetFramebufferSizeCallback(m_window, FrameBufferSizeCallback);
 		glfwSetWindowFocusCallback(m_window, WindowFocusCallback);
 
@@ -89,7 +90,6 @@ namespace Hi_Engine
 
 	void Window::ToggleFullscreen()
 	{
-
 	}
 
 	bool Window::InitGlfw() const
@@ -117,7 +117,6 @@ namespace Hi_Engine
 			return false;
 		}
 
-		glfwMakeContextCurrent(m_window);
 		return true;
 	}
 

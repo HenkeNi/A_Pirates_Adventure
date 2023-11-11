@@ -26,6 +26,13 @@ namespace Hi_Engine
 		glGenTextures(1, &m_id);
 		glBindTexture(GL_TEXTURE_2D, m_id);
 		glTexImage2D(GL_TEXTURE_2D, 0, m_internalFormat, aSize.x, aSize.y, 0, m_imageFormat, GL_UNSIGNED_BYTE, someData);
+
+		GLenum error = glGetError();
+		if (error != GL_NO_ERROR)
+		{
+			std::cout << "ERROR: Initializing texture\n";
+		}
+
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		/* Set Texture Wrap and Filter Modes */

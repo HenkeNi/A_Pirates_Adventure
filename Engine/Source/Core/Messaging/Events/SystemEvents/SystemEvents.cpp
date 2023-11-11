@@ -60,15 +60,6 @@ namespace Hi_Engine
 	{
 	}
 
-		void InputEvent::Init(const std::unordered_map<eKey, eInputState>& someKeyStates,
-		const std::unordered_map<eMouseBtn, eInputState>& someMouseBtnStates,
-		const glm::vec2& aMousePos)
-	{
-		m_keyStates = someKeyStates;
-		m_mouseButtonStates = someMouseBtnStates;
-		m_mousePosition = aMousePos;	
-	}
-
 	eInputState InputEvent::GetKeyState(eKey aKey) const
 	{
 		if (m_keyStates.contains(aKey))

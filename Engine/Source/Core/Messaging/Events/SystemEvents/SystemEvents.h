@@ -35,10 +35,6 @@ namespace Hi_Engine
 		void				Dispatch(EventListener& aListener)   override;
 		void				Reset()								 override;
 
-		void Init(const std::unordered_map<eKey, eInputState>& someKeyStates,
-			const std::unordered_map<eMouseBtn, eInputState>& someMouseBtnStates,
-			const glm::vec2& aMousePos);
-
 		eInputState			GetKeyState(eKey aKey)				    const;
 		eInputState			GetMouseBtnState(eMouseBtn aBtn)		const;
 		const glm::vec2&	GetMousePosition()						const;

@@ -1,5 +1,15 @@
 [
   {
+    "id": "sky",
+    "path": "../Game/Assets/Textures/sky.png",
+    "alpha": false,
+    "filtering": "Linear",
+    "width": 2560,
+    "height": 1440,
+    "rows": 1,
+    "cols": 1
+  },
+  {
     "id": "ground_tiles",
     "path": "../Game/Assets/Textures/ground_tiles.png",
     "alpha": true,

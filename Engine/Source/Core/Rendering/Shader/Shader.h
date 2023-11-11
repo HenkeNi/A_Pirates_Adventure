@@ -2,16 +2,14 @@
 
 #include "Utility/Math/Vectors/Vector.hpp"
 // FIX::
-#include <../../ThirdParty/glm/glm.hpp>
 #include <../../ThirdParty/GLEW/include/GL/glew.h>
-//#include <glm.hpp>
-
+#include <../../ThirdParty/glm/glm.hpp>
 
 namespace Hi_Engine
 {
 	namespace CU = CommonUtilities;
 
-	class Shader	// TODO renmame ShaderProgram??
+	class Shader
 	{
 	public:
 		Shader();

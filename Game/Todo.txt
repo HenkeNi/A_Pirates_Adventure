@@ -1,3 +1,22 @@
+Render all hearts as a texture (when losing a heart, move the rendered area...)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 TODO;
 
 	* TEXT

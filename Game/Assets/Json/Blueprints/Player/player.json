@@ -121,7 +121,7 @@
     },
     {
       "type": "Health",
-      "value": 100
+      "value": 5
     },
     {
       "type": "DebugRect",

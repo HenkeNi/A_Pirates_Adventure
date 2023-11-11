@@ -11,6 +11,9 @@ public:
 	void Receive(Message& aMsg)		override;
 	void Update(float aDeltaTime)	override;
 
+	// Handle rendering as well?
+
 private:
+	void SetupHUDElements();
 
 };

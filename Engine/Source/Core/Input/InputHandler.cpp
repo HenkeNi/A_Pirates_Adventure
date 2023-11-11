@@ -30,7 +30,10 @@ namespace Hi_Engine
 	void InputHandler::ProcessInput()
 	{
 		// TODO: save previous frame's key status?!
-		InputEvent* inputEvent = new InputEvent;
+		InputEvent* inputEvent			= new InputEvent;
+		inputEvent->m_keyStates			= s_keyStates;
+		inputEvent->m_mouseButtonStates = s_mouseButtonStates;
+		inputEvent->m_mousePosition		= s_mousePosition;
 		Dispatcher::GetInstance().SendEventInstantly(inputEvent);
 
 		delete inputEvent;

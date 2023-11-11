@@ -25,6 +25,8 @@ namespace Hi_Engine
 
 	void TextRenderer::Init()
 	{
+        return;
+
         glGenVertexArrays(1, &m_textContext.VAO);
         glBindVertexArray(m_textContext.VAO);
 
@@ -54,7 +56,7 @@ namespace Hi_Engine
 
 	void TextRenderer::Render(const TextRenderData& someData)
 	{
-       // return;
+        return;
 
         // activate corresponding render state	
         someData.Shader->Activate();
@@ -76,23 +78,24 @@ namespace Hi_Engine
         {
             const auto& ch = someData.Font->m_characters[c];
                      
-            float xpos = position.x + ch.m_bearing.x * someData.Scale;
-            float ypos = position.y - (ch.Size.y - ch.m_bearing.y) * someData.Scale;
+            float xPos = position.x + ch.m_bearing.x * someData.Scale;
+            float yPos = position.y - (ch.Size.y - ch.m_bearing.y) * someData.Scale;
 
             float w = ch.Size.x * someData.Scale;
             float h = ch.Size.y * someData.Scale;
             // update VBO for each character
-            glm::vec4 color = { 1.f, 1.f, 1.f, 1.f };
+            
+            CU::Vector3<float> color = someData.Color;
 
             float vertices[6][8] = 
-            {                           // color                                    // Texture coords
-                { xpos,     ypos + h,   color.x, color.y, color.z, color.w,         0.0f, 0.0f },
-                { xpos,     ypos,       color.x, color.y, color.z, color.w,         0.0f, 1.0f },
-                { xpos + w, ypos,       color.x, color.y, color.z, color.w,         1.0f, 1.0f },
+            {                           // color                                // Texture coords
+                { xPos,     yPos + h,   color.x, color.y, color.z, 1.f,         0.0f, 0.0f },
+                { xPos,     yPos,       color.x, color.y, color.z, 1.f,         0.0f, 1.0f },
+                { xPos + w, yPos,       color.x, color.y, color.z, 1.f,         1.0f, 1.0f },
 
-                { xpos,     ypos + h,   color.x, color.y, color.z, color.w,         0.0f, 0.0f },
-                { xpos + w, ypos,       color.x, color.y, color.z, color.w,         1.0f, 1.0f },
-                { xpos + w, ypos + h,   color.x, color.y, color.z, color.w,         1.0f, 0.0f }
+                { xPos,     yPos + h,   color.x, color.y, color.z, 1.f,         0.0f, 0.0f },
+                { xPos + w, yPos,       color.x, color.y, color.z, 1.f,         1.0f, 1.0f },
+                { xPos + w, yPos + h,   color.x, color.y, color.z, 1.f,         1.0f, 0.0f }
             };
             // render glyph texture over quad
 

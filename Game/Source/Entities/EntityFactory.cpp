@@ -45,6 +45,16 @@ void EntityFactory::LoadBlueprints(const std::string& aFilePath)
 
 	assert(!document.HasParseError() && "Failed to parse Blueprints");
 
+	for (auto& blueprint : document["blueprints"]["world"].GetArray())
+	{
+		loadBlueprintsFromJson(blueprint.GetString());
+	}
+
+	for (auto& blueprint : document["blueprints"]["hud"].GetArray())
+	{
+		loadBlueprintsFromJson(blueprint.GetString());
+	}
+	
 	for (auto& blueprint : document["blueprints"]["player"].GetArray())
 	{
 		loadBlueprintsFromJson(blueprint.GetString());

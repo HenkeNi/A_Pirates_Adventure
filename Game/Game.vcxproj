@@ -306,6 +306,7 @@
     <None Include="Assets\Json\Blueprints\Enemies\skeleton_enemy.json" />
     <None Include="Assets\Json\Blueprints\Enemies\spider_enemy.json" />
     <None Include="Assets\Json\Blueprints\HUD\healthbar.json" />
+    <None Include="Assets\Json\Blueprints\HUD\heartcontainer.json" />
     <None Include="Assets\Json\Blueprints\Map\map_chunk.json" />
     <None Include="Assets\Json\Blueprints\NPC\castaway_npc.json" />
     <None Include="Assets\Json\Blueprints\Player\player.json" />
@@ -321,6 +322,7 @@
     <None Include="Assets\Json\Blueprints\UI\title_text.json" />
     <None Include="Assets\Json\Blueprints\UI\title_background.json" />
     <None Include="Assets\Json\Blueprints\Utility\world_time.json" />
+    <None Include="Assets\Json\Blueprints\World\sky.json" />
     <None Include="Assets\Json\Resources\Fonts.json" />
     <None Include="Assets\Json\Resources\Subtextures.json" />
     <None Include="Assets\Json\Resources\Textures.json" />

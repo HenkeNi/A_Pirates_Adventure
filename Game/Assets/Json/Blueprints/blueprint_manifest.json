@@ -1,5 +1,12 @@
 {
   "blueprints": {
+    "world": [
+      "../Game/Assets/Json/Blueprints/World/sky.json"
+    ],
+    "hud": [
+      "../Game/Assets/Json/Blueprints/HUD/healthbar.json",
+      "../Game/Assets/Json/Blueprints/HUD/heartcontainer.json"
+    ],
     "player": [
       "../Game/Assets/Json/Blueprints/Player/player.json"
     ],

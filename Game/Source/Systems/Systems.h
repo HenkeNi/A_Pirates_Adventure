@@ -23,6 +23,8 @@
 #include "Rendering/Sprite/SpriteRenderSystem.h"
 #include "Rendering/Text/TextRenderSystem.h"
 
+#include "HUD/HUDSystem.h"
+
 
 #include "Stats/StatSystem.h"
 #include "Spawn/EnemySpawnSystem.h"
