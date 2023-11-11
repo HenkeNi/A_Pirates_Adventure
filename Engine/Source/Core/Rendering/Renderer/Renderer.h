@@ -3,6 +3,9 @@
 #include "../../../Data/Constants.h"
 #include "Messaging/Listener/EventListener.h"
 
+// FIX!
+//#include <mutex>
+#include <queue>
 
 namespace Hi_Engine
 {
@@ -21,9 +24,11 @@ namespace Hi_Engine
 
 		void Init();
 		void Shutdown();
+		void SwapBuffers();
 
 		void HandleEvent(RenderEvent& anEvent) override;
 		bool IsTextureBound(unsigned aTexID, float& outTexIndex);
+		void ProcessCommands();
 
 		void DrawSprite(const SpriteRenderData& someData);
 		void DrawQuad(const QuadRenderData& someData);
@@ -36,16 +41,27 @@ namespace Hi_Engine
 		void SetShader(Shader* aShader);
 		void SetCamera(Camera* aCamera);		// Pass in instead??
 
-		void ProcessCommands();					// ??? ProcessDrawCalls();
+		bool IsReady() { return !m_backBuffer.empty(); }
+
+		inline const RenderStats& GetRenderStats() const { return m_stats; }
 
 	private:
-		void DisplayQuads();
-		void DisplayText();
+		//void DisplayQuads();
+		//void DisplayText();
 
 		Window*		m_window;
 		Camera*		m_camera;			// Pass along the camera instead?? or maybbe no need to store? instead set the uProjectioView in shader when needed? 
 
 		// store a viewport?
+
+
+		std::queue<RenderCommand> m_renderCommands; // Replace with RenderCommand -- is it fine that set camera -> set shader, etc is stored here as well?
+
+		std::queue<RenderCommand> m_frontBuffer; // Array instead?? dont pop?!
+		std::queue<RenderCommand> m_backBuffer;
+	
+		//std::mutex m_queueMutex;
+
 
 		// Texture manager?
 		std::array<uint32_t, Constants::MaxTextureSlots> m_textureSlots;

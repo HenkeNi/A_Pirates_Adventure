@@ -14,6 +14,8 @@ namespace Hi_Engine
 
 	void Dispatcher::Subscribe(EventListener* aSubscriber)
 	{
+		std::lock_guard<std::mutex> lock(m_mutex);
+
 		auto it = std::find(m_listeners.begin(), m_listeners.end(), aSubscriber);
 		assert(it == m_listeners.end());
 
@@ -22,6 +24,8 @@ namespace Hi_Engine
 
 	void Dispatcher::Unsubscribe(EventListener* aSubscriber)
 	{
+		std::lock_guard<std::mutex> lock(m_mutex);
+
 		auto it = std::find(m_listeners.begin(), m_listeners.end(), aSubscriber);
 		assert(it != m_listeners.end());
 
@@ -45,6 +49,8 @@ namespace Hi_Engine
 
 	void Dispatcher::SendEventInstantly(BaseEvent* anEvent)
 	{
+		std::lock_guard<std::mutex> lock(m_mutex);
+
 		BroadcastEvent(anEvent);
 	}
 
@@ -58,7 +64,7 @@ namespace Hi_Engine
 		assert(anEvent && "Event is not valid!");
 
 		for (auto& listener : m_listeners)
-		{
+		{	
 			if (anEvent->IsHandled())
 				break;
 

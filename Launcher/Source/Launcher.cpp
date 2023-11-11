@@ -32,7 +32,7 @@ void Launcher::StartGameLoop()
 
 	if (engine->Init())
 	{
-		engine->GameLoop();
+		engine->Update();
 		engine->Shutdown();
 	}
 

@@ -90,6 +90,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Core\Rendering\Renderer\Renderer3D.h" />
     <ClInclude Include="Source\Core\Rendering\Particles\ParticleEmitter.h" />
     <ClInclude Include="Source\Core\Rendering\Renderer\Renderer.h" />
     <ClInclude Include="Source\Core\Rendering\Font\Font.h" />
@@ -151,6 +152,7 @@
     <ClInclude Include="Source\Core\Rendering\Texture\Subtexture2D.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Core\Rendering\Renderer\Renderer3D.cpp" />
     <ClCompile Include="Source\Core\Rendering\Font\Font.cpp" />
     <ClCompile Include="Source\Core\Messaging\Events\RenderEvents\RenderEvents.cpp" />
     <ClCompile Include="Source\Core\Rendering\Camera\Camera.cpp" />

@@ -50,7 +50,7 @@ void Game::OnDraw()
 
 void Game::OnCreate()
 {
-	LoadResources();
+	//LoadResources();
 
 	Registration::RegisterComponents();
 	Registration::RegisterBlueprints();

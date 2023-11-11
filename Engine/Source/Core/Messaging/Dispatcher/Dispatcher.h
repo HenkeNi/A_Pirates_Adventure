@@ -47,6 +47,7 @@ namespace Hi_Engine
 		 
 		std::priority_queue<BaseEvent*, std::vector<BaseEvent*>, EventCompare>	m_events;	 // TODO; Own heap or priority queue?
 		std::vector<EventListener*>												m_listeners;	
+		std::mutex																m_mutex;
 	};
 
 #pragma region Method_Definitions

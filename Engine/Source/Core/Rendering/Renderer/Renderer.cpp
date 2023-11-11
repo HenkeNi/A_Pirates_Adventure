@@ -97,30 +97,111 @@ namespace Hi_Engine
 		Dispatcher::GetInstance().Unsubscribe(this);
 	}
 
+	void Renderer::Init()
+	{
+		/* Create vertex array object */
+		glGenVertexArrays(1, &m_quadContext.VAO);
+		glBindVertexArray(m_quadContext.VAO);
+
+		/* Create vertex buffer object */
+		glGenBuffers(1, &m_quadContext.VBO);
+		glBindBuffer(GL_ARRAY_BUFFER, m_quadContext.VBO);
+		glBufferData(GL_ARRAY_BUFFER, Constants::MaxVertexCount * sizeof(Vertex), nullptr, GL_DYNAMIC_DRAW);
+
+		/* Specify layout of the vertex data */
+
+		/* Position Attribute */
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Position));
+
+		/* Color Attribute */
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Color));
+
+		/* Texture Coord Attribute */
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexCoords));
+
+		/* Texture Index */
+		glEnableVertexAttribArray(3);
+		glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexIndex));
+
+		/* Populate indices */
+		uint32_t indices[Constants::MaxIndexCount];
+		GenerateIndices(indices);
+
+		/* Create element buffer object */
+		glCreateBuffers(1, &m_quadContext.EBO);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_quadContext.EBO);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+		/* Unbind VBO and VAO */
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindVertexArray(0);
+	}
+	
+	void Renderer::Shutdown()
+	{
+		glDeleteVertexArrays(1, &m_quadContext.VAO);
+		glDeleteBuffers(1, &m_quadContext.VBO);
+		glDeleteBuffers(1, &m_quadContext.EBO);
+
+		// Todo; Delete texture ??
+		glDeleteTextures(1, &m_whiteTexture); // MOVE later?
+
+		delete[] m_quadContext.Buffer;
+	}
+	
+	void Renderer::SwapBuffers()
+	{
+		m_frontBuffer.swap(m_backBuffer);
+
+		std::queue<RenderCommand> empty;
+		m_backBuffer.swap(empty);
+	}
+	
 	void Renderer::HandleEvent(RenderEvent& anEvent)
 	{
 		// TODO; Maybe add to queue => sort first set camera, set shader, then render stuff, lastly text... 
 		
+		// std::lock_guard<std::mutex> lock(m_queueMutex);
+
 		auto commands = anEvent.GetCommands();
 
 		while (!commands.empty())
 		{
-			auto command = commands.front();
-			if (command.Type == eRenderCommandType::DrawSprite)
-			{
-				DrawSprite(command.SpriteRenderData);
-			}
-			else if (command.Type == eRenderCommandType::SetShader)
-			{
-				// m_activeShader = command.m_shader;
-			}
-			else if (command.Type == eRenderCommandType::SetCamera)
-			{
-				m_camera = command.Camera;
-			}
-
+			m_backBuffer.push(commands.front());
 			commands.pop();
 		}
+		//std::lock_guard<std::mutex> lock(m_queueMutex);
+
+		//while (!commands.empty())
+		//{
+		//	m_renderCommands.push(commands.front());
+		//	commands.pop();
+		//}
+
+
+		//auto commands = anEvent.GetCommands(); 
+
+		//while (!commands.empty())
+		//{
+		//	auto command = commands.front();
+		//	if (command.Type == eRenderCommandType::DrawSprite)
+		//	{
+		//		DrawSprite(command.SpriteRenderData);
+		//	}
+		//	else if (command.Type == eRenderCommandType::SetShader)
+		//	{
+		//		// m_activeShader = command.m_shader;
+		//	}
+		//	else if (command.Type == eRenderCommandType::SetCamera)
+		//	{
+		//		m_camera = command.Camera;
+		//	}
+
+		//	commands.pop();
+		//}
 	}
 
 	bool Renderer::IsTextureBound(unsigned aTexID, float& outTexIndex)
@@ -134,6 +215,42 @@ namespace Hi_Engine
 			}
 		}
 		return false;
+	}
+
+	void Renderer::ProcessCommands()
+	{
+		
+		// for (auto Command : RenderCommands)
+		// 
+
+
+		//std::lock_guard<std::mutex> lock(m_queueMutex);
+
+		//while (!m_renderCommands.empty())
+		while (!m_frontBuffer.empty())
+		{
+			auto command = m_frontBuffer.front();
+			m_frontBuffer.pop();
+
+			//auto command = m_renderCommands.front();
+			//m_renderCommands.pop();
+
+			if (command.Type == eRenderCommandType::DrawSprite)
+			{
+				DrawSprite(command.SpriteRenderData);
+			}
+			else if (command.Type == eRenderCommandType::SetShader)
+			{
+				// m_activeShader = command.m_shader;
+			}
+			else if (command.Type == eRenderCommandType::SetCamera)
+			{
+				m_camera = command.Camera;
+			}
+		}
+
+
+		// TO EN FRAME HERE??
 	}
 
 	void Renderer::DrawSprite(const SpriteRenderData& someData)
@@ -185,63 +302,11 @@ namespace Hi_Engine
 		++m_stats.TotalQuads;
 	}
 
-	void Renderer::Init()
-	{
-		/* Create vertex array object */
-		glGenVertexArrays(1, &m_quadContext.VAO);
-		glBindVertexArray(m_quadContext.VAO);
-
-		/* Create vertex buffer object */
-		glGenBuffers(1, &m_quadContext.VBO);
-		glBindBuffer(GL_ARRAY_BUFFER, m_quadContext.VBO);
-		glBufferData(GL_ARRAY_BUFFER, Constants::MaxVertexCount * sizeof(Vertex), nullptr, GL_DYNAMIC_DRAW);
-
-		/* Specify layout of the vertex data */
-
-		/* Position Attribute */
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Position));
-
-		/* Color Attribute */
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Color));
-
-		/* Texture Coord Attribute */
-		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexCoords));
-
-		/* Texture Index */
-		glEnableVertexAttribArray(3);
-		glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexIndex));
-
-		/* Populate indices */
-		uint32_t indices[Constants::MaxIndexCount];
-		GenerateIndices(indices);
-
-		/* Create element buffer object */
-		glCreateBuffers(1, &m_quadContext.EBO);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_quadContext.EBO);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-		/* Unbind VBO and VAO */
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindVertexArray(0);
-	}
-
-	void Renderer::Shutdown()
-	{
-		glDeleteVertexArrays(1, &m_quadContext.VAO);
-		glDeleteBuffers(1, &m_quadContext.VBO);
-		glDeleteBuffers(1, &m_quadContext.EBO);
-
-		// Todo; Delete texture ??
-		glDeleteTextures(1, &m_whiteTexture); // MOVE later?
-
-		delete[] m_quadContext.Buffer;
-	}
-
 	void Renderer::BeginFrame()
 	{
+		if (!m_window)
+			return;
+
 		assert(m_window && "ERROR: found nullptr when accessing Window!");
 
 		m_window->ClearScreen();
@@ -250,10 +315,19 @@ namespace Hi_Engine
 		m_quadContext.CurrentVertex = m_quadContext.Buffer;
 		m_quadContext.IndexCount = 0;
 		m_textureSlotIndex = 1;
+
+		/* Reset render stats */
+		m_stats.TotalDraws = 0;
+		m_stats.TotalQuads = 0;
 	}
 
 	void Renderer::Display()
 	{
+		if (!m_window || !m_camera)
+			return;
+
+
+
 		/* Pass data to the buffer (VBO) */
 		GLsizeiptr size = (uint8_t*)m_quadContext.CurrentVertex - (uint8_t*)m_quadContext.Buffer;
 		glBindBuffer(GL_ARRAY_BUFFER, m_quadContext.VBO);
@@ -280,20 +354,17 @@ namespace Hi_Engine
 
 
 
-		DisplayQuads();
+		// DisplayQuads();
 		// DisplayText();
 	}
 
 	void Renderer::EndFrame()
 	{
 		assert(m_window && "ERROR: found nullptr when accessing Window!");
+		ProcessCommands();
 
 		Display();
 		m_window->SwapBuffers();
-
-		// Reset stats
-		m_stats.TotalDraws = 0;
-		m_stats.TotalQuads = 0;
 	}
 	
 	void Renderer::SetRenderTarget(Window* aWindow)
@@ -318,75 +389,75 @@ namespace Hi_Engine
 		m_camera = aCamera;
 	}
 
-	void Renderer::DisplayQuads()
-	{
-		
-	}
+	//void Renderer::DisplayQuads()
+	//{
+	//	
+	//}
 
-	void Renderer::DisplayText()
-	{
-		auto* shader = m_textContext.Shader;
+	//void Renderer::DisplayText()
+	//{
+	//	auto* shader = m_textContext.Shader;
 
-		shader->Activate();
-		shader->SetVector4f("uText Color", { 1.f, 1.f, 1.f, 1.f }); // TODO; fix color...
+	//	shader->Activate();
+	//	shader->SetVector4f("uText Color", { 1.f, 1.f, 1.f, 1.f }); // TODO; fix color...
 
-		glm::mat4 projection = m_camera->GetProjectionMatrix();
-		shader->SetMatrix4("uProjection", projection);
+	//	glm::mat4 projection = m_camera->GetProjectionMatrix();
+	//	shader->SetMatrix4("uProjection", projection);
 
-		glActiveTexture(GL_TEXTURE0); // ????????????????????
-		glBindVertexArray(m_textContext.VAO);
+	//	glActiveTexture(GL_TEXTURE0); // ????????????????????
+	//	glBindVertexArray(m_textContext.VAO);
 
-		// iterate through all characters
-		//auto position = someData.m_position;
-		//const auto& characters = someData.m_font->m_characters;
+	//	// iterate through all characters
+	//	//auto position = someData.m_position;
+	//	//const auto& characters = someData.m_font->m_characters;
 
-		//// position.x -= (someData.m_text.size() * characters.begin()->second.m_size.x) * 0.5f; // TEST!!  
-
-
-		//for (const char& c : someData.m_text)
-		//{
-		//	const auto& ch = someData.m_font->m_characters[c];
-
-		//	float xpos = position.x + ch.m_bearing.x * someData.m_scale;
-		//	float ypos = position.y - (ch.m_size.y - ch.m_bearing.y) * someData.m_scale;
-
-		//	float w = ch.m_size.x * someData.m_scale;
-		//	float h = ch.m_size.y * someData.m_scale;
-		//	// update VBO for each character
-		//	float vertices[6][4] = {
-		//		{ xpos,     ypos + h,   0.0f, 0.0f },
-		//		{ xpos,     ypos,       0.0f, 1.0f },
-		//		{ xpos + w, ypos,       1.0f, 1.0f },
-
-		//		{ xpos,     ypos + h,   0.0f, 0.0f },
-		//		{ xpos + w, ypos,       1.0f, 1.0f },
-		//		{ xpos + w, ypos + h,   1.0f, 0.0f }
-		//	};
-		//	// render glyph texture over quad
-
-		//	//ch.m_texture.Bind();
-		//	ResourceHolder<Texture2D>::GetInstance().GetResource(ch.m_textureID).Bind();
+	//	//// position.x -= (someData.m_text.size() * characters.begin()->second.m_size.x) * 0.5f; // TEST!!  
 
 
-		//	//glBindTexture(GL_TEXTURE_2D, ch.m_textureID);   // use texture pointer instead..
+	//	//for (const char& c : someData.m_text)
+	//	//{
+	//	//	const auto& ch = someData.m_font->m_characters[c];
 
-		//	// update content of VBO memory
-		//	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-		//	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); // be sure to use glBufferSubData and not glBufferData
+	//	//	float xpos = position.x + ch.m_bearing.x * someData.m_scale;
+	//	//	float ypos = position.y - (ch.m_size.y - ch.m_bearing.y) * someData.m_scale;
 
-		//	glBindBuffer(GL_ARRAY_BUFFER, 0);
-		//	// render quad
-		//	glDrawArrays(GL_TRIANGLES, 0, 6);
-		//	// now advance cursors for next glyph (note that advance is number of 1/64 pixels)
-		//	position.x += (ch.m_advance >> 6) * someData.m_scale; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
+	//	//	float w = ch.m_size.x * someData.m_scale;
+	//	//	float h = ch.m_size.y * someData.m_scale;
+	//	//	// update VBO for each character
+	//	//	float vertices[6][4] = {
+	//	//		{ xpos,     ypos + h,   0.0f, 0.0f },
+	//	//		{ xpos,     ypos,       0.0f, 1.0f },
+	//	//		{ xpos + w, ypos,       1.0f, 1.0f },
+
+	//	//		{ xpos,     ypos + h,   0.0f, 0.0f },
+	//	//		{ xpos + w, ypos,       1.0f, 1.0f },
+	//	//		{ xpos + w, ypos + h,   1.0f, 0.0f }
+	//	//	};
+	//	//	// render glyph texture over quad
+
+	//	//	//ch.m_texture.Bind();
+	//	//	ResourceHolder<Texture2D>::GetInstance().GetResource(ch.m_textureID).Bind();
+
+
+	//	//	//glBindTexture(GL_TEXTURE_2D, ch.m_textureID);   // use texture pointer instead..
+
+	//	//	// update content of VBO memory
+	//	//	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+	//	//	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); // be sure to use glBufferSubData and not glBufferData
+
+	//	//	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//	//	// render quad
+	//	//	glDrawArrays(GL_TRIANGLES, 0, 6);
+	//	//	// now advance cursors for next glyph (note that advance is number of 1/64 pixels)
+	//	//	position.x += (ch.m_advance >> 6) * someData.m_scale; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
 
 
 
-		//	//  glBindTexture(GL_TEXTURE_2D, 0); // TEST
+	//	//	//  glBindTexture(GL_TEXTURE_2D, 0); // TEST
 
-		//}
+	//	//}
 
-		//glBindVertexArray(0);
-		//glBindTexture(GL_TEXTURE_2D, 0);
-	}	
+	//	//glBindVertexArray(0);
+	//	//glBindTexture(GL_TEXTURE_2D, 0);
+	//}	
 }
