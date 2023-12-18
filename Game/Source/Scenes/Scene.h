@@ -1,7 +1,7 @@
 #pragma once
-#include "../Data/Structs.h"
-#include "EntityManager.h"
-#include "SystemManager.h"
+//#include "../Data/Structs.h"
+#include "ECS/Entities/EntityManager.h"
+#include "ECS/Systems/SystemManager.h"
 
 // Rework to handle Scene transitions...
 // set order of systems...

@@ -4,7 +4,7 @@
 namespace Hi_Engine
 {
 	Texture2D::Texture2D(GLenum aTextureFormat, bool aLinearFiltering)
-		: m_internalFormat{ aTextureFormat }, m_imageFormat{ aTextureFormat }, m_id{ 0 }, m_size{ 0.f, 0.f }, m_linearFiltering{ aLinearFiltering } //  todo fix texture id... (maybe frm json??)
+		: m_internalFormat{ aTextureFormat }, m_imageFormat{ aTextureFormat }, m_id{ 0 }, m_size{ 0, 0 }, m_linearFiltering{ aLinearFiltering } //  todo fix texture id... (maybe frm json??)
 	{
 		//static unsigned ID = 1;
 		//m_id = ID;

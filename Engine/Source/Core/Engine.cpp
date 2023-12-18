@@ -73,6 +73,7 @@ namespace Hi_Engine
 
 		while (IsRunning())	// Todo, use enum for GameState instead? !GameState::EXIT
 		{
+
  			timer.Update();
 			const float deltaTime = timer.GetDeltaTime();
 
@@ -90,7 +91,7 @@ namespace Hi_Engine
 			m_renderer.BeginFrame();
 			m_application->OnDraw();
 			m_renderer.EndFrame();	// Always call Display in EndFrame?
-	
+			
 			m_window.SetTitle("Fps: " + std::to_string((int)timer.GetAverageFPS())); // TODO; Get Draw calls...
 		}
 	}

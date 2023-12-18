@@ -1,5 +1,5 @@
 #pragma once
-#include "../Data/Enumerations.h"
+#include "../DataTypes/Enumerations.h"
 
 class Message
 {
@@ -10,7 +10,7 @@ public:
 	eMessage			GetMessageType()	const;
 	const std::any&		GetData()			const;
 	bool				IsHandled()			const;
-	void				HandleEvent();
+	void				HandleMessage();
 
 private:
 	std::any			m_data;

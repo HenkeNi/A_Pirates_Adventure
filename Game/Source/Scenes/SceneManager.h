@@ -1,8 +1,8 @@
 #pragma once
-#include "../Data/Enumerations.h"
+#//#include "../Data/Enumerations.h"
 //  #include <Hi_Engine.h>
 #include <Utility/DataStructures/Linear/Dynamic/Stack/Stack.hpp>
-
+#include "../DataTypes/Enumerations.h"
 #include <bitset>
 
 namespace CU = CommonUtilities;

@@ -1,25 +1,32 @@
 {
-  "name": "Castaway",
+  "id": "Castaway",
   "layer": "NPC",
   "components": [
     {
       "type": "Transform",
-      "position": [ 0.0, 0.3, 0.0 ],
-      "scale": [ 4.5, 4.5, 4.5 ],
-      "rotation": 0.0
+      "properties": {
+        "position": [ 0.0, 0.3, 0.0 ],
+        "scale": [ 4.5, 4.5, 4.5 ],
+        "rotation": 0.0
+      }
     },
     {
       "type": "Velocity",
-      "speed": 1.0
+      "properties": {
+        "speed": 1.0
+      }
     },
     {
       "type": "Sprite",
-      "shader": "sprite_batch",
-      "texture": "castaway_00",
-      "color": [ 1.0, 1.0, 1.0, 1.0 ]
+      "properties": {
+        "shader": "sprite_batch",
+        "texture": "castaway_00",
+        "color": [ 1.0, 1.0, 1.0, 1.0 ]
+      }
     },
     {
-      "type": "BehaviorTree"
+      "type": "BehaviorTree",
+      "properties": {}
     }
   ]
 }

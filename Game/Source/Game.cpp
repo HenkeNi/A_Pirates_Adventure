@@ -1,7 +1,7 @@
 #include "Pch.h"
 #include "Game.h"
 #include "Registration/Registration.h"
-#include "Scene.h"
+#include "Scenes/Scene.h"
 #include <Core/Resources/ResourceHolder.hpp>
 
 Game::Game()
@@ -21,7 +21,7 @@ void Game::OnUpdate(float aDeltaTime)
 	}
 
 	//m_sceneManager.Update(aDeltaTime);
-	m_systemManager.Update(aDeltaTime);	 // DONT update here as well?!
+	//m_systemManager.Update(aDeltaTime);	 // DONT update here as well?!
 }
 
 void Game::OnLateUpdate(float aDeltaTime)
@@ -33,7 +33,7 @@ void Game::OnLateUpdate(float aDeltaTime)
 	}
 
 	// m_sceneManager.LateUpdate(aDeltaTime);
-	m_systemManager.LateUpdate(aDeltaTime);
+	//m_systemManager.LateUpdate(aDeltaTime);
 }
 
 void Game::OnDraw()
@@ -45,7 +45,7 @@ void Game::OnDraw()
 	}
 
 	//m_sceneManager.Draw();
-	m_systemManager.Draw();
+	//m_systemManager.Draw();
 }
 
 void Game::OnCreate()
@@ -89,9 +89,9 @@ void Game::OnDestroy()
 void Game::LoadResources()	// Todo, do in Registration?
 {
 	//Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().FetchAll("../Game/Assets/Json/Resources/Textures.json");
-	Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().LoadResources("../Game/Assets/Json/Resources/Textures2.json");
 	// Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().FetchAll("../Game/Assets/Json/Resources/Subtextures.json");
 	
+	Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().LoadResources("../Game/Assets/Json/Resources/Textures2.json");
 	Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().LoadResources("../Engine/Assets/Json/Resources/Shaders.json");
 	Hi_Engine::ResourceHolder<Hi_Engine::Font>::GetInstance().LoadResources("../Game/Assets/Json/Resources/Fonts.json");
 }

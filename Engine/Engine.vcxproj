@@ -60,7 +60,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\FreeType\include;$(SolutionDir)ThirdParty\GLEW\include;$(SolutionDir)ThirdParty\GLFW\include;$(SolutionDir)ThirdParty\glm;$(SolutionDir)ThirdParty\rapidjson;$(SolutionDir)ThirdParty\stb_image;Source\;Source\Assets;Source\Core;Source\Core\Application;Source\Core\Input\;Source\Core\Window;Source\Data\Structs;Source\Messaging;Source\Precompiled;Source\Utility;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\FreeType\include;$(SolutionDir)ThirdParty\GLEW\include;$(SolutionDir)ThirdParty\GLFW\include;$(SolutionDir)ThirdParty\glm;$(SolutionDir)ThirdParty\rapidjson;$(SolutionDir)ThirdParty\stb_image;Source\Core\;Source\Data\;Source\Precompiled;Source\Utility\;Source\Assets;Source\Core;Source\Core\Application;Source\Core\Input\;Source\Core\Window;Source\Data\Structs;Source\Messaging;Source\Precompiled;Source\Utility;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -79,7 +79,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\FreeType\include;$(SolutionDir)ThirdParty\GLEW\include;$(SolutionDir)ThirdParty\GLFW\include;$(SolutionDir)ThirdParty\glm;$(SolutionDir)ThirdParty\rapidjson;$(SolutionDir)ThirdParty\stb_image;Source\;Source\Core;Source\Core\Application;Source\Core\Input\;Source\Core\Window;Source\Data\Structs;Source\Messaging;Source\Precompiled;Source\Utility;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\FreeType\include;$(SolutionDir)ThirdParty\GLEW\include;$(SolutionDir)ThirdParty\GLFW\include;$(SolutionDir)ThirdParty\glm;$(SolutionDir)ThirdParty\rapidjson;$(SolutionDir)ThirdParty\stb_image;Source\Core\;Source\Data\;Source\Precompiled;Source\Utility\;Source\Core;Source\Core\Application;Source\Core\Input\;Source\Core\Window;Source\Data\Structs;Source\Messaging;Source\Precompiled;Source\Utility;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -93,12 +93,12 @@
     <ClInclude Include="Source\Core\Rendering\Particles\ParticleEmitter.h" />
     <ClInclude Include="Source\Core\Rendering\Renderer\Renderer.h" />
     <ClInclude Include="Source\Core\Rendering\Font\Font.h" />
-    <ClInclude Include="Source\Core\Physics\Lines\2D\LineSegment2D.hpp" />
-    <ClInclude Include="Source\Core\Physics\Lines\2D\Line2D.hpp" />
+    <ClInclude Include="Source\Core\Physics\Primitives\2D\LineSegment2D.hpp" />
+    <ClInclude Include="Source\Core\Physics\Primitives\2D\Ray2D.hpp" />
     <ClInclude Include="Source\Core\Physics\Intersections\Intersection2D.hpp" />
-    <ClInclude Include="Source\Core\Physics\Shapes\2D\AABB2D.hpp" />
-    <ClInclude Include="Source\Core\Physics\Shapes\2D\Circle.hpp" />
-    <ClInclude Include="Source\Core\Physics\Shapes\2D\OBB2D.hpp" />
+    <ClInclude Include="Source\Core\Physics\Primitives\2D\AABB2D.hpp" />
+    <ClInclude Include="Source\Core\Physics\Primitives\2D\Circle.hpp" />
+    <ClInclude Include="Source\Core\Physics\Primitives\2D\OBB2D.hpp" />
     <ClInclude Include="Source\Core\Rendering\Camera\PerspectiveCamera.h" />
     <ClInclude Include="Source\Core\Messaging\Events\RenderEvents\RenderEvents.h" />
     <ClInclude Include="Source\Core\Rendering\Material\Material.h" />

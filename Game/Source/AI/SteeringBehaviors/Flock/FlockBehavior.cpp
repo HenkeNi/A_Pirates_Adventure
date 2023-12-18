@@ -1,9 +1,9 @@
 #include "Pch.h"
 #include "FlockBehavior.h"
-#include "Entity.h"
+#include "Entities/Entity.h"
 
-#include "Core/CoreComponents.h"
-#include "Physics/PhysicsComponents.h"
+#include "Components/Core/CoreComponents.h"
+#include "Components/Physics/PhysicsComponents.h"
 
 FlockBehavior::FlockBehavior()
 	: m_minSeparationDistance{ 1.f }, m_radius{ 0.1f }, m_maxForce{ 1.f }, m_maxCohesion{ 3.f }

@@ -1,7 +1,7 @@
 #include "Pch.h"
 #include "SprintCommand.h"
-#include "Character/AttributeComponents.h"
-#include "Physics/PhysicsComponents.h"
+#include "Components/Character/AttributeComponents.h"
+#include "Components/Physics/PhysicsComponents.h"
 
 
 SprintCommand::SprintCommand()

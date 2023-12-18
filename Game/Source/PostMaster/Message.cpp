@@ -22,7 +22,7 @@ bool Message::IsHandled() const
 	return m_isHandled;
 }
 
-void Message::HandleEvent()
+void Message::HandleMessage()
 {
 	m_isHandled = true;
 }

@@ -1,6 +1,6 @@
 #pragma once
-#include "Data/Enumerations.h"
-#include "Data/Structs.h"
+#include "../../../Data/Enumerations.h"
+#include "../../../Data/Structs.h"
 #include "../../../Utility/DataStructures/Linear/Static/MemoryPool/MemoryPool.hpp"
 #include <queue>
 

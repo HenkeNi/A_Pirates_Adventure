@@ -1,18 +1,22 @@
 {
-  "name": "title_background",
+  "id": "title_background",
   "layer": "UI",
   "components": [
     {
       "type": "Transform",
-      "position": [ 0.0, 0.0, 0.0 ],
-      "scale": [ 2.0, 2.0, 2.0 ],
-      "rotation": 0.0
+      "properties": {
+        "position": [ 0.0, 0.0, 0.0 ],
+        "scale": [ 2.0, 2.0, 2.0 ],
+        "rotation": 0.0
+      }
     },
     {
       "type": "Sprite",
-      "shader": "sprite_batch",
-      "texture": "title_screen_00",
-      "color": [ 1.0, 1.0, 1.0, 1.0 ]
+      "properties": {
+        "shader": "sprite_batch",
+        "texture": "title_screen_00",
+        "color": [ 1.0, 1.0, 1.0, 1.0 ]
+      }
     }
   ]
 }

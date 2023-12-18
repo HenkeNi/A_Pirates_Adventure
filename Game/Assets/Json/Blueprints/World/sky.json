@@ -1,18 +1,22 @@
 {
-  "name": "sky_background",
+  "id": "sky_background",
   "layer": "World",
   "components": [
     {
       "type": "Transform",
-      "position": [ 0.0, 0.0, 0.0 ],
-      "scale": [ 2.0, 2.0, 2.0 ],
-      "rotation": 0.0
+      "properties": {
+        "position": [ 0.0, 0.0, 0.0 ],
+        "scale": [ 2.0, 2.0, 2.0 ],
+        "rotation": 0.0
+      }
     },
     {
       "type": "Sprite",
-      "shader": "sprite_batch",
-      "texture": "sky_00",
-      "color": [ 1.0, 1.0, 1.0, 1.0 ]
+      "properties": {
+        "shader": "sprite_batch",
+        "texture": "sky_00",
+        "color": [ 1.0, 1.0, 1.0, 1.0 ]
+      }
     }
   ]
 }

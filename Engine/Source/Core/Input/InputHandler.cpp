@@ -36,7 +36,7 @@ namespace Hi_Engine
 		inputEvent->m_mousePosition		= s_mousePosition;
 		Dispatcher::GetInstance().SendEventInstantly(inputEvent);
 
-		delete inputEvent;
+		delete inputEvent; 
 
 		//Dispatcher::GetInstance().SendEventInstantly<InputEvent>(s_keyStates, s_mouseButtonStates, s_mousePosition);
 		//Dispatcher::GetInstance().AddEvent<InputEvent>(s_keyStates, s_mouseButtonStates, s_mousePosition);

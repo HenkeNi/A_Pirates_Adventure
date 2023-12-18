@@ -1,29 +1,38 @@
 {
-  "name": "Stone_Resource",
+  "id": "Stone_Resource",
   "layer": "Resource",
   "components": [
     {
       "type": "Transform",
-      "position": [ 0.0, 0.0, 0.0 ],
-      "scale": [ 1.0, 1.0, 1.0 ],
-      "rotation": 0.0
+      "properties": {
+        "position": [ 0.0, 0.0, 0.0 ],
+        "scale": [ 1.0, 1.0, 1.0 ],
+        "rotation": 0.0
+      }
     },
     {
       "type": "Sprite",
-      "shader": "sprite_batch",
-      "texture": "rock_fragment_00",
-      "color": [ 1.0, 1.0, 1.0, 1.0 ]
+      "properties": {
+        "shader": "sprite_batch",
+        "texture": "rock_fragment_00",
+        "color": [ 1.0, 1.0, 1.0, 1.0 ]
+      }
     },
     {
       "type": "Rect",
-      "shader": "sprite_batch"
+      "properties": {
+        "shader": "sprite_batch"
+      }
     },
     {
       "type": "Resource",
-      "resource": "Stone"
+      "properties": {
+        "resource": "Stone"
+      }
     },
     {
-      "type": "Pickup"
+      "type": "Pickup",
+      "properties": {}
     }
   ]
 }

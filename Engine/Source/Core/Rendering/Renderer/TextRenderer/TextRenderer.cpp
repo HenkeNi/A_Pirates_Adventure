@@ -1,6 +1,6 @@
 #include "Pch.h"
 #include "TextRenderer.h"
-#include "Data/Structs.h"
+#include "../Data/Structs.h"
 #include "../../Shader/Shader.h"
 #include "../../Texture/Texture2D.h" // TODO; remove---
 #include "../../Font/Font.h"

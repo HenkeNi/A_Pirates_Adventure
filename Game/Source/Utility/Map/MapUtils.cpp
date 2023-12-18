@@ -1,9 +1,9 @@
 #include "Pch.h"
 #include "MapUtils.h"
-#include "Entity.h"
-#include "Core/CoreComponents.h"
-#include "Map/MapComponents.h"
-#include "../../Data/Structs.h"
+#include "Entities/Entity.h"
+#include "Components/Core/CoreComponents.h"
+#include "Components/Map/MapComponents.h"
+//#include "../../Data/Structs.h"
 
 
 Entity* MapUtils::GetMapChunkAtPosition(const std::vector<Entity*>& someMapChunks, const CU::Vector2<float>& aPosition)

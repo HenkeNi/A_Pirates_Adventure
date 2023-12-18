@@ -1,0 +1,75 @@
+#pragma once
+#include "Utility/Math/Vectors/Vector2.hpp"
+
+namespace Hi_Engine::Physics
+{
+	using namespace CommonUtilities;
+
+	template <class T>
+	class Ray2D
+	{
+	public:
+		Ray2D();
+		Ray2D(const Vector2<T>& anOrigin, const Vector2<T>& aDirection);
+
+		void				Init(const Vector2<T>& anOrigin, const Vector2<T>& aDirection);
+		void				InitWith2Points(const Vector2<T>& aPoint1, const Vector2<T>& aPoint2);
+
+		const Vector2<T>&	GetOrigin()				const;
+		const Vector2<T>&	GetDirection()			const;
+
+		Vector2<T>			GetPointAlongLine(T t)	const;
+
+	private:
+		Vector2<T>			m_origin;
+		Vector2<T>			m_direction;
+	};
+
+#pragma region Method_Definitions
+
+	template <class T>
+	Ray2D<T>::Ray2D()
+		: m_origin{}, m_direction{}
+	{
+	}
+
+	template <class T>
+	Ray2D<T>::Ray2D(const Vector2<T>& anOrigin, const Vector2<T>& aDirection)
+		: m_origin{ anOrigin }, m_direction{ aDirection }
+	{
+	}
+
+	template <class T>
+	void Ray2D<T>::Init(const Vector2<T>& anOrigin, const Vector2<T>& aDirection)
+	{
+		m_origin = anOrigin;
+		m_direction = aDirection;
+	}
+
+	template <class T>
+	void Ray2D<T>::InitWith2Points(const Vector2<T>& aPoint1, const Vector2<T>& aPoint2)
+	{
+		m_origin = aPoint1;
+		m_direction = aPoint2 - aPoint1;
+	}
+
+	template <class T>
+	const Vector2<T>& Ray2D<T>::GetOrigin() const
+	{
+		return m_origin;
+	}
+
+	template <class T>
+	const Vector2<T>& Ray2D<T>::GetDirection() const
+	{
+		return m_direction;
+	}
+
+	template <class T>
+	Vector2<T> Ray2D<T>::GetPointAlongLine(T t) const
+	{
+		return m_origin + (m_direction * t);
+	}
+
+#pragma endregion Method_Definitions
+}

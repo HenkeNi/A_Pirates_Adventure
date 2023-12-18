@@ -27,6 +27,10 @@
 #include <variant>
 #include <vector>
 
+/* - Data - */
+#include "../Data/Constants.h"
+#include "../Data/Enumerations.h"
+#include "../Data/Structs.h"
 
 /* - Event system - */
 #include "Messaging/Dispatcher/Dispatcher.h"
@@ -35,9 +39,9 @@
 #include "Messaging/Listener/EventListener.h"
 
 /* - CommonUtilities - */
-#include "Utility/Math/Vectors/Vector.hpp"
-#include "Utility/Math/Matrices/Matrix3x3.hpp"
-#include "Utility/Math/Matrices/Matrix4x4.hpp"
+#include "../Utility/Math/Vectors/Vector.hpp"
+#include "../Utility/Math/Matrices/Matrix3x3.hpp"
+#include "../Utility/Math/Matrices/Matrix4x4.hpp"
 
 
 /* - Third Party - */

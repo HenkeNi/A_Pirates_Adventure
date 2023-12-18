@@ -1,36 +1,48 @@
 {
-  "name": "Grass",
+  "id": "Grass",
   "layer": "Environment",
   "components": [
     {
       "type": "Transform",
-      "position": [ 0.0, 0.41, 0.0 ],
-      "scale": [ 0.8, 0.8, 1.0 ],
-      "rotation": 0.0
+      "properties": {
+        "position": [ 0.0, 0.41, 0.0 ],
+        "scale": [ 0.8, 0.8, 1.0 ],
+        "rotation": 0.0
+      }
     },
     {
       "type": "Sprite",
-      "shader": "sprite_batch",
-      "texture": "grass_00",
-      "color": [ 1.0, 1.0, 1.0, 1.0 ]
+      "properties": {
+        "shader": "sprite_batch",
+        "texture": "grass_00",
+        "color": [ 1.0, 1.0, 1.0, 1.0 ]
+      }
     },
     {
       "type": "Hitbox",
-      "half_size": 0.1,
-      "is_static": true
+      "properties": {
+        "half_size": 0.1,
+        "is_static": true
+      }
     },
     {
       "type": "Health",
-      "value": 50
+      "properties": {
+        "value": 50
+      }
     },
     {
       "type": "DebugRect",
-      "shader": "sprite_batch"
+      "properties": {
+        "shader": "sprite_batch"
+      }
     },
     {
       "type": "Harvestable",
-      "resource_type": "Fiber_Resource",
-      "yield": 5
+      "properties": {
+        "resource_type": "Fiber_Resource",
+        "yield": 5
+      }
     }
   ]
 }

@@ -1,37 +1,49 @@
 {
-  "name": "SkeletonSpawner",
+  "id": "SkeletonSpawner",
   "layer": "Environment",
   "components": [
     {
       "type": "Transform",
-      "position": [ 0.0, 0.2, 0.0 ],
-      "scale": [ 0.5, 0.5, 1.0 ],
-      "rotation": 0.0
+      "properties": {
+        "position": [ 0.0, 0.2, 0.0 ],
+        "scale": [ 0.5, 0.5, 1.0 ],
+        "rotation": 0.0
+      }
     },
     {
       "type": "Sprite",
-      "shader": "sprite_batch",
-      "texture": "skeleton_pile_00",
-      "color": [ 1.0, 1.0, 1.0, 1.0 ]
+      "properties": {
+        "shader": "sprite_batch",
+        "texture": "skeleton_pile_00",
+        "color": [ 1.0, 1.0, 1.0, 1.0 ]
+      }
     },
     {
       "type": "Hitbox",
-      "half_size": 0.1,
-      "is_static": true
+      "properties": {
+        "half_size": 0.1,
+        "is_static": true
+      }
     },
     {
       "type": "Health",
-      "value": 100
+      "properties": {
+        "value": 100
+      }
     },
     {
       "type": "Rect",
-      "shader": "sprite_batch"
+      "properties": {
+        "shader": "sprite_batch"
+      }
     },
     {
       "type": "Spawner",
-      "spawned": "Skeleton",
-      "amount": 5,
-      "interval": 2.0
+      "properties": {
+        "spawned": "Skeleton",
+        "amount": 5,
+        "interval": 2.0
+      }
     }
   ]
 }

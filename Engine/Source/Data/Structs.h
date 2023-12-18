@@ -40,6 +40,18 @@ namespace Hi_Engine
 		//TimeObserver*			m_observer = nullptr;
 	};
 
+	template <typename T>
+	struct HitResult
+	{
+		bool			IsColliding = false;
+		CU::Vector2<T>	ContactPoint { 0, 0 };
+		CU::Vector2<T>	ContactNormal{ 0, 0 };
+
+		// Union?
+		float ContactTime = 0;	// BEEDED???
+		float THitNear = 0;
+	};
+
 	//struct Position
 	//{
 	//

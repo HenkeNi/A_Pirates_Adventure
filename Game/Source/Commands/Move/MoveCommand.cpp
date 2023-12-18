@@ -1,6 +1,8 @@
 #include "Pch.h"
 #include "MoveCommand.h"
-#include "EntityManager.h"
+#include "Entities/EntityManager.h"
+#include "Components/Physics/PhysicsComponents.h"
+#include "Components/Character/AttributeComponents.h"
 
 
 MoveCommand::MoveCommand()

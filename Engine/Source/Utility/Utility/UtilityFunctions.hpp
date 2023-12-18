@@ -77,4 +77,59 @@ namespace CommonUtilities
 		std::wstring wString{ aStr.begin(), aStr.end() };
 		return wString;
 	}
+
+
+	/* - RapidJSON - */
+	inline rapidjson::Document ParseDocument(const std::string& aPath)
+	{
+		std::ifstream ifs{ aPath };
+		std::string content{ std::istreambuf_iterator<char>(ifs), std::istreambuf_iterator<char>() };
+
+		rapidjson::Document document;
+		document.Parse(content.c_str());
+
+		assert(!document.HasParseError() && "ERROR: Failed to parse document");
+		return document;
+	}
+
+	inline std::any ParseJson(const rapidjson::Value& aValue)
+	{
+		if (aValue.IsArray())
+		{
+			std::vector<std::any> values;
+			for (const auto& value : aValue.GetArray())
+			{
+				values.push_back(ParseJson(value));
+			}
+
+			return values;
+		}
+
+		if (aValue.IsObject())
+		{
+			std::unordered_map<std::string, std::any> values;
+			for (const auto& value : aValue.GetObject())
+			{
+				values.insert_or_assign(value.name.GetString(), ParseJson(value.value));
+			}
+			return values;
+		}
+
+		if (aValue.IsFloat())
+			return aValue.GetFloat();
+
+		if (aValue.IsInt())
+			return aValue.GetInt();
+
+		if (aValue.IsString())
+			return std::string(aValue.GetString());
+
+		if (aValue.IsBool())
+			return aValue.GetBool();
+
+		if (aValue.IsDouble())
+			return aValue.GetDouble();
+
+		return nullptr;
+	}
 }

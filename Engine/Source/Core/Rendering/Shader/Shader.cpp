@@ -1,6 +1,6 @@
 #include "Pch.h"
 #include "Shader.h"
-#include "Data/Structs.h"
+#include "../Data/Structs.h"
 
 
 namespace Hi_Engine

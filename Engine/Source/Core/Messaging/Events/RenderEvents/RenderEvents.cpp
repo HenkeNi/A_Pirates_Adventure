@@ -54,7 +54,7 @@ namespace Hi_Engine
 
 
 
-	RenderSpriteEvent::RenderSpriteEvent()
+	/*RenderSpriteEvent::RenderSpriteEvent()
 	{
 	}
 
@@ -79,5 +79,5 @@ namespace Hi_Engine
 	const SpriteRenderData& RenderSpriteEvent::GetRenderData() const
 	{
 		return m_renderData;
-	}
+	}*/
 }

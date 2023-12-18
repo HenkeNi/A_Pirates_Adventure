@@ -1,8 +1,8 @@
 #include "Pch.h"
 #include "ConditionNodes.h"
-#include "Entity.h"
-#include "EntityManager.h"
-#include "Components.h"
+#include "Entities/Entity.h"
+#include "Entities/EntityManager.h"
+#include "Components/Components.h"
 
 
 TargetInViewNode::TargetInViewNode(int anOwnerID, int aTargetID)

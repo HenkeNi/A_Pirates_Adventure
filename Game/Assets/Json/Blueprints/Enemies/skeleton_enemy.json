@@ -1,25 +1,32 @@
 {
-  "name": "Skeleton",
+  "id": "Skeleton",
   "layer": "Enemy",
   "components": [
     {
       "type": "Transform",
-      "position": [ 0.0, 0.3, 0.0 ],
-      "scale": [ 0.5, 0.5, 1.0 ],
-      "rotation": 0.0
+      "properties": {
+        "position": [ 0.0, 0.3, 0.0 ],
+        "scale": [ 0.5, 0.5, 1.0 ],
+        "rotation": 0.0
+      }
     },
     {
       "type": "Velocity",
-       "speed": 1.0
+      "properties": {
+        "speed": 1.0
+      }
     },
     {
       "type": "Sprite",
-      "shader": "sprite_batch",
-      "texture": "skeleton_00",
-      "color": [ 1.0, 1.0, 1.0, 1.0 ]
+      "properties": {
+        "shader": "sprite_batch",
+        "texture": "skeleton_00",
+        "color": [ 1.0, 1.0, 1.0, 1.0 ]
+      }
     },
     {
-      "type": "BehaviorTree"
+      "type": "BehaviorTree",
+      "properties": {}
     }
   ]
 }

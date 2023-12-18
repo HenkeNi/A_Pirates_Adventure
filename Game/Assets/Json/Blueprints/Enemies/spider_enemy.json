@@ -1,21 +1,26 @@
 {
-  "name": "Spider",
+  "id": "Spider",
   "layer": "Enemy",
   "components": [
     {
       "type": "Transform",
-      "position": [ 0.0, 0.0, 0.0 ],
-      "scale": [ 1.0, 1.0, 1.0 ],
-      "rotation": 0.0
+      "properties": {
+        "position": [ 0.0, 0.0, 0.0 ],
+        "scale": [ 1.0, 1.0, 1.0 ],
+        "rotation": 0.0
+      }
     },
     {
       "type": "Sprite",
-      "shader": "sprite_batch",
-      "texture": "crab_00",
-      "color": [ 1.0, 1.0, 1.0, 1.0 ]
+      "properties": {
+        "shader": "sprite_batch",
+        "texture": "crab_00",
+        "color": [ 1.0, 1.0, 1.0, 1.0 ]
+      }
     },
     {
-      "type": "BehaviorTree"
+      "type": "BehaviorTree",
+      "properties": {}
     }
   ]
 }

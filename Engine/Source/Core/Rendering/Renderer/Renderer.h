@@ -27,6 +27,7 @@ namespace Hi_Engine
 
 		void DrawSprite(const SpriteRenderData& someData);
 		void DrawQuad(const QuadRenderData& someData);
+		void DrawDebug(const QuadRenderData& someData);
 
 		void BeginFrame(); 
 		void Display();

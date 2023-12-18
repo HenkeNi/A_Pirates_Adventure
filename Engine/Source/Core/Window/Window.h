@@ -1,9 +1,10 @@
 #pragma once
-#include "../Data/Structs.h"
+//#include "../Data/Structs.h"
 #include "../Utility/Math/Vectors/Vector.hpp"
 #include <../GLFW/include/GLFW/glfw3.h>
 //#include <GLFW/glfw3.h>
 //#include <../GLEW/include/GL/glew.h>
+
 
 namespace
 {

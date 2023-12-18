@@ -5,9 +5,9 @@
 #include "Core/Engine.h"
 
 /* - Physics - */
-#include "Core/Physics/Shapes/2D/AABB2D.hpp"
-#include "Core/Physics/Lines/2D/Line2D.hpp"
-#include "Core/Physics/Lines/2D/LineSegment2D.hpp"
+#include "Core/Physics/Primitives/2D/AABB2D.hpp"
+#include "Core/Physics/Primitives/2D/Ray2D.hpp"
+#include "Core/Physics/Primitives/2D/LineSegment2D.hpp"
 #include "Core/Physics/Intersections/Intersection2D.hpp"
 
 /* - Input - */
@@ -22,6 +22,10 @@
 #include "Core/Rendering/Shader/Shader.h"
 #include "Core/Rendering/Texture/Texture2D.h"
 #include "Core/Rendering/Texture/Subtexture2D.h"
+
+/* - Resources - */
+#include "Source/Core/Resources/ResourceHolder.hpp"
+
 
 /* - Messaging - */
 #include "Core/Messaging/Dispatcher/Dispatcher.h"

@@ -1,18 +1,22 @@
 {
-  "name": "title_text",
+  "id": "title_text",
   "layer": "UI",
   "components": [
     {
       "type": "Transform",
-      "position": [ 0.0, 0.0, 0.0 ],
-      "scale": [ 2.0, 2.0, 2.0 ],
-      "rotation": 0.0
+      "properties": {
+        "position": [ 0.0, 0.0, 0.0 ],
+        "scale": [ 2.0, 2.0, 2.0 ],
+        "rotation": 0.0
+      }
     },
     {
       "type": "Text",
-      "font": "Basic",
-      "size": 32,
-      "color": [ 1.0, 1.0, 1.0, 1.0 ]
+      "properties": {
+        "font": "Basic",
+        "size": 32,
+        "color": [ 1.0, 1.0, 1.0, 1.0 ]
+      }
     }
   ]
 }

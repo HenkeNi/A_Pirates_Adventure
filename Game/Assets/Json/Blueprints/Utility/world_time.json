@@ -1,10 +1,12 @@
 {
-  "name": "WorldTime",
+  "id": "WorldTime",
   "layer": "None",
   "components": [
     {
       "type": "WorldTime",
-      "day_duration": 10.0
+      "properties": {
+        "day_duration": 10.0
+      }
     }
   ]
 }

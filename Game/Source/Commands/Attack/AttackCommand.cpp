@@ -1,8 +1,8 @@
 #include "Pch.h"
 #include "AttackCommand.h"
-#include "Combat/CombatComponents.h"
-#include "Character/AttributeComponents.h"
-#include "Rendering/RenderComponents.h"
+#include "Components/Combat/CombatComponents.h"
+#include "Components/Character/AttributeComponents.h"
+#include "Components/Rendering/RenderComponents.h"
 
 
 AttackCommand::AttackCommand()

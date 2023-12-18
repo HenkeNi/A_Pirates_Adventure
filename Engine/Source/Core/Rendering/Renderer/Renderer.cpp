@@ -1,6 +1,6 @@
 #include "Pch.h"
 #include "Renderer.h"
-#include "Data/Constants.h"
+#include "../Data/Constants.h"
 #include "../Material/Material.h"
 #include "../Texture/Subtexture2D.h"
 #include "../Camera/Camera.h" // TEMP..
@@ -101,7 +101,25 @@ namespace Hi_Engine
 	{
 		// TODO; Maybe add to queue => sort first set camera, set shader, then render stuff, lastly text... 
 		
+
 		auto commands = anEvent.GetCommands();
+
+		//for (auto command : commands)
+		//{
+		//	if (command.Type == eRenderCommandType::DrawSprite)
+		//	{
+		//		DrawSprite(command.SpriteRenderData);
+		//	}
+		//	else if (command.Type == eRenderCommandType::SetShader)
+		//	{
+		//		// m_activeShader = command.m_shader;
+		//	}
+		//	else if (command.Type == eRenderCommandType::SetCamera)
+		//	{
+		//		m_camera = command.Camera;
+		//	}
+		//}
+
 
 		while (!commands.empty())
 		{
@@ -183,6 +201,11 @@ namespace Hi_Engine
 
 		m_quadContext.IndexCount += INDICES_PER_QUAD;
 		++m_stats.TotalQuads;
+	}
+
+	void Renderer::DrawDebug(const QuadRenderData& someData)
+	{
+
 	}
 
 	void Renderer::Init()

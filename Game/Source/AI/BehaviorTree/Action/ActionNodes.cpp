@@ -1,8 +1,8 @@
 #include "Pch.h"
 #include "ActionNodes.h"
-#include "Components.h"
-#include "Entity.h"
-#include "EntityManager.h"
+#include "Components/Components.h"
+#include "Entities/Entity.h"
+#include "Entities/EntityManager.h"
 
 
 

@@ -1,8 +1,10 @@
 #pragma once
 //#include "../Data/Enumerations.h"
 //#include "../Data/Structs.h"
-#include "Data/Structs.h"
-#include "Data/Enumerations.h"
+//#include "Structs.h"
+//#include "Enumerations.h"
+#include "../../../Data/Structs.h"
+ #include "../../../Data/Enumerations.h"
 #include <../../ThirdParty/glm/glm.hpp>
 
 namespace Hi_Engine
@@ -47,7 +49,7 @@ namespace Hi_Engine
 		// get view matrix??
 
 		float GetZoom() const
-		{
+		{	
 			return m_zoom;
 		}
 

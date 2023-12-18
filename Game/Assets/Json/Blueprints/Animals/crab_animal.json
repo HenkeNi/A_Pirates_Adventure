@@ -1,35 +1,47 @@
 {
-  "name": "Crab",
+  "id": "Crab",
   "layer": "Animal",
   "components": [
     {
       "type": "Transform",
-      "position": [ 0.0, 0.2, 0.0 ],
-      "scale": [ 0.5, 0.5, 0.5 ],
-      "rotation": 0.0
+      "properties": {
+        "position": [ 0.0, 0.2, 0.0 ],
+        "scale": [ 0.5, 0.5, 0.5 ],
+        "rotation": 0.0
+      }
     },
     {
       "type": "Velocity",
-      "speed": 1.0
+      "properties": {
+        "speed": 1.0
+      }
     },
     {
       "type": "Sprite",
-      "shader": "sprite_batch",
-      "texture": "crab_00",
-      "color": [ 1.0, 1.0, 1.0, 1.0 ]
+      "properties": {
+        "shader": "sprite_batch",
+        "texture": "crab_00",
+        "color": [ 1.0, 1.0, 1.0, 1.0 ]
+      }
     },
     {
       "type": "StateMachine",
-      "states": [ "idle", "walk", "flee", "attack", "death" ],
-      "active_state": "idle"
+      "properties": {
+        "states": [ "idle", "walk", "flee", "attack", "death" ],
+        "active_state": "idle"
+      }
     },
     {
       "type": "SteeringBehavior",
-      "behavior": "wander_behavior",
-      "layer": "animal"
+      "properties": {
+        "behavior": "wander_behavior",
+        "layer": "animal"
+      }
     },
     {
-      "type": "WanderBehavior"
+      "type": "WanderBehavior",
+      "properties": {
+      }
     }
   ]
 }

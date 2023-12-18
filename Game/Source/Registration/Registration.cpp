@@ -1,51 +1,53 @@
 #include "Pch.h"
 #include "Registration.h"
-#include "SystemManager.h"
-#include "Systems.h"
-#include "Scenes.h"
-#include "Components.h"
+#include "Systems/SystemManager.h"
+#include "Systems/Systems.h"
+#include "Scenes/Scenes.h"
+#include "Components/Components.h"
+#include "Components/ComponentBuilder.h"
 
 
 namespace Registration
 {
 	void RegisterComponents()
 	{
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Sprite",				new ConcreteComponentBuilder<SpriteComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Transform",			new ConcreteComponentBuilder<TransformComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Input",				new ConcreteComponentBuilder<InputComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Animation",			new ConcreteComponentBuilder<AnimationComponent>());
+		std::vector<std::pair<std::string, ComponentBuilder*>> componentBuilders;
 
-		EntityManager::s_entityFactory.RegisterComponentBuilder("PlayerController",		new ConcreteComponentBuilder<PlayerControllerComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Velocity",				new ConcreteComponentBuilder<VelocityComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Weapon",				new ConcreteComponentBuilder<WeaponComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Health",				new ConcreteComponentBuilder<HealthComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Camera",				new ConcreteComponentBuilder<CameraComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Rect",					new ConcreteComponentBuilder<RectComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("DebugRect",			new ConcreteComponentBuilder<DebugRectComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("AttackCollider",		new ConcreteComponentBuilder<AttackComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Hitbox",				new ConcreteComponentBuilder<HitboxComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Harvestable",			new ConcreteComponentBuilder<HarvestableComponent>());
+		componentBuilders.push_back(std::make_pair("Sprite",			new ConcreteComponentBuilder<SpriteComponent>));
+		componentBuilders.push_back(std::make_pair("Transform",			new ConcreteComponentBuilder<TransformComponent>));
+		componentBuilders.push_back(std::make_pair("Input",				new ConcreteComponentBuilder<InputComponent>));
+		componentBuilders.push_back(std::make_pair("Animation",			new ConcreteComponentBuilder<AnimationComponent>));
 
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Resource",				new ConcreteComponentBuilder<ResourceComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Pickup",				new ConcreteComponentBuilder<PickupColliderComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Inventory",			new ConcreteComponentBuilder<InventoryComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Spawner",				new ConcreteComponentBuilder<SpawnComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("BehaviorTree",			new ConcreteComponentBuilder<BehaviorTreeComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Trigger",				new ConcreteComponentBuilder<TriggerComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("Text",					new ConcreteComponentBuilder<TextComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("WorldTime",			new ConcreteComponentBuilder<WorldTimeComponent>());
+		componentBuilders.push_back(std::make_pair("PlayerController",	new ConcreteComponentBuilder<PlayerControllerComponent>));
+		componentBuilders.push_back(std::make_pair("Velocity",			new ConcreteComponentBuilder<VelocityComponent>));
+		componentBuilders.push_back(std::make_pair("Weapon",			new ConcreteComponentBuilder<WeaponComponent>));
+		componentBuilders.push_back(std::make_pair("Health",			new ConcreteComponentBuilder<HealthComponent>));
+		componentBuilders.push_back(std::make_pair("Camera",			new ConcreteComponentBuilder<CameraComponent>));
+		componentBuilders.push_back(std::make_pair("Rect",				new ConcreteComponentBuilder<RectComponent>));
+		componentBuilders.push_back(std::make_pair("DebugRect",			new ConcreteComponentBuilder<DebugRectComponent>));
+		componentBuilders.push_back(std::make_pair("AttackCollider",	new ConcreteComponentBuilder<AttackComponent>));
+		componentBuilders.push_back(std::make_pair("Hitbox",			new ConcreteComponentBuilder<HitboxComponent>));
+		componentBuilders.push_back(std::make_pair("Harvestable",		new ConcreteComponentBuilder<HarvestableComponent>));
 
-		EntityManager::s_entityFactory.RegisterComponentBuilder("MapChunk",				new ConcreteComponentBuilder<MapChunkComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("CharacterState",		new ConcreteComponentBuilder<CharacterStateComponent>());
-		
-		/* AI-Components */
-		EntityManager::s_entityFactory.RegisterComponentBuilder("SteeringBehavior",		new ConcreteComponentBuilder<SteeringBehaviorComponent>()); // REMOVE?
-		EntityManager::s_entityFactory.RegisterComponentBuilder("WanderBehavior",		new ConcreteComponentBuilder<WanderBehaviorComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("FlockBehavior",		new ConcreteComponentBuilder<FlockBehaviorComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("SeekBehavior",			new ConcreteComponentBuilder<SeekBehaviorComponent>());
-		EntityManager::s_entityFactory.RegisterComponentBuilder("FleeBehavior",			new ConcreteComponentBuilder<FleeBehaviorComponent>());
-	
-		EntityManager::s_entityFactory.RegisterComponentBuilder("StateMachine",			new ConcreteComponentBuilder<StateMachineComponent>());
+		componentBuilders.push_back(std::make_pair("Resource",			new ConcreteComponentBuilder<ResourceComponent>));
+		componentBuilders.push_back(std::make_pair("Pickup",			new ConcreteComponentBuilder<PickupColliderComponent>));
+		componentBuilders.push_back(std::make_pair("Inventory",			new ConcreteComponentBuilder<InventoryComponent>));
+		componentBuilders.push_back(std::make_pair("Spawner",			new ConcreteComponentBuilder<SpawnComponent>));
+		componentBuilders.push_back(std::make_pair("BehaviorTree",		new ConcreteComponentBuilder<BehaviorTreeComponent>));
+		componentBuilders.push_back(std::make_pair("Trigger",			new ConcreteComponentBuilder<TriggerComponent>));
+		componentBuilders.push_back(std::make_pair("Text",				new ConcreteComponentBuilder<TextComponent>));
+		componentBuilders.push_back(std::make_pair("WorldTime",			new ConcreteComponentBuilder<WorldTimeComponent>));
+		componentBuilders.push_back(std::make_pair("MapChunk",			new ConcreteComponentBuilder<MapChunkComponent>));
+		componentBuilders.push_back(std::make_pair("CharacterState",	new ConcreteComponentBuilder<CharacterStateComponent>));
+		 
+		componentBuilders.push_back(std::make_pair("SteeringBehavior",	new ConcreteComponentBuilder<SteeringBehaviorComponent>));
+		componentBuilders.push_back(std::make_pair("WanderBehavior",	new ConcreteComponentBuilder<WanderBehaviorComponent>));
+		componentBuilders.push_back(std::make_pair("FlockBehavior",		new ConcreteComponentBuilder<FlockBehaviorComponent>));
+		componentBuilders.push_back(std::make_pair("SeekBehavior",		new ConcreteComponentBuilder<SeekBehaviorComponent>));
+		componentBuilders.push_back(std::make_pair("FleeBehavior",		new ConcreteComponentBuilder<FleeBehaviorComponent>));
+		componentBuilders.push_back(std::make_pair("StateMachine",		new ConcreteComponentBuilder<StateMachineComponent>));
+
+		PostMaster::GetInstance().SendMessage({ eMessage::MultipleComponentBuildersCreated, componentBuilders });
 	}
 
 	void RegisterBlueprints()

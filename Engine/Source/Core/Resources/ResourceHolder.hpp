@@ -1,10 +1,10 @@
 #pragma once
 //#include "Math/Vectors/Vector.hpp"
-#include "Core/Rendering/Shader/Shader.h"
-#include "Core/Rendering/Texture/Texture2D.h"
-#include "Core/Rendering/Texture/Subtexture2D.h"
+#include "../Rendering/Shader/Shader.h"
+#include "../Rendering/Texture/Texture2D.h"
+#include "../Rendering/Texture/Subtexture2D.h"
 
-#include "Core/Rendering/Font/Font.h"
+#include "../Rendering/Font/Font.h"
 #include <../../ThirdParty/rapidjson/document.h>
 // #include <document.h>
 #include <memory>
