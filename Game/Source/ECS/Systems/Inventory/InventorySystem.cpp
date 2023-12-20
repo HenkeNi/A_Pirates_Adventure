@@ -1,8 +1,7 @@
 #include "Pch.h"
 #include "InventorySystem.h"
 #include "Entities/EntityManager.h"
-#include "Components/Combat/CombatComponents.h"
-#include "Components/Controllers/ControllerComponents.h"
+#include "Components/AI/AIComponents.h"
 #include "Components/Core/CoreComponents.h"
 #include "Components/Gameplay/GameplayComponents.h"
 

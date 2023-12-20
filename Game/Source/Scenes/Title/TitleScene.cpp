@@ -1,7 +1,6 @@
 #include "Pch.h"
 #include "TitleScene.h"
 #include "Components/Core/CoreComponents.h"
-#include "Components/Rendering/RenderComponents.h"
 
 
 TitleScene::TitleScene(SharedContext aContext)
@@ -46,6 +45,7 @@ void TitleScene::OnEnter()
 	auto& systemManager = m_sharedContext.SystemManager;
 	systemManager.Init(&m_entityManager);
 
+	// Should factory itself load blueprints (listen for scene change)?
 	m_entityManager.GetFactory().LoadBlueprints("../Game/Assets/Json/Blueprints/blueprint_manifest.json");
 
 

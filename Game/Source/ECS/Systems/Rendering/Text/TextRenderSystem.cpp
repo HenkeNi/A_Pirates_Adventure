@@ -2,7 +2,6 @@
 #include "TextRenderSystem.h"
 #include "Entities/EntityManager.h"
 #include "Components/Core/CoreComponents.h"
-#include "Components/Rendering/RenderComponents.h"
 
 
 TextRenderSystem::TextRenderSystem()

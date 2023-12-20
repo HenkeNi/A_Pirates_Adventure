@@ -1,10 +1,8 @@
 #include "Pch.h"
 #include "SpriteAnimationSystem.h"
 #include "Entities/EntityManager.h"
-#include "Components/Rendering/RenderComponents.h"
 #include "Components/Core/CoreComponents.h"
-#include "Components/Character/AttributeComponents.h"
-#include "Components/Physics/PhysicsComponents.h"
+#include "Components/Gameplay/GameplayComponents.h"
 
 SpriteAnimationSystem::SpriteAnimationSystem()
 {

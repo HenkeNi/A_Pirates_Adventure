@@ -3,8 +3,6 @@
 #include "Entities/EntityManager.h"
 
 #include "Components/AI/AIComponents.h"
-#include "Components/Physics/PhysicsComponents.h"
-
 
 #include "../AI/SteeringBehaviors/Flock/FlockBehavior.h"
 #include "../AI/SteeringBehaviors/Wander/WanderBehavior.h"

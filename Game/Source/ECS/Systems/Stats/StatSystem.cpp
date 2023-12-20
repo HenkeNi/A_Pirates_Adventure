@@ -1,7 +1,7 @@
 #include "Pch.h"
 #include "StatSystem.h"
 #include "Entities/EntityManager.h"
-#include "Components/Stats/StatsComponents.h"
+#include "Components/Gameplay/GameplayComponents.h"
 
 // TODO; put in PCH?
 //#include "../PostMaster/PostMaster.h"

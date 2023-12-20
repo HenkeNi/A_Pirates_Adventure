@@ -11,10 +11,14 @@ namespace Registration
 {
 	void RegisterComponents()
 	{
+
+		auto& Factory = EntityManager::GetFactory();
+		Factory.RegisterComponentBuilder("Transform", new ConcreteComponentBuilder<TransformComponent>);
+
 		std::vector<std::pair<std::string, ComponentBuilder*>> componentBuilders;
 
 		componentBuilders.push_back(std::make_pair("Sprite",			new ConcreteComponentBuilder<SpriteComponent>));
-		componentBuilders.push_back(std::make_pair("Transform",			new ConcreteComponentBuilder<TransformComponent>));
+		// componentBuilders.push_back(std::make_pair("Transform",			new ConcreteComponentBuilder<TransformComponent>));
 		componentBuilders.push_back(std::make_pair("Input",				new ConcreteComponentBuilder<InputComponent>));
 		componentBuilders.push_back(std::make_pair("Animation",			new ConcreteComponentBuilder<AnimationComponent>));
 

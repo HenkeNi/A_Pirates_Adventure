@@ -4,8 +4,6 @@
 #include "Entities/EntityManager.h"
 #include "Components/Core/CoreComponents.h"
 #include "Components/Gameplay/GameplayComponents.h"
-#include "Components/Rendering/RenderComponents.h"
-#include "Components/Combat/CombatComponents.h"
 #include <Core/Resources/ResourceHolder.hpp>
 
 

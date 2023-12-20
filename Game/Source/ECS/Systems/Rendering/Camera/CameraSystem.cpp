@@ -1,7 +1,6 @@
 #include "Pch.h"
 #include "CameraSystem.h"
 #include "Entities/EntityManager.h"
-#include "Components/Rendering/RenderComponents.h"
 #include "Components/Core/CoreComponents.h"
 
 

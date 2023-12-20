@@ -33,13 +33,10 @@ void OverworldScene::Draw() const
 
 #include "Entities/Entity.h"
 #include "Components/Core/CoreComponents.h"
-#include "Components/Rendering/RenderComponents.h"
-#include "Components/Core/CoreComponents.h"
-#include "Components/Physics/PhysicsComponents.h"
-#include "Components/Rendering/RenderComponents.h"
-#include "Components/Controllers/ControllerComponents.h"
+#include "Components/AI/AIComponents.h"
+#include "Components/Gameplay/GameplayComponents.h"
+
 #include <Core/Resources/ResourceHolder.hpp>
-#include "Components/Combat/CombatComponents.h"
 
 
 #include "../Gameplay/SkillTree.h"

@@ -19,9 +19,6 @@ void Game::OnUpdate(float aDeltaTime)
 	{
 		scene->Update(aDeltaTime);
 	}
-
-	//m_sceneManager.Update(aDeltaTime);
-	//m_systemManager.Update(aDeltaTime);	 // DONT update here as well?!
 }
 
 void Game::OnLateUpdate(float aDeltaTime)
@@ -31,9 +28,6 @@ void Game::OnLateUpdate(float aDeltaTime)
 	{
 		scene->LateUpdate(aDeltaTime);
 	}
-
-	// m_sceneManager.LateUpdate(aDeltaTime);
-	//m_systemManager.LateUpdate(aDeltaTime);
 }
 
 void Game::OnDraw()
@@ -43,9 +37,6 @@ void Game::OnDraw()
 	{
 		scene->Draw();
 	}
-
-	//m_sceneManager.Draw();
-	//m_systemManager.Draw();
 }
 
 void Game::OnCreate()

@@ -6,9 +6,7 @@
 #include "Entities/Entity.h"
 #include "Components/Core/CoreComponents.h"
 #include "../Utility/Map/MapUtils.h"
-#include "Components/Controllers/ControllerComponents.h"
-#include "Components/Physics/PhysicsComponents.h"
-#include "Components/Combat/CombatComponents.h"
+#include "Components/AI/AIComponents.h"
 #include "Components/Map/MapComponents.h"
 //#include <../Engine/Source/Utility/Math/Mathf.hpp>
 

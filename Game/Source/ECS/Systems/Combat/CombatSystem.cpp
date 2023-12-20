@@ -1,12 +1,9 @@
 #include "Pch.h"
 #include "CombatSystem.h"
-#include "Components/Physics/PhysicsComponents.h"
-#include "Components/Combat/CombatComponents.h"
 #include "Components/Core/CoreComponents.h"
 #include "Entities/EntityManager.h"
 
-#include "Components/Stats/StatsComponents.h"
-#include "Components/Character/AttributeComponents.h"
+#include "Components/Gameplay/GameplayComponents.h"
 
 
 CombatSystem::CombatSystem()

@@ -1,9 +1,7 @@
 #include "Pch.h"
 #include "AttackCommand.h"
-#include "Components/Combat/CombatComponents.h"
-#include "Components/Character/AttributeComponents.h"
-#include "Components/Rendering/RenderComponents.h"
-
+#include "Components/Gameplay/GameplayComponents.h"
+#include "Components/Core/CoreComponents.h"
 
 AttackCommand::AttackCommand()
 	: m_attackComponent{ nullptr }, m_stateComponent{ nullptr }, m_rectComponent{ nullptr }

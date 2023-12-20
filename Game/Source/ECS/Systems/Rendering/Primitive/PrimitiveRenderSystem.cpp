@@ -1,9 +1,7 @@
 #include "Pch.h"
 #include "PrimitiveRenderSystem.h"
 #include "Entities/EntityManager.h"
-#include "Components/Rendering/RenderComponents.h"
 #include "Components/Core/CoreComponents.h"
-#include "Components/Combat/CombatComponents.h"
 
 
 PrimitiveRenderSystem::PrimitiveRenderSystem()

@@ -1,8 +1,8 @@
 #include "Pch.h"
 #include "MoveCommand.h"
 #include "Entities/EntityManager.h"
-#include "Components/Physics/PhysicsComponents.h"
-#include "Components/Character/AttributeComponents.h"
+#include "Components/Core/CoreComponents.h"
+#include "Components/Gameplay/GameplayComponents.h"
 
 
 MoveCommand::MoveCommand()

@@ -4,7 +4,7 @@
 #include "Entities/EntityManager.h"
 #include "Components/Map/MapComponents.h"
 #include "Components/Core/CoreComponents.h"
-#include <Components/Combat/CombatComponents.h>
+#include "Components/Gameplay/GameplayComponents.h"
 
 MapDecorationSystem::MapDecorationSystem()
 {

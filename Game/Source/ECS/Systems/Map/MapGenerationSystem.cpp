@@ -3,7 +3,7 @@
 #include "Entities/EntityManager.h"
 //#include "../Data/Constants.h"
 #include "../Utility/Map/MapUtils.h"
-#include "Components/Controllers/ControllerComponents.h"
+#include "Components/AI/AIComponents.h"
 #include "Components/Core/CoreComponents.h"
 #include "Components/Map/MapComponents.h"
 

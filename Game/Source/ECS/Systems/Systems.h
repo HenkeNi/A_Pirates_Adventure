@@ -4,15 +4,11 @@
 #include "AI/BehaviorTreeSystem.h"
 #include "AI/SteeringBehaviorSystem.h"
 #include "AI/StateMachineSystem.h"
-
 #include "Combat/CombatSystem.h"
 #include "Combat/MeleeCombatSystem.h"
 #include "Combat/RangedCombatSystem.h"
-
 #include "Controllers/PlayerControllerSystem.h"
-
 #include "Input/InputSystem.h"
-
 #include "Physics/CollisionSystem.h"
 #include "Physics/MovementSystem.h"
 
@@ -22,21 +18,14 @@
 #include "Rendering/Primitive/PrimitiveRenderSystem.h"
 #include "Rendering/Sprite/SpriteRenderSystem.h"
 #include "Rendering/Text/TextRenderSystem.h"
-
 #include "HUD/HUDSystem.h"
-
-
 #include "Stats/StatSystem.h"
 #include "Spawn/EnemySpawnSystem.h"
 #include "Spawn/SpawnSystem.h"
-
 #include "Equipment/EquipmentSystem.h"
 #include "Resource/ResourceSpawnSystem.h"
 #include "Inventory/InventorySystem.h"
-
-
 #include "Map/MapGenerationSystem.h"
 #include "Map/MapDecorationSystem.h"
 #include "Rendering/Map/MapRenderSystem.h"
-
 #include "Time/TimeSystem.h"

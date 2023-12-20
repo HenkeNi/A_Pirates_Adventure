@@ -1,9 +1,9 @@
 #include "Pch.h"
 #include "HUDSystem.h"
 #include "Entities/EntityManager.h"
-#include <Components/Stats/StatsComponents.h>
-#include <Components/Controllers/ControllerComponents.h>
-#include <Components/Core/CoreComponents.h>
+#include "Components/Gameplay/GameplayComponents.h"
+#include "Components/AI/AIComponents.h"
+#include "Components/Core/CoreComponents.h"
 
 
 HUDSystem::HUDSystem()

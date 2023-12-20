@@ -4,9 +4,6 @@
 #include "Entities/EntityManager.h"
 
 #include "Components/Core/CoreComponents.h"
-#include "Components/Physics/PhysicsComponents.h"
-#include "Components/Combat/CombatComponents.h"
-#include "Components/Rendering/RenderComponents.h"
 
 
 MovementSystem::MovementSystem()
