@@ -14,10 +14,10 @@ GameScene::~GameScene()
 {
 }
 
-void GameScene::Register(ScenePtr_t aScene, eScene aType)
-{
-	m_sceneManager.Register(std::move(aScene), aType);
-}
+//void GameScene::Register(MutableScene aScene, eScene aType)
+//{
+//	m_sceneManager.Register(std::move(aScene), aType);
+//}
 
 void GameScene::Update(float aDeltaTime)
 {

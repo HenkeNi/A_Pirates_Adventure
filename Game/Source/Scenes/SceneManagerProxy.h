@@ -12,7 +12,7 @@ public:
 	void Pop();
 	void SwapTo(eScene aType);
 	void Clear();
-	bool IsEmpty() const;
+	// bool IsEmpty() const;
 
 	//class Scene& GetActiveScene();
 

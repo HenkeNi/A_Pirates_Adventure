@@ -11,9 +11,10 @@ class Scene;
 
 namespace
 {
-	using SceneMap = std::unordered_map<eScene, std::shared_ptr<Scene>>;
-	using ScenePtr_t = std::shared_ptr<Scene>;
-	//using ScenePtr_t = std::unique_ptr<Scene>;
+	using Scenes = std::unordered_map<eScene, std::shared_ptr<Scene>>;
+
+	using MutableScene	 = std::shared_ptr<Scene>;
+	using ImmutableScene = std::shared_ptr<const Scene>;
 }
 
 class SceneManager
@@ -23,35 +24,27 @@ public:
 	~SceneManager();
 
 	// LoadScene("MainMenu"	);
-
 	//void Init(int aSceneSet);					
+
+	MutableScene GetActiveScene();
+	ImmutableScene GetActiveScene() const;
+
 	void Init(std::bitset<(int)eScene::Count> someScenes);
-	void Register(ScenePtr_t aScene, eScene aType);
+	void Register(MutableScene aScene, eScene aType);
+
 	void Push(eScene aType);
 	void Pop();
 	void SwapTo(eScene aType);
 	void Clear();
-	bool IsEmpty()			const;
-
-	//void Update(float aDeltaTime);	
-	//void LateUpdate(float aDeltaTime);
-	//void Draw()				const;
 
 
-	std::shared_ptr<Scene>		 GetActiveScene();
-	std::shared_ptr<const Scene> GetActiveScene() const;
-
-	//Scene& GetActiveScene();
-	//void LoadScene();
+	// Scene& GetActiveScene();
+	// void LoadScene();
 	// void UnloadScene()
 
 private:
 	void LoadScenes();
-
-	// SceneFactory??
-
 	
-		
-	SceneMap			m_scenes;			// STore by value?
-	CU::Stack<eScene>	m_sceneStack;
+	Scenes				m_scenes;			// STore by value?
+	CU::Stack<eScene>	m_stack;
 };

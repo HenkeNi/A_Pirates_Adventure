@@ -9,7 +9,7 @@ public:
 	GameScene(SharedContext aContext);
 	~GameScene();
 
-	void Register(ScenePtr_t aScene, eScene aType);
+	//void Register(MutableScene aScene, eScene aType);
 
 	void Update(float aDeltaTime)			  override;
 	void LateUpdate(float aDeltaTime)		  override;

@@ -19,8 +19,7 @@ public:
 
 private:
 	void LoadResources();
-	// void MapInput();     
-
+	
 	SystemManager	m_systemManager;
 	SceneManager	m_sceneManager;
 };

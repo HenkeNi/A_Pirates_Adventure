@@ -54,7 +54,7 @@ void OverworldScene::OnEnter()
 	m_entityManager.GetFactory().LoadBlueprints("../Game/Assets/Json/Blueprints/blueprint_manifest.json");
 
 
-	auto* sky = m_entityManager.Create("sky_background");
+	//auto* sky = m_entityManager.Create("sky_background");
 	//auto* transformComponent = background->GetComponent<TransformComponent>();
 	//transformComponent->Scale *= 1.5f;
 	//transformComponent->CurrentPos.y = 0.5f;

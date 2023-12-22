@@ -18,25 +18,9 @@ void SceneManager::Init(std::bitset<(int)eScene::Count> someScenes)
 	{
 		if (someScenes[i])
 		{
-			// auto t = (eScene)i;
-
-			m_sceneStack.Push((eScene)i);
+			m_stack.Push((eScene)i);
 		}
-
-		//int index = (int)static_cast<eScene>(i);
-		//if (someScenes[index])
-		//{
-		//	eScene type = static_cast<eScene>(i);
-
-		//	int xx = 20;
-		//	xx += 20;
-		//	//auto type = static_cast<eScene>(i);
-		//}
-
 	}
-
-	//LoadScenes();
-	//m_scenes[m_sceneStack.Top()]->OnEnter();
 }
 
 //void SceneManager::Init(int aSceneSet)
@@ -56,7 +40,18 @@ void SceneManager::Init(std::bitset<(int)eScene::Count> someScenes)
 //	m_scenes[m_sceneStack.Top()]->OnEnter();
 //}
 
-void SceneManager::Register(ScenePtr_t aScene, eScene aType)
+std::shared_ptr<Scene> SceneManager::GetActiveScene()
+{
+	return m_scenes[m_stack.Top()];
+}
+
+std::shared_ptr<const Scene> SceneManager::GetActiveScene() const
+{
+	return m_scenes.at(m_stack.Top());
+}
+
+
+void SceneManager::Register(MutableScene aScene, eScene aType)
 {
 	assert(aScene != nullptr);
 
@@ -66,36 +61,36 @@ void SceneManager::Register(ScenePtr_t aScene, eScene aType)
 
 void SceneManager::Push(eScene aType)
 {
-	if (!IsEmpty())
+	if (!m_stack.IsEmpty())
 	{
-		m_scenes[m_sceneStack.Top()]->OnExit();
+		m_scenes[m_stack.Top()]->OnExit();
 	}
 
-	m_sceneStack.Push(aType);
-	m_scenes[m_sceneStack.Top()]->OnEnter();
+	m_stack.Push(aType);
+	m_scenes[m_stack.Top()]->OnEnter();
 }
 
 void SceneManager::Pop()
 {
-	if (!IsEmpty())
+	if (!m_stack.IsEmpty())
 	{
-		m_scenes[m_sceneStack.Top()]->OnExit();
-		m_sceneStack.Pop();
+		m_scenes[m_stack.Top()]->OnExit();
+		m_stack.Pop();
 
-		m_scenes[m_sceneStack.Top()]->OnEnter();
+		m_scenes[m_stack.Top()]->OnEnter();
 	}
 }
 
 void SceneManager::SwapTo(eScene aType)
 {
-	if (!IsEmpty())
+	if (!m_stack.IsEmpty())
 	{
-		m_scenes[m_sceneStack.Top()]->OnExit();
-		m_sceneStack.Pop();
+		m_scenes[m_stack.Top()]->OnExit();
+		m_stack.Pop();
 	}
 
-	m_sceneStack.Push(aType);
-	m_scenes[m_sceneStack.Top()]->OnEnter();
+	m_stack.Push(aType);
+	m_scenes[m_stack.Top()]->OnEnter();
 }
 
 void SceneManager::Clear()
@@ -106,12 +101,7 @@ void SceneManager::Clear()
 			scene.second->OnDestroyed();
 	}
 
-	m_sceneStack.Clear();
-}
-
-bool SceneManager::IsEmpty() const
-{
-	return m_sceneStack.IsEmpty();
+	m_stack.Clear();
 }
 
 //void SceneManager::Update(float aDeltaTime)
@@ -153,15 +143,6 @@ bool SceneManager::IsEmpty() const
 //	}
 //}
 
-std::shared_ptr<Scene> SceneManager::GetActiveScene()
-{
-	return m_scenes[m_sceneStack.Top()];
-}
-
-std::shared_ptr<const Scene> SceneManager::GetActiveScene() const
-{
-	return m_scenes.at(m_sceneStack.Top());
-}
 
 void SceneManager::LoadScenes()
 {
