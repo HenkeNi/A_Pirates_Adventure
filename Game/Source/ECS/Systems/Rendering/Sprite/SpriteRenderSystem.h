@@ -1,7 +1,7 @@
 #pragma once
 #include "../../Base/System.h"
 
-
+// TODO; just have a RenderSystem?
 class SpriteRenderSystem : public System
 {
 public:
