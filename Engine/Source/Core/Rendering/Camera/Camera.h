@@ -1,8 +1,4 @@
 #pragma once
-//#include "../Data/Enumerations.h"
-//#include "../Data/Structs.h"
-//#include "Structs.h"
-//#include "Enumerations.h"
 #include "../../../Data/Structs.h"
  #include "../../../Data/Enumerations.h"
 #include <../../ThirdParty/glm/glm.hpp>
@@ -11,91 +7,38 @@ namespace Hi_Engine
 {
 	namespace CU = CommonUtilities;
 
-	//class Camera
-	//{
-	//public:
-	//	virtual ~Camera() = default;
-
-	//	virtual glm::mat4 GetProjectionMatrix() = 0;
-	//	virtual glm::mat4 GetViewMatrix()		= 0;
-
-	//private:
-	//	glm::vec3 m_position;
-	//	glm::vec3 m_rotation;
-	//};
-
-
-
-
 	// listen to window changed?! size!
-
 	class Camera
 	{
 	public:
 		Camera();
-		// TOOD; get virtual destructor...
+		Camera(const Rect& aRect);
 		
-		glm::mat4 GetViewProjectionMatrix() const;
-		glm::mat4 GetViewMatrix() const;
-		glm::mat4 GetProjectionMatrix() const;
-		
-		//virtual ~Camera() = default;	// Remove??
-
 		void Init(const CU::Vector3<float> aPosition);	// Parse from json...? CameraData?
-		//void Update(float aDeltaTime);
+		void SetPosition(const CU::Vector3<float>& aPosition);
+		void SetZoomRange(const CU::Vector2<float>& aRange);
 
-		//void SetMovementDirection(eCameraMovement aDirection); // Pass in delta time here??
+		void AdjustZoom(float anAdjustment);
+		void ResetZoom();
 
-		// get view matrix??
-
-		float GetZoom() const
-		{	
-			return m_zoom;
-		}
-
-		void SetPosition(const CU::Vector3<float> aPosition);
-
+		glm::mat4 GetViewProjectionMatrix() const;
+		glm::mat4 GetProjectionMatrix() const;
+		glm::mat4 GetViewMatrix() const;
+	
 	private:
-		friend class SpriteRenderer; // Or just have getters??
-
-		void SetDefaultData();
-
-		void UpdateFrontVector(); // reanem RecalculateFrontVector??
-
+		// void RecalculateMatrixes();
 		void OnWindowResized(const CU::Vector2<unsigned>& aSize);
-
-		//void CalculateCamera();
-		
-		//glm::quat m_orientation;
-
-		// ref to window?
-
-		// store as members instead??
-		CameraAttributes	m_attributes;	
-		EulerAngles			m_eulerAngles;
-
+	
 		// Contains a porjection matrix and a view matrix...
-		glm::mat4 m_viewMatrix;	// multiply with inverted view matrix...
+		// glm::mat4 m_viewMatrix;	// multiply with inverted view matrix...
 
-		// projection matrix? glm::perspective?
-		CU::Vector2<unsigned>	m_aspectRatio;
-		float					m_FOV; // 45-60
+		glm::vec2 m_position; // focus position, center position.?
+		CU::Vector2<float> m_zoomRange;
 
+		float m_aspectRatio;
+		float m_rotation;
 		float m_zoom;
 
-		CU::Vector2<unsigned> m_windowSize;
-
-		// FOV
-		// aspect?
-		// furstrum near and far?
-
-		// perspecitve matrix`?
-
-
-
-		
-		//float	  m_movementSpeed, m_zoomSpeed;
+		// USe dirty flag and matrixes?
 	};
-
-
 }

@@ -22,14 +22,14 @@ void WanderSeekBehavior::Update(float aDeltaTime)
 	}
 }
 
-const CU::Vector3<float> WanderSeekBehavior::GetSteeringForce(const CU::Vector3<float>& aVelocity)
+const CU::Vector2<float> WanderSeekBehavior::GetSteeringForce(const CU::Vector2<float>& aVelocity)
 {
 	assert(false);
 
 	return {};
 }
 
-const CU::Vector3<float> WanderSeekBehavior::GetSteeringForce(const CU::Vector3<float>& aPosition, const CU::Vector3<float>& aVelocity)
+const CU::Vector2<float> WanderSeekBehavior::GetSteeringForce(const CU::Vector2<float>& aPosition, const CU::Vector2<float>& aVelocity)
 {
 	static float maxVelocity = 50.f;
 
@@ -49,7 +49,7 @@ const CU::Vector3<float> WanderSeekBehavior::GetSteeringForce(const CU::Vector3<
 
 void WanderSeekBehavior::SetRandomizedTarget()
 {
-	m_window = { (float)Random::InRange(2, 62), 0.f, (float)Random::InRange(2, 62) };
+	m_window = { (float)Random::InRange(2, 62), (float)Random::InRange(2, 62) };
 }
 
 bool WanderSeekBehavior::ShouldChangeDir() const

@@ -4,7 +4,6 @@
 #include "../Material/Material.h"
 #include "../Texture/Subtexture2D.h"
 #include "../Camera/Camera.h" // TEMP..
-#include "../Window/Window.h"
 #include "../Shader/Shader.h"
 
 #define INDICES_PER_QUAD 6
@@ -97,117 +96,6 @@ namespace Hi_Engine
 		Dispatcher::GetInstance().Unsubscribe(this);
 	}
 
-	void Renderer::HandleEvent(RenderEvent& anEvent)
-	{
-		// TODO; Maybe add to queue => sort first set camera, set shader, then render stuff, lastly text... 
-		
-
-		auto commands = anEvent.GetCommands();
-
-		//for (auto command : commands)
-		//{
-		//	if (command.Type == eRenderCommandType::DrawSprite)
-		//	{
-		//		DrawSprite(command.SpriteRenderData);
-		//	}
-		//	else if (command.Type == eRenderCommandType::SetShader)
-		//	{
-		//		// m_activeShader = command.m_shader;
-		//	}
-		//	else if (command.Type == eRenderCommandType::SetCamera)
-		//	{
-		//		m_camera = command.Camera;
-		//	}
-		//}
-
-
-		while (!commands.empty())
-		{
-			auto command = commands.front();
-			if (command.Type == eRenderCommandType::DrawSprite)
-			{
-				DrawSprite(command.SpriteRenderData);
-			}
-			else if (command.Type == eRenderCommandType::SetShader)
-			{
-				// m_activeShader = command.m_shader;
-			}
-			else if (command.Type == eRenderCommandType::SetCamera)
-			{
-				m_camera = command.Camera;
-			}
-
-			commands.pop();
-		}
-	}
-
-	bool Renderer::IsTextureBound(unsigned aTexID, float& outTexIndex)
-	{
-		for (uint32_t i = 1; i < m_textureSlotIndex; ++i)
-		{
-			if (m_textureSlots[i] == aTexID)
-			{
-				outTexIndex = (float)i;
-				return true;
-			}
-		}
-		return false;
-	}
-
-	void Renderer::DrawSprite(const SpriteRenderData& someData)
-	{
-		unsigned id = someData.Subtexture->GetTexture().GetID();
-
-		float textureIndex = 0;
-
-		/* Check if this texture is already bound to a slot */
-		if (!IsTextureBound(id, textureIndex))
-		{
-			textureIndex = (float)m_textureSlotIndex;
-			m_textureSlots[m_textureSlotIndex] = id;
-
-			++m_textureSlotIndex;
-		}
-
-		if (m_quadContext.IndexCount >= Constants::MaxIndexCount)
-		{
-			Display();
-			BeginFrame();
-		}
-
-		SetupVertices(&m_quadContext.CurrentVertex, someData.Transform, someData.Color, someData.Subtexture->GetTexCoords(), textureIndex);
-
-		m_quadContext.IndexCount += INDICES_PER_QUAD;
-		++m_stats.TotalQuads;
-	}
-
-	void Renderer::DrawQuad(const QuadRenderData& someData)
-	{
-		// Check if buffer is full
-		if (m_quadContext.IndexCount >= Constants::MaxIndexCount)
-		{
-			Display();
-			BeginFrame();
-		}
-
-		static const glm::vec2 textureCoords[4] = {
-			{ 0.f, 0.f },
-			{ 1.f, 0.f },
-			{ 1.f, 1.f },
-			{ 0.f, 1.f }
-		};
-
-		SetupVertices(&m_quadContext.CurrentVertex, someData.Transform, someData.Color, textureCoords, 0.f);
-
-		m_quadContext.IndexCount += INDICES_PER_QUAD;
-		++m_stats.TotalQuads;
-	}
-
-	void Renderer::DrawDebug(const QuadRenderData& someData)
-	{
-
-	}
-
 	void Renderer::Init()
 	{
 		/* Create vertex array object */
@@ -263,12 +151,184 @@ namespace Hi_Engine
 		delete[] m_quadContext.Buffer;
 	}
 
+	void Renderer::HandleEvent(RenderEvent& anEvent)
+	{
+		// TODO; Maybe add to queue => sort first set camera, set shader, then render stuff, lastly text... 
+		
+		auto commands = anEvent.GetCommands();
+
+		std::queue<RenderCommand> renderCommands;
+
+		while (!commands.empty())
+		{
+			//m_renderCommands.emplace(commands.front());
+			renderCommands.push(commands.front());
+			commands.pop();
+		}
+
+		m_renderSequence.push(renderCommands);
+
+		//for (auto command : commands)
+		//{
+		//	if (command.Type == eRenderCommandType::DrawSprite)
+		//	{
+		//		DrawSprite(command.SpriteRenderData);
+		//	}
+		//	else if (command.Type == eRenderCommandType::SetShader)
+		//	{
+		//		// m_activeShader = command.m_shader;
+		//	}
+		//	else if (command.Type == eRenderCommandType::SetCamera)
+		//	{
+		//		m_camera = command.Camera;
+		//	}
+		//}
+
+
+		//while (!commands.empty())
+		//{
+		//	auto command = commands.front();
+		//	if (command.Type == eRenderCommandType::DrawSprite)
+		//	{
+		//		DrawSprite(command.SpriteRenderData);
+		//	}
+		//	else if (command.Type == eRenderCommandType::SetShader)
+		//	{
+		//		// m_activeShader = command.m_shader;
+		//	}
+		//	else if (command.Type == eRenderCommandType::SetCamera)
+		//	{
+		//		m_camera = command.Camera;
+		//	}
+		//	else if (command.Type == eRenderCommandType::SetProjectionMatrix)
+		//	{
+		//		glm::mat4 viewProjection = m_camera->GetViewProjectionMatrix();
+		//		m_quadContext.Shader->SetMatrix4("uViewProjection", viewProjection);
+		//	}
+
+		//	commands.pop();
+		//}
+
+	}
+
+	void Renderer::ProcessCommands()
+	{
+		while (!m_renderSequence.empty())
+		{
+			BeginFrame(); // FIX!
+
+			auto sequence = m_renderSequence.front();
+
+			//while (!m_renderCommands.empty())
+			while (!sequence.empty())
+			{
+				auto command = sequence.front();
+				//auto command = m_renderCommands.front();
+
+				// TODO: if batch,,,,,,
+				if (command.Type == eRenderCommandType::DrawBatch)
+				{
+					// pass projection matrix...
+
+					// Reset();
+
+					// Draw sprites()
+
+				}
+				else if (command.Type == eRenderCommandType::DrawSprite)
+				{
+					DrawSprite(command.SpriteRenderData);
+				}
+				else if (command.Type == eRenderCommandType::SetShader)
+				{
+					// m_activeShader = command.m_shader;
+				}
+				else if (command.Type == eRenderCommandType::SetCamera)
+				{
+					// m_quadContext.Shader->SetMatrix4("uViewProjection", command.Camera->GetProjectionMatrix());
+
+				}
+				else if (command.Type == eRenderCommandType::SetProjectionMatrix)
+				{
+					//glm::mat4 viewProjection = m_camera->GetViewProjectionMatrix();
+					m_quadContext.Shader->SetMatrix4("uViewProjection", command.ProjectionMatrix);
+				}
+
+				//m_renderCommands.pop();
+				sequence.pop();
+			}
+
+			EndFrame();
+			m_renderSequence.pop();
+		}
+	}
+
+	void Renderer::Reset()
+	{
+		m_quadContext.CurrentVertex = m_quadContext.Buffer;
+		m_quadContext.IndexCount = 0;
+		m_textureSlotIndex = 1;
+
+		// Reset Stats??
+		m_stats.TotalDraws = 0;
+		m_stats.TotalQuads = 0;
+	}
+
+
+	void Renderer::DrawSprite(const SpriteRenderData& someData)
+	{
+		unsigned id = someData.Subtexture->GetTexture().GetID();
+
+		float textureIndex = 0;
+
+		/* Check if this texture is already bound to a slot */
+		if (!IsTextureBound(id, textureIndex))
+		{
+			textureIndex = (float)m_textureSlotIndex;
+			m_textureSlots[m_textureSlotIndex] = id;
+
+			++m_textureSlotIndex;
+		}
+
+		if (m_quadContext.IndexCount >= Constants::MaxIndexCount)
+		{
+			Display();
+			BeginFrame();
+		}
+
+		SetupVertices(&m_quadContext.CurrentVertex, someData.Transform, someData.Color, someData.Subtexture->GetTexCoords(), textureIndex);
+
+		m_quadContext.IndexCount += INDICES_PER_QUAD;
+		++m_stats.TotalQuads;
+	}
+
+	void Renderer::DrawQuad(const QuadRenderData& someData)
+	{
+		// Check if buffer is full
+		if (m_quadContext.IndexCount >= Constants::MaxIndexCount)
+		{
+			Display();
+			BeginFrame();
+		}
+
+		static const glm::vec2 textureCoords[4] = {
+			{ 0.f, 0.f },
+			{ 1.f, 0.f },
+			{ 1.f, 1.f },
+			{ 0.f, 1.f }
+		};
+
+		SetupVertices(&m_quadContext.CurrentVertex, someData.Transform, someData.Color, textureCoords, 0.f);
+
+		m_quadContext.IndexCount += INDICES_PER_QUAD;
+		++m_stats.TotalQuads;
+	}
+
+
+
+
 	void Renderer::BeginFrame()
 	{
-		assert(m_window && "ERROR: found nullptr when accessing Window!");
-
-		m_window->ClearScreen();
-
 		/* Set current vertex to point to the first element */
 		m_quadContext.CurrentVertex = m_quadContext.Buffer;
 		m_quadContext.IndexCount = 0;
@@ -293,35 +353,30 @@ namespace Hi_Engine
 		m_quadContext.Shader->Activate();	// Fetch instead from ResourceHolder??
 
 		/* Set view-projection matrix */
-		glm::mat4 viewProjection = m_camera->GetViewProjectionMatrix();
-		m_quadContext.Shader->SetMatrix4("uViewProjection", viewProjection);
-
+		//glm::mat4 viewProjection = m_camera->GetViewProjectionMatrix();
+		// m_quadContext.Shader->SetMatrix4("uViewProjection", viewProjection);
+		
 		glBindVertexArray(m_quadContext.VAO);
 		glDrawElements(GL_TRIANGLES, m_quadContext.IndexCount, GL_UNSIGNED_INT, nullptr);
 
 		++m_stats.TotalDraws;
 
-
-
-		DisplayQuads();
+		//DisplayQuads();
 		// DisplayText();
 	}
 
 	void Renderer::EndFrame()
 	{
-		assert(m_window && "ERROR: found nullptr when accessing Window!");
-
 		Display();
-		m_window->SwapBuffers();
 
 		// Reset stats
 		m_stats.TotalDraws = 0;
 		m_stats.TotalQuads = 0;
 	}
 	
-	void Renderer::SetRenderTarget(Window* aWindow)
+	void Renderer::SetProjectionMatrix(const glm::mat4& aMatrix)
 	{
-		m_window = aWindow;
+		m_quadContext.Shader->SetMatrix4("uViewProjection", aMatrix);
 	}
 
 	void Renderer::SetShader(Shader* aShader)
@@ -334,11 +389,26 @@ namespace Hi_Engine
 			samplers[i] = i;
 
 		m_quadContext.Shader->SetIntArray("uTextures", samplers, 32);
+
+		// set view projection here as well??
 	}
 
-	void Renderer::SetCamera(Camera* aCamera)
+	//void Renderer::SetCamera(Camera* aCamera)
+	//{
+	//	m_camera = aCamera;
+	//}
+	
+	bool Renderer::IsTextureBound(unsigned aTexID, float& outTexIndex)
 	{
-		m_camera = aCamera;
+		for (uint32_t i = 1; i < m_textureSlotIndex; ++i)
+		{
+			if (m_textureSlots[i] == aTexID)
+			{
+				outTexIndex = (float)i;
+				return true;
+			}
+		}
+		return false;
 	}
 
 	void Renderer::DisplayQuads()
@@ -348,16 +418,16 @@ namespace Hi_Engine
 
 	void Renderer::DisplayText()
 	{
-		auto* shader = m_textContext.Shader;
+		//auto* shader = m_textContext.Shader;
 
-		shader->Activate();
-		shader->SetVector4f("uText Color", { 1.f, 1.f, 1.f, 1.f }); // TODO; fix color...
+		//shader->Activate();
+		//shader->SetVector4f("uText Color", { 1.f, 1.f, 1.f, 1.f }); // TODO; fix color...
 
-		glm::mat4 projection = m_camera->GetProjectionMatrix();
-		shader->SetMatrix4("uProjection", projection);
+		//glm::mat4 projection = m_camera->GetProjectionMatrix();
+		//shader->SetMatrix4("uProjection", projection);
 
-		glActiveTexture(GL_TEXTURE0); // ????????????????????
-		glBindVertexArray(m_textContext.VAO);
+		//glActiveTexture(GL_TEXTURE0); // ????????????????????
+		//glBindVertexArray(m_textContext.VAO);
 
 		// iterate through all characters
 		//auto position = someData.m_position;

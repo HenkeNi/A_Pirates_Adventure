@@ -99,11 +99,11 @@ public:
 	template <>
 	static void InitializeComponent<AttackComponent>(AttackComponent* aComponent, const ECS::ComponentData& someData)
 	{
-		auto startPos = CU::Vector3<float>{ 0.f, 0.f, 0.f };
+		auto startPos = CU::Vector2<float>{ 0.f, 0.f };
 		auto colliderSize = 0.2f;								// FIX!
 
 		// Do in MovementSystem init?
-		aComponent->Offset = { 1.0f, 0.f, 0.f };
+		aComponent->Offset = { 1.0f, 0.f };
 		aComponent->Collider.Init({ startPos.x - colliderSize, startPos.y - colliderSize }, { startPos.x + colliderSize, startPos.y + colliderSize });
 	}
 
@@ -120,8 +120,10 @@ public:
 	template <>
 	static void InitializeComponent<CameraComponent>(CameraComponent* aComponent, const ECS::ComponentData& someData)
 	{
-		int xx = 20;
-		xx += 20;
+		aComponent->ZoomRange = { 1.f, 5.f };
+
+		// aComponent->Camera.Init(0, 1400, 0, 800, 0.f, 100.f);
+
 	}
 	
 	template <>
@@ -166,11 +168,12 @@ public:
 	template <>
 	static void InitializeComponent<HitboxComponent>(HitboxComponent* aComponent, const ECS::ComponentData& someData)
 	{
-		CU::Vector3<float> position = { 0.f, 0.f, 0.f };
+		CU::Vector2<float> position = { 0.f, 0.f };
+
 		auto halfSize = std::any_cast<float>(someData.at("half_size"));
 		bool isStatic = std::any_cast<bool>(someData.at("is_static"));
 
-		aComponent->Collider.Init({ position.x - halfSize, position.z - halfSize }, { position.x + halfSize, position.y + halfSize });
+		aComponent->Collider.Init({ position.x - halfSize, position.y - halfSize }, { position.x + halfSize, position.y + halfSize });
 		aComponent->IsStatic = isStatic;
 	}
 
@@ -200,8 +203,8 @@ public:
 
 		// Pass in Entity??
 		
-		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_W, new MoveCommand{{ 0.f,   -1.f }}));
-		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_S, new MoveCommand{{ 0.f,	 1.f } }));
+		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_W, new MoveCommand{{ 0.f,   1.f }}));
+		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_S, new MoveCommand{{ 0.f,	-1.f } }));
 		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_A, new MoveCommand{{ -1.f,	 0.f } }));
 		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_D, new MoveCommand{{ 1.f,  0.f } }));
 
@@ -265,22 +268,22 @@ public:
 		//auto position = std::any_cast<std::array<float, 3>>(someData.at("position"));
 		//auto scale = std::any_cast<std::array<float, 3>>(someData.at("scale"));
 		
-		auto position = std::any_cast<std::vector<std::any>>(someData.at("position"));
-		auto scale = std::any_cast<std::vector<std::any>>(someData.at("scale"));
+		auto position  = std::any_cast<std::vector<std::any>>(someData.at("position"));
+		auto scale     = std::any_cast<std::vector<std::any>>(someData.at("scale"));
 		float rotation = std::any_cast<float>(someData.at("rotation"));
 
-		aComponent->CurrentPos = aComponent->PreviousPos = { std::any_cast<float>(position[0]), std::any_cast<float>(position[1]), std::any_cast<float>(position[2]) };
-		aComponent->Scale = { std::any_cast<float>(scale[0]), std::any_cast<float>(scale[1]), std::any_cast<float>(scale[2]) };
-		aComponent->Rotation = rotation;
+		aComponent->CurrentPos	= aComponent->PreviousPos = { std::any_cast<float>(position[0]), std::any_cast<float>(position[1]) };
+		aComponent->Scale		= { std::any_cast<float>(scale[0]), std::any_cast<float>(scale[1]) };
+		aComponent->Rotation	= rotation;
 	}
 
 	template <>
 	static void InitializeComponent<TriggerComponent>(TriggerComponent* aComponent, const ECS::ComponentData& someData)
 	{
-		CU::Vector3<float> position = { 0.f, 0.f, 0.f };					// TODO; 
+		CU::Vector2<float> position = { 0.f, 0.f };					// TODO; 
 		auto halfSize = std::any_cast<float>(someData.at("half_size"));
 
-		aComponent->Collider.Init({ position.x - halfSize, position.z - halfSize }, { position.x + halfSize, position.y + halfSize });
+		aComponent->Collider.Init({ position.x - halfSize, position.y - halfSize }, { position.x + halfSize, position.y + halfSize });
 	}
 
 	template <>

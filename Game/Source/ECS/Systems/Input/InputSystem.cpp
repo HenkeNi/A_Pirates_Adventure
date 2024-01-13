@@ -42,11 +42,11 @@ void InputSystem::Update(float aDeltaTime)
 	using key = Hi_Engine::eKey;
 
 	auto mousePos = InputHandler::GetMousePosition();
-
+	float mouseScroll = InputHandler::GetScrollOffset();
 
 	for (auto entity : entities) // TEMP...
 	{
-		auto inputComponent = entity->GetComponent<InputComponent>();
+		auto* inputComponent = entity->GetComponent<InputComponent>();
 
 		/*for (const auto& input : inputComponent->InputStates)
 		{
@@ -110,6 +110,7 @@ void InputSystem::Update(float aDeltaTime)
 
 
 		inputComponent->MousePosition = { mousePos.x, mousePos.y };
+		inputComponent->MouseScroll = mouseScroll;
 
 
 		// inputComponent->MousePosition = inputHandler::GetN

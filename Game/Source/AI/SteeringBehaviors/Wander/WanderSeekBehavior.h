@@ -11,8 +11,8 @@ public:
 	WanderSeekBehavior();
 
 	void Update(float aDeltaTime) override;
-	const CU::Vector3<float> GetSteeringForce(const CU::Vector3<float>& aVelocity) override;
-	const CU::Vector3<float> GetSteeringForce(const CU::Vector3<float>& aPosition, const CU::Vector3<float>& aVelocity) override;
+	const CU::Vector2<float> GetSteeringForce(const CU::Vector2<float>& aVelocity) override;
+	const CU::Vector2<float> GetSteeringForce(const CU::Vector2<float>& aPosition, const CU::Vector2<float>& aVelocity) override;
 
 
 private:
@@ -21,5 +21,5 @@ private:
 
 	Range<float>		m_walkDurationRange;
 	// Timer				m_timer;
-	CU::Vector3<float>	m_window;
+	CU::Vector2<float>	m_window;
 };

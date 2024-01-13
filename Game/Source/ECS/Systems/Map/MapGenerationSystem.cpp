@@ -28,6 +28,8 @@ void MapGenerationSystem::Update(float aDeltaTime)
 	if (!m_entityManager)
 		return;
 
+	return;
+
 	// get player position? if left area, make more chunks...
 
 	// auto player = m_entityManager->FindAll<PlayerControllerComponent>()[0];
@@ -44,7 +46,7 @@ void MapGenerationSystem::Update(float aDeltaTime)
 	auto player = players[0];
 	auto playerPosition = player->GetComponent<TransformComponent>()->CurrentPos;			// Todo, check all 4 corners of player (Get hitboxCollider)
 
-	auto* mapChunk = MapUtils::GetMapChunkAtPosition(m_entityManager->FindAll<MapChunkComponent>(), { playerPosition.x, playerPosition.z });
+	auto* mapChunk = MapUtils::GetMapChunkAtPosition(m_entityManager->FindAll<MapChunkComponent>(), { playerPosition.x, playerPosition.y });
 
 	//if (mapChunk)
 		//std::cout << "Map chunk coordinate: " << mapChunk->GetComponent<MapChunkComponent>()->m_coordinates.x << ", " << mapChunk->GetComponent<MapChunkComponent>()->m_coordinates.y << '\n';
@@ -57,13 +59,14 @@ void MapGenerationSystem::GenerateStartArea()
 	unsigned size = Constants::InitialChunkSquareSize;
 
 	// For each chunk..
-	for (int col = 0; col < size; ++col)
+	//for (int col = 0; col < size; ++col)
 	{
-		for (int row = 0; row < size; ++row)
+		//for (int row = 0; row < size; ++row)
 		{
-			bool isLand = col > 0 && col < 4 && row < 4 && row > 0; 
+			//bool isLand = col > 0 && col < 4 && row < 4 && row > 0; 
+			bool isLand = true;
 
-			bool isGrass = col == 2 && row == 3;
+			// bool isGrass = col == 2 && row == 3;
 
 			// create mapChunk..
 			auto entity = m_entityManager->Create("MapChunk");
@@ -71,8 +74,8 @@ void MapGenerationSystem::GenerateStartArea()
 			auto* mapChunkComponent		= entity->GetComponent<MapChunkComponent>();
 			auto* transformComponent	= entity->GetComponent<TransformComponent>();
 
-			transformComponent->CurrentPos = { (float)col * (mapChunkComponent->Width * tileSize), 0.f, (float)row * (mapChunkComponent->Height * tileSize) };
-			mapChunkComponent->Coordinates = { col, row };
+			transformComponent->CurrentPos = { 0, 0 }; //{ (float)col * (mapChunkComponent->Width * tileSize), (float)row * (mapChunkComponent->Height * tileSize) };
+			mapChunkComponent->Coordinates = { 0, 0 };// { col, row };
 
 			// populate with tiles
 			for (int height = 0; height < mapChunkComponent->Height; ++height)
@@ -82,13 +85,9 @@ void MapGenerationSystem::GenerateStartArea()
 					Tile tile;
 					tile.Coordinates = { height, width };
 					tile.IsCollidable = !isLand;
-					tile.Type = isLand || isGrass ? eTile::Sand : eTile::Water;
-					tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource(isGrass ? "island_tileset_47" : isLand ? "island_tileset_13" : "ground_tiles_01"); // Sprite sheet is revered??
+					tile.Type = isLand ? eTile::Sand : eTile::Water;
+					tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource(isLand ? "island_tileset_13" : "ground_tiles_01"); // Sprite sheet is revered??
 					//tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource(isLand ? "ground_tiles_00" : "ground_tiles_01");
-					/*tile.m_material = {
-						&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource(isLand ? "sand" : "sea"),
-						&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("sprite_batch")
-					};*/
 					
 					mapChunkComponent->Tiles.push_back(tile);
 				}

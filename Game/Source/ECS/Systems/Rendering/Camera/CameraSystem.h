@@ -12,7 +12,7 @@ public:
 	void Update(float aDeltaTime)	override;
 
 private:
-
+	// TODO: CameraSystem does fustrum culling?!
 
 };
 

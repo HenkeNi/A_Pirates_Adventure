@@ -99,10 +99,8 @@
     <ClInclude Include="Source\Core\Physics\Primitives\2D\AABB2D.hpp" />
     <ClInclude Include="Source\Core\Physics\Primitives\2D\Circle.hpp" />
     <ClInclude Include="Source\Core\Physics\Primitives\2D\OBB2D.hpp" />
-    <ClInclude Include="Source\Core\Rendering\Camera\PerspectiveCamera.h" />
     <ClInclude Include="Source\Core\Messaging\Events\RenderEvents\RenderEvents.h" />
     <ClInclude Include="Source\Core\Rendering\Material\Material.h" />
-    <ClInclude Include="Source\Core\Rendering\Camera\OrthographicCamera.h" />
     <ClInclude Include="Source\Utility\Algorithms\PathFinding\AStar.hpp" />
     <ClInclude Include="Source\Utility\Algorithms\PathFinding\Dijkstra.hpp" />
     <ClInclude Include="Source\Utility\DataStructures\Non-Linear\Factory\Factory.hpp" />
@@ -149,6 +147,7 @@
     <ClInclude Include="Source\Utility\FileIO\Parsers\WindowParser.h" />
     <ClInclude Include="Source\Core\Rendering\Renderer\TextRenderer\TextRenderer.h" />
     <ClInclude Include="Source\Core\Rendering\Texture\Subtexture2D.h" />
+    <ClInclude Include="Source\Core\Rendering\Texture\TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Core\Rendering\Font\Font.cpp" />
@@ -156,8 +155,6 @@
     <ClCompile Include="Source\Core\Rendering\Camera\Camera.cpp" />
     <ClCompile Include="Source\Core\Messaging\Events\Event.cpp" />
     <ClCompile Include="Source\Core\Messaging\Dispatcher\Dispatcher.cpp" />
-    <ClCompile Include="Source\Core\Rendering\Camera\OrthographicCamera.cpp" />
-    <ClCompile Include="Source\Core\Rendering\Camera\PerspectiveCamera.cpp" />
     <ClCompile Include="Source\Core\Rendering\Material\Material.cpp" />
     <ClCompile Include="Source\Core\Rendering\Particles\ParticleEmitter.cpp" />
     <ClCompile Include="Source\Core\Rendering\Renderer\Renderer.cpp" />
@@ -179,6 +176,7 @@
     <ClCompile Include="Source\Core\Messaging\Events\SystemEvents\SystemEvents.cpp" />
     <ClCompile Include="Source\Utility\FileIO\Parsers\WindowParser.cpp" />
     <ClCompile Include="Source\Core\Rendering\Texture\Subtexture2D.cpp" />
+    <ClCompile Include="Source\Core\Rendering\Texture\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Todo.txt" />

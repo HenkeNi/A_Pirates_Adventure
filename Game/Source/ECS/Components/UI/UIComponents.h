@@ -6,6 +6,14 @@ struct ButtonComponent : public Component
 	class Command* Command; // ??
 };
 
+struct UIComponent : public Component
+{
+};
+
+struct HUDComponent : public Component
+{
+};
+
 // CYRRENTLY IN RENDEIRNG COMPONENTS?!
 //struct TextComponent : public ComponentBase
 //{

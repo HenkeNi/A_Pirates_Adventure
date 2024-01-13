@@ -13,5 +13,5 @@ public:
 	void Draw()					override;
 
 private:
-	void DrawMapChunk(MapChunkComponent* aMapChunk, const CU::Vector3<float>& aPosition);
+	void DrawMapChunk(MapChunkComponent* aMapChunk, const CU::Vector2<float>& aPosition);
 };

@@ -35,7 +35,7 @@ void EnemySpawnSystem::Update(float aDeltaTime)
 	{
  		auto* spawnComponent = spawner->GetComponent<SpawnComponent>();	// TODO; fix... spawner(s) seems to be garabage.. 201030302 m_components size....
 
-		spawnComponent->ElapsedTime += aDeltaTime;
+		spawnComponent->ElapsedTime += aDeltaTime; // replace with timestap + duration...
 
 		bool isTimeToSpawn = spawnComponent->ElapsedTime >= spawnComponent->Interval;
 		bool isSpawnLimitReached = spawnComponent->SpawnedAmount >= spawnComponent->Amount;
@@ -61,7 +61,7 @@ void EnemySpawnSystem::Update(float aDeltaTime)
 
 }
 
-void EnemySpawnSystem::SpawnEnemy(const std::string& aType, const CU::Vector3<float>& aPosition)
+void EnemySpawnSystem::SpawnEnemy(const std::string& aType, const CU::Vector2<float>& aPosition)
 {
 	auto* player = *m_entityManager->FindAll<PlayerControllerComponent>().begin();
 	
@@ -86,6 +86,7 @@ void EnemySpawnSystem::SpawnEnemy(const std::string& aType, const CU::Vector3<fl
 	int entityID = entity->GetID();
 	int playerID = player->GetID();
 
+	// DO in AI system when entity is registered?!
 	auto* root = new SelectorNode{ entityID };
 
 	auto attackSequence = new SequenceNode{ entityID };

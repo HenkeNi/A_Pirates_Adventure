@@ -15,7 +15,6 @@
 
 /* - Rendering - */
 #include "Core/Rendering/Camera/Camera.h"
-#include "Core/Rendering/Camera/OrthographicCamera.h"
 #include "Core/Rendering/Renderer/TextRenderer/TextRenderer.h"
 #include "Core/Rendering/Material/Material.h"
 #include "Core/Rendering/Font/Font.h"

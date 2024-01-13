@@ -22,7 +22,7 @@ void ResourceSpawnSystem::Receive(Message& aMsg)
 	if (!m_entityManager)
 		return;
 
-	auto data = std::any_cast<Entity*>(aMsg.GetData());
+	auto data = std::any_cast<Entity*>(aMsg.GetData()); // pass string for which type to create instead..
 
 	//if (data->HasComponents<ResourceComponent>())
 	if (data->HasComponents<HarvestableComponent>())
@@ -35,10 +35,11 @@ void ResourceSpawnSystem::Receive(Message& aMsg)
 		//auto* resourceComponent = data->GetComponent<ResourceComponent>(); // Check if not nullptr ionstead of has component?? -> remove assert in that case 
 		//auto droppedResource = m_entityManager->Create(resourceComponent->m_entityToCreate);
 
-		auto transformComponent = resource->GetComponent<TransformComponent>();
-		transformComponent->CurrentPos = data->GetComponent<TransformComponent>()->CurrentPos;
-		transformComponent->CurrentPos.y = 0.1f;
-		transformComponent->Scale = { 0.2f, 0.2f, 0.2f };
+		auto* transform			= resource->GetComponent<TransformComponent>();
+		transform->CurrentPos	= data->GetComponent<TransformComponent>()->CurrentPos;
+		transform->CurrentPos.y = 0.1f;
+		transform->Scale		= { 0.2f, 0.2f };
+
 
 		//auto spriteComponent = resource->GetComponent<SpriteComponent>();
 		//spriteComponent->m_material = {
@@ -51,7 +52,7 @@ void ResourceSpawnSystem::Receive(Message& aMsg)
 
 		auto pickupCollider = resource->GetComponent<PickupColliderComponent>();
 		auto colliderSize = 0.2f;	// take halfsize instead?
-		pickupCollider->Collider.Init({ transformComponent->CurrentPos.x - colliderSize, transformComponent->CurrentPos.z - colliderSize }, { transformComponent->CurrentPos.x + colliderSize, transformComponent->CurrentPos.z + colliderSize });
+		pickupCollider->Collider.Init({ transform->CurrentPos.x - colliderSize, transform->CurrentPos.y - colliderSize }, { transform->CurrentPos.x + colliderSize, transform->CurrentPos.y + colliderSize });
 	}
 }
 

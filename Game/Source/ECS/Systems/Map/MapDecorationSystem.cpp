@@ -41,7 +41,7 @@ void MapDecorationSystem::PopulateWithFoilage(const Entity* aMapChunk)
 		auto* mapTransformComponent	= aMapChunk->GetComponent<TransformComponent>();
 
 		auto chunkPosition = mapTransformComponent->CurrentPos;
-		auto endPosition = CU::Vector2<float>{ chunkPosition.x + mapChunkComponent->Width * tileSize, chunkPosition.z + mapChunkComponent->Height * tileSize };
+		auto endPosition = CU::Vector2<float>{ chunkPosition.x + mapChunkComponent->Width * tileSize, chunkPosition.y + mapChunkComponent->Height * tileSize };
 
 
 		for (int i = 0; i < anAmount; ++i)
@@ -49,9 +49,10 @@ void MapDecorationSystem::PopulateWithFoilage(const Entity* aMapChunk)
 			auto* entity = m_entityManager->Create(aType);
 			auto* transform = entity->GetComponent<TransformComponent>();
 
-			CU::Vector2<float> position = { (float)Random::InRange(chunkPosition.x + 1.f, endPosition.x - 1.f), (float)Random::InRange(chunkPosition.z + 1.f, endPosition.y - 1.f) };
+			auto sizet = entity->GetComponent<SpriteComponent>()->Subtexture->GetSize(); // TEMP..
 
-			transform->CurrentPos = transform->PreviousPos = { position.x, transform->CurrentPos.y, position.y };
+			CU::Vector2<float> position = { (float)Random::InRange(chunkPosition.x + 1.f, endPosition.x - 1.f), (float)Random::InRange(chunkPosition.y + 1.f, endPosition.y - 1.f) };
+			transform->CurrentPos = transform->PreviousPos = position;
 
 			if (i % 2 == 0)
 				transform->Scale.x *= -1.f;
@@ -75,12 +76,13 @@ void MapDecorationSystem::PopulateWithFoilage(const Entity* aMapChunk)
 	
 
 	
-	generateFoilage("PalmTree", 2, aMapChunk);
+	generateFoilage("PalmTree", 1, aMapChunk);
+	//generateFoilage("PalmTree", 2, aMapChunk);
 	generateFoilage("Grass", 7, aMapChunk);
 	generateFoilage("Rock", 1, aMapChunk);
 
-	static int count = 0;
+	//static int count = 0;
 
-	if ((count++) % 5 == 0)
-		generateFoilage("SkeletonSpawner", 1, aMapChunk);
+	//if ((count++) % 5 == 0)
+	//	generateFoilage("SkeletonSpawner", 1, aMapChunk);
 }

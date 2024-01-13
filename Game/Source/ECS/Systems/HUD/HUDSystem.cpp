@@ -43,20 +43,20 @@ void HUDSystem::SetupHUDElements()
 		return;
 
 	auto* player = m_entityManager->FindFirst<PlayerControllerComponent>();
-	
-	auto healthComponent = player->GetComponent<HealthComponent>();
+	auto* healthComponent = player->GetComponent<HealthComponent>(); // OR stats component (check health)
+
+	// TODO; Get entities with Hudcomponent (that are hearts), set if should be rendered based on players health...
+
+	float heartScale = 0.5f; // FIX!
+	float windSize = 800.f;
+
 	for (int i = 0; i < 5; ++i)
 	{
-		auto heart = m_entityManager->Create("HeartContainer");
+		auto* heart = m_entityManager->Create("HeartContainer");
 
-		auto transformComponent = heart->GetComponent<TransformComponent>();
-		transformComponent->CurrentPos = { 0.1f * i, 0.2f, 0.f };
+		auto* transform = heart->GetComponent<TransformComponent>();
+		transform->CurrentPos = { -4.f + heartScale * i, 2.f }; // TODO; FIX! probably generates them backwards...
+		//transform->CurrentPos = { -2.f + -1.f * heartScale * i, 2.f }; // TODO; FIX! probably generates them backwards...
+
 	}
-
-
-
-
-	int xx = 10;
-	xx += 10;
-
 }

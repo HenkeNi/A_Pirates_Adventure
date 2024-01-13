@@ -222,7 +222,7 @@ struct HitboxComponent : public Component
 struct AttackComponent : public Component
 {
 	Hi_Engine::Physics::AABB2D<float>	Collider;
-	CU::Vector3<float>					Offset = { 20.f, 0.f, 20.f };
+	CU::Vector2<float>					Offset = { 20.f, 20.f };
 	// circle collider?
 	bool								IsEnabled;
 };

@@ -13,4 +13,8 @@ public:
 
 	void Receive(Message& aMsg)		override;
 	void Update(float aDeltaTime)	override;
+
+private:
+	void SpawnResource();
+	void SpawnEnemy();
 };

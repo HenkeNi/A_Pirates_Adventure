@@ -14,7 +14,7 @@ Entity* MapUtils::GetMapChunkAtPosition(const std::vector<Entity*>& someMapChunk
 		auto mapChunkComponent  = mapChunk->GetComponent<MapChunkComponent>();
 
 		auto minXPosition = transformComponent->CurrentPos.x;
-		auto minYPosition = transformComponent->CurrentPos.z;
+		auto minYPosition = transformComponent->CurrentPos.y;
 
 		auto maxXPosition = minXPosition + mapChunkComponent->Width;
 		auto maxYPosition = minYPosition + mapChunkComponent->Height;
@@ -38,7 +38,7 @@ Tile* MapUtils::GetTileAtWorldPosition(Entity* aMapChunk, const CU::Vector2<floa
 	auto mapChunkComponent = aMapChunk->GetComponent<MapChunkComponent>();
 
 	// calculate local position
-	const CU::Vector2<float> localPosition = aWorldPosition - CU::Vector2<float>{ mapChunkTransform->CurrentPos.x, mapChunkTransform->CurrentPos.z };
+	const CU::Vector2<float> localPosition = aWorldPosition - CU::Vector2<float>{ mapChunkTransform->CurrentPos.x, mapChunkTransform->CurrentPos.y };
 
 	//std::cout << "Locla: " << localPosition.x << ", " << localPosition.y << '\n';
 
@@ -80,6 +80,12 @@ Tile* MapUtils::GetTileAtWorldPosition(Entity* aMapChunk, const CU::Vector2<floa
 
 	return nullptr;
 	//return tile;
+}
+
+void MapUtils::GetCoordinates(int aIndex, int aWidth, int& outX, int& outY)
+{
+	outX = aIndex % aWidth;
+	outY = aIndex / aWidth;
 }
 
 

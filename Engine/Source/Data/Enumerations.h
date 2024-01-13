@@ -121,6 +121,8 @@ namespace Hi_Engine
 	{
 		SetShader,
 		SetCamera,
-		DrawSprite
+		SetProjectionMatrix,
+		DrawSprite,
+		DrawBatch,
 	};
 }

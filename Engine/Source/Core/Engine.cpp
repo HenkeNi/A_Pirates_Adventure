@@ -38,7 +38,7 @@ namespace Hi_Engine
 
 		// TEMP
 		m_renderer.Init();
-		m_renderer.SetRenderTarget(&m_window);
+		//m_renderer.SetRenderTarget(&m_window);
 
 		m_application->OnCreate(); 
 
@@ -88,10 +88,12 @@ namespace Hi_Engine
 			m_application->OnLateUpdate(deltaTime);
 
 			/* - Render - */
-			m_renderer.BeginFrame();
+			m_window.ClearScreen();
 			m_application->OnDraw();
-			m_renderer.EndFrame();	// Always call Display in EndFrame?
+			m_renderer.ProcessCommands(); // NEEDED? Or render when event directly? Maybe wont work when multithreading?
+			m_window.SwapBuffers();
 			
+			m_inputHandler.Reset(); // OR Force user to listen to scroll event??
 			m_window.SetTitle("Fps: " + std::to_string((int)timer.GetAverageFPS())); // TODO; Get Draw calls...
 		}
 	}

@@ -59,7 +59,7 @@ void PlayerControllerSystem::Update(float aDeltaTime)
 		// m_velocity = 
 
 		if (Hi_Engine::InputHandler::IsKeyPressed(Hi_Engine::eKey::Key_R))
-			entity->GetComponent<TransformComponent>()->CurrentPos = { 27.f, 0.42f, 25.f };
+			entity->GetComponent<TransformComponent>()->CurrentPos = { 27.f, 25.f };
 
 		// TODO; Decrease in MovementSystem; 
 		if (input->InputStates[Hi_Engine::eKey::Key_LShift])
@@ -178,7 +178,7 @@ void PlayerControllerSystem::Update(float aDeltaTime)
 
 
 		// TODO; check near equal instead.. Or dont use velicuty??
-		if (velocity->Velocity.x == 0.f && velocity->Velocity.z == 0.f)
+		if (velocity->Velocity.x == 0.f && velocity->Velocity.y == 0.f)
 		{
 			characterState->IsWalking = false;
 			

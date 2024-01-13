@@ -9,6 +9,7 @@ namespace Hi_Engine
 	std::unordered_map<eKey, eInputState>		InputHandler::s_keyStates;
 	std::unordered_map<eMouseBtn, eInputState>	InputHandler::s_mouseButtonStates;
 	glm::vec2									InputHandler::s_mousePosition;
+	float										InputHandler::s_scrollOffset;
 
 	InputHandler::InputHandler()
 	{
@@ -25,6 +26,7 @@ namespace Hi_Engine
 		glfwSetKeyCallback(aWindow, InputHandler::KeyCallback);
 		glfwSetCursorPosCallback(aWindow, InputHandler::CursorCallback);
 		glfwSetMouseButtonCallback(aWindow, InputHandler::MouseButtonCallback);
+		glfwSetScrollCallback(aWindow, InputHandler::MouseScrollCallback);
 	}
 
 	void InputHandler::ProcessInput()
@@ -38,8 +40,16 @@ namespace Hi_Engine
 
 		delete inputEvent; 
 
+		// TEMP
+		//s_scrollOffset = 0.f; -> resets it before it can be used?? -> wonky solution; reset it when calling GetMouseScroll()?!
+
 		//Dispatcher::GetInstance().SendEventInstantly<InputEvent>(s_keyStates, s_mouseButtonStates, s_mousePosition);
 		//Dispatcher::GetInstance().AddEvent<InputEvent>(s_keyStates, s_mouseButtonStates, s_mousePosition);
+	}
+
+	void InputHandler::Reset()
+	{
+		s_scrollOffset = 0.f;
 	}
 
 	void InputHandler::KeyCallback(GLFWwindow* aWindow, int aKey, int aScanCode, int anAction, int someMods)
@@ -52,6 +62,11 @@ namespace Hi_Engine
 		s_mouseButtonStates.insert_or_assign((eMouseBtn)aButton, (eInputState)anAction);
 	}
 
+	void InputHandler::MouseScrollCallback(GLFWwindow* aWindow, double xoffset, double yoffset)
+	{
+		s_scrollOffset = yoffset; // down (towrads is negative) up (is positive) -> no scrolling == 0
+	}
+
 	void InputHandler::CursorCallback(GLFWwindow* aWindow, double xPos, double yPos)
 	{
 		s_mousePosition = { xPos, yPos };
@@ -60,6 +75,11 @@ namespace Hi_Engine
 	glm::vec2 InputHandler::GetMousePosition()
 	{
 		return s_mousePosition;
+	}
+
+	float InputHandler::GetScrollOffset()
+	{
+		return s_scrollOffset;
 	}
 
 	bool InputHandler::IsKeyPressed(eKey aKey)

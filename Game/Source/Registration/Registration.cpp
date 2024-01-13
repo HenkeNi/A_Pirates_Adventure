@@ -32,6 +32,7 @@ namespace Registration
 		componentBuilders.push_back(std::make_pair("AttackCollider",	new ConcreteComponentBuilder<AttackComponent>));
 		componentBuilders.push_back(std::make_pair("Hitbox",			new ConcreteComponentBuilder<HitboxComponent>));
 		componentBuilders.push_back(std::make_pair("Harvestable",		new ConcreteComponentBuilder<HarvestableComponent>));
+		componentBuilders.push_back(std::make_pair("HUD",				new ConcreteComponentBuilder<HUDComponent>));
 
 		componentBuilders.push_back(std::make_pair("Resource",			new ConcreteComponentBuilder<ResourceComponent>));
 		componentBuilders.push_back(std::make_pair("Pickup",			new ConcreteComponentBuilder<PickupColliderComponent>));
@@ -63,11 +64,11 @@ namespace Registration
 
 	void RegisterSystems(SystemManager& aSystemManager)
 	{
+		/* - Update Systems - */
 		aSystemManager.Register(std::make_unique<BehaviorTreeSystem>());
 		aSystemManager.Register(std::make_unique<SteeringBehaviorSystem>());
 		aSystemManager.Register(std::make_unique<StateMachineSystem>());
 
-		aSystemManager.Register(std::make_unique<CameraSystem>());
 		aSystemManager.Register(std::make_unique<CollisionSystem>());
 		aSystemManager.Register(std::make_unique<CombatSystem>());
 		aSystemManager.Register(std::make_unique<EnemySpawnSystem>());
@@ -81,21 +82,23 @@ namespace Registration
 		aSystemManager.Register(std::make_unique<PlayerControllerSystem>());
 		aSystemManager.Register(std::make_unique<RangedCombatSystem>());
 		aSystemManager.Register(std::make_unique<ResourceSpawnSystem>());
+		aSystemManager.Register(std::make_unique<CameraSystem>());
 
 		aSystemManager.Register(std::make_unique<HUDSystem>());
 
 		aSystemManager.Register(std::make_unique<SpawnSystem>());
 		aSystemManager.Register(std::make_unique<SpriteAnimationSystem>());
-		aSystemManager.Register(std::make_unique<SpriteRenderSystem>());
 		aSystemManager.Register(std::make_unique<StatSystem>());
-		aSystemManager.Register(std::make_unique<PrimitiveRenderSystem>());	
 
-		aSystemManager.Register(std::make_unique<MapRenderSystem>());
 		aSystemManager.Register(std::make_unique<MapGenerationSystem>());
 		aSystemManager.Register(std::make_unique<MapDecorationSystem>());
 		aSystemManager.Register(std::make_unique<TimeSystem>());
 
+		/* - Render Systems - */
 		aSystemManager.Register(std::make_unique<TextRenderSystem>());
+		aSystemManager.Register(std::make_unique<HUDRenderSystem>());
+		aSystemManager.Register(std::make_unique<SpriteRenderSystem>());
+		aSystemManager.Register(std::make_unique<MapRenderSystem>());
 	}
 
 	void RegisterScenes(SceneManager& aSceneManager, SystemManager& aSystemManager)

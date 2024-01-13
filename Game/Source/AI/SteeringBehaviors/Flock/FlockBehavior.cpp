@@ -14,7 +14,7 @@ void FlockBehavior::Update(float aDeltaTime)
 	// auto separation = GetSeparationForce();
 }
 
-const CU::Vector3<float> FlockBehavior::GetSteeringForce(const CU::Vector3<float>& aVelocity)
+const CU::Vector2<float> FlockBehavior::GetSteeringForce(const CU::Vector2<float>& aVelocity)
 {
 	float cohesionWeight = 5.f;
 	float alignmentWeight = 3.f;
@@ -29,7 +29,7 @@ const CU::Vector3<float> FlockBehavior::GetSteeringForce(const CU::Vector3<float
 	//return {};
 }
 
-const CU::Vector3<float> FlockBehavior::GetSteeringForce(const CU::Vector3<float>& aPosition, const CU::Vector3<float>& aVelocity)
+const CU::Vector2<float> FlockBehavior::GetSteeringForce(const CU::Vector2<float>& aPosition, const CU::Vector2<float>& aVelocity)
 {
 	return {};
 }
@@ -46,9 +46,9 @@ void FlockBehavior::SetOwner(Entity* anEntity)
 	m_owner = anEntity;
 }
 
-CU::Vector3<float> FlockBehavior::CalculateSeparationForce() const
+CU::Vector2<float> FlockBehavior::CalculateSeparationForce() const
 {
-	CU::Vector3<float> separationForce;
+	CU::Vector2<float> separationForce;
 	float separationDistance = 2.f;
 	int neighbours = 0;
 
@@ -75,7 +75,7 @@ CU::Vector3<float> FlockBehavior::CalculateSeparationForce() const
 	}
 
 	if (neighbours == 0)
-		return { 0.f, 0.f, 0.f };
+		return { 0.f, 0.f };
 
 	separationForce = separationForce / (float)neighbours;
 	separationForce *= m_maxForce;
@@ -87,7 +87,7 @@ CU::Vector3<float> FlockBehavior::CalculateSeparationForce() const
 	// return {};
 }
 
-CU::Vector3<float> FlockBehavior::CalculateCohesionForce() const
+CU::Vector2<float> FlockBehavior::CalculateCohesionForce() const
 {
 	auto centerOfMass = m_owner->GetComponent<TransformComponent>()->CurrentPos;
 	int neighbours = 0;
@@ -111,15 +111,15 @@ CU::Vector3<float> FlockBehavior::CalculateCohesionForce() const
 
 
 	if (neighbours == 0)
-		return { 0.f, 0.f, 0.f };
+		return { 0.f, 0.f };
 
-	centerOfMass = { centerOfMass.x / neighbours, centerOfMass.y / neighbours, centerOfMass.z / neighbours };
+	centerOfMass = { centerOfMass.x / neighbours, centerOfMass.y / neighbours };
 	return centerOfMass.GetNormalized();
 }
 
-CU::Vector3<float> FlockBehavior::CalculateAlignmentForce() const
+CU::Vector2<float> FlockBehavior::CalculateAlignmentForce() const
 {
-	CU::Vector3<float> alignmentForce;
+	CU::Vector2<float> alignmentForce;
 	int neighbours = 0;
 
 	for (auto* member : m_flockMembers)
@@ -143,9 +143,9 @@ CU::Vector3<float> FlockBehavior::CalculateAlignmentForce() const
 	}
 		
 	if (neighbours == 0)
-		return { 0.f, 0.f, 0.f };
+		return { 0.f, 0.f };
 
 	
-	alignmentForce = { alignmentForce.x / neighbours, alignmentForce.y / neighbours, alignmentForce.z / neighbours };
-	return alignmentForce.Length() == 0.f ? CU::Vector3<float>{ 0.f, 0.f, 0.f } : alignmentForce.GetNormalized();
+	alignmentForce = { alignmentForce.x / neighbours, alignmentForce.y / neighbours };
+	return alignmentForce.Length() == 0.f ? CU::Vector2<float>{ 0.f, 0.f } : alignmentForce.GetNormalized();
 }

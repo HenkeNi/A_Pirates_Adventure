@@ -22,7 +22,8 @@ void MoveCommand::Execute()
 
 	// FIX!
 	m_velocityComponent->Velocity.x = m_direction.x == 0.f ? m_velocityComponent->Velocity.x : m_direction.x;
-	m_velocityComponent->Velocity.z = m_direction.y == 0.f ? m_velocityComponent->Velocity.z : m_direction.y;
+	m_velocityComponent->Velocity.y = m_direction.y == 0.f ? m_velocityComponent->Velocity.y : m_direction.y;
+	//m_velocityComponent->Velocity.z = m_direction.y == 0.f ? m_velocityComponent->Velocity.z : m_direction.y;
 
 	//m_velocityComponent->m_velocity.x = m_direction.x; // Do += (clamp later)?!
 	//m_velocityComponent->m_velocity.z = m_direction.y;

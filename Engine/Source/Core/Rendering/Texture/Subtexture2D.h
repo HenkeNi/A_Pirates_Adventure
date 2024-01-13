@@ -12,7 +12,9 @@ namespace Hi_Engine
 
 		const Texture2D& GetTexture()	const;
 		const glm::vec2* GetTexCoords() const;
-		const glm::vec2* GetInvertedTexCoords() const;
+		// const glm::vec2* GetInvertedTexCoords() const;
+
+		const glm::vec2& GetSize() const;
 
 		// Maybe remove??
 		static Subtexture2D& CreateFromCoords(Texture2D& aTexture, const glm::vec2& someCoords, const glm::vec2& aSpriteSize);
@@ -23,6 +25,9 @@ namespace Hi_Engine
 	private:
 		Texture2D&	m_texture;
 		glm::vec2	m_texCoords[4];
+		glm::vec2	m_size;
 		bool		m_isInverted;
+
+		// STORE SIZE?
 	};
 }

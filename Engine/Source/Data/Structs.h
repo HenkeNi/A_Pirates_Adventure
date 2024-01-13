@@ -9,6 +9,7 @@
 #include <array>
 #include <functional>
 #include <string>
+#include <vector>
 
 namespace CU = CommonUtilities;
 
@@ -79,7 +80,8 @@ namespace Hi_Engine
 
 #pragma region Camera_Structs
 
-	struct CameraMatrices
+	// TODO: Remove?!
+	/*struct CameraMatrices
 	{
 		glm::mat4 View{ 1.f };
 		glm::mat4 Projection;
@@ -100,7 +102,7 @@ namespace Hi_Engine
 		float Yaw;
 		float Pitch;
 		float Roll;
-	};
+	};*/
 
 	// Remove later?
 	struct Rect
@@ -162,6 +164,12 @@ namespace Hi_Engine
 		//glm::vec2					Scale;		// Rename size?? CU::Vector2<float>
 		//float						Rotation;
 	};	
+
+	struct SpriteBatchData
+	{
+		std::vector<SpriteRenderData>	SpriteData;
+		glm::vec4						ProjectionMatrix;
+	};
 
 	struct QuadRenderData
 	{
@@ -254,9 +262,12 @@ namespace Hi_Engine
 
 		union
 		{
-			SpriteRenderData	SpriteRenderData;
-			class Shader*		Shader;
-			class Camera*		Camera;
+			//std::vector<SpriteRenderData>	SpriteBatch;
+			SpriteRenderData				SpriteRenderData;
+			//SpriteBatchData					SpriteBatchData;
+			class Shader*					Shader;
+			class Camera*					Camera;
+			glm::mat4						ProjectionMatrix;
 		};
 	};
 

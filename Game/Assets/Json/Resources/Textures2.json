@@ -254,5 +254,16 @@
     "rows": 1,
     "cols": 1
 
+  },
+  {
+    "id": "heart",
+    "path": "../Game/Assets/Textures/heart.png",
+    "alpha": true,
+    "filtering": "Linear",
+    "width": 32,
+    "height": 32,
+    "rows": 1,
+    "cols": 1
+
   }
 ]

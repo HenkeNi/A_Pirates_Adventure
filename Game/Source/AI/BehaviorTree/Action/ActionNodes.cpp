@@ -19,7 +19,7 @@ eBTNodeStatus IdleNode::Execute(EntityManager* anEntityManager)
 	{
 		auto* owner = anEntityManager->Find(m_ownerID);
 
-		owner->GetComponent<VelocityComponent>()->Velocity = { 0.f, 0.f, 0.f };
+		owner->GetComponent<VelocityComponent>()->Velocity = { 0.f, 0.f };
 	}
 
 	return eBTNodeStatus::Invalid;
@@ -112,7 +112,7 @@ eBTNodeStatus AttackTargetNode::Execute(EntityManager* anEntityManager)
 
 	if (auto* owner = anEntityManager->Find(m_ownerID))
 	{
-		owner->GetComponent<VelocityComponent>()->Velocity = { 0.f, 0.f, 0.f };
+		owner->GetComponent<VelocityComponent>()->Velocity = { 0.f, 0.f };
 	}
 
 	// enable attack hitbox 

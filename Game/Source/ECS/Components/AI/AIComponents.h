@@ -2,13 +2,16 @@
 #include "../Base/Component.h"
 
 
+/* - Behavior Tree - */
 struct BehaviorTreeComponent : public Component
 {
 	class BehaviorTreeNode* RootNode = nullptr;				// Call Execute in Update
 	// current node?
 };
 
-/* Steering Behaviors */
+
+
+/* - Steering Behaviors - */
 struct WanderBehaviorComponent : public Component
 {
 	class WanderBehavior*	Behavior = nullptr;
@@ -35,11 +38,7 @@ struct FleeBehaviorComponent : public Component
 
 
 
-
-
-
-
-
+/* - State Machine- */
 struct StateMachineComponent : public Component
 {
 	class State*				ActiveState;
@@ -61,7 +60,7 @@ struct SteeringBehaviorComponent : public Component
 
 
 
-
+/* - Controllers - */
 struct PlayerControllerComponent : Component
 {
 	std::unordered_map<Hi_Engine::eKey, class Command*> InputMapping; // TODO; rename, move Command from engine?

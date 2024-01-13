@@ -6,22 +6,19 @@ namespace CU = CommonUtilities;
 
 struct TransformComponent : public Component
 {
-	Hi_Engine::Transform Transform;
-
-	CU::Vector3<float> CurrentPos   = { 0.f, 0.f, 0.f };
-	CU::Vector3<float> PreviousPos  = { 0.f, 0.f, 0.f };	// add desired position?
-	CU::Vector3<float> Scale		= { 1.f, 1.f, 1.f };
+	CU::Vector2<float> CurrentPos   = { 0.f, 0.f };
+	CU::Vector2<float> PreviousPos  = { 0.f, 0.f };	
+	CU::Vector2<float> Scale		= { 1.f, 1.f };
 	float			   Rotation		= 0.f;
 };
 
 struct VelocityComponent : public Component
 {
-	CU::Vector3<float>	Velocity;
-	float				VelocityMax;
+	CU::Vector2<float>	Velocity;
+	CU::Vector2<float>	Acceleration;
 
-	CU::Vector3<float>	Acceleration;
+	float				MaxVelocity;
 	float				Speed;
-	// Speed? direction?
 };
 
 
@@ -32,6 +29,8 @@ struct SpriteComponent : public Component
 	CU::Vector4<float> Color = { 1.f, 1.f, 1.f, 1.f };
 	// Hi_Engine::Material m_material;	// Store strings instead?? keys..
 
+	CU::Vector2<float> Pivot = { 0.5f, 1.f };
+
 	// int m_textureID; ?
 	// int m_shaderID; ?
 	// width, hight??
@@ -41,6 +40,7 @@ struct InputComponent : public Component
 {
 	std::unordered_map<Hi_Engine::eKey, bool> InputStates; // replace with state instead of bool??
 	CU::Vector2<double>						  MousePosition;
+	float									  MouseScroll;
 };
 
 struct TextComponent : public Component
@@ -78,6 +78,7 @@ struct CameraComponent : public Component
 {
 	Hi_Engine::Camera	Camera;
 	CU::Vector3<float>  TargetOffset;
+	CU::Vector2<float>	ZoomRange;
 	//class Entity*		m_target = nullptr;
 	unsigned			TargetID = 0;
 };
@@ -121,7 +122,7 @@ struct CollisionComponent : public Component
 struct ColliderComponent : public Component
 {
 	Hi_Engine::Physics::AABB2D<float>	Collider;
-	CU::Vector3<float>					Offset;
+	CU::Vector2<float>					Offset;
 	eCollisionLayer						Layer;
 	bool								IsStatic;					// enum for type (trigger, static?
 };

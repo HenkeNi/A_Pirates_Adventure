@@ -502,17 +502,17 @@ void CollisionSystem::HandleTileCollisions(Entity* anEntity, float aDeltaTime)
 
 		static float size = 1.f; // FIX!
 
-		glm::vec3 position = { mapChunkPosition.x, mapChunkPosition.y, mapChunkPosition.z };
+		glm::vec3 position = { mapChunkPosition.x, mapChunkPosition.y, mapChunkPosition.y };
 		position.x += tiles[i].Coordinates.x * size;
 		position.z += tiles[i].Coordinates.y * size;
 
-		Hi_Engine::Physics::AABB2D<float> tileBounds({ position.x, position.z }, { position.x + size, position.z + size });
+		Hi_Engine::Physics::AABB2D<float> tileBounds({ position.x, position.z }, { position.x + size, position.y + size });
 
 
 		// Draw map AABB...
 
 
-		Hi_Engine::HitResult<float> result = Hi_Engine::Physics::Intersects(hitboxComponent->Collider, { velocityComponent->Velocity.x, velocityComponent->Velocity.z }, tileBounds, aDeltaTime);
+		Hi_Engine::HitResult<float> result = Hi_Engine::Physics::Intersects(hitboxComponent->Collider, { velocityComponent->Velocity.x, velocityComponent->Velocity.y }, tileBounds, aDeltaTime);
 
 		std::cout << result.IsColliding << "\n";
 
@@ -532,9 +532,9 @@ void CollisionSystem::HandleTileCollisions(Entity* anEntity, float aDeltaTime)
 
 	for (const auto& result : results)
 	{
-		CommonUtilities::Vector2<float> vec = CommonUtilities::Vector2(std::abs(velocityComponent->Velocity.x), std::abs(velocityComponent->Velocity.z)) * (1 - result.second.ContactTime);
+		CommonUtilities::Vector2<float> vec = CommonUtilities::Vector2(std::abs(velocityComponent->Velocity.x), std::abs(velocityComponent->Velocity.y)) * (1 - result.second.ContactTime);
 		velocityComponent->Velocity.x += result.second.ContactNormal.x * vec.x;
-		velocityComponent->Velocity.z += result.second.ContactNormal.y * vec.y;
+		velocityComponent->Velocity.y += result.second.ContactNormal.y * vec.y;
 	}
 
 }

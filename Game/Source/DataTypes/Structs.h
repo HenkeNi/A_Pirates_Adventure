@@ -40,6 +40,8 @@ struct Tile
 	CU::Vector2<int>	Coordinates;			// Use only one!!
 	eTile				Type;
 	bool				IsCollidable;
+
+	static constexpr float Size = 1.f;
 };
 
 // Put in Engine?? => wrap a texture instead?? => specify coordiantes and stuff...

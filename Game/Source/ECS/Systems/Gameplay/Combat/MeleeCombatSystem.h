@@ -1,15 +1,16 @@
 #pragma once
-#include "../Base/System.h"
+#include "../../Base/System.h"
 
 
-class CraftingSystem : public System
+class MeleeCombatSystem : public System
 {
 public:
-	CraftingSystem();
-	~CraftingSystem();
+	MeleeCombatSystem();
+	~MeleeCombatSystem();
 
 	void Receive(Message& aMsg)		override;
 	void Update(float aDeltaTime)	override;
 
 private:
+
 };

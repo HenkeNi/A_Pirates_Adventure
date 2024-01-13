@@ -22,37 +22,81 @@ void MapRenderSystem::Draw()
 	if (!m_entityManager)
 		return;
 
-	auto entities = m_entityManager->FindAll<MapChunkComponent>();
+	std::queue<Hi_Engine::RenderCommand> renderCommands; // commandQueue
 
-	// Todo; only render relevant map chunks (those in view)
+	auto* camera = m_entityManager->FindFirst<CameraComponent>();
+	Hi_Engine::RenderCommand projectionCommand{};
+	projectionCommand.Type = Hi_Engine::eRenderCommandType::SetProjectionMatrix;
+	projectionCommand.ProjectionMatrix = camera->GetComponent<CameraComponent>()->Camera.GetViewProjectionMatrix();
+
+	renderCommands.push(projectionCommand);
+
+	
+	// Todo; only render relevant map chunks (those in view) -> camera systems job?!
+
+	auto entities = m_entityManager->FindAll<MapChunkComponent>();
 
 	for (auto entity : entities)
 	{
 		auto* mapChunk		 = entity->GetComponent<MapChunkComponent>();
 		auto currentPosition = entity->GetComponent<TransformComponent>()->CurrentPos;
 
-		DrawMapChunk(mapChunk, currentPosition);
+		// DrawMapChunk(mapChunk, currentPosition);
+
+		for (const auto& tile : mapChunk->Tiles)
+		{
+			glm::vec3 position = { currentPosition.x, currentPosition.y, 0.f };
+			position.x += tile.Coordinates.x * Tile::Size;
+			position.y += tile.Coordinates.y * Tile::Size;
+			//position.z += tile.Coordinates.y * size;
+
+			Hi_Engine::RenderCommand command{};
+			command.Type = Hi_Engine::eRenderCommandType::DrawSprite;
+
+			glm::vec4 color = { tile.Color.x, tile.Color.y, tile.Color.z, tile.Color.w };
+			command.SpriteRenderData = { tile.Subtexture, color, Hi_Engine::Transform{ position, { 1.f, 1.f }, 0.f } };
+
+			// command.SpriteRenderData = { tile.Subtexture, color, Hi_Engine::Transform{ position, { 1.f, 1.f }, -90.f } };
+			//command.m_spriteRenderData = { &tile.m_material, { position.x, position.y, position.z } , glm::vec3{1.f, 1.f, 1.f}, -90.f };
+
+			//renderEvent.AddRenderCommand(command);
+
+			renderCommands.push(command);
+		}
+
 	}
+
+	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::RenderEvent>(renderCommands); // Static call to Renderer instead??
 }
 
-void MapRenderSystem::DrawMapChunk(MapChunkComponent* aMapChunk, const CU::Vector3<float>& aPosition)
+void MapRenderSystem::DrawMapChunk(MapChunkComponent* aMapChunk, const CU::Vector2<float>& aPosition)
 {
-	static const float size = 1.f; // TODO; FIX!!
+	// static const float size = 1.f; // TODO; FIX!!
 
 	//Hi_Engine::RenderEvent renderEvent;
 	std::queue<Hi_Engine::RenderCommand> commandQueue;
-	
+
+	auto camera = m_entityManager->FindFirst<CameraComponent>();
+	Hi_Engine::RenderCommand projectionCommand{};
+	projectionCommand.Type = Hi_Engine::eRenderCommandType::SetProjectionMatrix;
+	projectionCommand.ProjectionMatrix = camera->GetComponent<CameraComponent>()->Camera.GetProjectionMatrix(); // TODO; Check if already is active?
+	commandQueue.push(projectionCommand);
+
+
 	for (const auto& tile : aMapChunk->Tiles)
 	{
-		glm::vec3 position = { aPosition.x, aPosition.y, aPosition.z };
-		position.x += tile.Coordinates.x * size;
-		position.z += tile.Coordinates.y * size;
+		glm::vec3 position = { aPosition.x, aPosition.y, 0.f };
+		position.x += tile.Coordinates.x * Tile::Size;
+		position.y += tile.Coordinates.y * Tile::Size;
+		//position.z += tile.Coordinates.y * size;
 		
 		Hi_Engine::RenderCommand command{};
 		command.Type = Hi_Engine::eRenderCommandType::DrawSprite;
 
 		glm::vec4 color = { tile.Color.x, tile.Color.y, tile.Color.z, tile.Color.w };
-		command.SpriteRenderData = { tile.Subtexture, color, Hi_Engine::Transform{ position, {1.f, 1.f}, -90.f } };
+		command.SpriteRenderData = { tile.Subtexture, color, Hi_Engine::Transform{ position, { 1.f, 1.f }, 0.f } };
+	
+		// command.SpriteRenderData = { tile.Subtexture, color, Hi_Engine::Transform{ position, { 1.f, 1.f }, -90.f } };
 		//command.m_spriteRenderData = { &tile.m_material, { position.x, position.y, position.z } , glm::vec3{1.f, 1.f, 1.f}, -90.f };
 
 		//renderEvent.AddRenderCommand(command);

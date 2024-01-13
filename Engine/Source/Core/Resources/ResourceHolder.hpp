@@ -130,8 +130,7 @@ namespace Hi_Engine
 			stbi_image_free(data);
 
 			Insert(id, std::move(texture));
-		
-		
+				
 			// TODO; use static function??
 			int rows = value["rows"].GetInt();
 			int cols = value["cols"].GetInt();

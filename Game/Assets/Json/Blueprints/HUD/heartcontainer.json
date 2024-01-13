@@ -6,7 +6,7 @@
       "type": "Transform",
       "properties": {
         "position": [ 0.0, 0.3, 0.0 ],
-        "scale": [ 1.0, 1.0, 1.0 ],
+        "scale": [ 0.5, 0.5, 0.5 ],
         "rotation": 0.0
       }
     },
@@ -14,9 +14,13 @@
       "type": "Sprite",
       "properties": {
         "shader": "sprite_batch",
-        "texture": "rock_fragment_00",
+        "texture": "heart_00",
         "color": [ 1.0, 1.0, 1.0, 1.0 ]
       }
+    },
+    {
+      "type": "HUD",
+      "properties": {}
     }
   ]
 }

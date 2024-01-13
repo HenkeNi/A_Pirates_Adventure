@@ -1,31 +1,34 @@
 #pragma once
 
-// AI - systems
+/* - AI systems - */
 #include "AI/BehaviorTreeSystem.h"
 #include "AI/SteeringBehaviorSystem.h"
 #include "AI/StateMachineSystem.h"
-#include "Combat/CombatSystem.h"
-#include "Combat/MeleeCombatSystem.h"
-#include "Combat/RangedCombatSystem.h"
+
+/* - Gameplay systems - */
+#include "Gameplay/Combat/CombatSystem.h"
+#include "Gameplay/Combat/MeleeCombatSystem.h"
+#include "Gameplay/Combat/RangedCombatSystem.h"
+#include "Gameplay/Inventory/InventorySystem.h"
+#include "Gameplay/Equipment/EquipmentSystem.h"
+#include "Gameplay/Stats/StatSystem.h"
+
 #include "Controllers/PlayerControllerSystem.h"
 #include "Input/InputSystem.h"
 #include "Physics/CollisionSystem.h"
 #include "Physics/MovementSystem.h"
-
-// Rendering - systems
-#include "Rendering/Animation/SpriteAnimationSystem.h"
-#include "Rendering/Camera/CameraSystem.h"
-#include "Rendering/Primitive/PrimitiveRenderSystem.h"
-#include "Rendering/Sprite/SpriteRenderSystem.h"
-#include "Rendering/Text/TextRenderSystem.h"
 #include "HUD/HUDSystem.h"
-#include "Stats/StatSystem.h"
 #include "Spawn/EnemySpawnSystem.h"
 #include "Spawn/SpawnSystem.h"
-#include "Equipment/EquipmentSystem.h"
-#include "Resource/ResourceSpawnSystem.h"
-#include "Inventory/InventorySystem.h"
+#include "Spawn/ResourceSpawnSystem.h"
 #include "Map/MapGenerationSystem.h"
 #include "Map/MapDecorationSystem.h"
-#include "Rendering/Map/MapRenderSystem.h"
 #include "Time/TimeSystem.h"
+
+/* Rendering systems */
+#include "Rendering/Animation/SpriteAnimationSystem.h"
+#include "Rendering/Camera/CameraSystem.h"
+#include "Rendering/Sprite/SpriteRenderSystem.h"
+#include "Rendering/Text/TextRenderSystem.h"
+#include "Rendering/Map/MapRenderSystem.h"
+#include "Rendering/HUD/HUDRenderSystem.h"

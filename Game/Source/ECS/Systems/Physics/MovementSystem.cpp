@@ -37,12 +37,15 @@ void MovementSystem::Update(float aDeltaTime)
 		transform->PreviousPos = transform->CurrentPos;
 		transform->CurrentPos += velocity->Speed * velocity->Velocity * aDeltaTime;
 
+		//if (entity->HasComponent<PlayerControllerComponent>())
+			//std::cout << "Pos: " << transform->CurrentPos.x << ", " << transform->CurrentPos.y << "\n";
+
 		UpdateColliders(entity, transform, velocity);
 
 		// TODO; update RectComponent?
 
 		// TODO; decrease velocity...
-		velocity->Velocity = { 0.f, 0.f, 0.f };
+		velocity->Velocity = { 0.f, 0.f, };
 	}
 }
 
@@ -65,7 +68,8 @@ void MovementSystem::UpdateColliders(Entity* anEntity, TransformComponent* aTran
 		auto colliderWidth = aabb.GetWidth();
 
 		offset.x = velocity.x > 0.f ? colliderWidth : velocity.x < 0.f ? -colliderWidth : 0;
-		offset.z = velocity.z > 0.f ? colliderWidth : velocity.z < 0.f ? -colliderWidth : 0;
+		offset.y = velocity.y > 0.f ? colliderWidth : velocity.y < 0.f ? -colliderWidth : 0;
+		//offset.z = velocity.z > 0.f ? colliderWidth : velocity.z < 0.f ? -colliderWidth : 0;
 		
 		// Update collider position
 		const auto position = aTransformComponent->CurrentPos + attackCollider->Offset;
@@ -73,7 +77,7 @@ void MovementSystem::UpdateColliders(Entity* anEntity, TransformComponent* aTran
 		float halfWidth  = aabb.GetWidth()  * 0.5f;
 		float halfHeight = aabb.GetHeight() * 0.5f;
 
-		aabb.Init({ position.x - halfWidth, position.z - halfHeight }, { position.x + halfWidth, position.z + halfHeight });
+		aabb.Init({ position.x - halfWidth, position.y - halfHeight }, { position.x + halfWidth, position.y + halfHeight });
 	}
 
 	if (auto* hitboxCollider = anEntity->GetComponent<HitboxComponent>())
@@ -84,6 +88,6 @@ void MovementSystem::UpdateColliders(Entity* anEntity, TransformComponent* aTran
 		float halfWidth = aabb.GetWidth() * 0.5f;
 		float halfHeight = aabb.GetHeight() * 0.5f;
 
-		aabb.Init({ position.x - halfWidth, position.z - halfHeight }, { position.x + halfWidth, position.z + halfHeight });
+		aabb.Init({ position.x - halfWidth, position.y - halfHeight }, { position.x + halfWidth, position.y + halfHeight });
 	}
 }

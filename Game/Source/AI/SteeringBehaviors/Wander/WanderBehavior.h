@@ -13,7 +13,7 @@ public:
 
 	void Update(float aDeltaTime) override;
 
-	const CU::Vector3<float> GetSteeringForce(const CU::Vector3<float>& aVelocity) override;
+	const CU::Vector2<float> GetSteeringForce(const CU::Vector2<float>& aVelocity) override;
 
 
 private:
@@ -24,12 +24,12 @@ private:
 	void SetNewTarget();
 	bool ShouldChangeDir() const;
 
-	void SetAngle(CU::Vector3<float>& aVelocity, float aValue);
+	void SetAngle(CU::Vector2<float>& aVelocity, float aValue);
 
 
 	Range<float> m_walkDuration;
 	//Timer		 m_timer;
-	CU::Vector3<float> m_window;
+	CU::Vector2<float> m_window;
 
 	/* Larger distance to circle means wider movement arcs - will cover more ground before changing direction.. smaller will result in more  tighter turns and more frequent changes in direction */
 	const float m_distanceToSteeringCircle; // circleDistance

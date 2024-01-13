@@ -1,24 +1,29 @@
  #include "Pch.h"
 #include "Camera.h"
+#include "../Utility/Utility/UtilityFunctions.hpp"
 
 
 namespace Hi_Engine
 {
+
+	//void Camera::Init(float left, float right, float bottom, float top, float near, float far)
+	//{
+	//	m_projectionMatrix = glm::ortho(left, right, bottom, top, near, far);
+	//}
+
+	//void Camera::SetPosition(const CU::Vector3<float>& aPosition)
+	//{
+	//	m_viewMatrix = glm::translate(glm::mat4(1.f), { -aPosition.x, -aPosition.y, -aPosition.z });
+	//}
+
+
 	Camera::Camera()
-		: m_zoom{ 45.f }, m_windowSize{ 1400, 800 } // TODO; FIX! Listen to event?!
+		:m_aspectRatio{ 1400.f / 800.f }, m_position{ 0.f, 0.f }, m_zoom{ 2.5f }, m_rotation{ 0.f }  // TODO; FIX! Listen to event?!
+	{	
+	}
+
+	Camera::Camera(const Rect& aRect)
 	{
-		SetDefaultData();
-
-		//m_data.m_movementSpeed = 1;
-
-
-
-
-		//glm::vec3 direction;
-		//direction.y = sin(glm::radians(m_pitch)); // TEST
-		//auto normalized = glm::normalize(direction);
-		//m_data.m_front = { normalized.x, normalized.y, normalized.z };
-
 	}
 
 	glm::mat4 Camera::GetViewProjectionMatrix() const
@@ -26,46 +31,46 @@ namespace Hi_Engine
 		return GetProjectionMatrix() * GetViewMatrix();
 	}
 
-	glm::mat4 Camera::GetViewMatrix() const
-	{
-		auto position = m_attributes.Position;
-		return glm::lookAt(m_attributes.Position, m_attributes.Position + m_attributes.Front, m_attributes.Up);
-	}
-
 	glm::mat4 Camera::GetProjectionMatrix() const
 	{
-		// precalculate every time window changes??
-		return glm::perspective(glm::radians(GetZoom()), (float)m_windowSize.x / (float)m_windowSize.y, 0.1f, 100.0f);
+		float left = -m_zoom * m_aspectRatio;
+		float right = m_zoom * m_aspectRatio;
+		float bottom = -m_zoom;
+		float top = m_zoom;
+
+		return glm::ortho(left, right, bottom, top, -1.f, 100.f);
+	}
+
+	glm::mat4 Camera::GetViewMatrix() const
+	{
+		auto transform = glm::translate(glm::mat4(1.f), { m_position.x, m_position.y, 0.f });
+		transform = glm::rotate(transform, m_rotation, glm::vec3(0, 0, 1));
+
+		return glm::inverse(transform);
 	}
 
 	void Camera::Init(const CU::Vector3<float> aPosition)
 	{
 	}
 
-	void Camera::SetPosition(const CU::Vector3<float> aPosition)
+	void Camera::SetPosition(const CU::Vector3<float>& aPosition)
 	{
-		m_attributes.Position = { aPosition.x, aPosition.y, aPosition.z };
+		m_position = { aPosition.x, aPosition.y };
 	}
 
-	void Camera::SetDefaultData()
+	void Camera::SetZoomRange(const CU::Vector2<float>& aRange)
 	{
-		/* Set default position */
-		m_attributes.Position = { 0.f, 0.f, 3.f };
-
-		m_attributes.Up = { 0.f, 1.f, 0.f };
-
-		m_attributes.Front = { 0.f, 0.f, -1.f };
-
-		/* Set default front */
-		m_attributes.Front;
-		m_attributes.Up;
-
+		m_zoomRange = aRange;
 	}
 
-	void Camera::UpdateFrontVector()
+	void Camera::AdjustZoom(float anAdjustment)
 	{
-		glm::vec3 Front;
-		//front.x
+		m_zoom = CommonUtilities::Clamp(m_zoom - anAdjustment, m_zoomRange.x, m_zoomRange.y);
+	}
+
+	void Camera::ResetZoom()
+	{
+		m_zoom = 2.5f;
 	}
 
 	void Camera::OnWindowResized(const CU::Vector2<unsigned>& aSize)

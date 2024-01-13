@@ -8,6 +8,24 @@ namespace Hi_Engine
 
 
 
+	//class RenderSpriteEvent : public Event<RenderSpriteEvent>
+	//{
+	//public:
+
+	//private:
+	//};
+
+	//class RenderSpriteBatchEvent : public Event<RenderSpriteBatchEvent>
+	//{
+
+	//};
+
+
+
+
+
+
+
 	class RenderEvent : public Event<RenderEvent>
 	{
 	public:
@@ -28,6 +46,8 @@ namespace Hi_Engine
 		//std::vector<RenderCommand> m_renderCommands;
 		std::queue<RenderCommand> m_renderCommands;
 	};
+
+
 
 
 	// ### why both RenderSpriteEvent and RenderEvent with sprite data??+ ###

@@ -111,7 +111,7 @@ void SteeringBehaviorSystem::UpdateFlockBehavior(float aDeltaTime)
 		flockBehavior->SetFlockMembers(entities);
 		// flockBehavior->Update(aDeltaTime);
 
-		auto force = flockBehavior->GetSteeringForce({ 0.f, 0.f, 0.f });
+		auto force = flockBehavior->GetSteeringForce({ 0.f, 0.f });
 		force.y = 0.f;
 		entity->GetComponent<VelocityComponent>()->Velocity = force;
 		//for (auto* otherEntity : entities)

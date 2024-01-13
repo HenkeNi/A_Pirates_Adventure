@@ -108,35 +108,38 @@ void OverworldScene::OnEnter()
 	// Player
 	auto player = m_entityManager.Create("Player");
 	//CU::Vector3<float> position = { (float)Random::InRange(2, 62), 0.42f, (float)Random::InRange(2, 62) };
-	CU::Vector3<float> position = { 27.f, 0.42f, 25.f };
+	CU::Vector2<float> position = { 0.f, 0.f }; // { 27.f, 25.f };
 	player->GetComponent<TransformComponent>()->CurrentPos = position;
 
 	auto time = m_entityManager.Create("WorldTime");
 
 
-	for (int i = 0; i < 10; ++i)
+	//auto healthbar = m_entityManager.Create("Healthbar");
+	//healthbar->GetComponent<TransformComponent>()->CurrentPos = { 2.f, 2.f };
+
+	/*for (int i = 0; i < 10; ++i)
 	{
 		float x = 0.1 * i;
 		auto* fish = m_entityManager.Create("Fish");
-		fish->GetComponent<TransformComponent>()->CurrentPos = { 10.f + x, 0.42f, 12.f };
+		fish->GetComponent<TransformComponent>()->CurrentPos = { 10.f + x, 12.f };
 	}
 
-
 	auto crab = m_entityManager.Create("Crab");
-	crab->GetComponent<TransformComponent>()->CurrentPos = { 30.f, 0.42f, 30.f };
+	crab->GetComponent<TransformComponent>()->CurrentPos = { 30.f, 30.f };
 
 	auto raft = m_entityManager.Create("Raft");
-	raft->GetComponent<TransformComponent>()->CurrentPos = { 10.f, 0.42f, 10.f };
+	raft->GetComponent<TransformComponent>()->CurrentPos = { 10.f, 10.f };
 
 	auto hut = m_entityManager.Create("Hut");
-	hut->GetComponent<TransformComponent>()->CurrentPos = { 20.f, 0.85f, 30.f };
+	hut->GetComponent<TransformComponent>()->CurrentPos = { 20.f, 30.f };
 
 	auto npc = m_entityManager.Create("Castaway");
-	npc->GetComponent<TransformComponent>()->CurrentPos = { 15.f, 0.42f, 30.f };
+	npc->GetComponent<TransformComponent>()->CurrentPos = { 15.f, 30.f };*/
 
 	// Camera => do in camera system??
 	auto camera = m_entityManager.Create("Camera");
-	camera->GetComponent<TransformComponent>()->CurrentPos = { 0.f, 0.f, 2.f };
+	camera->GetComponent<TransformComponent>()->CurrentPos = { 0.f, 0.f };
+	//camera->GetComponent<TransformComponent>()->CurrentPos = { 0.f, 2.f };
 	//camera->GetComponent<TransformComponent>()->CurrentPos = { 0.f, 0.f, 2.f };
 	camera->GetComponent<CameraComponent>()->TargetOffset = { 0.f, 0.f, 2.f };	
 	//camera->GetComponent<CameraComponent>()->TargetOffset = { 0.f, 3.f, 4.f };

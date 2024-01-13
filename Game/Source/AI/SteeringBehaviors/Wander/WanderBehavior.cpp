@@ -9,14 +9,14 @@ WanderBehavior::WanderBehavior()
 
 
 
-const CU::Vector3<float> WanderBehavior::GetSteeringForce(const CU::Vector3<float>& aVelocity)
+const CU::Vector2<float> WanderBehavior::GetSteeringForce(const CU::Vector2<float>& aVelocity)
 {
 	/* Calculate the circle's center */
 	auto circleCenter = aVelocity.Length() == 0 ? aVelocity : aVelocity.GetNormalized();					// TODO: Add a NormalizeSafe()??
 	circleCenter *= m_distanceToSteeringCircle;																// TODO: add ScaleBy Function to Vector??
 
 	/* Calculate the displacement force */
-	CU::Vector3<float> displacement{ 0.f, 0.f, -1.f };														// set to random???
+	CU::Vector2<float> displacement{ 0.f, -1.f };														// set to random???
 	displacement *= m_steeringCircleRadius;
 
 	SetAngle(displacement, m_wanderAngle);	// What is wander angle??
@@ -36,7 +36,7 @@ void WanderBehavior::Update(float aDeltaTime)
 	//m_timer.m_elapsed += aDeltaTime;
 	if (ShouldChangeDir())
 	{
-		m_window = { (float)Random::InRange(2, 62), 0.f, (float)Random::InRange(2, 62) };
+		m_window = { (float)Random::InRange(2, 62), (float)Random::InRange(2, 62) };
 	}
 
 	
@@ -65,9 +65,9 @@ bool WanderBehavior::ShouldChangeDir() const
 	return false; //m_timer.m_elapsed >= m_timer.m_duration;
 }
 
-void WanderBehavior::SetAngle(CU::Vector3<float>& aVelocity, float aValue)
+void WanderBehavior::SetAngle(CU::Vector2<float>& aVelocity, float aValue)
 {
 	float length = aVelocity.Length();
 	aVelocity.x = std::cos(aValue) * length;
-	aVelocity.z = std::sin(aValue) * length;
+	aVelocity.y = std::sin(aValue) * length;
 }

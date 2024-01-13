@@ -14,9 +14,13 @@
       "type": "Sprite",
       "properties": {
         "shader": "sprite_batch",
-        "texture": "sea_00",
+        "texture": "castaway_00",
         "color": [ 1.0, 1.0, 1.0, 1.0 ]
       }
+    },
+    {
+      "type": "HUD",
+      "properties": {}
     }
   ]
 }

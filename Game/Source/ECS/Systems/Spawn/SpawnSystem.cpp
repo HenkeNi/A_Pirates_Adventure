@@ -15,6 +15,14 @@ SpawnSystem::~SpawnSystem()
 
 void SpawnSystem::Receive(Message& aMsg)
 {
+	if (!m_entityManager)
+		return;
+
+	// Get created type (blueprint)
+
+
+
+
 	//auto msg = aMsg;
 
 	//auto data = std::any_cast<std::tuple<Entity*, Entity*>>(aMsg.GetData());

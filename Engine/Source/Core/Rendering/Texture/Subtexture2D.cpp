@@ -11,6 +11,12 @@ namespace Hi_Engine
 		m_texCoords[1] = { aMax.x, aMin.y };
 		m_texCoords[2] = { aMax.x, aMax.y };
 		m_texCoords[3] = { aMin.x, aMax.y };
+
+		auto textureSize = aTexture.GetSize();
+
+		float width  = aMax.x - aMin.x;
+		float height = aMax.y - aMin.y;
+		m_size = { textureSize.x * width, textureSize.y * height };
 	}
 
 	const Texture2D& Subtexture2D::GetTexture()	const
@@ -21,6 +27,11 @@ namespace Hi_Engine
 	const glm::vec2* Subtexture2D::GetTexCoords() const
 	{
 		return m_texCoords;
+	}
+
+	const glm::vec2& Subtexture2D::GetSize() const
+	{
+		return m_size;
 	}
 
 	Subtexture2D& Subtexture2D::CreateFromCoords(Texture2D& aTexture, const glm::vec2& someCoords, const glm::vec2& aSpriteSize)
