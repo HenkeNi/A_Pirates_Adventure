@@ -1,5 +1,5 @@
 #pragma once
-#include "../ECS/Systems/Base/System.h"
+#include "../Base/System.h"
 
 
 class BehaviorTreeSystem : public System

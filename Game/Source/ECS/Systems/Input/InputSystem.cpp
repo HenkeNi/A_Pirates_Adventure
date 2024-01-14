@@ -20,8 +20,8 @@ void InputSystem::HandleEvent(Hi_Engine::InputEvent& anEvent)
 {
 	auto keyState = anEvent.GetKeyState(Hi_Engine::eKey::Key_W);
 
-	if (keyState == Hi_Engine::eInputState::Press)
-		;
+	//if (keyState == Hi_Engine::eInputState::Press)
+	//	;
 		// std::cout << "PRESS W";
 }
 

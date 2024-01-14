@@ -2,7 +2,6 @@
 #include "MovementSystem.h"
 #include "Entities/Entity.h"
 #include "Entities/EntityManager.h"
-
 #include "Components/Core/CoreComponents.h"
 
 
@@ -37,12 +36,7 @@ void MovementSystem::Update(float aDeltaTime)
 		transform->PreviousPos = transform->CurrentPos;
 		transform->CurrentPos += velocity->Speed * velocity->Velocity * aDeltaTime;
 
-		//if (entity->HasComponent<PlayerControllerComponent>())
-			//std::cout << "Pos: " << transform->CurrentPos.x << ", " << transform->CurrentPos.y << "\n";
-
 		UpdateColliders(entity, transform, velocity);
-
-		// TODO; update RectComponent?
 
 		// TODO; decrease velocity...
 		velocity->Velocity = { 0.f, 0.f, };

@@ -18,4 +18,3 @@ private:
 	void UpdateSpriteOrientation(struct VelocityComponent* aVelocityComponent, struct TransformComponent* aTransformComponent);
 
 };
-

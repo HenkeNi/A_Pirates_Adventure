@@ -1,5 +1,5 @@
 #pragma once
-#include "../../../PostMaster/Subscriber.h"
+#include "PostMaster/Subscriber.h"
 
 class EntityManager;
 

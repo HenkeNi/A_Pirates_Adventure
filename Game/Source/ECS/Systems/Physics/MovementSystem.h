@@ -1,6 +1,5 @@
 #pragma once
 #include "../Base/System.h"
-#include "Data/Enumerations.h"
 
 class Entity;
 
@@ -21,5 +20,3 @@ public:
 private:
 	void				UpdateColliders(Entity* anEntity, struct TransformComponent* aTransformComponent, struct VelocityComponent* aVelocityComponent);
 };
-
-	

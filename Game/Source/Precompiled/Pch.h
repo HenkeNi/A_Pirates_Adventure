@@ -28,9 +28,9 @@
 #include <Source/Utility/Math/Vectors/Vector.hpp>
 
 /* - Message System - */
-#include "../PostMaster/PostMaster.h"
-#include "../PostMaster/Subscriber.h"
-#include "../PostMaster/Message.h"
+#include "PostMaster/PostMaster.h"
+#include "PostMaster/Subscriber.h"
+#include "PostMaster/Message.h"
 
 /* - DataTypes - */
 #include "../DataTypes/Constants.h"

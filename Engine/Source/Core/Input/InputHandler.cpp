@@ -64,7 +64,7 @@ namespace Hi_Engine
 
 	void InputHandler::MouseScrollCallback(GLFWwindow* aWindow, double xoffset, double yoffset)
 	{
-		s_scrollOffset = yoffset; // down (towrads is negative) up (is positive) -> no scrolling == 0
+		s_scrollOffset = (float)yoffset; // down (towrads is negative) up (is positive) -> no scrolling == 0
 	}
 
 	void InputHandler::CursorCallback(GLFWwindow* aWindow, double xPos, double yPos)

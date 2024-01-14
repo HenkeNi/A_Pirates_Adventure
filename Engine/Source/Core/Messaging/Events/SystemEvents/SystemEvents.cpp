@@ -64,6 +64,8 @@ namespace Hi_Engine
 	{
 		if (m_keyStates.contains(aKey))
 			return m_keyStates.at(aKey);
+
+		return eInputState::Invalid;
 	}
 	
 	eInputState InputEvent::GetMouseBtnState(eMouseBtn aBtn) const

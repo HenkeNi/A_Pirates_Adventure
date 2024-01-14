@@ -1,6 +1,8 @@
 #pragma once
-#include <../GLEW/include/GL/glew.h>
-#include <../GLFW/include/GLFW/glfw3.h>
+#include <../../ThirdParty/GLEW/include/GL/glew.h>
+#include <../../ThirdParty/../GLFW/include/GLFW/glfw3.h>
+//#include <../GLEW/include/GL/glew.h>
+//#include <../GLFW/include/GLFW/glfw3.h>
 //#include <GL/glew.h>
 // #include <GLFW/glfw3.h>
 
@@ -76,7 +78,8 @@ namespace Hi_Engine
 	{
 		Press		= GLFW_PRESS, 
 		Release		= GLFW_RELEASE, 
-		Repeat		= GLFW_REPEAT
+		Repeat		= GLFW_REPEAT,
+		Invalid 
 	};
 
 

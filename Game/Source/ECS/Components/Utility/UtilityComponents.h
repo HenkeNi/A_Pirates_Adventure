@@ -29,6 +29,9 @@ struct TimerComponent : public Component
 	float Duration;
 	bool IsRunning = false;
 
+
+	float Timestamp;
+	//	float Duration
 	// std::function<void()>	m_callback = nullptr; ?? or observers??
 };
 
