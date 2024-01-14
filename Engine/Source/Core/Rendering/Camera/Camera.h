@@ -26,12 +26,9 @@ namespace Hi_Engine
 		glm::mat4 GetViewMatrix() const;
 	
 	private:
-		// void RecalculateMatrixes();
+		void RecalculateMatrixes();
 		void OnWindowResized(const CU::Vector2<unsigned>& aSize);
 	
-		// Contains a porjection matrix and a view matrix...
-		// glm::mat4 m_viewMatrix;	// multiply with inverted view matrix...
-
 		glm::vec2 m_position; // focus position, center position.?
 		CU::Vector2<float> m_zoomRange;
 
@@ -40,5 +37,9 @@ namespace Hi_Engine
 		float m_zoom;
 
 		// USe dirty flag and matrixes?
+
+		glm::mat4 m_viewProjectionMatrix;
+		glm::mat4 m_projectionMatrix;
+		glm::mat4 m_viewMatrix;
 	};
 }

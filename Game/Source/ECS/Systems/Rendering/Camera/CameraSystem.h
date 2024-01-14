@@ -15,4 +15,3 @@ private:
 	// TODO: CameraSystem does fustrum culling?!
 
 };
-

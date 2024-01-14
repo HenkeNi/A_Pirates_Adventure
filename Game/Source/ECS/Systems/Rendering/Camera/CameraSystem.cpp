@@ -53,7 +53,7 @@ void CameraSystem::Update(float aDeltaTime)
 	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::RenderEvent>(commandQueue);
 
 	if (auto* inputEntity = m_entityManager->FindFirst<InputComponent>())
-		cameraComponent->Camera.AdjustZoom(inputEntity->GetComponent<InputComponent>()->MouseScroll); // 0.5f == zoom distance
+		cameraComponent->Camera.AdjustZoom(inputEntity->GetComponent<InputComponent>()->MouseScroll * 0.1f); // 0.5f == zoom distance
 
 
 	auto* target = m_entityManager->Find(cameraComponent->TargetID);

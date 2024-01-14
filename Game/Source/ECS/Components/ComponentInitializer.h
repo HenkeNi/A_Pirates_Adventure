@@ -120,7 +120,7 @@ public:
 	template <>
 	static void InitializeComponent<CameraComponent>(CameraComponent* aComponent, const ECS::ComponentData& someData)
 	{
-		aComponent->ZoomRange = { 1.f, 5.f };
+		aComponent->ZoomRange = { 0.5f, 1.f };
 
 		// aComponent->Camera.Init(0, 1400, 0, 800, 0.f, 100.f);
 
