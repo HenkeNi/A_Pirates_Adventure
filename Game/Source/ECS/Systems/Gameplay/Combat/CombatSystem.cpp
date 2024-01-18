@@ -53,6 +53,7 @@ void CombatSystem::Receive(Message& aMsg)	// Listen to collisions from physics
 		if (Hi_Engine::Physics::Intersects(attackCollider->Collider, hitbox->Collider))
 		{
 			//PostMaster::GetInstance().SendMessage(Message{ eMessage::EntityAttacked, std::tuple{ attacker, target } }); // Don't send event??
+			PostMaster::GetInstance().SendMessage({ eMessage::EntityAttacked, target });
 
 			unsigned damage = GetDamageOutput(entity);
 			if (ApplyDamageOutput(target, damage))

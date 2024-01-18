@@ -41,7 +41,7 @@ namespace Hi_Engine
 			{ -0.5f,  0.5f, 0.f, 1.f }
 		};
 
-		static glm::vec3 rotationAxis = { 1.f, 0.f, 0.f };
+		static glm::vec3 rotationAxis = { 0.f, 0.f, 1.f };
 
 		// Create a transformation matrix
 		glm::mat4 transform = glm::mat4(1.f);

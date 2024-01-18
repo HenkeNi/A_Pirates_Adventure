@@ -43,6 +43,10 @@
         "resource_type": "Stone_Resource",
         "yield": 5
       }
+    },
+    {
+      "type": "Shake",
+      "properties": {}
     }
   ]
 }

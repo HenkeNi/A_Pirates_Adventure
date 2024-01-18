@@ -278,3 +278,28 @@ struct ItemSpawnerComponent : public Component
 {
 
 };
+
+
+
+
+
+
+
+
+// Topple? Fall, FallOver OR just a Tree Component?  EnvironemnetComponent ResourceComponent? TreePhysics System?
+struct ToppleComponent : public Component
+{
+
+};
+
+struct ShakeComponent : public Component
+{
+	bool m_isShaking = false;
+	//float m_timestamp = 0.f;
+	float m_duration = 0.25f;
+	float m_elapsedTime = 0.f;
+};
+
+// For stones?
+struct ExplosionComponent : public Component
+{};

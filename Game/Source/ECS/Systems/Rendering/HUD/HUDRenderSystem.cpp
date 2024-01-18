@@ -25,30 +25,34 @@ void HUDRenderSystem::Draw()
 
 	if (!camera)
 		return;
+	
+	auto entities = m_entityManager->FindAll<HUDComponent>();
+
+	if (entities.empty())
+		return;
 
 	// TODO; use a simpler Shader for HUD?
 
 	std::queue<Hi_Engine::RenderCommand> renderCommands;
 
+	// Add projection command
 	Hi_Engine::RenderCommand projectionCommand{};
 	projectionCommand.Type = Hi_Engine::eRenderCommandType::SetProjectionMatrix;
 	projectionCommand.ProjectionMatrix = camera->GetComponent<CameraComponent>()->Camera.GetProjectionMatrix();
 	renderCommands.push(projectionCommand);
 
-	auto entities = m_entityManager->FindAll<HUDComponent>();
-
 	for (auto* entity : entities)
 	{
-		const auto& subtexture = entity->GetComponent<SpriteComponent>()->Subtexture;
+		const auto* sprite = entity->GetComponent<SpriteComponent>();
 		const auto* transform = entity->GetComponent<TransformComponent>();
 
 		const auto& position = transform->CurrentPos;
-		const auto& scale = transform->Scale;
+		const auto& scale	 = transform->Scale;
 		const auto& rotation = transform->Rotation;
 
 		Hi_Engine::RenderCommand command{};
 		command.Type = Hi_Engine::eRenderCommandType::DrawSprite;
-		command.SpriteRenderData = { subtexture, { 1.f, 1.f, 1.f, 1.f }, Hi_Engine::Transform{{ position.x, position.y, 0.f }, { scale.x, scale.y }, rotation } }; // CHANGE TO Transform
+		command.SpriteRenderData = { sprite->Subtexture, { 1.f, 1.f, 1.f, 1.f }, Hi_Engine::Transform{{ position.x, position.y, 0.f }, { scale.x, scale.y }, rotation } }; // CHANGE TO Transform
 
 		renderCommands.push(command);
 	}

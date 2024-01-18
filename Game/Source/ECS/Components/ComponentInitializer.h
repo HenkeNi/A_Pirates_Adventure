@@ -332,9 +332,6 @@ public:
 		aComponent->DayDuration = dayDuration;
 	}
 
-
-
-
 	template <>
 	static void InitializeComponent<WanderBehaviorComponent>(WanderBehaviorComponent* aComponent, const ECS::ComponentData& someData)
 	{
@@ -417,4 +414,15 @@ public:
 		// c
 
 	}
+
+	template <>
+	static void InitializeComponent<ShakeComponent>(ShakeComponent* aComponent, const ECS::ComponentData& someData)
+	{
+	}
+	
+	template <>
+	static void InitializeComponent<ToppleComponent>(ToppleComponent* aComponent, const ECS::ComponentData& someData)
+	{
+	}
+
 };

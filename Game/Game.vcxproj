@@ -94,6 +94,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source\ECS\Systems\Physics\ShakeSystem.h" />
     <ClInclude Include="Source\ECS\Systems\Rendering\HUD\HUDRenderSystem.h" />
     <ClInclude Include="Source\Gameplay\SkillTree.h" />
     <ClInclude Include="Source\AI\StateMachine\Conditions\Base\Condition.h" />
@@ -188,6 +189,7 @@
     <ClInclude Include="Source\AI\StateMachine\Transition\Transition.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\ECS\Systems\Physics\ShakeSystem.cpp" />
     <ClCompile Include="Source\ECS\Systems\Rendering\HUD\HUDRenderSystem.cpp" />
     <ClCompile Include="Source\AI\StateMachine\Conditions\Base\Condition.cpp" />
     <ClCompile Include="Source\AI\StateMachine\Conditions\Time\TimeConditions.cpp" />

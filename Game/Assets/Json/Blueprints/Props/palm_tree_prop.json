@@ -43,6 +43,14 @@
         "resource_type": "Wood_Resource",
         "yield": 5
       }
+    },
+    {
+      "type": "Topple",
+      "properties": {}
+    },
+    {
+      "type": "Shake",
+      "properties": {}
     }
   ]
 }

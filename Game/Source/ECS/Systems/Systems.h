@@ -15,8 +15,12 @@
 
 #include "Controllers/PlayerControllerSystem.h"
 #include "Input/InputSystem.h"
+
+/* - Physics systems - */
 #include "Physics/CollisionSystem.h"
 #include "Physics/MovementSystem.h"
+#include "Physics/ShakeSystem.h"
+
 #include "HUD/HUDSystem.h"
 #include "Spawn/EnemySpawnSystem.h"
 #include "Spawn/SpawnSystem.h"
