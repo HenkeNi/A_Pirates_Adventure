@@ -94,7 +94,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source\ECS\Systems\Transition\SceneTransitionSystem.h" />
+    <ClInclude Include="Source\Commands\Pause\PauseCommand.h" />
+    <ClInclude Include="Source\AI\StateMachine\Conditions\Distance\DistanceConditions.h" />
+    <ClInclude Include="Source\AI\StateMachine\States\Attack\AttackState.h" />
+    <ClInclude Include="Source\ECS\Systems\AI\BlackboardSystem.h" />
     <ClInclude Include="Source\ECS\Systems\Physics\ShakeSystem.h" />
+    <ClInclude Include="Source\ECS\Systems\Rendering\Debug\DebugRenderSystem.h" />
     <ClInclude Include="Source\ECS\Systems\Rendering\HUD\HUDRenderSystem.h" />
     <ClInclude Include="Source\Gameplay\SkillTree.h" />
     <ClInclude Include="Source\AI\StateMachine\Conditions\Base\Condition.h" />
@@ -115,11 +121,11 @@
     <ClInclude Include="Source\ECS\Systems\Rendering\Map\MapRenderSystem.h" />
     <ClInclude Include="Source\ECS\Systems\Map\MapGenerationSystem.h" />
     <ClInclude Include="Source\ECS\Components\Map\MapComponents.h" />
-    <ClInclude Include="Source\ECS\Systems\Spawn\EnemySpawnSystem.h" />
+    <ClInclude Include="Source\ECS\Systems\Gameplay\Spawn\EnemySpawnSystem.h" />
     <ClInclude Include="Source\ECS\Components\ComponentInitializer.h" />
     <ClInclude Include="Source\ECS\Components\Components.h" />
     <ClInclude Include="Source\ECS\Components\ComponentFactory.h" />
-    <ClInclude Include="Source\ECS\Systems\Spawn\ResourceSpawnSystem.h" />
+    <ClInclude Include="Source\ECS\Systems\Gameplay\Spawn\ResourceSpawnSystem.h" />
     <ClInclude Include="Source\ECS\Systems\Gameplay\Inventory\InventorySystem.h" />
     <ClInclude Include="Source\ECS\Systems\Gameplay\Equipment\EquipmentSystem.h" />
     <ClInclude Include="Source\ECS\Systems\AI\BehaviorTreeSystem.h" />
@@ -179,21 +185,25 @@
     <ClInclude Include="Source\ECS\Components\Utility\UtilityComponents.h" />
     <ClInclude Include="Source\ECS\Systems\AI\SteeringBehaviorSystem.h" />
     <ClInclude Include="Source\ECS\Components\UI\UIComponents.h" />
-    <ClInclude Include="Source\ECS\Systems\Spawn\SpawnSystem.h" />
+    <ClInclude Include="Source\ECS\Systems\Gameplay\Spawn\SpawnSystem.h" />
     <ClInclude Include="Source\Commands\Sprint\SprintCommand.h" />
     <ClInclude Include="Source\ECS\Systems\Rendering\Text\TextRenderSystem.h" />
     <ClInclude Include="Source\ECS\Systems\Time\TimeSystem.h" />
-    <ClInclude Include="Source\AI\StateMachine\StateMachine.h" />
     <ClInclude Include="Source\AI\StateMachine\States\Base\State.h" />
     <ClInclude Include="Source\ECS\Systems\AI\StateMachineSystem.h" />
     <ClInclude Include="Source\AI\StateMachine\Transition\Transition.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\ECS\Systems\Transition\SceneTransitionSystem.cpp" />
+    <ClCompile Include="Source\Commands\Pause\PauseCommand.cpp" />
+    <ClCompile Include="Source\AI\StateMachine\Conditions\Distance\DistanceConditions.cpp" />
+    <ClCompile Include="Source\AI\StateMachine\States\Attack\AttackState.cpp" />
+    <ClCompile Include="Source\ECS\Systems\AI\BlackboardSystem.cpp" />
     <ClCompile Include="Source\ECS\Systems\Physics\ShakeSystem.cpp" />
+    <ClCompile Include="Source\ECS\Systems\Rendering\Debug\DebugRenderSystem.cpp" />
     <ClCompile Include="Source\ECS\Systems\Rendering\HUD\HUDRenderSystem.cpp" />
     <ClCompile Include="Source\AI\StateMachine\Conditions\Base\Condition.cpp" />
     <ClCompile Include="Source\AI\StateMachine\Conditions\Time\TimeConditions.cpp" />
-    <ClCompile Include="Source\AI\StateMachine\StateMachine.cpp" />
     <ClCompile Include="Source\AI\StateMachine\States\Base\State.cpp" />
     <ClCompile Include="Source\AI\StateMachine\States\Idle\IdleState.cpp" />
     <ClCompile Include="Source\AI\StateMachine\States\Walk\WalkState.cpp" />
@@ -221,9 +231,9 @@
     <ClCompile Include="Source\ECS\Systems\Map\MapGenerationSystem.cpp" />
     <ClCompile Include="Source\ECS\Systems\Rendering\Map\MapRenderSystem.cpp" />
     <ClCompile Include="Source\ECS\Systems\Rendering\Text\TextRenderSystem.cpp" />
-    <ClCompile Include="Source\ECS\Systems\Spawn\ResourceSpawnSystem.cpp" />
-    <ClCompile Include="Source\ECS\Systems\Spawn\EnemySpawnSystem.cpp" />
-    <ClCompile Include="Source\ECS\Systems\Spawn\SpawnSystem.cpp" />
+    <ClCompile Include="Source\ECS\Systems\Gameplay\Spawn\ResourceSpawnSystem.cpp" />
+    <ClCompile Include="Source\ECS\Systems\Gameplay\Spawn\EnemySpawnSystem.cpp" />
+    <ClCompile Include="Source\ECS\Systems\Gameplay\Spawn\SpawnSystem.cpp" />
     <ClCompile Include="Source\ECS\Systems\Gameplay\Stats\StatSystem.cpp" />
     <ClCompile Include="Source\ECS\Systems\Gameplay\Combat\MeleeCombatSystem.cpp" />
     <ClCompile Include="Source\ECS\Systems\Gameplay\Combat\RangedCombatSystem.cpp" />
@@ -292,6 +302,8 @@
     <None Include="Assets\Json\Blueprints\Camera\camera.json" />
     <None Include="Assets\Json\Blueprints\Enemies\skeleton_enemy.json" />
     <None Include="Assets\Json\Blueprints\Enemies\spider_enemy.json" />
+    <None Include="Assets\Json\Blueprints\Entrances\cave_entrance.json" />
+    <None Include="Assets\Json\Blueprints\Entrances\door.json" />
     <None Include="Assets\Json\Blueprints\HUD\healthbar.json" />
     <None Include="Assets\Json\Blueprints\HUD\heartcontainer.json" />
     <None Include="Assets\Json\Blueprints\Map\map_chunk.json" />
