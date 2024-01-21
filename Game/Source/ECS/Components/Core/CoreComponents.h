@@ -21,8 +21,6 @@ struct VelocityComponent : public Component
 	float				Speed;
 };
 
-
-// ########################## Rendering ########################## // 
 struct SpriteComponent : public Component
 {
 	Hi_Engine::Subtexture2D* Subtexture = nullptr;
@@ -36,6 +34,15 @@ struct SpriteComponent : public Component
 	// width, hight??
 };
 
+struct CameraComponent : public Component
+{
+	Hi_Engine::Camera	Camera;
+	CU::Vector3<float>  TargetOffset;
+	CU::Vector2<float>	ZoomRange;
+	//class Entity*		m_target = nullptr;
+	unsigned			TargetID = 0;
+};
+
 struct InputComponent : public Component
 {
 	std::unordered_map<Hi_Engine::eKey, bool> InputStates; // replace with state instead of bool??
@@ -43,24 +50,10 @@ struct InputComponent : public Component
 	float									  MouseScroll;
 };
 
-struct TextComponent : public Component
-{
-	class Hi_Engine::Font* Font;
-	std::string				Text;
-	unsigned				Size = 32;
-	//Hi_Engine::Shader*	Shader;
-	//Hi_Engine::Font*	Font;
-	// float				m_scale; use transform instead..
-	CU::Vector4<float>		Color;
-};
-
 struct AnimationComponent : public Component
 {
 	std::unordered_map<std::string, Animation>	Animations;	// replace with Array?? or enum for key?
 	std::string									Active;		// index instead??
-
-
-
 
 	// store default??
 
@@ -74,19 +67,45 @@ struct AnimationComponent : public Component
 	bool		m_isLooping;*/
 };
 
-struct CameraComponent : public Component
+struct ColliderComponent : public Component
 {
-	Hi_Engine::Camera	Camera;
-	CU::Vector3<float>  TargetOffset;
-	CU::Vector2<float>	ZoomRange;
-	//class Entity*		m_target = nullptr;
-	unsigned			TargetID = 0;
+	Hi_Engine::Physics::AABB2D<float>	Collider;
+	CU::Vector2<float>					Offset;
+	//eCollisionLayer						Layer;
+	eColliderType						Type;
+	//bool								IsStatic;					// enum for type (trigger, static?
+	//bool								IsTrigger;
+};
+
+struct TextComponent : public Component
+{
+	class Hi_Engine::Font* Font;
+	std::string				Text;
+	unsigned				Size = 32;
+	//Hi_Engine::Shader*	Shader;
+	//Hi_Engine::Font*	Font;
+	// float				m_scale; use transform instead..
+	CU::Vector4<float>		Color;
 };
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+//############# Maybe remove ################
 struct DebugRectComponent : public Component
 {
 	Hi_Engine::Shader* Shader;
@@ -113,20 +132,6 @@ struct LineComponent : public Component
 
 
 
-struct CollisionComponent : public Component
-{
-
-	bool IsTrigger;
-};
-
-struct ColliderComponent : public Component
-{
-	Hi_Engine::Physics::AABB2D<float>	Collider;
-	CU::Vector2<float>					Offset;
-	eCollisionLayer						Layer;
-	bool								IsStatic;					// enum for type (trigger, static?
-};
-
 
 
 
@@ -142,7 +147,13 @@ struct CircleColliderComponent : public Component
 {
 };
 
-struct TriggerComponent : public Component
+//struct TriggerComponent : public Component
+//{
+//	Hi_Engine::Physics::AABB2D<float>	Collider;
+//};
+
+// HERE?? needs a trigger as well Door entity, Cave entity or just entrance?
+struct SceneTransitionComponent : public Component
 {
-	Hi_Engine::Physics::AABB2D<float>	Collider;
+	enum class eScene SceneType;
 };

@@ -37,6 +37,7 @@ enum class eMessage
 
 	GameStarted,
 	MapChunkGenerated,
+	TriggerActivated
 	// MapChunkCreated,
 	//MapChunkDestroyed
 };
@@ -91,6 +92,13 @@ enum eCollisionLayer
 	Terrain,
 	UI,
 	Interactables,
+};
+
+enum class eColliderType
+{
+	Static,
+	Dynamic,
+	Trigger
 };
 
 enum class eTimeOfDay

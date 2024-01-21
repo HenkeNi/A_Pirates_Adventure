@@ -9,7 +9,6 @@ struct PickupColliderComponent : public Component
 	Hi_Engine::Physics::AABB2D<float>	Collider;
 };
 
-
 struct ItemComponent : public Component
 {
 	std::string Identifier;
