@@ -264,6 +264,15 @@
     "height": 32,
     "rows": 1,
     "cols": 1
-
+  },
+  {
+    "id": "debug",
+    "path": "../Game/Assets/Textures/debug.png",
+    "alpha": true,
+    "filtering": "Linear",
+    "width": 500,
+    "height": 500,
+    "rows": 1,
+    "cols": 1
   }
 ]

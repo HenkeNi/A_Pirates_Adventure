@@ -25,7 +25,13 @@
       }
     },
     {
-      "type": "BehaviorTree",
+      "type": "StateMachine",
+      "properties": {
+        "states": [ "idle", "walk", "attack" ]
+      }
+    },
+    {
+      "type": "Blackboard",
       "properties": {}
     }
   ]

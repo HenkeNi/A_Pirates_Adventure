@@ -14,6 +14,9 @@
       "../Game/Assets/Json/Blueprints/Enemies/skeleton_enemy.json",
       "../Game/Assets/Json/Blueprints/Enemies/spider_enemy.json"
     ],
+    "entrances": [
+      "../Game/Assets/Json/Blueprints/Entrances/cave_entrance.json"
+    ],
     "npc": [
       "../Game/Assets/Json/Blueprints/NPC/castaway_npc.json"
     ],
