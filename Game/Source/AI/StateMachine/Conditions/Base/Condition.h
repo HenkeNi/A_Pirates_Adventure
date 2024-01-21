@@ -6,6 +6,6 @@ class Condition
 public:
 	virtual ~Condition() = default;
 
-	virtual void Init()											= 0;
-	virtual bool IsConditionSatisfied(float elapsedTime) const	= 0;
+	virtual void Init()									= 0;
+	virtual bool IsSatisfied(float elapsedTime) const	= 0;
 };

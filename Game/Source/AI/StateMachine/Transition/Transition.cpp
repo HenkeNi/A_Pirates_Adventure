@@ -29,10 +29,20 @@ void Transition::SetPriority(unsigned aPriority)
 
 State* Transition::GetTargetState() const
 {
+	auto* target = m_targetState;
 	return m_targetState;
 }
 
-bool Transition::ShouldTransit(float elapsedTime)	const
+bool Transition::ShouldTransit(float elapsedTime) const
 {
-	return m_condition->IsConditionSatisfied(elapsedTime);
+	return m_condition->IsSatisfied(elapsedTime);
+}
+
+void Transition::Reset()
+{
+	if (m_condition)
+		delete m_condition;
+
+	m_condition = nullptr;
+	m_targetState = nullptr;
 }

@@ -16,8 +16,10 @@ public:
 	State*	GetTargetState()					const;
 	bool	ShouldTransit(float elapsedTime)	const;
 
+	void	Reset();
+
 private:
-	Condition*	m_condition;	// vector of multiple conditions?
+	Condition*	m_condition;	// vector of multiple conditions? std::function instead?
 	State*		m_targetState;
 	unsigned	m_priority;
 };

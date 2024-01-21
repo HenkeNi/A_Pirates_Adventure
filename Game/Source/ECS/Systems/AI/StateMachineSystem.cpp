@@ -26,15 +26,38 @@ void StateMachineSystem::Update(float aDeltaTime)
 
 	for (auto& entity : entities)
 	{
-		auto* stateMachineComponent = entity->GetComponent<StateMachineComponent>();
+		auto* stateMachine = entity->GetComponent<StateMachineComponent>();
 
-		if (auto* activeState = stateMachineComponent->ActiveState)
+		if (auto* activeState = stateMachine->ActiveState) // maybe becvause local pointer?
 		{
-			activeState = activeState->Update(aDeltaTime);
+			activeState->Update(entity, aDeltaTime);
 
-			
+			if (auto* desiredState = activeState->GetDesiredState())
+			{
+				activeState->OnExit();
+				activeState->Reset();
 
+				stateMachine->ActiveState = desiredState;
+				desiredState->OnEnter();
+			}
 
+			// stateMachine->ActiveState = activeState->GetDesiredState();
+
+			//if (auto* desiredState = activeState->GetDesiredState())
+			//{
+			//	stateMachine->ActiveState = desiredState;
+			//}
+
+			// if should transition...
+			//if ()
+			//{ }
+
+			//stateMachine->ActiveState = activeState->Update(aDeltaTime);
+
+			//if (!activeState)
+			//	std::cout << "ERROR\n";
+
+			//stateMachine->ActiveState = activeState; // Why work?
 
 			// IdleState (bottom, default)... WalkState... AttackState...
 

@@ -13,7 +13,7 @@ void ElapsedTimeCondition::Init()
 	m_start = 0.f; // TODO: fix this with curent time?!  CU:TIMEr get elapsedTime???
 }
 
-bool ElapsedTimeCondition::IsConditionSatisfied(float elapsedTime) const
+bool ElapsedTimeCondition::IsSatisfied(float elapsedTime) const
 {
 	return elapsedTime >= (m_start + m_duration);
 }
