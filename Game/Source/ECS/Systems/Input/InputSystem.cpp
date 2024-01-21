@@ -53,7 +53,7 @@ void InputSystem::Update(float aDeltaTime)
 
 		}*/
 
-		// TODO; init active keys (read from json)...
+		// TODO; init active keys (read from json)...   Set in iNputComponent???
 		if (InputHandler::IsKeyHeld(key::Key_W) || InputHandler::IsKeyPressed(key::Key_W))
 		{
 			inputComponent->InputStates.insert_or_assign(key::Key_W, true);
@@ -98,6 +98,16 @@ void InputSystem::Update(float aDeltaTime)
 		{
 			inputComponent->InputStates.insert_or_assign(key::Key_Space, false);
 		}
+
+		if (InputHandler::IsKeyHeld(key::Key_Escape) || InputHandler::IsKeyPressed(key::Key_Escape))
+		{
+			inputComponent->InputStates.insert_or_assign(key::Key_Escape, true);
+		}
+		else
+		{
+			inputComponent->InputStates.insert_or_assign(key::Key_Escape, false);
+		}
+
 
 		if (InputHandler::IsKeyHeld(key::Key_LShift) || InputHandler::IsKeyPressed(key::Key_LShift))
 		{

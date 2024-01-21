@@ -35,7 +35,7 @@ void HUDRenderSystem::Draw()
 
 	std::queue<Hi_Engine::RenderCommand> renderCommands;
 
-	// Add projection command
+	// Add projection command (NOT NEEDED?? Use old projection matrix
 	Hi_Engine::RenderCommand projectionCommand{};
 	projectionCommand.Type = Hi_Engine::eRenderCommandType::SetProjectionMatrix;
 	projectionCommand.ProjectionMatrix = camera->GetComponent<CameraComponent>()->Camera.GetProjectionMatrix();

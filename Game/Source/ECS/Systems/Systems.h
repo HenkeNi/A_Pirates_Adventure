@@ -2,6 +2,7 @@
 
 /* - AI systems - */
 #include "AI/BehaviorTreeSystem.h"
+#include "AI/BlackboardSystem.h"
 #include "AI/SteeringBehaviorSystem.h"
 #include "AI/StateMachineSystem.h"
 
@@ -22,9 +23,9 @@
 #include "Physics/ShakeSystem.h"
 
 #include "HUD/HUDSystem.h"
-#include "Spawn/EnemySpawnSystem.h"
-#include "Spawn/SpawnSystem.h"
-#include "Spawn/ResourceSpawnSystem.h"
+#include "Gameplay/Spawn/EnemySpawnSystem.h"
+#include "Gameplay/Spawn/SpawnSystem.h"
+#include "Gameplay/Spawn/ResourceSpawnSystem.h"
 #include "Map/MapGenerationSystem.h"
 #include "Map/MapDecorationSystem.h"
 #include "Time/TimeSystem.h"
@@ -34,5 +35,6 @@
 #include "Rendering/Camera/CameraSystem.h"
 #include "Rendering/Sprite/SpriteRenderSystem.h"
 #include "Rendering/Text/TextRenderSystem.h"
+#include "Rendering/Debug/DebugRenderSystem.h"
 #include "Rendering/Map/MapRenderSystem.h"
 #include "Rendering/HUD/HUDRenderSystem.h"

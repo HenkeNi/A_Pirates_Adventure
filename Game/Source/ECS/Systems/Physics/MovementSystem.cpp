@@ -51,6 +51,8 @@ bool MovementSystem::HasMoved(const Entity* anEntity)
 
 void MovementSystem::UpdateColliders(Entity* anEntity, TransformComponent* aTransformComponent, VelocityComponent* aVelocityComponent)
 {
+	// TODO: cheeck if static...
+
 	if (auto* attackCollider = anEntity->GetComponent<AttackComponent>())
 	{
 		const auto& velocity = aVelocityComponent->Velocity;
@@ -83,5 +85,19 @@ void MovementSystem::UpdateColliders(Entity* anEntity, TransformComponent* aTran
 		float halfHeight = aabb.GetHeight() * 0.5f;
 
 		aabb.Init({ position.x - halfWidth, position.y - halfHeight }, { position.x + halfWidth, position.y + halfHeight });
+	}
+
+	if (auto* collider = anEntity->GetComponent<ColliderComponent>())
+	{
+		if (collider->Type == eColliderType::Dynamic)
+		{
+			auto& aabb = collider->Collider;
+			const auto position = aTransformComponent->CurrentPos;
+
+			float halfWidth = aabb.GetWidth() * 0.5f;
+			float halfHeight = aabb.GetHeight() * 0.5f;
+
+			aabb.Init({ position.x - halfWidth, position.y - halfHeight }, { position.x + halfWidth, position.y + halfHeight });
+		}
 	}
 }

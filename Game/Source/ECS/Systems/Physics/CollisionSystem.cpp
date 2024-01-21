@@ -305,20 +305,71 @@ void CollisionSystem::LateUpdate(float aDeltaTime)
 	if (!m_entityManager)
 		return;
 
-	//auto entities = m_entityManager->FindAll<HitboxComponent, TransformComponent>();
-	auto entities = m_entityManager->FindAll<PlayerControllerComponent, TransformComponent>();
-	
-	for (auto& entity : entities)
+	auto entities = m_entityManager->FindAll<ColliderComponent>();
+
+	for (int i = 0; i < entities.size(); ++i)
 	{
-		auto* hitbox = entity->GetComponent<HitboxComponent>(); // rename HitboxComponent to BoxCollider? or something?
+		for (int j = i + 1; j < entities.size(); ++j)
+		{
+			if (CanCollide(entities[i], entities[j]))
+			{
+				auto* collider1 = entities[i]->GetComponent<ColliderComponent>();
+				auto* collider2 = entities[j]->GetComponent<ColliderComponent>();
 
-		if (hitbox->IsStatic)
-			continue;
+				if (collider1->Type == eColliderType::Trigger || collider2->Type == eColliderType::Trigger)
+				{
+					if (Hi_Engine::Physics::Intersects(collider1->Collider, collider2->Collider))
+					{
+						// std::cout << "Is triggerred\n";
 
-		// TODO; check object vs object collisions...
-
-		HandleTileCollisions(entity, aDeltaTime);
+						PostMaster::GetInstance().SendMessage({ eMessage::TriggerActivated, true });
+						// Send event..?!
+					}
+				}
+			}
+		}
 	}
+
+
+	//for (auto& entity : entities)
+	//{
+	//	// check if any dynamic is colliding with any triggers?
+
+	//	auto* collider = entity->GetComponent<ColliderComponent>();
+
+	//	// Check is triggers are 
+	//	if (collider->Type == eColliderType::Trigger)
+	//	{
+	//		for (auto& dynamic : entities)
+	//		{
+	//			auto* dynamicCollider = entity->GetComponent<ColliderComponent>();
+
+	//			if (dynamicCollider->Type != eColliderType::Dynamic)
+	//				continue;
+
+
+
+	//			//if (dynamic == ent)
+	//		}
+	//	}
+	//	
+	//}
+
+
+	//auto entities = m_entityManager->FindAll<HitboxComponent, TransformComponent>();
+	//auto entities = m_entityManager->FindAll<PlayerControllerComponent, TransformComponent>();
+	//
+	//for (auto& entity : entities)
+	//{
+	//	auto* hitbox = entity->GetComponent<HitboxComponent>(); // rename HitboxComponent to BoxCollider? or something?
+
+	//	if (hitbox->IsStatic)
+	//		continue;
+
+	//	// TODO; check object vs object collisions...
+
+	//	HandleTileCollisions(entity, aDeltaTime);
+	//}
 }
 
 //Entity* CollisionSystem::GetMapChunkContainingEntity(const Entity* anEntity)
@@ -336,6 +387,17 @@ void CollisionSystem::LateUpdate(float aDeltaTime)
 //
 //	return nullptr;
 //}
+
+bool CollisionSystem::CanCollide(Entity* aFirst, Entity* aSecond) const
+{
+	auto* collider1 = aFirst->GetComponent<ColliderComponent>();
+	auto* collider2 = aSecond->GetComponent<ColliderComponent>();
+
+	if (collider1->Type == eColliderType::Dynamic || collider2->Type == eColliderType::Dynamic)
+		return true;
+
+	return false;
+}
 
 void CollisionSystem::CheckMapCollisions(Entity* anEntity)
 {
