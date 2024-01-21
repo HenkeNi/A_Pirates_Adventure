@@ -1,6 +1,23 @@
 #pragma once
 #include "../Base/Component.h"
 
+namespace CU = CommonUtilities;
+
+/* - Blackboard - */
+struct BlackboardComponent : public Component
+{
+	inline static CU::Vector2<float> PlayerPosition; // use std::any instead?
+};
+
+/* - State Machine- */
+struct StateMachineComponent : public Component
+{
+	class State*				ActiveState;
+	std::vector<class State*>	States;
+
+	// class StateMachine* m_stateMachine;
+};
+
 
 /* - Behavior Tree - */
 struct BehaviorTreeComponent : public Component
@@ -8,7 +25,6 @@ struct BehaviorTreeComponent : public Component
 	class BehaviorTreeNode* RootNode = nullptr;				// Call Execute in Update
 	// current node?
 };
-
 
 
 /* - Steering Behaviors - */
@@ -38,14 +54,6 @@ struct FleeBehaviorComponent : public Component
 
 
 
-/* - State Machine- */
-struct StateMachineComponent : public Component
-{
-	class State*				ActiveState;
-	std::vector<class State*>	States;
-
-	// class StateMachine* m_stateMachine;
-};
 
 
 
