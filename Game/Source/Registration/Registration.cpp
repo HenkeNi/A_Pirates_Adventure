@@ -19,6 +19,7 @@ namespace Registration
 		std::vector<std::pair<std::string, ComponentBuilder*>> componentBuilders;
 
 		/* - AI Components - */
+		componentBuilders.push_back(std::make_pair("Blackboard",		new ConcreteComponentBuilder<BlackboardComponent>));
 		componentBuilders.push_back(std::make_pair("SteeringBehavior",	new ConcreteComponentBuilder<SteeringBehaviorComponent>));
 		componentBuilders.push_back(std::make_pair("WanderBehavior",	new ConcreteComponentBuilder<WanderBehaviorComponent>));
 		componentBuilders.push_back(std::make_pair("FlockBehavior",		new ConcreteComponentBuilder<FlockBehaviorComponent>));
@@ -28,11 +29,14 @@ namespace Registration
 		componentBuilders.push_back(std::make_pair("BehaviorTree",		new ConcreteComponentBuilder<BehaviorTreeComponent>));
 
 		/* - Core Components - */
-		componentBuilders.push_back(std::make_pair("Camera",			new ConcreteComponentBuilder<CameraComponent>));
-		componentBuilders.push_back(std::make_pair("Animation",			new ConcreteComponentBuilder<AnimationComponent>));
-		componentBuilders.push_back(std::make_pair("Sprite",			new ConcreteComponentBuilder<SpriteComponent>));
-		componentBuilders.push_back(std::make_pair("Input",				new ConcreteComponentBuilder<InputComponent>));
 		componentBuilders.push_back(std::make_pair("Velocity",			new ConcreteComponentBuilder<VelocityComponent>));
+		componentBuilders.push_back(std::make_pair("Sprite",			new ConcreteComponentBuilder<SpriteComponent>));
+		componentBuilders.push_back(std::make_pair("Camera",			new ConcreteComponentBuilder<CameraComponent>));
+		componentBuilders.push_back(std::make_pair("Input",				new ConcreteComponentBuilder<InputComponent>));
+		componentBuilders.push_back(std::make_pair("Animation",			new ConcreteComponentBuilder<AnimationComponent>));
+		componentBuilders.push_back(std::make_pair("Collider",			new ConcreteComponentBuilder<ColliderComponent>));
+
+		componentBuilders.push_back(std::make_pair("SceneTransition",	new ConcreteComponentBuilder<SceneTransitionComponent>));
 
 		/* - Gameplay Components - */
 		componentBuilders.push_back(std::make_pair("Health",			new ConcreteComponentBuilder<HealthComponent>));
@@ -53,7 +57,6 @@ namespace Registration
 		componentBuilders.push_back(std::make_pair("Pickup",			new ConcreteComponentBuilder<PickupColliderComponent>));
 		componentBuilders.push_back(std::make_pair("Inventory",			new ConcreteComponentBuilder<InventoryComponent>));
 		componentBuilders.push_back(std::make_pair("Spawner",			new ConcreteComponentBuilder<SpawnComponent>));
-		componentBuilders.push_back(std::make_pair("Trigger",			new ConcreteComponentBuilder<TriggerComponent>));
 		componentBuilders.push_back(std::make_pair("Text",				new ConcreteComponentBuilder<TextComponent>));
 		componentBuilders.push_back(std::make_pair("WorldTime",			new ConcreteComponentBuilder<WorldTimeComponent>));
 		componentBuilders.push_back(std::make_pair("MapChunk",			new ConcreteComponentBuilder<MapChunkComponent>));
@@ -72,42 +75,47 @@ namespace Registration
 
 	void RegisterSystems(SystemManager& aSystemManager)
 	{
-		/* - Update Systems - */
-		aSystemManager.Register(std::make_unique<BehaviorTreeSystem>());
-		aSystemManager.Register(std::make_unique<SteeringBehaviorSystem>());
-		aSystemManager.Register(std::make_unique<StateMachineSystem>());
+		/* - Core Systems - */
+		aSystemManager.Register(std::make_unique<InputSystem>());
+		aSystemManager.Register(std::make_unique<MovementSystem>());
+		aSystemManager.Register(std::make_unique<CameraSystem>());
+
 
 		aSystemManager.Register(std::make_unique<CollisionSystem>());
 		aSystemManager.Register(std::make_unique<CombatSystem>());
 		aSystemManager.Register(std::make_unique<EnemySpawnSystem>());
 		aSystemManager.Register(std::make_unique<EquipmentSystem>());
-		aSystemManager.Register(std::make_unique<InputSystem>());
 
 		aSystemManager.Register(std::make_unique<InventorySystem>());
 		aSystemManager.Register(std::make_unique<MeleeCombatSystem>());
-		aSystemManager.Register(std::make_unique<MovementSystem>());
 
 		aSystemManager.Register(std::make_unique<PlayerControllerSystem>());
 		aSystemManager.Register(std::make_unique<RangedCombatSystem>());
 		aSystemManager.Register(std::make_unique<ResourceSpawnSystem>());
-		aSystemManager.Register(std::make_unique<CameraSystem>());
 
 		aSystemManager.Register(std::make_unique<ShakeSystem>());
-
 		aSystemManager.Register(std::make_unique<HUDSystem>());
 
 		aSystemManager.Register(std::make_unique<SpawnSystem>());
 		aSystemManager.Register(std::make_unique<SpriteAnimationSystem>());
 		aSystemManager.Register(std::make_unique<StatSystem>());
+		aSystemManager.Register(std::make_unique<TimeSystem>());
 
+		/* - Map Systems - */
 		aSystemManager.Register(std::make_unique<MapGenerationSystem>());
 		aSystemManager.Register(std::make_unique<MapDecorationSystem>());
-		aSystemManager.Register(std::make_unique<TimeSystem>());
+
+		/* - AI Systems - */
+		aSystemManager.Register(std::make_unique<BlackboardSystem>());
+		aSystemManager.Register(std::make_unique<BehaviorTreeSystem>());
+		aSystemManager.Register(std::make_unique<SteeringBehaviorSystem>());
+		aSystemManager.Register(std::make_unique<StateMachineSystem>());
 
 		/* - Render Systems - */
 		aSystemManager.Register(std::make_unique<TextRenderSystem>());
 		aSystemManager.Register(std::make_unique<HUDRenderSystem>());
 		aSystemManager.Register(std::make_unique<SpriteRenderSystem>());
+		aSystemManager.Register(std::make_unique<DebugRenderSystem>());
 		aSystemManager.Register(std::make_unique<MapRenderSystem>());
 	}
 
