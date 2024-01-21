@@ -7,6 +7,7 @@
 #include "../Commands/Move/MoveCommand.h"
 #include "../Commands/Attack/AttackCommand.h"
 #include "../Commands/Sprint/SprintCommand.h"
+#include "../Commands/Pause/PauseCommand.h"
 
 #include "../AI/SteeringBehaviors/Flock/FlockBehavior.h"
 #include "../AI/SteeringBehaviors/Wander/WanderBehavior.h"
@@ -210,6 +211,7 @@ public:
 
 		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_Space, new AttackCommand));
 		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_LShift, new SprintCommand));
+		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_Escape, new PauseCommand));
 	}
 
 	template <>
@@ -277,14 +279,15 @@ public:
 		aComponent->Rotation	= rotation;
 	}
 
-	template <>
-	static void InitializeComponent<TriggerComponent>(TriggerComponent* aComponent, const ECS::ComponentData& someData)
-	{
-		CU::Vector2<float> position = { 0.f, 0.f };					// TODO; 
-		auto halfSize = std::any_cast<float>(someData.at("half_size"));
+	//template <>
+	//static void InitializeComponent<TriggerComponent>(TriggerComponent* aComponent, const ECS::ComponentData& someData)
+	//{
+	//	CU::Vector2<float> position = { 0.f, 0.f };					// TODO; 
+	//	//auto halfSize = std::any_cast<float>(someData.at("half_size"));
+	//	float halfSize = 0.5f;
 
-		aComponent->Collider.Init({ position.x - halfSize, position.y - halfSize }, { position.x + halfSize, position.y + halfSize });
-	}
+	//	aComponent->Collider.Init({ position.x - halfSize, position.y - halfSize }, { position.x + halfSize, position.y + halfSize });
+	//}
 
 	template <>
 	static void InitializeComponent<TextComponent>(TextComponent* aComponent, const ECS::ComponentData& someData)
@@ -360,6 +363,9 @@ public:
 	template <>
 	static void InitializeComponent<StateMachineComponent>(StateMachineComponent* aComponent, const ECS::ComponentData& someData)
 	{
+		//auto states = std::any_cast<std::vector<std::any>>(someData.at("states"));
+		//auto states = someData.at("states");
+
 		auto states = std::any_cast<std::vector<std::any>>(someData.at("states"));
 
 		//std::vector<std::string> states = std::any_cast<std::vector<std::string>>(someData.at("states"));
@@ -367,37 +373,46 @@ public:
 		// Fetch state machine from factory??
 		for (const auto& state : states)
 		{
-			std::string castedState = std::any_cast<std::string>(state);
+			std::string type = std::any_cast<std::string>(state);
 
-			if (castedState == "idle")
+			if (type == "idle")
 			{
 				aComponent->States.push_back(new IdleState{});
 			}
-			else if (castedState == "walk")
+			else if (type == "walk")
 			{
 				aComponent->States.push_back(new WalkState{});
 			}
-			else if (castedState == "flee")
+			else if (type == "attack")
+			{
+				// aComponent->States.push_back(new AttackState{});
+			}
+			else if (type == "flee")
 			{ }
-			else if (castedState == "attack")
+			else if (type == "attack")
 			{ }
-			else if (castedState == "death")
+			else if (type == "death")
 			{ }
 		}
 
 		// Temp
 		aComponent->ActiveState = aComponent->States[0];
 
+
+		// std::unorederd_map? string key ? 
+
+
 		// TEmp
 		// add durtaion condition
-		ElapsedTimeCondition* elapsedTime = new ElapsedTimeCondition{ 20.f }; // FIX deletion!
 		Transition idleToWalk;
-		idleToWalk.SetCondition(elapsedTime);
-
-		aComponent->States[0]->AddTransition(idleToWalk);
+		idleToWalk.SetCondition(new ElapsedTimeCondition{ 5.f });
+		idleToWalk.SetTargetState(aComponent->States[1]);
 
 		Transition walkToIdle;
-		walkToIdle.SetCondition(elapsedTime); // use same condition? => cant delte in desturtor then....
+		walkToIdle.SetCondition(new ElapsedTimeCondition{ 5.f }); // use same condition? => cant delte in desturtor then....
+		walkToIdle.SetTargetState(aComponent->States[0]);
+
+		aComponent->States[0]->AddTransition(idleToWalk);
 		aComponent->States[1]->AddTransition(walkToIdle); // duraion condition
 
 
@@ -425,4 +440,29 @@ public:
 	{
 	}
 
+	
+	template <>
+	static void InitializeComponent<SceneTransitionComponent>(SceneTransitionComponent* aComponent, const ECS::ComponentData& someData)
+	{
+	}
+
+	template <>
+	static void InitializeComponent<ColliderComponent>(ColliderComponent* aComponent, const ECS::ComponentData& someData)
+	{
+			CU::Vector2<float> position = { 0.f, 0.f };					// TODO; 
+		//auto halfSize = std::any_cast<float>(someData.at("half_size"));
+		float halfSize = 0.5f;
+
+		aComponent->Collider.Init({ position.x - halfSize, position.y - halfSize }, { position.x + halfSize, position.y + halfSize });
+
+
+		if (std::any_cast<std::string>(someData.at("type")) == "Trigger")
+		{
+			aComponent->Type = eColliderType::Trigger;
+		}
+		else if (std::any_cast<std::string>(someData.at("type")) == "Dynamic")
+		{
+			aComponent->Type = eColliderType::Dynamic;
+		}
+	}
 };
