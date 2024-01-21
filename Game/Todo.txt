@@ -1,9 +1,11 @@
 Render all hearts as a texture (when losing a heart, move the rendered area...)
 
 
+ALl scenes have a PlayerController that handles input?? Unpause etc??
 
 
 
+Water is animated tiles??
 
 
 

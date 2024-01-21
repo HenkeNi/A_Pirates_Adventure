@@ -14,7 +14,7 @@ TitleScene::~TitleScene()
 
 void TitleScene::Update(float aDeltaTime) 
 {
-	// TEMP
+	// TEMP => use component instead??
 	static float elapsedTime = 0.f;
 
 	elapsedTime += aDeltaTime;

@@ -3,6 +3,7 @@
 
 class SceneManager;
 
+// REMOVE? renamee SceneManagerInterface?
 class SceneManagerProxy
 {
 public:
@@ -12,9 +13,6 @@ public:
 	void Pop();
 	void SwapTo(eScene aType);
 	void Clear();
-	// bool IsEmpty() const;
-
-	//class Scene& GetActiveScene();
 
 private:
 	SceneManager& m_sceneManager;

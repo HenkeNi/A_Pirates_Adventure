@@ -1,14 +1,10 @@
+Render HUD;
+
+	* HUD is its own scene (uses its own camera, just projection matrix)
+
+
 Each Scene contains a Camera (HUD scene returns a plain orthographic proj?)
 	-> store a scene camera, or get entity...
-
-
-
-
-
-
-
-
-Rename Shapes folder; Primitives, PrimitiveShapes, Geometry, GeometricShapes?
 
 
 
