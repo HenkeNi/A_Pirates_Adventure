@@ -1,25 +1,29 @@
 #include "Pch.h"
 #include "SprintCommand.h"
-#include "Components/Gameplay/GameplayComponents.h"
+#include "Entities/Entity.h"
 #include "Components/Core/CoreComponents.h"
 
 
 SprintCommand::SprintCommand()
-	: m_stateComponent{ nullptr }, m_velocityComponent{ nullptr }
+	: m_sprintSpeed{ 3.f }
 {
 }
 
-void SprintCommand::Execute()
+void SprintCommand::Execute(Entity* anEntity)
 {
-	if (!m_stateComponent || !m_velocityComponent)
+	if (!anEntity)
 		return;
-
-	m_stateComponent->IsRunning = true;
-	m_velocityComponent->Speed = 3;
+	
+	if (auto* velocityComponent = anEntity->GetComponent<VelocityComponent>())
+	{
+		velocityComponent->Speed = m_sprintSpeed;
+	}
 }
 
-void SprintCommand::SetComponent(VelocityComponent* aVelocityComponent, CharacterStateComponent* aStateComponent)
+bool SprintCommand::CanPerform(Entity* anEntity) const
 {
-	m_stateComponent = aStateComponent;
-	m_velocityComponent = aVelocityComponent;
+	if (!anEntity)
+		return false;
+
+	return true;
 }

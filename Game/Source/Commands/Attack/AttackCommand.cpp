@@ -1,29 +1,39 @@
 #include "Pch.h"
 #include "AttackCommand.h"
+#include "Entities/Entity.h"
 #include "Components/Gameplay/GameplayComponents.h"
 #include "Components/Core/CoreComponents.h"
 
+
 AttackCommand::AttackCommand()
-	: m_attackComponent{ nullptr }, m_stateComponent{ nullptr }, m_rectComponent{ nullptr }
 {
 }
 
-void AttackCommand::Execute()
+void AttackCommand::Execute(Entity* anEntity)
 {
-	if (!m_attackComponent || !m_stateComponent || !m_rectComponent)
+	if (!anEntity)
 		return;
 
-	if (m_stateComponent->IsAttacking)
-		return;
+	if (auto* characterStateComponent = anEntity->GetComponent<CharacterStateComponent>())
+	{
+		characterStateComponent->IsAttacking = true;
+	}
 
-	m_stateComponent->IsAttacking = true;
-	m_attackComponent->IsEnabled = true;
-	m_rectComponent->Color = { 0.f, 1.0f, 0.f, 1.f }; // Do in Primitive systtem
+	if (auto* attackComponent = anEntity->GetComponent<AttackComponent>())
+	{
+		attackComponent->IsEnabled = true;
+	}
 }
 
-void AttackCommand::SetComponent(AttackComponent* anAttackComponent, CharacterStateComponent* aStateComponent, DebugRectComponent* aRectComponent)
+bool AttackCommand::CanPerform(Entity* anEntity) const
 {
-	m_attackComponent = anAttackComponent;
-	m_stateComponent  = aStateComponent;
-	m_rectComponent   = aRectComponent;
+	if (anEntity)
+	{
+		if (auto* characterStateComponent = anEntity->GetComponent<CharacterStateComponent>())
+		{
+			return !characterStateComponent->IsAttacking;
+		}
+	}
+
+	return false;
 }

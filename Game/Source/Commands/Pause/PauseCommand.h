@@ -5,6 +5,7 @@
 class PauseCommand : public Command
 {
 public:
+	void Execute(Entity* anEntity)			override;
+	bool CanPerform(Entity* anEntity) const override;
 
-	void Execute() override; 
 };

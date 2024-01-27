@@ -1,6 +1,8 @@
 #pragma once
 #include "../Base/System.h"
 
+class Entity;
+
 class PlayerControllerSystem : public System
 {
 public:
@@ -11,8 +13,6 @@ public:
 	void Update(float aDeltaTime)	override;
 
 private:
-	// TODO; replace with playercontroller component => (Commands??)
-	// std::unordered_map<Hi_Engine::eInputType, 
-
-	void InitCommands();
+	void ProcessCommands(Entity* anEntity);
+	void UpdatePlayerState(Entity* anEntity);
 };

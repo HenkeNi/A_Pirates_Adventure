@@ -1,19 +1,14 @@
 #pragma once
 #include "../Base/Command.h"
 
-struct CharacterStateComponent;
-struct VelocityComponent;
-
 class SprintCommand : public Command
 {
 public:
 	SprintCommand();
 
-	void			Execute()		  override;
-
-	void			SetComponent(VelocityComponent* aVelocityComponent, CharacterStateComponent* aStateComponent);
+	void Execute(Entity* anEntity)			override;
+	bool CanPerform(Entity* anEntity) const override;
 
 private:
-	CharacterStateComponent* m_stateComponent;
-	VelocityComponent*		 m_velocityComponent;
+	float m_sprintSpeed; // HERE?
 };

@@ -2,9 +2,12 @@
 #include "PauseCommand.h"
 
 
-void PauseCommand::Execute()
+void PauseCommand::Execute(Entity* anEntity)
 {
-	std::cout << "Pause Game\n";
+	//	PostMaster::GetInstance().SendMessage({ eMessage::TransitionToScene, eScene::Pause });
+}
 
-	// Send event??
+bool PauseCommand::CanPerform(Entity* anEntity) const
+{
+	return false;
 }
