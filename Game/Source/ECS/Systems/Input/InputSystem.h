@@ -11,7 +11,4 @@ public:
 	void HandleEvent(Hi_Engine::InputEvent& anEvent)	override;
 	void Receive(Message& aMsg)							override;
 	void Update(float aDeltaTime)						override;
-
-private:
 };
-
