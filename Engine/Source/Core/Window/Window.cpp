@@ -28,6 +28,7 @@ namespace Hi_Engine
 		glfwMakeContextCurrent(m_window);
 		glfwSetFramebufferSizeCallback(m_window, FrameBufferSizeCallback);
 		glfwSetWindowFocusCallback(m_window, WindowFocusCallback);
+		glfwSwapInterval(0); // turns off V-sync
 
 		glViewport(0, 0, m_data.Size.x, m_data.Size.y);
 		SetIcon(m_data.IconPath);
