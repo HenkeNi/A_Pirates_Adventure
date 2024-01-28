@@ -318,6 +318,7 @@
     <None Include="Assets\Json\Blueprints\Resource\wood_resource.json" />
     <None Include="Assets\Json\Blueprints\Ships\ship_raft.json" />
     <None Include="Assets\Json\Blueprints\Spawner\skeleton_spawner.json" />
+    <None Include="Assets\Json\Blueprints\UI\play_button.json" />
     <None Include="Assets\Json\Blueprints\UI\title_text.json" />
     <None Include="Assets\Json\Blueprints\UI\title_background.json" />
     <None Include="Assets\Json\Blueprints\Utility\world_time.json" />

@@ -1,0 +1,28 @@
+{
+  "id": "play_button",
+  "layer": "UI",
+  "components": [
+    {
+      "type": "Transform",
+      "properties": {
+        "position": [ 0.0, 0.0, 0.0 ],
+        "scale": [ 2.0, 2.0, 2.0 ],
+        "rotation": 0.0
+      }
+    },
+    {
+      "type": "Sprite",
+      "properties": {
+        "shader": "sprite_batch",
+        "texture": "raft_00",
+        "color": [ 1.0, 1.0, 1.0, 1.0 ]
+      }
+    },
+    {
+      "type": "Collider",
+      "properties": {
+        "type": "Static"
+      }
+    }
+  ]
+}
