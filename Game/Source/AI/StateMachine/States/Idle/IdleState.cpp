@@ -12,7 +12,7 @@ void IdleState::Update(Entity* anEntity, float aDeltaTime)
 	m_elapsedTime += aDeltaTime; // Dont want to do this in every state...
 
 	//std::cout << "Ideling..\n";
-	std::cout << "Idle\n";
+	//std::cout << "Idle\n";
 
 	// FUNCTION?
 	/*for (const auto& transition : m_transitions)

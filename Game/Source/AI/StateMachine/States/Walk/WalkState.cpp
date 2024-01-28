@@ -11,7 +11,7 @@ void WalkState::Update(Entity* anEntity, float aDeltaTime)
 {
 	m_elapsedTime += aDeltaTime;
 
-	std::cout << "Walking..\n";
+	//std::cout << "Walking..\n";
 
 	if (auto* blackboard = anEntity->GetComponent<BlackboardComponent>())
 	{
