@@ -4,11 +4,15 @@
       "../Game/Assets/Json/Blueprints/World/sky.json"
     ],
     "hud": [
+      "../Game/Assets/Json/Blueprints/HUD/cursor.json",
       "../Game/Assets/Json/Blueprints/HUD/healthbar.json",
       "../Game/Assets/Json/Blueprints/HUD/heartcontainer.json"
     ],
     "player": [
       "../Game/Assets/Json/Blueprints/Player/player.json"
+    ],
+    "projectiles": [
+      "../Game/Assets/Json/Blueprints/Projectiles/bullet.json"
     ],
     "enemies": [
       "../Game/Assets/Json/Blueprints/Enemies/skeleton_enemy.json",

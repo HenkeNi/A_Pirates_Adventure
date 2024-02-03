@@ -1,0 +1,30 @@
+{
+  "id": "Mouse_Cursor",
+  "layer": "HUD",
+  "components": [
+    {
+      "type": "Transform",
+      "properties": {
+        "position": [ 0.0, 0.3, 0.0 ],
+        "scale": [ 1.0, 1.0, 1.0 ],
+        "rotation": 0.0
+      }
+    },
+    {
+      "type": "Sprite",
+      "properties": {
+        "shader": "sprite_batch",
+        "texture": "castaway_00",
+        "color": [ 1.0, 1.0, 1.0, 1.0 ]
+      }
+    },
+    {
+      "type": "HUD",
+      "properties": {}
+    },
+    {
+      "type": "Cursor",
+      "properties": {}
+    }
+  ]
+}
