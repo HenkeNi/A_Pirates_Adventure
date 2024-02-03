@@ -27,3 +27,14 @@ bool SprintCommand::CanPerform(Entity* anEntity) const
 
 	return true;
 }
+
+void SprintCommand::Undo(Entity* anEntity)
+{
+	if (!anEntity)
+		return;
+
+	if (auto* velocityComponent = anEntity->GetComponent<VelocityComponent>())
+	{
+		velocityComponent->Speed = 1.f;
+	}
+}

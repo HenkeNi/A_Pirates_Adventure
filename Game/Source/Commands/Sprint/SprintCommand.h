@@ -9,6 +9,8 @@ public:
 	void Execute(Entity* anEntity)			override;
 	bool CanPerform(Entity* anEntity) const override;
 
+	void Undo(Entity* anEntity)				override;
+
 private:
 	float m_sprintSpeed; // HERE?
 };
