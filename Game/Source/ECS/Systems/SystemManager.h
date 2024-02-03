@@ -9,7 +9,7 @@ namespace ECS
 
 class EntityManager;
 
-class SystemManager
+class SystemManager // TODO: listen for scene transition (fetch entity manager)?
 {
 public:
 	SystemManager();

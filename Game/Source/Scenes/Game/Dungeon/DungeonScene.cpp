@@ -13,6 +13,7 @@ DungeonScene::~DungeonScene()
 
 void DungeonScene::Update(float aDeltaTime)
 {
+	std::cout << "Updating dungeon\n";
 }
 
 void DungeonScene::LateUpdate(float aDeltaTime)

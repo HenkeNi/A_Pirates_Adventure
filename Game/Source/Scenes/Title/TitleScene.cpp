@@ -57,7 +57,7 @@ void TitleScene::OnEnter()
 
 	auto* background = m_entityManager.Create("title_background");
 	auto* transformComponent = background->GetComponent<TransformComponent>();
-	transformComponent->Scale *= 1.5f;
+	transformComponent->Scale *= 10.5f;
 	transformComponent->CurrentPos.y = 0.f;
 	// INput component, and a trigger component...
 

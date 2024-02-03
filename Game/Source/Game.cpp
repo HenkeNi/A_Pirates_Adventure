@@ -50,6 +50,7 @@ void Game::OnCreate()
 
 	std::bitset<(int)eScene::Count> scenes(0);
 	scenes[(int)eScene::Title] = 1;
+	//scenes[(int)eScene::Menu] = 1;
 	scenes[(int)eScene::Game] = 1;
 
 	m_sceneManager.Init(scenes);

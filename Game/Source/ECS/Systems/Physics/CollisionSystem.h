@@ -24,6 +24,8 @@ public:
 
 
 private:
+	void UpdateColliders();
+
 	bool CanCollide(Entity* aFirst, Entity* aSecond) const;
 
 	// TODO; have a collision grid that gets updated when objects are placed in the world...

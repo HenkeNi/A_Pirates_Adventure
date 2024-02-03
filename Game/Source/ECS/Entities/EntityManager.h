@@ -11,8 +11,6 @@ public:
 	Entity* Create(const std::string& aType);
 	Entity* Find(unsigned anID);
 
-	static EntityFactory& GetFactory();
-
 	template <typename... Components>
 	std::vector<Entity*> FindAll();
 
@@ -21,6 +19,8 @@ public:
 
 	void Destroy(unsigned anID);
 	void DestroyAll();
+
+	static EntityFactory& GetFactory();
 	 
 private:
 	static EntityFactory	s_entityFactory;

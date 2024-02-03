@@ -37,11 +37,6 @@ Entity* EntityManager::Find(unsigned anID)
 	return nullptr;
 }
 
-EntityFactory& EntityManager::GetFactory()
-{
-	return s_entityFactory;
-}
-
 void EntityManager::Destroy(unsigned anID)
 {
 	auto it = std::find_if(m_entities.begin(), m_entities.end(), [=](const Entity& anEntity) { return anEntity.GetID() == anID; });
@@ -56,4 +51,9 @@ void EntityManager::Destroy(unsigned anID)
 void EntityManager::DestroyAll()
 {
 	m_entities.clear();
+}
+
+EntityFactory& EntityManager::GetFactory()
+{
+	return s_entityFactory;
 }
