@@ -8,4 +8,9 @@ public:
 
 	void Execute(Entity* anEntity)			override;
 	bool CanPerform(Entity* anEntity) const override;
+
+private:
+	// Cooldown struct?
+	float m_cooldown;
+	float m_cooldownDuration;
 };
