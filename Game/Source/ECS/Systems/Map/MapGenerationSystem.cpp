@@ -8,6 +8,42 @@
 #include "Components/Map/MapComponents.h"
 
 
+
+eTile GetTileType(float aNoise)
+{
+	static const std::unordered_map<eTile, float> noiseRanges = { 
+		{ eTile::Grass,			0.4f },
+		{ eTile::Sand,			0.2f },
+		{ eTile::ShallowWater,	0.f },
+		{ eTile::Water,			-0.2f },
+		{ eTile::DeepWater,		-0.5f },
+	};
+
+	for (const auto& [type, value] : noiseRanges)
+	{
+		if (aNoise > value)
+		{
+			return type;
+		}
+	}
+
+	return eTile::Water;
+}
+
+std::string GetSubtexture(eTile aType)
+{
+	static const std::unordered_map<eTile, std::string> textures = {
+		{ eTile::Grass,			"island_tileset_36" },
+		{ eTile::Sand,			"island_tileset_13" },
+		{ eTile::ShallowWater,  "island_tileset_18" },
+		{ eTile::Water,			"ground_tiles_01" },
+		{ eTile::DeepWater,		"island_tileset_06" },
+	};
+
+	return textures.at(aType);
+}
+
+
 MapGenerationSystem::MapGenerationSystem()
 {
 	PostMaster::GetInstance().Subscribe(eMessage::GameStarted, this); // NewGameCreated instead?	
@@ -20,7 +56,7 @@ MapGenerationSystem::~MapGenerationSystem()
 
 void MapGenerationSystem::Receive(Message& aMsg)
 {
-	GenerateStartArea();
+	GenerateMapChunk();
 }
 
 void MapGenerationSystem::Update(float aDeltaTime)
@@ -52,55 +88,57 @@ void MapGenerationSystem::Update(float aDeltaTime)
 		//std::cout << "Map chunk coordinate: " << mapChunk->GetComponent<MapChunkComponent>()->m_coordinates.x << ", " << mapChunk->GetComponent<MapChunkComponent>()->m_coordinates.y << '\n';
 }
 
-void MapGenerationSystem::GenerateStartArea()
+void MapGenerationSystem::GenerateMapChunk()
 {
+	FastNoiseLite fastNoise;
+	fastNoise.SetNoiseType(FastNoiseLite::NoiseType_Perlin);
+	fastNoise.SetFrequency(0.06f);
+	//fastNoise.SetFrequency(0.006f);
+
 	static const float tileSize = 1.f;
 
 	unsigned size = Constants::InitialChunkSquareSize;
 
-	// For each chunk..
-	//for (int col = 0; col < size; ++col)
+	// create mapChunk..
+	auto entity = m_entityManager->Create("MapChunk");
+
+	auto* mapChunkComponent = entity->GetComponent<MapChunkComponent>();
+	auto* transformComponent = entity->GetComponent<TransformComponent>();
+
+	transformComponent->CurrentPos = { 0, 0 }; //{ (float)col * (mapChunkComponent->Width * tileSize), (float)row * (mapChunkComponent->Height * tileSize) };
+	mapChunkComponent->Coordinates = { 0, 0 };// { col, row };
+
+	// populate with tiles
+	for (int height = 0; height < mapChunkComponent->Height; ++height)
 	{
-		//for (int row = 0; row < size; ++row)
+		for (int width = 0; width < mapChunkComponent->Width; ++width)
 		{
-			//bool isLand = col > 0 && col < 4 && row < 4 && row > 0; 
-			bool isLand = true;
+			float noise = fastNoise.GetNoise((float)width, float(height));
 
-			// bool isGrass = col == 2 && row == 3;
+			Tile tile;
+			tile.Coordinates = { height, width };
+			tile.IsCollidable = false; // FIX!
+			tile.Type = GetTileType(noise);
+	
+			std::string subtexture = GetSubtexture(tile.Type);
+			tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource(subtexture); // Sprite sheet is revered??
+			mapChunkComponent->Tiles.push_back(tile);
 
-			// create mapChunk..
-			auto entity = m_entityManager->Create("MapChunk");
+			// Check if more optimized (dont have to do every frame?!)
+			Hi_Engine::SpriteRenderData renderData;
+			renderData.Color = { tile.Color.x, tile.Color.y, tile.Color.z, tile.Color.w };
+			renderData.Subtexture = tile.Subtexture;
+			auto currentPosition = transformComponent->CurrentPos;
 
-			auto* mapChunkComponent		= entity->GetComponent<MapChunkComponent>();
-			auto* transformComponent	= entity->GetComponent<TransformComponent>();
-
-			transformComponent->CurrentPos = { 0, 0 }; //{ (float)col * (mapChunkComponent->Width * tileSize), (float)row * (mapChunkComponent->Height * tileSize) };
-			mapChunkComponent->Coordinates = { 0, 0 };// { col, row };
-
-			// populate with tiles
-			for (int height = 0; height < mapChunkComponent->Height; ++height)
-			{
-				for (int width = 0; width < mapChunkComponent->Width; ++width)
-				{
-					Tile tile;
-					tile.Coordinates = { height, width };
-					tile.IsCollidable = !isLand;
-					tile.Type = isLand ? eTile::Sand : eTile::Water;
-					tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource(isLand ? "island_tileset_13" : "ground_tiles_01"); // Sprite sheet is revered??
-					//tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource(isLand ? "ground_tiles_00" : "ground_tiles_01");
-					
-					mapChunkComponent->Tiles.push_back(tile);
-				}
-			}
-
-			// TEMP -> populate regardless of water or land...
-			if (isLand)
-				PostMaster::GetInstance().SendMessage({ eMessage::MapChunkGenerated, entity });
+			glm::vec3 position = { currentPosition.x, currentPosition.y, 0.f };
+			position.x += tile.Coordinates.x * Tile::Size;
+			position.y += tile.Coordinates.y * Tile::Size;
+			renderData.Transform = { position, { 1.f, 1.f }, 0.f };
+			mapChunkComponent->RenderData.push_back(renderData);
 		}
 	}
-}
 
-void MapGenerationSystem::GenerateMapChunk()
-{
-
+	// TEMP -> populate regardless of water or land...
+	//if (isLand)
+	PostMaster::GetInstance().SendMessage({ eMessage::MapChunkGenerated, entity });
 }

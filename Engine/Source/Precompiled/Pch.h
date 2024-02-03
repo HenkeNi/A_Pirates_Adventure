@@ -54,6 +54,8 @@
 #include <gtc/type_ptr.hpp>
 #include <stb_image.h>
 
+#include <FastNoiseLite.h>
+
 
 #include <ft2build.h>
 #include FT_FREETYPE_H  

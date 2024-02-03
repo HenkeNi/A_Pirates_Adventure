@@ -12,6 +12,5 @@ public:
 	void Update(float aDeltaTime)	override;
 
 private:
-	void GenerateStartArea();
 	void GenerateMapChunk();
 };

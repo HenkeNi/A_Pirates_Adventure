@@ -17,4 +17,8 @@ struct MapChunkComponent : public Component
 	//	unsigned				m_chunkID;
 
 	// neighbours??
+
+	// HERE? or a new component...
+	std::vector<Hi_Engine::SpriteRenderData> RenderData;
+
 };

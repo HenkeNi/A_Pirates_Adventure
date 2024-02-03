@@ -58,7 +58,7 @@
       <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\FreeType\include;$(SolutionDir)ThirdParty\GLEW\include;$(SolutionDir)ThirdParty\GLFW\include;$(SolutionDir)ThirdParty\rapidjson;$(SolutionDir)ThirdParty\stb_image;$(SolutionDir)Engine;$(SolutionDir)Engine\Source;Source\;Source\ECS;Source\Precompiled;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\FastNoise\;$(SolutionDir)ThirdParty\FreeType\include;$(SolutionDir)ThirdParty\GLEW\include;$(SolutionDir)ThirdParty\GLFW\include;$(SolutionDir)ThirdParty\rapidjson;$(SolutionDir)ThirdParty\stb_image;$(SolutionDir)Engine;$(SolutionDir)Engine\Source;Source\;Source\ECS;Source\Precompiled;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Pch.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -80,7 +80,7 @@
       <PreprocessorDefinitions>GLEW_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\FreeType\include;$(SolutionDir)ThirdParty\GLEW\include;$(SolutionDir)ThirdParty\GLFW\include;$(SolutionDir)ThirdParty\rapidjson;$(SolutionDir)ThirdParty\stb_image;$(SolutionDir)Engine;$(SolutionDir)Engine\Source;Source\;Source\ECS;Source\Precompiled;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\FastNoise\;$(SolutionDir)ThirdParty\FreeType\include;$(SolutionDir)ThirdParty\GLEW\include;$(SolutionDir)ThirdParty\GLFW\include;$(SolutionDir)ThirdParty\rapidjson;$(SolutionDir)ThirdParty\stb_image;$(SolutionDir)Engine;$(SolutionDir)Engine\Source;Source\;Source\ECS;Source\Precompiled;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Pch.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -94,6 +94,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Commands\Shoot\ShootCommand.h" />
     <ClInclude Include="Source\ECS\Systems\Transition\SceneTransitionSystem.h" />
     <ClInclude Include="Source\Commands\Pause\PauseCommand.h" />
     <ClInclude Include="Source\AI\StateMachine\Conditions\Distance\DistanceConditions.h" />
@@ -192,8 +193,10 @@
     <ClInclude Include="Source\AI\StateMachine\States\Base\State.h" />
     <ClInclude Include="Source\ECS\Systems\AI\StateMachineSystem.h" />
     <ClInclude Include="Source\AI\StateMachine\Transition\Transition.h" />
+    <ClInclude Include="Source\Commands\Aim\AimCommand.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Commands\Shoot\ShootCommand.cpp" />
     <ClCompile Include="Source\ECS\Systems\Transition\SceneTransitionSystem.cpp" />
     <ClCompile Include="Source\Commands\Pause\PauseCommand.cpp" />
     <ClCompile Include="Source\AI\StateMachine\Conditions\Distance\DistanceConditions.cpp" />
@@ -286,6 +289,7 @@
     <ClCompile Include="Source\ECS\Components\UI\UIComponents.cpp" />
     <ClCompile Include="Source\ECS\Systems\Time\TimeSystem.cpp" />
     <ClCompile Include="Source\Utility\Map\MapUtils.cpp" />
+    <ClCompile Include="Source\Commands\Aim\AimCommand.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.vcxproj">
@@ -304,11 +308,13 @@
     <None Include="Assets\Json\Blueprints\Enemies\spider_enemy.json" />
     <None Include="Assets\Json\Blueprints\Entrances\cave_entrance.json" />
     <None Include="Assets\Json\Blueprints\Entrances\door.json" />
+    <None Include="Assets\Json\Blueprints\HUD\cursor.json" />
     <None Include="Assets\Json\Blueprints\HUD\healthbar.json" />
     <None Include="Assets\Json\Blueprints\HUD\heartcontainer.json" />
     <None Include="Assets\Json\Blueprints\Map\map_chunk.json" />
     <None Include="Assets\Json\Blueprints\NPC\castaway_npc.json" />
     <None Include="Assets\Json\Blueprints\Player\player.json" />
+    <None Include="Assets\Json\Blueprints\Projectiles\bullet.json" />
     <None Include="Assets\Json\Blueprints\Props\grass_prop.json" />
     <None Include="Assets\Json\Blueprints\Props\hut_prop.json" />
     <None Include="Assets\Json\Blueprints\Props\palm_tree_prop.json" />

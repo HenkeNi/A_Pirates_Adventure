@@ -60,7 +60,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\FreeType\include;$(SolutionDir)ThirdParty\GLEW\include;$(SolutionDir)ThirdParty\GLFW\include;$(SolutionDir)ThirdParty\glm;$(SolutionDir)ThirdParty\rapidjson;$(SolutionDir)ThirdParty\stb_image;Source\Core\;Source\Data\;Source\Precompiled;Source\Utility\;Source\Assets;Source\Core;Source\Core\Application;Source\Core\Input\;Source\Core\Window;Source\Data\Structs;Source\Messaging;Source\Precompiled;Source\Utility;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\FastNoise\;$(SolutionDir)ThirdParty\FreeType\include;$(SolutionDir)ThirdParty\GLEW\include;$(SolutionDir)ThirdParty\GLFW\include;$(SolutionDir)ThirdParty\glm;$(SolutionDir)ThirdParty\rapidjson;$(SolutionDir)ThirdParty\stb_image;Source\Core\;Source\Data\;Source\Precompiled;Source\Utility\;Source\Assets;Source\Core;Source\Core\Application;Source\Core\Input\;Source\Core\Window;Source\Data\Structs;Source\Messaging;Source\Precompiled;Source\Utility;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -79,7 +79,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\FreeType\include;$(SolutionDir)ThirdParty\GLEW\include;$(SolutionDir)ThirdParty\GLFW\include;$(SolutionDir)ThirdParty\glm;$(SolutionDir)ThirdParty\rapidjson;$(SolutionDir)ThirdParty\stb_image;Source\Core\;Source\Data\;Source\Precompiled;Source\Utility\;Source\Core;Source\Core\Application;Source\Core\Input\;Source\Core\Window;Source\Data\Structs;Source\Messaging;Source\Precompiled;Source\Utility;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ThirdParty\FastNoise\;$(SolutionDir)ThirdParty\FreeType\include;$(SolutionDir)ThirdParty\GLEW\include;$(SolutionDir)ThirdParty\GLFW\include;$(SolutionDir)ThirdParty\glm;$(SolutionDir)ThirdParty\rapidjson;$(SolutionDir)ThirdParty\stb_image;Source\Core\;Source\Data\;Source\Precompiled;Source\Utility\;Source\Core;Source\Core\Application;Source\Core\Input\;Source\Core\Window;Source\Data\Structs;Source\Messaging;Source\Precompiled;Source\Utility;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
