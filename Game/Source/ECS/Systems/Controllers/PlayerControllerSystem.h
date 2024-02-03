@@ -14,5 +14,6 @@ public:
 
 private:
 	void ProcessCommands(Entity* anEntity);
+	void UpdateCooldowns(Entity* anEntity);
 	void UpdatePlayerState(Entity* anEntity);
 };

@@ -28,7 +28,7 @@ void CombatSystem::Receive(Message& aMsg)	// Listen to collisions from physics
 	// Listen for collision (from physics system)
 
 
-
+	// TODO: check if character state "isAiming" is active
 
 
 	std::vector<Entity*> entitiesToRemove;

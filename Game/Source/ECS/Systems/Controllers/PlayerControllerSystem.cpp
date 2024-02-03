@@ -2,7 +2,6 @@
 #include "PlayerControllerSystem.h"
 #include "Entities/EntityManager.h"
 #include "Components/Core/CoreComponents.h"
-#include "Components/AI/AIComponents.h"
 #include "Components/Gameplay/GameplayComponents.h"
 
 #include "../Commands/Sprint/SprintCommand.h"
@@ -12,15 +11,27 @@
 
 PlayerControllerSystem::PlayerControllerSystem()
 {
+	PostMaster::GetInstance().Subscribe(eMessage::AttackAnimationFinished, this);
 }
 
 PlayerControllerSystem::~PlayerControllerSystem()
 {
+	PostMaster::GetInstance().Subscribe(eMessage::AttackAnimationFinished, this);
 }
 
 void PlayerControllerSystem::Receive(Message& aMsg)
 {
-	// TODO: listen to attack finished? 
+	auto* entity = std::any_cast<Entity*>(aMsg.GetData());
+
+	if (!entity)
+		return;
+
+	if (entity->HasComponents<PlayerControllerComponent, CharacterStateComponent>())
+	{
+		auto* characterStateComponent = entity->GetComponent<CharacterStateComponent>();
+		characterStateComponent->IsAttacking = false;
+	}
+
 }
 
 void PlayerControllerSystem::Update(float aDeltaTime)
@@ -50,17 +61,15 @@ void PlayerControllerSystem::ProcessCommands(Entity* anEntity)
 
 	for (const auto& [key, command] : playerControllerComponent->InputMapping)
 	{
+		// TODO: dont do input check? check in component instead?? store commands in simple array?
 		bool isKeyActive = inputComponent->InputStates[key]; // NOTE: this will add the releveant keys to the map.. (maybe use .find, or .at and initialize keys when creating the component?
-		bool canPerform = command->CanPerform(anEntity);
+		//bool canPerform = command->CanPerform(anEntity);
 
-		if (isKeyActive && canPerform) 
-		{
-			command->Execute(anEntity);
-		}
+		isKeyActive ? command->Execute(anEntity) : command->Undo(anEntity);
 	}
 }
 
-void PlayerControllerSystem::UpdatePlayerState(Entity* anEntity)
+void PlayerControllerSystem::UpdatePlayerState(Entity* anEntity) // dO in commands?
 {
 	if (!anEntity)
 		return;
