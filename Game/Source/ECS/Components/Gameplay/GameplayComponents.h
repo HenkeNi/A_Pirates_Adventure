@@ -93,6 +93,24 @@ struct AttributeComponent : public Component
 
 };
 
+
+/* - Controllers - */ // MOVE THIS 0> Not ai...	
+struct KeyStatus
+{
+	Hi_Engine::eKey Key;
+	Hi_Engine::eInputState State;
+};
+
+struct PlayerControllerComponent : Component
+{
+	//std::unordered_map<KeyStatus, class Command*> InputMapping;
+	std::unordered_map<Hi_Engine::eKey, class Command*> InputMapping; // TODO; rename, move Command from engine?
+	// - Input/Gamepad mappings -> key, command?
+	// COmmands..
+};
+
+
+// Rename? PlayerStateComponent, EntityState, StateComponent?
 struct CharacterStateComponent : public Component
 {
 	bool IsIdle;
@@ -102,12 +120,15 @@ struct CharacterStateComponent : public Component
 	bool IsAttacking;
 	bool IsAlive;
 
-
+	bool IsAiming;
 	// State machine??
 };
 
 
-
+struct CrosshairComponent : public Component
+{
+	// target?
+};
 
 
 // SpriteSheet component? (stores texture atlas, also holds current frame, etc...)
@@ -255,6 +276,9 @@ struct WeaponComponent : public Component
 	int		DamageDealt;
 };
 
+// gun component?
+
+// bullet component?
 
 // place in Physics??
 

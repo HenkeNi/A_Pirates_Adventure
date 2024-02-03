@@ -29,6 +29,7 @@
 #include "Map/MapGenerationSystem.h"
 #include "Map/MapDecorationSystem.h"
 #include "Time/TimeSystem.h"
+#include "Transition/SceneTransitionSystem.h"
 
 /* Rendering systems */
 #include "Rendering/Animation/SpriteAnimationSystem.h"

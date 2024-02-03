@@ -4,11 +4,23 @@
 
 SceneManager::SceneManager()
 {
+	PostMaster::GetInstance().Subscribe(eMessage::TransitionToScene, this);
 }
 
 SceneManager::~SceneManager()
 {
+	PostMaster::GetInstance().Unsubscribe(eMessage::TransitionToScene, this);
 	Clear();
+}
+
+void SceneManager::Receive(Message& aMsg)
+{
+	if (aMsg.GetMessageType() == eMessage::TransitionToScene)
+	{
+		auto sceneType = std::any_cast<eScene>(aMsg.GetData());
+
+		Push(sceneType);
+	}
 }
 
 void SceneManager::Init(std::bitset<(int)eScene::Count> someScenes)
@@ -20,6 +32,14 @@ void SceneManager::Init(std::bitset<(int)eScene::Count> someScenes)
 			m_stack.Push((eScene)i);
 		}
 	}
+}
+
+void SceneManager::Register(MutableScene aScene, eScene aType)
+{
+	assert(aScene != nullptr);
+
+	m_scenes.insert_or_assign(aType, std::move(aScene));
+	m_scenes[aType]->OnCreated();
 }
 
 //void SceneManager::Init(int aSceneSet)
@@ -50,13 +70,6 @@ std::shared_ptr<const Scene> SceneManager::GetActiveScene() const
 }
 
 
-void SceneManager::Register(MutableScene aScene, eScene aType)
-{
-	assert(aScene != nullptr);
-
-	m_scenes.insert_or_assign(aType, std::move(aScene));
-	m_scenes[aType]->OnCreated();
-}
 
 void SceneManager::Push(eScene aType)
 {

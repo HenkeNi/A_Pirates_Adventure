@@ -9,7 +9,7 @@
 
 namespace Registration
 {
-	void RegisterComponents()
+	void RegisterComponents() // takes in an factory?
 	{
 
 		auto& Factory = EntityManager::GetFactory();
@@ -35,6 +35,7 @@ namespace Registration
 		componentBuilders.push_back(std::make_pair("Input",				new ConcreteComponentBuilder<InputComponent>));
 		componentBuilders.push_back(std::make_pair("Animation",			new ConcreteComponentBuilder<AnimationComponent>));
 		componentBuilders.push_back(std::make_pair("Collider",			new ConcreteComponentBuilder<ColliderComponent>));
+		componentBuilders.push_back(std::make_pair("Cursor",			new ConcreteComponentBuilder<CursorComponent>));
 
 		componentBuilders.push_back(std::make_pair("SceneTransition",	new ConcreteComponentBuilder<SceneTransitionComponent>));
 
@@ -100,6 +101,8 @@ namespace Registration
 		aSystemManager.Register(std::make_unique<SpriteAnimationSystem>());
 		aSystemManager.Register(std::make_unique<StatSystem>());
 		aSystemManager.Register(std::make_unique<TimeSystem>());
+
+		aSystemManager.Register(std::make_unique<SceneTransitionSystem>());
 
 		/* - Map Systems - */
 		aSystemManager.Register(std::make_unique<MapGenerationSystem>());

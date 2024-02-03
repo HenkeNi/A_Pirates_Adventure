@@ -92,7 +92,7 @@ void OverworldScene::OnEnter()
 	//for (auto* node : skillTree.GetNextUnlockableNodes())
 	//	std::cout << node->Identifier << ' ';
 
-
+	auto* cursor = m_entityManager.Create("Mouse_Cursor");
 	
 	// Player
 	auto* player = m_entityManager.Create("Player");

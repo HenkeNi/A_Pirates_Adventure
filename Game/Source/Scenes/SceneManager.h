@@ -16,7 +16,7 @@ namespace
 	using ImmutableScene = std::shared_ptr<const Scene>;
 }
 
-class SceneManager
+class SceneManager : public Subscriber
 {
 public:
 	SceneManager();
@@ -24,12 +24,14 @@ public:
 
 	// LoadScene("MainMenu"	);
 	//void Init(int aSceneSet);					
+	void Receive(Message& aMsg) override;
+
+	void Init(std::bitset<(int)eScene::Count> someScenes);
+	void Register(MutableScene aScene, eScene aType);
 
 	MutableScene GetActiveScene();
 	ImmutableScene GetActiveScene() const;
 
-	void Init(std::bitset<(int)eScene::Count> someScenes);
-	void Register(MutableScene aScene, eScene aType);
 
 	void Push(eScene aType);
 	void Pop();
