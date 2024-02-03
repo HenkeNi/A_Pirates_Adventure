@@ -8,6 +8,7 @@
 #include "../Commands/Attack/AttackCommand.h"
 #include "../Commands/Sprint/SprintCommand.h"
 #include "../Commands/Pause/PauseCommand.h"
+#include "../Commands/Aim/AimCommand.h"
 
 #include "../AI/SteeringBehaviors/Flock/FlockBehavior.h"
 #include "../AI/SteeringBehaviors/Wander/WanderBehavior.h"
@@ -136,6 +137,7 @@ public:
 		aComponent->IsRunning = false;
 		aComponent->IsJumping = false;
 		aComponent->IsAttacking = false;
+		aComponent->IsAiming = false;
 	}
 
 	template <>
@@ -212,6 +214,7 @@ public:
 		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_Space, new AttackCommand));
 		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_LShift, new SprintCommand));
 		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_Escape, new PauseCommand));
+		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_1, new AimCommand)); // CHANGE To mouse button
 	}
 
 	template <>

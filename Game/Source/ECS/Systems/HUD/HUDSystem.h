@@ -14,6 +14,7 @@ public:
 	// Handle rendering as well?
 
 private:
-	void SetupHUDElements();
+	void SetupHUDElements(); // maybe should be done dynamically (at runtime) rather than at game start?
+	void UpdateCursor();
 
 };

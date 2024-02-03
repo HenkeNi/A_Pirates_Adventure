@@ -41,11 +41,16 @@ struct CameraComponent : public Component
 	CU::Vector2<float>	ZoomRange;
 	//class Entity*		m_target = nullptr;
 	unsigned			TargetID = 0;
+
+
+
+	Hi_Engine::Physics::AABB2D<unsigned> Frustum; 
 };
 
 struct InputComponent : public Component
 {
-	std::unordered_map<Hi_Engine::eKey, bool> InputStates; // replace with state instead of bool??
+	//std::unordered_map<Hi_Engine::eKey, Hi_Engine::eInputState> InputStates; // replace with state instead of bool?? rename KeyStates?
+	std::unordered_map<Hi_Engine::eKey, bool> InputStates; // replace with state instead of bool?? rename KeyStates?
 	CU::Vector2<double>						  MousePosition;
 	float									  MouseScroll;
 };
@@ -77,6 +82,11 @@ struct ColliderComponent : public Component
 	//bool								IsTrigger;
 };
 
+struct BoundingVolume : public Component // Or BOundingBox?
+{
+	Hi_Engine::Physics::AABB2D<unsigned> Volume;
+};
+
 struct TextComponent : public Component
 {
 	class Hi_Engine::Font* Font;
@@ -88,16 +98,31 @@ struct TextComponent : public Component
 	CU::Vector4<float>		Color;
 };
 
+// Rename BoundComponent?
+struct FollowComponent : public Component
+{
+	unsigned EntityID = 0;
+};
 
 
 
+struct ClickableComponent : public Component
+{
+
+};
+
+struct CursorComponent : public Component
+{
+
+};
 
 
 
+// Store current window size. etc...
+struct SettingsComponent : public Component
+{
 
-
-
-
+};
 
 
 

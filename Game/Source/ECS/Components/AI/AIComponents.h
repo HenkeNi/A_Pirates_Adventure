@@ -68,13 +68,6 @@ struct SteeringBehaviorComponent : public Component
 
 
 
-/* - Controllers - */
-struct PlayerControllerComponent : Component
-{
-	std::unordered_map<Hi_Engine::eKey, class Command*> InputMapping; // TODO; rename, move Command from engine?
-	// - Input/Gamepad mappings -> key, command?
-};
-
 struct AIController : Component
 {
 
