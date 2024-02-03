@@ -13,5 +13,6 @@ public:
 
 private:
 	// TODO: CameraSystem does fustrum culling?!
-
+	void CullEntities();
+	bool IsVisible(class Entity* anEntity) const; // rename
 };
