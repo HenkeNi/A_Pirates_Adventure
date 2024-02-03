@@ -274,5 +274,25 @@
     "height": 500,
     "rows": 1,
     "cols": 1
+  },
+  {
+    "id": "crosshair",
+    "path": "../Game/Assets/Textures/crosshair.png",
+    "alpha": true,
+    "filtering": "Linear",
+    "width": 512,
+    "height": 512,
+    "rows": 1,
+    "cols": 1
+  },
+  {
+    "id": "cannonball",
+    "path": "../Game/Assets/Textures/thumbnail_rock.png",
+    "alpha": true,
+    "filtering": "Linear",
+    "width": 920,
+    "height": 600,
+    "rows": 1,
+    "cols": 1
   }
 ]
