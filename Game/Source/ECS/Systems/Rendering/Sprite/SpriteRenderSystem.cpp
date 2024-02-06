@@ -67,7 +67,16 @@ void SpriteRenderSystem::Draw()
 			continue;
 
 		//auto& material = entity->GetComponent<SpriteComponent>()->m_material;
-		const auto& subtexture = entity->GetComponent<SpriteComponent>()->Subtexture;
+		
+		auto* spriteComponent = entity->GetComponent<SpriteComponent>();
+
+		if (!spriteComponent->ShouldRender)
+		{
+			std::cout << "Not rendering sprite!\n";
+			continue;
+		}
+
+		const auto& subtexture = spriteComponent->Subtexture;
 
 		const auto* transform	 = entity->GetComponent<TransformComponent>();
 		const auto& position	 = transform->CurrentPos;

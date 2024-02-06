@@ -44,6 +44,13 @@ void CameraSystem::Update(float aDeltaTime)
 	auto* transformComponent = camera->GetComponent<TransformComponent>();
 	auto* cameraComponent = camera->GetComponent<CameraComponent>();
 	
+
+	// TODO; cull entities (mark is should be rendered or not))?
+
+	// GO OVER ALL ENTIITES WITH SPRITE COMPONENT => Check if in view => set ShouldRender
+	CullEntities();
+
+
 	
 	// THIS IS DONE BY the rendering systems....
 	//Hi_Engine::RenderCommand command{};
@@ -73,13 +80,39 @@ void CameraSystem::Update(float aDeltaTime)
 
 
 	// TODO: update frustum 
+	float halfWidth = 3.f; // 1400.f * 0.5f;
+	float halfHeight = 2.f; //  800.f * 0.5f;
 
-	cameraComponent->Frustum.Init({ transformComponent->CurrentPos.x - (1400 * 0.5f), transformComponent->CurrentPos.y - (800 * 0.5f) }, {transformComponent->CurrentPos.x + (1400 * 0.5f), transformComponent->CurrentPos.y + (800 * 0.5f) });
+	float minX = transformComponent->CurrentPos.x - halfWidth;
+	float maxX = transformComponent->CurrentPos.x + halfWidth;
+	
+	float minY = transformComponent->CurrentPos.y - halfHeight;
+	float maxY = transformComponent->CurrentPos.y + halfHeight;
+
+	cameraComponent->Frustum.Init({ minX,  minY }, { maxX, maxY });
+}
+
+bool CameraSystem::IsInView(Entity* aCamera, const Hi_Engine::Physics::AABB2D<float>& someBounds)
+{
+	auto* cameraComponent = aCamera->GetComponent<CameraComponent>();
+
+	return Hi_Engine::Physics::Intersects(someBounds, cameraComponent->Frustum);
 }
 
 void CameraSystem::CullEntities()
 {
+	auto* camera = m_entityManager->FindFirst<CameraComponent>();
+	auto entities = m_entityManager->FindAll<SpriteComponent>();
 
+	for (auto* entity : entities)
+	{
+		// If in view (function)
+		auto* transformComponent = entity->GetComponent<TransformComponent>();
+		auto currentPosition = transformComponent->CurrentPos;
+
+		auto* spriteComponent = entity->GetComponent<SpriteComponent>();
+		spriteComponent->ShouldRender = camera->GetComponent<CameraComponent>()->Frustum.IsInside(currentPosition);
+	}
 }
 
 bool CameraSystem::IsVisible(Entity* anEntity) const

@@ -3,6 +3,7 @@
 #include "Entities/EntityManager.h"
 #include "Components/Map/MapComponents.h"
 #include "Components/Core/CoreComponents.h"
+#include "Systems/Rendering/Camera/CameraSystem.h"
 
 
 MapRenderSystem::MapRenderSystem()
@@ -38,10 +39,23 @@ void MapRenderSystem::Draw()
 
 	//auto culledEntities = PerformFustrumCulling(entities);
 
+	// TEMP`?
+
 	for (auto entity : entities)
 	{
-		auto* mapChunk		 = entity->GetComponent<MapChunkComponent>();
 		auto currentPosition = entity->GetComponent<TransformComponent>()->CurrentPos;
+		auto* mapChunk		 = entity->GetComponent<MapChunkComponent>();
+
+
+		// TODO:: pass in bounds (componetn)?
+
+		Hi_Engine::Physics::AABB2D<float> bounds;
+		bounds.Init({ currentPosition.x, currentPosition.y }, { currentPosition.x + (10 * Tile::Size), currentPosition.y + (10 * Tile::Size) });
+		//bounds.Init({ currentPosition.x, currentPosition.y }, { currentPosition.x + (mapChunk->Width * Tile::Size), currentPosition.y + (mapChunk->Height * Tile::Size) });
+
+		if (!CameraSystem::IsInView(camera, bounds))
+			continue;
+
 
 		// DrawMapChunk(mapChunk, currentPosition);
 

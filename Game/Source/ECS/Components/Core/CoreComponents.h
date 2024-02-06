@@ -28,7 +28,7 @@ struct SpriteComponent : public Component
 	// Hi_Engine::Material m_material;	// Store strings instead?? keys..
 
 	CU::Vector2<float> Pivot = { 0.5f, 1.f };
-
+	bool ShouldRender; 
 	// int m_textureID; ?
 	// int m_shaderID; ?
 	// width, hight??
@@ -44,7 +44,7 @@ struct CameraComponent : public Component
 
 
 
-	Hi_Engine::Physics::AABB2D<unsigned> Frustum; 
+	Hi_Engine::Physics::AABB2D<float> Frustum; 
 };
 
 struct InputComponent : public Component
