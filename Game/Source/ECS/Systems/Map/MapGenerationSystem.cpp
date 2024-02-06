@@ -162,7 +162,7 @@ void MapGenerationSystem::GenerateMapChunk(int xCoord, int yCoord)
 			glm::vec3 position = { currentPosition.x, currentPosition.y, 0.f };
 			position.x += tile.Coordinates.x * Tile::Size;
 			position.y += tile.Coordinates.y * Tile::Size;
-			renderData.Transform = { position, { 1.f, 1.f }, 0.f };
+			renderData.Transform = { position, { 1.01f, 1.01f }, 0.f }; // TEMP Solution with scale at 1.01f
 			mapChunkComponent->RenderData.push_back(renderData);
 		}
 	}
