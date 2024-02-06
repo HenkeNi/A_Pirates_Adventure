@@ -1,17 +1,31 @@
-Render all hearts as a texture (when losing a heart, move the rendered area...)
+###################### TODO ######################
 
+	-> Render thread...
 
-ALl scenes have a PlayerController that handles input?? Unpause etc??
+	-> Text, batched?
 
-
-
-Water is animated tiles??
-
-
-
+	Day/night cycle
+		* two different textuers?? blend => (one is day texture, and one is night texture.) YES!!
 
 
 
+	-> place bombs (stardew valley)
+
+###################### MAYBE ######################
+
+UI;
+	-> Render all hearts as a texture (when losing a heart, move the rendered area...)
+
+
+
+Input;
+	
+	-> ALl scenes have a PlayerController that handles input?? Unpause etc??
+
+
+Water;
+
+	-> Water is an animated tiles??
 
 
 
@@ -19,13 +33,7 @@ Water is animated tiles??
 
 
 
-TODO;
 
-	* TEXT
-
-	* Render thread...
-
-	* UI
 
 
 	* Component that hnadles scene transitions??s
@@ -73,18 +81,6 @@ Rendering;
 
 
 
-UI System => creates entities?
-	-> hides/shows them based on how much health left player has...
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -94,34 +90,16 @@ UI System => creates entities?
 
 Activate/Deactivate systems when transitioning to new scene?
 
-
 register commands in engine/input handler?
 
-
 splines--!?
-
-
-
-
-
-
 
 add .ZeroVector to vector classes??
 
 
 
-
-
-
 IF not compile in relase,
 	put FT_Library.dll in bin with .exe for launcher...
-
-
-
-
-
-
-
 
 
 
@@ -135,8 +113,6 @@ Systems
 
 Update scene to not future Update, LateUpdate and Render?
 	- sends message when transitioning to a new scene? pass in bool if should clear entities?
-
-
 
 
 
@@ -159,30 +135,7 @@ Update scene to not future Update, LateUpdate and Render?
 
 
 
-
-
-
-
-
-
-
-
-
-Load blueprints for specific Scene OnEnter()??
-
-
-
-
-
-
-
-
-
 Populate level();
-
-
-
-
 
 
 
@@ -202,16 +155,6 @@ Todo;
 
 
 
-
-
-
-
-
-
-
-
-
-
 		consider putting SceneManager and scenes in engine...
 		and gameobject/component base classes...
 
@@ -224,38 +167,20 @@ Todo;
 
 
 
-	draw tiles at the bottom first (closest to the player)
-
-
-
+draw tiles at the bottom first (closest to the player)
 
 
 Material => shader + texture??
 
 
 
-
-
-Day/night cycle
-* two different textuers?? blend => (one is day texture, and one is night texture.) YES!!
-
-
-
-
 Camera:
 	* player has a camera controller???
-
-	camera in each scene??
-
-
+	
 	Gameobject has a pointer to the scene??
 
 
-
-
-
 should world be x and z (laying flat) or x and y (standing up/on its edge)
-
 
 
 ## Code check-ups ##
@@ -299,61 +224,11 @@ Input/Commands;
 
 
 
-
--> swap scene command???
-
-
-
-
-
-
-
-
-
-
-* Fix camera following player
-* Controlls/input..
-
-
-* Map (tiled)
-* billboards..
-
-
-
-
-
-
-
-
-
-
-
-TODO; have playercontroller respond to key press...
-
-
-
-1. Create a player
-	- consider using observer pattern for input (not dispather system??)
-
-
-
 1. Load in scene objects...
-
-
 
 
 2. Check if Factories work as intended! doesn't use the copy function in components?!
 	- nvm uses the copy when creating gameobjects...	make sure it uses memory pool when using the build function!
-
-
-
-Classes;
-* MapGenerator
-
-
-
-
-
 
 
 Be able to subscribe to another objects messages??
@@ -508,11 +383,7 @@ Components;
 	* Velocity or Movement component?
 
 
-	* Sprite
 	* SpriteController? Or AnimatedSprite? Anímation? AnimationController?
-
-
-	* Text
 
 
 	_inventory /equipment
@@ -541,61 +412,23 @@ Folder structure;
 
 
 
-	* Projectile ocmponent???
+* Projectile ocmponent???
 
 
 
-	* Euipment comp?
-		-> ItemContainer = unorederd map eEquipmentSlot, GameObject..
+* Euipment comp?
+	-> ItemContainer = unorederd map eEquipmentSlot, GameObject..
 
 
-	* Effect component??
+* Effect component??
 
 
-	Camera component?
-
-
-
-
-	loading scene/gameobjects from json
+loading scene/gameobjects from json
 	""time request notification"
 
 
 
-
-GameObjectManager?? in Scene?? or hhave layers??
-
-
-
-
-Scene have a component list (refers to blueprints...)
-
-	"blueprint_id": "playButton"
-
-
-
-
-
-
-
-
-
-
-Factory...
-	- no need to specify components???!!
-		* defaeats the purpose??
-
-
-
-
-
-
-	Soberness is replacing sanity => if to sober => start seeing stuff
-
-
-
-
-
+Soberness is replacing sanity => if to sober => start seeing stuff
 
 
 
@@ -636,14 +469,8 @@ SceneLoader...
 
 SceneFactory...
 
-
-
-
-
-
 OnEnter()
 - Parse Scene/LoadScene("path", &m_gameObjects);
-
 
 auto* gameObject = GameFactory::GetInstance().Create(type);
 gameObject.AddComponent??
@@ -653,18 +480,16 @@ m_gameObject.push_back(gameObject);
 
 
 
-
-
-
-
-
-
-
-
 ## SceneBuilder ##
 * consider using Factory to create scenes?!
 - can't be unique...
 - 
+
+
+
+
+
+
 
 
 
@@ -689,15 +514,3 @@ public:
 		return new T{};
 	}
 };
-
-
-
-
-
-
-
-
-### Camera ###
-- as a component
-- in scene manager (shared by all scenes...)
-- in scene

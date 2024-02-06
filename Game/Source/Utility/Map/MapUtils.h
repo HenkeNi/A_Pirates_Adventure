@@ -6,7 +6,7 @@ struct Tile;
 namespace CU = CommonUtilities;
 
 // Instead have a MapChunk class; MapChunkComponent store it as member..
-class MapUtils
+class MapUtils // Static functions in one of the MapSystems?
 {
 public:
 	static Entity*	GetMapChunkAtPosition(const std::vector<Entity*>& someMapChunks, const CU::Vector2<float>& aPosition);
