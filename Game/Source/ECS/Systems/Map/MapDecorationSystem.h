@@ -13,5 +13,6 @@ public:
 	void Update(float aDeltaTime)	override;
 
 private:
-	void PopulateWithFoilage(const Entity* aMapChunk);
+	void GenerateResources(Entity* anEnity);
+	void PopulateWithFoilage(const Entity* aMapChunk); // PopulateWithFoilage, Decorate?
 };

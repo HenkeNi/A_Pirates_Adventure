@@ -30,17 +30,29 @@ eTile GetTileType(float aNoise)
 	return eTile::Water;
 }
 
-std::string GetSubtexture(eTile aType)
+std::string GetSubtexture(eTile aType) // TODO: check neighbours?
 {
 	static const std::unordered_map<eTile, std::string> textures = {
 		{ eTile::Grass,			"island_tileset_36" },
 		{ eTile::Sand,			"island_tileset_13" },
 		{ eTile::ShallowWater,  "island_tileset_18" },
-		{ eTile::Water,			"ground_tiles_01" },
-		{ eTile::DeepWater,		"island_tileset_06" },
+		{ eTile::Water,			"island_tileset_18" },
+		{ eTile::DeepWater,		"island_tileset_18" }, // NEEDED??
 	};
 
 	return textures.at(aType);
+}
+
+glm::vec4 GetTileColor(eTile aType)
+{
+	if (aType == eTile::ShallowWater)
+		return { 0.25f, 0.88f, 0.81f, 1.f };
+	if (aType == eTile::Water)
+		return { 0.f, 0.69f, 0.63f, 1.f };
+	if (aType == eTile::DeepWater)
+		return { 0.f, 0.16f, 0.16f, 1.f };
+
+	return { 1.f, 1.f, 1.f, 1.f };
 }
 
 
@@ -56,7 +68,15 @@ MapGenerationSystem::~MapGenerationSystem()
 
 void MapGenerationSystem::Receive(Message& aMsg)
 {
-	GenerateMapChunk();
+	// Generate x amount of areas...
+
+	for (int y = 0; y < 3; ++y)
+	{
+		for (int x = 0; x < 3; ++x)
+		{
+			GenerateMapChunk(x, y);
+		}
+	}
 }
 
 void MapGenerationSystem::Update(float aDeltaTime)
@@ -88,7 +108,7 @@ void MapGenerationSystem::Update(float aDeltaTime)
 		//std::cout << "Map chunk coordinate: " << mapChunk->GetComponent<MapChunkComponent>()->m_coordinates.x << ", " << mapChunk->GetComponent<MapChunkComponent>()->m_coordinates.y << '\n';
 }
 
-void MapGenerationSystem::GenerateMapChunk()
+void MapGenerationSystem::GenerateMapChunk(int xCoord, int yCoord)
 {
 	FastNoiseLite fastNoise;
 	fastNoise.SetNoiseType(FastNoiseLite::NoiseType_Perlin);
@@ -96,6 +116,9 @@ void MapGenerationSystem::GenerateMapChunk()
 	//fastNoise.SetFrequency(0.006f);
 
 	static const float tileSize = 1.f;
+
+	// FIX; read from component...
+	const int width = 10;
 
 	unsigned size = Constants::InitialChunkSquareSize;
 
@@ -105,15 +128,21 @@ void MapGenerationSystem::GenerateMapChunk()
 	auto* mapChunkComponent = entity->GetComponent<MapChunkComponent>();
 	auto* transformComponent = entity->GetComponent<TransformComponent>();
 
-	transformComponent->CurrentPos = { 0, 0 }; //{ (float)col * (mapChunkComponent->Width * tileSize), (float)row * (mapChunkComponent->Height * tileSize) };
-	mapChunkComponent->Coordinates = { 0, 0 };// { col, row };
+	mapChunkComponent->Coordinates = { xCoord, yCoord };// { col, row };
+	
+	float xPos = xCoord * (width * Tile::Size);
+	float yPos = yCoord * (width * Tile::Size);
+	transformComponent->CurrentPos = { xPos, yPos }; //{ (float)col * (mapChunkComponent->Width * tileSize), (float)row * (mapChunkComponent->Height * tileSize) };
+	
+	//transformComponent->CurrentPos = { 0, 0 }; //{ (float)col * (mapChunkComponent->Width * tileSize), (float)row * (mapChunkComponent->Height * tileSize) };
+	//mapChunkComponent->Coordinates = { 0, 0 };// { col, row };
 
 	// populate with tiles
-	for (int height = 0; height < mapChunkComponent->Height; ++height)
+	for (int height = 0; height < 10 /*mapChunkComponent->Height*/; ++height)
 	{
-		for (int width = 0; width < mapChunkComponent->Width; ++width)
+		for (int width = 0; width < 10 /*mapChunkComponent->Width*/; ++width)
 		{
-			float noise = fastNoise.GetNoise((float)width, float(height));
+			float noise = fastNoise.GetNoise((float)xCoord + (float)width, (float)yCoord + float(height));
 
 			Tile tile;
 			tile.Coordinates = { height, width };
@@ -126,7 +155,7 @@ void MapGenerationSystem::GenerateMapChunk()
 
 			// Check if more optimized (dont have to do every frame?!)
 			Hi_Engine::SpriteRenderData renderData;
-			renderData.Color = { tile.Color.x, tile.Color.y, tile.Color.z, tile.Color.w };
+			renderData.Color = GetTileColor(tile.Type); // { tile.Color.x, tile.Color.y, tile.Color.z, tile.Color.w };
 			renderData.Subtexture = tile.Subtexture;
 			auto currentPosition = transformComponent->CurrentPos;
 
