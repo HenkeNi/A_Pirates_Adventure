@@ -88,6 +88,41 @@ void MapUtils::GetCoordinates(int aIndex, int aWidth, int& outX, int& outY)
 	outY = aIndex / aWidth;
 }
 
+eTile MapUtils::GetTileTypeInDirection(Entity* aMapChunk, int anIndex, eDirection aDirection)
+{
+	auto* mapChunkComponent = aMapChunk->GetComponent<MapChunkComponent>();
+
+	auto tiles = mapChunkComponent->Tiles;
+
+	unsigned width = 10; //mapChunkComponent->Width;
+
+	int row = anIndex / width;
+	int col = anIndex % width;
+
+	if (aDirection == eDirection::Up && row > 0)
+	{
+		int index = ((row - 1) * width) + col;
+		return tiles.at(index).Type;
+	}
+	if (aDirection == eDirection::Down && row < width - 1)
+	{
+		int index = ((row + 1) * width) + col;
+		return tiles.at(index).Type;
+	}
+	if (aDirection == eDirection::Left && col > 0)
+	{
+		int index = anIndex - 1;
+		return tiles.at(index).Type;
+	}
+	if (aDirection == eDirection::Right && col < width - 1)
+	{
+		int index = anIndex + 1;
+		return tiles.at(index).Type;
+	}
+
+	return eTile::Void;
+}
+
 
 
 //auto mapChunkComponent = aMapChunk->GetComponent<MapChunkComponent>();

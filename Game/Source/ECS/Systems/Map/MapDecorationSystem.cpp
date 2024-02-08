@@ -8,6 +8,12 @@
 
 unsigned GetResourceSpawnChance(const std::string& aResource); // FIX!
 
+struct ResourceSpawnSettings
+{
+	 
+};
+
+
 MapDecorationSystem::MapDecorationSystem()
 {
 	PostMaster::GetInstance().Subscribe(eMessage::MapChunkGenerated, this);

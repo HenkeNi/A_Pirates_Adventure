@@ -13,4 +13,5 @@ public:
 
 private:
 	void GenerateMapChunk(int xCoord, int yCoord);
+	void RetileMapChunk(class Entity* anEntity);
 };

@@ -35,6 +35,16 @@ Water;
 
 
 
+	** AI - GOAP
+
+		-> have a plan generator (generates (multiple) queues of plans) -> an npc takes (from the queue that fits best - solider, builder, etc)
+			and perform the plan (can generate x amount of plans each frame... spread out...)
+
+
+
+
+
+
 
 	* Component that hnadles scene transitions??s
 

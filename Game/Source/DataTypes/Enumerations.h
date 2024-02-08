@@ -66,7 +66,7 @@ enum class eBTNodeStatus
 
 enum class eTile
 {
-	Grass, Sand, ShallowWater, Water, DeepWater
+	Grass, Sand, ShallowWater, Water, DeepWater, Void
 };
 
 enum class eMovementDir
@@ -80,6 +80,14 @@ enum class eMovementDir
 	UpRight,
 	DownLeft,
 	DownRight
+};
+
+enum class eDirection
+{
+	Up,
+	Down,
+	Left,
+	Right
 };
 
 enum eCollisionLayer

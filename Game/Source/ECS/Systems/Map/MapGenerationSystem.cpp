@@ -115,6 +115,8 @@ void MapGenerationSystem::GenerateMapChunk(int xCoord, int yCoord)
 	fastNoise.SetFrequency(0.06f);
 	//fastNoise.SetFrequency(0.006f);
 
+	// Generate numbers first??
+
 	static const float tileSize = 1.f;
 
 	// FIX; read from component...
@@ -123,7 +125,7 @@ void MapGenerationSystem::GenerateMapChunk(int xCoord, int yCoord)
 	unsigned size = Constants::InitialChunkSquareSize;
 
 	// create mapChunk..
-	auto entity = m_entityManager->Create("MapChunk");
+	auto* entity = m_entityManager->Create("MapChunk");
 
 	auto* mapChunkComponent = entity->GetComponent<MapChunkComponent>();
 	auto* transformComponent = entity->GetComponent<TransformComponent>();
@@ -142,7 +144,7 @@ void MapGenerationSystem::GenerateMapChunk(int xCoord, int yCoord)
 	{
 		for (int width = 0; width < 10 /*mapChunkComponent->Width*/; ++width)
 		{
-			float noise = fastNoise.GetNoise((float)xCoord + (float)width, (float)yCoord + float(height));
+			float noise = fastNoise.GetNoise((float)xPos + (float)width, (float)yPos + float(height));
 
 			Tile tile;
 			tile.Coordinates = { height, width };
@@ -167,7 +169,29 @@ void MapGenerationSystem::GenerateMapChunk(int xCoord, int yCoord)
 		}
 	}
 
+	//RetileMapChunk(entity); => wont work?! uses render data now more...
+
 	// TEMP -> populate regardless of water or land...
 	//if (isLand)
 	PostMaster::GetInstance().SendMessage({ eMessage::MapChunkGenerated, entity });
+}
+
+void MapGenerationSystem::RetileMapChunk(Entity* anEntity)
+{
+	auto* mapChunkComponent = anEntity->GetComponent<MapChunkComponent>();
+	
+	for (int i = 0; i < 100; ++i)
+	{
+		if (mapChunkComponent->Tiles[i].Type != eTile::Sand)
+			continue;
+
+		if (MapUtils::GetTileTypeInDirection(anEntity, i, eDirection::Down) == eTile::ShallowWater)
+		{
+			auto& tiles = mapChunkComponent->Tiles;
+			tiles[i].Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource("island_tileset_31");
+			tiles[i].Color = { 0.f, 0.3f, 0.5f, 1.f };
+			//mapChunkComponent->Tiles.at(i).Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource("island_tileset_31");
+		}
+
+	}
 }

@@ -14,4 +14,6 @@ public:
 	static Tile*	GetTileAtWorldPosition(Entity* aMapChunk, const CU::Vector2<float>& aWorldPosition);
 
 	static void		GetCoordinates(int aIndex, int aWidth, int& outX, int& outY);
+
+	static eTile GetTileTypeInDirection(Entity* aMapChunk, int anIndex, eDirection aDirection);
 };
