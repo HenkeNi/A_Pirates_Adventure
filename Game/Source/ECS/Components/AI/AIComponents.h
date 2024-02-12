@@ -68,7 +68,7 @@ struct SteeringBehaviorComponent : public Component
 
 
 
-struct AIController : Component
+struct AIController : public Component
 {
 
 };

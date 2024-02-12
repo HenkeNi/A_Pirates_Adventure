@@ -39,7 +39,7 @@ struct RecipeComponent : public Component
 
 
 // TreeResourceComponent
-struct ResourceComponent : Component
+struct ResourceComponent : public Component
 {
 	//std::string m_entityToCreate = "TreeResource";	// FIX!
 	// std::string m_entityToCreate = "Resource";	// FIX!
@@ -53,7 +53,7 @@ struct ResourceComponent : Component
 
 // Harvest system?? HarvetableComponent  ResourceSpawnerComponent
 
-struct HarvestableComponent : Component
+struct HarvestableComponent : public Component
 {
 	std::string ResourceType;	 // Rename??
 	int			Yield;
@@ -61,7 +61,7 @@ struct HarvestableComponent : Component
 
 
 // Replace with ItemSpawner??
-struct ResourceProducerComponent : Component
+struct ResourceProducerComponent : public Component
 {
 	std::string		DroppedResource;
 	unsigned		Quantity;
@@ -101,7 +101,7 @@ struct KeyStatus
 	Hi_Engine::eInputState State;
 };
 
-struct PlayerControllerComponent : Component
+struct PlayerControllerComponent : public Component
 {
 	//std::unordered_map<KeyStatus, class Command*> InputMapping;
 	std::unordered_map<Hi_Engine::eKey, class Command*> InputMapping; // TODO; rename, move Command from engine?

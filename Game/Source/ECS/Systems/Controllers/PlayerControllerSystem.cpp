@@ -16,7 +16,7 @@ PlayerControllerSystem::PlayerControllerSystem()
 
 PlayerControllerSystem::~PlayerControllerSystem()
 {
-	PostMaster::GetInstance().Subscribe(eMessage::AttackAnimationFinished, this);
+	PostMaster::GetInstance().Unsubscribe(eMessage::AttackAnimationFinished, this);
 }
 
 void PlayerControllerSystem::Receive(Message& aMsg)
