@@ -90,6 +90,14 @@ enum class eDirection
 	Right
 };
 
+enum class eDirectionalValue
+{
+	North = 1,
+	West = 2,
+	East = 4,
+	South = 8
+};
+
 enum eCollisionLayer
 {
 	Default,

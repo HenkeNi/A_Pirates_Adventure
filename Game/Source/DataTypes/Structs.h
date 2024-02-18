@@ -34,7 +34,7 @@ struct Range
 struct Tile
 {
 	//Hi_Engine::Material m_material;
-	class Hi_Engine::Subtexture2D* Subtexture;
+	class Hi_Engine::Subtexture2D* Subtexture; // NEED TO STORE?
 	CU::Vector4<float>	Color  = { 1.f, 1.f, 1.f, 1.f }; // DO ELSEWHER!?
 	CU::Vector2<float>	Position;			// store chunk coordiante instead?
 	CU::Vector2<int>	Coordinates;			// Use only one!!

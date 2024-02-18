@@ -193,8 +193,10 @@ public:
 		int width = std::any_cast<int>(someData.at("width"));
 		int height = std::any_cast<int>(someData.at("height"));
 
-		aComponent->Width = width;
-		aComponent->Height = height;
+		MapChunkComponent::TileCountPerSide = width;
+
+		//aComponent->Width = width;
+		//aComponent->Height = height;
 	}
 
 	template <>

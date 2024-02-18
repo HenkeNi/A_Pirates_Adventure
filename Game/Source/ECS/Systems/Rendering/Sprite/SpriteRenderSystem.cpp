@@ -72,7 +72,7 @@ void SpriteRenderSystem::Draw()
 
 		if (!spriteComponent->ShouldRender)
 		{
-			std::cout << "Not rendering sprite!\n";
+			//std::cout << "Not rendering sprite!\n";
 			continue;
 		}
 

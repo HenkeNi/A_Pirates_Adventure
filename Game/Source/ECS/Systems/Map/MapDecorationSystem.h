@@ -2,7 +2,7 @@
 #include "../Base/System.h"
 
 class Entity;
-
+// Rename? Foilage Decroratiom, ResourcePoplation?
 class MapDecorationSystem : public System
 {
 public:

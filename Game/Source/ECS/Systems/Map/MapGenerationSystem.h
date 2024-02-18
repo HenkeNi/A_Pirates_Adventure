@@ -13,5 +13,12 @@ public:
 
 private:
 	void GenerateMapChunk(int xCoord, int yCoord);
-	void RetileMapChunk(class Entity* anEntity);
+
+	// ApplyTileSettings?
+	void ApplyTextures(class Entity* anEntity); // RetileMapChunk - do in separate system?	TextureMappingSystem? -> creates holes. etc when digging?!
+
+
+	// Maybe?
+	void UnloadMapChunk();
+
 };

@@ -16,8 +16,10 @@ Entity* MapUtils::GetMapChunkAtPosition(const std::vector<Entity*>& someMapChunk
 		auto minXPosition = transformComponent->CurrentPos.x;
 		auto minYPosition = transformComponent->CurrentPos.y;
 
-		auto maxXPosition = minXPosition + mapChunkComponent->Width;
-		auto maxYPosition = minYPosition + mapChunkComponent->Height;
+		auto maxXPosition = minXPosition + MapChunkComponent::TileCountPerSide;
+		//auto maxXPosition = minXPosition + mapChunkComponent->Width;
+		auto maxYPosition = minYPosition + MapChunkComponent::TileCountPerSide;
+		//auto maxYPosition = minYPosition + mapChunkComponent->Height;
 
 		if (aPosition.x < minXPosition || aPosition.x > maxXPosition ||
 			aPosition.y < minYPosition || aPosition.y > maxYPosition)
@@ -88,25 +90,29 @@ void MapUtils::GetCoordinates(int aIndex, int aWidth, int& outX, int& outY)
 	outY = aIndex / aWidth;
 }
 
-eTile MapUtils::GetTileTypeInDirection(Entity* aMapChunk, int anIndex, eDirection aDirection)
+eTile MapUtils::GetTileTypeInDirection(const Entity* aMapChunk, int anIndex, eDirection aDirection)
 {
 	auto* mapChunkComponent = aMapChunk->GetComponent<MapChunkComponent>();
 
 	auto tiles = mapChunkComponent->Tiles;
 
-	unsigned width = 10; //mapChunkComponent->Width;
+	unsigned chunkSize = MapChunkComponent::TileCountPerSide;
 
-	int row = anIndex / width;
-	int col = anIndex % width;
+	int row = anIndex / chunkSize;
+	int col = anIndex % chunkSize;
 
-	if (aDirection == eDirection::Up && row > 0)
+	//if (aDirection == eDirection::Up && row > 0)
+	if (aDirection == eDirection::Up && row < chunkSize - 1)
 	{
-		int index = ((row - 1) * width) + col;
+		//int index = ((row - 1) * chunkSize) + col;
+		int index = ((row + 1) * chunkSize) + col;
 		return tiles.at(index).Type;
 	}
-	if (aDirection == eDirection::Down && row < width - 1)
+	//if (aDirection == eDirection::Down && row < chunkSize - 1)
+	if (aDirection == eDirection::Down && row > 0)
 	{
-		int index = ((row + 1) * width) + col;
+		//int index = ((row + 1) * chunkSize) + col;
+		int index = ((row - 1) * chunkSize) + col;
 		return tiles.at(index).Type;
 	}
 	if (aDirection == eDirection::Left && col > 0)
@@ -114,7 +120,7 @@ eTile MapUtils::GetTileTypeInDirection(Entity* aMapChunk, int anIndex, eDirectio
 		int index = anIndex - 1;
 		return tiles.at(index).Type;
 	}
-	if (aDirection == eDirection::Right && col < width - 1)
+	if (aDirection == eDirection::Right && col < chunkSize - 1)
 	{
 		int index = anIndex + 1;
 		return tiles.at(index).Type;
@@ -123,6 +129,44 @@ eTile MapUtils::GetTileTypeInDirection(Entity* aMapChunk, int anIndex, eDirectio
 	return eTile::Void;
 }
 
+int MapUtils::IsTileTypeInDirection(Entity* aMapChunk, int anIndex, eDirectionalValue aDirection, eTile aType)
+{
+	auto* mapChunkComponent = aMapChunk->GetComponent<MapChunkComponent>();
+
+	auto tiles = mapChunkComponent->Tiles;
+
+	unsigned chunkSize = MapChunkComponent::TileCountPerSide;
+
+	int row = anIndex / chunkSize;
+	int col = anIndex % chunkSize;
+
+	//if (aDirection == eDirection::Up && row > 0)
+	if (aDirection == eDirectionalValue::North && row < chunkSize - 1)
+	{
+		//int index = ((row - 1) * chunkSize) + col;
+		int index = ((row + 1) * chunkSize) + col;
+		return (tiles.at(index).Type == aType);
+	}
+	//if (aDirection == eDirection::Down && row < chunkSize - 1)
+	if (aDirection == eDirectionalValue::South && row > 0)
+	{
+		//int index = ((row + 1) * chunkSize) + col;
+		int index = ((row - 1) * chunkSize) + col;
+		return tiles.at(index).Type == aType;
+	}
+	if (aDirection == eDirectionalValue::West && col > 0)
+	{
+		int index = anIndex - 1;
+		return tiles.at(index).Type == aType;
+	}
+	if (aDirection == eDirectionalValue::East && col < chunkSize - 1)
+	{
+		int index = anIndex + 1;
+		return tiles.at(index).Type == aType;
+	}
+
+	return 0;
+}
 
 
 //auto mapChunkComponent = aMapChunk->GetComponent<MapChunkComponent>();

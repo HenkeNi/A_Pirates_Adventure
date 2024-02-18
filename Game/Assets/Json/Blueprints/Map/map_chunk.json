@@ -13,8 +13,8 @@
     {
       "type": "MapChunk",
       "properties": {
-        "width": 250,
-        "height": 250
+        "width": 10,
+        "height": 10
       }
     },
     {

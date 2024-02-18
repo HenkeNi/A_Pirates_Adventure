@@ -9,17 +9,67 @@
 
 
 
+
+
+CU::Vector2<int> ConvertWorldPositionToMapChunkCoordinates(const CU::Vector2<float>& aWorldPosition)
+{
+	float chunkSize = MapChunkComponent::TileCountPerSide * Tile::Size;
+
+	CU::Vector2<int> coordinates;
+	coordinates.x = (int)std::floor(aWorldPosition.x / chunkSize);
+	coordinates.y = (int)std::floor(aWorldPosition.y / chunkSize);
+
+	return coordinates;
+}
+
+
+
+
+
+// WHere to store various tile settings? ResourceHolder TileSettings?
+struct TileSettings
+{
+	std::string Identifier; //?? NEEDED?
+	CU::Vector4<float> Color;
+ // ARray of subtextures??
+	bool isCollidable;
+};
+
+
 eTile GetTileType(float aNoise)
 {
-	static const std::unordered_map<eTile, float> noiseRanges = { 
-		{ eTile::Grass,			0.4f },
-		{ eTile::Sand,			0.2f },
-		{ eTile::ShallowWater,	0.f },
-		{ eTile::Water,			-0.2f },
-		{ eTile::DeepWater,		-0.5f },
+	int noise = (int)(aNoise * 10);
+
+	std::cout << noise << "\n";
+
+	static const std::unordered_map<eTile, int> tileHeightValues = {
+	{ eTile::Grass,			4 },
+	{ eTile::Sand,			2 },
+	{ eTile::ShallowWater,	0 },
+	{ eTile::Water,			-1 },
+	{ eTile::DeepWater,		-3 },
 	};
 
-	for (const auto& [type, value] : noiseRanges)
+	for (const auto& [type, value] : tileHeightValues)
+	{
+		if (noise >= value)
+		{
+			return type;
+		}
+	}
+
+	return eTile::Water;
+
+	//static const std::unordered_map<eTile, float> noiseRanges = { 
+	//	{ eTile::Grass,			0.4f },
+	//	{ eTile::Sand,			0.2f },
+	//	{ eTile::ShallowWater,	0.f },
+	//	{ eTile::Water,			-0.2f },
+	//	{ eTile::DeepWater,		-0.5f },
+	//};
+
+	// TODO: clamp or re-rnage instead!? value between -1 and 1? multiply with something and convert to int? (truncate)? google convert perlin noise to tile type+
+	/*for (const auto& [type, value] : noiseRanges)
 	{
 		if (aNoise > value)
 		{
@@ -27,7 +77,7 @@ eTile GetTileType(float aNoise)
 		}
 	}
 
-	return eTile::Water;
+	return eTile::Water;*/
 }
 
 std::string GetSubtexture(eTile aType) // TODO: check neighbours?
@@ -84,32 +134,34 @@ void MapGenerationSystem::Update(float aDeltaTime)
 	if (!m_entityManager)
 		return;
 
-	return;
+	auto* player = m_entityManager->FindFirst<PlayerControllerComponent>();
 
-	// get player position? if left area, make more chunks...
-
-	// auto player = m_entityManager->FindAll<PlayerControllerComponent>()[0];
-	// auto playerTransformComponent = player->GetComponent<TransformComponent>();
-
-
-	// auto mapChunks = m_entityManager->FindAll<MapChunkComponent>();
-
-	auto players = m_entityManager->FindAll<PlayerControllerComponent>();
-
-	if (players.empty())
+	if (!player)
 		return;
 
-	auto player = players[0];
-	auto playerPosition = player->GetComponent<TransformComponent>()->CurrentPos;			// Todo, check all 4 corners of player (Get hitboxCollider)
+	auto* playerTransformComponent = player->GetComponent<TransformComponent>();
 
-	auto* mapChunk = MapUtils::GetMapChunkAtPosition(m_entityManager->FindAll<MapChunkComponent>(), { playerPosition.x, playerPosition.y });
+	auto coordinates = ConvertWorldPositionToMapChunkCoordinates(playerTransformComponent->CurrentPos);	// Todo, check all 4 corners of player (Get hitboxCollider)
+	
+	auto mapChunks = m_entityManager->FindAll<MapChunkComponent>();
+	for (const auto& mapChunk : mapChunks)
+	{
+		auto* mapChunkComponent = mapChunk->GetComponent<MapChunkComponent>();
+		if (mapChunkComponent->Coordinates == coordinates)
+		{
+			// Chunk already exist
+			return;
+		}
+	}
 
-	//if (mapChunk)
-		//std::cout << "Map chunk coordinate: " << mapChunk->GetComponent<MapChunkComponent>()->m_coordinates.x << ", " << mapChunk->GetComponent<MapChunkComponent>()->m_coordinates.y << '\n';
+	GenerateMapChunk(coordinates.x, coordinates.y);
+
+	// TODO; remove/unload chunks?
 }
 
 void MapGenerationSystem::GenerateMapChunk(int xCoord, int yCoord)
 {
+	// MOVE ELSEWHERE? static in a function (GetNoise)?
 	FastNoiseLite fastNoise;
 	fastNoise.SetNoiseType(FastNoiseLite::NoiseType_Perlin);
 	fastNoise.SetFrequency(0.06f);
@@ -117,12 +169,8 @@ void MapGenerationSystem::GenerateMapChunk(int xCoord, int yCoord)
 
 	// Generate numbers first??
 
-	static const float tileSize = 1.f;
 
-	// FIX; read from component...
-	const int width = 10;
-
-	unsigned size = Constants::InitialChunkSquareSize;
+	// unsigned size = Constants::InitialChunkSquareSize;
 
 	// create mapChunk..
 	auto* entity = m_entityManager->Create("MapChunk");
@@ -130,68 +178,119 @@ void MapGenerationSystem::GenerateMapChunk(int xCoord, int yCoord)
 	auto* mapChunkComponent = entity->GetComponent<MapChunkComponent>();
 	auto* transformComponent = entity->GetComponent<TransformComponent>();
 
+	float chunkWidth = MapChunkComponent::TileCountPerSide;
+
 	mapChunkComponent->Coordinates = { xCoord, yCoord };// { col, row };
 	
-	float xPos = xCoord * (width * Tile::Size);
-	float yPos = yCoord * (width * Tile::Size);
+	float xPos = xCoord * (chunkWidth * Tile::Size);
+	float yPos = yCoord * (chunkWidth * Tile::Size);
 	transformComponent->CurrentPos = { xPos, yPos }; //{ (float)col * (mapChunkComponent->Width * tileSize), (float)row * (mapChunkComponent->Height * tileSize) };
 	
 	//transformComponent->CurrentPos = { 0, 0 }; //{ (float)col * (mapChunkComponent->Width * tileSize), (float)row * (mapChunkComponent->Height * tileSize) };
 	//mapChunkComponent->Coordinates = { 0, 0 };// { col, row };
 
 	// populate with tiles
-	for (int height = 0; height < 10 /*mapChunkComponent->Height*/; ++height)
+	//for (int height = 0; height < mapChunkComponent->Height; ++height)
+	for (int height = 0; height < MapChunkComponent::TileCountPerSide; ++height)
 	{
-		for (int width = 0; width < 10 /*mapChunkComponent->Width*/; ++width)
+		for (int width = 0; width < MapChunkComponent::TileCountPerSide; ++width)
 		{
 			float noise = fastNoise.GetNoise((float)xPos + (float)width, (float)yPos + float(height));
 
+
+
 			Tile tile;
-			tile.Coordinates = { height, width };
+			tile.Coordinates = { width, height };
 			tile.IsCollidable = false; // FIX!
 			tile.Type = GetTileType(noise);
-	
-			std::string subtexture = GetSubtexture(tile.Type);
-			tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource(subtexture); // Sprite sheet is revered??
 			mapChunkComponent->Tiles.push_back(tile);
 
-			// Check if more optimized (dont have to do every frame?!)
-			Hi_Engine::SpriteRenderData renderData;
-			renderData.Color = GetTileColor(tile.Type); // { tile.Color.x, tile.Color.y, tile.Color.z, tile.Color.w };
-			renderData.Subtexture = tile.Subtexture;
-			auto currentPosition = transformComponent->CurrentPos;
-
-			glm::vec3 position = { currentPosition.x, currentPosition.y, 0.f };
-			position.x += tile.Coordinates.x * Tile::Size;
-			position.y += tile.Coordinates.y * Tile::Size;
-			renderData.Transform = { position, { 1.01f, 1.01f }, 0.f }; // TEMP Solution with scale at 1.01f
-			mapChunkComponent->RenderData.push_back(renderData);
+			
 		}
 	}
 
-	//RetileMapChunk(entity); => wont work?! uses render data now more...
+	ApplyTextures(entity);
 
 	// TEMP -> populate regardless of water or land...
 	//if (isLand)
 	PostMaster::GetInstance().SendMessage({ eMessage::MapChunkGenerated, entity });
 }
 
-void MapGenerationSystem::RetileMapChunk(Entity* anEntity)
+void MapGenerationSystem::ApplyTextures(Entity* anEntity) // Rename; texture map chunk?
 {
+	static const std::array<eDirectionalValue, 4> directionalValues = { eDirectionalValue::North, eDirectionalValue::West, eDirectionalValue::East, eDirectionalValue::South };
+
+	auto* transformComponent = anEntity->GetComponent<TransformComponent>();
 	auto* mapChunkComponent = anEntity->GetComponent<MapChunkComponent>();
 	
-	for (int i = 0; i < 100; ++i)
+	for (int i = 0; i < mapChunkComponent->Tiles.size(); ++i)
 	{
-		if (mapChunkComponent->Tiles[i].Type != eTile::Sand)
-			continue;
+		auto& tile = mapChunkComponent->Tiles[i];
 
-		if (MapUtils::GetTileTypeInDirection(anEntity, i, eDirection::Down) == eTile::ShallowWater)
+		if (tile.Type == eTile::Sand)
 		{
-			auto& tiles = mapChunkComponent->Tiles;
-			tiles[i].Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource("island_tileset_31");
-			tiles[i].Color = { 0.f, 0.3f, 0.5f, 1.f };
-			//mapChunkComponent->Tiles.at(i).Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource("island_tileset_31");
+			int baseValue = 0;
+
+			for (const auto& directionalValue : directionalValues)
+			{
+				bool isEmptySpace = MapUtils::IsTileTypeInDirection(anEntity, i, directionalValue, eTile::ShallowWater);
+				//if (MapUtils::GetTileTypeInDirection())
+				baseValue += (int)directionalValue * isEmptySpace;
+			}
+
+
+			//std::cout << "Base values " << baseValue << "\n";
+
+
+
+			if (MapUtils::GetTileTypeInDirection(anEntity, i, eDirection::Down) == eTile::ShallowWater)
+			{
+				tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource("island_tileset_31");
+				//tile.Color = { 0.f, 0.3f, 0.5f, 1.f };
+			}
+			else if (MapUtils::GetTileTypeInDirection(anEntity, i, eDirection::Up) == eTile::ShallowWater)
+			{
+				tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource("island_tileset_51");
+				//tile.Color = { 0.f, 0.3f, 0.5f, 1.f };
+			}
+			else if (MapUtils::GetTileTypeInDirection(anEntity, i, eDirection::Left) == eTile::ShallowWater)
+			{
+				tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource("island_tileset_40");
+				//tile.Color = { 0.f, 0.3f, 0.5f, 1.f };
+			}
+			else if (MapUtils::GetTileTypeInDirection(anEntity, i, eDirection::Right) == eTile::ShallowWater)
+			{
+				tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource("island_tileset_42");
+				//tile.Color = { 0.f, 0.3f, 0.5f, 1.f };
+			}
+			else
+			{
+				std::string subtexture = GetSubtexture(tile.Type);
+				tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource(subtexture); // Sprite sheet is revered??	
+			}
+		}
+		else /*if (tile.Type == eTile::ShallowWater)*/
+		{
+			std::string subtexture = GetSubtexture(tile.Type);
+			tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource(subtexture); // Sprite sheet is revered??
 		}
 
+		// Check if more optimized (dont have to do every frame?!)
+		Hi_Engine::SpriteRenderData renderData;
+		renderData.Color = GetTileColor(mapChunkComponent->Tiles[i].Type); // { tile.Color.x, tile.Color.y, tile.Color.z, tile.Color.w };
+		renderData.Subtexture = tile.Subtexture;
+		auto currentPosition = transformComponent->CurrentPos;
+
+		glm::vec3 position = { currentPosition.x, currentPosition.y, 0.f };
+		position.x += tile.Coordinates.x * Tile::Size;
+		position.y += tile.Coordinates.y * Tile::Size;
+		renderData.Transform = { position, { 1.01f, 1.01f }, 0.f }; // TEMP Solution with scale at 1.01f
+		mapChunkComponent->RenderData.push_back(renderData);
+
 	}
+}
+
+void MapGenerationSystem::UnloadMapChunk()
+{
+	// TODO; need to save world state in map chunk (placed objects, etc).. (store changes done by the player)
 }

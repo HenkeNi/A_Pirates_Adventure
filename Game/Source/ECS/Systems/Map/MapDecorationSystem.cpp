@@ -92,7 +92,8 @@ void MapDecorationSystem::PopulateWithFoilage(const Entity* aMapChunk)
 		auto* mapTransformComponent	= aMapChunk->GetComponent<TransformComponent>();
 
 		auto chunkPosition = mapTransformComponent->CurrentPos;
-		auto endPosition = CU::Vector2<float>{ chunkPosition.x + mapChunkComponent->Width * tileSize, chunkPosition.y + mapChunkComponent->Height * tileSize };
+		auto endPosition = CU::Vector2<float>{ chunkPosition.x + MapChunkComponent::TileCountPerSide * tileSize, chunkPosition.y + MapChunkComponent::TileCountPerSide * tileSize };
+		//auto endPosition = CU::Vector2<float>{ chunkPosition.x + mapChunkComponent->Width * tileSize, chunkPosition.y + mapChunkComponent->Height * tileSize };
 
 
 		for (int i = 0; i < anAmount; ++i)

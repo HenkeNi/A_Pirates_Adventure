@@ -15,5 +15,8 @@ public:
 
 	static void		GetCoordinates(int aIndex, int aWidth, int& outX, int& outY);
 
-	static eTile GetTileTypeInDirection(Entity* aMapChunk, int anIndex, eDirection aDirection);
+	static eTile GetTileTypeInDirection(const Entity* aMapChunk, int anIndex, eDirection aDirection);
+
+	static int IsTileTypeInDirection(Entity* aMapChunk, int anIndex, eDirectionalValue aDirection, eTile aType);
+
 };
