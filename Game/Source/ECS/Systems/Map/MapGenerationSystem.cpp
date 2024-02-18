@@ -169,50 +169,34 @@ void MapGenerationSystem::GenerateMapChunk(int xCoord, int yCoord)
 
 	// Generate numbers first??
 
-
-	// unsigned size = Constants::InitialChunkSquareSize;
-
-	// create mapChunk..
 	auto* entity = m_entityManager->Create("MapChunk");
 
 	auto* mapChunkComponent = entity->GetComponent<MapChunkComponent>();
-	auto* transformComponent = entity->GetComponent<TransformComponent>();
+	auto* transformComponent = entity->GetComponent<TransformComponent>(); // Do it need a transform compoentn?
 
-	float chunkWidth = MapChunkComponent::TileCountPerSide;
-
-	mapChunkComponent->Coordinates = { xCoord, yCoord };// { col, row };
+	mapChunkComponent->Coordinates = { xCoord, yCoord };
 	
-	float xPos = xCoord * (chunkWidth * Tile::Size);
-	float yPos = yCoord * (chunkWidth * Tile::Size);
-	transformComponent->CurrentPos = { xPos, yPos }; //{ (float)col * (mapChunkComponent->Width * tileSize), (float)row * (mapChunkComponent->Height * tileSize) };
+	float xPos = xCoord * (MapChunkComponent::TileCountPerSide * Tile::Size);
+	float yPos = yCoord * (MapChunkComponent::TileCountPerSide * Tile::Size);
+	transformComponent->CurrentPos = { xPos, yPos };
 	
-	//transformComponent->CurrentPos = { 0, 0 }; //{ (float)col * (mapChunkComponent->Width * tileSize), (float)row * (mapChunkComponent->Height * tileSize) };
-	//mapChunkComponent->Coordinates = { 0, 0 };// { col, row };
-
-	// populate with tiles
-	//for (int height = 0; height < mapChunkComponent->Height; ++height)
 	for (int height = 0; height < MapChunkComponent::TileCountPerSide; ++height)
 	{
 		for (int width = 0; width < MapChunkComponent::TileCountPerSide; ++width)
 		{
 			float noise = fastNoise.GetNoise((float)xPos + (float)width, (float)yPos + float(height));
 
-
-
 			Tile tile;
 			tile.Coordinates = { width, height };
 			tile.IsCollidable = false; // FIX!
 			tile.Type = GetTileType(noise);
-			mapChunkComponent->Tiles.push_back(tile);
 
-			
+			mapChunkComponent->Tiles.push_back(tile);			
 		}
 	}
 
 	ApplyTextures(entity);
 
-	// TEMP -> populate regardless of water or land...
-	//if (isLand)
 	PostMaster::GetInstance().SendMessage({ eMessage::MapChunkGenerated, entity });
 }
 
