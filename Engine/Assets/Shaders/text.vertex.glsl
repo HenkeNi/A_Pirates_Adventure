@@ -14,5 +14,5 @@ void main()
 	Color = aColor;
 	TexCoord = aTexCoord;
 
-	gl_Position = uProjection * vec4(aPosition.xy, 0.0, 1.0);
+	gl_Position = uProjection * vec4(aPosition.xy, 1.0, 1.0);
 }

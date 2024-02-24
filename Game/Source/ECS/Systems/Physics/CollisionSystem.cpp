@@ -311,7 +311,6 @@ void CollisionSystem::LateUpdate(float aDeltaTime)
 
 	auto entities = m_entityManager->FindAll<ColliderComponent>();
 
-
 	for (int i = 0; i < entities.size(); ++i)
 	{
 		for (int j = i + 1; j < entities.size(); ++j)
@@ -321,11 +320,12 @@ void CollisionSystem::LateUpdate(float aDeltaTime)
 				auto* collider1 = entities[i]->GetComponent<ColliderComponent>();
 				auto* collider2 = entities[j]->GetComponent<ColliderComponent>();
 
-				if (collider1->Type == eColliderType::Trigger || collider2->Type == eColliderType::Trigger)
+				if (Hi_Engine::Physics::Intersects(collider1->Collider, collider2->Collider))
 				{
-					if (Hi_Engine::Physics::Intersects(collider1->Collider, collider2->Collider))
+					//std::cout << "Is colldigin\n";
+					
+					if (collider1->Type == eColliderType::Trigger || collider2->Type == eColliderType::Trigger)
 					{
-						// sstd::cout << "Is triggerred\n";
 
 						PostMaster::GetInstance().SendMessage({ eMessage::TriggerActivated, (collider1->Type == eColliderType::Trigger ? entities[i] : entities[j]) });
 						// Send event..?!
@@ -424,6 +424,7 @@ void CollisionSystem::UpdateColliders()
 
 		if (auto* collider = entity->GetComponent<ColliderComponent>())
 		{
+			// only updates moving colliders
 			if (collider->Type == eColliderType::Dynamic)
 			{
 				auto& aabb = collider->Collider;
@@ -642,7 +643,7 @@ void CollisionSystem::HandleTileCollisions(Entity* anEntity, float aDeltaTime)
 
 		Hi_Engine::HitResult<float> result = Hi_Engine::Physics::Intersects(hitboxComponent->Collider, { velocityComponent->Velocity.x, velocityComponent->Velocity.y }, tileBounds, aDeltaTime);
 
-		std::cout << result.IsColliding << "\n";
+		// std::cout << result.IsColliding << "\n";
 
 		if (result.IsColliding)
 		{

@@ -21,6 +21,7 @@ namespace Hi_Engine
 	{
 		// assert(someData);
 		m_size = aSize;
+		m_data = someData;
 
 		/* Generate Texture */
 		glGenTextures(1, &m_id);
@@ -63,5 +64,9 @@ namespace Hi_Engine
 	unsigned Texture2D::GetID() const
 	{
 		return m_id;
+	}
+	unsigned char* Texture2D::GetData() const
+	{
+		return m_data;
 	}
 }

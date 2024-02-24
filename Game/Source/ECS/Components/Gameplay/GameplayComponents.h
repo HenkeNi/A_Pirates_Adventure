@@ -289,6 +289,15 @@ struct WeaponComponent : public Component
 
 // MOVE
 
+// reanem SpawnComponent?
+struct SpawnerComponent : public Component
+{
+	std::string Spawned;// SpawnableBlueprintID; // ID to entity to create
+	int			Amount;
+	bool		IsReadyToSpawn;
+};
+
+
 
 struct EnemySpawnerComponent : public Component
 {

@@ -23,7 +23,11 @@ void TextRenderSystem::Draw()
 
 	auto entities = m_entityManager->FindAll<TextComponent, TransformComponent>();
 
+	// DO in initilaizcomponent instead
 	auto* shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Text"); // FIX!! set in Renderer before...
+
+	auto* camera = m_entityManager->FindFirst<CameraComponent>();
+	const auto& projection = camera->GetComponent<CameraComponent>()->Camera.GetProjectionMatrix();
 
 	for (const auto& entity : entities)
 	{
@@ -35,7 +39,7 @@ void TextRenderSystem::Draw()
 
 		auto color = textComponent->Color; // FIX!
 
-		Hi_Engine::TextRenderer::GetInstance().Render({ shader, textComponent->Font, transformComponent->Scale.x, { color.x, color.y, color.z }, position, textComponent->Text});
+		Hi_Engine::TextRenderer::GetInstance().Render({ shader, textComponent->Font, transformComponent->Scale.x, color, position, textComponent->Text }, projection);
 	}
 
 	// TEST

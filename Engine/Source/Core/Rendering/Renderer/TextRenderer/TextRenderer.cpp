@@ -25,8 +25,6 @@ namespace Hi_Engine
 
 	void TextRenderer::Init()
 	{
-        return;
-
         glGenVertexArrays(1, &m_textContext.VAO);
         glBindVertexArray(m_textContext.VAO);
 
@@ -54,73 +52,61 @@ namespace Hi_Engine
 	{}
 
 
-	void TextRenderer::Render(const TextRenderData& someData)
+	void TextRenderer::Render(const TextRenderData& someData, glm::mat4 aProjection) // pass in projection matrix?
 	{
-        return;
+        auto& shader = someData.Shader;
 
-        // activate corresponding render state	
-        someData.Shader->Activate();
-        someData.Shader->SetVector3f("uTextColor", someData.Color);
+        shader->Activate();
+        shader->SetVector4f("uTextColor", someData.Color);
 
         glm::mat4 projection = glm::ortho(0.0f, (float)m_windowSize.x, 0.0f, (float)m_windowSize.y);
-        someData.Shader->SetMatrix4("uProjection", projection);
+        shader->SetMatrix4("uProjection", projection);
       
         glActiveTexture(GL_TEXTURE0); // ????????????????????
         glBindVertexArray(m_textContext.VAO);
 
-        // iterate through all characters
         auto position = someData.Position;
+        auto scale = someData.Scale;
 
-        // position.x -= (someData.m_text.size() * characters.begin()->second.m_size.x) * 0.5f; // TEST!!  
-
-        
         for (const char& c : someData.Text)
         {
             const auto& ch = someData.Font->m_characters[c];
                      
-            float xPos = position.x + ch.m_bearing.x * someData.Scale;
-            float yPos = position.y - (ch.Size.y - ch.m_bearing.y) * someData.Scale;
+            float xPos = position.x + ch.m_bearing.x * scale;
+            float yPos = position.y - (ch.Size.y - ch.m_bearing.y) * scale;
 
-            float w = ch.Size.x * someData.Scale;
-            float h = ch.Size.y * someData.Scale;
-            // update VBO for each character
+            float w = ch.Size.x * scale;
+            float h = ch.Size.y * scale;
             
-            CU::Vector3<float> color = someData.Color;
+            CU::Vector4<float> color = someData.Color;
 
+            // update VBO for each character
             float vertices[6][8] = 
-            {                           // color                                // Texture coords
-                { xPos,     yPos + h,   color.x, color.y, color.z, 1.f,         0.0f, 0.0f },
-                { xPos,     yPos,       color.x, color.y, color.z, 1.f,         0.0f, 1.0f },
-                { xPos + w, yPos,       color.x, color.y, color.z, 1.f,         1.0f, 1.0f },
+            {   
+                // Position             // Color                                // Texture coords
+                { xPos,     yPos + h,   color.x, color.y, color.z, color.w,     0.0f, 0.0f },
+                { xPos,     yPos,       color.x, color.y, color.z, color.w,     0.0f, 1.0f },
+                { xPos + w, yPos,       color.x, color.y, color.z, color.w,     1.0f, 1.0f },
 
-                { xPos,     yPos + h,   color.x, color.y, color.z, 1.f,         0.0f, 0.0f },
-                { xPos + w, yPos,       color.x, color.y, color.z, 1.f,         1.0f, 1.0f },
-                { xPos + w, yPos + h,   color.x, color.y, color.z, 1.f,         1.0f, 0.0f }
+                { xPos,     yPos + h,   color.x, color.y, color.z, color.w,     0.0f, 0.0f },
+                { xPos + w, yPos,       color.x, color.y, color.z, color.w,     1.0f, 1.0f },
+                { xPos + w, yPos + h,   color.x, color.y, color.z, color.w,     1.0f, 0.0f }
             };
             // render glyph texture over quad
 
             //ch.m_texture.Bind();
             ResourceHolder<Texture2D>::GetInstance().GetResource(ch.m_textureID).Bind();
-
-
             //glBindTexture(GL_TEXTURE_2D, ch.m_textureID);   // use texture pointer instead..
-            
+           
             // update content of VBO memory
             glBindBuffer(GL_ARRAY_BUFFER, m_textContext.VBO);
             glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); // be sure to use glBufferSubData and not glBufferData
-
             glBindBuffer(GL_ARRAY_BUFFER, 0);
-            // render quad
+
             glDrawArrays(GL_TRIANGLES, 0, 6);
-            // now advance cursors for next glyph (note that advance is number of 1/64 pixels)
+
             position.x += (ch.m_advance >> 6) * someData.Scale; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
-            
-            
-            
-           //  glBindTexture(GL_TEXTURE_2D, 0); // TEST
-
         }
-
         glBindVertexArray(0);
         glBindTexture(GL_TEXTURE_2D, 0);
 	}

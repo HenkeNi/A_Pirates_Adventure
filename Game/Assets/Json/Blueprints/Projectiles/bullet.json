@@ -20,7 +20,7 @@
         "type": "Sprite",
         "properties": {
           "shader": "sprite_batch",
-          "texture": "cannonball_00",
+          "texture": "cocunut_00",
           "color": [ 1.0, 1.0, 1.0, 1.0 ]
         }
       }

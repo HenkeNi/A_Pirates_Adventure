@@ -57,8 +57,11 @@ void TitleScene::OnEnter()
 
 	auto* background = m_entityManager.Create("title_background");
 	auto* transformComponent = background->GetComponent<TransformComponent>();
-	transformComponent->Scale *= 10.5f;
+	transformComponent->Scale *= 2.5f;
+	transformComponent->Scale.x *= 2.f;
 	transformComponent->CurrentPos.y = 0.f;
+
+
 	// INput component, and a trigger component...
 
 
@@ -69,9 +72,6 @@ void TitleScene::OnEnter()
 
 	// TODO; read from json?? Title_text.json...
 	auto* title = m_entityManager.Create("title_text");
-	title->GetComponent<TransformComponent>()->CurrentPos = { 230.f, 650.f };
-	title->GetComponent<TextComponent>()->Text = "A Pirate's Adventure";
-
 
 	// auto* inputListener = m_entityManager.CreateResources()
 

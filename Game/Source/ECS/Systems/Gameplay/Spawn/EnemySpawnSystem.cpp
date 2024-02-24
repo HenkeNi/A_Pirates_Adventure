@@ -61,6 +61,7 @@ void EnemySpawnSystem::Update(float aDeltaTime)
 
 }
 
+// DONT DO here:...
 void EnemySpawnSystem::SpawnEnemy(const std::string& aType, const CU::Vector2<float>& aPosition)
 {
 	auto* player = *m_entityManager->FindAll<PlayerControllerComponent>().begin();

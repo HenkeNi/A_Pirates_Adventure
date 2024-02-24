@@ -16,9 +16,11 @@ struct VelocityComponent : public Component
 {
 	CU::Vector2<float>	Velocity;
 	CU::Vector2<float>	Acceleration;
+	//float DeaccelerationRate; TODO; implement instead of bool check?
 
 	float				MaxVelocity;
 	float				Speed;
+	bool				ShouldSlowDown = true;
 };
 
 struct SpriteComponent : public Component
@@ -27,7 +29,7 @@ struct SpriteComponent : public Component
 	CU::Vector4<float> Color = { 1.f, 1.f, 1.f, 1.f };
 	// Hi_Engine::Material m_material;	// Store strings instead?? keys..
 
-	CU::Vector2<float> Pivot = { 0.5f, 1.f };
+	CU::Vector2<float> Pivot = { 0.5f, 1.f };// use a matrix instead? default: identify matrix?
 	bool ShouldRender; 
 	// int m_textureID; ?
 	// int m_shaderID; ?
@@ -52,6 +54,7 @@ struct InputComponent : public Component
 	//std::unordered_map<Hi_Engine::eKey, Hi_Engine::eInputState> InputStates; // replace with state instead of bool?? rename KeyStates?
 	std::unordered_map<Hi_Engine::eKey, bool> InputStates; // replace with state instead of bool?? rename KeyStates?
 	CU::Vector2<double>						  MousePosition;
+	CU::Vector2<double>						  MouseWorldPosition;
 	float									  MouseScroll;
 };
 

@@ -294,5 +294,15 @@
     "height": 600,
     "rows": 1,
     "cols": 1
+  },
+  {
+    "id": "mouse_icon",
+    "path": "../Game/Assets/Textures/arrow-cursor.png",
+    "alpha": true,
+    "filtering": "Linear",
+    "width": 32,
+    "height": 32,
+    "rows": 1,
+    "cols": 1
   }
 ]

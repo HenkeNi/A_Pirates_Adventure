@@ -9,8 +9,6 @@
 
 
 
-
-
 CU::Vector2<int> ConvertWorldPositionToMapChunkCoordinates(const CU::Vector2<float>& aWorldPosition)
 {
 	float chunkSize = MapChunkComponent::TileCountPerSide * Tile::Size;
@@ -21,9 +19,6 @@ CU::Vector2<int> ConvertWorldPositionToMapChunkCoordinates(const CU::Vector2<flo
 
 	return coordinates;
 }
-
-
-
 
 
 // WHere to store various tile settings? ResourceHolder TileSettings?
@@ -40,7 +35,7 @@ eTile GetTileType(float aNoise)
 {
 	int noise = (int)(aNoise * 10);
 
-	std::cout << noise << "\n";
+	// std::cout << noise << "\n";
 
 	static const std::unordered_map<eTile, int> tileHeightValues = {
 	{ eTile::Grass,			4 },

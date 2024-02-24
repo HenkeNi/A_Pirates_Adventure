@@ -15,6 +15,7 @@ public:
 	void Update(float aDeltaTime)	override;
 
 private:
+	void Spawn();
 	void SpawnResource();
 	void SpawnEnemy();
 };

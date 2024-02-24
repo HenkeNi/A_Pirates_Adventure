@@ -62,6 +62,13 @@ struct Animation
 	// TODO; store keyframes??
 };
 
+struct ProjectileData
+{
+	CU::Vector2<float> Position;
+	CU::Vector2<float> Directin;
+	float		       Speed;
+};
+
 //struct AnimationSequence
 //{ 
 //	//class Hi_Engine::Subtexture2D*	Subtexture;

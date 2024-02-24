@@ -18,5 +18,4 @@ public:
 	static eTile GetTileTypeInDirection(const Entity* aMapChunk, int anIndex, eDirection aDirection);
 
 	static int IsTileTypeInDirection(Entity* aMapChunk, int anIndex, eDirectionalValue aDirection, eTile aType);
-
 };

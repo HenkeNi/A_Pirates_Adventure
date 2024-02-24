@@ -31,8 +31,9 @@ namespace Hi_Engine
 	private:	
 		static std::unordered_map<eKey, eInputState> s_keyStates;
 		static std::unordered_map<eMouseBtn, eInputState> s_mouseButtonStates;
-		static glm::vec2 s_mousePosition;
+		static glm::vec2	s_mousePosition;
 		static float		s_scrollOffset;
-		const GLFWwindow* m_window;
+		// static GLFWcursor*	s_customCursor;
+		GLFWwindow*	m_window;
 	};
 }

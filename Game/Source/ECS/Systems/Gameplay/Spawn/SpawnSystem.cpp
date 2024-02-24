@@ -1,22 +1,30 @@
 #include "Pch.h"
 #include "SpawnSystem.h"
-#include "Data/Enumerations.h"
-
+#include "Entities/EntityManager.h"
 
 SpawnSystem::SpawnSystem()
 {
 	PostMaster::GetInstance().Subscribe(eMessage::EntityDestroyed, this);
+	PostMaster::GetInstance().Subscribe(eMessage::EntityDied, this);
 }
 
 SpawnSystem::~SpawnSystem()
 {
 	PostMaster::GetInstance().Unsubscribe(eMessage::EntityDestroyed, this);
+	PostMaster::GetInstance().Unsubscribe(eMessage::EntityDied,	this);
 }
 
 void SpawnSystem::Receive(Message& aMsg)
 {
-	if (!m_entityManager)
-		return;
+	if (aMsg.GetMessageType() == eMessage::EntityDestroyed)
+	{
+		
+		Spawn();
+	}
+
+
+
+
 
 	// Get created type (blueprint)
 
@@ -54,4 +62,18 @@ void SpawnSystem::Receive(Message& aMsg)
 void SpawnSystem::Update(float aDeltaTime)
 {
 	// get entieis with spawn components... (check what should be spawned )
+}
+
+void SpawnSystem::Spawn()
+{
+	if (!m_entityManager)
+		return;
+
+	auto spawners = m_entityManager->FindAll<SpawnerComponent>();
+
+	for (auto& spawner : spawners)
+	{
+
+	}
+
 }

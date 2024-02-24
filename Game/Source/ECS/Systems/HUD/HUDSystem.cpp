@@ -26,6 +26,8 @@ void HUDSystem::Receive(Message& aMsg)
 
 	// Get player's health?
 
+	// player hit event?
+
 
 	// listen for entity attacked...
 
@@ -58,26 +60,6 @@ void HUDSystem::SetupHUDElements()
 		transform->CurrentPos = { -4.f + heartScale * i, 2.f }; // TODO; FIX! probably generates them backwards...
 		//transform->CurrentPos = { -2.f + -1.f * heartScale * i, 2.f }; // TODO; FIX! probably generates them backwards...
 	}
-
-
-
-		auto* e1 = m_entityManager->Create("HeartContainer");
-		auto* e2 = m_entityManager->Create("HeartContainer");
-		auto* e3 = m_entityManager->Create("HeartContainer");
-		auto* e4 = m_entityManager->Create("HeartContainer");
-		
-		auto* transform1 = e1->GetComponent<TransformComponent>();
-		transform1->CurrentPos = { -4.5f, 2.5f };
-
-		auto* transform2 = e2->GetComponent<TransformComponent>();
-		transform2->CurrentPos = { 4.5f, 2.5f };
-
-		auto* transform3 = e3->GetComponent<TransformComponent>();
-		transform3->CurrentPos = { -4.5f, -2.5f };
-
-		auto* transform4 = e4->GetComponent<TransformComponent>();
-		transform4->CurrentPos = { 4.5f, -2.5f };
-
 }
 
 void HUDSystem::UpdateCursor()
@@ -96,8 +78,8 @@ void HUDSystem::UpdateCursor()
 	float old_valueX = (float)mousePosition.x;
 	float old_minX = 0;
 	float old_maxX = 1400;
-	float new_minX = -4.5f;
-	float new_maxX = 4.5f;
+	float new_minX = -4.5f; // Min x position screen?!
+	float new_maxX = 4.5f;	// max x position screen)!
 
 	float new_valueX = ((old_valueX - old_minX) / (old_maxX - old_minX)) * (new_maxX - new_minX) + new_minX;
 
@@ -105,8 +87,8 @@ void HUDSystem::UpdateCursor()
 	float old_valueY = (float)mousePosition.y;
 	float old_minY = 800;
 	float old_maxY = 0;
-	float new_minY = -2.5f;
-	float new_maxY = 2.5f;
+	float new_minY = -2.5f; // Min y position screen?!
+	float new_maxY = 2.5f; // max y position screen)!
 
 	float new_valueY = ((old_valueY - old_minY) / (old_maxY - old_minY)) * (new_maxY - new_minY) + new_minY;
 
@@ -134,6 +116,6 @@ void HUDSystem::UpdateCursor()
 		cursor->GetComponent<SpriteComponent>()->Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource("crosshair_00");
 	}
 	else
-		cursor->GetComponent<SpriteComponent>()->Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource("raft_00");
+		cursor->GetComponent<SpriteComponent>()->Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource("mouse_icon_00");
 
 }

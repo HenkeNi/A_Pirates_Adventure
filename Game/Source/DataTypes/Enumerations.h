@@ -23,7 +23,7 @@ enum class eMessage
 	EntityDestroyed,
 
 
-	EntityDied,
+	EntityDied,				// just destroyed?
 	EntityAttacked,				// rename AttackEvent? AttackBegan? AttackEnded?
 
 	EntityAttacking,

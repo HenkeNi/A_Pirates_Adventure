@@ -19,7 +19,7 @@ public:
 
 private:
 	void LoadResources();
-	
+
 	SystemManager	m_systemManager;
 	SceneManager	m_sceneManager;
 };

@@ -19,7 +19,7 @@ void SpriteRenderSystem::Receive(Message& aMsg)
 {
 }
 
-void SpriteRenderSystem::Draw()
+void SpriteRenderSystem::Draw() // TODO; should pass along if bash should be flushed in render command?
 {
 	if (!m_entityManager)
 		return;

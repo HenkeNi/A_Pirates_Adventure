@@ -21,7 +21,7 @@ namespace Hi_Engine
 		void Shutdown();
 
 		// void LoadFont(const std::string& aPath, unsigned aFontSize);	// Register font instead?
-		void Render(const TextRenderData& someData);
+		void Render(const TextRenderData& someData, glm::mat4 aProjection);
 
 
 
@@ -33,7 +33,7 @@ namespace Hi_Engine
 		RenderContext	m_textContext;
 
 
-		class Camera* m_camera;
+		// class Camera* m_camera;
 		CU::Vector2<unsigned>	m_windowSize;	// FIX LATER...
 		// unsigned	m_VAO, m_VBO;
 

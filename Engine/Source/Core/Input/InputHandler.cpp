@@ -10,6 +10,8 @@ namespace Hi_Engine
 	std::unordered_map<eMouseBtn, eInputState>	InputHandler::s_mouseButtonStates;
 	glm::vec2									InputHandler::s_mousePosition;
 	float										InputHandler::s_scrollOffset;
+	//GLFWcursor*									InputHandler::s_customCursor = nullptr;
+
 
 	InputHandler::InputHandler()
 	{
@@ -17,6 +19,7 @@ namespace Hi_Engine
 
 	InputHandler::~InputHandler()
 	{
+		//glfwDestroyCursor(s_customCursor);
 	}
 
 	void InputHandler::Init(GLFWwindow* aWindow)
@@ -27,12 +30,24 @@ namespace Hi_Engine
 		glfwSetCursorPosCallback(aWindow, InputHandler::CursorCallback);
 		glfwSetMouseButtonCallback(aWindow, InputHandler::MouseButtonCallback);
 		glfwSetScrollCallback(aWindow, InputHandler::MouseScrollCallback);
+ 
+		glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+
+
+		//static GLFWimage image;
+		//image.width *= 10;
+		//image.height *= 10;
+		//int width = image.width * 0.5f;
+		//image.pixels = stbi_load("../Game/Assets/Textures/arrow-cursor.png", &width, &width, 0, 4);
+		//image.pixels = stbi_load("../Game/Assets/Textures/arrow-cursor.png", &image.width, &image.height, 0, 4); // Fix pivot (upper left corner)
+		//if (s_customCursor = glfwCreateCursor(&image, 2, -2.5))
+			//glfwSetCursor(m_window, s_customCursor);
 	}
 
 	void InputHandler::ProcessInput()
 	{
 		// TODO: save previous frame's key status?!
-		InputEvent* inputEvent			= new InputEvent;
+		InputEvent* inputEvent			= new InputEvent;  // TODO: wrap in a class?!
 		inputEvent->m_keyStates			= s_keyStates;
 		inputEvent->m_mouseButtonStates = s_mouseButtonStates;
 		inputEvent->m_mousePosition		= s_mousePosition;

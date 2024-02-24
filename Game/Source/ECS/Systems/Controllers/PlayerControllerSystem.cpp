@@ -17,6 +17,7 @@ PlayerControllerSystem::PlayerControllerSystem()
 PlayerControllerSystem::~PlayerControllerSystem()
 {
 	PostMaster::GetInstance().Unsubscribe(eMessage::AttackAnimationFinished, this);
+	CleanUpCommands();
 }
 
 void PlayerControllerSystem::Receive(Message& aMsg)
@@ -66,6 +67,21 @@ void PlayerControllerSystem::ProcessCommands(Entity* anEntity)
 		//bool canPerform = command->CanPerform(anEntity);
 
 		isKeyActive ? command->Execute(anEntity) : command->Undo(anEntity);
+	}
+}
+
+void PlayerControllerSystem::CleanUpCommands()
+{
+	auto playerControllers = m_entityManager->FindAll<PlayerControllerComponent>();
+
+	for (auto& playerController : playerControllers)
+	{
+		auto* playerControllerComponent = playerController->GetComponent<PlayerControllerComponent>();
+
+		for (auto& [key, command] : playerControllerComponent->InputMapping)
+		{
+			delete command;
+		}
 	}
 }
 

@@ -193,7 +193,7 @@ namespace Hi_Engine
 		class Shader*		Shader;
 		class Font*			Font;
 		float				Scale;
-		CU::Vector3<float>	Color;
+		CU::Vector4<float>	Color;
 		CU::Vector2<float>	Position; //??
 		std::string			Text;
 	};

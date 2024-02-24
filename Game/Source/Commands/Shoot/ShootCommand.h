@@ -7,6 +7,10 @@ class ShootCommand : public Command
 public:
 	ShootCommand();
 
-	void Execute();
+	void Execute(Entity* anEntity)			override;
+	bool CanPerform(Entity* anEntity) const override;
 
+private:
+	double				m_timestamp;
+	float				m_delayBetweenShots;
 };

@@ -33,7 +33,8 @@ void MovementSystem::Update(float aDeltaTime)
 		transform->CurrentPos += velocity->Speed * velocity->Velocity * aDeltaTime;
 
 		// TODO; decrease velocity... (maybe not for all? => bullets shouldnt decrease?) decrease property?
-		velocity->Velocity = { 0.f, 0.f, };
+		if (velocity->ShouldSlowDown) // TODO: FIX! temp solution
+			velocity->Velocity = { 0.f, 0.f, };
 	}
 }
 

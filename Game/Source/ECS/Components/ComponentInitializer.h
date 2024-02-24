@@ -9,6 +9,7 @@
 #include "../Commands/Sprint/SprintCommand.h"
 #include "../Commands/Pause/PauseCommand.h"
 #include "../Commands/Aim/AimCommand.h"
+#include "../Commands/Shoot/ShootCommand.h"
 
 #include "../AI/SteeringBehaviors/Flock/FlockBehavior.h"
 #include "../AI/SteeringBehaviors/Wander/WanderBehavior.h"
@@ -207,16 +208,20 @@ public:
 		// USe builder/factory?
 
 		// Pass in Entity??
+
+		// Have an map of keys, one with mouse input and one with controller input??
 		
+		// TODO; make sure to delete...
 		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_W, new MoveCommand{{ 0.f,   1.f }}));
 		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_S, new MoveCommand{{ 0.f,	-1.f } }));
 		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_A, new MoveCommand{{ -1.f,	 0.f } }));
 		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_D, new MoveCommand{{ 1.f,  0.f } }));
 
-		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_Space, new AttackCommand));
+		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_Space,	new AttackCommand));
 		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_LShift, new SprintCommand));
 		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_Escape, new PauseCommand));
-		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_1, new AimCommand)); // CHANGE To mouse button
+		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_1,		new AimCommand)); // CHANGE To mouse button
+		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_2,		new ShootCommand));
 	}
 
 	template <>
@@ -301,10 +306,12 @@ public:
 		int size			= std::any_cast<int>(someData.at("size"));
 		//auto color			= std::any_cast<std::array<float, 4>>(someData.at("color"));
 		auto color = std::any_cast<std::vector<std::any>>(someData.at("color"));
+		std::string text = std::any_cast<std::string>(someData.at("text"));
 
 		aComponent->Font = &Hi_Engine::ResourceHolder<Hi_Engine::Font>::GetInstance().GetResource(font);
 		aComponent->Color = { std::any_cast<float>(color[0]), std::any_cast<float>(color[1]), std::any_cast<float>(color[2]), std::any_cast<float>(color[3]) };
 		aComponent->Size = size;
+		aComponent->Text = text;
 	}
 
 	template <>
