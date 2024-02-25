@@ -6,7 +6,7 @@
       "type": "Transform",
       "properties": {
         "position": [ 0.0, 0.0, 0.0 ],
-        "scale": [ 1.0, 1.0, 1.0 ],
+        "scale": [ 0.25, 0.25, 0.25 ],
         "rotation": 0.0
       }
     },
@@ -16,13 +16,17 @@
         "speed": 1.0
       }
       },
-      {
-        "type": "Sprite",
-        "properties": {
-          "shader": "sprite_batch",
-          "texture": "cocunut_00",
-          "color": [ 1.0, 1.0, 1.0, 1.0 ]
-        }
+    {
+      "type": "Sprite",
+      "properties": {
+        "shader": "sprite_batch",
+        "texture": "cocunut_00",
+        "color": [ 1.0, 1.0, 1.0, 1.0 ]
       }
+    },
+    {
+      "type": "Projectile",
+      "properties": {}
+    }
   ]
 }

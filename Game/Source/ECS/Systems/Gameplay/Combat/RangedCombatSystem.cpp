@@ -18,24 +18,19 @@ void RangedCombatSystem::Receive(Message& aMsg)
 	{
 		auto data = std::any_cast<ProjectileData>(aMsg.GetData());
 
-		auto* bullet = m_entityManager->Create("Bullet");
+		auto* projectile = m_entityManager->Create("Bullet");
 
-		auto* transformComponent = bullet->GetComponent<TransformComponent>();
+		auto* transformComponent = projectile->GetComponent<TransformComponent>();
 		transformComponent->CurrentPos = data.Position;
 
-		auto* velocityComponent = bullet->GetComponent<VelocityComponent>();
+		auto* velocityComponent = projectile->GetComponent<VelocityComponent>();
 		velocityComponent->Velocity = data.Directin;
 		velocityComponent->ShouldSlowDown = false; // Do otherway?
-
 		velocityComponent->Speed = data.Speed;
+
+		auto* projectileComponent = projectile->GetComponent<ProjectileComponent>();
+		projectileComponent->Timestamp = Hi_Engine::Engine::GetTimer().GetTotalTime();
 	}
-
-	// listen to entity shoot event?
-
-	//auto* projectile		= m_entityManager->Create("Bullet");
-	//auto* velocityComponent = projectile->GetComponent<VelocityComponent>();
-	//velocityComponent->Velocity = { 1.f, 0.f };
-
 }
 
 void RangedCombatSystem::Update(float aDeltaTime)
@@ -43,22 +38,25 @@ void RangedCombatSystem::Update(float aDeltaTime)
 	if (!m_entityManager)
 		return;
 
-	static float time = 0.f;
 
-	time += aDeltaTime;
+	auto projectiles = m_entityManager->FindAll<ProjectileComponent>();
 
-	if (time < 5.f)
-		return;
+	std::vector<Entity*> destroyed;
 
+	double time = Hi_Engine::Engine::GetTimer().GetTotalTime();
+	for (auto& projectile : projectiles)
+	{
+		auto* projectileComponent = projectile->GetComponent<ProjectileComponent>();
 
-	// if life time is to great or distnace to far => remove bullet...
+		// TODO; replace with a distance check? or check against the bounds of the screen instead? (allowing projectiles to travel until colliding with something, if going same direction as player)
+		if (time >= projectileComponent->Timestamp + projectileComponent->LifeTime)
+		{
+			destroyed.push_back(projectile); // should a system handle this?
+		}
+	}
 
-	/*time = 0.f;
-	auto* projectile = m_entityManager->Create("Bullet");
-	auto* velocityComponent = projectile->GetComponent<VelocityComponent>();
-	velocityComponent->Velocity = { 10.f, 0.f };
-	velocityComponent->Speed = 2.f;*/
-	
-	// if aiming => update the cross hairs position? or do in movement systme, or a dedicated crosshair system?
-
+	for (auto it = destroyed.rbegin(); it != destroyed.rend(); ++it)
+	{
+		m_entityManager->Destroy((*it)->GetID());
+	}
 }

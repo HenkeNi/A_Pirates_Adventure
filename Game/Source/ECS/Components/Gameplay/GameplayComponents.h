@@ -276,6 +276,13 @@ struct WeaponComponent : public Component
 	int		DamageDealt;
 };
 
+struct ProjectileComponent : public Component
+{
+	double Timestamp;
+	float LifeTime = 3.f;
+};
+
+
 // gun component?
 
 // bullet component?
