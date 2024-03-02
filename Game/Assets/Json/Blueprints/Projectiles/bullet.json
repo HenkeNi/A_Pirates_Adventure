@@ -15,7 +15,7 @@
       "properties": {
         "speed": 1.0
       }
-      },
+    },
     {
       "type": "Sprite",
       "properties": {
@@ -27,6 +27,12 @@
     {
       "type": "Projectile",
       "properties": {}
+    },
+    {
+      "type": "Collider",
+      "properties": {
+        "type": "Dynamic"
+      }
     }
   ]
 }

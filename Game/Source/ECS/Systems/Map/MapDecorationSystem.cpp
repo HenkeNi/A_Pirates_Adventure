@@ -76,7 +76,11 @@ void MapDecorationSystem::GenerateResources(Entity* anEnity)
 		}
 
 		if (entity)
+		{
 			entity->GetComponent<TransformComponent>()->CurrentPos = { position.x + (tile.Coordinates.x * Tile::Size), position.y + (tile.Coordinates.y * Tile::Size) };;
+			PostMaster::GetInstance().SendMessage({ eMessage::EntitySpawned, entity });
+		}
+		
 	}
 
 
@@ -94,7 +98,6 @@ void MapDecorationSystem::PopulateWithFoilage(const Entity* aMapChunk)
 		auto chunkPosition = mapTransformComponent->CurrentPos;
 		auto endPosition = CU::Vector2<float>{ chunkPosition.x + MapChunkComponent::TileCountPerSide * tileSize, chunkPosition.y + MapChunkComponent::TileCountPerSide * tileSize };
 		//auto endPosition = CU::Vector2<float>{ chunkPosition.x + mapChunkComponent->Width * tileSize, chunkPosition.y + mapChunkComponent->Height * tileSize };
-
 
 		for (int i = 0; i < anAmount; ++i)
 		{
@@ -115,11 +118,11 @@ void MapDecorationSystem::PopulateWithFoilage(const Entity* aMapChunk)
 			//rect->m_shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Primitive");
 
 			// Fix somehow => need to work even if not moving
-			auto hitbox = entity->GetComponent<HitboxComponent>();
+			//auto colliderComponent = entity->GetComponent<ColliderComponent>();
+			//static float size = 0.2f;
+			//colliderComponent->Collider.Init({ position.x - size, position.y - size }, { position.x + size, position.y + size });
 
-			static float size = 0.2f;
-
-			hitbox->Collider.Init({ position.x - size, position.y - size }, { position.x + size, position.y + size });
+			PostMaster::GetInstance().SendMessage({ eMessage::EntitySpawned, entity });
 		}
 	};
 

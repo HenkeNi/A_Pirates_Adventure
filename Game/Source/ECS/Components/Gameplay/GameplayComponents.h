@@ -9,24 +9,9 @@ struct PickupColliderComponent : public Component
 	Hi_Engine::Physics::AABB2D<float>	Collider;
 };
 
-struct ItemComponent : public Component
-{
-	std::string Identifier;
-	std::string IconTexture;
-};
-
-struct EquipmentComponent : public Component
-{};
 
 
-struct InventoryComponent : public Component
-{
-	std::unordered_map<std::string, unsigned> Inventory; // Or list of entities? or list of ItemCOmponents?
-	// array of entiity pointers (or IDs)..??
 
-	unsigned MaxCapacity; // every item has a weight?
-	unsigned CurrentCapacity;
-};
 
 
 
@@ -72,15 +57,6 @@ struct ResourceProducerComponent : public Component
 
 
 
-
-
-// HERE?? Or maybe use two sprites instead?? add system HealthBarSystem?
-struct HealthBarComponent : public Component
-{
-	Hi_Engine::Material Container;
-	Hi_Engine::Material Bar;
-	// position? size?
-};
 
 
 
@@ -185,6 +161,7 @@ struct HealthComponent : public Component
 {
 	Stat<int>		HealthStat; // DONT!?
 
+	int MaxHealth = 100;
 	// unsigned		m_maxHealth; // renaem?
 	int				CurrentValue = 100; // make sure is updated when removing modifiers... (100 is just temp -> init somewhere)...
 	bool			IsInvincible;
@@ -233,21 +210,6 @@ struct PhysicalNeeds : public Component
 //};
 
 
-struct HitboxComponent : public Component
-{
-	Hi_Engine::Physics::AABB2D<float>	Collider; // or use circle...
-	bool								IsStatic;
-};
-
-struct AttackComponent : public Component
-{
-	Hi_Engine::Physics::AABB2D<float>	Collider;
-	CU::Vector2<float>					Offset = { 20.f, 20.f };
-	// circle collider?
-	bool								IsEnabled;
-};
-
-
 
 
 
@@ -267,9 +229,40 @@ struct AttackComponent : public Component
 //};
 
 
-// Place in equipment??
 
-struct WeaponComponent : public Component
+/* ######################### Equipment ######################### */
+struct EquipmentComponent : public Component
+{
+	std::array<int, (int)eEquipmentSlot::Count> EquippedItemIDs; // Stores ID's of equiped items (-1 == nothing equiped) => entity id or item id (read from json)?
+};
+
+struct EquippableComponent : public Component
+{
+	eEquipmentSlot AcceptableSlot; // TODO; read from json
+	bool IsEquipped = false; // NEEDED?
+};
+
+// Consider: Merging the Equipment into the InventoryComponent?
+struct InventoryComponent : public Component
+{
+	std::unordered_map<std::string, unsigned> Inventory; // Or list of entities? or list of ItemComponents?
+	
+	unsigned MaxCapacity; // every item has a weight? or save available slots
+	unsigned AvailableSpace;
+};
+
+
+
+/* ######################### Combat ######################### */
+struct AttackComponent : public Component
+{
+	// Hi_Engine::Physics::AABB2D<float>	Collider;
+	// CU::Vector2<float>					Offset = { 20.f, 20.f };
+	// circle collider?
+	// bool								IsEnabled;
+};
+
+struct WeaponComponent : public Component // gun component?
 {
 	float	AttackRange;
 	float	AttackSpeed;
@@ -282,12 +275,9 @@ struct ProjectileComponent : public Component
 	float LifeTime = 3.f;
 };
 
+struct ExplosionComponent : public Component
+{};
 
-// gun component?
-
-// bullet component?
-
-// place in Physics??
 
 
 
@@ -340,5 +330,15 @@ struct ShakeComponent : public Component
 };
 
 // For stones?
-struct ExplosionComponent : public Component
-{};
+
+
+
+
+
+
+
+//struct HitboxComponent : public Component
+//{
+//	Hi_Engine::Physics::AABB2D<float>	Collider; // or use circle...
+//	bool								IsStatic;
+//};

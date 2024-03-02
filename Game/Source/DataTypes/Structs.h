@@ -20,7 +20,22 @@ struct SharedContext
 
 struct CollisionData // Data used for resolving/handling collisions
 {
-	unsigned DamageDealt = 0;
+	std::vector<class Entity*> CollidingEntities;
+
+	//bool IsColliding = false;
+	//class Entity* CollidingEntity = nullptr; // Store array of entities colliding with? Or array of colllision data  in component?
+
+	// unsigned DamageDealt = 0;
+
+	// std::array<class Entity*, 2> CollidingEntities = { nullptr, nullptr };
+
+	//ColliderComponent* Collider;
+	//class Entity* FirstEntity = nullptr; // Owner;
+	//class Entity* SecondEntity = nullptr;
+
+	// Or pass array of CollisionData?
+	//ColliderComponent* Collider;
+	//Entity* Entity;
 };
 
 template <typename T>
@@ -67,6 +82,13 @@ struct ProjectileData
 	CU::Vector2<float> Position;
 	CU::Vector2<float> Directin;
 	float		       Speed;
+};
+
+struct Offset
+{
+	float XOffset;
+	float YOffset;
+	bool IsDirectionallyBound;
 };
 
 //struct AnimationSequence

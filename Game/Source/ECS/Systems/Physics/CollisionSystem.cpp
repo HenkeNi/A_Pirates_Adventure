@@ -13,21 +13,25 @@
 CollisionSystem::CollisionSystem()
 	: System{ 1 }
 {
-	// Update collider when game starts?
-
+	PostMaster::GetInstance().Subscribe(eMessage::EntitySpawned, this);
 }
 
 CollisionSystem::~CollisionSystem()
 {
+	PostMaster::GetInstance().Unsubscribe(eMessage::EntitySpawned, this);
 }
 
 void CollisionSystem::Init()
 {
-	// TODO initialize collider positions...
 }
 
 void CollisionSystem::Receive(Message& aMsg)
 {
+	if (aMsg.GetMessageType() != eMessage::EntitySpawned)
+		return;
+
+	auto* entity = std::any_cast<Entity*>(aMsg.GetData());
+	UpdateCollider(entity);
 }
 
 
@@ -313,25 +317,37 @@ void CollisionSystem::LateUpdate(float aDeltaTime)
 
 	for (int i = 0; i < entities.size(); ++i)
 	{
+		auto* source = entities[i];
+		auto* sourceColliderComponent = source->GetComponent<ColliderComponent>();
+	
+		if (!sourceColliderComponent->IsActive || sourceColliderComponent->Type == eColliderType::Static || sourceColliderComponent->Type == eColliderType::Trigger)
+			continue;
+
 		for (int j = i + 1; j < entities.size(); ++j)
 		{
-			if (CanCollide(entities[i], entities[j]))
+			auto* target = entities[j];
+			auto* targetColliderComponent = entities[j]->GetComponent<ColliderComponent>();
+
+			if (!targetColliderComponent->IsActive)
+				continue;
+
+			if (CanCollide(source, target))
 			{
-				auto* collider1 = entities[i]->GetComponent<ColliderComponent>();
-				auto* collider2 = entities[j]->GetComponent<ColliderComponent>();
-
-				if (Hi_Engine::Physics::Intersects(collider1->Collider, collider2->Collider))
+				if (Hi_Engine::Physics::Intersects(sourceColliderComponent->Collider, targetColliderComponent->Collider)) // Make intersects more generic? no need for aabb class?
 				{
-					//std::cout << "Is colldigin\n";
-					
-					if (collider1->Type == eColliderType::Trigger || collider2->Type == eColliderType::Trigger)
+					sourceColliderComponent->CollidingEntities.push_back(target);
+					targetColliderComponent->CollidingEntities.push_back(source);
+						
+					if (targetColliderComponent->Type == eColliderType::Trigger)
 					{
-
-						PostMaster::GetInstance().SendMessage({ eMessage::TriggerActivated, (collider1->Type == eColliderType::Trigger ? entities[i] : entities[j]) });
-						// Send event..?!
-
+						PostMaster::GetInstance().SendMessage({ eMessage::TriggerActivated, target });
 						// Remove trigger component?
 					}
+					else if (targetColliderComponent->Type == eColliderType::Dynamic)
+					{
+						PostMaster::GetInstance().SendMessage({ eMessage::EntitiesCollided, std::vector<Entity*> { source, target } }); // Pass in colliders?
+					}
+
 				}
 			}
 		}
@@ -379,6 +395,23 @@ void CollisionSystem::LateUpdate(float aDeltaTime)
 	//}
 }
 
+void CollisionSystem::AdjustColliderPosition(Entity* anEntity)
+{
+	if (auto* colliderComponent = anEntity->GetComponent<ColliderComponent>())
+	{
+		auto* transformComponent = anEntity->GetComponent<TransformComponent>();
+		const auto position = transformComponent->CurrentPos;
+
+		auto& aabb = colliderComponent->Collider;
+
+		float halfWidth  = aabb.GetWidth() * 0.5f;
+		float halfHeight = aabb.GetHeight() * 0.5f;
+
+		aabb.Init({ position.x - halfWidth, position.y - halfHeight }, { position.x + halfWidth, position.y + halfHeight });
+
+	}
+}
+
 void CollisionSystem::UpdateColliders()
 {
 	auto entities = m_entityManager->FindAll<ColliderComponent>();
@@ -388,30 +421,30 @@ void CollisionSystem::UpdateColliders()
 		auto* transformComponent = entity->GetComponent<TransformComponent>();
 		auto* velocityComponent = entity->GetComponent<VelocityComponent>();
 
-		if (auto* attackCollider = entity->GetComponent<AttackComponent>())
-		{
-			const auto& velocity = velocityComponent->Velocity;
+		//if (auto* attackCollider = entity->GetComponent<AttackComponent>())
+		//{
+		//	const auto& velocity = velocityComponent->Velocity;
 
-			auto& aabb = attackCollider->Collider;
-			auto& offset = attackCollider->Offset;
+		//	auto& aabb = attackCollider->Collider;
+		//	auto& offset = attackCollider->Offset;
 
-			// Update collider offset
-			auto colliderWidth = aabb.GetWidth();
+		//	// Update collider offset
+		//	auto colliderWidth = aabb.GetWidth();
 
-			offset.x = velocity.x > 0.f ? colliderWidth : velocity.x < 0.f ? -colliderWidth : 0;
-			offset.y = velocity.y > 0.f ? colliderWidth : velocity.y < 0.f ? -colliderWidth : 0;
-			//offset.z = velocity.z > 0.f ? colliderWidth : velocity.z < 0.f ? -colliderWidth : 0;
+		//	offset.x = velocity.x > 0.f ? colliderWidth : velocity.x < 0.f ? -colliderWidth : 0;
+		//	offset.y = velocity.y > 0.f ? colliderWidth : velocity.y < 0.f ? -colliderWidth : 0;
+		//	//offset.z = velocity.z > 0.f ? colliderWidth : velocity.z < 0.f ? -colliderWidth : 0;
 
-			// Update collider position
-			const auto position = transformComponent->CurrentPos + attackCollider->Offset;
+		//	// Update collider position
+		//	const auto position = transformComponent->CurrentPos + attackCollider->Offset;
 
-			float halfWidth = aabb.GetWidth() * 0.5f;
-			float halfHeight = aabb.GetHeight() * 0.5f;
+		//	float halfWidth = aabb.GetWidth() * 0.5f;
+		//	float halfHeight = aabb.GetHeight() * 0.5f;
 
-			aabb.Init({ position.x - halfWidth, position.y - halfHeight }, { position.x + halfWidth, position.y + halfHeight });
-		}
+		//	aabb.Init({ position.x - halfWidth, position.y - halfHeight }, { position.x + halfWidth, position.y + halfHeight });
+		//}
 
-		if (auto* hitboxCollider = entity->GetComponent<HitboxComponent>())
+		/*if (auto* hitboxCollider = entity->GetComponent<HitboxComponent>())
 		{
 			auto& aabb = hitboxCollider->Collider;
 			const auto position = transformComponent->CurrentPos;
@@ -420,14 +453,28 @@ void CollisionSystem::UpdateColliders()
 			float halfHeight = aabb.GetHeight() * 0.5f;
 
 			aabb.Init({ position.x - halfWidth, position.y - halfHeight }, { position.x + halfWidth, position.y + halfHeight });
-		}
+		}*/
 
-		if (auto* collider = entity->GetComponent<ColliderComponent>())
+		if (auto* colliderComponent = entity->GetComponent<ColliderComponent>())
 		{
-			// only updates moving colliders
-			if (collider->Type == eColliderType::Dynamic)
+			colliderComponent->CollidingEntities.clear();
+
+			// collider->IsColliding = false;
+			//collider->CollisionData.IsColliding = false;
+			//collider->CollisionData.CollidingEntity = nullptr;
+
+			// Calculate offset (TODO; make more optional)
+			auto& offset = colliderComponent->Offset;
+			if (offset.XOffset > 0.f || offset.YOffset > 0.f)
 			{
-				auto& aabb = collider->Collider;
+				// if ()
+			}
+
+
+			// only updates moving colliders (TODO; update the one with static colliders by listening to entity created event?)
+			if (colliderComponent->Type == eColliderType::Dynamic)
+			{
+				auto& aabb = colliderComponent->Collider;
 				const auto position = transformComponent->CurrentPos;
 
 				float halfWidth = aabb.GetWidth() * 0.5f;
@@ -436,6 +483,27 @@ void CollisionSystem::UpdateColliders()
 				aabb.Init({ position.x - halfWidth, position.y - halfHeight }, { position.x + halfWidth, position.y + halfHeight });
 			}
 		}
+	}
+}
+
+// TODO: include offset
+void CollisionSystem::UpdateCollider(Entity* anEntity)
+{
+	if (!anEntity)
+		return;
+
+	auto* colliderComponent = anEntity->GetComponent<ColliderComponent>();
+	auto* transformComponent = anEntity->GetComponent<TransformComponent>();
+
+	if (colliderComponent && transformComponent)
+	{
+		auto& collider = colliderComponent->Collider;
+		const auto position = transformComponent->CurrentPos;
+
+		float halfWidth = collider.GetWidth() * 0.5f;
+		float halfHeight = collider.GetHeight() * 0.5f;
+
+		collider.Init({ position.x - halfWidth, position.y - halfHeight }, { position.x + halfWidth, position.y + halfHeight });
 	}
 }
 
@@ -589,9 +657,9 @@ void CollisionSystem::HandleTileCollisions(Entity* anEntity, float aDeltaTime)
 
 	auto* transformComponent = anEntity->GetComponent<TransformComponent>();
 	auto* velocityComponent = anEntity->GetComponent<VelocityComponent>();
-	auto* hitboxComponent = anEntity->GetComponent<HitboxComponent>();
+	auto* colliderComponent = anEntity->GetComponent<ColliderComponent>();
 
-	auto& collider = hitboxComponent->Collider;
+	auto& collider = colliderComponent->Collider;
 
 	// Scaled bounds
 	auto center = collider.GetCenter();
@@ -603,11 +671,11 @@ void CollisionSystem::HandleTileCollisions(Entity* anEntity, float aDeltaTime)
 	// Get the mapchunks around the player (4 corners of the hitbox)
 	std::vector<Entity*> mapChunks;
 
-	auto* chunk = MapUtils::GetMapChunkAtPosition(m_entityManager->FindAll<MapChunkComponent>(), hitboxComponent->Collider.GetCenter());
+	auto* chunk = MapUtils::GetMapChunkAtPosition(m_entityManager->FindAll<MapChunkComponent>(), collider.GetCenter());
 
 
 
-	auto* mapChunk = MapUtils::GetMapChunkAtPosition(m_entityManager->FindAll<MapChunkComponent>(), hitboxComponent->Collider.GetCenter());
+	auto* mapChunk = MapUtils::GetMapChunkAtPosition(m_entityManager->FindAll<MapChunkComponent>(), collider.GetCenter());
 
 	if (!mapChunk)
 		return;
@@ -641,7 +709,7 @@ void CollisionSystem::HandleTileCollisions(Entity* anEntity, float aDeltaTime)
 		// Draw map AABB...
 
 
-		Hi_Engine::HitResult<float> result = Hi_Engine::Physics::Intersects(hitboxComponent->Collider, { velocityComponent->Velocity.x, velocityComponent->Velocity.y }, tileBounds, aDeltaTime);
+		Hi_Engine::HitResult<float> result = Hi_Engine::Physics::Intersects(collider, { velocityComponent->Velocity.x, velocityComponent->Velocity.y }, tileBounds, aDeltaTime);
 
 		// std::cout << result.IsColliding << "\n";
 

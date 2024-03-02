@@ -14,6 +14,26 @@ struct HUDComponent : public Component
 {
 };
 
+
+
+
+/* ######################### HUD ######################### */
+struct ItemComponent : public Component // TODO, create a separate file for hud?
+{
+	std::string Identifier;
+	std::string IconTexture;
+};
+
+// HERE?? Or maybe use two sprites instead?? add system HealthBarSystem?
+struct HealthBarComponent : public Component
+{
+	Hi_Engine::Material Container;
+	Hi_Engine::Material Bar;
+	// position? size?
+};
+
+
+
 // CYRRENTLY IN RENDEIRNG COMPONENTS?!
 //struct TextComponent : public ComponentBase
 //{

@@ -106,8 +106,8 @@ public:
 		auto colliderSize = 0.2f;								// FIX!
 
 		// Do in MovementSystem init?
-		aComponent->Offset = { 1.0f, 0.f };
-		aComponent->Collider.Init({ startPos.x - colliderSize, startPos.y - colliderSize }, { startPos.x + colliderSize, startPos.y + colliderSize });
+		// aComponent->Offset = { 1.0f, 0.f };
+		// aComponent->Collider.Init({ startPos.x - colliderSize, startPos.y - colliderSize }, { startPos.x + colliderSize, startPos.y + colliderSize });
 	}
 
 	template <>
@@ -165,11 +165,11 @@ public:
 	{
 		int value = std::any_cast<int>(someData.at("value"));
 		aComponent->CurrentValue = value;
-
+		aComponent->IsInvincible = false;
 		// TODO; set health stat?!
 	}
 
-	template <>
+	/*template <>
 	static void InitializeComponent<HitboxComponent>(HitboxComponent* aComponent, const ECS::ComponentData& someData)
 	{
 		CU::Vector2<float> position = { 0.f, 0.f };
@@ -179,7 +179,7 @@ public:
 
 		aComponent->Collider.Init({ position.x - halfSize, position.y - halfSize }, { position.x + halfSize, position.y + halfSize });
 		aComponent->IsStatic = isStatic;
-	}
+	}*/
 
 	template <>
 	static void InitializeComponent<InventoryComponent>(InventoryComponent* aComponent, const ECS::ComponentData& someData)
@@ -461,20 +461,34 @@ public:
 	template <>
 	static void InitializeComponent<ColliderComponent>(ColliderComponent* aComponent, const ECS::ComponentData& someData)
 	{
-			CU::Vector2<float> position = { 0.f, 0.f };					// TODO; 
+		CU::Vector2<float> position = { 0.f, 0.f };
+	
 		//auto halfSize = std::any_cast<float>(someData.at("half_size"));
 		float halfSize = 0.5f;
 
 		aComponent->Collider.Init({ position.x - halfSize, position.y - halfSize }, { position.x + halfSize, position.y + halfSize });
 
-
-		if (std::any_cast<std::string>(someData.at("type")) == "Trigger")
+		std::string type = std::any_cast<std::string>(someData.at("type"));
+		if (type == "Trigger")
 		{
 			aComponent->Type = eColliderType::Trigger;
 		}
-		else if (std::any_cast<std::string>(someData.at("type")) == "Dynamic")
+		else if (type == "Dynamic")
 		{
 			aComponent->Type = eColliderType::Dynamic;
 		}
+
+
+		if (someData.contains("offset"))
+		{
+			auto offsetData = std::any_cast<std::unordered_map<std::string, std::any>>(someData.at("offset"));
+
+			Offset& offset = aComponent->Offset;
+
+			offset.XOffset = std::any_cast<float>(offsetData.at("xOffset"));
+			offset.YOffset = std::any_cast<float>(offsetData.at("yOffset"));
+			offset.IsDirectionallyBound = std::any_cast<bool>(offsetData.at("isDirectionallyBound"));
+		}
+
 	}
 };

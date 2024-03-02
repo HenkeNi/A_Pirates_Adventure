@@ -24,7 +24,10 @@ public:
 
 
 private:
+	void AdjustColliderPosition(Entity* anEntity);
+
 	void UpdateColliders();
+	void UpdateCollider(Entity* anEntity);
 
 	bool CanCollide(Entity* aFirst, Entity* aSecond) const;
 

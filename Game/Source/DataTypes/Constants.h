@@ -3,5 +3,5 @@
 
 namespace Constants
 {
-	constexpr const char*		Filepath = "../Bin/Assets/";	// place in dir class??
+	constexpr const char* Filepath = "../Bin/Assets/";	// place in dir class??
 }

@@ -11,6 +11,20 @@
       }
     },
     {
+      "type": "Sprite",
+      "properties": {
+        "shader": "sprite_batch",
+        "texture": "pirate_idle_00",
+        "color": [ 1.0, 1.0, 1.0, 1.0 ]
+      }
+    },
+    {
+      "type": "Velocity",
+      "properties": {
+        "speed": 1.0
+      }
+    },
+    {
       "type": "Input",
       "properties": {}
     },
@@ -34,12 +48,6 @@
     {
       "type": "CharacterState",
       "properties": {}
-    },
-    {
-      "type": "Velocity",
-      "properties": {
-        "speed": 1.0
-      }
     },
     {
       "type": "Animation",
@@ -110,31 +118,12 @@
       }
     },
     {
-      "type": "AttackCollider",
-      "properties": {}
-    },
-    {
-      "type": "Weapon",
+      "type": "Equipment",
       "properties": {}
     },
     {
       "type": "Inventory",
       "properties": {}
-    },
-    {
-      "type": "Sprite",
-      "properties": {
-        "shader": "sprite_batch",
-        "texture": "pirate_idle_00",
-        "color": [ 1.0, 1.0, 1.0, 1.0 ]
-      }
-    },
-    {
-      "type": "Hitbox",
-      "properties": {
-        "half_size": 0.1,
-        "is_static": false
-      }
     },
     {
       "type": "Health",
@@ -153,6 +142,11 @@
       "properties": {
         "type": "Dynamic"
       }
+    },
+    {
+      "type": "SubEntities",
+      "properties": {}
     }
+
   ]
 }

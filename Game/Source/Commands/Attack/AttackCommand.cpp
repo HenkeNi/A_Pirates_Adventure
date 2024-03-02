@@ -19,21 +19,41 @@ void AttackCommand::Execute(Entity* anEntity)
 		characterStateComponent->IsAttacking = true;
 	}
 
-	if (auto* attackComponent = anEntity->GetComponent<AttackComponent>())
-	{
-		attackComponent->IsEnabled = true;
-	}
+	//// get equipped weapon instead..
+	//if (auto* equipmentComponent = anEntity->GetComponent<EquipmentComponent>())
+	//{
+	//	int weaponID = equipmentComponent->EquippedItemIDs[(int)eEquipmentSlot::Melee];
+	//	// fetch weapon from entitymanager?!
+	//}
+	//
+	//if (auto* attackComponent = anEntity->GetComponent<AttackComponent>())
+	//{
+	//	attackComponent->IsEnabled = true;
+	//}
+
+	// send event?
 }
 
+// Not called...
 bool AttackCommand::CanPerform(Entity* anEntity) const
 {
-	if (anEntity)
+	if (!anEntity)
+		return false;
+
+	if (auto* equipmentComponent = anEntity->GetComponent<EquipmentComponent>())
 	{
-		if (auto* characterStateComponent = anEntity->GetComponent<CharacterStateComponent>())
-		{
-			return !characterStateComponent->IsAttacking;
-		}
+		auto equipment = equipmentComponent->EquippedItemIDs;
+		int weaponID = equipment[(int)eEquipmentSlot::Melee];
+
+		if (weaponID == -1)
+			return false;
 	}
 
-	return false;
+	if (auto* characterStateComponent = anEntity->GetComponent<CharacterStateComponent>())
+	{
+		if (characterStateComponent->IsAttacking)
+			return false;
+	}
+
+	return true;
 }

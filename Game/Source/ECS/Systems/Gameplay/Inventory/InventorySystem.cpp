@@ -8,20 +8,27 @@
 
 InventorySystem::InventorySystem()
 {
+	PostMaster::GetInstance().Subscribe(eMessage::EntitiesCollided, this);
 }
 
 InventorySystem::~InventorySystem()
 {
+	PostMaster::GetInstance().Unsubscribe(eMessage::EntitiesCollided, this);
 }
 
 void InventorySystem::Receive(Message& aMsg)
 {
+	int xx = 10;
+	xx += 10;
+	// listen to entity collision => make sure its done after equipment system
 }
   
 void InventorySystem::Update(float aDeltaTime)
 {
 	if (!m_entityManager)
 		return;
+
+	return; // listen to collision event instead?
 
 	auto pickups = m_entityManager->FindAll<PickupColliderComponent>();
 	auto players = m_entityManager->FindAll<PlayerControllerComponent>();		// ADD FindOne or just Find()??

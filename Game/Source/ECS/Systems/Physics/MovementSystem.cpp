@@ -26,15 +26,31 @@ void MovementSystem::Update(float aDeltaTime)
 
 	for (auto* entity : entities)
 	{
-		auto* transform = entity->GetComponent<TransformComponent>();
-		auto* velocity = entity->GetComponent<VelocityComponent>();
+		auto* transformComponent = entity->GetComponent<TransformComponent>();
+		auto* velocityComponent = entity->GetComponent<VelocityComponent>();
 
-		transform->PreviousPos = transform->CurrentPos;
-		transform->CurrentPos += velocity->Speed * velocity->Velocity * aDeltaTime;
+		transformComponent->PreviousPos = transformComponent->CurrentPos;
+		transformComponent->CurrentPos += velocityComponent->Speed * velocityComponent->Velocity * aDeltaTime;
 
 		// TODO; decrease velocity... (maybe not for all? => bullets shouldnt decrease?) decrease property?
-		if (velocity->ShouldSlowDown) // TODO: FIX! temp solution
-			velocity->Velocity = { 0.f, 0.f, };
+		if (velocityComponent->ShouldSlowDown) // TODO: FIX! temp solution
+			velocityComponent->Velocity = { 0.f, 0.f, };
+
+		// HERE? or in Transform System?
+		if (auto* childComponent = entity->GetComponent<SubEntitiesComponent>())
+		{
+			for (unsigned entityID : childComponent->IDs)
+			{
+				if (auto* child = m_entityManager->Find(entityID))
+				{
+					auto* childTransformComponent = child->GetComponent<TransformComponent>();
+
+					childTransformComponent->PreviousPos = childTransformComponent->CurrentPos;
+					childTransformComponent->CurrentPos = transformComponent->CurrentPos;
+				}
+			}
+		}
+
 	}
 }
 

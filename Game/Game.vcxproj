@@ -194,6 +194,7 @@
     <ClInclude Include="Source\ECS\Systems\AI\StateMachineSystem.h" />
     <ClInclude Include="Source\AI\StateMachine\Transition\Transition.h" />
     <ClInclude Include="Source\Commands\Aim\AimCommand.h" />
+    <ClInclude Include="Source\ECS\Systems\Core\TransformSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Commands\Shoot\ShootCommand.cpp" />
@@ -290,6 +291,7 @@
     <ClCompile Include="Source\ECS\Systems\Time\TimeSystem.cpp" />
     <ClCompile Include="Source\Utility\Map\MapUtils.cpp" />
     <ClCompile Include="Source\Commands\Aim\AimCommand.cpp" />
+    <ClCompile Include="Source\ECS\Systems\Core\TransformSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.vcxproj">
@@ -328,7 +330,8 @@
     <None Include="Assets\Json\Blueprints\UI\title_text.json" />
     <None Include="Assets\Json\Blueprints\UI\title_background.json" />
     <None Include="Assets\Json\Blueprints\Utility\world_time.json" />
-    <None Include="Assets\Json\Blueprints\World\sky.json" />
+    <None Include="Assets\Json\Blueprints\Weapons\rusty_sword.json" />
+    <None Include="Assets\Json\Map\TileSettings.json" />
     <None Include="Assets\Json\Resources\Fonts.json" />
     <None Include="Assets\Json\Resources\Subtextures.json" />
     <None Include="Assets\Json\Resources\Textures.json" />

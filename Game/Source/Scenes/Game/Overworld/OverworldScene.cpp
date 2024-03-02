@@ -100,6 +100,9 @@ void OverworldScene::OnEnter()
 	CU::Vector2<float> position = { 0.f, 0.f }; // { 27.f, 25.f };
 	player->GetComponent<TransformComponent>()->CurrentPos = position;
 
+
+	auto* weapon = m_entityManager.Create("RustySword");
+
 	auto* time = m_entityManager.Create("WorldTime");
 
 

@@ -1,8 +1,5 @@
 {
   "blueprints": {
-    "world": [
-      "../Game/Assets/Json/Blueprints/World/sky.json"
-    ],
     "hud": [
       "../Game/Assets/Json/Blueprints/HUD/cursor.json",
       "../Game/Assets/Json/Blueprints/HUD/healthbar.json",
@@ -54,6 +51,9 @@
     ],
     "utility": [
       "../Game/Assets/Json/Blueprints/Utility/world_time.json"
+    ],
+    "weapons": [
+      "../Game/Assets/Json/Blueprints/Weapons/rusty_sword.json"
     ],
     "animals": [
       "../Game/Assets/Json/Blueprints/Animals/fish_animal.json",

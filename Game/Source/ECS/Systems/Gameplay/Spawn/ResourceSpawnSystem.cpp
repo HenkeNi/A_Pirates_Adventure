@@ -19,6 +19,8 @@ ResourceSpawnSystem::~ResourceSpawnSystem()
 
 void ResourceSpawnSystem::Receive(Message& aMsg)
 {
+	return;
+
 	if (!m_entityManager)
 		return;
 

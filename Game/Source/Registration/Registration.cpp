@@ -36,6 +36,9 @@ namespace Registration
 		componentBuilders.push_back(std::make_pair("Animation",			new ConcreteComponentBuilder<AnimationComponent>));
 		componentBuilders.push_back(std::make_pair("Collider",			new ConcreteComponentBuilder<ColliderComponent>));
 		componentBuilders.push_back(std::make_pair("Cursor",			new ConcreteComponentBuilder<CursorComponent>));
+		componentBuilders.push_back(std::make_pair("Text",				new ConcreteComponentBuilder<TextComponent>));
+		componentBuilders.push_back(std::make_pair("SubEntities",		new ConcreteComponentBuilder<SubEntitiesComponent>));
+
 
 		componentBuilders.push_back(std::make_pair("SceneTransition",	new ConcreteComponentBuilder<SceneTransitionComponent>));
 
@@ -48,19 +51,19 @@ namespace Registration
 
 		componentBuilders.push_back(std::make_pair("PlayerController",	new ConcreteComponentBuilder<PlayerControllerComponent>));
 
-		componentBuilders.push_back(std::make_pair("Hitbox",			new ConcreteComponentBuilder<HitboxComponent>));
 		componentBuilders.push_back(std::make_pair("Rect",				new ConcreteComponentBuilder<RectComponent>));
 		componentBuilders.push_back(std::make_pair("DebugRect",			new ConcreteComponentBuilder<DebugRectComponent>));
 		componentBuilders.push_back(std::make_pair("AttackCollider",	new ConcreteComponentBuilder<AttackComponent>));
 		componentBuilders.push_back(std::make_pair("HUD",				new ConcreteComponentBuilder<HUDComponent>));
 
 		componentBuilders.push_back(std::make_pair("Projectile",		new ConcreteComponentBuilder<ProjectileComponent>));
+		componentBuilders.push_back(std::make_pair("Equipment",			new ConcreteComponentBuilder<EquipmentComponent>));
+		componentBuilders.push_back(std::make_pair("Equippable",		new ConcreteComponentBuilder<EquippableComponent>));
+		componentBuilders.push_back(std::make_pair("Inventory",			new ConcreteComponentBuilder<InventoryComponent>));
 
 		componentBuilders.push_back(std::make_pair("Resource",			new ConcreteComponentBuilder<ResourceComponent>));
 		componentBuilders.push_back(std::make_pair("Pickup",			new ConcreteComponentBuilder<PickupColliderComponent>));
-		componentBuilders.push_back(std::make_pair("Inventory",			new ConcreteComponentBuilder<InventoryComponent>));
 		componentBuilders.push_back(std::make_pair("Spawner",			new ConcreteComponentBuilder<SpawnComponent>));
-		componentBuilders.push_back(std::make_pair("Text",				new ConcreteComponentBuilder<TextComponent>));
 		componentBuilders.push_back(std::make_pair("WorldTime",			new ConcreteComponentBuilder<WorldTimeComponent>));
 		componentBuilders.push_back(std::make_pair("MapChunk",			new ConcreteComponentBuilder<MapChunkComponent>));
 		componentBuilders.push_back(std::make_pair("CharacterState",	new ConcreteComponentBuilder<CharacterStateComponent>));

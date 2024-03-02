@@ -13,7 +13,10 @@ public:
 	void		Update(float aDeltaTime)							 override;
 
 private:
-	unsigned	GetDamageOutput(Entity* anEntity)						const;
-	std::vector<Entity*> GetNearbyEntities()							const;
-	bool		ApplyDamageOutput(Entity* anEntity, unsigned aDamage);
+	void		PerformAttack(Entity* anEntity);
+	bool		IsTargetable(Entity* anEntity)							const;
+
+	unsigned				GetDamageOutput(Entity* anEntity)						const;
+	// std::vector<Entity*>	GetNearbyEntities()							const;
+	bool					ApplyDamageOutput(Entity* anEntity, unsigned aDamage);
 };

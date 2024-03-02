@@ -21,7 +21,9 @@ enum class eMessage
 	MultipleComponentBuildersCreated,
 	EntityCreated,
 	EntityDestroyed,
+	EntitySpawned,
 
+	EntitiesCollided,
 
 	EntityDied,				// just destroyed?
 	EntityAttacked,				// rename AttackEvent? AttackBegan? AttackEnded?
@@ -163,4 +165,16 @@ enum class eSkills	// minor stats?
 	Dodge,
 	Block,
 
+};
+
+
+enum class eEquipmentSlot
+{
+	Legs, 
+	Torso, 
+	Hat,
+	Melee,
+	Ranged,
+	Throwable,
+	Count
 };

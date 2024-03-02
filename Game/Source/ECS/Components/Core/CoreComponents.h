@@ -12,15 +12,38 @@ struct TransformComponent : public Component
 	float			   Rotation		= 0.f;
 };
 
-struct VelocityComponent : public Component
+struct VelocityComponent : public Component // Physics componetn instad?
 {
 	CU::Vector2<float>	Velocity;
 	CU::Vector2<float>	Acceleration;
-	//float DeaccelerationRate; TODO; implement instead of bool check?
+	//float DeaccelerationRate; TODO; implement instead of bool check? or put in physics? mass, etc?
 
 	float				MaxVelocity;
 	float				Speed;
 	bool				ShouldSlowDown = true;
+};
+
+struct ColliderComponent : public Component
+{
+	Hi_Engine::Physics::AABB2D<float>	Collider;
+	Offset								Offset;
+	//CU::Vector2<float>					Offset;
+	eColliderType						Type;
+	//eCollisionLayer						Layer;
+
+	// replace with collision data?! normal, entity colliding with, etc..
+	std::vector<Entity*>				CollidingEntities;
+
+	// Store collision normal..
+
+	// store size?
+
+	//CollisionData CollisionData; // have as pointer?
+	// bool								IsColliding;
+
+	bool								IsActive; // ?? or just remove component?
+	//bool								IsStatic;					// enum for type (trigger, static?
+	//bool								IsTrigger;
 };
 
 struct SpriteComponent : public Component
@@ -75,15 +98,7 @@ struct AnimationComponent : public Component
 	bool		m_isLooping;*/
 };
 
-struct ColliderComponent : public Component
-{
-	Hi_Engine::Physics::AABB2D<float>	Collider;
-	CU::Vector2<float>					Offset;
-	//eCollisionLayer						Layer;
-	eColliderType						Type;
-	//bool								IsStatic;					// enum for type (trigger, static?
-	//bool								IsTrigger;
-};
+
 
 struct BoundingVolume : public Component // Or BOundingBox?
 {
@@ -100,6 +115,15 @@ struct TextComponent : public Component
 	// float				m_scale; use transform instead..
 	CU::Vector4<float>		Color;
 };
+
+// Rename ChildEntitiesComponent? ChildListComponent
+struct SubEntitiesComponent : public Component
+{
+	std::vector<unsigned> IDs;
+};
+
+
+
 
 // Rename BoundComponent?
 struct FollowComponent : public Component
