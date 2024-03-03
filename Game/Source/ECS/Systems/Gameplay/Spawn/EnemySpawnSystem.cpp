@@ -25,6 +25,8 @@ void EnemySpawnSystem::Receive(Message& aMsg)
 
 void EnemySpawnSystem::Update(float aDeltaTime)
 {
+	return;
+
 	if (!m_entityManager) // Dont check?
 		return;
 

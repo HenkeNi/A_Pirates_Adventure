@@ -19,20 +19,15 @@
       }
     },
     {
-      "type": "Rect",
+      "type": "Collider",
       "properties": {
-        "shader": "sprite_batch"
+        "type": "Static"
       }
     },
     {
-      "type": "Resource",
-      "properties": {
-        "resource": "Stone"
-      }
-    },
-    {
-      "type": "Pickup",
+      "type": "Collectable",
       "properties": {}
     }
+
   ]
 }

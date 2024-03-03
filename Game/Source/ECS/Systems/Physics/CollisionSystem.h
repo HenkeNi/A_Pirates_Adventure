@@ -45,6 +45,7 @@ private:
 
 	//7std::vector<MapChunk*> m_mapChunks;
 
+// OR maybe colliders are just small structs (min/max) and free floating functions... DOWNSIDE=> visually debugging collider is less accurate..
 
 
 	// float SweptAABB(Entity* anEntity);

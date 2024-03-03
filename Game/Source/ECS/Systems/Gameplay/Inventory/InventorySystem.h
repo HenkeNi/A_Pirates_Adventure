@@ -11,7 +11,7 @@ public:
 
 	void Receive(Message& aMsg)		override;
 	void Update(float aDeltaTime)	override;
+
 private:
-
-
+	bool CollectItem(class Entity* anOwner, class Entity* anItem);
 };

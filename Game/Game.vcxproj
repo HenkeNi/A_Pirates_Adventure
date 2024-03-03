@@ -126,7 +126,6 @@
     <ClInclude Include="Source\ECS\Components\ComponentInitializer.h" />
     <ClInclude Include="Source\ECS\Components\Components.h" />
     <ClInclude Include="Source\ECS\Components\ComponentFactory.h" />
-    <ClInclude Include="Source\ECS\Systems\Gameplay\Spawn\ResourceSpawnSystem.h" />
     <ClInclude Include="Source\ECS\Systems\Gameplay\Inventory\InventorySystem.h" />
     <ClInclude Include="Source\ECS\Systems\Gameplay\Equipment\EquipmentSystem.h" />
     <ClInclude Include="Source\ECS\Systems\AI\BehaviorTreeSystem.h" />
@@ -235,7 +234,6 @@
     <ClCompile Include="Source\ECS\Systems\Map\MapGenerationSystem.cpp" />
     <ClCompile Include="Source\ECS\Systems\Rendering\Map\MapRenderSystem.cpp" />
     <ClCompile Include="Source\ECS\Systems\Rendering\Text\TextRenderSystem.cpp" />
-    <ClCompile Include="Source\ECS\Systems\Gameplay\Spawn\ResourceSpawnSystem.cpp" />
     <ClCompile Include="Source\ECS\Systems\Gameplay\Spawn\EnemySpawnSystem.cpp" />
     <ClCompile Include="Source\ECS\Systems\Gameplay\Spawn\SpawnSystem.cpp" />
     <ClCompile Include="Source\ECS\Systems\Gameplay\Stats\StatSystem.cpp" />

@@ -132,12 +132,6 @@
       }
     },
     {
-      "type": "DebugRect",
-      "properties": {
-        "shader": "sprite_batch"
-      }
-    },
-    {
       "type": "Collider",
       "properties": {
         "type": "Dynamic"

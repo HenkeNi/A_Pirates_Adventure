@@ -1,7 +1,7 @@
 #pragma once
 #include "../../Base/System.h"
 
-
+// Combine inventory and equipment?
 class EquipmentSystem : public System
 {
 public:

@@ -19,19 +19,13 @@
       }
     },
     {
-      "type": "Rect",
+      "type": "Collider",
       "properties": {
-        "shader": "sprite_batch"
+        "type": "Static"
       }
     },
     {
-      "type": "Resource",
-      "properties": {
-        "resource": "Fiber"
-      }
-    },
-    {
-      "type": "Pickup",
+      "type": "Collectable",
       "properties": {}
     }
   ]

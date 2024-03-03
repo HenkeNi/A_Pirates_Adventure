@@ -18,8 +18,8 @@ void SpawnSystem::Receive(Message& aMsg)
 {
 	if (aMsg.GetMessageType() == eMessage::EntityDestroyed)
 	{
-		
-		Spawn();
+		auto* entity = std::any_cast<Entity*>(aMsg.GetData());
+		Spawn(entity);
 	}
 
 
@@ -64,16 +64,26 @@ void SpawnSystem::Update(float aDeltaTime)
 	// get entieis with spawn components... (check what should be spawned )
 }
 
-void SpawnSystem::Spawn()
+void SpawnSystem::Spawn(Entity* aSpawner)
 {
-	if (!m_entityManager)
+	if (!aSpawner)
 		return;
 
-	auto spawners = m_entityManager->FindAll<SpawnerComponent>();
+	auto* transformComponent = aSpawner->GetComponent<TransformComponent>();
+	auto currentPosition = transformComponent->CurrentPos;
 
-	for (auto& spawner : spawners)
+	if (auto* spawnComponent = aSpawner->GetComponent<SpawnComponent>())
 	{
+		for (int i = 0; i < spawnComponent->Amount; ++i)
+		{
+			auto* entity = m_entityManager->Create(spawnComponent->Spawned);
+			transformComponent = entity->GetComponent<TransformComponent>();
+			transformComponent->CurrentPos = currentPosition;
+
+			PostMaster::GetInstance().SendMessage({ eMessage::EntitySpawned, entity });
+		}
 
 	}
+
 
 }

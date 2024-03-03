@@ -15,6 +15,7 @@ MovementSystem::~MovementSystem()
 
 void MovementSystem::Receive(Message& aMsg)
 {
+	// TODO: listen to collision resolved event (from collision system) => update subentities?
 }
 
 void MovementSystem::Update(float aDeltaTime)
@@ -36,21 +37,8 @@ void MovementSystem::Update(float aDeltaTime)
 		if (velocityComponent->ShouldSlowDown) // TODO: FIX! temp solution
 			velocityComponent->Velocity = { 0.f, 0.f, };
 
-		// HERE? or in Transform System?
-		if (auto* childComponent = entity->GetComponent<SubEntitiesComponent>())
-		{
-			for (unsigned entityID : childComponent->IDs)
-			{
-				if (auto* child = m_entityManager->Find(entityID))
-				{
-					auto* childTransformComponent = child->GetComponent<TransformComponent>();
-
-					childTransformComponent->PreviousPos = childTransformComponent->CurrentPos;
-					childTransformComponent->CurrentPos = transformComponent->CurrentPos;
-				}
-			}
-		}
-
+		if (HasMoved(entity))
+			MoveSubEntities	(entity);
 	}
 }
 
@@ -58,4 +46,24 @@ bool MovementSystem::HasMoved(const Entity* anEntity)
 {
 	auto transform = anEntity->GetComponent<TransformComponent>();
 	return transform->CurrentPos != transform->PreviousPos;
+}
+
+void MovementSystem::MoveSubEntities(Entity* anEntity)
+{
+	// HERE? or in Transform System?
+	if (auto* childComponent = anEntity->GetComponent<SubEntitiesComponent>())
+	{
+		auto* transformComponent = anEntity->GetComponent<TransformComponent>();
+
+		for (unsigned entityID : childComponent->IDs)
+		{
+			if (auto* child = m_entityManager->Find(entityID))
+			{
+				auto* childTransformComponent = child->GetComponent<TransformComponent>();
+
+				childTransformComponent->PreviousPos = childTransformComponent->CurrentPos;
+				childTransformComponent->CurrentPos = transformComponent->CurrentPos;
+			}
+		}
+	}
 }

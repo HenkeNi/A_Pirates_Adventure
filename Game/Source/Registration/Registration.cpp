@@ -38,9 +38,8 @@ namespace Registration
 		componentBuilders.push_back(std::make_pair("Cursor",			new ConcreteComponentBuilder<CursorComponent>));
 		componentBuilders.push_back(std::make_pair("Text",				new ConcreteComponentBuilder<TextComponent>));
 		componentBuilders.push_back(std::make_pair("SubEntities",		new ConcreteComponentBuilder<SubEntitiesComponent>));
-
-
 		componentBuilders.push_back(std::make_pair("SceneTransition",	new ConcreteComponentBuilder<SceneTransitionComponent>));
+		componentBuilders.push_back(std::make_pair("PlayerController",	new ConcreteComponentBuilder<PlayerControllerComponent>));
 
 		/* - Gameplay Components - */
 		componentBuilders.push_back(std::make_pair("Health",			new ConcreteComponentBuilder<HealthComponent>));
@@ -49,21 +48,18 @@ namespace Registration
 		componentBuilders.push_back(std::make_pair("Shake",				new ConcreteComponentBuilder<ShakeComponent>)); // Wooble? Shake AND Sway?
 		componentBuilders.push_back(std::make_pair("Harvestable",		new ConcreteComponentBuilder<HarvestableComponent>));
 
-		componentBuilders.push_back(std::make_pair("PlayerController",	new ConcreteComponentBuilder<PlayerControllerComponent>));
+		componentBuilders.push_back(std::make_pair("Equipment",			new ConcreteComponentBuilder<EquipmentComponent>));
+		componentBuilders.push_back(std::make_pair("Equippable",		new ConcreteComponentBuilder<EquippableComponent>));
+		componentBuilders.push_back(std::make_pair("Inventory",			new ConcreteComponentBuilder<InventoryComponent>));
+		componentBuilders.push_back(std::make_pair("Collectable",		new ConcreteComponentBuilder<CollectableComponent>));
+		componentBuilders.push_back(std::make_pair("Spawner",			new ConcreteComponentBuilder<SpawnComponent>));
 
-		componentBuilders.push_back(std::make_pair("Rect",				new ConcreteComponentBuilder<RectComponent>));
-		componentBuilders.push_back(std::make_pair("DebugRect",			new ConcreteComponentBuilder<DebugRectComponent>));
 		componentBuilders.push_back(std::make_pair("AttackCollider",	new ConcreteComponentBuilder<AttackComponent>));
 		componentBuilders.push_back(std::make_pair("HUD",				new ConcreteComponentBuilder<HUDComponent>));
 
 		componentBuilders.push_back(std::make_pair("Projectile",		new ConcreteComponentBuilder<ProjectileComponent>));
-		componentBuilders.push_back(std::make_pair("Equipment",			new ConcreteComponentBuilder<EquipmentComponent>));
-		componentBuilders.push_back(std::make_pair("Equippable",		new ConcreteComponentBuilder<EquippableComponent>));
-		componentBuilders.push_back(std::make_pair("Inventory",			new ConcreteComponentBuilder<InventoryComponent>));
 
 		componentBuilders.push_back(std::make_pair("Resource",			new ConcreteComponentBuilder<ResourceComponent>));
-		componentBuilders.push_back(std::make_pair("Pickup",			new ConcreteComponentBuilder<PickupColliderComponent>));
-		componentBuilders.push_back(std::make_pair("Spawner",			new ConcreteComponentBuilder<SpawnComponent>));
 		componentBuilders.push_back(std::make_pair("WorldTime",			new ConcreteComponentBuilder<WorldTimeComponent>));
 		componentBuilders.push_back(std::make_pair("MapChunk",			new ConcreteComponentBuilder<MapChunkComponent>));
 		componentBuilders.push_back(std::make_pair("CharacterState",	new ConcreteComponentBuilder<CharacterStateComponent>));
@@ -97,7 +93,6 @@ namespace Registration
 
 		aSystemManager.Register(std::make_unique<PlayerControllerSystem>());
 		aSystemManager.Register(std::make_unique<RangedCombatSystem>());
-		aSystemManager.Register(std::make_unique<ResourceSpawnSystem>());
 
 		aSystemManager.Register(std::make_unique<ShakeSystem>());
 		aSystemManager.Register(std::make_unique<HUDSystem>());

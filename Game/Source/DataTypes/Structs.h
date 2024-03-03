@@ -84,6 +84,19 @@ struct ProjectileData
 	float		       Speed;
 };
 
+struct Item
+{
+	std::string ItemID = "Empty";		// replace with unsigned (read id's from json)
+	unsigned	MaxStack;
+	// bool		IsUnique;
+};
+
+struct InventorySlot
+{
+	Item		Item;
+	unsigned	Quantity = 0;
+};
+
 struct Offset
 {
 	float XOffset;
@@ -108,6 +121,11 @@ struct Offset
 //
 
 
+struct KeyStatus
+{
+	Hi_Engine::eKey Key;
+	Hi_Engine::eInputState State;
+};
 
 //
 //

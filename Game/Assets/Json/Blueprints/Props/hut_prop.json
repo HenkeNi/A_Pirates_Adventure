@@ -23,12 +23,6 @@
       "properties": {
         "type": "Trigger"
       }
-    },
-    {
-      "type": "DebugRect",
-      "properties": {
-        "shader": "sprite_batch"
-      }
     }
   ]
 }

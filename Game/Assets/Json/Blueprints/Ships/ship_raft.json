@@ -17,18 +17,6 @@
         "texture": "raft_00",
         "color": [ 1.0, 1.0, 1.0, 1.0 ]
       }
-    },
-    {
-      "type": "Trigger",
-      "properties": {
-        "half_size": 0.1
-      }
-    },
-    {
-      "type": "DebugRect",
-      "properties": {
-        "shader": "sprite_batch"
-      }
     }
   ]
 }

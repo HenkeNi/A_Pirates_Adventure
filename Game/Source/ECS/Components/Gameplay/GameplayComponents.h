@@ -4,16 +4,6 @@
 #include "Stat.hpp"
 
 
-struct PickupColliderComponent : public Component
-{
-	Hi_Engine::Physics::AABB2D<float>	Collider;
-};
-
-
-
-
-
-
 
 struct RecipeComponent : public Component
 {
@@ -38,6 +28,7 @@ struct ResourceComponent : public Component
 
 // Harvest system?? HarvetableComponent  ResourceSpawnerComponent
 
+// maybe remove??? or use for fruit trees, etc?
 struct HarvestableComponent : public Component
 {
 	std::string ResourceType;	 // Rename??
@@ -71,11 +62,6 @@ struct AttributeComponent : public Component
 
 
 /* - Controllers - */ // MOVE THIS 0> Not ai...	
-struct KeyStatus
-{
-	Hi_Engine::eKey Key;
-	Hi_Engine::eInputState State;
-};
 
 struct PlayerControllerComponent : public Component
 {
@@ -101,50 +87,12 @@ struct CharacterStateComponent : public Component
 };
 
 
-struct CrosshairComponent : public Component
-{
-	// target?
-};
+
 
 
 // SpriteSheet component? (stores texture atlas, also holds current frame, etc...)
 
-
-
-
 // Shadow component??
-
-
-
-
-// REMOVE!!!
-//struct TileComponent : public ComponentBase
-//{
-//	// Tile specific data..
-//	CU::Vector2<float>	m_size;
-//	unsigned			m_type;		
-//	bool				m_isTraversable; // Needed???
-//};
-//
-//struct MapChunkComponent : public ComponentBase
-//{
-//	CU::Vector2<unsigned>	m_size;
-//	CU::Vector2<int>		m_position;
-//	unsigned				m_chunkID;
-//
-//
-//	// Data for chunk of tiles
-// };
-
-// Store each tile as an Entity? depending on which chunk it is in => render it or not..???
-
-
-
-
-
-
-
-
 
 
 // Stats such as Health, Stamina, Armor(?), Regeneration -> separate stat components or all in one?
@@ -245,12 +193,22 @@ struct EquippableComponent : public Component
 // Consider: Merging the Equipment into the InventoryComponent?
 struct InventoryComponent : public Component
 {
-	std::unordered_map<std::string, unsigned> Inventory; // Or list of entities? or list of ItemComponents?
+	static constexpr unsigned MaxSlots = 36;
+	std::array<InventorySlot, MaxSlots> Slots;
+	unsigned UnlockedSlots = 12;
 	
-	unsigned MaxCapacity; // every item has a weight? or save available slots
-	unsigned AvailableSpace;
+	
+	// std::unordered_map<std::string, unsigned> Inventory; // Or list of entities? or list of ItemComponents?
+	
+	// unsigned MaxCapacity; // every item has a weight? or save available slots
+	// unsigned AvailableSpace;
 };
 
+struct CollectableComponent : public Component
+{
+	Item Item;
+	//std::string ItemID;
+};
 
 
 /* ######################### Combat ######################### */
@@ -267,6 +225,8 @@ struct WeaponComponent : public Component // gun component?
 	float	AttackRange;
 	float	AttackSpeed;
 	int		DamageDealt;
+
+	// enum daamge type (explosive, slashing, blunt
 };
 
 struct ProjectileComponent : public Component
@@ -291,21 +251,17 @@ struct SpawnerComponent : public Component
 {
 	std::string Spawned;// SpawnableBlueprintID; // ID to entity to create
 	int			Amount;
-	bool		IsReadyToSpawn;
+	bool		IsReadyToSpawn; // Spawn type (on death, on hit)???
+
+	// bool IsRepeating?
 };
-
-
 
 struct EnemySpawnerComponent : public Component
 {
-
 };
-
-
 
 struct ItemSpawnerComponent : public Component
 {
-
 };
 
 
@@ -328,17 +284,3 @@ struct ShakeComponent : public Component
 	float m_duration = 0.25f;
 	float m_elapsedTime = 0.f;
 };
-
-// For stones?
-
-
-
-
-
-
-
-//struct HitboxComponent : public Component
-//{
-//	Hi_Engine::Physics::AABB2D<float>	Collider; // or use circle...
-//	bool								IsStatic;
-//};

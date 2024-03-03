@@ -41,8 +41,6 @@ void EquipmentSystem::Receive(Message& aMsg)
 	if (EquipItem(player, equippable))
 		aMsg.HandleMessage(); // rename MarkAsHandled(); ??
 
-	
-
 	// sword, etc should have a pickup component?!
 	// if item was equiped...  or colliding with item (an not such slot is taken)
 }
@@ -77,9 +75,3 @@ bool EquipmentSystem::EquipItem(class Entity* anOwner, class Entity* anItem)
 	// TODO; destroy entity when equipping it?
 
 }
-
-//void EquipmentSystem::UpdatePosition()
-//{
-//	// Maybe each entity should have an array of children instead?
-//
-//}

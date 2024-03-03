@@ -25,7 +25,6 @@
 #include "HUD/HUDSystem.h"
 #include "Gameplay/Spawn/EnemySpawnSystem.h"
 #include "Gameplay/Spawn/SpawnSystem.h"
-#include "Gameplay/Spawn/ResourceSpawnSystem.h"
 #include "Map/MapGenerationSystem.h"
 #include "Map/MapDecorationSystem.h"
 #include "Time/TimeSystem.h"

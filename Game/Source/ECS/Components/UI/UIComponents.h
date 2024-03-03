@@ -10,14 +10,15 @@ struct UIComponent : public Component
 {
 };
 
-struct HUDComponent : public Component
-{
-};
 
 
 
 
 /* ######################### HUD ######################### */
+struct HUDComponent : public Component
+{
+};
+
 struct ItemComponent : public Component // TODO, create a separate file for hud?
 {
 	std::string Identifier;
@@ -33,6 +34,16 @@ struct HealthBarComponent : public Component
 };
 
 
+
+struct CursorComponent : public Component
+{
+
+};
+
+struct CrosshairComponent : public Component
+{
+	// target?
+};
 
 // CYRRENTLY IN RENDEIRNG COMPONENTS?!
 //struct TextComponent : public ComponentBase

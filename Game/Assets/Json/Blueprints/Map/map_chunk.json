@@ -16,12 +16,6 @@
         "width": 10,
         "height": 10
       }
-    },
-    {
-      "type": "Rect",
-      "properties": {
-        "shader": "sprite_batch"
-      }
     }
   ]
 }

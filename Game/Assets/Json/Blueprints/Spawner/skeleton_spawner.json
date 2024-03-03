@@ -19,22 +19,9 @@
       }
     },
     {
-      "type": "Hitbox",
-      "properties": {
-        "half_size": 0.1,
-        "is_static": true
-      }
-    },
-    {
       "type": "Health",
       "properties": {
         "value": 100
-      }
-    },
-    {
-      "type": "Rect",
-      "properties": {
-        "shader": "sprite_batch"
       }
     },
     {

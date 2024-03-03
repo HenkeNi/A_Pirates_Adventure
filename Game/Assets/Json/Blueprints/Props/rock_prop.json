@@ -31,16 +31,11 @@
       }
     },
     {
-      "type": "DebugRect",
+      "type": "Spawner",
       "properties": {
-        "shader": "sprite_batch"
-      }
-    },
-    {
-      "type": "Harvestable",
-      "properties": {
-        "resource_type": "Stone_Resource",
-        "yield": 5
+        "spawned": "Stone_Resource",
+        "amount": 5,
+        "interval": 0.0
       }
     },
     {

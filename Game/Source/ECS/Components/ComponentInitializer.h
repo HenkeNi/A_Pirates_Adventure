@@ -142,15 +142,6 @@ public:
 	}
 
 	template <>
-	static void InitializeComponent<DebugRectComponent>(DebugRectComponent* aComponent, const ECS::ComponentData& someData)
-	{
-		auto shader = std::any_cast<std::string>(someData.at("shader"));
-
-		aComponent->Shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource(shader);
-		aComponent->Color = { 1.f, 1.f, 1.f, 1.f }; // TODO; read from json..
-	}
-
-	template <>
 	static void InitializeComponent<HarvestableComponent>(HarvestableComponent* aComponent, const ECS::ComponentData& someData)
 	{
 		std::string resourceType = std::any_cast<std::string>(someData.at("resource_type"));
@@ -312,15 +303,6 @@ public:
 		aComponent->Color = { std::any_cast<float>(color[0]), std::any_cast<float>(color[1]), std::any_cast<float>(color[2]), std::any_cast<float>(color[3]) };
 		aComponent->Size = size;
 		aComponent->Text = text;
-	}
-
-	template <>
-	static void InitializeComponent<RectComponent>(RectComponent* aComponent, const ECS::ComponentData& someData)
-	{
-		auto shader = std::any_cast<std::string>(someData.at("shader"));
-
-		aComponent->Shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource(shader);
-		aComponent->Color = { 1.f, 1.f, 1.f, 1.f }; // TODO; read from json..
 	}
 
 	template <>
