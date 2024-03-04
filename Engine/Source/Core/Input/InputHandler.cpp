@@ -97,6 +97,11 @@ namespace Hi_Engine
 		return s_scrollOffset;
 	}
 
+	bool InputHandler::IsMouseButtonPressed(eMouseBtn aBtn)
+	{
+		return s_mouseButtonStates[aBtn] == eInputState::Press;
+	}
+
 	bool InputHandler::IsKeyPressed(eKey aKey)
 	{
 		return s_keyStates[aKey] == eInputState::Press;

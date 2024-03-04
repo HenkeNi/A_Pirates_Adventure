@@ -30,8 +30,6 @@ namespace ECS
 class ComponentInitializer
 {
 public:
-	// using ComponentData = std::unordered_map<std::string, std::any>;
-
 	template <typename T>
 	static void InitializeComponent(T* aComponent, const ECS::ComponentData& someData)
 	{
@@ -160,18 +158,6 @@ public:
 		// TODO; set health stat?!
 	}
 
-	/*template <>
-	static void InitializeComponent<HitboxComponent>(HitboxComponent* aComponent, const ECS::ComponentData& someData)
-	{
-		CU::Vector2<float> position = { 0.f, 0.f };
-
-		auto halfSize = std::any_cast<float>(someData.at("half_size"));
-		bool isStatic = std::any_cast<bool>(someData.at("is_static"));
-
-		aComponent->Collider.Init({ position.x - halfSize, position.y - halfSize }, { position.x + halfSize, position.y + halfSize });
-		aComponent->IsStatic = isStatic;
-	}*/
-
 	template <>
 	static void InitializeComponent<InventoryComponent>(InventoryComponent* aComponent, const ECS::ComponentData& someData)
 	{
@@ -279,16 +265,6 @@ public:
 		aComponent->Scale		= { std::any_cast<float>(scale[0]), std::any_cast<float>(scale[1]) };
 		aComponent->Rotation	= rotation;
 	}
-
-	//template <>
-	//static void InitializeComponent<TriggerComponent>(TriggerComponent* aComponent, const ECS::ComponentData& someData)
-	//{
-	//	CU::Vector2<float> position = { 0.f, 0.f };					// TODO; 
-	//	//auto halfSize = std::any_cast<float>(someData.at("half_size"));
-	//	float halfSize = 0.5f;
-
-	//	aComponent->Collider.Init({ position.x - halfSize, position.y - halfSize }, { position.x + halfSize, position.y + halfSize });
-	//}
 
 	template <>
 	static void InitializeComponent<TextComponent>(TextComponent* aComponent, const ECS::ComponentData& someData)
@@ -434,7 +410,6 @@ public:
 	{
 	}
 
-	
 	template <>
 	static void InitializeComponent<SceneTransitionComponent>(SceneTransitionComponent* aComponent, const ECS::ComponentData& someData)
 	{

@@ -55,7 +55,9 @@ void GameScene::Draw() const
 
 void GameScene::OnCreated()
 {
-	m_sceneManager.Register(std::make_unique<OverworldScene>(m_sharedContext),	eScene::Overworld);
+
+	// TODO; pass the entity manager to game scene's?
+	m_sceneManager.Register(std::make_unique<OverworldScene>(m_sharedContext),	eScene::Overworld); 
 	m_sceneManager.Register(std::make_unique<DungeonScene>(m_sharedContext),	eScene::Dungeon);
 
 	//m_sceneManager.Init((int)eScene::Overworld);

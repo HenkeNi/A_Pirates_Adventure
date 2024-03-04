@@ -14,7 +14,7 @@
       "type": "Sprite",
       "properties": {
         "shader": "sprite_batch",
-        "texture": "raft_00",
+        "texture": "play_button_00",
         "color": [ 1.0, 1.0, 1.0, 1.0 ]
       }
     },
@@ -23,6 +23,10 @@
       "properties": {
         "type": "Static"
       }
+    },
+    {
+      "type": "Button",
+      "properties": {}
     }
   ]
 }

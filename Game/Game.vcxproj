@@ -102,14 +102,14 @@
     <ClInclude Include="Source\ECS\Systems\AI\BlackboardSystem.h" />
     <ClInclude Include="Source\ECS\Systems\Physics\ShakeSystem.h" />
     <ClInclude Include="Source\ECS\Systems\Rendering\Debug\DebugRenderSystem.h" />
-    <ClInclude Include="Source\ECS\Systems\Rendering\HUD\HUDRenderSystem.h" />
+    <ClInclude Include="Source\ECS\Systems\Rendering\UI\UIRenderSystem.h" />
+    <ClInclude Include="Source\ECS\Systems\UI\HUDSystem.h" />
     <ClInclude Include="Source\Gameplay\SkillTree.h" />
     <ClInclude Include="Source\AI\StateMachine\Conditions\Base\Condition.h" />
     <ClInclude Include="Source\AI\StateMachine\Conditions\Time\TimeConditions.h" />
     <ClInclude Include="Source\AI\StateMachine\States\Idle\IdleState.h" />
     <ClInclude Include="Source\AI\StateMachine\States\Walk\WalkState.h" />
     <ClInclude Include="Source\AI\SteeringBehaviors\Flee\FleeBehavior.h" />
-    <ClInclude Include="Source\ECS\Systems\HUD\HUDSystem.h" />
     <ClInclude Include="Source\ECS\Components\Gameplay\GameplayComponents.h" />
     <ClInclude Include="Source\Commands\Inventory\CloseInventoryCommand.h" />
     <ClInclude Include="Source\Commands\Inventory\OpenInventoryCommand.h" />
@@ -194,6 +194,7 @@
     <ClInclude Include="Source\AI\StateMachine\Transition\Transition.h" />
     <ClInclude Include="Source\Commands\Aim\AimCommand.h" />
     <ClInclude Include="Source\ECS\Systems\Core\TransformSystem.h" />
+    <ClInclude Include="Source\ECS\Systems\UI\UISystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Commands\Shoot\ShootCommand.cpp" />
@@ -204,7 +205,7 @@
     <ClCompile Include="Source\ECS\Systems\AI\BlackboardSystem.cpp" />
     <ClCompile Include="Source\ECS\Systems\Physics\ShakeSystem.cpp" />
     <ClCompile Include="Source\ECS\Systems\Rendering\Debug\DebugRenderSystem.cpp" />
-    <ClCompile Include="Source\ECS\Systems\Rendering\HUD\HUDRenderSystem.cpp" />
+    <ClCompile Include="Source\ECS\Systems\Rendering\UI\UIRenderSystem.cpp" />
     <ClCompile Include="Source\AI\StateMachine\Conditions\Base\Condition.cpp" />
     <ClCompile Include="Source\AI\StateMachine\Conditions\Time\TimeConditions.cpp" />
     <ClCompile Include="Source\AI\StateMachine\States\Base\State.cpp" />
@@ -222,13 +223,13 @@
     <ClCompile Include="Source\ECS\Components\ComponentFactory.cpp" />
     <ClCompile Include="Source\ECS\Components\Gameplay\GameplayComponents.cpp" />
     <ClCompile Include="Source\ECS\Components\Map\MapComponents.cpp" />
+    <ClCompile Include="Source\ECS\Systems\UI\HUDSystem.cpp" />
     <ClCompile Include="Source\Gameplay\SkillTree.cpp" />
     <ClCompile Include="Source\Scenes\Game\Inventory\InventoryScene.cpp" />
     <ClCompile Include="Source\ECS\Systems\AI\BehaviorTreeSystem.cpp" />
     <ClCompile Include="Source\ECS\Systems\AI\StateMachineSystem.cpp" />
     <ClCompile Include="Source\ECS\Systems\Gameplay\Crafting\CraftingSystem.cpp" />
     <ClCompile Include="Source\ECS\Systems\Gameplay\Equipment\EquipmentSystem.cpp" />
-    <ClCompile Include="Source\ECS\Systems\HUD\HUDSystem.cpp" />
     <ClCompile Include="Source\ECS\Systems\Gameplay\Inventory\InventorySystem.cpp" />
     <ClCompile Include="Source\ECS\Systems\Map\MapDecorationSystem.cpp" />
     <ClCompile Include="Source\ECS\Systems\Map\MapGenerationSystem.cpp" />
@@ -290,6 +291,7 @@
     <ClCompile Include="Source\Utility\Map\MapUtils.cpp" />
     <ClCompile Include="Source\Commands\Aim\AimCommand.cpp" />
     <ClCompile Include="Source\ECS\Systems\Core\TransformSystem.cpp" />
+    <ClCompile Include="Source\ECS\Systems\UI\UISystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.vcxproj">

@@ -41,6 +41,8 @@ void InventorySystem::Receive(Message& aMsg)
 	// TODO: make sure dont send event each fraem!
 	if (CollectItem(player, collectable))
 	{
+		auto* collectableComponent = collectable->GetComponent<CollectableComponent>();
+		collectableComponent->IsCollected = true;
 		// m_entityManager->Destroy(collectable->GetID()); -- do in a clean up system?
 		aMsg.HandleMessage(); // rename MarkAsHandled(); ??
 	}
@@ -50,6 +52,19 @@ void InventorySystem::Update(float aDeltaTime)
 {
 	if (!m_entityManager)
 		return;
+
+	std::vector<unsigned> collectedEntityIDs;
+
+	auto entities = m_entityManager->FindAll<CollectableComponent>();
+	for (const auto& entity : entities)
+	{
+		auto* collectableComponent = entity->GetComponent<CollectableComponent>();
+		if (collectableComponent->IsCollected)
+			collectedEntityIDs.push_back(entity->GetID());
+	}
+
+	for (const auto& entity : collectedEntityIDs)
+		m_entityManager->Destroy(entity);
 }
 
 bool InventorySystem::CollectItem(class Entity* anOwner, class Entity* anItem)

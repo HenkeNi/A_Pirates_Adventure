@@ -16,6 +16,4 @@ public:
 
 private:
 	void Spawn(Entity* aSpawner);
-	//void SpawnResource();
-	//void SpawnEnemy();
 };

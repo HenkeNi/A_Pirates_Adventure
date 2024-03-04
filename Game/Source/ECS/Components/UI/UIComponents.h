@@ -3,7 +3,8 @@
 
 struct ButtonComponent : public Component
 {
-	class Command* Command; // ??
+	std::function<void()> OnClick;
+	//class Command* Command; // ??
 };
 
 struct UIComponent : public Component

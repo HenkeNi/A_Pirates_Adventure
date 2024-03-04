@@ -30,12 +30,12 @@ struct ColliderComponent : public Component
 {
 	Hi_Engine::Physics::AABB2D<float>	Collider;
 	Offset								Offset;
-	//CU::Vector2<float>					Offset;
+	//CU::Vector2<float>				Offset;
 	eColliderType						Type;
-	//eCollisionLayer						Layer;
+	//eCollisionLayer					Layer;
 
 	// replace with collision data?! normal, entity colliding with, etc..
-	std::vector<Entity*>				CollidingEntities;
+	std::vector<class Entity*>				CollidingEntities;
 
 	// Store collision normal..
 
@@ -105,13 +105,6 @@ struct CameraComponent : public Component
 
 	Hi_Engine::Physics::AABB2D<float> Frustum; 
 };
-
-
-
-
-
-
-
 
 
 

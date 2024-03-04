@@ -65,7 +65,7 @@ void HUDSystem::SetupHUDElements()
 void HUDSystem::UpdateCursor()
 {
 	auto* cursor = m_entityManager->FindFirst<CursorComponent>();
-	auto* input = m_entityManager->FindFirst<InputComponent>();
+	auto* input = m_entityManager->FindFirst<InputComponent>(); // if no InputComponent => pull straight from inputhandler
 
 	if (!cursor || !input)
 		return;

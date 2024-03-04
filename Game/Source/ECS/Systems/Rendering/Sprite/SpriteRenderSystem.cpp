@@ -63,7 +63,7 @@ void SpriteRenderSystem::Draw() // TODO; should pass along if bash should be flu
 
 	for (const Entity* entity : entities)
 	{
-		if (entity->HasComponent<HUDComponent>()) // TODO: Fix by having better filtering... (look into bitset)
+		if (entity->HasComponent<HUDComponent>() || entity->HasComponent<UIComponent>()) // TODO: Fix by having better filtering... (look into bitset)
 			continue;
 
 		//auto& material = entity->GetComponent<SpriteComponent>()->m_material;

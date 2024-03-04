@@ -207,6 +207,7 @@ struct InventoryComponent : public Component
 struct CollectableComponent : public Component
 {
 	Item Item;
+	bool IsCollected = false;
 	//std::string ItemID;
 };
 
@@ -253,7 +254,7 @@ struct SpawnerComponent : public Component
 	int			Amount;
 	bool		IsReadyToSpawn; // Spawn type (on death, on hit)???
 
-	// bool IsRepeating?
+	// bool IsRepeating? or make its own component? Repating Spwaner
 };
 
 struct EnemySpawnerComponent : public Component

@@ -55,14 +55,17 @@ namespace Registration
 		componentBuilders.push_back(std::make_pair("Spawner",			new ConcreteComponentBuilder<SpawnComponent>));
 
 		componentBuilders.push_back(std::make_pair("AttackCollider",	new ConcreteComponentBuilder<AttackComponent>));
-		componentBuilders.push_back(std::make_pair("HUD",				new ConcreteComponentBuilder<HUDComponent>));
-
 		componentBuilders.push_back(std::make_pair("Projectile",		new ConcreteComponentBuilder<ProjectileComponent>));
-
 		componentBuilders.push_back(std::make_pair("Resource",			new ConcreteComponentBuilder<ResourceComponent>));
+		componentBuilders.push_back(std::make_pair("CharacterState",	new ConcreteComponentBuilder<CharacterStateComponent>));
+
+		/* - UI Components - */
+		componentBuilders.push_back(std::make_pair("HUD",				new ConcreteComponentBuilder<HUDComponent>));
+		componentBuilders.push_back(std::make_pair("Button",			new ConcreteComponentBuilder<ButtonComponent>));
+
+
 		componentBuilders.push_back(std::make_pair("WorldTime",			new ConcreteComponentBuilder<WorldTimeComponent>));
 		componentBuilders.push_back(std::make_pair("MapChunk",			new ConcreteComponentBuilder<MapChunkComponent>));
-		componentBuilders.push_back(std::make_pair("CharacterState",	new ConcreteComponentBuilder<CharacterStateComponent>));
 		 
 
 		PostMaster::GetInstance().SendMessage({ eMessage::MultipleComponentBuildersCreated, componentBuilders });
@@ -108,6 +111,9 @@ namespace Registration
 		aSystemManager.Register(std::make_unique<MapGenerationSystem>());
 		aSystemManager.Register(std::make_unique<MapDecorationSystem>());
 
+		/* -  UI Systems - */
+		aSystemManager.Register(std::make_unique<UISystem>());
+
 		/* - AI Systems - */
 		aSystemManager.Register(std::make_unique<BlackboardSystem>());
 		aSystemManager.Register(std::make_unique<BehaviorTreeSystem>());
@@ -116,7 +122,7 @@ namespace Registration
 
 		/* - Render Systems - */
 		aSystemManager.Register(std::make_unique<TextRenderSystem>());
-		aSystemManager.Register(std::make_unique<HUDRenderSystem>());
+		aSystemManager.Register(std::make_unique<UIRenderSystem>());
 		aSystemManager.Register(std::make_unique<SpriteRenderSystem>());
 		aSystemManager.Register(std::make_unique<DebugRenderSystem>());
 		aSystemManager.Register(std::make_unique<MapRenderSystem>());

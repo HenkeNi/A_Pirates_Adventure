@@ -32,7 +32,12 @@ void MenuScene::OnEnter()
 
 	m_entityManager.GetFactory().LoadBlueprints("../Game/Assets/Json/Blueprints/blueprint_manifest.json");
 
+	auto* cursor = m_entityManager.Create("Mouse_Cursor");
+	
 	auto* play = m_entityManager.Create("play_button");
+	auto* buttonComponent = play->GetComponent<ButtonComponent>();
+	buttonComponent->OnClick = [&]() { m_sharedContext.SceneManager.Pop(); };
+	// play->GetComponent<TransformComponent>()->CurrentPos = { 200.f, 200.f };
 
 	auto* camera = m_entityManager.Create("Camera");
 	camera->GetComponent<TransformComponent>()->CurrentPos = { 0.f, 2.f };

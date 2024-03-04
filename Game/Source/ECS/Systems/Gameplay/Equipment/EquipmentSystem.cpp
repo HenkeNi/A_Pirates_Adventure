@@ -68,6 +68,8 @@ bool EquipmentSystem::EquipItem(class Entity* anOwner, class Entity* anItem)
 	auto childEntities = anOwner->GetComponent<SubEntitiesComponent>();
 	childEntities->IDs.push_back(anItem->GetID());
 
+	anItem->RemoveComponent<CollectableComponent>(); // Maybe?
+
 	return true;
 
 

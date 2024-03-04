@@ -1,12 +1,16 @@
 #pragma once
 #include "../../Base/System.h"
 
-class HUDRenderSystem : public System
+class UIRenderSystem : public System
 {
 public:
-	HUDRenderSystem();
-	~HUDRenderSystem();
+	UIRenderSystem();
+	~UIRenderSystem();
 
 	void Receive(Message& aMsg)	override;
 	void Draw()					override;
+
+private:
+	void RenderHUD();
+	void RenderUI();
 };

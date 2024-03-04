@@ -343,7 +343,7 @@ void CollisionSystem::LateUpdate(float aDeltaTime)
 						PostMaster::GetInstance().SendMessage({ eMessage::TriggerActivated, target });
 						// Remove trigger component?
 					}
-					else if (targetColliderComponent->Type == eColliderType::Dynamic)
+					//else if (targetColliderComponent->Type == eColliderType::Dynamic)
 					{
 						PostMaster::GetInstance().SendMessage({ eMessage::EntitiesCollided, std::vector<Entity*> { source, target } }); // Pass in colliders?
 					}

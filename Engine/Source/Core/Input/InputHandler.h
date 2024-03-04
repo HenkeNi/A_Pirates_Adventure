@@ -24,6 +24,8 @@ namespace Hi_Engine
 		static glm::vec2 GetMousePosition();
 		static float	GetScrollOffset();
 
+		static bool IsMouseButtonPressed(eMouseBtn aBtn);
+
 		static bool IsKeyPressed(eKey aKey);
 		static bool IsKeyHeld(eKey aKey);
 		static bool IsKeyReleased(eKey aKey);

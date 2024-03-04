@@ -22,7 +22,9 @@
 #include "Physics/MovementSystem.h"
 #include "Physics/ShakeSystem.h"
 
-#include "HUD/HUDSystem.h"
+#include "UI/HUDSystem.h"
+#include "UI/UISystem.h"
+
 #include "Gameplay/Spawn/EnemySpawnSystem.h"
 #include "Gameplay/Spawn/SpawnSystem.h"
 #include "Map/MapGenerationSystem.h"
@@ -37,4 +39,4 @@
 #include "Rendering/Text/TextRenderSystem.h"
 #include "Rendering/Debug/DebugRenderSystem.h"
 #include "Rendering/Map/MapRenderSystem.h"
-#include "Rendering/HUD/HUDRenderSystem.h"
+#include "Rendering/UI/UIRenderSystem.h"
