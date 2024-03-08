@@ -15,6 +15,10 @@ Game::~Game()
 void Game::OnUpdate(float aDeltaTime)
 {
 	std::weak_ptr<Scene> activeScene = m_sceneManager.GetActiveScene();
+
+	if (activeScene.expired())
+		return;
+
 	if (auto scene = activeScene.lock())
 	{
 		scene->Update(aDeltaTime);
@@ -24,6 +28,10 @@ void Game::OnUpdate(float aDeltaTime)
 void Game::OnLateUpdate(float aDeltaTime)
 {
 	std::weak_ptr<Scene> activeScene = m_sceneManager.GetActiveScene();
+
+	if (activeScene.expired())
+		return;
+	
 	if (auto scene = activeScene.lock())
 	{
 		scene->LateUpdate(aDeltaTime);
@@ -33,6 +41,10 @@ void Game::OnLateUpdate(float aDeltaTime)
 void Game::OnDraw()
 {
 	std::weak_ptr<const Scene> activeScene = m_sceneManager.GetActiveScene();
+
+	if (activeScene.expired())
+		return;
+
 	if (auto scene = activeScene.lock())
 	{
 		scene->Draw();

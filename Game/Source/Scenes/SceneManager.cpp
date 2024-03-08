@@ -61,11 +61,17 @@ void SceneManager::Register(MutableScene aScene, eScene aType)
 
 std::shared_ptr<Scene> SceneManager::GetActiveScene()
 {
+	if (m_stack.IsEmpty()) // OR Return menu scene??
+		return nullptr;
+
 	return m_scenes[m_stack.Top()];
 }
 
 std::shared_ptr<const Scene> SceneManager::GetActiveScene() const
 {
+	if (m_stack.IsEmpty())
+		return nullptr;
+
 	return m_scenes.at(m_stack.Top());
 }
 

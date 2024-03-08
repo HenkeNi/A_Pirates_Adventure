@@ -14,4 +14,5 @@ public:
 
 private:
 	void OnButtonActivated(Entity* aButton);
+	void UpdateCursor();
 };

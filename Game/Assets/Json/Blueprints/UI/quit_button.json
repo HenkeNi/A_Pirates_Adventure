@@ -1,12 +1,12 @@
 {
-  "id": "Mouse_Cursor",
-  "layer": "HUD",
+  "id": "quit_button",
+  "layer": "UI",
   "components": [
     {
       "type": "Transform",
       "properties": {
-        "position": [ 0.0, 0.3, 0.0 ],
-        "scale": [ 0.35, 0.35, 0.35 ],
+        "position": [ 0.0, 0.0, 0.0 ],
+        "scale": [ 2.0, 2.0, 2.0 ],
         "rotation": 0.0
       }
     },
@@ -14,16 +14,18 @@
       "type": "Sprite",
       "properties": {
         "shader": "sprite_batch",
-        "texture": "mouse_icon_00",
+        "texture": "quit_button_00",
         "color": [ 1.0, 1.0, 1.0, 1.0 ]
       }
     },
     {
-      "type": "HUD",
-      "properties": {}
+      "type": "Collider",
+      "properties": {
+        "type": "Static"
+      }
     },
     {
-      "type": "Cursor",
+      "type": "Button",
       "properties": {}
     }
   ]
