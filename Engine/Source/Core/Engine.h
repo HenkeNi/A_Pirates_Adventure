@@ -10,18 +10,20 @@ namespace Hi_Engine
 	class Application;
 	class Timer;
 
-	class Engine
+	class Engine : public EventListener
 	{
 	public:
 		Engine(Application* anApp);
 		~Engine();
 
-		bool			Init();
-		void			Shutdown();
-		void			GameLoop();
-		bool			IsRunning() const;
-		
-		static Timer&	GetTimer();
+		void HandleEvent(TerminationEvent& anEvent) override;
+
+		bool Init();
+		void Shutdown();
+		void GameLoop();
+		bool IsRunning() const;
+
+		static Timer& GetTimer();
 
 	private:
 		bool			CreateWindow();		

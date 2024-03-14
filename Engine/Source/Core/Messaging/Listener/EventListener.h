@@ -5,7 +5,7 @@ namespace Hi_Engine
 {
 	//class Event;
 	class BaseEvent;
-
+	class TerminationEvent;
 	class WindowEvent;
 	class InputEvent;
 //	class KeyEvent;
@@ -20,6 +20,7 @@ namespace Hi_Engine
 	{
 	public:
 		virtual void HandleEvent(BaseEvent& anEvent)			{};
+		virtual void HandleEvent(TerminationEvent& anEvent)		{};
 		virtual void HandleEvent(WindowEvent& anEvent)			{};
 		//virtual void HandleEvent(KeyEvent& anEvent)				{};
 		//virtual void HandleEvent(MouseEvent& anEvent)			{};

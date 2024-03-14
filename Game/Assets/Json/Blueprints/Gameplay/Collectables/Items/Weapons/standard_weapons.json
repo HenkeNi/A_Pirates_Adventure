@@ -1,0 +1,48 @@
+[
+  {
+    "id": "RustySword",
+    "layer": "Player",
+    "components": [
+      {
+        "type": "Transform",
+        "properties": {
+          "position": [ 0.0, 0.0, 0.0 ],
+          "scale": [ 0.25, 0.25, 0.25 ],
+          "rotation": 0.0
+        }
+      },
+      {
+        "type": "Sprite",
+        "properties": {
+          "shader": "sprite_batch",
+          "texture": "log_00",
+          "color": [ 1.0, 1.0, 1.0, 1.0 ]
+        }
+      },
+      {
+        "type": "Collider",
+        "properties": {
+          "type": "Dynamic",
+          "size": [ 10.0, 10.0 ],
+          "offset": {
+            "xOffset": 10.0,
+            "yOffset": 10.0,
+            "isDirectionallyBound": true
+          }
+        }
+      },
+      {
+        "type": "Weapon",
+        "properties": {}
+      },
+      {
+        "type": "Equippable",
+        "properties": {}
+      },
+      {
+        "type": "Collectable",
+        "properties": {}
+      }
+    ]
+  }
+]

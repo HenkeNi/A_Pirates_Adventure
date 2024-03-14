@@ -15,10 +15,17 @@ namespace Hi_Engine
 	Engine::Engine(Application* anApp)
 		: m_application{ anApp }, m_isRunning{ false }
 	{
+		Dispatcher::GetInstance().Subscribe(this);
 	}
 
 	Engine::~Engine()
 	{
+		Dispatcher::GetInstance().Unsubscribe(this);
+	}
+
+	void Engine::HandleEvent(TerminationEvent& anEvent)
+	{
+		m_isRunning = false;
 	}
 
 	bool Engine::Init()
@@ -51,18 +58,18 @@ namespace Hi_Engine
 
 	void Engine::Shutdown()
 	{
+		if (m_application)
+		{
+			m_application->OnDestroy();
+			delete m_application;
+		}
+
 		if (m_window.IsOpen())
 			m_window.Close();
 
 		m_renderer.Shutdown();
 
 		TextRenderer::GetInstance().Shutdown();
-
-		if (m_application)
-		{
-			m_application->OnDestroy();
-			delete m_application;
-		}
 	}
 
 	void Engine::GameLoop()
@@ -71,7 +78,7 @@ namespace Hi_Engine
 		Timer& timer = GetTimer();
 		//Timer timer;
 
-		while (IsRunning())	// Todo, use enum for GameState instead? !GameState::EXIT
+		while (IsRunning())	// Todo, use enum for GameState instead? !GameState::EXIT or call function in Application? ShouldRun()?
 		{
 
  			timer.Update();

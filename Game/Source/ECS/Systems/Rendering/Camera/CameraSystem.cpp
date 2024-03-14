@@ -48,7 +48,12 @@ void CameraSystem::Update(float aDeltaTime)
 	// TODO; cull entities (mark is should be rendered or not))?
 
 	// GO OVER ALL ENTIITES WITH SPRITE COMPONENT => Check if in view => set ShouldRender
-	CullEntities();
+
+
+	if (cameraComponent->ShouldCull)
+	{
+		CullEntities();
+	}
 
 
 	
@@ -77,6 +82,7 @@ void CameraSystem::Update(float aDeltaTime)
 		cameraComponent->Camera.SetPosition(newPosition);
 		camera->GetComponent<TransformComponent>()->CurrentPos = { newPosition.x, newPosition.y };
 	}
+
 
 
 	// TODO: update frustum 

@@ -1,0 +1,39 @@
+[
+  {
+    "id": "SkeletonSpawner",
+    "layer": "Environment",
+    "components": [
+      {
+        "type": "Transform",
+        "properties": {
+          "position": [ 0.0, 0.2, 0.0 ],
+          "scale": [ 0.5, 0.5, 1.0 ],
+          "rotation": 0.0
+        }
+      },
+      {
+        "type": "Sprite",
+        "properties": {
+          "shader": "sprite_batch",
+          "texture": "skeleton_pile_00",
+          "color": [ 1.0, 1.0, 1.0, 1.0 ]
+        }
+      },
+      {
+        "type": "Health",
+        "properties": {
+          "value": 100
+        }
+      },
+      {
+        "type": "Spawner",
+        "properties": {
+          "spawned": "Skeleton",
+          "amount": 5,
+          "interval": 2.0
+        }
+      }
+    ]
+  }
+]
+

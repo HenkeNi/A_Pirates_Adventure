@@ -12,8 +12,8 @@ namespace Hi_Engine
 
 		virtual void		Dispatch(EventListener& aListener)		  = 0;
 		virtual ePriority	GetPriority()						const = 0;
-		virtual bool		IsHandled()							const = 0;
-		virtual void		Reset()									  = 0;
+		virtual bool		IsHandled()							const = 0; // used for what?
+		virtual void		Reset()									  = 0; // not pure virtual?
 	};
 
 	template <typename Derived>

@@ -302,37 +302,25 @@
     <Text Include="Todo.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Json\Blueprints\Animals\crab_animal.json" />
-    <None Include="Assets\Json\Blueprints\Animals\fish_animal.json" />
     <None Include="Assets\Json\Blueprints\blueprint_manifest.json" />
     <None Include="Assets\Json\Blueprints\Camera\camera.json" />
-    <None Include="Assets\Json\Blueprints\Enemies\skeleton_enemy.json" />
-    <None Include="Assets\Json\Blueprints\Enemies\spider_enemy.json" />
-    <None Include="Assets\Json\Blueprints\Entrances\cave_entrance.json" />
-    <None Include="Assets\Json\Blueprints\Entrances\door.json" />
-    <None Include="Assets\Json\Blueprints\HUD\cursor.json" />
-    <None Include="Assets\Json\Blueprints\HUD\healthbar.json" />
-    <None Include="Assets\Json\Blueprints\HUD\heartcontainer.json" />
+    <None Include="Assets\Json\Blueprints\Gameplay\Characters\standard_enemies.json" />
+    <None Include="Assets\Json\Blueprints\Gameplay\Interactables\interactables.json" />
+    <None Include="Assets\Json\Blueprints\Gameplay\Environment\environment.json" />
+    <None Include="Assets\Json\Blueprints\Gameplay\Characters\npc.json" />
+    <None Include="Assets\Json\Blueprints\Gameplay\Collectables\Resources\resources.json" />
+    <None Include="Assets\Json\Blueprints\Gameplay\Collectables\Items\Weapons\standard_weapons.json" />
+    <None Include="Assets\Json\Blueprints\Gameplay\Characters\standard_wildlife.json" />
     <None Include="Assets\Json\Blueprints\Map\map_chunk.json" />
-    <None Include="Assets\Json\Blueprints\NPC\castaway_npc.json" />
-    <None Include="Assets\Json\Blueprints\Player\player.json" />
-    <None Include="Assets\Json\Blueprints\Projectiles\bullet.json" />
-    <None Include="Assets\Json\Blueprints\Props\grass_prop.json" />
-    <None Include="Assets\Json\Blueprints\Props\hut_prop.json" />
-    <None Include="Assets\Json\Blueprints\Props\palm_tree_prop.json" />
-    <None Include="Assets\Json\Blueprints\Props\rock_prop.json" />
-    <None Include="Assets\Json\Blueprints\Resource\fiber_resource.json" />
-    <None Include="Assets\Json\Blueprints\Resource\stone_resource.json" />
-    <None Include="Assets\Json\Blueprints\Resource\wood_resource.json" />
-    <None Include="Assets\Json\Blueprints\Ships\ship_raft.json" />
-    <None Include="Assets\Json\Blueprints\Spawner\skeleton_spawner.json" />
-    <None Include="Assets\Json\Blueprints\UI\main_background.json" />
-    <None Include="Assets\Json\Blueprints\UI\play_button.json" />
-    <None Include="Assets\Json\Blueprints\UI\quit_button.json" />
-    <None Include="Assets\Json\Blueprints\UI\title_text.json" />
-    <None Include="Assets\Json\Blueprints\UI\title_background.json" />
+    <None Include="Assets\Json\Blueprints\Gameplay\Characters\player.json" />
+    <None Include="Assets\Json\Blueprints\Gameplay\Projectiles\projectiles.json" />
+    <None Include="Assets\Json\Blueprints\Gameplay\Structures\structures.json" />
+    <None Include="Assets\Json\Blueprints\Gameplay\Ships\ships.json" />
+    <None Include="Assets\Json\Blueprints\Gameplay\Interactables\spawners.json" />
+    <None Include="Assets\Json\Blueprints\UI\HUD\hud.json" />
+    <None Include="Assets\Json\Blueprints\UI\buttons.json" />
+    <None Include="Assets\Json\Blueprints\UI\ui.json" />
     <None Include="Assets\Json\Blueprints\Utility\world_time.json" />
-    <None Include="Assets\Json\Blueprints\Weapons\rusty_sword.json" />
     <None Include="Assets\Json\Map\TileSettings.json" />
     <None Include="Assets\Json\Resources\Fonts.json" />
     <None Include="Assets\Json\Resources\Subtextures.json" />
@@ -345,7 +333,7 @@
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties Assets_4Json_4Blueprints_4Props_4palm_3tree_3prop_1json__JsonSchema="https://blockprotocol.org/schemas/block-metadata.json" />
+      <UserProperties />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

@@ -7,13 +7,27 @@ namespace Hi_Engine
 {
 	namespace CU = CommonUtilities;
 
+	class TerminationEvent : public Event<TerminationEvent>
+	{
+	public:
+		TerminationEvent();
+
+		void					Init();
+		void					Dispatch(EventListener& aListener)		  override;
+		ePriority				GetPriority()						const override;
+		bool					IsHandled()							const override;
+		void					Reset()									  override;
+
+	private:
+	};
+
 	class WindowEvent : public Event<WindowEvent>
 	{
 	public:
 		WindowEvent();			// Overload new operatp`?? placement new?? 
-		~WindowEvent();
+		~WindowEvent() override;
 
-		void					Dispatch(EventListener& aListener)	override;
+		void					Dispatch(EventListener& aListener)	override;	// Put in base class?
 		void					Reset()								override;
 		void					Init(eWindowEvent aType);
 

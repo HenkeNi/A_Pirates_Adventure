@@ -21,7 +21,9 @@ public:
 	void Receive(Message& aMsg) override;
 
 	void LoadBlueprints(const std::string& aPath);
-	void LoadBlueprint(const std::string& aPath);
+	//void LoadBlueprint(const std::string& aPath);
+
+	void ConstructBlueprint(const rapidjson::Value& aValue);
 
 	Entity Create(const ECS::EntityType& aType);
 	Entity CreateFromBlueprint(const EntityBlueprint& aBlueprint);

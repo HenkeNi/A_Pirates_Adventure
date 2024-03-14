@@ -101,7 +101,7 @@ struct CameraComponent : public Component
 	//class Entity*		m_target = nullptr;
 	unsigned			TargetID = 0;
 
-
+	bool ShouldCull = true;
 
 	Hi_Engine::Physics::AABB2D<float> Frustum; 
 };

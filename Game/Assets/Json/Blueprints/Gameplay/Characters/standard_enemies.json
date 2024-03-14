@@ -1,0 +1,66 @@
+[
+  {
+    "id": "Skeleton",
+    "layer": "Enemy",
+    "components": [
+      {
+        "type": "Transform",
+        "properties": {
+          "position": [ 0.0, 0.3, 0.0 ],
+          "scale": [ 0.5, 0.5, 1.0 ],
+          "rotation": 0.0
+        }
+      },
+      {
+        "type": "Velocity",
+        "properties": {
+          "speed": 1.0
+        }
+      },
+      {
+        "type": "Sprite",
+        "properties": {
+          "shader": "sprite_batch",
+          "texture": "skeleton_00",
+          "color": [ 1.0, 1.0, 1.0, 1.0 ]
+        }
+      },
+      {
+        "type": "StateMachine",
+        "properties": {
+          "states": [ "idle", "walk", "attack" ]
+        }
+      },
+      {
+        "type": "Blackboard",
+        "properties": {}
+      }
+    ]
+  },
+  {
+    "id": "Spider",
+    "layer": "Enemy",
+    "components": [
+      {
+        "type": "Transform",
+        "properties": {
+          "position": [ 0.0, 0.0, 0.0 ],
+          "scale": [ 1.0, 1.0, 1.0 ],
+          "rotation": 0.0
+        }
+      },
+      {
+        "type": "Sprite",
+        "properties": {
+          "shader": "sprite_batch",
+          "texture": "crab_00",
+          "color": [ 1.0, 1.0, 1.0, 1.0 ]
+        }
+      },
+      {
+        "type": "BehaviorTree",
+        "properties": {}
+      }
+    ]
+  }
+]

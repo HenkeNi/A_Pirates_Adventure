@@ -38,21 +38,58 @@ void EntityFactory::LoadBlueprints(const std::string& aPath)
 {
 	auto document = CommonUtilities::ParseDocument(aPath);
 
-	for (auto& category : document["blueprints"].GetObject())
+	for (auto& path : document["blueprints"].GetArray())
 	{	
-		for (auto& blueprint : category.value.GetArray())
+		auto document = CommonUtilities::ParseDocument(path.GetString());
+
+		if (document.IsArray())
 		{
-			LoadBlueprint(blueprint.GetString());
+			for (const auto& blueprint : document.GetArray())
+			{
+				ConstructBlueprint(blueprint);
+			}
+
 		}
+		else if (document.IsObject())
+		{
+			ConstructBlueprint(document);
+		}
+
+		//for (auto& blueprintType : category.value.GetArray())
+		//{
+		//	for (const auto& blueprint : document.GetArray())
+		//	{
+		//		auto obj = blueprint.GetObject();
+		//		// LoadBlueprint(blueprint.GetObject());
+		//	}
+		//}
 	}
 }
 
-void EntityFactory::LoadBlueprint(const std::string& aPath)
- {
+//void EntityFactory::LoadBlueprint(const std::string& aPath)
+// {
+//	EntityBlueprint blueprint;
+//
+//	auto document = CommonUtilities::ParseDocument(aPath);
+//	for (auto& component : document["components"].GetArray())
+//	{
+//		const rapidjson::Value& properties = component["properties"];
+//		assert(properties.IsObject() && "Failed to load component properties for blueprint");
+//
+//		blueprint.AddComponentData(component["type"].GetString(), ParseComponent(properties));
+//	}
+//
+//	std::string blueprintID = document["id"].GetString();
+//	RegisterBlueprint(blueprintID, blueprint);
+//
+//	// TODO. store type ("type: "transform") in COmponent base?
+//}
+
+void EntityFactory::ConstructBlueprint(const rapidjson::Value& aValue)
+{
 	EntityBlueprint blueprint;
 
-	auto document = CommonUtilities::ParseDocument(aPath);
-	for (auto& component : document["components"].GetArray())
+	for (auto& component : aValue["components"].GetArray())
 	{
 		const rapidjson::Value& properties = component["properties"];
 		assert(properties.IsObject() && "Failed to load component properties for blueprint");
@@ -60,10 +97,8 @@ void EntityFactory::LoadBlueprint(const std::string& aPath)
 		blueprint.AddComponentData(component["type"].GetString(), ParseComponent(properties));
 	}
 
-	std::string blueprintID = document["id"].GetString();
+	std::string blueprintID = aValue["id"].GetString();
 	RegisterBlueprint(blueprintID, blueprint);
-
-	// TODO. store type ("type: "transform") in COmponent base?
 }
 
 Entity EntityFactory::Create(const ECS::EntityType& aType)

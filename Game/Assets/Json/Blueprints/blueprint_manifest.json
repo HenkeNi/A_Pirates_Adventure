@@ -1,65 +1,21 @@
 {
-  "blueprints": {
-    "hud": [
-      "../Game/Assets/Json/Blueprints/HUD/cursor.json",
-      "../Game/Assets/Json/Blueprints/HUD/healthbar.json",
-      "../Game/Assets/Json/Blueprints/HUD/heartcontainer.json"
-    ],
-    "player": [
-      "../Game/Assets/Json/Blueprints/Player/player.json"
-    ],
-    "projectiles": [
-      "../Game/Assets/Json/Blueprints/Projectiles/bullet.json"
-    ],
-    "enemies": [
-      "../Game/Assets/Json/Blueprints/Enemies/skeleton_enemy.json",
-      "../Game/Assets/Json/Blueprints/Enemies/spider_enemy.json"
-    ],
-    "entrances": [
-      "../Game/Assets/Json/Blueprints/Entrances/cave_entrance.json"
-    ],
-    "npc": [
-      "../Game/Assets/Json/Blueprints/NPC/castaway_npc.json"
-    ],
-    "props": [
-      "../Game/Assets/Json/Blueprints/Props/grass_prop.json",
-      "../Game/Assets/Json/Blueprints/Props/hut_prop.json",
-      "../Game/Assets/Json/Blueprints/Props/palm_tree_prop.json",
-      "../Game/Assets/Json/Blueprints/Props/rock_prop.json"
-    ],
-    "cameras": [
-      "../Game/Assets/Json/Blueprints/Camera/camera.json"
-    ],
-    "resources": [
-      "../Game/Assets/Json/Blueprints/Resource/fiber_resource.json",
-      "../Game/Assets/Json/Blueprints/Resource/stone_resource.json",
-      "../Game/Assets/Json/Blueprints/Resource/wood_resource.json"
-    ],
-    "spawners": [
-      "../Game/Assets/Json/Blueprints/Spawner/skeleton_spawner.json"
-    ],
-    "ships": [
-      "../Game/Assets/Json/Blueprints/Ships/ship_raft.json"
-    ],
-    "ui": [
-      "../Game/Assets/Json/Blueprints/UI/main_background.json",
-      "../Game/Assets/Json/Blueprints/UI/play_button.json",
-      "../Game/Assets/Json/Blueprints/UI/quit_button.json",
-      "../Game/Assets/Json/Blueprints/UI/title_background.json",
-      "../Game/Assets/Json/Blueprints/UI/title_text.json"
-    ],
-    "map": [
-      "../Game/Assets/Json/Blueprints/Map/map_chunk.json"
-    ],
-    "utility": [
-      "../Game/Assets/Json/Blueprints/Utility/world_time.json"
-    ],
-    "weapons": [
-      "../Game/Assets/Json/Blueprints/Weapons/rusty_sword.json"
-    ],
-    "animals": [
-      "../Game/Assets/Json/Blueprints/Animals/fish_animal.json",
-      "../Game/Assets/Json/Blueprints/Animals/crab_animal.json"
-    ]
-  }
+  "blueprints": [
+    "../Game/Assets/Json/Blueprints/Camera/camera.json",
+    "../Game/Assets/Json/Blueprints/Gameplay/Characters/npc.json",
+    "../Game/Assets/Json/Blueprints/Gameplay/Characters/player.json",
+    "../Game/Assets/Json/Blueprints/Gameplay/Characters/standard_enemies.json",
+    "../Game/Assets/Json/Blueprints/Gameplay/Characters/standard_wildlife.json",
+    "../Game/Assets/Json/Blueprints/Gameplay/Collectables/Resources/resources.json",
+    "../Game/Assets/Json/Blueprints/Gameplay/Collectables/Items/Weapons/standard_weapons.json",
+    "../Game/Assets/Json/Blueprints/Gameplay/Environment/environment.json",
+    "../Game/Assets/Json/Blueprints/Gameplay/Interactables/interactables.json",
+    "../Game/Assets/Json/Blueprints/Gameplay/Interactables/spawners.json",
+    "../Game/Assets/Json/Blueprints/Gameplay/Projectiles/projectiles.json",
+    "../Game/Assets/Json/Blueprints/Gameplay/Ships/ships.json",
+    "../Game/Assets/Json/Blueprints/Gameplay/Structures/structures.json",
+    "../Game/Assets/Json/Blueprints/Map/map_chunk.json",
+    "../Game/Assets/Json/Blueprints/UI/ui.json",
+    "../Game/Assets/Json/Blueprints/UI/HUD/hud.json",
+    "../Game/Assets/Json/Blueprints/Utility/world_time.json"
+  ]
 }

@@ -5,8 +5,38 @@
 
 namespace Hi_Engine
 {
-#pragma region WINDOW_EVENT
+#pragma region TERMINATION_EVENT
 
+	TerminationEvent::TerminationEvent()
+	{
+	}
+
+	void TerminationEvent::Init()
+	{
+	}
+
+	void TerminationEvent::Dispatch(EventListener& aListener)
+	{
+		aListener.HandleEvent(*this);
+	}
+
+	ePriority TerminationEvent::GetPriority() const
+	{
+		return ePriority::High;
+	}
+
+	bool TerminationEvent::IsHandled() const
+	{
+		return false;
+	}
+
+	void TerminationEvent::Reset()
+	{
+	}
+
+#pragma endregion TERMINATION_EVENT
+
+#pragma region WINDOW_EVENT
 	WindowEvent::WindowEvent()
 		: Event{ ePriority::Moderate }, m_eventType{ eWindowEvent::None }, m_windowSize{ 0, 0 }
 	{
