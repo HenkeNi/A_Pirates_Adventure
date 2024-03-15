@@ -1,9 +1,13 @@
 #pragma once
 #include "../Base/Component.h"
 
+
+/* ######################### UI ######################### */
 struct ButtonComponent : public Component
 {
-	std::function<void()> OnClick;
+	std::function<void()>	OnClick;
+	bool					IsHovered; // store button state?? => send mouse click event (ui system listens for it, rather than checking directly if mouse is pressed??)
+	CU::Vector4<float>		HoverColor = { 0.2f, 0.2f, 0.2f, 1.f }; // HERE??
 	//class Command* Command; // ??
 };
 
@@ -11,8 +15,10 @@ struct UIComponent : public Component
 {
 };
 
+struct CursorComponent : public Component
+{
 
-
+};
 
 
 /* ######################### HUD ######################### */
@@ -34,13 +40,6 @@ struct HealthBarComponent : public Component
 	// position? size?
 };
 
-
-
-struct CursorComponent : public Component
-{
-
-};
-
 struct CrosshairComponent : public Component
 {
 	// target?
@@ -54,3 +53,14 @@ struct CrosshairComponent : public Component
 //	std::string				Text;
 //	unsigned				Size = 32;
 //};
+
+
+
+/* ######################### Inventory ######################### */
+
+struct GridComponent : public Component
+{
+	CU::Vector2<unsigned> Grid; // grid class? or use inventory..
+};
+
+// TODO; sprite renderer fetches 

@@ -196,10 +196,13 @@ struct InventoryComponent : public Component
 	static constexpr unsigned MaxSlots = 36;
 	std::array<InventorySlot, MaxSlots> Slots;
 	unsigned UnlockedSlots = 12;
-	
-	
+
+	bool IsOpen = false;
+
+	CU::Vector2<unsigned> GridDimensions;
+
 	// std::unordered_map<std::string, unsigned> Inventory; // Or list of entities? or list of ItemComponents?
-	
+
 	// unsigned MaxCapacity; // every item has a weight? or save available slots
 	// unsigned AvailableSpace;
 };

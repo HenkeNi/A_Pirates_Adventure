@@ -8,10 +8,11 @@ namespace CU = CommonUtilities;
 // ############# Physics Components ############# //
 struct TransformComponent : public Component
 {
-	CU::Vector2<float> CurrentPos   = { 0.f, 0.f };
-	CU::Vector2<float> PreviousPos  = { 0.f, 0.f };	
-	CU::Vector2<float> Scale		= { 1.f, 1.f };
-	float			   Rotation		= 0.f;
+	CU::Vector2<float> CurrentPos = { 0.f, 0.f };
+	CU::Vector2<float> PreviousPos = { 0.f, 0.f };
+	CU::Vector2<float> Scale = { 1.f, 1.f };
+	CU::Vector2<float> Pivot = { 0.f, 0.f }; // Rename origin?
+	float			   Rotation = 0.f;
 };
 
 struct VelocityComponent : public Component // Physics componetn instad?
@@ -56,10 +57,15 @@ struct SpriteComponent : public Component
 {
 	Hi_Engine::Subtexture2D* Subtexture = nullptr;
 	CU::Vector4<float> Color = { 1.f, 1.f, 1.f, 1.f };
+	// CU::Vector4<float> DefaultColor = { 1.f, 1.f, 1.f, 1.f };
+	CU::Vector4<float> CurrentColor = { 1.f, 1.f, 1.f, 1.f };
+
 	// Hi_Engine::Material m_material;	// Store strings instead?? keys..
 
-	CU::Vector2<float> Pivot = { 0.5f, 1.f };// use a matrix instead? default: identify matrix?
-	bool ShouldRender; 
+	// Store temporary color, or alterantive color? or fix by having a component?
+
+	// CU::Vector2<float> Pivot; //  = { 0.5f, 0.5f };// use a matrix instead? default: identify matrix? rename Origin?
+	bool ShouldRender;
 	// int m_textureID; ?
 	// int m_shaderID; ?
 	// width, hight??
@@ -103,9 +109,15 @@ struct CameraComponent : public Component
 
 	bool ShouldCull = true;
 
-	Hi_Engine::Physics::AABB2D<float> Frustum; 
+	Hi_Engine::Physics::AABB2D<float> Frustum;
 };
 
+// NEEDED??
+struct ColorComponent : public Component
+{
+	Color CurrentColor;
+	Color DefaultColor;
+};
 
 
 // ############# Input Components ############# //
