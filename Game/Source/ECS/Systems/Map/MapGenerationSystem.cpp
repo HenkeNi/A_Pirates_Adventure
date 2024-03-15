@@ -26,7 +26,7 @@ struct TileSettings
 {
 	std::string Identifier; //?? NEEDED?
 	CU::Vector4<float> Color;
- // ARray of subtextures??
+	// ARray of subtextures??
 	bool isCollidable;
 };
 
@@ -137,7 +137,7 @@ void MapGenerationSystem::Update(float aDeltaTime)
 	auto* playerTransformComponent = player->GetComponent<TransformComponent>();
 
 	auto coordinates = ConvertWorldPositionToMapChunkCoordinates(playerTransformComponent->CurrentPos);	// Todo, check all 4 corners of player (Get hitboxCollider)
-	
+
 	auto mapChunks = m_entityManager->FindAll<MapChunkComponent>();
 	for (const auto& mapChunk : mapChunks)
 	{
@@ -170,11 +170,11 @@ void MapGenerationSystem::GenerateMapChunk(int xCoord, int yCoord)
 	auto* transformComponent = entity->GetComponent<TransformComponent>(); // Do it need a transform compoentn?
 
 	mapChunkComponent->Coordinates = { xCoord, yCoord };
-	
+
 	float xPos = xCoord * (MapChunkComponent::TileCountPerSide * Tile::Size);
 	float yPos = yCoord * (MapChunkComponent::TileCountPerSide * Tile::Size);
 	transformComponent->CurrentPos = { xPos, yPos };
-	
+
 	for (int height = 0; height < MapChunkComponent::TileCountPerSide; ++height)
 	{
 		for (int width = 0; width < MapChunkComponent::TileCountPerSide; ++width)
@@ -186,7 +186,7 @@ void MapGenerationSystem::GenerateMapChunk(int xCoord, int yCoord)
 			tile.IsCollidable = false; // FIX!
 			tile.Type = GetTileType(noise);
 
-			mapChunkComponent->Tiles.push_back(tile);			
+			mapChunkComponent->Tiles.push_back(tile);
 		}
 	}
 
@@ -201,7 +201,7 @@ void MapGenerationSystem::ApplyTextures(Entity* anEntity) // Rename; texture map
 
 	auto* transformComponent = anEntity->GetComponent<TransformComponent>();
 	auto* mapChunkComponent = anEntity->GetComponent<MapChunkComponent>();
-	
+
 	for (int i = 0; i < mapChunkComponent->Tiles.size(); ++i)
 	{
 		auto& tile = mapChunkComponent->Tiles[i];

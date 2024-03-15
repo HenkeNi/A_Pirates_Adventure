@@ -31,15 +31,19 @@ void TextRenderSystem::Draw()
 
 	for (const auto& entity : entities)
 	{
-		const auto& textComponent		= entity->GetComponent<TextComponent>();
-		const auto& transformComponent	= entity->GetComponent<TransformComponent>();
+		const auto& textComponent = entity->GetComponent<TextComponent>();
+		const auto& transformComponent = entity->GetComponent<TransformComponent>();
 
 		const auto& position = CU::Vector2<float>{ transformComponent->CurrentPos.x, transformComponent->CurrentPos.y };
+
+		CU::Vector2<float> renderPosition;
+		renderPosition.x = transformComponent->CurrentPos.x + (transformComponent->Pivot.x * textComponent->Size); // transformComponent->Scale.x);
+		renderPosition.y = transformComponent->CurrentPos.y + (transformComponent->Pivot.y * textComponent->Size); // transformComponent->Scale.y); // TODO: add font size??
 
 
 		auto color = textComponent->Color; // FIX!
 
-		Hi_Engine::TextRenderer::GetInstance().Render({ shader, textComponent->Font, transformComponent->Scale.x, color, position, textComponent->Text }, projection);
+		Hi_Engine::TextRenderer::GetInstance().Render({ shader, textComponent->Font, transformComponent->Scale.x, color, renderPosition, textComponent->Text }, projection);
 	}
 
 	// TEST

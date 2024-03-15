@@ -93,12 +93,14 @@ void OverworldScene::OnEnter()
 	//	std::cout << node->Identifier << ' ';
 
 	auto* cursor = m_entityManager.Create("Mouse_Cursor");
-	
+
 	// Player
 	auto* player = m_entityManager.Create("Player");
 	//CU::Vector3<float> position = { (float)Random::InRange(2, 62), 0.42f, (float)Random::InRange(2, 62) };
 	CU::Vector2<float> position = { 0.f, 0.f }; // { 27.f, 25.f };
 	player->GetComponent<TransformComponent>()->CurrentPos = position;
+
+	// player->GetComponent<SpriteComponent>()->Pivot = { -0.5f, -0.5f };
 
 
 	auto* weapon = m_entityManager.Create("RustySword");
@@ -124,7 +126,7 @@ void OverworldScene::OnEnter()
 	// Camera => do in camera system??
 	auto camera = m_entityManager.Create("Camera");
 	camera->GetComponent<TransformComponent>()->CurrentPos = { 0.f, 0.f };
-	camera->GetComponent<CameraComponent>()->TargetOffset = { 0.f, 0.f, 2.f };	
+	camera->GetComponent<CameraComponent>()->TargetOffset = { 0.f, 0.f, 2.f };
 	camera->GetComponent<CameraComponent>()->TargetID = m_entityManager.FindFirst<PlayerControllerComponent>()->GetID();
 
 	//camera->GetComponent<TransformComponent>()->CurrentPos = { 0.f, 2.f };
