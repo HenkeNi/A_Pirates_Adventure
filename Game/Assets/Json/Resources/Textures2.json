@@ -41,7 +41,7 @@
   },
   {
     "id": "pirate_idle",
-    "path": "../Game/Assets/Textures/pirate_idle.png",
+    "path": "../Game/Assets/Textures/Characters/Player/pirate_idle.png",
     "alpha": true,
     "filtering": "Linear",
     "width": 10850,
@@ -51,7 +51,7 @@
   },
   {
     "id": "pirate_walk",
-    "path": "../Game/Assets/Textures/pirate_walk.png",
+    "path": "../Game/Assets/Textures/Characters/Player//pirate_walk.png",
     "alpha": true,
     "filtering": "Linear",
     "width": 10850,
@@ -61,7 +61,7 @@
   },
   {
     "id": "pirate_run",
-    "path": "../Game/Assets/Textures/pirate_run.png",
+    "path": "../Game/Assets/Textures/Characters/Player//pirate_run.png",
     "alpha": true,
     "filtering": "Linear",
     "width": 10850,
@@ -71,7 +71,7 @@
   },
   {
     "id": "pirate_hurt",
-    "path": "../Game/Assets/Textures/pirate_hurt.png",
+    "path": "../Game/Assets/Textures/Characters/Player//pirate_hurt.png",
     "alpha": true,
     "filtering": "Linear",
     "width": 10850,
@@ -81,7 +81,7 @@
   },
   {
     "id": "pirate_attack",
-    "path": "../Game/Assets/Textures/pirate_attack.png",
+    "path": "../Game/Assets/Textures/Characters/Player//pirate_attack.png",
     "alpha": true,
     "filtering": "Linear",
     "width": 10850,
@@ -91,7 +91,7 @@
   },
   {
     "id": "pirate_die",
-    "path": "../Game/Assets/Textures/pirate_die.png",
+    "path": "../Game/Assets/Textures/Characters/Player//pirate_die.png",
     "alpha": true,
     "filtering": "Linear",
     "width": 10850,
