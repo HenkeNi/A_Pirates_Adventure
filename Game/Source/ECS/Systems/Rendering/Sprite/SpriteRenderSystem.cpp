@@ -49,16 +49,16 @@ void SpriteRenderSystem::Draw() // TODO; should pass along if bash should be flu
 		//float pivot = sprite1->Pivot.y;
 		//yPos += sprite1->Subtexture->GetSize().y * sprite1->Pivot.y;
 
-		
+
 		//return (transform1->CurrentPos.y + (sprite1->Subtexture->GetSize().y * (1.0f - sprite1->Pivot.y))) < (transform2->CurrentPos.y + (sprite2->Subtexture->GetSize().y * sprite2->Pivot.y));
-		
+
 		//return (transform1->CurrentPos.y - sprite1->Subtexture->GetSize().y) < (transform2->CurrentPos.y - sprite2->Subtexture->GetSize().y);
 		//return (transform1->CurrentPos.y - (sprite1->Subtexture->GetSize().y * sprite1->Pivot.y)) < (transform2->CurrentPos.y - (sprite2->Subtexture->GetSize().y * sprite2->Pivot.y));
 
 		// TODO: FIX Scale....
 
 		return e1->GetComponent<TransformComponent>()->CurrentPos.y < e2->GetComponent<TransformComponent>()->CurrentPos.y;
-	});
+		});
 
 
 	for (const Entity* entity : entities)
@@ -67,7 +67,7 @@ void SpriteRenderSystem::Draw() // TODO; should pass along if bash should be flu
 			continue;
 
 		//auto& material = entity->GetComponent<SpriteComponent>()->m_material;
-		
+
 		auto* spriteComponent = entity->GetComponent<SpriteComponent>();
 
 		if (!spriteComponent->ShouldRender)
@@ -78,15 +78,20 @@ void SpriteRenderSystem::Draw() // TODO; should pass along if bash should be flu
 
 		const auto& subtexture = spriteComponent->Subtexture;
 
-		const auto* transform	 = entity->GetComponent<TransformComponent>();
-		const auto& position	 = transform->CurrentPos;
-		const auto& scale		 = transform->Scale;
-		const auto& rotation	 = transform->Rotation;
+		const auto* transform = entity->GetComponent<TransformComponent>();
+		const auto& position = transform->CurrentPos;
+		const auto& scale = transform->Scale;
+		const auto& rotation = transform->Rotation;
+
+		glm::vec3 renderPosition;
+		renderPosition.x = transform->CurrentPos.x + (transform->Pivot.x * transform->Scale.x);
+		renderPosition.y = transform->CurrentPos.y + (transform->Pivot.y * transform->Scale.y);
 
 		Hi_Engine::RenderCommand command{};
 		command.Type = Hi_Engine::eRenderCommandType::DrawSprite;
-		command.SpriteRenderData = { subtexture, { 1.f, 1.f, 1.f, 1.f }, Hi_Engine::Transform{{ position.x, position.y, 0.f }, { scale.x, scale.y }, rotation } }; // CHANGE TO Transform
-	
+		command.SpriteRenderData = { subtexture, { 1.f, 1.f, 1.f, 1.f }, Hi_Engine::Transform{{ renderPosition.x, renderPosition.y, 0.f }, { scale.x, scale.y }, rotation } }; // CHANGE TO Transform
+		//command.SpriteRenderData = { subtexture, { 1.f, 1.f, 1.f, 1.f }, Hi_Engine::Transform{{ position.x, position.y, 0.f }, { scale.x, scale.y }, rotation } }; // CHANGE TO Transform
+
 		commandQueue.push(command);
 		// Hi_Engine::SpriteRenderer::GetInstance().Render(Hi_Engine::SpriteRenderData{ &material, { position.x, position.y, position.z }, { scale.x, scale.y }, rotation });
 	}
