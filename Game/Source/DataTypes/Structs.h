@@ -104,6 +104,14 @@ struct Offset
 	bool IsDirectionallyBound;
 };
 
+struct Color
+{
+	float R = 1.f;
+	float G = 1.f;
+	float B = 1.f;
+	float A = 1.f;
+};
+
 //struct AnimationSequence
 //{ 
 //	//class Hi_Engine::Subtexture2D*	Subtexture;
