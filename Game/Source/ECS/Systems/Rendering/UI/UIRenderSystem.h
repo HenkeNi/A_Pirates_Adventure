@@ -13,4 +13,5 @@ public:
 private:
 	void RenderHUD();
 	void RenderUI();
+	void RenderInventory(); // FIX! somehow
 };
