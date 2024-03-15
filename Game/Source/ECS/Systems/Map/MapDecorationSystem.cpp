@@ -67,7 +67,6 @@ void MapDecorationSystem::GenerateResources(Entity* anEnity)
 			if (Random::InRange(0, 100) < GetResourceSpawnChance("PalmTree"))
 			{
 				entity = m_entityManager->Create("PalmTree");
-				entity->GetComponent<TransformComponent>()->Pivot = { 0.f, 0.5f };
 
 			}
 			else if (Random::InRange(0, 100) < GetResourceSpawnChance("Rock"))

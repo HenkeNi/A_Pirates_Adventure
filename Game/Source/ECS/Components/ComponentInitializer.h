@@ -259,10 +259,14 @@ public:
 		
 		auto position  = std::any_cast<std::vector<std::any>>(someData.at("position"));
 		auto scale     = std::any_cast<std::vector<std::any>>(someData.at("scale"));
+		auto pivot	   = std::any_cast<std::vector<std::any>>(someData.at("pivot"));
 		float rotation = std::any_cast<float>(someData.at("rotation"));
+
+
 
 		aComponent->CurrentPos	= aComponent->PreviousPos = { std::any_cast<float>(position[0]), std::any_cast<float>(position[1]) };
 		aComponent->Scale		= { std::any_cast<float>(scale[0]), std::any_cast<float>(scale[1]) };
+		aComponent->Pivot		= { std::any_cast<float>(pivot[0]), std::any_cast<float>(pivot[1]) };
 		aComponent->Rotation	= rotation;
 	}
 

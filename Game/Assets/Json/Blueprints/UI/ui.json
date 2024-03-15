@@ -8,6 +8,7 @@
         "properties": {
           "position": [ 100.0, 600.0, 0.0 ],
           "scale": [ 2.0, 2.0, 2.0 ],
+          "pivot": [ 0.0, 0.0 ],
           "rotation": 0.0
         }
       },
@@ -35,6 +36,7 @@
         "properties": {
           "position": [ 0.0, 0.0, 0.0 ],
           "scale": [ 2.0, 2.0, 2.0 ],
+          "pivot": [ 0.0, 0.0 ],
           "rotation": 0.0
         }
       },
@@ -61,6 +63,7 @@
         "properties": {
           "position": [ 0.1, 0.1, 0.0 ],
           "scale": [ 2.0, 2.0, 2.0 ],
+          "pivot": [ 0.0, 0.0 ],
           "rotation": 0.0
         }
       },
@@ -97,6 +100,7 @@
         "properties": {
           "position": [ 0.0, 0.0, 0.0 ],
           "scale": [ 2.0, 2.0, 2.0 ],
+          "pivot": [ 0.0, 0.0 ],
           "rotation": 0.0
         }
       },
@@ -129,6 +133,7 @@
         "properties": {
           "position": [ 0.0, 0.0, 0.0 ],
           "scale": [ 10.0, 10.0, 2.0 ],
+          "pivot": [ 0.0, 0.0 ],
           "rotation": 0.0
         }
       },
