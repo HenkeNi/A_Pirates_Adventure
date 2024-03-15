@@ -1,7 +1,7 @@
 [
   {
     "id": "sky",
-    "path": "../Game/Assets/Textures/sky.png",
+    "path": "../Game/Assets/Textures/Backgrounds/sky.png",
     "alpha": false,
     "filtering": "Linear",
     "width": 2560,
@@ -21,7 +21,7 @@
   },
   {
     "id": "title_screen",
-    "path": "../Game/Assets/Textures/title_screen.png",
+    "path": "../Game/Assets/Textures/Backgrounds/title_screen.png",
     "alpha": true,
     "filtering": "Linear",
     "width": 1365,
@@ -31,7 +31,7 @@
   },
   {
     "id": "island_tileset",
-    "path": "../Game/Assets/Textures/island_tileset.png",
+    "path": "../Game/Assets/Textures/Tiles/island_tileset.png",
     "alpha": true,
     "filtering": "Nearest",
     "width": 2048,
@@ -147,7 +147,7 @@
 
   {
     "id": "grass",
-    "path": "../Game/Assets/Textures/grass.png",
+    "path": "../Game/Assets/Textures/Environment/grass.png",
     "alpha": true,
     "filtering": "Linear",
     "width": 512,
@@ -180,7 +180,7 @@
   },
   {
     "id": "palm",
-    "path": "../Game/Assets/Textures/palm.png",
+    "path": "../Game/Assets/Textures/Environment/palm.png",
     "alpha": true,
     "filtering": "Linear",
     "width": 6117,
@@ -213,7 +213,7 @@
   },
   {
     "id": "rock",
-    "path": "../Game/Assets/Textures/rock.png",
+    "path": "../Game/Assets/Textures/Environment/rock.png",
     "alpha": true,
     "filtering": "Linear",
     "width": 641,
@@ -257,7 +257,7 @@
   },
   {
     "id": "heart",
-    "path": "../Game/Assets/Textures/heart.png",
+    "path": "../Game/Assets/Textures/HUD/heart.png",
     "alpha": true,
     "filtering": "Linear",
     "width": 32,
@@ -277,7 +277,7 @@
   },
   {
     "id": "crosshair",
-    "path": "../Game/Assets/Textures/crosshair.png",
+    "path": "../Game/Assets/Textures/Icons/crosshair.png",
     "alpha": true,
     "filtering": "Linear",
     "width": 512,
@@ -297,7 +297,7 @@
   },
   {
     "id": "mouse_icon",
-    "path": "../Game/Assets/Textures/arrow-cursor.png",
+    "path": "../Game/Assets/Textures/Icons/arrow-cursor.png",
     "alpha": true,
     "filtering": "Linear",
     "width": 32,
@@ -307,7 +307,7 @@
   },
   {
     "id": "play_button",
-    "path": "../Game/Assets/Textures/play-button.png",
+    "path": "../Game/Assets/Textures/Icons/play-button.png",
     "alpha": true,
     "filtering": "Linear",
     "width": 512,
@@ -317,7 +317,7 @@
   },
   {
     "id": "quit_button",
-    "path": "../Game/Assets/Textures/power-button.png",
+    "path": "../Game/Assets/Textures/Icons/power-button.png",
     "alpha": true,
     "filtering": "Linear",
     "width": 512,
@@ -327,7 +327,7 @@
   },
   {
     "id": "title_image",
-    "path": "../Game/Assets/Textures/title_background.jpeg",
+    "path": "../Game/Assets/Textures/Backgrounds/title_background.jpeg",
     "alpha": false,
     "filtering": "Linear",
     "width": 1024,
@@ -337,7 +337,7 @@
   },
   {
     "id": "main_image",
-    "path": "../Game/Assets/Textures/main_background.jpeg",
+    "path": "../Game/Assets/Textures/Backgrounds/main_background.jpeg",
     "alpha": false,
     "filtering": "Linear",
     "width": 1024,

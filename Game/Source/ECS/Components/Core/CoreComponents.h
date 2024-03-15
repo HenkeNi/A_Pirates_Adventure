@@ -154,7 +154,7 @@ struct FollowComponent : public Component
 	unsigned EntityID = 0;
 };
 
-
+// interactable component?
 struct ClickableComponent : public Component
 {
 

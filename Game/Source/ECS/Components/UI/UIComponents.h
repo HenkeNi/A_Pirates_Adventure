@@ -3,6 +3,10 @@
 
 
 /* ######################### UI ######################### */
+struct UIComponent : public Component
+{
+};
+
 struct ButtonComponent : public Component
 {
 	std::function<void()>	OnClick;
@@ -11,13 +15,8 @@ struct ButtonComponent : public Component
 	//class Command* Command; // ??
 };
 
-struct UIComponent : public Component
-{
-};
-
 struct CursorComponent : public Component
 {
-
 };
 
 
@@ -42,22 +41,11 @@ struct HealthBarComponent : public Component
 
 struct CrosshairComponent : public Component
 {
-	// target?
+	// target? position?
 };
-
-// CYRRENTLY IN RENDEIRNG COMPONENTS?!
-//struct TextComponent : public ComponentBase
-//{
-//	class Hi_Engine::Font&	Font;
-//	CU::Vector4<float>		Color;
-//	std::string				Text;
-//	unsigned				Size = 32;
-//};
-
 
 
 /* ######################### Inventory ######################### */
-
 struct GridComponent : public Component
 {
 	CU::Vector2<unsigned> Grid; // grid class? or use inventory..
