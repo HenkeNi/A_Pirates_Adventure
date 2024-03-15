@@ -22,7 +22,7 @@
   {
     "id": "title_screen",
     "path": "../Game/Assets/Textures/title_screen.png",
-    "alpha": true,  
+    "alpha": true,
     "filtering": "Linear",
     "width": 1365,
     "height": 768,
@@ -322,6 +322,36 @@
     "filtering": "Linear",
     "width": 512,
     "height": 512,
+    "rows": 1,
+    "cols": 1
+  },
+  {
+    "id": "title_image",
+    "path": "../Game/Assets/Textures/title_background.jpeg",
+    "alpha": false,
+    "filtering": "Linear",
+    "width": 1024,
+    "height": 1024,
+    "rows": 1,
+    "cols": 1
+  },
+  {
+    "id": "main_image",
+    "path": "../Game/Assets/Textures/main_background.jpeg",
+    "alpha": false,
+    "filtering": "Linear",
+    "width": 1024,
+    "height": 1024,
+    "rows": 1,
+    "cols": 1
+  },
+  {
+    "id": "parrot_icon",
+    "path": "../Game/Assets/Textures/parrot_icon.png",
+    "alpha": true,
+    "filtering": "Linear",
+    "width": 256,
+    "height": 256,
     "rows": 1,
     "cols": 1
   }
