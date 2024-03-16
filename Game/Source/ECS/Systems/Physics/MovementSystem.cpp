@@ -3,6 +3,7 @@
 #include "Entities/Entity.h"
 #include "Entities/EntityManager.h"
 #include "Components/Core/CoreComponents.h"
+#include "Systems/Gameplay/Combat/CombatSystem.h"
 
 
 MovementSystem::MovementSystem()
@@ -75,13 +76,12 @@ void MovementSystem::MoveSubEntities(Entity* anEntity)
 
 void MovementSystem::ApplyKnockback(Entity* anEntity)
 {
-	auto* knockbackComponent = anEntity->GetComponent<KnockbackComponent>();
+	if (!CombatSystem::IsKnockbackActive(anEntity))
+		return;
 
-	double totalTime = Hi_Engine::Engine::GetTimer().GetTotalTime();
-	if (knockbackComponent->Timestamp + knockbackComponent->Duration > totalTime)
-	{
-		auto* velocityComponent = anEntity->GetComponent<VelocityComponent>();
-		velocityComponent->Velocity = knockbackComponent->Direction;
-		velocityComponent->Speed = knockbackComponent->Power;					// TOOD: fix side effect where movement speed is increased after knockback
-	}
+	auto* knockbackComponent = anEntity->GetComponent<KnockbackComponent>();
+	auto* velocityComponent = anEntity->GetComponent<VelocityComponent>();
+
+	velocityComponent->Velocity = knockbackComponent->Direction;
+	velocityComponent->Speed = knockbackComponent->Power;					// TOOD: fix side effect where movement speed is increased after knockback
 }

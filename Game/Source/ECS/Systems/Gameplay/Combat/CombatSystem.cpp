@@ -25,6 +25,7 @@ void CombatSystem::Receive(Message& aMsg)	// Listen to collisions from physics
 	{
 		auto* entity = std::any_cast<Entity*>(aMsg.GetData());
 		PerformAttack(entity);
+		// call ApplyKnockback here instead?
 	}
 
 
@@ -167,6 +168,19 @@ void CombatSystem::Update(float aDeltaTime)
 	//}
 }
 
+bool CombatSystem::IsKnockbackActive(Entity* anEntity)
+{
+	if (auto* knockbackComponent = anEntity->GetComponent<KnockbackComponent>())
+	{
+		double currentTime = Hi_Engine::Engine::GetTimer().GetTotalTime();
+		double knockbackEndTime = knockbackComponent->Timestamp + knockbackComponent->Duration;
+
+		return knockbackEndTime > currentTime;
+	}
+
+	return false;
+}
+
 void CombatSystem::PerformAttack(Entity* anEntity)
 {
 	std::cout << "Perofrm attack\n";
@@ -190,9 +204,9 @@ void CombatSystem::PerformAttack(Entity* anEntity)
 
 			// TODO: calculate damage output
 
-			if (entity->HasComponent<KnockbackComponent>())
+			if (entity->HasComponent<KnockbackComponent>() && !IsKnockbackActive(entity))
 			{
-				ApplyKnockbackEffect(anEntity, entity);
+				ApplyKnockback(anEntity, entity);
 			}
 
 
@@ -246,15 +260,20 @@ bool CombatSystem::ApplyDamageOutput(Entity* anEntity, unsigned aDamage)
 	return healthComponent->CurrentValue <= 0;
 }
 
-void CombatSystem::ApplyKnockbackEffect(Entity* aSource, Entity* aTarget)
+void CombatSystem::ApplyKnockback(Entity* aSource, Entity* aTarget)
 {
+	auto* knockbackComponent = aTarget->GetComponent<KnockbackComponent>();
+	
+	if (IsKnockbackActive(aTarget))
+		return;
+
 	auto* transformComponent = aSource->GetComponent<TransformComponent>();
 	auto sourcePosition = transformComponent->CurrentPos;
 
 	transformComponent = aTarget->GetComponent<TransformComponent>();
 	auto targetPosition = transformComponent->CurrentPos;
 
-	auto* knockbackComponent = aTarget->GetComponent<KnockbackComponent>();
+
 	knockbackComponent->Direction = targetPosition - sourcePosition;
 	knockbackComponent->Direction.Normalize();
 

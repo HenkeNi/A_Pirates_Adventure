@@ -311,6 +311,16 @@ public:
 	}
 
 	template <>
+	static void InitializeComponent<WeaponComponent>(WeaponComponent* aComponent, const ECS::ComponentData& someData)
+	{
+		int damage = std::any_cast<int>(someData.at("damage"));
+		float speed = std::any_cast<float>(someData.at("speed"));
+
+		aComponent->DamageDealt = damage;
+		aComponent->AttackSpeed = speed;
+	}
+	
+	template <>
 	static void InitializeComponent<WorldTimeComponent>(WorldTimeComponent* aComponent, const ECS::ComponentData& someData)
 	{
 		float dayDuration = std::any_cast<float>(someData.at("day_duration"));

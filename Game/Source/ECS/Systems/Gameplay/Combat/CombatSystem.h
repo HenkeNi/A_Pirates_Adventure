@@ -12,6 +12,8 @@ public:
 	void		Receive(Message& aMsg)								 override;
 	void		Update(float aDeltaTime)							 override;
 
+	static bool IsKnockbackActive(Entity* anEntity);
+
 private:
 	void		PerformAttack(Entity* anEntity);
 	bool		IsTargetable(Entity* anEntity)							const;
@@ -19,5 +21,5 @@ private:
 	unsigned				GetDamageOutput(Entity* anEntity)						const;
 	// std::vector<Entity*>	GetNearbyEntities()							const;
 	bool					ApplyDamageOutput(Entity* anEntity, unsigned aDamage);
-	void					ApplyKnockbackEffect(Entity* aSource, Entity* aTarget);
+	void					ApplyKnockback(Entity* aSource, Entity* aTarget);
 };
