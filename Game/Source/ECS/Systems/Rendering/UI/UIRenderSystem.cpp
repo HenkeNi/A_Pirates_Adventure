@@ -149,7 +149,7 @@ void UIRenderSystem::RenderInventory()
 		Hi_Engine::RenderCommand command{};
 
 		//glm::vec2 scale;
-		auto& texture = Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource("debug_00");
+		auto& texture = Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ "debug", 0, 0 });
 		command.SpriteRenderData = { &texture, { 0.5f, 0.2f, 0.7f, 1.f }, Hi_Engine::Transform{{ position.x, position.y, 0.f }, { scale.x, scale.y }, 0.f } }; // CHANGE TO Transform
 
 		renderCommands.push(command);

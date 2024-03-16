@@ -180,6 +180,8 @@ void CombatSystem::PerformAttack(Entity* anEntity)
 	if (auto* weapon = m_entityManager->Find(weaponID))
 	{
 		auto* colliderComponent = weapon->GetComponent<ColliderComponent>();
+		auto* weaponComponent = weapon->GetComponent<WeaponComponent>();
+		int damageOutput = weaponComponent->DamageDealt;
 
 		for (const auto& entity : colliderComponent->CollidingEntities)
 		{
@@ -188,8 +190,14 @@ void CombatSystem::PerformAttack(Entity* anEntity)
 
 			// TODO: calculate damage output
 
+			if (entity->HasComponent<KnockbackComponent>())
+			{
+				ApplyKnockbackEffect(anEntity, entity);
+			}
+
+
 			auto* healthComponent = entity->GetComponent<HealthComponent>();
-			healthComponent->CurrentValue = CommonUtilities::Clamp(healthComponent->CurrentValue - 50, 0, healthComponent->MaxHealth);
+			healthComponent->CurrentValue = CommonUtilities::Clamp(healthComponent->CurrentValue - damageOutput, 0, healthComponent->MaxHealth);
 
 			// store entities to remoev in entity manager?
 		}
@@ -236,4 +244,21 @@ bool CombatSystem::ApplyDamageOutput(Entity* anEntity, unsigned aDamage)
 
 
 	return healthComponent->CurrentValue <= 0;
+}
+
+void CombatSystem::ApplyKnockbackEffect(Entity* aSource, Entity* aTarget)
+{
+	auto* transformComponent = aSource->GetComponent<TransformComponent>();
+	auto sourcePosition = transformComponent->CurrentPos;
+
+	transformComponent = aTarget->GetComponent<TransformComponent>();
+	auto targetPosition = transformComponent->CurrentPos;
+
+	auto* knockbackComponent = aTarget->GetComponent<KnockbackComponent>();
+	knockbackComponent->Direction = targetPosition - sourcePosition;
+	knockbackComponent->Direction.Normalize();
+
+	knockbackComponent->Power = 2.5f;
+	knockbackComponent->Timestamp = Hi_Engine::Engine::GetTimer().GetTotalTime();
+	knockbackComponent->Duration = 0.25f;
 }

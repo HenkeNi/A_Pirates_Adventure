@@ -16,4 +16,5 @@ public:
 
 private:
 	void MoveSubEntities(Entity* anEntity);
+	void ApplyKnockback(Entity* anEntity);
 };

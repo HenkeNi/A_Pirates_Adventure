@@ -22,7 +22,8 @@
         "type": "Sprite",
         "properties": {
           "shader": "sprite_batch",
-          "texture": "castaway_00",
+          "texture": "castaway",
+          "coordinates": [ 0, 0 ],
           "color": [ 1.0, 1.0, 1.0, 1.0 ]
         }
       },

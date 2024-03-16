@@ -5,6 +5,17 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 struct RecipeComponent : public Component
 {
 	std::string CraftedItem;
@@ -228,7 +239,7 @@ struct WeaponComponent : public Component // gun component?
 {
 	float	AttackRange;
 	float	AttackSpeed;
-	int		DamageDealt;
+	int		DamageDealt  = 10;
 
 	// enum daamge type (explosive, slashing, blunt
 };
@@ -242,6 +253,13 @@ struct ProjectileComponent : public Component
 struct ExplosionComponent : public Component
 {};
 
+struct KnockbackComponent : public Component
+{
+	CU::Vector2<float> Direction;
+	float Power;
+	double Timestamp;
+	float Duration;	
+};
 
 
 

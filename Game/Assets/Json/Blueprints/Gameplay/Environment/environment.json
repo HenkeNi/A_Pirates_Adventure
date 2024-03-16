@@ -16,7 +16,8 @@
         "type": "Sprite",
         "properties": {
           "shader": "sprite_batch",
-          "texture": "grass_00",
+          "texture": "grass",
+          "coordinates": [ 0, 0 ],
           "color": [ 1.0, 1.0, 1.0, 1.0 ]
         }
       },
@@ -59,7 +60,8 @@
         "type": "Sprite",
         "properties": {
           "shader": "sprite_batch",
-          "texture": "palm_00",
+          "texture": "palm",
+          "coordinates": [ 0, 0 ],
           "color": [ 1.0, 1.0, 1.0, 1.0 ]
         }
       },
@@ -110,7 +112,8 @@
         "type": "Sprite",
         "properties": {
           "shader": "sprite_batch",
-          "texture": "rock_00",
+          "texture": "rock",
+          "coordinates": [ 0, 0 ],
           "color": [ 1.0, 1.0, 1.0, 1.0 ]
         }
       },

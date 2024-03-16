@@ -22,7 +22,8 @@
         "type": "Sprite",
         "properties": {
           "shader": "sprite_batch",
-          "texture": "crab_00",
+          "texture": "crab",
+          "coordinates": [ 0, 0 ],
           "color": [ 1.0, 1.0, 1.0, 1.0 ]
         }
       },
@@ -70,7 +71,8 @@
         "type": "Sprite",
         "properties": {
           "shader": "sprite_batch",
-          "texture": "fish_00",
+          "texture": "fish",
+          "coordinates": [ 0, 0 ],
           "color": [ 1.0, 1.0, 1.0, 1.0 ]
         }
       },

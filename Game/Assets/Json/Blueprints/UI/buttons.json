@@ -16,7 +16,8 @@
         "type": "Sprite",
         "properties": {
           "shader": "sprite_batch",
-          "texture": "play_button_00",
+          "texture": "play_button",
+          "coordinates": [ 0, 0 ],
           "color": [ 1.0, 1.0, 1.0, 1.0 ]
         }
       },

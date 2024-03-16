@@ -55,9 +55,16 @@ public:
 			//std::vector<std::string> animationFrames;
 
 			std::vector<Hi_Engine::Subtexture2D*> animationFrames;
-			for (const auto& sprite : std::any_cast<std::vector<std::any>>(properties.at("sprites")))
+			std::string textureName = std::any_cast<std::string>(properties.at("texture"));
+			for (const auto& sprite : std::any_cast<std::vector<std::any>>(properties.at("subtexture_coordinates")))
 			{
-				animationFrames.push_back(&Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource(std::any_cast<std::string>(sprite)));
+				auto s = std::any_cast<std::vector<std::any>>(sprite);
+				int x = std::any_cast<int>(s[0]);
+				int y = std::any_cast<int>(s[1]);
+	
+				//auto coords = std::any_cast<std::vector<int>>(sprite);
+				auto* subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ textureName, x, y });
+				animationFrames.push_back(subtexture);
 			}
 			// animation.Animations
 			Animation animation;
@@ -222,8 +229,9 @@ public:
 		auto texture = std::any_cast<std::string>(someData.at("texture"));
 		//auto color = std::any_cast<std::array<float, 4>>(someData.at("color"));
 		auto color = std::any_cast<std::vector<std::any>>(someData.at("color"));
+		auto coordinates = std::any_cast<std::vector<std::any>>(someData.at("coordinates"));
 
-		aComponent->Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource(texture);
+		aComponent->Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ texture, std::any_cast<int>(coordinates[0]), std::any_cast<int>(coordinates[1]) });
 		aComponent->Color = { std::any_cast<float>(color[0]), std::any_cast<float>(color[1]), std::any_cast<float>(color[2]), std::any_cast<float>(color[3]) };
 		//aComponent->m_material = {
 		//	&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource(texture),

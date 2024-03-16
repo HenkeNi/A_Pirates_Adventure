@@ -58,6 +58,8 @@ namespace Registration
 		componentBuilders.push_back(std::make_pair("Projectile",		new ConcreteComponentBuilder<ProjectileComponent>));
 		componentBuilders.push_back(std::make_pair("Resource",			new ConcreteComponentBuilder<ResourceComponent>));
 		componentBuilders.push_back(std::make_pair("CharacterState",	new ConcreteComponentBuilder<CharacterStateComponent>));
+		componentBuilders.push_back(std::make_pair("Knockback",			new ConcreteComponentBuilder<KnockbackComponent>));
+
 
 		/* - UI Components - */
 		componentBuilders.push_back(std::make_pair("HUD",				new ConcreteComponentBuilder<HUDComponent>));

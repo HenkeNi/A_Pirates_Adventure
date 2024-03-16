@@ -16,7 +16,8 @@
         "type": "Sprite",
         "properties": {
           "shader": "sprite_batch",
-          "texture": "mouse_icon_00",
+          "texture": "mouse_icon",
+          "coordinates": [ 0, 0 ],
           "color": [ 1.0, 1.0, 1.0, 1.0 ]
         }
       },
@@ -47,7 +48,8 @@
         "type": "Sprite",
         "properties": {
           "shader": "sprite_batch",
-          "texture": "castaway_00",
+          "texture": "castaway",
+          "coordinates": [ 0, 0 ],
           "color": [ 1.0, 1.0, 1.0, 1.0 ]
         }
       },
@@ -74,7 +76,8 @@
         "type": "Sprite",
         "properties": {
           "shader": "sprite_batch",
-          "texture": "heart_00",
+          "texture": "heart",
+          "coordinates": [ 0, 0 ],
           "color": [ 1.0, 1.0, 1.0, 1.0 ]
         }
       },

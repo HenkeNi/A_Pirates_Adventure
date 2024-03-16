@@ -27,7 +27,7 @@ struct TileSettings
 	std::string Identifier; //?? NEEDED?
 	CU::Vector4<float> Color;
 	// ARray of subtextures??
-	bool isCollidable;
+	bool IsCollidable;
 };
 
 
@@ -75,17 +75,19 @@ eTile GetTileType(float aNoise)
 	return eTile::Water;*/
 }
 
-std::string GetSubtexture(eTile aType) // TODO: check neighbours?
+Hi_Engine::Subtexture2D* GetSubtexture(eTile aType) // TODO: check neighbours?
 {
-	static const std::unordered_map<eTile, std::string> textures = {
-		{ eTile::Grass,			"island_tileset_36" },
-		{ eTile::Sand,			"island_tileset_13" },
-		{ eTile::ShallowWater,  "island_tileset_18" },
-		{ eTile::Water,			"island_tileset_18" },
-		{ eTile::DeepWater,		"island_tileset_18" }, // NEEDED??
+	static const std::unordered_map<eTile, Hi_Engine::SubtextureData> textures = {
+		{ eTile::Grass,			{ "island_tileset", 3, 6 }},
+		{ eTile::Sand,			{ "island_tileset", 1, 3 }},
+		{ eTile::ShallowWater,  { "island_tileset", 1, 8 }},
+		{ eTile::Water,			{ "island_tileset", 1, 8 }},
+		{ eTile::DeepWater,		{ "island_tileset", 1, 8 }}, // NEEDED??
 	};
 
-	return textures.at(aType);
+	const auto& texture = textures.at(aType);
+
+	return &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource(texture);
 }
 
 glm::vec4 GetTileColor(eTile aType)
@@ -218,40 +220,35 @@ void MapGenerationSystem::ApplyTextures(Entity* anEntity) // Rename; texture map
 			}
 
 
-			//std::cout << "Base values " << baseValue << "\n";
-
-
 
 			if (MapUtils::GetTileTypeInDirection(anEntity, i, eDirection::Down) == eTile::ShallowWater)
 			{
-				tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource("island_tileset_31");
+				tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({"island_tileset", 3, 1 });
 				//tile.Color = { 0.f, 0.3f, 0.5f, 1.f };
 			}
 			else if (MapUtils::GetTileTypeInDirection(anEntity, i, eDirection::Up) == eTile::ShallowWater)
 			{
-				tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource("island_tileset_51");
+				tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ "island_tileset", 5, 1 });
 				//tile.Color = { 0.f, 0.3f, 0.5f, 1.f };
 			}
 			else if (MapUtils::GetTileTypeInDirection(anEntity, i, eDirection::Left) == eTile::ShallowWater)
 			{
-				tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource("island_tileset_40");
+				tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ "island_tileset", 4,0 });
 				//tile.Color = { 0.f, 0.3f, 0.5f, 1.f };
 			}
 			else if (MapUtils::GetTileTypeInDirection(anEntity, i, eDirection::Right) == eTile::ShallowWater)
 			{
-				tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource("island_tileset_42");
+				tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ "island_tileset", 4,2 });
 				//tile.Color = { 0.f, 0.3f, 0.5f, 1.f };
 			}
 			else
 			{
-				std::string subtexture = GetSubtexture(tile.Type);
-				tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource(subtexture); // Sprite sheet is revered??	
+				tile.Subtexture = GetSubtexture(tile.Type);
 			}
 		}
 		else /*if (tile.Type == eTile::ShallowWater)*/
 		{
-			std::string subtexture = GetSubtexture(tile.Type);
-			tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource(subtexture); // Sprite sheet is revered??
+			tile.Subtexture = GetSubtexture(tile.Type);
 		}
 
 		// Check if more optimized (dont have to do every frame?!)

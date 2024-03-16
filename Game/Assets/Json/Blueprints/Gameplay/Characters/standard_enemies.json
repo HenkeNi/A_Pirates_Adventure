@@ -19,10 +19,17 @@
         }
       },
       {
+        "type": "Collider",
+        "properties": {
+          "type": "Dynamic"
+        }
+      },
+      {
         "type": "Sprite",
         "properties": {
           "shader": "sprite_batch",
-          "texture": "skeleton_00",
+          "texture": "skeleton",
+          "coordinates": [ 0, 0 ],
           "color": [ 1.0, 1.0, 1.0, 1.0 ]
         }
       },
@@ -34,6 +41,16 @@
       },
       {
         "type": "Blackboard",
+        "properties": {}
+      },
+      {
+        "type": "Health",
+        "properties": {
+          "value": 50000
+        }
+      },
+      {
+        "type": "Knockback",
         "properties": {}
       }
     ]
@@ -55,7 +72,8 @@
         "type": "Sprite",
         "properties": {
           "shader": "sprite_batch",
-          "texture": "crab_00",
+          "texture": "crab",
+          "coordinates": [ 0, 0 ],
           "color": [ 1.0, 1.0, 1.0, 1.0 ]
         }
       },

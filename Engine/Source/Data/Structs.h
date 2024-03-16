@@ -272,4 +272,31 @@ namespace Hi_Engine
 	};
 
 #pragma endregion Event_Structs
+
+
+	struct SubtextureData
+	{
+		std::string TextureName;
+		int Row;
+		int Column;
+
+		bool operator==(const SubtextureData& other) const {
+			return (TextureName == other.TextureName && Row == other.Row && Column == other.Column);
+		}
+	};
+
+
 }
+
+template <>
+struct std::hash<Hi_Engine::SubtextureData> {
+
+	std::size_t operator()(const Hi_Engine::SubtextureData& subtexture) const {
+		std::size_t res = 17;
+		res = res * 31 + std::hash<std::string>()(subtexture.TextureName);
+		res = res * 31 + std::hash<int>()(subtexture.Row);
+		res = res * 31 + std::hash<int>()(subtexture.Column);
+
+		return res;
+	}
+};

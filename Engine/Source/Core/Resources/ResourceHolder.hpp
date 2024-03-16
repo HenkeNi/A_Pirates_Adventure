@@ -32,6 +32,8 @@ namespace Hi_Engine
 		ResourceHolder& operator=(const ResourceHolder&) = delete;
 
 		static ResourceHolder&	GetInstance();
+		
+
 
 		Resource&				GetResource(const Identifier& anID);
 		const Resource&			GetResource(const Identifier& anID)		const;
@@ -149,8 +151,9 @@ namespace Hi_Engine
 
 					auto subtexture = std::make_unique<Subtexture2D>(GetResource(id), glm::vec2{ minX, minY }, glm::vec2{ maxX, maxY });
 
-					std::string subID = id + "_" + std::to_string((int)row) + std::to_string((int)col);
-					ResourceHolder<Subtexture2D>::GetInstance().Insert(subID, std::move(subtexture));
+					ResourceHolder<Subtexture2D, SubtextureData>::GetInstance().Insert({ id, (int)row, (int)col }, std::move(subtexture));
+					//std::string subID = id + "_" + std::to_string((int)row) + std::to_string((int)col);
+					//ResourceHolder<Subtexture2D>::GetInstance().Insert(subID, std::move(subtexture));
 				}
 			}
 		}

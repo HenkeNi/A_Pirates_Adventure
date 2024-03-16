@@ -27,6 +27,11 @@ void MovementSystem::Update(float aDeltaTime)
 
 	for (auto* entity : entities)
 	{
+		if (entity->HasComponent<KnockbackComponent>())
+		{
+			ApplyKnockback(entity);
+		}
+
 		auto* transformComponent = entity->GetComponent<TransformComponent>();
 		auto* velocityComponent = entity->GetComponent<VelocityComponent>();
 
@@ -65,5 +70,18 @@ void MovementSystem::MoveSubEntities(Entity* anEntity)
 				childTransformComponent->CurrentPos = transformComponent->CurrentPos;
 			}
 		}
+	}
+}
+
+void MovementSystem::ApplyKnockback(Entity* anEntity)
+{
+	auto* knockbackComponent = anEntity->GetComponent<KnockbackComponent>();
+
+	double totalTime = Hi_Engine::Engine::GetTimer().GetTotalTime();
+	if (knockbackComponent->Timestamp + knockbackComponent->Duration > totalTime)
+	{
+		auto* velocityComponent = anEntity->GetComponent<VelocityComponent>();
+		velocityComponent->Velocity = knockbackComponent->Direction;
+		velocityComponent->Speed = knockbackComponent->Power;					// TOOD: fix side effect where movement speed is increased after knockback
 	}
 }

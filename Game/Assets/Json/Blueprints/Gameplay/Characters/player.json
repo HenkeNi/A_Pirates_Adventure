@@ -15,7 +15,8 @@
       "type": "Sprite",
       "properties": {
         "shader": "sprite_batch",
-        "texture": "pirate_idle_00",
+        "texture": "pirate_idle",
+        "coordinates": [ 0, 0 ],
         "color": [ 1.0, 1.0, 1.0, 1.0 ]
       }
     },
@@ -57,14 +58,15 @@
         "animations": [
           {
             "identifier": "Idle",
-            "sprites": [
-              "pirate_idle_00",
-              "pirate_idle_01",
-              "pirate_idle_02",
-              "pirate_idle_03",
-              "pirate_idle_04",
-              "pirate_idle_05",
-              "pirate_idle_06"
+            "texture": "pirate_idle",
+            "subtexture_coordinates": [
+              [ 0, 0 ],
+              [ 0, 1 ],
+              [ 0, 2 ],
+              [ 0, 3 ],
+              [ 0, 4 ],
+              [ 0, 5 ],
+              [ 0, 6 ]
             ],
             "frame_duration": 0.2,
             "is_looping": true,
@@ -72,14 +74,15 @@
           },
           {
             "identifier": "Walk",
-            "sprites": [
-              "pirate_walk_00",
-              "pirate_walk_01",
-              "pirate_walk_02",
-              "pirate_walk_03",
-              "pirate_walk_04",
-              "pirate_walk_05",
-              "pirate_walk_06"
+            "texture": "pirate_walk",
+            "subtexture_coordinates": [
+              [ 0, 0 ],
+              [ 0, 1 ],
+              [ 0, 2 ],
+              [ 0, 3 ],
+              [ 0, 4 ],
+              [ 0, 5 ],
+              [ 0, 6 ]
             ],
             "frame_duration": 0.15,
             "is_looping": true,
@@ -87,14 +90,15 @@
           },
           {
             "identifier": "Attack",
-            "sprites": [
-              "pirate_attack_00",
-              "pirate_attack_01",
-              "pirate_attack_02",
-              "pirate_attack_03",
-              "pirate_attack_04",
-              "pirate_attack_05",
-              "pirate_attack_06"
+            "texture": "pirate_attack",
+            "subtexture_coordinates": [
+              [ 0, 0 ],
+              [ 0, 1 ],
+              [ 0, 2 ],
+              [ 0, 3 ],
+              [ 0, 4 ],
+              [ 0, 5 ],
+              [ 0, 6 ]
             ],
             "frame_duration": 0.05,
             "is_looping": false,
@@ -102,14 +106,15 @@
           },
           {
             "identifier": "Run",
-            "sprites": [
-              "pirate_run_00",
-              "pirate_run_01",
-              "pirate_run_02",
-              "pirate_run_03",
-              "pirate_run_04",
-              "pirate_run_05",
-              "pirate_run_06"
+            "texture": "pirate_run",
+            "subtexture_coordinates": [
+              [ 0, 0 ],
+              [ 0, 1 ],
+              [ 0, 2 ],
+              [ 0, 3 ],
+              [ 0, 4 ],
+              [ 0, 5 ],
+              [ 0, 6 ]
             ],
             "frame_duration": 0.1,
             "is_looping": true,
