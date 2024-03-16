@@ -3,7 +3,6 @@
 #include "Entities/Entity.h"
 #include "Entities/EntityManager.h"
 #include "Components/Core/CoreComponents.h"
-#include "Systems/Gameplay/Combat/CombatSystem.h"
 
 
 MovementSystem::MovementSystem()
@@ -54,6 +53,19 @@ bool MovementSystem::HasMoved(const Entity* anEntity)
 	return transform->CurrentPos != transform->PreviousPos;
 }
 
+bool MovementSystem::IsKnockbacked(Entity* anEntity)
+{
+	if (auto* knockbackComponent = anEntity->GetComponent<KnockbackComponent>())
+	{
+		double currentTime = Hi_Engine::Engine::GetTimer().GetTotalTime();
+		double knockbackEndTime = knockbackComponent->Timestamp + knockbackComponent->Duration;
+
+		return knockbackEndTime > currentTime;
+	}
+
+	return false;
+}
+
 void MovementSystem::MoveSubEntities(Entity* anEntity)
 {
 	// HERE? or in Transform System?
@@ -76,7 +88,7 @@ void MovementSystem::MoveSubEntities(Entity* anEntity)
 
 void MovementSystem::ApplyKnockback(Entity* anEntity)
 {
-	if (!CombatSystem::IsKnockbackActive(anEntity))
+	if (!IsKnockbacked(anEntity))
 		return;
 
 	auto* knockbackComponent = anEntity->GetComponent<KnockbackComponent>();

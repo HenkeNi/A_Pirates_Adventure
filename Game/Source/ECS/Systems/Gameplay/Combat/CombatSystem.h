@@ -12,8 +12,6 @@ public:
 	void		Receive(Message& aMsg)								 override;
 	void		Update(float aDeltaTime)							 override;
 
-	static bool IsKnockbackActive(Entity* anEntity);
-
 private:
 	void		PerformAttack(Entity* anEntity);
 	bool		IsTargetable(Entity* anEntity)							const;

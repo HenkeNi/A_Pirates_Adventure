@@ -13,6 +13,7 @@ public:
 	void Update(float aDeltaTime)	override;
 
 	static bool	HasMoved(const Entity* anEntity);
+	static bool IsKnockbacked(Entity* anEntity); //or move to movemnt sysyem, is being knockedback
 
 private:
 	void MoveSubEntities(Entity* anEntity);

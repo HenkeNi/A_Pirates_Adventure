@@ -67,7 +67,9 @@ eBTNodeStatus MoveToTargetNode::Execute(EntityManager* anEntityManager)
 		if (direction.Length() != 0.f)
 			direction.Normalize();
 
-		owner->GetComponent<VelocityComponent>()->Velocity = direction;
+		auto* velocityComponent = owner->GetComponent<VelocityComponent>();
+		velocityComponent->Velocity = direction;
+		velocityComponent->Speed = 1.f;
 	}
 
 	return eBTNodeStatus::Running;

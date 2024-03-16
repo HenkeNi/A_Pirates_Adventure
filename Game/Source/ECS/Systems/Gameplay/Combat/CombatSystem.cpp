@@ -1,9 +1,9 @@
 #include "Pch.h"
 #include "CombatSystem.h"
-#include "Components/Core/CoreComponents.h"
 #include "Entities/EntityManager.h"
-
+#include "Components/Core/CoreComponents.h"
 #include "Components/Gameplay/GameplayComponents.h"
+#include "Systems/Physics/MovementSystem.h"
 
 
 CombatSystem::CombatSystem()
@@ -168,19 +168,6 @@ void CombatSystem::Update(float aDeltaTime)
 	//}
 }
 
-bool CombatSystem::IsKnockbackActive(Entity* anEntity)
-{
-	if (auto* knockbackComponent = anEntity->GetComponent<KnockbackComponent>())
-	{
-		double currentTime = Hi_Engine::Engine::GetTimer().GetTotalTime();
-		double knockbackEndTime = knockbackComponent->Timestamp + knockbackComponent->Duration;
-
-		return knockbackEndTime > currentTime;
-	}
-
-	return false;
-}
-
 void CombatSystem::PerformAttack(Entity* anEntity)
 {
 	std::cout << "Perofrm attack\n";
@@ -204,7 +191,7 @@ void CombatSystem::PerformAttack(Entity* anEntity)
 
 			// TODO: calculate damage output
 
-			if (entity->HasComponent<KnockbackComponent>() && !IsKnockbackActive(entity))
+			if (entity->HasComponent<KnockbackComponent>() && !MovementSystem::IsKnockbacked(entity))
 			{
 				ApplyKnockback(anEntity, entity);
 			}
@@ -264,7 +251,7 @@ void CombatSystem::ApplyKnockback(Entity* aSource, Entity* aTarget)
 {
 	auto* knockbackComponent = aTarget->GetComponent<KnockbackComponent>();
 	
-	if (IsKnockbackActive(aTarget))
+	if (MovementSystem::IsKnockbacked(aTarget))
 		return;
 
 	auto* transformComponent = aSource->GetComponent<TransformComponent>();
@@ -280,4 +267,6 @@ void CombatSystem::ApplyKnockback(Entity* aSource, Entity* aTarget)
 	knockbackComponent->Power = 2.5f;
 	knockbackComponent->Timestamp = Hi_Engine::Engine::GetTimer().GetTotalTime();
 	knockbackComponent->Duration = 0.25f;
+
+	// TODO; update character state
 }
