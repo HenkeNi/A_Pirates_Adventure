@@ -15,9 +15,9 @@ namespace Hi_Engine
 	{
 	}
 
-	void TerminationEvent::Dispatch(EventListener& aListener)
+	void TerminationEvent::Dispatch(EventListener& listener)
 	{
-		aListener.HandleEvent(*this);
+		listener.HandleEvent(*this);
 	}
 
 	ePriority TerminationEvent::GetPriority() const
@@ -46,18 +46,18 @@ namespace Hi_Engine
 	{
 	}
 
-	void WindowEvent::Dispatch(EventListener& aListener)
+	void WindowEvent::Dispatch(EventListener& listener)
 	{
-		aListener.HandleEvent(*this);
+		listener.HandleEvent(*this);
 	}
 
 	void WindowEvent::Reset()
 	{
 	}
 	
-	void WindowEvent::Init(eWindowEvent aType)
+	void WindowEvent::Init(eWindowEvent type)
 	{
-		m_eventType = aType;
+		m_eventType = type;
 		m_isHandled = false;
 	}
 
@@ -81,27 +81,27 @@ namespace Hi_Engine
 	{
 	}*/
 
-	void InputEvent::Dispatch(EventListener& aListener) 
+	void InputEvent::Dispatch(EventListener& listener) 
 	{
-		aListener.HandleEvent(*this);
+		listener.HandleEvent(*this);
 	}
 
 	void InputEvent::Reset()
 	{
 	}
 
-	eInputState InputEvent::GetKeyState(eKey aKey) const
+	eInputState InputEvent::GetKeyState(eKey key) const
 	{
-		if (m_keyStates.contains(aKey))
-			return m_keyStates.at(aKey);
+		if (m_keyStates.contains(key))
+			return m_keyStates.at(key);
 
 		return eInputState::Invalid;
 	}
 	
-	eInputState InputEvent::GetMouseBtnState(eMouseBtn aBtn) const
+	eInputState InputEvent::GetMouseBtnState(eMouseBtn btn) const
 	{
-		if (m_mouseButtonStates.contains(aBtn))
-			return m_mouseButtonStates.at(aBtn);
+		if (m_mouseButtonStates.contains(btn))
+			return m_mouseButtonStates.at(btn);
 	}
 
 	const glm::vec2& InputEvent::GetMousePosition() const

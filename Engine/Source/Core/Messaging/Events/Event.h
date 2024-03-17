@@ -10,7 +10,7 @@ namespace Hi_Engine
 	public:
 		virtual ~BaseEvent() {}
 
-		virtual void		Dispatch(EventListener& aListener)		  = 0;
+		virtual void		Dispatch(EventListener& listener)		  = 0;
 		virtual ePriority	GetPriority()						const = 0;
 		virtual bool		IsHandled()							const = 0; // used for what?
 		virtual void		Reset()									  = 0; // not pure virtual?
@@ -20,11 +20,11 @@ namespace Hi_Engine
 	class Event : public BaseEvent
 	{
 	public:
-		Event(ePriority aPriority = ePriority::Moderate);
+		Event(ePriority priority = ePriority::Moderate);
 		~Event();
 
-		void*			operator new (size_t aSize);
-		void			operator delete(void* aPointer);
+		void*			operator new (size_t size);
+		void			operator delete(void* pointer);
 
 		ePriority		GetPriority()						const override;
 		bool			IsHandled()							const override;
@@ -40,8 +40,8 @@ namespace Hi_Engine
 #pragma region Constructors
 
 	template <typename Derived>
-	Event<Derived>::Event(ePriority aPriority)
-		: m_priority{ aPriority }, m_isHandled{ false }
+	Event<Derived>::Event(ePriority priority)
+		: m_priority{ priority }, m_isHandled{ false }
 	{
 	}
 	
@@ -55,15 +55,15 @@ namespace Hi_Engine
 #pragma region Method_Definitions
 
 	template<typename Derived>
-	void* Event<Derived>::operator new(size_t aSize)
+	void* Event<Derived>::operator new(size_t size)
 	{
 		return CommonUtilities::MemoryPool<Derived>::GetInstance().GetResource();
 	}
 
 	template<typename Derived>
-	void Event<Derived>::operator delete(void* aPointer)
+	void Event<Derived>::operator delete(void* pointer)
 	{
-		CommonUtilities::MemoryPool<Derived>::GetInstance().ReturnResource(static_cast<Derived*>(aPointer));
+		CommonUtilities::MemoryPool<Derived>::GetInstance().ReturnResource(static_cast<Derived*>(pointer));
 	}
 
 	template<typename Derived>

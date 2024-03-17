@@ -12,23 +12,23 @@ namespace Hi_Engine
 		InputHandler();
 		~InputHandler();
 
-		void Init(GLFWwindow* aWindow);
+		void Init(GLFWwindow* window);
 		void ProcessInput();
 		void Reset();
 
-		static void KeyCallback(GLFWwindow* aWindow, int aKey, int aScanCode, int anAction, int someMods);
-		static void MouseButtonCallback(GLFWwindow* window, int aButton, int anAction, int someMods);
-		static void MouseScrollCallback(GLFWwindow* aWindow, double xoffset, double yoffset);
-		static void CursorCallback(GLFWwindow* aWindow, double xPos, double yPos);
+		static void KeyCallback(GLFWwindow* window, int key, int scanCode, int action, int mods);
+		static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
+		static void MouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
+		static void CursorCallback(GLFWwindow* window, double xPos, double yPos);
 
 		static glm::vec2 GetMousePosition();
 		static float	GetScrollOffset();
 
-		static bool IsMouseButtonPressed(eMouseBtn aBtn);
+		static bool IsMouseButtonPressed(eMouseBtn btn);
 
-		static bool IsKeyPressed(eKey aKey);
-		static bool IsKeyHeld(eKey aKey);
-		static bool IsKeyReleased(eKey aKey);
+		static bool IsKeyPressed(eKey key);
+		static bool IsKeyHeld(eKey key);
+		static bool IsKeyReleased(eKey key);
 
 	private:	
 		static std::unordered_map<eKey, eInputState> s_keyStates;

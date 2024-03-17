@@ -10,7 +10,7 @@ namespace CommonUtilities
 	{
 	public:
 		Vector3();
-		Vector3(const T& aX, const T& aY, const T& aZ);
+		Vector3(const T& x, const T& y, const T& z);
 		Vector3(const Vector3&)						= default;
 		~Vector3()									= default;
 
@@ -20,10 +20,10 @@ namespace CommonUtilities
 		/* -	Methods		- */
 		T			LengthSqr()							const;
 		T			Length()							const;
-		T			Dot(const Vector3& another)			const;
-		T			DistanceTo(const Vector3& another)	const;		// TODO: Make static?
-		Vector3		DirectionTo(const Vector3& another)	const;
-		Vector3		Cross(const Vector3& another)		const;
+		T			Dot(const Vector3& other)			const;
+		T			DistanceTo(const Vector3& other)	const;		// TODO: Make static?
+		Vector3		DirectionTo(const Vector3& other)	const;
+		Vector3		Cross(const Vector3& other)			const;
 		Vector3		GetNormalized()						const;
 		void		Normalize();
 
@@ -42,8 +42,8 @@ namespace CommonUtilities
 	}
 
 	template <class T>
-	Vector3<T>::Vector3(const T& aX, const T& aY, const T& aZ)
-		: x{ aX }, y{ aY }, z{ aZ }
+	Vector3<T>::Vector3(const T& x, const T& y, const T& z)
+		: x{ x }, y{ y }, z{ z }
 	{
 	}
 
@@ -60,29 +60,29 @@ namespace CommonUtilities
 	}
 
 	template <class T>
-	T Vector3<T>::Dot(const Vector3<T>& another) const
+	T Vector3<T>::Dot(const Vector3<T>& other) const
 	{
-		return (x * another.x) + (y * another.y) + (z * another.z);
+		return (x * other.x) + (y * other.y) + (z * other.z);
 	}
 
 	template<class T>
-	T Vector3<T>::DistanceTo(const Vector3<T>& another) const
+	T Vector3<T>::DistanceTo(const Vector3<T>& other) const
 	{
-		auto direction = Vector3<T>{ another.x - x, another.y - y, another.z - z };
+		auto direction = Vector3<T>{ other.x - x, other.y - y, other.z - z };
 		return direction.Length();
 	}
 
 	template<class T>
-	Vector3<T> Vector3<T>::DirectionTo(const Vector3<T>& another) const
+	Vector3<T> Vector3<T>::DirectionTo(const Vector3<T>& other) const
 	{
-		Vector3<T> direction = { another.x - x, another.y - y, another.z - z };
+		Vector3<T> direction = { other.x - x, other.y - y, other.z - z };
 		return direction.GetNormalized();
 	}
 
 	template <class T>
-	Vector3<T> Vector3<T>::Cross(const Vector3<T>& another) const
+	Vector3<T> Vector3<T>::Cross(const Vector3<T>& other) const
 	{
-		return { (y * another.z - z * another.y), (z * another.x - x * another.z), (x * another.y - y * another.x) };
+		return { (y * other.z - z * other.y), (z * other.x - x * other.z), (x * other.y - y * other.x) };
 	}
 
 	template <class T>
@@ -116,71 +116,71 @@ namespace CommonUtilities
 	}
 
 	template <class T>
-	Vector3<T> operator+(const Vector3<T>& aVector0, const Vector3<T>& aVector1)
+	Vector3<T> operator+(const Vector3<T>& lhs, const Vector3<T>& rhs)
 	{
-		return { aVector0.x + aVector1.x, aVector0.y + aVector1.y, aVector0.z + aVector1.z };
+		return { lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z };
 	}
 
 	template <class T>
-	Vector3<T> operator-(const Vector3<T>& aVector0, const Vector3<T>& aVector1)
+	Vector3<T> operator-(const Vector3<T>& lhs, const Vector3<T>& rhs)
 	{
-		return { aVector0.x - aVector1.x, aVector0.y - aVector1.y, aVector0.z - aVector1.z };
+		return { lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z };
 	}
 
 	template <class T>
-	Vector3<T> operator*(const Vector3<T>& aVector, const T& aScalar)
+	Vector3<T> operator*(const Vector3<T>& vector, const T& scalar)
 	{
-		return { aVector.x * aScalar,  aVector.y * aScalar, aVector.z * aScalar };
+		return { vector.x * scalar,  vector.y * scalar, vector.z * scalar };
 	}
 
 	template <class T>
-	Vector3<T> operator*(const T& aScalar, const Vector3<T>& aVector)
+	Vector3<T> operator*(const T& scalar, const Vector3<T>& vector)
 	{
-		return aVector * aScalar;
+		return vector * scalar;
 	}
 
 	template <class T>
-	Vector3<T> operator/(const Vector3<T>& aVector, const T& aScalar)
+	Vector3<T> operator/(const Vector3<T>& vector, const T& scalar)
 	{
-		assert(aScalar != 0);
-		return { aVector.x * (1 / aScalar), aVector.y * (1 / aScalar), aVector.z * (1 / aScalar) };
+		assert(scalar != 0);
+		return { vector.x * (1 / scalar), vector.y * (1 / scalar), vector.z * (1 / scalar) };
 	}
 
 	template <class T>
-	void operator+=(Vector3<T>& aVector0, const Vector3<T>& aVector1)
+	void operator+=(Vector3<T>& lhs, const Vector3<T>& rhs)
 	{
-		aVector0 = aVector0 + aVector1;
+		lhs = lhs + rhs;
 	}
 
 	template <class T>
-	void operator-=(Vector3<T>& aVector0, const Vector3<T>& aVector1)
+	void operator-=(Vector3<T>& lhs, const Vector3<T>& rhs)
 	{
-		aVector0 = aVector0 - aVector1;
+		lhs = lhs - rhs;
 	}
 
 	template <class T>
-	void operator*=(Vector3<T>& aVector, const T& aScalar)
+	void operator*=(Vector3<T>& vector, const T& scalar)
 	{
-		aVector = aVector * aScalar;
+		vector = vector * scalar;
 	}
 
 	template <class T>
-	void operator/=(Vector3<T>& aVector, const T& aScalar)
+	void operator/=(Vector3<T>& vector, const T& scalar)
 	{
-		assert(aScalar != 0);
-		aVector = aVector / aScalar;
+		assert(scalar != 0);
+		vector = vector / scalar;
 	}
 
 	template <class T>
-	bool operator==(const Vector3<T>& aVector0, const Vector3<T>& aVector1)
+	bool operator==(const Vector3<T>& lhs, const Vector3<T>& rhs)
 	{
-		return (aVector0.x == aVector1.x && aVector0.y == aVector1.y && aVector0.z == aVector1.z);
+		return (lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z);
 	}
 
 	template <class T>
-	bool operator!=(const Vector3<T>& aVector0, const Vector3<T>& aVector1)
+	bool operator!=(const Vector3<T>& lhs, const Vector3<T>& rhs)
 	{
-		return !(aVector0 == aVector1);
+		return !(lhs == rhs);
 	}
 
 #pragma endregion Operators

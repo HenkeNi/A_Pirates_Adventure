@@ -4,8 +4,8 @@
 
 namespace Hi_Engine
 {
-	void FrameBufferSizeCallback(GLFWwindow* aWindow, int aWidth, int aHeight);
-	void WindowFocusCallback(GLFWwindow* aWindow, int aFocused);
+	void FrameBufferSizeCallback(GLFWwindow* window, int width, int height);
+	void WindowFocusCallback(GLFWwindow* window, int focused);
 
 
 	Window::Window()
@@ -18,9 +18,9 @@ namespace Hi_Engine
 		glfwTerminate();
 	}
 
-	bool Window::Init(WindowData someData)
+	bool Window::Init(WindowData data)
 	{
-		std::swap(m_data, someData);
+		std::swap(m_data, data);
 
 		if (!InitGlfw() || !CreateWindow())
 			return false;
@@ -67,23 +67,23 @@ namespace Hi_Engine
 		glfwSetWindowShouldClose(m_window, true);
 	}
 
-	void Window::SetTitle(const std::string& aTitle)
+	void Window::SetTitle(const std::string& title)
 	{
-		glfwSetWindowTitle(m_window, aTitle.c_str());
+		glfwSetWindowTitle(m_window, title.c_str());
 	}
 
-	void Window::SetSize(const CU::Vector2<unsigned>& aSize)
+	void Window::SetSize(const CU::Vector2<unsigned>& size)
 	{
-		glfwSetWindowSize(m_window, aSize.x, aSize.y);
-		m_data.Size = aSize;
+		glfwSetWindowSize(m_window, size.x, size.y);
+		m_data.Size = size;
 	}
 
-	void Window::SetIcon(const std::string& aTexturePath)
+	void Window::SetIcon(const std::string& texturePath)
 	{
-		m_data.IconPath = aTexturePath;
+		m_data.IconPath = texturePath;
 
 		GLFWimage image;
-		image.pixels = stbi_load(aTexturePath.c_str(), &image.width, &image.height, 0, 4);
+		image.pixels = stbi_load(texturePath.c_str(), &image.width, &image.height, 0, 4);
 
 		glfwSetWindowIcon(m_window, 1, &image);
 		stbi_image_free(image.pixels);
@@ -123,12 +123,12 @@ namespace Hi_Engine
 
 #pragma region CALLBACK_FUNCTIONS
 
-	void FrameBufferSizeCallback(GLFWwindow* aWindow, int aWidth, int aHeight)
+	void FrameBufferSizeCallback(GLFWwindow* window, int width, int height)
 	{
-		glViewport(0, 0, aWidth, aHeight);	// Todo; send event?
+		glViewport(0, 0, width, height);	// Todo; send event?
 	}
 
-	void WindowFocusCallback(GLFWwindow* aWindow, int aFocused)
+	void WindowFocusCallback(GLFWwindow* window, int focused)
 	{
 		//assert(false && "Not implemtend");
 

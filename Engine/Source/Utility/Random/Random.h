@@ -2,5 +2,5 @@
 
 namespace Random
 {
-	int InRange(int aMin, int aMax); // TODO: only have this file for randoms!
+	int InRange(int min, int max); // TODO: only have this file for randoms!
 }

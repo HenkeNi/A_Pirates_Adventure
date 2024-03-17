@@ -21,12 +21,12 @@ namespace Hi_Engine
 		void Init();
 		void Shutdown();
 
-		void HandleEvent(RenderEvent& anEvent) override;
+		void HandleEvent(RenderEvent& renderEvent) override;
 		void ProcessCommands();
 		void Reset();
 
-		void DrawSprite(const SpriteRenderData& someData);
-		void DrawQuad(const QuadRenderData& someData);
+		void DrawSprite(const SpriteRenderData& data);
+		void DrawQuad(const QuadRenderData& data);
 
 
 		//void SetRenderContext(); // proj matrix, shader... 
@@ -45,10 +45,10 @@ namespace Hi_Engine
 
 		// void SetRenderMode();
 
-		void SetProjectionMatrix(const glm::mat4& aMatrix);
-		void SetShader(Shader* aShader);
+		void SetProjectionMatrix(const glm::mat4& matrix);
+		void SetShader(Shader* shader);
 
-		bool IsTextureBound(unsigned aTexID, float& outTexIndex);
+		bool IsTextureBound(unsigned texID, float& outTexIndex);
 		// void ProcessCommands();					// ??? ProcessDrawCalls();
 
 	private:
@@ -96,7 +96,7 @@ namespace Hi_Engine
 	class Renderer2D
 	{
 	public:
-		void BeginScene(const glm::mat4& aMatrix);
+		void BeginScene(const glm::mat4& matrix);
 
 	private:
 	};

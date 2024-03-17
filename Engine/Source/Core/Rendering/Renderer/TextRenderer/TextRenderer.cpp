@@ -52,25 +52,25 @@ namespace Hi_Engine
 	{}
 
 
-	void TextRenderer::Render(const TextRenderData& someData, glm::mat4 aProjection) // pass in projection matrix?
+	void TextRenderer::Render(const TextRenderData& data, glm::mat4 projection) // pass in projection matrix?
 	{
-        auto& shader = someData.Shader;
+        auto& shader = data.Shader;
 
         shader->Activate();
-        shader->SetVector4f("uTextColor", someData.Color);
+        shader->SetVector4f("uTextColor", data.Color);
 
-        glm::mat4 projection = glm::ortho(0.0f, (float)m_windowSize.x, 0.0f, (float)m_windowSize.y);
-        shader->SetMatrix4("uProjection", projection);
+        glm::mat4 projectionMatrix = glm::ortho(0.0f, (float)m_windowSize.x, 0.0f, (float)m_windowSize.y);
+        shader->SetMatrix4("uProjection", projectionMatrix);
       
         glActiveTexture(GL_TEXTURE0); // ????????????????????
         glBindVertexArray(m_textContext.VAO);
 
-        auto position = someData.Position;
-        auto scale = someData.Scale;
+        auto position = data.Position;
+        auto scale = data.Scale;
 
-        for (const char& c : someData.Text)
+        for (const char& c : data.Text)
         {
-            const auto& ch = someData.Font->m_characters[c];
+            const auto& ch = data.Font->m_characters[c];
                      
             float xPos = position.x + ch.m_bearing.x * scale;
             float yPos = position.y - (ch.Size.y - ch.m_bearing.y) * scale;
@@ -78,7 +78,7 @@ namespace Hi_Engine
             float w = ch.Size.x * scale;
             float h = ch.Size.y * scale;
             
-            CU::Vector4<float> color = someData.Color;
+            CU::Vector4<float> color = data.Color;
 
             // update VBO for each character
             float vertices[6][8] = 
@@ -105,7 +105,7 @@ namespace Hi_Engine
 
             glDrawArrays(GL_TRIANGLES, 0, 6);
 
-            position.x += (ch.m_advance >> 6) * someData.Scale; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
+            position.x += (ch.m_advance >> 6) * data.Scale; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
         }
         glBindVertexArray(0);
         glBindTexture(GL_TEXTURE_2D, 0);

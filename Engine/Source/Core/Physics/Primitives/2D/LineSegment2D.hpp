@@ -1,5 +1,5 @@
 #pragma once
-#include "Utility/Math/Vectors/Vector2.hpp"
+#include "../../../../Utility/Math/Vectors/Vector2.hpp"
 
 namespace Hi_Engine::Physics
 {
@@ -11,10 +11,10 @@ namespace Hi_Engine::Physics
 	{
 	public:
 		LineSegment2D();
-		LineSegment2D(const Vector2<T>& aStart, const Vector2<T>& anEnd);
+		LineSegment2D(const Vector2<T>& start, const Vector2<T>& end);
 
-		void				Init(const Vector2<T>& aStart, const Vector2<T>& anEnd);
-		bool				IsOnLine(const Vector2<T>& aPoint)	const;
+		void				Init(const Vector2<T>& start, const Vector2<T>& end);
+		bool				IsOnLine(const Vector2<T>& point)	const;
 
 		const Vector2<T>&	GetStartPoint()						const;
 		const Vector2<T>&	GetEndPoint()						const;
@@ -39,22 +39,22 @@ namespace Hi_Engine::Physics
 	}
 
 	template <class T>
-	LineSegment2D<T>::LineSegment2D(const Vector2<T>& aStart, const Vector2<T>& anEnd)
-		: m_startPoint{ aStart }, m_endPoint{ anEnd }
+	LineSegment2D<T>::LineSegment2D(const Vector2<T>& start, const Vector2<T>& end)
+		: m_startPoint{ start }, m_endPoint{ end }
 	{
 	}
 
 	template <class T>
-	void LineSegment2D<T>::Init(const Vector2<T>& aStart, const Vector2<T>& anEnd)
+	void LineSegment2D<T>::Init(const Vector2<T>& start, const Vector2<T>& end)
 	{
-		m_startPoint = aStart;
-		m_endPoint = anEnd;
+		m_startPoint = start;
+		m_endPoint = end;
 	}
 
 	template <class T>
-	bool LineSegment2D<T>::IsOnLine(const Vector2<T>& aPoint) const
+	bool LineSegment2D<T>::IsOnLine(const Vector2<T>& point) const
 	{
-		if (aPoint == m_startPoint || aPoint == m_endPoint)
+		if (point == m_startPoint || point == m_endPoint)
 			return true;	
 
 		/* Calculate differences in x and y */
@@ -66,7 +66,7 @@ namespace Hi_Engine::Physics
 		T b = m_startPoint.y - m * m_startPoint.x;
 
 		/* Check line equation */
-		return IsNearlyEqual(aPoint.y, m * aPoint.x + b);
+		return IsNearlyEqual(point.y, m * point.x + b);
 	}
 
 	template <class T>

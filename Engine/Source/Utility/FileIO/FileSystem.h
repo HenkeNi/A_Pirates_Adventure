@@ -5,9 +5,9 @@
 namespace Hi_Engine::FileSystem
 {
 	template <typename Parser, typename Data>
-	Data ParseJson(const std::string& aPath)
+	Data ParseJson(const std::string& path)
 	{
-		std::ifstream ifs{ aPath };
+		std::ifstream ifs{ path };
 		std::string content{ std::istreambuf_iterator<char>(ifs), std::istreambuf_iterator<char>() };
 
 		rapidjson::Document document;

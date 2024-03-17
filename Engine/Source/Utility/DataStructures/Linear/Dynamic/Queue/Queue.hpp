@@ -18,29 +18,29 @@ namespace CommonUtilities
 	{
 	public:
 		Queue();
-		Queue(const Queue& aQueue);
-		Queue(Queue&& aQueue)							 noexcept;
-		Queue(const std::initializer_list<Type>& aList);
+		Queue(const Queue& queue);
+		Queue(Queue&& queue)							 noexcept;
+		Queue(const std::initializer_list<Type>& list);
 		~Queue();
 
-		Queue&	operator=(const Queue& aQueue);
-		Queue&	operator=(Queue&& aQueue)				 noexcept;
+		Queue&	operator=(const Queue& queue);
+		Queue&	operator=(Queue&& queue)				 noexcept;
 
 		const Type&		Front()								const;
 		Type&			Front();
 
-		void			Enqueue(const Type& aValue);
+		void			Enqueue(const Type& value);
 		Type			Dequeue();
 
 		SizeType		Capacity()							const;
 		SizeType		Size()								const;
 		bool			IsEmpty()							const;
 		void			Clear();
-		void			Resize(const SizeType aCapacity);
+		void			Resize(const SizeType capacity);
 
 	private:
 		bool			IsFull()							const;
-		int				NextIndex(int aRelativeTo)			const;
+		int				NextIndex(int relativeTo)			const;
 
 		Type*			m_data;
 		SizeType		m_capacity, m_size;
@@ -57,34 +57,34 @@ namespace CommonUtilities
 	}
 
 	template <class Type, typename SizeType>
-	Queue<Type, SizeType>::Queue(const Queue& aQueue)
-		: m_data{ new Type[aQueue.m_capacity] }, m_capacity{ aQueue.m_capacity }, m_size{ aQueue.m_size }
+	Queue<Type, SizeType>::Queue(const Queue& queue)
+		: m_data{ new Type[queue.m_capacity] }, m_capacity{ queue.m_capacity }, m_size{ queue.m_size }
 	{
-		m_frontIndex = aQueue.m_frontIndex;
-		m_backIndex = aQueue.m_backIndex;
+		m_frontIndex = queue.m_frontIndex;
+		m_backIndex = queue.m_backIndex;
 
-		for (SizeType i = 0; i < aQueue.m_capacity; ++i)
-			m_data[i] = aQueue.m_data[i];
+		for (SizeType i = 0; i < queue.m_capacity; ++i)
+			m_data[i] = queue.m_data[i];
 	}
 
 	template <class Type, typename SizeType>
-	Queue<Type, SizeType>::Queue(Queue&& aQueue) noexcept
-		: m_data{ aQueue.m_data }, m_capacity{ aQueue.m_capacity }, m_size{ aQueue.m_size }
+	Queue<Type, SizeType>::Queue(Queue&& queue) noexcept
+		: m_data{ queue.m_data }, m_capacity{ queue.m_capacity }, m_size{ queue.m_size }
 	{
-		m_frontIndex = aQueue.m_frontIndex;
-		m_backIndex = aQueue.m_backIndex;
+		m_frontIndex = queue.m_frontIndex;
+		m_backIndex = queue.m_backIndex;
 
-		aQueue.m_data = nullptr;
-		aQueue.Clear();
+		queue.m_data = nullptr;
+		queue.Clear();
 	}
 
 	template <class Type, typename SizeType>
-	Queue<Type, SizeType>::Queue(const std::initializer_list<Type>& aList)
-		: m_data{ new Type[aList.size()] }, m_capacity{ (SizeType)aList.size() }
+	Queue<Type, SizeType>::Queue(const std::initializer_list<Type>& list)
+		: m_data{ new Type[list.size()] }, m_capacity{ (SizeType)list.size() }
 	{
 		m_frontIndex = m_backIndex = -1;
 
-		for (auto& Item : aList)
+		for (auto& Item : list)
 			Enqueue(Item);
 	}
 
@@ -99,33 +99,33 @@ namespace CommonUtilities
 #pragma region Operators
 
 	template <class Type, typename SizeType>
-	Queue<Type, SizeType>& Queue<Type, SizeType>::operator=(const Queue& aQueue)
+	Queue<Type, SizeType>& Queue<Type, SizeType>::operator=(const Queue& queue)
 	{
-		m_data = new Type[aQueue.m_capacity];
-		m_capacity = aQueue.m_capacity;
-		m_size = aQueue.m_size;
+		m_data = new Type[queue.m_capacity];
+		m_capacity = queue.m_capacity;
+		m_size = queue.m_size;
 
-		m_frontIndex = aQueue.m_frontIndex;
-		m_backIndex = aQueue.m_backIndex;
+		m_frontIndex = queue.m_frontIndex;
+		m_backIndex = queue.m_backIndex;
 
-		for (SizeType i = 0; i < aQueue.m_capacity; ++i)
-			m_data[i] = aQueue.m_data[i];
+		for (SizeType i = 0; i < queue.m_capacity; ++i)
+			m_data[i] = queue.m_data[i];
 
 		return *this;
 	}
 
 	template <class Type, typename SizeType>
-	Queue<Type, SizeType>& Queue<Type, SizeType>::operator=(Queue&& aQueue) noexcept
+	Queue<Type, SizeType>& Queue<Type, SizeType>::operator=(Queue&& queue) noexcept
 	{
-		m_data		= aQueue.m_data;
-		m_capacity	= aQueue.m_capacity;
-		m_size		= aQueue.m_size;
+		m_data		= queue.m_data;
+		m_capacity	= queue.m_capacity;
+		m_size		= queue.m_size;
 
-		m_frontIndex = aQueue.m_frontIndex;
-		m_backIndex	 = aQueue.m_backIndex;
+		m_frontIndex = queue.m_frontIndex;
+		m_backIndex	 = queue.m_backIndex;
 
-		aQueue.m_data = nullptr;
-		aQueue.Clear();
+		queue.m_data = nullptr;
+		queue.Clear();
 
 		return *this;
 	}
@@ -148,7 +148,7 @@ namespace CommonUtilities
 	}
 
 	template <class Type, typename SizeType>
-	void Queue<Type, SizeType>::Enqueue(const Type& aValue)
+	void Queue<Type, SizeType>::Enqueue(const Type& value)
 	{
 		if (IsFull())
 		{
@@ -160,7 +160,7 @@ namespace CommonUtilities
 		}
 
 		++m_size;
-		m_data[(m_backIndex = NextIndex(m_backIndex))] = aValue;
+		m_data[(m_backIndex = NextIndex(m_backIndex))] = value;
 	}
 
 	template <class Type, typename SizeType>
@@ -209,12 +209,12 @@ namespace CommonUtilities
 	}
 
 	template <class Type, typename SizeType>
-	void Queue<Type, SizeType>::Resize(const SizeType aCapacity)
+	void Queue<Type, SizeType>::Resize(const SizeType capacity)
 	{
-		if (aCapacity == m_capacity || aCapacity <= 0)
+		if (capacity == m_capacity || capacity <= 0)
 			return;
 
-		Type* temp = new Type[aCapacity];
+		Type* temp = new Type[capacity];
 
 		if (!IsEmpty())
 		{
@@ -234,7 +234,7 @@ namespace CommonUtilities
 		delete[] m_data;
 
 		m_data = temp;
-		m_capacity = aCapacity;
+		m_capacity = capacity;
 	}
 
 	template <class Type, typename SizeType>
@@ -244,9 +244,9 @@ namespace CommonUtilities
 	}
 
 	template <class Type, typename SizeType>
-	int	Queue<Type, SizeType>::NextIndex(int aRelativeTo) const
+	int	Queue<Type, SizeType>::NextIndex(int relativeTo) const
 	{
-		return (aRelativeTo + 1) % m_capacity;
+		return (relativeTo + 1) % m_capacity;
 	}
 
 #pragma endregion Method_Definitions

@@ -14,12 +14,12 @@ namespace Hi_Engine
 	public:
 		Material();
 		//Material(Subtexture2D* aSubtexture, Shader* aShader);
-		Material(Texture2D* aTexture, Shader* aShader);
+		Material(Texture2D* texture, Shader* shader);
 
-		void						SetColor(const CU::Vector4<float> aColor);
+		void						SetColor(const CU::Vector4<float> color);
 		//void						SetSubtexture(const Subtexture2D* aSubtexture);
-		void						SetTexture(const Texture2D* aTexture);
-		void						SetShader(Shader* aShader);
+		void						SetTexture(const Texture2D* texture);
+		void						SetShader(Shader* shader);
 
 		const CU::Vector4<float>&	GetColor()		const;
 		//const Subtexture2D*			GetSubtexture()	const;

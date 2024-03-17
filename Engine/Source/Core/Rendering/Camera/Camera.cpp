@@ -21,7 +21,7 @@ namespace Hi_Engine
 		m_viewProjectionMatrix = m_projectionMatrix * m_viewMatrix;
 	}
 
-	Camera::Camera(const Rect& aRect)
+	Camera::Camera(const Rect& rect)
 	{
 	}
 
@@ -40,26 +40,26 @@ namespace Hi_Engine
 		return m_viewMatrix;
 	}
 
-	void Camera::Init(const CU::Vector3<float> aPosition)
+	void Camera::Init(const CU::Vector3<float> position)
 	{
 	}
 
-	void Camera::SetPosition(const CU::Vector3<float>& aPosition)
+	void Camera::SetPosition(const CU::Vector3<float>& position)
 	{
-		m_position = { aPosition.x, aPosition.y };
+		m_position = { position.x, position.y };
 		RecalculateMatrixes();
 		
 		//m_viewMatrix = glm::translate(glm::mat4(1.f), { -aPosition.x, -aPosition.y, 0.f });
 	}
 
-	void Camera::SetZoomRange(const CU::Vector2<float>& aRange)
+	void Camera::SetZoomRange(const CU::Vector2<float>& range)
 	{
-		m_zoomRange = aRange;
+		m_zoomRange = range;
 	}
 
-	void Camera::AdjustZoom(float anAdjustment)
+	void Camera::AdjustZoom(float adjustment)
 	{
-		m_zoom = CommonUtilities::Clamp(m_zoom - anAdjustment, m_zoomRange.x, m_zoomRange.y);
+		m_zoom = CommonUtilities::Clamp(m_zoom - adjustment, m_zoomRange.x, m_zoomRange.y);
 		RecalculateMatrixes();
 	}
 
@@ -68,7 +68,7 @@ namespace Hi_Engine
 		m_zoom = 1.f;
 	}
 
-	void Camera::OnWindowResized(const CU::Vector2<unsigned>& aSize)
+	void Camera::OnWindowResized(const CU::Vector2<unsigned>& size)
 	{
 
 	}

@@ -12,13 +12,13 @@ namespace Hi_Engine
 	{
 	public:
 		Camera();
-		Camera(const Rect& aRect);
+		Camera(const Rect& rect);
 		
-		void Init(const CU::Vector3<float> aPosition);	// Parse from json...? CameraData?
-		void SetPosition(const CU::Vector3<float>& aPosition);
-		void SetZoomRange(const CU::Vector2<float>& aRange);
+		void Init(const CU::Vector3<float> position);	// Parse from json...? CameraData?
+		void SetPosition(const CU::Vector3<float>& position);
+		void SetZoomRange(const CU::Vector2<float>& range);
 
-		void AdjustZoom(float anAdjustment);
+		void AdjustZoom(float adjustment);
 		void ResetZoom();
 
 		glm::mat4 GetViewProjectionMatrix() const;
@@ -27,7 +27,7 @@ namespace Hi_Engine
 	
 	private:
 		void RecalculateMatrixes();
-		void OnWindowResized(const CU::Vector2<unsigned>& aSize);
+		void OnWindowResized(const CU::Vector2<unsigned>& size);
 	
 		glm::vec2 m_position; // focus position, center position.?
 		CU::Vector2<float> m_zoomRange;

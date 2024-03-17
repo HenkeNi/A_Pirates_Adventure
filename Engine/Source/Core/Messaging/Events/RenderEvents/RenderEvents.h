@@ -32,11 +32,11 @@ namespace Hi_Engine
 		RenderEvent();
 		~RenderEvent();
 
-		void Dispatch(EventListener& aListener)			override;
+		void Dispatch(EventListener& listener)			override;
 		void Reset()									override;
 
 		//void Init(const std::vector<RenderCommand>& someCommands);
-		void Init(const std::queue<RenderCommand>& someCommands);
+		void Init(const std::queue<RenderCommand>& commands);
 		//void AddRenderCommand(const RenderCommand& aCommand);
 
 		//const std::vector<RenderCommand>& GetCommands() const;

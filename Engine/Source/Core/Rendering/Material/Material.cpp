@@ -16,14 +16,14 @@ namespace Hi_Engine
 	//{
 	//}
 
-	Material::Material(Texture2D* aTexture, Shader* aShader)
-		: m_texture{ aTexture }, m_shader{ aShader }, m_color{ 1.f, 1.f, 1.f, 1.f }
+	Material::Material(Texture2D* texture, Shader* shader)
+		: m_texture{ texture }, m_shader{ shader }, m_color{ 1.f, 1.f, 1.f, 1.f }
 	{
 	}
 
-	void Material::SetColor(const CU::Vector4<float> aColor)
+	void Material::SetColor(const CU::Vector4<float> color)
 	{
-		m_color = aColor;
+		m_color = color;
 	}
 
 	//void Material::SetSubtexture(const Subtexture2D* aSubtexture)
@@ -31,14 +31,14 @@ namespace Hi_Engine
 	//	m_subtexture = aSubtexture;
 	//}
 
-	void Material::SetTexture(const Texture2D* aTexture)
+	void Material::SetTexture(const Texture2D* texture)
 	{
-		m_texture = aTexture;
+		m_texture = texture;
 	}
 
-	void Material::SetShader(Shader* aShader)
+	void Material::SetShader(Shader* shader)
 	{
-		m_shader = aShader;
+		m_shader = shader;
 	}
 
 	const CU::Vector4<float>& Material::GetColor() const

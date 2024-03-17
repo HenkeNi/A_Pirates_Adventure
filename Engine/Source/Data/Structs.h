@@ -248,9 +248,9 @@ namespace Hi_Engine
 	/* Comparers */
 	struct EventCompare
 	{
-		bool operator()(const BaseEvent* aFirst, const BaseEvent* aSecond)
+		bool operator()(const BaseEvent* lhs, const BaseEvent* rhs)
 		{
-			return aFirst->GetPriority() < aSecond->GetPriority();
+			return lhs->GetPriority() < rhs->GetPriority();
 		}
 	};
 

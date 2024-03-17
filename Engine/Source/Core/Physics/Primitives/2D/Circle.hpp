@@ -1,5 +1,5 @@
 #pragma once
-#include "Utility/Math/Vectors/Vector2.hpp"
+#include "../../../../Utility/Math/Vectors/Vector2.hpp"
 
 namespace Hi_Engine::Physics
 {
@@ -10,10 +10,10 @@ namespace Hi_Engine::Physics
 	{
 	public:
 		Circle();
-		Circle(const Vector2<T>& aPosition, T aRadius);
+		Circle(const Vector2<T>& position, T tadius);
 
-		void				Init(const Vector2<T>& aPosition, T aRadius);
-		bool				IsInside(const Vector2<T>& aPoint)				const;
+		void				Init(const Vector2<T>& position, T radius);
+		bool				IsInside(const Vector2<T>& point)				const;
 
 		const Vector2<T>&	GetPosition()									const;
 		T					GetRadius()										const;
@@ -32,22 +32,22 @@ namespace Hi_Engine::Physics
 	}
 
 	template <class T>
-	Circle<T>::Circle(const Vector2<T>& aPosition, T aRadius)
-		: m_position{ aPosition }, m_radius{ aRadius }
+	Circle<T>::Circle(const Vector2<T>& position, T radius)
+		: m_position{ position }, m_radius{ radius }
 	{
 	}
 
 	template <class T>
-	void Circle<T>::Init(const Vector2<T>& aPosition, T aRadius)
+	void Circle<T>::Init(const Vector2<T>& position, T radius)
 	{
-		m_position = aPosition;
-		m_radius = aRadius;
+		m_position = position;
+		m_radius = radius;
 	}
 
 	template <class T>
-	bool Circle<T>::IsInside(const Vector2<T>& aPoint) const
+	bool Circle<T>::IsInside(const Vector2<T>& point) const
 	{
-		auto distance = aPoint - m_position;
+		auto distance = point - m_position;
 		return distance.LengthSqr() <= (m_radius * m_radius);
 	}
 

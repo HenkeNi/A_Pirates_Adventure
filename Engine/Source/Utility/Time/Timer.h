@@ -21,11 +21,11 @@ namespace Hi_Engine
 		float		GetAverageFPS()					const;
 		double		GetTotalTime()					const;
 
-		void		NotifyOnTimePassed(TimerRequest aRequest); // Rename; (doesnt notify... isntead does callback...)
+		void		NotifyOnTimePassed(TimerRequest request); // Rename; (doesnt notify... isntead does callback...)
 
 	private:
 		bool		ContainsTimerRequests()								const; // rename??
-		bool		HasTimeElapsed(double aDuration, double aStartTime)	const;
+		bool		HasTimeElapsed(double duration, double startTime)	const;
 		void		CheckTimerRequests();
 
 		std::chrono::time_point<std::chrono::high_resolution_clock> m_previousTimePoint;

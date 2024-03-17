@@ -10,19 +10,19 @@ namespace CommonUtilities
 		using ValueType = typename VectorOnStack::ValueType;
 
 	public:
-		VectorOnStackIterator(ValueType* aPtr);
+		VectorOnStackIterator(ValueType* pointer);
 
 		VectorOnStackIterator&	operator++();
 		VectorOnStackIterator&	operator++(int);
 		VectorOnStackIterator&	operator--();
 		VectorOnStackIterator&	operator--(int);
 
-		ValueType&				operator[](int aIndex);
+		ValueType&				operator[](int index);
 		ValueType&				operator*();
 		ValueType*				operator->();
 
-		bool					operator==(const VectorOnStackIterator& aOther) const;
-		bool					operator!=(const VectorOnStackIterator& aOther) const;
+		bool					operator==(const VectorOnStackIterator& other) const;
+		bool					operator!=(const VectorOnStackIterator& other) const;
 
 	private:
 		ValueType*	m_ptr;
@@ -31,8 +31,8 @@ namespace CommonUtilities
 #pragma region		Method_Definitions
 
 	template <class VectorOnStack>
-	VectorOnStackIterator<VectorOnStack>::VectorOnStackIterator(ValueType* aPtr)
-		: m_ptr{ aPtr }
+	VectorOnStackIterator<VectorOnStack>::VectorOnStackIterator(ValueType* pointer)
+		: m_ptr{ pointer }
 	{
 	}
 
@@ -69,9 +69,9 @@ namespace CommonUtilities
 	}
 
 	template <class VectorOnStack>
-	typename VectorOnStack::ValueType& VectorOnStackIterator<VectorOnStack>::operator[](int aIndex)
+	typename VectorOnStack::ValueType& VectorOnStackIterator<VectorOnStack>::operator[](int index)
 	{
-		return *(m_ptr[aIndex]);
+		return *(m_ptr[index]);
 	}
 
 	template <class VectorOnStack>
@@ -87,15 +87,15 @@ namespace CommonUtilities
 	}
 
 	template <class VectorOnStack>
-	bool VectorOnStackIterator<VectorOnStack>::operator==(const VectorOnStackIterator& aOther) const
+	bool VectorOnStackIterator<VectorOnStack>::operator==(const VectorOnStackIterator& other) const
 	{
-		return m_ptr == aOther.m_ptr;
+		return m_ptr == other.m_ptr;
 	}
 
 	template <class VectorOnStack>
-	bool VectorOnStackIterator<VectorOnStack>::operator!=(const VectorOnStackIterator& aOther) const
+	bool VectorOnStackIterator<VectorOnStack>::operator!=(const VectorOnStackIterator& other) const
 	{
-		return !(*this == aOther);
+		return !(*this == other);
 	}
 
 #pragma endregion	Method_Definitions

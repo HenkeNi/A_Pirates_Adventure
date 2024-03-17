@@ -24,14 +24,14 @@ namespace Hi_Engine
 
 		static Dispatcher& GetInstance();
 
-		void Subscribe(EventListener* aSubscriber);
-		void Unsubscribe(EventListener* aSubscriber);
+		void Subscribe(EventListener* subscriber);
+		void Unsubscribe(EventListener* subscriber);
 
 		void DispatchEvents();	// Rename Broadcast or BroadcastEvents?
 			
 		template <typename T, typename... Args>
 		void SendEventInstantly(Args&&... args);			
-		void SendEventInstantly(BaseEvent* anEvent);			
+		void SendEventInstantly(BaseEvent* event);			
 
 		template <typename T, typename... Args>
 		void AddEvent(Args&&... args);
@@ -43,7 +43,7 @@ namespace Hi_Engine
 		Dispatcher() = default;
 
 		bool IsQueueFull() const;
-		void BroadcastEvent(BaseEvent* anEvent);
+		void BroadcastEvent(BaseEvent* event);
 		 
 		std::priority_queue<BaseEvent*, std::vector<BaseEvent*>, EventCompare>	m_events;	 // TODO; Own heap or priority queue?
 		std::vector<EventListener*>												m_listeners;	

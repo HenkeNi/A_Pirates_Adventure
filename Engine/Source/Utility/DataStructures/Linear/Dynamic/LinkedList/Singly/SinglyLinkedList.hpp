@@ -14,21 +14,21 @@ namespace CommonUtilities
 		SinglyLinkedList();
 		~SinglyLinkedList();
 
-		Node*		FindFirst(const Type& aValue);
-		Node*		FindLast(const Type& aValue);
+		Node*		FindFirst(const Type& value);
+		Node*		FindLast(const Type& value);
 		Node*		GetFirst();
 		Node*		GetLast();
 		bool		IsEmpty()				const;
 		SizeType	Size()					const;
 
-		void		InsertFirst(const Type& aValue);
-		void		InsertLast(const Type& aValue);
-		void		InsertBefore(Node* aNode, const Type& aValue);
-		void		InsertAfter(Node* aNode, const Type& aValue);
+		void		InsertFirst(const Type& value);
+		void		InsertLast(const Type& value);
+		void		InsertBefore(Node* node, const Type& value);
+		void		InsertAfter(Node* node, const Type& value);
 
-		void		RemoveFirst(const Type& aValue);
-		void		RemoveLast(const Type& aValue);
-		void		Remove(Node* aNode);
+		void		RemoveFirst(const Type& value);
+		void		RemoveLast(const Type& value);
+		void		Remove(Node* node);
 		void		Reverse();
 		void		Clear();
 
@@ -58,14 +58,14 @@ namespace CommonUtilities
 #pragma region Method_Definitions
 
 	template <class Type, typename SizeType>
-	SinglyLinkedListNode<Type>* SinglyLinkedList<Type, SizeType>::FindFirst(const Type& aValue)
+	SinglyLinkedListNode<Type>* SinglyLinkedList<Type, SizeType>::FindFirst(const Type& value)
 	{
 		assert(!IsEmpty() && "SinglyLinkedList is empty");
 
 		auto* traverser = m_head;
 		while (traverser != nullptr)
 		{
-			if (traverser->m_data == aValue)
+			if (traverser->m_data == value)
 			{
 				return traverser;
 			}
@@ -75,7 +75,7 @@ namespace CommonUtilities
 	}
 
 	template <class Type, typename SizeType>
-	SinglyLinkedListNode<Type>* SinglyLinkedList<Type, SizeType>::FindLast(const Type& aValue)
+	SinglyLinkedListNode<Type>* SinglyLinkedList<Type, SizeType>::FindLast(const Type& value)
 	{
 		 
 		Node* last = nullptr;
@@ -83,7 +83,7 @@ namespace CommonUtilities
 		auto* traverser = m_head;
 		while (traverser != nullptr)
 		{
-			if (traverser->m_data == aValue)
+			if (traverser->m_data == value)
 			{
 				last = traverser;
 			}
@@ -126,9 +126,9 @@ namespace CommonUtilities
 	}
 
 	template <class Type, typename SizeType>
-	void SinglyLinkedList<Type, SizeType>::InsertFirst(const Type& aValue)
+	void SinglyLinkedList<Type, SizeType>::InsertFirst(const Type& value)
 	{
-		auto* newNode = new Node(aValue);
+		auto* newNode = new Node(value);
 		newNode->m_nextNode = m_head;
 
 		m_head = newNode;
@@ -136,29 +136,29 @@ namespace CommonUtilities
 	}
 
 	template <class Type, typename SizeType>
-	void SinglyLinkedList<Type, SizeType>::InsertLast(const Type& aValue)
+	void SinglyLinkedList<Type, SizeType>::InsertLast(const Type& value)
 	{
 		if (!IsEmpty())
 		{
-			auto* newNode = new Node(aValue);
+			auto* newNode = new Node(value);
 			GetLast()->m_nextNode = newNode;
 
 			++m_size;
 		}
 		else
 		{
-			InsertFirst(aValue);
+			InsertFirst(value);
 		}
 	}
 
 	template <class Type, typename SizeType>
-	void SinglyLinkedList<Type, SizeType>::InsertBefore(Node* aNode, const Type& aValue)
+	void SinglyLinkedList<Type, SizeType>::InsertBefore(Node* aNode, const Type& value)
 	{
 		assert(aNode != nullptr && "Can't insert before nullptr");
 
 		if (aNode == m_head)
 		{
-			InsertFirst(aValue);
+			InsertFirst(value);
 			return;
 		}
 
@@ -167,7 +167,7 @@ namespace CommonUtilities
 		{
 			if (traverser->m_nextNode == aNode)
 			{
-				auto* newNode = new Node(aValue);
+				auto* newNode = new Node(value);
 				traverser->m_nextNode = newNode;
 
 				newNode->m_nextNode = aNode;
@@ -178,19 +178,19 @@ namespace CommonUtilities
 	}
 
 	template <class Type, typename SizeType>
-	void SinglyLinkedList<Type, SizeType>::InsertAfter(Node* aNode, const Type& aValue)
+	void SinglyLinkedList<Type, SizeType>::InsertAfter(Node* aNode, const Type& value)
 	{
 
 
 	}
 
 	template <class Type, typename SizeType>
-	void SinglyLinkedList<Type, SizeType>::RemoveFirst(const Type& aValue)
+	void SinglyLinkedList<Type, SizeType>::RemoveFirst(const Type& value)
 	{
 	}
 
 	template <class Type, typename SizeType>
-	void SinglyLinkedList<Type, SizeType>::RemoveLast(const Type& aValue)
+	void SinglyLinkedList<Type, SizeType>::RemoveLast(const Type& value)
 	{
 	}
 

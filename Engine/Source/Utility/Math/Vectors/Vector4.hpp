@@ -9,7 +9,7 @@ namespace CommonUtilities
 	{
 	public:
 		Vector4();
-		Vector4(const T& aX, const T& aY, const T& aZ, const T& aW);
+		Vector4(const T& x, const T& y, const T& z, const T& w);
 		Vector4(const Vector4&)					= default;
 		~Vector4()								= default;
 
@@ -19,7 +19,7 @@ namespace CommonUtilities
 		/* -	Methods		- */
 		T			LengthSqr()						const;
 		T			Length()						const;
-		T			Dot(const Vector4 & aVector)	const;
+		T			Dot(const Vector4 & vector)		const;
 		Vector4		GetNormalized()					const;
 		void		Normalize();
 
@@ -39,8 +39,8 @@ namespace CommonUtilities
 	}
 
 	template <class T>
-	Vector4<T>::Vector4(const T& aX, const T& aY, const T& aZ, const T& aW)
-		: x{ aX }, y{ aY }, z{ aZ }, w{ aW }
+	Vector4<T>::Vector4(const T& x, const T& y, const T& z, const T& w)
+		: x{ x }, y{ y }, z{ z }, w{ w }
 	{
 	}
 
@@ -57,9 +57,9 @@ namespace CommonUtilities
 	}
 
 	template <class T>
-	T Vector4<T>::Dot(const Vector4<T>& aVector) const
+	T Vector4<T>::Dot(const Vector4<T>& vector) const
 	{
-		return (x * aVector.x) + (y * aVector.y) + (z * aVector.z) + (w * aVector.w);
+		return (x * vector.x) + (y * vector.y) + (z * vector.z) + (w * vector.w);
 	}
 
 	template <class T>
@@ -94,74 +94,74 @@ namespace CommonUtilities
 	}
 
 	template <class T>
-	Vector4<T> operator+(const Vector4<T>& aVector0, const Vector4<T>& aVector1)
+	Vector4<T> operator+(const Vector4<T>& lhs, const Vector4<T>& rhs)
 	{
-		return { aVector0.x + aVector1.x, aVector0.y + aVector1.y, aVector0.z + aVector1.z, aVector0.w + aVector1.w };
+		return { lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z, lhs.w + rhs.w };
 	}
 
 	template <class T>
-	Vector4<T> operator-(const Vector4<T>& aVector0, const Vector4<T>& aVector1)
+	Vector4<T> operator-(const Vector4<T>& lhs, const Vector4<T>& rhs)
 	{
-		return { aVector0.x - aVector1.x, aVector0.y - aVector1.y, aVector0.z - aVector1.z, aVector0.w - aVector1.w };
+		return { lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z, lhs.w - rhs.w };
 	}
 
 	template <class T>
-	Vector4<T> operator*(const Vector4<T>& aVector, const T& aScalar)
+	Vector4<T> operator*(const Vector4<T>& vector, const T& scalar)
 	{
-		return { aVector.x * aScalar,  aVector.y * aScalar, aVector.z * aScalar, aVector.w * aScalar };
+		return { vector.x * scalar,  vector.y * scalar, vector.z * scalar, vector.w * scalar };
 	}
 
 	template <class T>
-	Vector4<T> operator*(const T& aScalar, const Vector4<T>& aVector)
+	Vector4<T> operator*(const T& scalar, const Vector4<T>& vector)
 	{
-		return aVector * aScalar;
+		return vector * scalar;
 	}
 
 	template <class T>
-	Vector4<T> operator/(const Vector4<T>& aVector, const T& aScalar)
+	Vector4<T> operator/(const Vector4<T>& vector, const T& scalar)
 	{
-		assert(aScalar != 0);
-		return { aVector.x * (1 / aScalar), aVector.y * (1 / aScalar), aVector.z * (1 / aScalar), aVector.w * (1 / aScalar) };
+		assert(scalar != 0);
+		return { vector.x * (1 / scalar), vector.y * (1 / scalar), vector.z * (1 / scalar), vector.w * (1 / scalar) };
 	}
 
 	template <class T>
-	void operator+=(Vector4<T>& aVector0, const Vector4<T>& aVector1)
+	void operator+=(Vector4<T>& lhs, const Vector4<T>& rhs)
 	{
-		aVector0 = aVector0 + aVector1;
+		lhs = lhs + rhs;
 	}
 
 	template <class T>
-	void operator-=(Vector4<T>& aVector0, const Vector4<T>& aVector1)
+	void operator-=(Vector4<T>& lhs, const Vector4<T>& rhs)
 	{
-		aVector0 = aVector0 - aVector1;
+		lhs = lhs - rhs;
 	}
 
 	template <class T>
-	void operator*=(Vector4<T>& aVector, const T& aScalar)
+	void operator*=(Vector4<T>& vector, const T& scalar)
 	{
-		aVector = aVector * aScalar;
+		vector = vector * scalar;
 	}
 
 	template <class T>
-	void operator/=(Vector4<T>& aVector, const T& aScalar)
+	void operator/=(Vector4<T>& vector, const T& scalar)
 	{
-		assert(aScalar != 0);
-		aVector = aVector / aScalar;
+		assert(scalar != 0);
+		vector = vector / scalar;
 	}
 
 	template <class T>
-	bool operator==(const Vector4<T>& aVector0, const Vector4<T>& aVector1)
+	bool operator==(const Vector4<T>& lhs, const Vector4<T>& rhs)
 	{
-		return (aVector0.x == aVector1.x &&
-			aVector0.y == aVector1.y &&
-			aVector0.z == aVector1.z &&
-			aVector0.w == aVector1.w);
+		return (lhs.x == rhs.x &&
+			lhs.y == rhs.y &&
+			lhs.z == rhs.z &&
+			lhs.w == rhs.w);
 	}
 
 	template <class T>
-	bool operator!=(const Vector4<T>& aVector0, const Vector4<T>& aVector1)
+	bool operator!=(const Vector4<T>& lhs, const Vector4<T>& rhs)
 	{
-		return !(aVector0 == aVector1);
+		return !(lhs == rhs);
 	}
 
 #pragma endregion Operators

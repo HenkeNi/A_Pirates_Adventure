@@ -15,13 +15,13 @@ namespace CommonUtilities
 		~Factory();
 
 		template	<typename... Args>
-		ReturnType* Build(const Identifier& aType, Args&&... args);
+		ReturnType* Build(const Identifier& type, Args&&... args);
 	//	ReturnType* Build(const Identifier& aType)												const;	// Perfect forward`??
 
-		bool		HasResource(const Identifier& aType)										const;
+		bool		HasResource(const Identifier& type)										const;
 
-		bool		RegisterBuilder(const Identifier& aType, BuilderType* aBuilder);
-		void		RemoveBuilder(const Identifier& aType);
+		bool		RegisterBuilder(const Identifier& type, BuilderType* builder);
+		void		RemoveBuilder(const Identifier& type);
 		void		Clear();
 
 	private:
@@ -47,10 +47,10 @@ namespace CommonUtilities
 
 	template <typename BuilderType, typename ReturnType, typename Identifier>
 	template <typename... Args>
-	ReturnType* Factory<BuilderType, ReturnType, Identifier>::Build(const Identifier& aType, Args&&... args)
+	ReturnType* Factory<BuilderType, ReturnType, Identifier>::Build(const Identifier& type, Args&&... args)
 	{
-		assert(HasResource(aType) && "No Builder for type found!");
-		return m_builders.at(aType)->Build(std::forward<Args>(args)...);
+		assert(HasResource(type) && "No Builder for type found!");
+		return m_builders.at(type)->Build(std::forward<Args>(args)...);
 	}
 
 	//template <typename BuilderType, typename ReturnType, typename Identifier>
@@ -61,27 +61,27 @@ namespace CommonUtilities
 	//}
 
 	template <typename BuilderType, typename ReturnType, typename Identifier>
-	bool Factory<BuilderType, ReturnType, Identifier>::HasResource(const Identifier& aType) const
+	bool Factory<BuilderType, ReturnType, Identifier>::HasResource(const Identifier& type) const
 	{
-		return m_builders.find(aType) != m_builders.end();
+		return m_builders.find(type) != m_builders.end();
 	}
 
 	template <typename BuilderType, typename ReturnType, typename Identifier>
-	bool Factory<BuilderType, ReturnType, Identifier>::RegisterBuilder(const Identifier& aType, BuilderType* aBuilder)
+	bool Factory<BuilderType, ReturnType, Identifier>::RegisterBuilder(const Identifier& type, BuilderType* builder)
 	{
-		assert(aBuilder && "Can't register a Builder containing a nullptr");	// TODO; dont assert??
+		assert(builder && "Can't register a Builder containing a nullptr");	// TODO; dont assert??
 
-		return !HasResource(aType) ? m_builders.insert({ aType, aBuilder }).second : false;
+		return !HasResource(type) ? m_builders.insert({ type, builder }).second : false;
 	}
 
 	template <typename BuilderType, typename ReturnType, typename Identifier>
-	void Factory<BuilderType, ReturnType, Identifier>::RemoveBuilder(const Identifier& aType)
+	void Factory<BuilderType, ReturnType, Identifier>::RemoveBuilder(const Identifier& type)
 	{
-		if (HasResource(aType))	// Check if needed??!
+		if (HasResource(type))	// Check if needed??!
 		{
-			delete m_builders[aType];
-			m_builders[aType] = nullptr; // Delete as well??
-			m_builders.erase(aType);
+			delete m_builders[type];
+			m_builders[type] = nullptr; // Delete as well??
+			m_builders.erase(type);
 		}
 	}
 

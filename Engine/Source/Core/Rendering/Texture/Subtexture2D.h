@@ -8,7 +8,7 @@ namespace Hi_Engine
 	class Subtexture2D
 	{
 	public:
-		Subtexture2D(Texture2D& aTexture, const glm::vec2& aMin, const glm::vec2& aMax);
+		Subtexture2D(Texture2D& texture, const glm::vec2& min, const glm::vec2& max);
 
 		const Texture2D& GetTexture()	const;
 		const glm::vec2* GetTexCoords() const;
@@ -17,7 +17,7 @@ namespace Hi_Engine
 		const glm::vec2& GetSize() const;
 
 		// Maybe remove??
-		static Subtexture2D& CreateFromCoords(Texture2D& aTexture, const glm::vec2& someCoords, const glm::vec2& aSpriteSize);
+		static Subtexture2D& CreateFromCoords(Texture2D& texture, const glm::vec2& coords, const glm::vec2& spriteSize);
 
 		void Invert();
 		bool IsInverted() const;

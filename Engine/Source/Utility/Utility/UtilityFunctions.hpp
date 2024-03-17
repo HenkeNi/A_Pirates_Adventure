@@ -8,28 +8,28 @@
 namespace CommonUtilities
 {
 	template <typename T>
-	T Min(T aValue1, T aValue2)
+	T Min(T value1, T value2)
 	{
-		return aValue1 < aValue2 ? aValue1 : aValue2;
+		return value1 < value2 ? value1 : value2;
 	}
 
 	template <typename T>
-	T Max(T aValue1, T aValue2)
+	T Max(T value1, T value2)
 	{
-		return aValue1 > aValue2 ? aValue1 : aValue2;
+		return value1 > value2 ? value1 : value2;
 	}
 
 	template <typename T>
-	T Abs(T anArg)
+	T Abs(T value)
 	{
-		return anArg < 0 ? -anArg : anArg;
+		return value < 0 ? -value : value;
 	}
 
 	template <typename T>
-	T Clamp(T aValue, T aMin, T aMax)
+	T Clamp(T value, T min, T max)
 	{
-		assert(aMax >= aMin);
-		return std::max(aMin, std::min(aMax, aValue));
+		assert(max >= min);
+		return std::max(min, std::min(max, value));
 	}
 
 	template <typename T>
@@ -40,59 +40,59 @@ namespace CommonUtilities
 	}
 
 	template <typename T>
-	void Swap(T& aValue1, T& aValue2)
+	void Swap(T& value1, T& value2)
 	{
-		T temp = aValue1;
-		aValue1 = aValue2;
-		aValue2 = temp;
+		T temp = value1;
+		value1 = value2;
+		value2 = temp;
 	}
 
 
 
 
 	template <typename T>
-	T ConvertRadiansToDegrees(T someRadians)
+	T ConvertRadiansToDegrees(T radians)
 	{
-		return (someRadians * (180 / PI));
+		return (radians * (180 / PI));
 	}
 
 	template <typename T>
-	T ConvertDegreesToRadians(T someDegrees)
+	T ConvertDegreesToRadians(T degrees)
 	{
-		return (someDegrees * (PI / 180));
+		return (degrees * (PI / 180));
 	}
 
 	template <typename T> // TODO: FIX!!! Make Random.hpp??
-	T GetRandomNumber(T aMin, T aMax)
+	T GetRandomNumber(T min, T max)
 	{
 		static std::random_device seed;
 		static std::mt19937 randomEngine(seed());
 
-		std::uniform_int_distribution<T> randomDist(aMin, aMax);
+		std::uniform_int_distribution<T> randomDist(min, max);
 		return randomDist(randomEngine);
 	}
 
-	inline float GetRandomFloat(float aMin, float aMax)
+	inline float GetRandomFloat(float min, float max)
 	{
 		static std::random_device rd;
 		static std::mt19937 gen(rd()); // Mersenne Twister 19937 generator
 
-		std::uniform_real_distribution<float> dis(aMin, aMax); // Range: [0.0, 1.0)
+		std::uniform_real_distribution<float> dis(min, max); // Range: [0.0, 1.0)
 
 		return dis(gen);
 	}
 
-	inline std::wstring ConvertToWideString(const std::string& aStr) // ??? somewhere else?
+	inline std::wstring ConvertToWideString(const std::string& string) // ??? somewhere else?
 	{
-		std::wstring wString{ aStr.begin(), aStr.end() };
+		std::wstring wString{ string.begin(), string.end() };
 		return wString;
 	}
 
 
 	/* - RapidJSON - */
-	inline rapidjson::Document ParseDocument(const std::string& aPath)
+	inline rapidjson::Document ParseDocument(const std::string& path)
 	{
-		std::ifstream ifs{ aPath };
+		std::ifstream ifs{ path };
 		std::string content{ std::istreambuf_iterator<char>(ifs), std::istreambuf_iterator<char>() };
 
 		rapidjson::Document document;
@@ -102,12 +102,12 @@ namespace CommonUtilities
 		return document;
 	}
 
-	inline std::any ParseJson(const rapidjson::Value& aValue)
+	inline std::any ParseJson(const rapidjson::Value& value)
 	{
-		if (aValue.IsArray())
+		if (value.IsArray())
 		{
 			std::vector<std::any> values;
-			for (const auto& value : aValue.GetArray())
+			for (const auto& value : value.GetArray())
 			{
 				values.push_back(ParseJson(value));
 			}
@@ -115,30 +115,32 @@ namespace CommonUtilities
 			return values;
 		}
 
-		if (aValue.IsObject())
+		if (value.IsObject())
 		{
 			std::unordered_map<std::string, std::any> values;
-			for (const auto& value : aValue.GetObject())
+			for (const auto& [name, value] : value.GetObject())
 			{
-				values.insert_or_assign(value.name.GetString(), ParseJson(value.value));
+		
+
+				values.insert_or_assign(name.GetString(), ParseJson(value));
 			}
 			return values;
 		}
 
-		if (aValue.IsFloat())
-			return aValue.GetFloat();
+		if (value.IsFloat())
+			return value.GetFloat();
 
-		if (aValue.IsInt())
-			return aValue.GetInt();
+		if (value.IsInt())
+			return value.GetInt();
 
-		if (aValue.IsString())
-			return std::string(aValue.GetString());
+		if (value.IsString())
+			return std::string(value.GetString());
 
-		if (aValue.IsBool())
-			return aValue.GetBool();
+		if (value.IsBool())
+			return value.GetBool();
 
-		if (aValue.IsDouble())
-			return aValue.GetDouble();
+		if (value.IsDouble())
+			return value.GetDouble();
 
 		return nullptr;
 	}

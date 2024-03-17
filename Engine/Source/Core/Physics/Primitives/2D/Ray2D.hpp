@@ -1,5 +1,5 @@
 #pragma once
-#include "Utility/Math/Vectors/Vector2.hpp"
+#include "../../../../Utility/Math/Vectors/Vector2.hpp"
 
 namespace Hi_Engine::Physics
 {
@@ -10,10 +10,10 @@ namespace Hi_Engine::Physics
 	{
 	public:
 		Ray2D();
-		Ray2D(const Vector2<T>& anOrigin, const Vector2<T>& aDirection);
+		Ray2D(const Vector2<T>& origin, const Vector2<T>& direction);
 
-		void				Init(const Vector2<T>& anOrigin, const Vector2<T>& aDirection);
-		void				InitWith2Points(const Vector2<T>& aPoint1, const Vector2<T>& aPoint2);
+		void				Init(const Vector2<T>& origin, const Vector2<T>& direction);
+		void				InitWith2Points(const Vector2<T>& lhs, const Vector2<T>& rhs);
 
 		const Vector2<T>&	GetOrigin()				const;
 		const Vector2<T>&	GetDirection()			const;
@@ -34,23 +34,23 @@ namespace Hi_Engine::Physics
 	}
 
 	template <class T>
-	Ray2D<T>::Ray2D(const Vector2<T>& anOrigin, const Vector2<T>& aDirection)
-		: m_origin{ anOrigin }, m_direction{ aDirection }
+	Ray2D<T>::Ray2D(const Vector2<T>& origin, const Vector2<T>& direction)
+		: m_origin{ origin }, m_direction{ direction }
 	{
 	}
 
 	template <class T>
-	void Ray2D<T>::Init(const Vector2<T>& anOrigin, const Vector2<T>& aDirection)
+	void Ray2D<T>::Init(const Vector2<T>& origin, const Vector2<T>& direction)
 	{
-		m_origin = anOrigin;
-		m_direction = aDirection;
+		m_origin = origin;
+		m_direction = direction;
 	}
 
 	template <class T>
-	void Ray2D<T>::InitWith2Points(const Vector2<T>& aPoint1, const Vector2<T>& aPoint2)
+	void Ray2D<T>::InitWith2Points(const Vector2<T>& lhs, const Vector2<T>& rhs)
 	{
-		m_origin = aPoint1;
-		m_direction = aPoint2 - aPoint1;
+		m_origin = lhs;
+		m_direction = rhs - lhs;
 	}
 
 	template <class T>

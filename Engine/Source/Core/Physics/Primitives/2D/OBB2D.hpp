@@ -1,5 +1,5 @@
 #pragma once
-#include "Utility/Math/Vectors/Vector2.hpp"
+#include "../../../../Utility/Math/Vectors/Vector2.hpp"
 
 namespace Hi_Engine::Physics
 {
@@ -10,10 +10,10 @@ namespace Hi_Engine::Physics
 	{
 	public:
 		OBB2D();
-		OBB2D(const Vector2<T>& aCenter, const Vector2<T>& aSize, T aRotation);
+		OBB2D(const Vector2<T>& center, const Vector2<T>& size, T rotation);
 
-		void				Init(const Vector2<T>& aCenter, const Vector2<T>& aSize, T aRotation);
-		bool				IsInside(const Vector2<T>& aPoint)		const;								// TODO; fix?! 
+		void				Init(const Vector2<T>& center, const Vector2<T>& size, T rotation);
+		bool				IsInside(const Vector2<T>& point)		const;								// TODO; fix?! 
 
 		const Vector2<T>&	GetCenter()								const;
 		const Vector2<T>&	GetSize()								const;
@@ -34,23 +34,23 @@ namespace Hi_Engine::Physics
 	}
 
 	template <class T>
-	OBB2D<T>::OBB2D(const Vector2<T>& aCenter, const Vector2<T>& aSize, T aRotation)
-		: m_center{ aCenter }, m_size{ aSize }, m_rotation{ aRotation }
+	OBB2D<T>::OBB2D(const Vector2<T>& center, const Vector2<T>& size, T rotation)
+		: m_center{ center }, m_size{ size }, m_rotation{ rotation }
 	{
 	}
 
 	template <class T>
-	void OBB2D<T>::Init(const Vector2<T>& aCenter, const Vector2<T>& aSize, T aRotation)
+	void OBB2D<T>::Init(const Vector2<T>& center, const Vector2<T>& size, T rotation)
 	{
-		m_center = aCenter;
-		m_size = aSize;
-		m_rotation = aRotation;
+		m_center = center;
+		m_size = size;
+		m_rotation = rotation;
 	}
 
 	template <class T>
-	bool OBB2D<T>::IsInside(const Vector2<T>& aPoint) const
+	bool OBB2D<T>::IsInside(const Vector2<T>& point) const
 	{
-		Vector2<T> diff = aPoint - m_center;
+		Vector2<T> diff = point - m_center;
 		T rotatedX = diff.x * cos(m_rotation) - diff.y * sin(m_rotation);
 		T rotatedY = diff.x * sin(m_rotation) + diff.y * cos(m_rotation);
 

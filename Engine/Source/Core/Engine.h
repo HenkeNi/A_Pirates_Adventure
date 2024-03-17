@@ -13,10 +13,10 @@ namespace Hi_Engine
 	class Engine : public EventListener
 	{
 	public:
-		Engine(Application* anApp);
+		Engine(Application* app);
 		~Engine();
 
-		void HandleEvent(TerminationEvent& anEvent) override;
+		void HandleEvent(TerminationEvent& event) override;
 
 		bool Init();
 		void Shutdown();

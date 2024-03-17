@@ -13,7 +13,7 @@ namespace Hi_Engine
 		TerminationEvent();
 
 		void					Init();
-		void					Dispatch(EventListener& aListener)		  override;
+		void					Dispatch(EventListener& listener)		  override;
 		ePriority				GetPriority()						const override;
 		bool					IsHandled()							const override;
 		void					Reset()									  override;
@@ -27,9 +27,9 @@ namespace Hi_Engine
 		WindowEvent();			// Overload new operatp`?? placement new?? 
 		~WindowEvent() override;
 
-		void					Dispatch(EventListener& aListener)	override;	// Put in base class?
+		void					Dispatch(EventListener& listener)	override;	// Put in base class?
 		void					Reset()								override;
-		void					Init(eWindowEvent aType);
+		void					Init(eWindowEvent type);
 
 		eWindowEvent			GetEventType()						   const;
 
@@ -46,11 +46,11 @@ namespace Hi_Engine
 	public:
 		InputEvent();
 
-		void				Dispatch(EventListener& aListener)   override;
+		void				Dispatch(EventListener& listener)   override;
 		void				Reset()								 override;
 
-		eInputState			GetKeyState(eKey aKey)				    const;
-		eInputState			GetMouseBtnState(eMouseBtn aBtn)		const;
+		eInputState			GetKeyState(eKey key)				    const;
+		eInputState			GetMouseBtnState(eMouseBtn btn)			const;
 		const glm::vec2&	GetMousePosition()						const;
 
 	private:

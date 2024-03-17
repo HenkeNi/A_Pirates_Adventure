@@ -11,7 +11,7 @@
 
 namespace Hi_Engine
 {
-	void GenerateIndices(uint32_t* someIndices)
+	void GenerateIndices(uint32_t* indices)
 	{
 		uint32_t offset = 0;
 
@@ -19,20 +19,20 @@ namespace Hi_Engine
 		for (auto i = 0; i < Constants::MaxIndexCount; i += 6)
 		{
 			// first triangle
-			someIndices[i + 0] = 0 + offset;
-			someIndices[i + 1] = 1 + offset;
-			someIndices[i + 2] = 2 + offset;
+			indices[i + 0] = 0 + offset;
+			indices[i + 1] = 1 + offset;
+			indices[i + 2] = 2 + offset;
 
 			// second triangle
-			someIndices[i + 3] = 2 + offset;
-			someIndices[i + 4] = 3 + offset;
-			someIndices[i + 5] = 0 + offset;
+			indices[i + 3] = 2 + offset;
+			indices[i + 4] = 3 + offset;
+			indices[i + 5] = 0 + offset;
 
 			offset += 4;
 		}
 	}
 
-	void SetupVertices(Vertex** aTarget, const Transform& aTransform, const glm::vec4& aColor, const glm::vec2* someTexCoords, float aTexIndex)
+	void SetupVertices(Vertex** target, const Transform& transform, const glm::vec4& aColor, const glm::vec2* someTexCoords, float aTexIndex)
 	{
 		static glm::vec4 vertexCoords[4] = {
 			{ -0.5f, -0.5f, 0.f, 1.f },
@@ -44,18 +44,18 @@ namespace Hi_Engine
 		static glm::vec3 rotationAxis = { 0.f, 0.f, 1.f };
 
 		// Create a transformation matrix
-		glm::mat4 transform = glm::mat4(1.f);
-		transform = glm::translate(transform, glm::vec3(aTransform.Position.x, aTransform.Position.y, aTransform.Position.z));
-		transform = glm::rotate(transform, glm::radians(aTransform.Rotation), rotationAxis);
-		transform = glm::scale(transform, glm::vec3(aTransform.Scale.x, aTransform.Scale.y, 1.0f));
+		glm::mat4 transformMatrix = glm::mat4(1.f);
+		transformMatrix = glm::translate(transformMatrix, glm::vec3(transform.Position.x, transform.Position.y, transform.Position.z));
+		transformMatrix = glm::rotate(transformMatrix, glm::radians(transform.Rotation), rotationAxis);
+		transformMatrix = glm::scale(transformMatrix, glm::vec3(transform.Scale.x, transform.Scale.y, 1.0f));
 
 		for (int i = 0; i < VERTICES_PER_QUAD; ++i)
 		{
-			(*aTarget)->Position = transform * vertexCoords[i];
-			(*aTarget)->Color = aColor;
-			(*aTarget)->TexCoords = someTexCoords[i];
-			(*aTarget)->TexIndex = aTexIndex + 0.1f;	// small hack; makes it 1.1 instead of 1.0 (shader error when converting it to an int)
-			++(*aTarget);
+			(*target)->Position = transformMatrix * vertexCoords[i];
+			(*target)->Color = aColor;
+			(*target)->TexCoords = someTexCoords[i];
+			(*target)->TexIndex = aTexIndex + 0.1f;	// small hack; makes it 1.1 instead of 1.0 (shader error when converting it to an int)
+			++(*target);
 		}
 	}
 
@@ -151,11 +151,11 @@ namespace Hi_Engine
 		delete[] m_quadContext.Buffer;
 	}
 
-	void Renderer::HandleEvent(RenderEvent& anEvent)
+	void Renderer::HandleEvent(RenderEvent& renderEvent)
 	{
 		// TODO; Maybe add to queue => sort first set camera, set shader, then render stuff, lastly text... 
 		
-		auto commands = anEvent.GetCommands();
+		auto commands = renderEvent.GetCommands();
 
 		std::queue<RenderCommand> renderCommands;
 
@@ -275,9 +275,9 @@ namespace Hi_Engine
 	}
 
 
-	void Renderer::DrawSprite(const SpriteRenderData& someData)
+	void Renderer::DrawSprite(const SpriteRenderData& data)
 	{
-		unsigned id = someData.Subtexture->GetTexture().GetID();
+		unsigned id = data.Subtexture->GetTexture().GetID();
 
 		float textureIndex = 0;
 
@@ -296,13 +296,13 @@ namespace Hi_Engine
 			BeginFrame();
 		}
 
-		SetupVertices(&m_quadContext.CurrentVertex, someData.Transform, someData.Color, someData.Subtexture->GetTexCoords(), textureIndex);
+		SetupVertices(&m_quadContext.CurrentVertex, data.Transform, data.Color, data.Subtexture->GetTexCoords(), textureIndex);
 
 		m_quadContext.IndexCount += INDICES_PER_QUAD;
 		++m_stats.TotalQuads;
 	}
 
-	void Renderer::DrawQuad(const QuadRenderData& someData)
+	void Renderer::DrawQuad(const QuadRenderData& data)
 	{
 		// Check if buffer is full
 		if (m_quadContext.IndexCount >= Constants::MaxIndexCount)
@@ -318,7 +318,7 @@ namespace Hi_Engine
 			{ 0.f, 1.f }
 		};
 
-		SetupVertices(&m_quadContext.CurrentVertex, someData.Transform, someData.Color, textureCoords, 0.f);
+		SetupVertices(&m_quadContext.CurrentVertex, data.Transform, data.Color, textureCoords, 0.f);
 
 		m_quadContext.IndexCount += INDICES_PER_QUAD;
 		++m_stats.TotalQuads;
@@ -374,14 +374,14 @@ namespace Hi_Engine
 		m_stats.TotalQuads = 0;
 	}
 	
-	void Renderer::SetProjectionMatrix(const glm::mat4& aMatrix)
+	void Renderer::SetProjectionMatrix(const glm::mat4& natrix)
 	{
-		m_quadContext.Shader->SetMatrix4("uViewProjection", aMatrix);
+		m_quadContext.Shader->SetMatrix4("uViewProjection", natrix);
 	}
 
-	void Renderer::SetShader(Shader* aShader)
+	void Renderer::SetShader(Shader* shader)
 	{
-		m_quadContext.Shader = aShader;
+		m_quadContext.Shader = shader;
 		m_quadContext.Shader->Activate();
 
 		int samplers[32];
@@ -398,11 +398,11 @@ namespace Hi_Engine
 	//	m_camera = aCamera;
 	//}
 	
-	bool Renderer::IsTextureBound(unsigned aTexID, float& outTexIndex)
+	bool Renderer::IsTextureBound(unsigned texID, float& outTexIndex)
 	{
 		for (uint32_t i = 1; i < m_textureSlotIndex; ++i)
 		{
-			if (m_textureSlots[i] == aTexID)
+			if (m_textureSlots[i] == texID)
 			{
 				outTexIndex = (float)i;
 				return true;

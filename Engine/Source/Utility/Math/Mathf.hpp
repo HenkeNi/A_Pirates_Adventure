@@ -7,31 +7,31 @@
 namespace CommonUtilities
 {
 	template <typename T>
-	inline T ConvertToRadians(T aDegrees)
+	inline T ConvertToRadians(T degrees)
 	{
-		return aDegrees * (PI / 180);
+		return degrees * (PI / 180);
 	}
 
 	template <typename T>
-	inline T ConvertToDegrees(T aRadians)
+	inline T ConvertToDegrees(T radians)
 	{
-		return 180 * (aRadians / PI);
+		return 180 * (radians / PI);
 	}
 
 	template <typename T>
-	inline glm::vec2 ConvertVecToGlm(const Vector2<T>& aVector)
+	inline glm::vec2 ConvertVecToGlm(const Vector2<T>& vector)
 	{
-		return glm::vec2{ aVector.x, aVector.y };
+		return glm::vec2{ vector.x, vector.y };
 	}
 
 	template <typename T>
-	inline glm::vec3 ConvertVecToGlm(const Vector3<T>& aVector)
+	inline glm::vec3 ConvertVecToGlm(const Vector3<T>& vector)
 	{
-		return glm::vec3{ aVector.x, aVector.y, aVector.z };
+		return glm::vec3{ vector.x, vector.y, vector.z };
 	}
 
-	inline bool IsNearlyEqual(float aFirst, float aSecond, float anEpsilon = 0.0001f) // not checked...
+	inline bool IsNearlyEqual(float value1, float value2, float epsilon = 0.0001f) // not checked...
 	{
-		return std::abs(aFirst - aSecond) < anEpsilon * std::abs(aFirst);
+		return std::abs(value1 - value2) < epsilon * std::abs(value1);
 	}
 }

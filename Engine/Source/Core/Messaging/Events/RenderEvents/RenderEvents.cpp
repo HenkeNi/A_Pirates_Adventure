@@ -14,18 +14,18 @@ namespace Hi_Engine
 	{
 	}
 
-	void RenderEvent::Dispatch(EventListener& aListener)
+	void RenderEvent::Dispatch(EventListener& listener)
 	{
-		aListener.HandleEvent(*this);
+		listener.HandleEvent(*this);
 	}
 
 	void RenderEvent::Reset()						
 	{
 	}
 
-	void RenderEvent::Init(const std::queue<RenderCommand>& someCommands)
+	void RenderEvent::Init(const std::queue<RenderCommand>& commands)
 	{
-		m_renderCommands = someCommands;
+		m_renderCommands = commands;
 	}
 
 	//void RenderEvent::AddRenderCommand(const RenderCommand& aCommand)

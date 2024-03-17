@@ -4,8 +4,8 @@
 
 namespace Hi_Engine
 {
-	void Font::AddCharacter(const char aKey, const Character& aCharacter)
+	void Font::AddCharacter(const char key, const Character& character)
 	{
-		m_characters.insert_or_assign(aKey, aCharacter);
+		m_characters.insert_or_assign(key, character);
 	}
 }

@@ -12,8 +12,8 @@
 
 namespace Hi_Engine
 {
-	Engine::Engine(Application* anApp)
-		: m_application{ anApp }, m_isRunning{ false }
+	Engine::Engine(Application* app)
+		: m_application{ app }, m_isRunning{ false }
 	{
 		Dispatcher::GetInstance().Subscribe(this);
 	}
@@ -23,7 +23,7 @@ namespace Hi_Engine
 		Dispatcher::GetInstance().Unsubscribe(this);
 	}
 
-	void Engine::HandleEvent(TerminationEvent& anEvent)
+	void Engine::HandleEvent(TerminationEvent& event)
 	{
 		m_isRunning = false;
 	}

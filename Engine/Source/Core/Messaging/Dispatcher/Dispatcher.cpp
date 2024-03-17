@@ -12,17 +12,17 @@ namespace Hi_Engine
 		return instance;
 	}
 
-	void Dispatcher::Subscribe(EventListener* aSubscriber)
+	void Dispatcher::Subscribe(EventListener* subscriber)
 	{
-		auto it = std::find(m_listeners.begin(), m_listeners.end(), aSubscriber);
+		auto it = std::find(m_listeners.begin(), m_listeners.end(), subscriber);
 		assert(it == m_listeners.end());
 
-		m_listeners.push_back(aSubscriber);
+		m_listeners.push_back(subscriber);
 	}
 
-	void Dispatcher::Unsubscribe(EventListener* aSubscriber)
+	void Dispatcher::Unsubscribe(EventListener* subscriber)
 	{
-		auto it = std::find(m_listeners.begin(), m_listeners.end(), aSubscriber);
+		auto it = std::find(m_listeners.begin(), m_listeners.end(), subscriber);
 		assert(it != m_listeners.end());
 
 		m_listeners.erase(it);
@@ -43,9 +43,9 @@ namespace Hi_Engine
 		}
 	} 
 
-	void Dispatcher::SendEventInstantly(BaseEvent* anEvent)
+	void Dispatcher::SendEventInstantly(BaseEvent* event)
 	{
-		BroadcastEvent(anEvent);
+		BroadcastEvent(event);
 	}
 
 	bool Dispatcher::IsQueueFull() const
@@ -53,16 +53,16 @@ namespace Hi_Engine
 		return false;
 	}
 
-	void Dispatcher::BroadcastEvent(BaseEvent* anEvent)
+	void Dispatcher::BroadcastEvent(BaseEvent* event)
 	{
-		assert(anEvent && "Event is not valid!");
+		assert(event && "Event is not valid!");
 
 		for (auto& listener : m_listeners)
 		{
-			if (anEvent->IsHandled())
+			if (event->IsHandled())
 				break;
 
-			anEvent->Dispatch(*listener);
+			event->Dispatch(*listener);
 		}
 	}
 }

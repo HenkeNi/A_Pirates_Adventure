@@ -9,65 +9,65 @@ namespace Hi_Engine::Physics
 {
     /* AABB vs AABB */
     template <typename T>
-	bool Intersects(const AABB2D<T>& aSource, const AABB2D<T>& aTarget)
+	bool Intersects(const AABB2D<T>& source, const AABB2D<T>& target)
 	{
-        if (aSource.GetMaxPoint().x < aTarget.GetMinPoint().x) { return false; }
-        if (aSource.GetMaxPoint().y < aTarget.GetMinPoint().y) { return false; }
+        if (source.GetMaxPoint().x < target.GetMinPoint().x) { return false; }
+        if (source.GetMaxPoint().y < target.GetMinPoint().y) { return false; }
 
-        if (aSource.GetMinPoint().x > aTarget.GetMaxPoint().x) { return false; }
-        if (aSource.GetMinPoint().y > aTarget.GetMaxPoint().y) { return false; }
+        if (source.GetMinPoint().x > target.GetMaxPoint().x) { return false; }
+        if (source.GetMinPoint().y > target.GetMaxPoint().y) { return false; }
 
         return true;
     }
 
     /* AABB vs Circle */
 	template <typename T>
-    bool Intersects(const AABB2D<T>& aSource, const Circle<T>& aTarget)
+    bool Intersects(const AABB2D<T>& source, const Circle<T>& target)
     {
-        const auto& circlePos = aTarget.GetPosition();
+        const auto& circlePos = target.GetPosition();
 
-        const T distX = circlePos.x - std::max(aSource.GetMinPoint().x, std::min(circlePos.x, aSource.GetMaxPoint().x));
-        const T distY = circlePos.y - std::max(aSource.GetMinPoint().y, std::min(circlePos.y, aSource.GetMaxPoint().y));
+        const T distX = circlePos.x - std::max(source.GetMinPoint().x, std::min(circlePos.x, source.GetMaxPoint().x));
+        const T distY = circlePos.y - std::max(source.GetMinPoint().y, std::min(circlePos.y, source.GetMaxPoint().y));
 
-        return ((distX * distX) + (distY * distY)) < (aTarget.GetRadius() * aTarget.GetRadius());
+        return ((distX * distX) + (distY * distY)) < (target.GetRadius() * target.GetRadius());
     }
 
     /* Circle vs AABB */
 	template <typename T>
-    bool Intersects(const Circle<T>& aSource, const AABB2D<T>& aTarget)
+    bool Intersects(const Circle<T>& source, const AABB2D<T>& target)
     {
-        return Intersects(aTarget, aSource);
+        return Intersects(target, source);
     }
 
     /* Circle vs Circle */
 	template <typename T>
-    bool Intersects(const Circle<T>& aSource, const Circle<T>& aTarget)
+    bool Intersects(const Circle<T>& source, const Circle<T>& target)
     {
-        const Vector2<T> distance = aTarget.GetPosition() - aSource.GetPosition();
+        const Vector2<T> distance = target.GetPosition() - source.GetPosition();
         const T length = distance.LengthSqr();
 
-        return length <= (aSource.GetRadius() + aTarget.GetRadius()) * (aSource.GetRadius() + aTarget.GetRadius());
+        return length <= (source.GetRadius() + target.GetRadius()) * (source.GetRadius() + target.GetRadius());
     }
 
     /* AABB vs Point */
     template <typename T>
-    bool Intersects(const AABB2D<T>& aSource, const Vector2<T> aTarget)
+    bool Intersects(const AABB2D<T>& source, const Vector2<T> target)
     {
-        return aSource.IsInside(aTarget);
+        return source.IsInside(target);
     }
 
     /* Point vs AABB */
     template <typename T>
-    bool Intersects(const Vector2<T> aSource, const AABB2D<T>& aTarget)
+    bool Intersects(const Vector2<T> source, const AABB2D<T>& target)
     {
-        return aTarget.IsInside(aSource);
+        return target.IsInside(source);
     }
 
 
 
 
     template <typename T>
-    bool Intersects(const LineSegment2D<T>& aSource, const Circle<T>& aTarget)
+    bool Intersects(const LineSegment2D<T>& source, const Circle<T>& target)
     {
 
     }
@@ -109,12 +109,12 @@ namespace Hi_Engine::Physics
     // TODO; outCollisionData (struct that contains info) or two different functions; one returns bool, other eturns collision data??
     //HitResult<T> Intersects(const AABB2D<T>& anAABB, const LineSegment2D<T>& aLineSegment) // LineSegment??
     template <typename T>
-    HitResult<T> Intersects(const Ray2D<T>& aRay, const AABB2D<T>& aTarget) // LineSegment??
+    HitResult<T> Intersects(const Ray2D<T>& ray, const AABB2D<T>& target) // LineSegment??
     {
         HitResult<T> result;
 
-        const CU::Vector2<T>& rayOrigin = aRay.GetOrigin();
-        const CU::Vector2<T>& rayDir    = aRay.GetDirection();
+        const CU::Vector2<T>& rayOrigin = ray.GetOrigin();
+        const CU::Vector2<T>& rayDir    = ray.GetDirection();
 
 
         // Check for 0 division?
@@ -124,13 +124,13 @@ namespace Hi_Engine::Physics
         };
 
         CU::Vector2<T> tNear = { 
-            (aTarget.GetMinPoint().x - rayOrigin.x) * invdir.x, 
-            (aTarget.GetMinPoint().y - rayOrigin.y) * invdir.y 
+            (target.GetMinPoint().x - rayOrigin.x) * invdir.x,
+            (target.GetMinPoint().y - rayOrigin.y) * invdir.y
         };
        
         CU::Vector2<T> tFar = {
-            (aTarget.GetMaxPoint().x - rayOrigin.x) * invdir.x,
-            (aTarget.GetMaxPoint().y - rayOrigin.y) * invdir.y,
+            (target.GetMaxPoint().x - rayOrigin.x) * invdir.x,
+            (target.GetMaxPoint().y - rayOrigin.y) * invdir.y,
         };
 
         // Check for division by 0 (maybe imrprove
@@ -219,21 +219,21 @@ namespace Hi_Engine::Physics
 
     /* DynamicRectVsRect */
     template <typename T>
-    HitResult<T> Intersects(const AABB2D<T>& anAABB1, const Vector2<T>& aVelocity, const AABB2D<T>& anAABB2, float aDeltaTime) // DeltaTime instead??
+    HitResult<T> Intersects(const AABB2D<T>& AABB1, const Vector2<T>& velocity, const AABB2D<T>& AABB2, float aDeltaTime) // DeltaTime instead??
     {
         // get delta time??
 
-        if (aVelocity.x == 0 && aVelocity.y == 0)
+        if (velocity.x == 0 && velocity.y == 0)
             return HitResult<T>{};
 
-        Vector2<T> halfSize = anAABB1.GetSize() * 0.5f;
-        AABB2D<T> expandedTarget{ anAABB2.GetMinPoint() - halfSize, anAABB2.GetMaxPoint() + halfSize };
+        Vector2<T> halfSize = AABB1.GetSize() * 0.5f;
+        AABB2D<T> expandedTarget{ AABB2.GetMinPoint() - halfSize, AABB2.GetMaxPoint() + halfSize };
  
 
 
         // Ray vs Rect (origin, dir)
-        //HitResult<T> result = Intersects(Ray2D<T>(anAABB1.GetCenter(), aVelocity), expandedTarget);
-        HitResult<T> result = Intersects(Ray2D<T>({ anAABB1.GetMinPoint().x, anAABB1.GetMinPoint().y }, aVelocity * aDeltaTime), expandedTarget);
+        //HitResult<T> result = Intersects(Ray2D<T>(anAABB1.GetCenter(), velocity), expandedTarget);
+        HitResult<T> result = Intersects(Ray2D<T>({ AABB1.GetMinPoint().x, AABB1.GetMinPoint().y }, velocity * aDeltaTime), expandedTarget);
         result.IsColliding = result.THitNear >= 0.f && result.THitNear <= 1.f;
        // result.IsColliding = result.ContactTime >= 0.f && result.ContactTime <= 1.f;
 
@@ -242,10 +242,10 @@ namespace Hi_Engine::Physics
 
 
     //template <typename T>
-    //bool Intersects(const AABB2D<T>& anAABB1, const Vector2<T>& aVelocity1, const AABB2D<T>& anAABB2, const Vector2<T>& aVelocity2,
+    //bool Intersects(const AABB2D<T>& anAABB1, const Vector2<T>& velocity, const AABB2D<T>& anAABB2, const Vector2<T>& aVelocity2,
     //    Vector2<T>& outContactPoint, Vector2<T>& outContactNormal, float& contactTime, float elapsedTime) // DeltaTime instead??
     //{
-    //    if (aVelocity1.x == 0 && aVelocity1.y == 0)
+    //    if (velocity.x == 0 && velocity.y == 0)
     //        return false;
 
     //    Vector2<T> halfSize = anAABB2.GetSize() * 0.5f;
@@ -254,7 +254,7 @@ namespace Hi_Engine::Physics
 
 
     //    // Ray vs Rect (origin, dir)
-    //    if (Intersects(expandedTarget, LineSegment2D<T>(anAABB1.GetCenter(), aVelocity1 * elapsedTime), outContactPoint, outContactNormal, contactTime))
+    //    if (Intersects(expandedTarget, LineSegment2D<T>(anAABB1.GetCenter(), velocity * elapsedTime), outContactPoint, outContactNormal, contactTime))
     //    {
     //        return contactTime >= 0.f && contactTime <= 1.f;
     //    }
@@ -324,50 +324,50 @@ namespace Hi_Engine::Physics
 
     // Minkowski difference
     template <typename T>
-    AABB2D<T> MinkowskiDifference(const AABB2D<T>& aFirst, const AABB2D<T>& aSecond)
+    AABB2D<T> MinkowskiDifference(const AABB2D<T>& lhs, const AABB2D<T>& rhs)
     {
-        Vector2<T> newMin = aFirst.GetMinPoint() - aSecond.GetMaxPoint();
-        Vector2<T> newMax = aFirst.GetMaxPoint() - aSecond.GetMinPoint();
+        Vector2<T> newMin = lhs.GetMinPoint() - rhs.GetMaxPoint();
+        Vector2<T> newMax = lhs.GetMaxPoint() - rhs.GetMinPoint();
 
         return AABB2D<T>{ newMin, newMax };
     }
 
     template <typename T>
-    Vector2<T> ClosesPointOnBoundsToPoint(const AABB2D<T>& anAABB, const Vector2<T>& aPoint)
+    Vector2<T> ClosesPointOnBoundsToPoint(const AABB2D<T>& AABB, const Vector2<T>& point)
     {
-        auto minPoint = anAABB.GetMinPoint();
-        auto maxPoint = anAABB.GetMaxPoint();
+        auto minPoint = AABB.GetMinPoint();
+        auto maxPoint = AABB.GetMaxPoint();
 
-        T minDist = std::abs(aPoint.x - minPoint.x);
-        Vector2<T> boundsPoint{ minPoint.x, aPoint.y };
+        T minDist = std::abs(point.x - minPoint.x);
+        Vector2<T> boundsPoint{ minPoint.x, point.y };
 
-        if (std::abs(maxPoint.x - aPoint.x) < minDist)
+        if (std::abs(maxPoint.x - point.x) < minDist)
         {
-            minDist = std::abs(maxPoint.x, aPoint.x);
-            boundsPoint = Vector2<T>(maxPoint.x, aPoint.y);
+            minDist = std::abs(maxPoint.x, point.x);
+            boundsPoint = Vector2<T>(maxPoint.x, point.y);
 
         }
-        if (std::abs(maxPoint.y - aPoint.y) < minDist)
+        if (std::abs(maxPoint.y - point.y) < minDist)
         {
-            minDist = std::abs(maxPoint.y - aPoint.y);
-            boundsPoint = Vector2<T>(aPoint.x, maxPoint.y);
+            minDist = std::abs(maxPoint.y - point.y);
+            boundsPoint = Vector2<T>(point.x, maxPoint.y);
         }
-        if (std::abs(minPoint.y - aPoint.y) < minDist)
+        if (std::abs(minPoint.y - point.y) < minDist)
         {
-            minDist = std::abs(minPoint.y - aPoint.y);
-            boundsPoint = Vector2<T>(aPoint.x, minPoint.y);
+            minDist = std::abs(minPoint.y - point.y);
+            boundsPoint = Vector2<T>(point.x, minPoint.y);
         }
         return boundsPoint;
     }
 
 
     template <typename T>
-    T Intersects(const LineSegment2D<T>& aSource, const LineSegment2D<T>& aTarget)
+    T Intersects(const LineSegment2D<T>& source, const LineSegment2D<T>& target)
     {
-        Vector2<T> r = aSource.GetEndPoint() - aSource.GetStartPoint();
-        Vector2<T> s = aTarget.GetEndPoint() - aTarget.GetStartPoint();
+        Vector2<T> r = source.GetEndPoint() - source.GetStartPoint();
+        Vector2<T> s = target.GetEndPoint() - target.GetStartPoint();
 
-        T numerator = (aTarget.GetStartPoint() - aSource.GetStartPoint()) * r;
+        T numerator = (target.GetStartPoint() - source.GetStartPoint()) * r;
         T denominator = r * s;
 
         if (numerator == 0 && denominator == 0)
@@ -386,7 +386,7 @@ namespace Hi_Engine::Physics
 
 
         float u = numerator / denominator;
-        float t = ((aTarget.GetStartPoint() - aSource.GetStartPoint()) * s) / denominator;
+        float t = ((target.GetStartPoint() - source.GetStartPoint()) * s) / denominator;
         if ((t >= 0) && (t <= 1) && (u >= 0) && (u <= 1))
         {
             return t;
@@ -398,14 +398,14 @@ namespace Hi_Engine::Physics
 
 
     template <typename T>
-    T Intersects(const AABB2D<T>& anAABB, const Ray2D<T>& aRay)
+    T Intersects(const AABB2D<T>& AABB, const Ray2D<T>& ray)
     {
-        Vector2<T> minPoint = anAABB.GetMinPoint();
-        Vector2<T> maxPoint = anAABB.GetMaxPoint();
+        Vector2<T> minPoint = AABB.GetMinPoint();
+        Vector2<T> maxPoint = AABB.GetMaxPoint();
 
-        Vector2<T> end = aRay.GetOrigin() + aRay.GetDirection();
-        T minT = Intersects(LineSegment2D<T>{ aRay.GetOrigin(), end }, LineSegment2D<T>{ { minPoint.x, minPoint.y }, { minPoint.x, maxPoint.y }});
-        T x = Intersects(LineSegment2D<T>{ aRay.GetOrigin(), end }, LineSegment2D<T>{ { minPoint.x, maxPoint.y}, { maxPoint.x, maxPoint.y } });
+        Vector2<T> end = ray.GetOrigin() + ray.GetDirection();
+        T minT = Intersects(LineSegment2D<T>{ ray.GetOrigin(), end }, LineSegment2D<T>{ { minPoint.x, minPoint.y }, { minPoint.x, maxPoint.y }});
+        T x = Intersects(LineSegment2D<T>{ ray.GetOrigin(), end }, LineSegment2D<T>{ { minPoint.x, maxPoint.y}, { maxPoint.x, maxPoint.y } });
     
         if (x < minT)
         {

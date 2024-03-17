@@ -11,22 +11,22 @@ namespace CommonUtilities
 	{
 	public:
 		Matrix3x3();
-		Matrix3x3(const Matrix3x3& aMatrix);
-		Matrix3x3(const Matrix4x4<T>& aMatrix);
+		Matrix3x3(const Matrix3x3& matrix);
+		Matrix3x3(const Matrix4x4<T>& matrix);
 
 		Matrix3x3&			operator=(const Matrix3x3&)					= default;
-		Matrix3x3&			operator=(const Matrix4x4<T>& aMatrix);
+		Matrix3x3&			operator=(const Matrix4x4<T>& matrix);
 
-		Vector3<T>&			operator()(const int aRow);
-		const Vector3<T>&	operator()(const int aRow)						const;
+		Vector3<T>&			operator()(const int row);
+		const Vector3<T>&	operator()(const int row)						const;
 
-		T&					operator()(const int aRow, const int aColumn);
-		const T&			operator()(const int aRow, const int aColumn)	const;
+		T&					operator()(const int row, const int column);
+		const T&			operator()(const int row, const int column)	const;
 
-		static Matrix3x3	CreateRotationAroundX(T anAngleInRadians);
-		static Matrix3x3	CreateRotationAroundY(T anAngleInRadians);
-		static Matrix3x3	CreateRotationAroundZ(T anAngleInRadians);
-		static Matrix3x3	Transpose(const Matrix3x3& aMatrixToTranspose);
+		static Matrix3x3	CreateRotationAroundX(T angleInRadians);
+		static Matrix3x3	CreateRotationAroundY(T angleInRadians);
+		static Matrix3x3	CreateRotationAroundZ(T angleInRadians);
+		static Matrix3x3	Transpose(const Matrix3x3& matrixToTranspose);
 
 	private:
 		std::array<Vector3<T>, 3> m_matrix;
@@ -45,49 +45,49 @@ namespace CommonUtilities
 
 	/* - Copy constructor - */
 	template <typename T>
-	Matrix3x3<T>::Matrix3x3(const Matrix3x3<T>& aMatrix)
-		: m_matrix{ aMatrix.m_matrix }
+	Matrix3x3<T>::Matrix3x3(const Matrix3x3<T>& matrix)
+		: m_matrix{ matrix.m_matrix }
 	{
 	}
 
 	/* - Copies the top left 3x3 part of the 4x4 Matrix - */
 	template <typename T>
-	Matrix3x3<T>::Matrix3x3(const Matrix4x4<T>& aMatrix)
+	Matrix3x3<T>::Matrix3x3(const Matrix4x4<T>& matrix)
 	{
-		*this = aMatrix;
+		*this = matrix;
 	}
 
 	/* - Creates a rotation matrice around x-axis - */
 	template <typename T>
-	Matrix3x3<T> Matrix3x3<T>::CreateRotationAroundX(T anAngleInRadians)
+	Matrix3x3<T> Matrix3x3<T>::CreateRotationAroundX(T angleInRadians)
 	{
 		Matrix3x3<T> matrix;
 		matrix.m_matrix[0] = { 1.f, 0.f, 0.f };
-		matrix.m_matrix[1] = { 0.f, cos(anAngleInRadians), sin(anAngleInRadians) };
-		matrix.m_matrix[2] = { 0.f, -sin(anAngleInRadians), cos(anAngleInRadians) };
+		matrix.m_matrix[1] = { 0.f, cos(angleInRadians), sin(angleInRadians) };
+		matrix.m_matrix[2] = { 0.f, -sin(angleInRadians), cos(angleInRadians) };
 
 		return matrix;
 	}
 
 	/* - Creates a rotation matrice around y-axis - */
 	template <typename T>
-	Matrix3x3<T> Matrix3x3<T>::CreateRotationAroundY(T anAngleInRadians)
+	Matrix3x3<T> Matrix3x3<T>::CreateRotationAroundY(T angleInRadians)
 	{
 		Matrix3x3<T> matrix;
-		matrix.m_matrix[0] = { cos(anAngleInRadians), 0, -sin(anAngleInRadians) };
+		matrix.m_matrix[0] = { cos(angleInRadians), 0, -sin(angleInRadians) };
 		matrix.m_matrix[1] = { 0, 1, 0 };
-		matrix.m_matrix[2] = { sin(anAngleInRadians), 0, cos(anAngleInRadians) };
+		matrix.m_matrix[2] = { sin(angleInRadians), 0, cos(angleInRadians) };
 
 		return matrix;
 	}
 
 	/* - Creates a rotation matrice around z-axis - */
 	template <typename T>
-	Matrix3x3<T> Matrix3x3<T>::CreateRotationAroundZ(T anAngleInRadians)
+	Matrix3x3<T> Matrix3x3<T>::CreateRotationAroundZ(T angleInRadians)
 	{
 		Matrix3x3<T> matrix;
-		matrix.m_matrix[0] = { cos(anAngleInRadians), sin(anAngleInRadians), 0 };
-		matrix.m_matrix[1] = { -sin(anAngleInRadians), cos(anAngleInRadians), 0 };
+		matrix.m_matrix[0] = { cos(angleInRadians), sin(angleInRadians), 0 };
+		matrix.m_matrix[1] = { -sin(angleInRadians), cos(angleInRadians), 0 };
 		matrix.m_matrix[2] = { 0, 0, 1 };
 
 		return matrix;
@@ -95,14 +95,14 @@ namespace CommonUtilities
 
 	/* - Transpose swaps the places between columns and rows - */
 	template <typename T>
-	Matrix3x3<T> Matrix3x3<T>::Transpose(const Matrix3x3<T>& aMatrixToTranspose)
+	Matrix3x3<T> Matrix3x3<T>::Transpose(const Matrix3x3<T>& matrixToTranspose)
 	{
 		Matrix3x3<T> matrix;
 		for (int row = 1; row <= 3; ++row)
 		{
 			for (int col = 1; col <= 3; ++col)
 			{
-				matrix(col, row) = aMatrixToTranspose(row, col);
+				matrix(col, row) = matrixToTranspose(row, col);
 			}
 		}
 		return matrix;
@@ -113,13 +113,13 @@ namespace CommonUtilities
 #pragma region OPERATOR_OVERLOADS
 
 	template <typename T>
-	Matrix3x3<T>& Matrix3x3<T>::operator=(const Matrix4x4<T>& aMatrix)
+	Matrix3x3<T>& Matrix3x3<T>::operator=(const Matrix4x4<T>& matrix)
 	{
 		for (int i = 1; i <= 3; ++i)
 		{
 			for (int j = 1; j <= 3; ++j)
 			{
-				(*this)(i, j) = aMatrix(i, j);
+				(*this)(i, j) = matrix(i, j);
 			}
 		}
 		return *this;
@@ -127,60 +127,60 @@ namespace CommonUtilities
 
 	/* - Access Vector3 at specified row - */
 	template <typename T>
-	Vector3<T>& Matrix3x3<T>::operator()(const int aRow)
+	Vector3<T>& Matrix3x3<T>::operator()(const int row)
 	{
-		assert(aRow > 0 && aRow <= m_matrix.size());
-		return m_matrix[aRow - 1];
+		assert(row > 0 && row <= m_matrix.size());
+		return m_matrix[row - 1];
 	}
 
 	/* - Access Vector3 at specified row (read only) - */
 	template <typename T>
-	const Vector3<T>& Matrix3x3<T>::operator()(const int aRow) const
+	const Vector3<T>& Matrix3x3<T>::operator()(const int row) const
 	{
-		assert(aRow > 0 && aRow <= m_matrix.size());
-		return m_matrix[aRow - 1];
+		assert(row > 0 && row <= m_matrix.size());
+		return m_matrix[row - 1];
 	}
 
 	/* - Access element at specified position - */
 	template <typename T>
-	T& Matrix3x3<T>::operator()(const int aRow, const int aColumn)
+	T& Matrix3x3<T>::operator()(const int row, const int column)
 	{
-		assert(aRow > 0 && aRow <= 3); // myMatrix.size());
-		assert(aColumn > 0 && aColumn <= 3);
+		assert(row > 0 && row <= 3); // myMatrix.size());
+		assert(column > 0 && column <= 3);
 
-		return aColumn == 1 ? m_matrix[aRow - 1].x : aColumn == 2 ? m_matrix[aRow - 1].y : m_matrix[aRow - 1].z;
+		return column == 1 ? m_matrix[row - 1].x : column == 2 ? m_matrix[row - 1].y : m_matrix[row - 1].z;
 	}
 
 	/* - Access element at specified position (read only) - */
 	template <typename T>
-	const T& Matrix3x3<T>::operator()(const int aRow, const int aColumn) const
+	const T& Matrix3x3<T>::operator()(const int row, const int column) const
 	{
-		assert(aRow > 0 && aRow <= 3);
-		assert(aColumn > 0 && aColumn <= 3);
+		assert(row > 0 && row <= 3);
+		assert(column > 0 && column <= 3);
 
-		return aColumn == 1 ? m_matrix[aRow - 1].x : aColumn == 2 ? m_matrix[aRow - 1].y : m_matrix[aRow - 1].z;
+		return column == 1 ? m_matrix[row - 1].x : column == 2 ? m_matrix[row - 1].y : m_matrix[row - 1].z;
 	}
 
 	template <typename T>
-	void operator+=(Matrix3x3<T>& aMatrix0, const Matrix3x3<T>& aMatrix1)
+	void operator+=(Matrix3x3<T>& lhs, const Matrix3x3<T>& rhs)
 	{
 		for (int i = 1; i <= 3; ++i)
 		{
-			aMatrix0(i) += aMatrix1(i);
+			lhs(i) += rhs(i);
 		}
 	}
 
 	template <typename T>
-	void operator-=(Matrix3x3<T>& aMatrix0, const Matrix3x3<T>& aMatrix1)
+	void operator-=(Matrix3x3<T>& lhs, const Matrix3x3<T>& rhs)
 	{
 		for (int i = 1; i <= 3; ++i)
 		{
-			aMatrix0(i) -= aMatrix1(i);
+			lhs(i) -= rhs(i);
 		}
 	}
 
 	template <typename T>
-	void operator*=(Matrix3x3<T>& aMatrix0, const Matrix3x3<T>& aMatrix1)
+	void operator*=(Matrix3x3<T>& lhs, const Matrix3x3<T>& rhs)
 	{
 		Matrix3x3<T> matrix;
 		for (int i = 1; i <= 3; ++i)
@@ -190,19 +190,19 @@ namespace CommonUtilities
 				matrix(i, j) = 0.0f;
 				for (int k = 1; k <= 3; ++k)
 				{
-					matrix(i, j) += aMatrix0(i, k) * aMatrix1(k, j);
+					matrix(i, j) += lhs(i, k) * rhs(k, j);
 				}
 			}
 		}
-		aMatrix0 = matrix;
+		lhs = matrix;
 	}
 
 	template <typename T>
-	bool operator==(const Matrix3x3<T>& aMatrix0, const Matrix3x3<T>& aMatrix1)
+	bool operator==(const Matrix3x3<T>& lhs, const Matrix3x3<T>& rhs)
 	{
 		for (int i = 1; i <= 3; ++i)
 		{
-			if (aMatrix0(i) != aMatrix1(i))
+			if (lhs(i) != rhs(i))
 			{
 				return false;
 			}
@@ -211,29 +211,29 @@ namespace CommonUtilities
 	}
 
 	template <typename T>
-	Matrix3x3<T> operator+(const Matrix3x3<T>& aMatrix0, const Matrix3x3<T>& aMatrix1)
+	Matrix3x3<T> operator+(const Matrix3x3<T>& lhs, const Matrix3x3<T>& rhs)
 	{
 		Matrix3x3<T> matrix;
 		for (int i = 1; i <= 3; ++i)
 		{
-			matrix(i) = aMatrix0(i) + aMatrix1(i);
+			matrix(i) = lhs(i) + rhs(i);
 		}
 		return matrix;
 	}
 
 	template <typename T>
-	Matrix3x3<T> operator-(const Matrix3x3<T>& aMatrix0, const Matrix3x3<T>& aMatrix1)
+	Matrix3x3<T> operator-(const Matrix3x3<T>& lhs, const Matrix3x3<T>& rhs)
 	{
 		Matrix3x3<T> matrix;
 		for (int i = 1; i <= 3; ++i)
 		{
-			matrix(i) = aMatrix0(i) - aMatrix1(i);
+			matrix(i) = lhs(i) - rhs(i);
 		}
 		return matrix;
 	}
 
 	template <typename T>
-	Matrix3x3<T> operator*(const Matrix3x3<T>& aMatrix0, const Matrix3x3<T>& aMatrix1)
+	Matrix3x3<T> operator*(const Matrix3x3<T>& lhs, const Matrix3x3<T>& rhs)
 	{
 		Matrix3x3<T> matrix;
 		for (int i = 1; i <= 3; ++i)
@@ -243,7 +243,7 @@ namespace CommonUtilities
 				matrix(i, j) = 0.0f;
 				for (int k = 1; k <= 3; ++k)
 				{
-					matrix(i, j) += aMatrix0(i, k) * aMatrix1(k, j);
+					matrix(i, j) += lhs(i, k) * rhs(k, j);
 				}
 			}
 		}
@@ -251,12 +251,12 @@ namespace CommonUtilities
 	}
 
 	template <typename T>
-	Vector3<T> operator*(const Vector3<T>& aVector, const Matrix3x3<T>& aMatrix)
+	Vector3<T> operator*(const Vector3<T>& vector, const Matrix3x3<T>& matrix)
 	{
 		Vector3<T> result;
-		result.x = aVector.x * aMatrix(1, 1) + aVector.y * aMatrix(2, 1) + aVector.z * aMatrix(3, 1);
-		result.y = aVector.x * aMatrix(1, 2) + aVector.y * aMatrix(2, 2) + aVector.z * aMatrix(3, 2);
-		result.z = aVector.x * aMatrix(1, 3) + aVector.y * aMatrix(2, 3) + aVector.z * aMatrix(3, 3);
+		result.x = vector.x * matrix(1, 1) + vector.y * matrix(2, 1) + vector.z * matrix(3, 1);
+		result.y = vector.x * matrix(1, 2) + vector.y * matrix(2, 2) + vector.z * matrix(3, 2);
+		result.z = vector.x * matrix(1, 3) + vector.y * matrix(2, 3) + vector.z * matrix(3, 3);
 
 		return result;
 	}

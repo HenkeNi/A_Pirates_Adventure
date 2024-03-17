@@ -15,27 +15,27 @@ namespace CommonUtilities
 	{
 	public:
 		Stack();
-		Stack(const Stack& aStack);
-		Stack(Stack&& aStack)								 noexcept;
-		Stack(const std::initializer_list<Type>& aList);
+		Stack(const Stack& stack);
+		Stack(Stack&& stack)								 noexcept;
+		Stack(const std::initializer_list<Type>& list);
 		~Stack();
 
-		Stack&	operator=(const Stack& aStack);
-		Stack&	operator=(Stack&& aStack)					 noexcept;
+		Stack&	operator=(const Stack& stack);
+		Stack&	operator=(Stack&& stack)					 noexcept;
 
 		Type&			Top();
 		const Type&		Top()									const;
 
 		template		<typename... Args>
 		void			Emplace(Args&&... args);
-		void			Push(const Type& aValue);
+		void			Push(const Type& value);
 		Type			Pop();
 
 		SizeType		Size()									const;
 		SizeType		Capacity()								const;
 		bool			IsEmpty()								const;
 		void			Clear();
-		void			Resize(const SizeType aCapacity);
+		void			Resize(const SizeType capacity);
 
 	private:
 		Type*			m_data;
@@ -51,44 +51,44 @@ namespace CommonUtilities
 	}
 
 	template <class Type, typename SizeType, bool useSafeMode>
-	Stack<Type, SizeType, useSafeMode>::Stack(const Stack& aStack)
-		: m_data{ new Type[aStack.m_capacity] }, m_capacity{ aStack.m_capacity }, m_top{ aStack.m_top }
+	Stack<Type, SizeType, useSafeMode>::Stack(const Stack& stack)
+		: m_data{ new Type[stack.m_capacity] }, m_capacity{ stack.m_capacity }, m_top{ stack.m_top }
 	{
-		assert(&aStack != this && "Self assignment detected!");
+		assert(&stack != this && "Self assignment detected!");
 
 		if (useSafeMode)
 		{
-			for (int i = 0; i < aStack.Size(); ++i)
-				m_data[i] = aStack.m_data[i];
+			for (int i = 0; i < stack.Size(); ++i)
+				m_data[i] = stack.m_data[i];
 		}
 		else
 		{
-			std::memcpy(m_data, aStack.m_data, aStack.m_top * sizeof(Type));
+			std::memcpy(m_data, stack.m_data, stack.m_top * sizeof(Type));
 		}
 	}
 
 	template <class Type, typename SizeType, bool useSafeMode>
-	Stack<Type, SizeType, useSafeMode>::Stack(const std::initializer_list<Type>& aList)
-		: m_data{ new Type[aList.size() + RESIZE_CONST] }, m_capacity{ (SizeType)aList.size() + RESIZE_CONST }
+	Stack<Type, SizeType, useSafeMode>::Stack(const std::initializer_list<Type>& list)
+		: m_data{ new Type[list.size() + RESIZE_CONST] }, m_capacity{ (SizeType)list.size() + RESIZE_CONST }
 	{
 		if (useSafeMode)
 		{
-			for (int i = 0; i < aList.size(); ++i)
-				m_data[m_top++] = *(aList.begin() + i);
+			for (int i = 0; i < list.size(); ++i)
+				m_data[m_top++] = *(list.begin() + i);
 		}
 		else
 		{
-			m_top = aList.size();
-			std::memcpy(m_data, aList.begin(), aList.size() * sizeof(Type));
+			m_top = list.size();
+			std::memcpy(m_data, list.begin(), list.size() * sizeof(Type));
 		}
 	}
 
 	template <class Type, typename SizeType, bool useSafeMode>
-	Stack<Type, SizeType, useSafeMode>::Stack(Stack&& aStack) noexcept
-		: m_data{ aStack.m_data }, m_capacity{ aStack.m_capacity }, m_top{ aStack.m_top }
+	Stack<Type, SizeType, useSafeMode>::Stack(Stack&& stack) noexcept
+		: m_data{ stack.m_data }, m_capacity{ stack.m_capacity }, m_top{ stack.m_top }
 	{
-		aStack.m_data = nullptr;
-		aStack.Clear();
+		stack.m_data = nullptr;
+		stack.Clear();
 	}
 
 	template <class Type, typename SizeType, bool useSafeMode>
@@ -102,34 +102,34 @@ namespace CommonUtilities
 #pragma region Operators
 
 	template <class Type, typename SizeType, bool useSafeMode>
-	Stack<Type, SizeType, useSafeMode>& Stack<Type, SizeType, useSafeMode>::operator=(const Stack& aStack)
+	Stack<Type, SizeType, useSafeMode>& Stack<Type, SizeType, useSafeMode>::operator=(const Stack& stack)
 	{
-		m_data = new Type[aStack.m_capacity];
-		m_capacity = aStack.m_capacity;
-		m_top = aStack.m_top;
+		m_data = new Type[stack.m_capacity];
+		m_capacity = stack.m_capacity;
+		m_top = stack.m_top;
 
 		if (useSafeMode)
 		{
-			for (int i = 0; i < aStack.Size(); ++i)
-				m_data[i] = aStack.m_data[i];
+			for (int i = 0; i < stack.Size(); ++i)
+				m_data[i] = stack.m_data[i];
 		}
 		else
 		{
-			std::memcpy(m_data, aStack.m_data, aStack.m_top * sizeof(Type));
+			std::memcpy(m_data, stack.m_data, stack.m_top * sizeof(Type));
 		}
 
 		return *this;
 	}
 
 	template <class Type, typename SizeType, bool useSafeMode>
-	Stack<Type, SizeType, useSafeMode>& Stack<Type, SizeType, useSafeMode>::operator=(Stack&& aStack) noexcept
+	Stack<Type, SizeType, useSafeMode>& Stack<Type, SizeType, useSafeMode>::operator=(Stack&& stack) noexcept
 	{
-		m_data = aStack.m_data;
-		m_capacity = aStack.m_capacity;
-		m_top = aStack.m_top;
+		m_data = stack.m_data;
+		m_capacity = stack.m_capacity;
+		m_top = stack.m_top;
 
-		aStack.m_data = nullptr;
-		aStack.Clear();
+		stack.m_data = nullptr;
+		stack.Clear();
 
 		return *this;
 	}
@@ -165,12 +165,12 @@ namespace CommonUtilities
 	}
 
 	template <class Type, typename SizeType, bool useSafeMode>
-	void Stack<Type, SizeType, useSafeMode>::Push(const Type& aValue)
+	void Stack<Type, SizeType, useSafeMode>::Push(const Type& value)
 	{
 		if (m_top == m_capacity)
 			Resize(m_capacity + RESIZE_CONST);
 
-		m_data[m_top++] = aValue;
+		m_data[m_top++] = value;
 	}
 
 	template <class Type, typename SizeType, bool useSafeMode>
@@ -206,13 +206,13 @@ namespace CommonUtilities
 	}
 
 	template <class Type, typename SizeType, bool useSafeMode>
-	void Stack<Type, SizeType, useSafeMode>::Resize(const SizeType aCapacity)
+	void Stack<Type, SizeType, useSafeMode>::Resize(const SizeType capacity)
 	{
-		if (aCapacity == m_capacity || aCapacity <= 0)
+		if (capacity == m_capacity || capacity <= 0)
 			return;
 
-		Type* temp = new Type[aCapacity];
-		SizeType elementsToCopy = aCapacity > m_capacity ? m_capacity : aCapacity;
+		Type* temp = new Type[capacity];
+		SizeType elementsToCopy = capacity > m_capacity ? m_capacity : capacity;
 
 		if (!IsEmpty())
 		{
@@ -228,8 +228,8 @@ namespace CommonUtilities
 		delete[] m_data;
 
 		m_data = temp;
-		m_top = aCapacity < m_capacity ? aCapacity : m_top;
-		m_capacity = aCapacity;
+		m_top = capacity < m_capacity ? capacity : m_top;
+		m_capacity = capacity;
 	}
 
 #pragma endregion Method_Definitions

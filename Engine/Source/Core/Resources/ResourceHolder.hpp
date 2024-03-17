@@ -35,13 +35,13 @@ namespace Hi_Engine
 		
 
 
-		Resource&				GetResource(const Identifier& anID);
-		const Resource&			GetResource(const Identifier& anID)		const;
-		bool					HasResource(const Identifier& anID)		const;
+		Resource&				GetResource(const Identifier& identifier);
+		const Resource&			GetResource(const Identifier& identifier)		const;
+		bool					HasResource(const Identifier& identifier)		const;
 
-		void					LoadResources(const std::string& aFilePath);
-		void					CreateResources(const rapidjson::Document& aDocument);
-		void					Insert(Identifier anID, std::unique_ptr<Resource> aResource);
+		void					LoadResources(const std::string& filePath);
+		void					CreateResources(const rapidjson::Document& document);
+		void					Insert(Identifier identifier, std::unique_ptr<Resource> resource);
 		void					Clear();
 
 	private:
@@ -72,29 +72,29 @@ namespace Hi_Engine
 	}
 
 	template <class Resource, typename Identifier>
-	Resource& ResourceHolder<Resource, Identifier>::GetResource(const Identifier& anID)
+	Resource& ResourceHolder<Resource, Identifier>::GetResource(const Identifier& identifier)
 	{
-		assert(HasResource(anID));
-		return *m_resources.find(anID)->second;
+		assert(HasResource(identifier));
+		return *m_resources.find(identifier)->second;
 	}
 
 	template <class Resource, typename Identifier>
-	const Resource& ResourceHolder<Resource, Identifier>::GetResource(const Identifier& anID) const
+	const Resource& ResourceHolder<Resource, Identifier>::GetResource(const Identifier& identifier) const
 	{
-		return GetResource(anID);
+		return GetResource(identifier);
 	}
 
 	template <class Resource, typename Identifier>
-	bool ResourceHolder<Resource, Identifier>::HasResource(const Identifier& anID) const
+	bool ResourceHolder<Resource, Identifier>::HasResource(const Identifier& identifier) const
 	{
-		auto found = m_resources.find(anID);
+		auto found = m_resources.find(identifier);
 		return found != m_resources.end();
 	}
 
 	template <class Resource, typename Identifier>
-	void ResourceHolder<Resource, Identifier>::LoadResources(const std::string& aFilePath)
+	void ResourceHolder<Resource, Identifier>::LoadResources(const std::string& filePath)
 	{
-		std::ifstream ifs{ aFilePath };
+		std::ifstream ifs{ filePath };
 		std::string content{ std::istreambuf_iterator<char>(ifs), std::istreambuf_iterator<char>() };
 
 		rapidjson::Document document;
@@ -106,15 +106,15 @@ namespace Hi_Engine
 	}
 
 	template <class Resource, typename Identifier>
-	inline void	ResourceHolder<Resource, Identifier>::CreateResources(const rapidjson::Document& aDocument)
+	inline void	ResourceHolder<Resource, Identifier>::CreateResources(const rapidjson::Document& document)
 	{
 		assert(false && "ERROR: Resource not handled!");
 	}
 
 	template <>
-	inline void	ResourceHolder<Texture2D, std::string>::CreateResources(const rapidjson::Document& aDocument)
+	inline void	ResourceHolder<Texture2D, std::string>::CreateResources(const rapidjson::Document& document)
 	{
-		for (auto& value : aDocument.GetArray())
+		for (auto& value : document.GetArray())
 		{
 			std::string id = value["id"].GetString();
 			std::string path = value["path"].GetString();
@@ -160,9 +160,9 @@ namespace Hi_Engine
 	}
 
 	template <>
-	inline void	ResourceHolder<Subtexture2D, std::string>::CreateResources(const rapidjson::Document& aDocument)
+	inline void	ResourceHolder<Subtexture2D, std::string>::CreateResources(const rapidjson::Document& document)
 	{
-		for (auto& value : aDocument.GetArray())
+		for (auto& value : document.GetArray())
 		{
 			std::string parent = value["parent_id"].GetString();
 			auto& parentTexture = ResourceHolder<Texture2D>::GetInstance().GetResource(parent);
@@ -182,9 +182,9 @@ namespace Hi_Engine
 	}
 
 	template <>
-	inline void	ResourceHolder<Shader, std::string>::CreateResources(const rapidjson::Document& aDocument)
+	inline void	ResourceHolder<Shader, std::string>::CreateResources(const rapidjson::Document& document)
 	{
-		for (auto& value : aDocument.GetArray())
+		for (auto& value : document.GetArray())
 		{
 			std::string id = value["name"].GetString();
 			std::string path = value["filepath"].GetString();
@@ -208,9 +208,9 @@ namespace Hi_Engine
 	}
 
 	template <>
-	inline void	ResourceHolder<Font, std::string>::CreateResources(const rapidjson::Document& aDocument)
+	inline void	ResourceHolder<Font, std::string>::CreateResources(const rapidjson::Document& document)
 	{
-		for (auto& value : aDocument.GetArray())
+		for (auto& value : document.GetArray())
 		{
 			std::string id = value["name"].GetString();
 			std::string path = value["filepath"].GetString();
@@ -273,9 +273,9 @@ namespace Hi_Engine
 	}
 
 	template <class Resource, typename Identifier>
-	void ResourceHolder<Resource, Identifier>::Insert(Identifier anID, std::unique_ptr<Resource> aResource)
+	void ResourceHolder<Resource, Identifier>::Insert(Identifier identifier, std::unique_ptr<Resource> resource)
 	{
-		auto inserted = m_resources.insert(std::make_pair(anID, std::move(aResource)));
+		auto inserted = m_resources.insert(std::make_pair(identifier, std::move(resource)));
 		assert(inserted.second);
 	}
 

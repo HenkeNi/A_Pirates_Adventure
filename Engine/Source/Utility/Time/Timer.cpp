@@ -65,10 +65,10 @@ namespace Hi_Engine
 		return m_totalTime.count();
 	}
 
-	void Timer::NotifyOnTimePassed(TimerRequest aRequest)
+	void Timer::NotifyOnTimePassed(TimerRequest request)
 	{
-		aRequest.TimeOfRequest = GetTotalTime();
-		m_timeRequests.push_back(aRequest);
+		request.TimeOfRequest = GetTotalTime();
+		m_timeRequests.push_back(request);
 	}
 
 	bool Timer::ContainsTimerRequests() const
@@ -76,9 +76,9 @@ namespace Hi_Engine
 		return !m_timeRequests.empty();
 	}
 
-	bool Timer::HasTimeElapsed(double aDuration, double aStartTime) const
+	bool Timer::HasTimeElapsed(double duration, double startTime) const
 	{
-		return aStartTime + aDuration >= GetTotalTime();
+		return startTime + duration >= GetTotalTime();
 	}
 
 	void Timer::CheckTimerRequests()

@@ -3,8 +3,8 @@
 
 namespace Hi_Engine
 {
-	Texture2D::Texture2D(GLenum aTextureFormat, bool aLinearFiltering)
-		: m_internalFormat{ aTextureFormat }, m_imageFormat{ aTextureFormat }, m_id{ 0 }, m_size{ 0, 0 }, m_linearFiltering{ aLinearFiltering } //  todo fix texture id... (maybe frm json??)
+	Texture2D::Texture2D(GLenum textureFormat, bool linearFiltering)
+		: m_internalFormat{ textureFormat }, m_imageFormat{ textureFormat }, m_id{ 0 }, m_size{ 0, 0 }, m_linearFiltering{ linearFiltering } //  todo fix texture id... (maybe frm json??)
 	{
 		//static unsigned ID = 1;
 		//m_id = ID;
@@ -17,16 +17,16 @@ namespace Hi_Engine
 		glDeleteTextures(1, &m_id);
 	}
 
-	void Texture2D::Init(const CU::Vector2<int>& aSize, unsigned char* someData)
+	void Texture2D::Init(const CU::Vector2<int>& size, unsigned char* data)
 	{
 		// assert(someData);
-		m_size = aSize;
-		m_data = someData;
+		m_size = size;
+		m_data = data;
 
 		/* Generate Texture */
 		glGenTextures(1, &m_id);
 		glBindTexture(GL_TEXTURE_2D, m_id);
-		glTexImage2D(GL_TEXTURE_2D, 0, m_internalFormat, aSize.x, aSize.y, 0, m_imageFormat, GL_UNSIGNED_BYTE, someData);
+		glTexImage2D(GL_TEXTURE_2D, 0, m_internalFormat, m_size.x, m_size.y, 0, m_imageFormat, GL_UNSIGNED_BYTE, m_data);
 
 		GLenum error = glGetError();
 		if (error != GL_NO_ERROR)

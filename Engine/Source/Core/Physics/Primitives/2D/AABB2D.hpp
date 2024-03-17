@@ -1,5 +1,5 @@
 #pragma once
-#include "Utility/Math/Vectors/Vector2.hpp"
+#include "../../../../Utility/Math/Vectors/Vector2.hpp"
 
 namespace Hi_Engine::Physics
 {
@@ -10,10 +10,10 @@ namespace Hi_Engine::Physics
 	{
 	public:
 		AABB2D();
-		AABB2D(const Vector2<T>& aMin, const Vector2<T>& aMax);
+		AABB2D(const Vector2<T>& min, const Vector2<T>& max);
 
-		void					Init(const Vector2<T>& aMin, const Vector2<T>& aMax);
-		bool					IsInside(const Vector2<T>& aPoint)							const;
+		void					Init(const Vector2<T>& min, const Vector2<T>& max);
+		bool					IsInside(const Vector2<T>& point)							const;
 
 		const Vector2<T>&		GetMinPoint()												const;
 		const Vector2<T>&		GetMaxPoint()												const;
@@ -37,8 +37,8 @@ namespace Hi_Engine::Physics
 	}
 
 	template <class T>
-	AABB2D<T>::AABB2D(const Vector2<T>& aMin, const Vector2<T>& aMax)
-		: m_minPoint{ aMin }, m_maxPoint{ aMax }
+	AABB2D<T>::AABB2D(const Vector2<T>& min, const Vector2<T>& max)
+		: m_minPoint{ min }, m_maxPoint{ max }
 	{
 	}
 
@@ -47,20 +47,20 @@ namespace Hi_Engine::Physics
 #pragma region Method_Definitions
 
 	template <class T>
-	void AABB2D<T>::Init(const Vector2<T>& aMin, const Vector2<T>& aMax)
+	void AABB2D<T>::Init(const Vector2<T>& min, const Vector2<T>& max)
 	{
-		m_minPoint = aMin;
-		m_maxPoint = aMax;
+		m_minPoint = min;
+		m_maxPoint = max;
 	}
 
 	template <class T>
-	bool AABB2D<T>::IsInside(const Vector2<T>& aPoint) const
+	bool AABB2D<T>::IsInside(const Vector2<T>& point) const
 	{
-		if (m_minPoint.x > aPoint.x) { return false; }
-		if (m_minPoint.y > aPoint.y) { return false; }
+		if (m_minPoint.x > point.x) { return false; }
+		if (m_minPoint.y > point.y) { return false; }
 
-		if (m_maxPoint.x < aPoint.x) { return false; }
-		if (m_maxPoint.y < aPoint.y) { return false; }
+		if (m_maxPoint.x < point.x) { return false; }
+		if (m_maxPoint.y < point.y) { return false; }
 
 		return true;
 	}
@@ -80,7 +80,7 @@ namespace Hi_Engine::Physics
 	template <class T>
 	Vector2<T> AABB2D<T>::GetCenter() const
 	{
-		auto center = (m_minPoint + m_maxPoint) * T{ 0.5 };
+		auto center = Vector2<T>{ (m_minPoint.x + m_maxPoint.x) / T{ 2 }, (m_minPoint.y + m_maxPoint.y) / T{ 2 } }; // *T{ 0.5 };
 		return center;
 	}
 

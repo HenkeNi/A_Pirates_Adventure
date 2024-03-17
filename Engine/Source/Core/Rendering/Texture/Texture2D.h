@@ -8,10 +8,10 @@ namespace Hi_Engine
 	class Texture2D
 	{
 	public:
-		Texture2D(GLenum aTextureFormat = GL_RGB, bool aLinearFiltering = true);
+		Texture2D(GLenum textureFormat = GL_RGB, bool linearFiltering = true);
 		~Texture2D();
 
-		void					Init(const CU::Vector2<int>& aSize, unsigned char* someData);		// Take in texturedata...
+		void					Init(const CU::Vector2<int>& size, unsigned char* data);		// Take in texturedata...
 		void					Bind()																const;
 		void					Unbind()															const;
 

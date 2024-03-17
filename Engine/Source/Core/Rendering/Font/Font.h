@@ -10,7 +10,7 @@ namespace Hi_Engine
 	class Font
 	{
 	public:
-		void AddCharacter(const char aKey, const Character& aCharacter);
+		void AddCharacter(const char key, const Character& character);
 
 	private:
 		friend class TextRenderer;

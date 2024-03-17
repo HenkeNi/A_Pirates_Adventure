@@ -58,66 +58,66 @@ namespace Hi_Engine
             glDeleteShader(geometryShader);
     }
 
-    void Shader::SetBool(const std::string& aName, bool aValue) const
+    void Shader::SetBool(const std::string& name, bool value) const
     {
-        glUniform1i(glGetUniformLocation(m_id, aName.c_str()), (int)aValue);
+        glUniform1i(glGetUniformLocation(m_id, name.c_str()), (int)value);
     }
 
-    void Shader::SetInt(const std::string& aName, int aValue) const
+    void Shader::SetInt(const std::string& name, int value) const
     {
-        glUniform1i(glGetUniformLocation(m_id, aName.c_str()), aValue);
+        glUniform1i(glGetUniformLocation(m_id, name.c_str()), value);
     }
 
-    void Shader::SetFloat(const std::string& aName, float aValue) const
+    void Shader::SetFloat(const std::string& name, float value) const
     {
-        glUniform1f(glGetUniformLocation(m_id, aName.c_str()), aValue);
+        glUniform1f(glGetUniformLocation(m_id, name.c_str()), value);
     }
 
-    void Shader::SetIntArray(const std::string& aName, int* someValues, int aCount) const
+    void Shader::SetIntArray(const std::string& name, int* values, int count) const
     {
-        glUniform1iv(glGetUniformLocation(m_id, aName.c_str()), aCount, someValues);
+        glUniform1iv(glGetUniformLocation(m_id, name.c_str()), count, values);
     }
 
-    void Shader::SetVector2f(const std::string& aName, const CU::Vector2<float>& aValue) const
+    void Shader::SetVector2f(const std::string& name, const CU::Vector2<float>& value) const
     {
-        glUniform2f(glGetUniformLocation(m_id, aName.c_str()), aValue.x, aValue.y);
+        glUniform2f(glGetUniformLocation(m_id, name.c_str()), value.x, value.y);
     }
 
-    void Shader::SetVector3f(const std::string& aName, const CU::Vector3<float>& aValue) const
+    void Shader::SetVector3f(const std::string& name, const CU::Vector3<float>& value) const
     {
-        glUniform3f(glGetUniformLocation(m_id, aName.c_str()), aValue.x, aValue.y, aValue.z);
+        glUniform3f(glGetUniformLocation(m_id, name.c_str()), value.x, value.y, value.z);
     }
 
-    void Shader::SetVector4f(const std::string& aName, const CU::Vector4<float>& aValue) const
+    void Shader::SetVector4f(const std::string& name, const CU::Vector4<float>& value) const
     {
-        glUniform4f(glGetUniformLocation(m_id, aName.c_str()), aValue.x, aValue.y, aValue.z, aValue.w);
+        glUniform4f(glGetUniformLocation(m_id, name.c_str()), value.x, value.y, value.z, value.w);
     }
 
-    void Shader::SetMatrix4(const std::string& aName, const glm::mat4& aMatrix) const
+    void Shader::SetMatrix4(const std::string& name, const glm::mat4& matrix) const
     {
-        glUniformMatrix4fv(glGetUniformLocation(m_id, aName.c_str()), 1, false, glm::value_ptr(aMatrix));
+        glUniformMatrix4fv(glGetUniformLocation(m_id, name.c_str()), 1, false, glm::value_ptr(matrix));
     }
 
-    int Shader::CreateShader(GLenum aShaderType, const char* aSource)
+    int Shader::CreateShader(GLenum shaderType, const char* source)
     {
-        unsigned shader = glCreateShader(aShaderType);
-        glShaderSource(shader, 1, &aSource, nullptr);
+        unsigned shader = glCreateShader(shaderType);
+        glShaderSource(shader, 1, &source, nullptr);
         glCompileShader(shader);
 
         return shader;
     }
 
-    void Shader::CheckCompileErrors(unsigned anObject, const std::string& aType)
+    void Shader::CheckCompileErrors(unsigned object, const std::string& type)
     {
         int		success;
         char	infoLog[1024];
 
-        aType != "PROGRAM" ? glGetShaderiv(anObject, GL_COMPILE_STATUS, &success) : glGetProgramiv(anObject, GL_LINK_STATUS, &success);
+        type != "PROGRAM" ? glGetShaderiv(object, GL_COMPILE_STATUS, &success) : glGetProgramiv(object, GL_LINK_STATUS, &success);
 
         if (!success)
         {
-            glGetProgramInfoLog(anObject, 1024, nullptr, infoLog);
-            std::cout << "ERROR::SHADER -> " << aType << '\n' << infoLog << '\n';
+            glGetProgramInfoLog(object, 1024, nullptr, infoLog);
+            std::cout << "ERROR::SHADER -> " << type << '\n' << infoLog << '\n';
         }
         //int		success;
         //char	infoLog[1024];

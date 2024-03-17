@@ -17,25 +17,25 @@ namespace CommonUtilities
 
 	public:
 		VectorOnStack();
-		VectorOnStack(const VectorOnStack& aVectorOnStack);
-		VectorOnStack(const std::initializer_list<Type>& aList);
+		VectorOnStack(const VectorOnStack& vectorOnStack);
+		VectorOnStack(const std::initializer_list<Type>& list);
 		~VectorOnStack();
 
-		VectorOnStack&	operator=(const VectorOnStack& aVectorOnStack);
-		VectorOnStack&	operator=(const std::initializer_list<Type>& aList);
+		VectorOnStack&	operator=(const VectorOnStack& vectorOnStack);
+		VectorOnStack&	operator=(const std::initializer_list<Type>& list);
 
-		Type&			operator[](const SizeType anIndex);
-		const Type&		operator[](const SizeType anIndex)							const;
+		Type&			operator[](const SizeType index);
+		const Type&		operator[](const SizeType index)							const;
 
 		SizeType		Size()														const;
 		SizeType		Capacity()													const;
 		bool			IsEmpty()													const;
 		bool			IsFull()													const;
 
-		void			Add(const Type& aValue);
-		void			Insert(const SizeType anIndex, const Type& aValue);
-		void			RemoveCyclic(const Type& aValue);
-		void			RemoveCyclicAtIndex(const SizeType anIndex);
+		void			Add(const Type& value);
+		void			Insert(const SizeType index, const Type& value);
+		void			RemoveCyclic(const Type& value);
+		void			RemoveCyclicAtIndex(const SizeType index);
 		void			Clear();
 
 		Iterator		begin();
@@ -55,35 +55,35 @@ namespace CommonUtilities
 	}
 
 	template <typename Type, int size, typename SizeType, bool useSafeModeFlag>
-	VectorOnStack<Type, size, SizeType, useSafeModeFlag>::VectorOnStack(const VectorOnStack& aVectorOnStack)
+	VectorOnStack<Type, size, SizeType, useSafeModeFlag>::VectorOnStack(const VectorOnStack& vectorOnStack)
 	{
-		assert(&aVectorOnStack != this);
-		m_counter = aVectorOnStack.m_counter;
+		assert(&vectorOnStack != this);
+		m_counter = vectorOnStack.m_counter;
 	
 		if (useSafeModeFlag)
 		{
-			for (int i = 0; i < aVectorOnStack.Size(); ++i)
-				m_data[i] = aVectorOnStack.m_data[i];
+			for (int i = 0; i < vectorOnStack.Size(); ++i)
+				m_data[i] = vectorOnStack.m_data[i];
 		}
 		else
 		{
-			std::memcpy(m_data, aVectorOnStack.m_data, m_counter * sizeof(Type));
+			std::memcpy(m_data, vectorOnStack.m_data, m_counter * sizeof(Type));
 		}
 	}
 
 	template <typename Type, int size, typename SizeType, bool useSafeModeFlag>
-	VectorOnStack<Type, size, SizeType, useSafeModeFlag>::VectorOnStack(const std::initializer_list<Type>& aList)
+	VectorOnStack<Type, size, SizeType, useSafeModeFlag>::VectorOnStack(const std::initializer_list<Type>& list)
 	{
-		assert(aList.size() <= size && "Too many elements in intializer list");
+		assert(list.size() <= size && "Too many elements in intializer list");
 		if (useSafeModeFlag)
 		{
-			for (int i = 0; i < aList.size(); ++i);
-				m_data[m_counter++] = *(aList.begin() + 1);
+			for (int i = 0; i < list.size(); ++i);
+				m_data[m_counter++] = *(list.begin() + 1);
 		}
 		else
 		{
-			m_counter = aList.size();
-			std::memcpy(m_data, aList.size(), aList.size() * sizeof(Type));
+			m_counter = list.size();
+			std::memcpy(m_data, list.size(), list.size() * sizeof(Type));
 		}
 	}
 
@@ -98,20 +98,20 @@ namespace CommonUtilities
 #pragma region Operators
 
 	template <typename Type, int size, typename SizeType, bool useSafeModeFlag>
-	VectorOnStack<Type, size, SizeType, useSafeModeFlag>& VectorOnStack<Type, size, SizeType, useSafeModeFlag>::operator=(const VectorOnStack& aVectorOnStack)
+	VectorOnStack<Type, size, SizeType, useSafeModeFlag>& VectorOnStack<Type, size, SizeType, useSafeModeFlag>::operator=(const VectorOnStack& vectorOnStack)
 	{
-		if (&aVectorOnStack != this)
+		if (&vectorOnStack != this)
 		{
-			m_counter = aVectorOnStack.m_counter;
+			m_counter = vectorOnStack.m_counter;
 
 			if (useSafeModeFlag)
 			{
-				for (int i = 0; i < aVectorOnStack.Size(); ++i)
-					m_data[i] = aVectorOnStack.m_data[i];
+				for (int i = 0; i < vectorOnStack.Size(); ++i)
+					m_data[i] = vectorOnStack.m_data[i];
 			}
 			else
 			{
-				std::memcpy(m_data, aVectorOnStack.m_data, m_counter * sizeof(Type));
+				std::memcpy(m_data, vectorOnStack.m_data, m_counter * sizeof(Type));
 			}
 		}
 
@@ -119,34 +119,34 @@ namespace CommonUtilities
 	}
 
 	template <typename Type, int size, typename SizeType, bool useSafeModeFlag>
-	VectorOnStack<Type, size, SizeType, useSafeModeFlag>& VectorOnStack<Type, size, SizeType, useSafeModeFlag>::operator=(const std::initializer_list<Type>& aList)
+	VectorOnStack<Type, size, SizeType, useSafeModeFlag>& VectorOnStack<Type, size, SizeType, useSafeModeFlag>::operator=(const std::initializer_list<Type>& list)
 	{
-		assert(aList.size() <= size && "Too many elements in intializer list");
+		assert(list.size() <= size && "Too many elements in intializer list");
 		if (useSafeModeFlag)
 		{
-			for (int i = 0; i < aList.size(); ++i)
-				m_data[m_counter++] = *(aList.Begin() + 1);
+			for (int i = 0; i < list.size(); ++i)
+				m_data[m_counter++] = *(list.Begin() + 1);
 		}
 		else
 		{
-			m_counter = aList.size();
-			std::memcpy(m_data, aList.size(), aList.size() * sizeof(Type));
+			m_counter = list.size();
+			std::memcpy(m_data, list.size(), list.size() * sizeof(Type));
 		}
 		return *this;
 	}
 
 	template <typename Type, int size, typename SizeType, bool useSafeModeFlag>
-	Type& VectorOnStack<Type, size, SizeType, useSafeModeFlag>::operator[](const SizeType anIndex)
+	Type& VectorOnStack<Type, size, SizeType, useSafeModeFlag>::operator[](const SizeType index)
 	{
-		assert(anIndex >= 0 && anIndex < m_counter && "Index out of range");
-		return m_data[anIndex];
+		assert(index >= 0 && index < m_counter && "Index out of range");
+		return m_data[index];
 	}
 
 	template <typename Type, int size, typename SizeType, bool useSafeModeFlag>
-	const Type& VectorOnStack<Type, size, SizeType, useSafeModeFlag>::operator[](const SizeType anIndex) const
+	const Type& VectorOnStack<Type, size, SizeType, useSafeModeFlag>::operator[](const SizeType index) const
 	{
-		assert(anIndex >= 0 && anIndex < m_counter && "Index out of range");
-		return m_data[anIndex];
+		assert(index >= 0 && index < m_counter && "Index out of range");
+		return m_data[index];
 	}
 
 #pragma endregion Operators
@@ -178,16 +178,16 @@ namespace CommonUtilities
 	}
 
 	template <typename Type, int size, typename SizeType, bool useSafeModeFlag>
-	void VectorOnStack<Type, size, SizeType, useSafeModeFlag>::Add(const Type& aValue)
+	void VectorOnStack<Type, size, SizeType, useSafeModeFlag>::Add(const Type& value)
 	{
 		assert(m_counter < size && "VectorOnStack is at full capacity");
-		m_data[m_counter++] = aValue;
+		m_data[m_counter++] = value;
 	}
 
 	template <typename Type, int size, typename SizeType, bool useSafeModeFlag>
-	void VectorOnStack<Type, size, SizeType, useSafeModeFlag>::Insert(const SizeType anIndex, const Type& aValue)
+	void VectorOnStack<Type, size, SizeType, useSafeModeFlag>::Insert(const SizeType index, const Type& value)
 	{
-		assert(m_counter < size && anIndex >= 0 && anIndex < size && anIndex < m_counter + 1 && "Invalid insert position");
+		assert(m_counter < size && index >= 0 && index < size && index < m_counter + 1 && "Invalid insert position");
 
 		Type newData[size];
 		if (useSafeModeFlag)
@@ -195,9 +195,9 @@ namespace CommonUtilities
 			int offset = 0;
 			for (int i = 0; i < size; ++i)
 			{
-				if (i == anIndex)
+				if (i == index)
 				{
-					newData[anIndex] = aValue;
+					newData[index] = value;
 					offset = 1;
 				}
 				else
@@ -213,11 +213,11 @@ namespace CommonUtilities
 		}
 		else
 		{
-			std::memcpy(newData, m_data, anIndex * sizeof(Type));			// Copy elements before index
-			std::memcpy(newData + (anIndex), &aValue, sizeof(Type)); 		// Insert new element at index position
+			std::memcpy(newData, m_data, index * sizeof(Type));			// Copy elements before index
+			std::memcpy(newData + (index), &value, sizeof(Type)); 		// Insert new element at index position
 
-			int elementsLeftToCopy = size - (anIndex + 1); 					// Copy elements after index position				
-			std::memcpy(newData + (anIndex + 1), m_data + anIndex, sizeof(Type) * elementsLeftToCopy);
+			int elementsLeftToCopy = size - (index + 1); 					// Copy elements after index position				
+			std::memcpy(newData + (index + 1), m_data + index, sizeof(Type) * elementsLeftToCopy);
 
 			std::memcpy(m_data, newData, sizeof(Type) * (++m_counter)); 	// Copy back elements
 
@@ -225,12 +225,12 @@ namespace CommonUtilities
 	}
 
 	template <typename Type, int size, typename SizeType, bool useSafeModeFlag>
-	void VectorOnStack<Type, size, SizeType, useSafeModeFlag>::RemoveCyclic(const Type& aValue)
+	void VectorOnStack<Type, size, SizeType, useSafeModeFlag>::RemoveCyclic(const Type& value)
 	{
 		int index = -1;
 		for (int i = 0; i < m_counter; ++i)
 		{
-			if (m_data[i] == aValue)
+			if (m_data[i] == value)
 			{
 				index = i;
 				break;
@@ -242,10 +242,10 @@ namespace CommonUtilities
 	}
 
 	template <typename Type, int size, typename SizeType, bool useSafeModeFlag>
-	void VectorOnStack<Type, size, SizeType, useSafeModeFlag>::RemoveCyclicAtIndex(const SizeType anIndex)
+	void VectorOnStack<Type, size, SizeType, useSafeModeFlag>::RemoveCyclicAtIndex(const SizeType index)
 	{
-		assert(anIndex >= 0 && anIndex < m_counter);
-		m_data[anIndex] = m_data[--m_counter];
+		assert(index >= 0 && index < m_counter);
+		m_data[index] = m_data[--m_counter];
 	}
 
 	template <typename Type, int size, typename SizeType, bool useSafeModeFlag>

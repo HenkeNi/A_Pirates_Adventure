@@ -19,13 +19,13 @@ namespace Hi_Engine
 	class EventListener
 	{
 	public:
-		virtual void HandleEvent(BaseEvent& anEvent)			{};
-		virtual void HandleEvent(TerminationEvent& anEvent)		{};
-		virtual void HandleEvent(WindowEvent& anEvent)			{};
+		virtual void HandleEvent(BaseEvent& event)			{};
+		virtual void HandleEvent(TerminationEvent& event)		{};
+		virtual void HandleEvent(WindowEvent& event)			{};
 		//virtual void HandleEvent(KeyEvent& anEvent)				{};
 		//virtual void HandleEvent(MouseEvent& anEvent)			{};
-		virtual void HandleEvent(InputEvent& anEvent)			{};
-		virtual void HandleEvent(RenderEvent& anEvent)			{};
-		virtual void HandleEvent(RenderSpriteEvent& anEvent)	{};
+		virtual void HandleEvent(InputEvent& event)			{};
+		virtual void HandleEvent(RenderEvent& event)			{};
+		virtual void HandleEvent(RenderSpriteEvent& event)	{};
 	};
 }

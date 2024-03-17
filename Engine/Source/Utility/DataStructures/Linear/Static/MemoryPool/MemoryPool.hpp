@@ -24,7 +24,7 @@ namespace CommonUtilities
 		static MemoryPool&	GetInstance(); 	
 
 		Type*				GetResource();
-		void				ReturnResource(Type* aResource);				// Or have MemoryPOol check each frame if cmopoennt is destyoed (takes in back)... less optimized...		OR Listens for destoyed event... then takes all compoennts??
+		void				ReturnResource(Type* resource);				// Or have MemoryPOol check each frame if cmopoennt is destyoed (takes in back)... less optimized...		OR Listens for destoyed event... then takes all compoennts??
 		bool				IsEmpty()							const;
 
 	private:
@@ -76,10 +76,10 @@ namespace CommonUtilities
 	}
 
 	template <class Type, typename SizeType, SizeType size>
-	void MemoryPool<Type, SizeType, size>::ReturnResource(Type* aResource)
+	void MemoryPool<Type, SizeType, size>::ReturnResource(Type* resource)
 	{
-		if (aResource)	// Assert if null?
-			m_availableResources.push(aResource);
+		if (resource)	// Assert if null?
+			m_availableResources.push(resource);
 		// TODO: "Clean" resource... (set to inactive if possible) call a clear function...
 	}
 

@@ -9,8 +9,8 @@ namespace CommonUtilities
 	{
 	public:
 		Vector2();
-		Vector2(const T& aX, const T& aY);
-		Vector2(const Vector2& aVector)				= default;
+		Vector2(const T& x, const T& y);
+		Vector2(const Vector2& vector)				= default;
 		~Vector2()									= default;
 
 		Vector2&	operator=(const Vector2&)		= default;
@@ -19,10 +19,10 @@ namespace CommonUtilities
 		/* -	Methods		- */
 		T			LengthSqr()							const;
 		T			Length()							const;
-		T			Dot(const Vector2& another)			const;
-		T			DistanceTo(const Vector2& another)	const; 
-		T			AngleTo(const Vector2& another)		const; // TODO...
-		Vector2		DirectionTo(const Vector2& another) const; 
+		T			Dot(const Vector2& other)			const;
+		T			DistanceTo(const Vector2& other)	const; 
+		T			AngleTo(const Vector2& other)		const; // TODO...
+		Vector2		DirectionTo(const Vector2& other)	const; 
 		Vector2		GetNormalized()						const;
 		void		Normalize(); 
 
@@ -40,8 +40,8 @@ namespace CommonUtilities
 	}
 
 	template <class T>
-	Vector2<T>::Vector2(const T& aX, const T& aY)
-		: x{ aX }, y{ aY }
+	Vector2<T>::Vector2(const T& x, const T& y)
+		: x{ x }, y{ y }
 	{
 	}
 
@@ -58,28 +58,28 @@ namespace CommonUtilities
 	}
 
 	template <class T>
-	T Vector2<T>::Dot(const Vector2<T>& another)		const
+	T Vector2<T>::Dot(const Vector2<T>& other)		const
 	{
-		return (x * another.x) + (y * another.y);
+		return (x * other.x) + (y * other.y);
 	}
 
 	template <class T>
-	T Vector2<T>::DistanceTo(const Vector2<T>& another)	const
+	T Vector2<T>::DistanceTo(const Vector2<T>& other)	const
 	{
-		Vector2<T> direction = { another.x - x, another.y - y };
+		Vector2<T> direction = { other.x - x, other.y - y };
 		return direction.Length();
 	}
 
 	template <class T>
-	T Vector2<T>::AngleTo(const Vector2<T>& another)		const
+	T Vector2<T>::AngleTo(const Vector2<T>& other)		const
 	{
 		return -1; // TODO..
 	}
 
 	template <class T>
-	Vector2<T> Vector2<T>::DirectionTo(const Vector2<T>& another) const
+	Vector2<T> Vector2<T>::DirectionTo(const Vector2<T>& other) const
 	{
-		Vector2<T> direction = Vector2<T>{ another.x - x, another.y - y };
+		Vector2<T> direction = Vector2<T>{ other.x - x, other.y - y };
 		return direction.GetNormalized();
 	}
 
@@ -113,71 +113,71 @@ namespace CommonUtilities
 	}
 
 	template <class T>
-	Vector2<T> operator+(const Vector2<T>& aVector0, const Vector2<T>& aVector1)
+	Vector2<T> operator+(const Vector2<T>& lhs, const Vector2<T>& rhs)
 	{
-		return { aVector0.x + aVector1.x, aVector0.y + aVector1.y };
+		return { lhs.x + rhs.x, lhs.y + rhs.y };
 	}
 
 	template <class T>
-	Vector2<T> operator-(const Vector2<T>& aVector0, const Vector2<T>& aVector1)
+	Vector2<T> operator-(const Vector2<T>& lhs, const Vector2<T>& rhs)
 	{
-		return { aVector0.x - aVector1.x, aVector0.y - aVector1.y };
+		return { lhs.x - rhs.x, lhs.y - rhs.y };
 	}
 
 	template <class T>
-	Vector2<T> operator*(const Vector2<T>& aVector, const T& aScalar)
+	Vector2<T> operator*(const Vector2<T>& vector, const T& scalar)
 	{
-		return { aVector.x * aScalar, aVector.y * aScalar };
+		return { vector.x * scalar, vector.y * scalar };
 	}
 
 	template <class T>
-	Vector2<T> operator*(const T& aScalar, const Vector2<T>& aVector)
+	Vector2<T> operator*(const T& scalar, const Vector2<T>& vector)
 	{
-		return aVector * aScalar;
+		return vector * scalar;
 	}
 
 	template <class T>
-	Vector2<T> operator/(const Vector2<T>& aVector, const T& aScalar)
+	Vector2<T> operator/(const Vector2<T>& vector, const T& scalar)
 	{
-		assert(aScalar != 0);
-		return Vector2<T>(aVector.x * (1 / aScalar), aVector.y * (1 / aScalar));
+		assert(scalar != 0);
+		return Vector2<T>(vector.x * (1 / scalar), vector.y * (1 / scalar));
 	}
 
 	template <class T>
-	void operator+=(Vector2<T>& aVector0, const Vector2<T>& aVector1)
+	void operator+=(Vector2<T>& lhs, const Vector2<T>& rhs)
 	{
-		aVector0 = aVector0 + aVector1;
+		lhs = lhs + rhs;
 	}
 
 	template <class T>
-	void operator-=(Vector2<T>& aVector0, const Vector2<T>& aVector1)
+	void operator-=(Vector2<T>& lhs, const Vector2<T>& rhs)
 	{
-		aVector0 = aVector0 - aVector1;
+		lhs = lhs - rhs;
 	}
 
 	template <class T>
-	void operator*=(Vector2<T>& aVector, const T& aScalar)
+	void operator*=(Vector2<T>& vector, const T& scalar)
 	{
-		aVector = aVector * aScalar;
+		vector = vector * scalar;
 	}
 
 	template <class T>
-	void operator/=(Vector2<T>& aVector, const T& aScalar)
+	void operator/=(Vector2<T>& vector, const T& scalar)
 	{
-		assert(aScalar != 0);
-		aVector = aVector / aScalar;
+		assert(scalar != 0);
+		vector = vector / scalar;
 	}
 
 	template <class T>
-	bool operator==(const Vector2<T>& aVector0, const Vector2<T>& aVector1)
+	bool operator==(const Vector2<T>& lhs, const Vector2<T>& rhs)
 	{
-		return (aVector0.x == aVector1.x && aVector0.y == aVector1.y);
+		return (lhs.x == rhs.x && lhs.y == rhs.y);
 	}
 
 	template <class T>
-	bool operator!=(const Vector2<T>& aVector0, const Vector2<T>& aVector1)
+	bool operator!=(const Vector2<T>& lhs, const Vector2<T>& rhs)
 	{
-		return !(aVector0 == aVector1);
+		return !(lhs == rhs);
 	}
 
 #pragma endregion Operators

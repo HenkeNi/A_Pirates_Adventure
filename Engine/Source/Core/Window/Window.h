@@ -22,7 +22,7 @@ namespace Hi_Engine
 		Window();
 		~Window();
 
-		bool			Init(WindowData someData);
+		bool			Init(WindowData data);
 		bool			IsOpen()										const;
 		const WndSize&	GetSize()										const;
 		void			PollEvents()									const;
@@ -30,9 +30,9 @@ namespace Hi_Engine
 		void			SwapBuffers()									const;
 		void			Close();
 
-		void			SetTitle(const std::string& aTitle);
-		void			SetSize(const CU::Vector2<unsigned>& aSize);
-		void			SetIcon(const std::string& aTexturePath);
+		void			SetTitle(const std::string& title);
+		void			SetSize(const CU::Vector2<unsigned>& size);
+		void			SetIcon(const std::string& texturePath);
 		void			ToggleFullscreen();
 
 	private:

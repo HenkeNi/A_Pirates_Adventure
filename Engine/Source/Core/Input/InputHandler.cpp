@@ -22,14 +22,14 @@ namespace Hi_Engine
 		//glfwDestroyCursor(s_customCursor);
 	}
 
-	void InputHandler::Init(GLFWwindow* aWindow)
+	void InputHandler::Init(GLFWwindow* window)
 	{
-		m_window = aWindow;
+		m_window = window;
 
-		glfwSetKeyCallback(aWindow, InputHandler::KeyCallback);
-		glfwSetCursorPosCallback(aWindow, InputHandler::CursorCallback);
-		glfwSetMouseButtonCallback(aWindow, InputHandler::MouseButtonCallback);
-		glfwSetScrollCallback(aWindow, InputHandler::MouseScrollCallback);
+		glfwSetKeyCallback(m_window, InputHandler::KeyCallback);
+		glfwSetCursorPosCallback(m_window, InputHandler::CursorCallback);
+		glfwSetMouseButtonCallback(m_window, InputHandler::MouseButtonCallback);
+		glfwSetScrollCallback(m_window, InputHandler::MouseScrollCallback);
  
 		glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
@@ -67,22 +67,22 @@ namespace Hi_Engine
 		s_scrollOffset = 0.f;
 	}
 
-	void InputHandler::KeyCallback(GLFWwindow* aWindow, int aKey, int aScanCode, int anAction, int someMods)
+	void InputHandler::KeyCallback(GLFWwindow* window, int key, int scanCode, int action, int mods)
 	{
-		s_keyStates.insert_or_assign((eKey)aKey, (eInputState)anAction);
+		s_keyStates.insert_or_assign((eKey)key, (eInputState)action);
 	}
 
-	void InputHandler::MouseButtonCallback(GLFWwindow* window, int aButton, int anAction, int someMods)
+	void InputHandler::MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 	{
-		s_mouseButtonStates.insert_or_assign((eMouseBtn)aButton, (eInputState)anAction);
+		s_mouseButtonStates.insert_or_assign((eMouseBtn)button, (eInputState)action);
 	}
 
-	void InputHandler::MouseScrollCallback(GLFWwindow* aWindow, double xoffset, double yoffset)
+	void InputHandler::MouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 	{
 		s_scrollOffset = (float)yoffset; // down (towrads is negative) up (is positive) -> no scrolling == 0
 	}
 
-	void InputHandler::CursorCallback(GLFWwindow* aWindow, double xPos, double yPos)
+	void InputHandler::CursorCallback(GLFWwindow* window, double xPos, double yPos)
 	{
 		s_mousePosition = { xPos, yPos };
 	}
@@ -97,23 +97,23 @@ namespace Hi_Engine
 		return s_scrollOffset;
 	}
 
-	bool InputHandler::IsMouseButtonPressed(eMouseBtn aBtn)
+	bool InputHandler::IsMouseButtonPressed(eMouseBtn btn)
 	{
-		return s_mouseButtonStates[aBtn] == eInputState::Press;
+		return s_mouseButtonStates[btn] == eInputState::Press;
 	}
 
-	bool InputHandler::IsKeyPressed(eKey aKey)
+	bool InputHandler::IsKeyPressed(eKey key)
 	{
-		return s_keyStates[aKey] == eInputState::Press;
+		return s_keyStates[key] == eInputState::Press;
 	}
 
-	bool InputHandler::IsKeyHeld(eKey aKey)
+	bool InputHandler::IsKeyHeld(eKey key)
 	{
-		return s_keyStates[aKey] == eInputState::Repeat;
+		return s_keyStates[key] == eInputState::Repeat;
 	}
 
-	bool InputHandler::IsKeyReleased(eKey aKey)
+	bool InputHandler::IsKeyReleased(eKey key)
 	{
-		return s_keyStates[aKey] == eInputState::Release;
+		return s_keyStates[key] == eInputState::Release;
 	}
 }

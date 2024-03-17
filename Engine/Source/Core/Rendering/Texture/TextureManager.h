@@ -7,7 +7,7 @@ class TextureManager
 {
 public:
 
-	bool IsTextureBound(unsigned aTexID, float& outTexIndex);
+	bool IsTextureBound(unsigned texID, float& outTexIndex);
 
 
 private:

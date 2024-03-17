@@ -21,7 +21,7 @@ namespace Hi_Engine
 		void Shutdown();
 
 		// void LoadFont(const std::string& aPath, unsigned aFontSize);	// Register font instead?
-		void Render(const TextRenderData& someData, glm::mat4 aProjection);
+		void Render(const TextRenderData& data, glm::mat4 projection);
 
 
 
