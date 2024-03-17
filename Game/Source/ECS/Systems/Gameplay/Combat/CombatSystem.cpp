@@ -170,8 +170,6 @@ void CombatSystem::Update(float aDeltaTime)
 
 void CombatSystem::PerformAttack(Entity* anEntity)
 {
-	std::cout << "Perofrm attack\n";
-
 	auto* equipmentComponent = anEntity->GetComponent<EquipmentComponent>();
 	if (!equipmentComponent)
 		return;

@@ -72,6 +72,16 @@ namespace CommonUtilities
 		return randomDist(randomEngine);
 	}
 
+	inline float GetRandomFloat(float aMin, float aMax)
+	{
+		static std::random_device rd;
+		static std::mt19937 gen(rd()); // Mersenne Twister 19937 generator
+
+		std::uniform_real_distribution<float> dis(aMin, aMax); // Range: [0.0, 1.0)
+
+		return dis(gen);
+	}
+
 	inline std::wstring ConvertToWideString(const std::string& aStr) // ??? somewhere else?
 	{
 		std::wstring wString{ aStr.begin(), aStr.end() };

@@ -36,15 +36,23 @@ void SpawnSystem::Spawn(Entity* aSpawner)
 		return;
 
 	auto* transformComponent = aSpawner->GetComponent<TransformComponent>();
-	auto currentPosition = transformComponent->CurrentPos;
+	auto position = transformComponent->CurrentPos;
 
 	if (auto* spawnComponent = aSpawner->GetComponent<SpawnComponent>())
 	{
 		for (int i = 0; i < spawnComponent->Amount; ++i)
 		{
 			auto* entity = m_entityManager->Create(spawnComponent->Spawned);
+
+			float xOffset = CommonUtilities::GetRandomFloat(-0.5f, 0.5f);
+			float yOffset = CommonUtilities::GetRandomFloat(-0.5f, 0.5f);
+
 			transformComponent = entity->GetComponent<TransformComponent>();
-			transformComponent->CurrentPos = currentPosition;
+			transformComponent->CurrentPos = { position.x + xOffset, position.y + yOffset };
+
+			auto* collectableComponent = entity->GetComponent<CollectableComponent>();
+			collectableComponent->SpawnTimestamp = Hi_Engine::Engine::GetTimer().GetTotalTime();
+			collectableComponent->PickupDelay = 0.5f;
 
 			PostMaster::GetInstance().SendMessage({ eMessage::EntitySpawned, entity });
 		}

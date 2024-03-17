@@ -38,6 +38,11 @@ void InventorySystem::Receive(Message& aMsg)
 	if (!player || !collectable)
 		return;
 
+
+	// use function to check for relevant components??
+	if (!CanPickup(collectable))
+		return;
+
 	// TODO: make sure dont send event each fraem!
 	if (CollectItem(player, collectable))
 	{
@@ -65,6 +70,18 @@ void InventorySystem::Update(float aDeltaTime)
 
 	for (const auto& entity : collectedEntityIDs)
 		m_entityManager->Destroy(entity);
+}
+
+bool InventorySystem::CanPickup(Entity* anEntity)
+{
+	if (auto* collectableComponent = anEntity->GetComponent<CollectableComponent>())
+	{
+		double currentTime = Hi_Engine::Engine::GetTimer().GetTotalTime();
+		double endTime = collectableComponent->SpawnTimestamp + collectableComponent->PickupDelay;
+		return endTime < currentTime;
+	}
+
+	return false;
 }
 
 bool InventorySystem::CollectItem(class Entity* anOwner, class Entity* anItem)

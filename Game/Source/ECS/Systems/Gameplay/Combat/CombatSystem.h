@@ -16,8 +16,8 @@ private:
 	void		PerformAttack(Entity* anEntity);
 	bool		IsTargetable(Entity* anEntity)							const;
 
-	unsigned				GetDamageOutput(Entity* anEntity)						const;
+	unsigned	GetDamageOutput(Entity* anEntity)						const;
 	// std::vector<Entity*>	GetNearbyEntities()							const;
-	bool					ApplyDamageOutput(Entity* anEntity, unsigned aDamage);
-	void					ApplyKnockback(Entity* aSource, Entity* aTarget);
+	bool		ApplyDamageOutput(Entity* anEntity, unsigned aDamage);
+	void		ApplyKnockback(Entity* aSource, Entity* aTarget);
 };

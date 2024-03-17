@@ -220,8 +220,10 @@ struct InventoryComponent : public Component
 
 struct CollectableComponent : public Component
 {
-	Item Item;
-	bool IsCollected = false;
+	Item	Item;
+	double	SpawnTimestamp;
+	float	PickupDelay;
+	bool	IsCollected = false;
 	//std::string ItemID;
 };
 
