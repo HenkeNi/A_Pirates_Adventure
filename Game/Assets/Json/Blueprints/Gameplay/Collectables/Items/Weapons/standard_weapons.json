@@ -25,7 +25,7 @@
         "type": "Collider",
         "properties": {
           "type": "Dynamic",
-          "size": [ 10.0, 10.0 ],
+          "size": [ 0.25, 0.25 ],
           "offset": {
             "xOffset": 10.0,
             "yOffset": 10.0,

@@ -24,7 +24,8 @@
       {
         "type": "Collider",
         "properties": {
-          "type": "Static"
+          "type": "Static",
+          "size": [ 0.5, 0.5 ]
         }
       },
       {

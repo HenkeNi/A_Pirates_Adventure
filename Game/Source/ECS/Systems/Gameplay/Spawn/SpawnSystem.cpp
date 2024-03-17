@@ -50,6 +50,8 @@ void SpawnSystem::Spawn(Entity* aSpawner)
 			transformComponent = entity->GetComponent<TransformComponent>();
 			transformComponent->CurrentPos = { position.x + xOffset, position.y + yOffset };
 
+			// Add an velocity component? rather than set position, use new position to calc velocity?!
+
 			auto* collectableComponent = entity->GetComponent<CollectableComponent>();
 			collectableComponent->SpawnTimestamp = Hi_Engine::Engine::GetTimer().GetTotalTime();
 			collectableComponent->PickupDelay = 0.5f;

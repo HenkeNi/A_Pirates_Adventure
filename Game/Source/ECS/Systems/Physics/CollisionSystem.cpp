@@ -1,8 +1,6 @@
 #include "Pch.h"
 #include "CollisionSystem.h"
 #include "Entities/EntityManager.h"
-
-
 #include "Entities/Entity.h"
 #include "Components/Core/CoreComponents.h"
 #include "../Utility/Map/MapUtils.h"
@@ -31,7 +29,7 @@ void CollisionSystem::Receive(Message& aMsg)
 		return;
 
 	auto* entity = std::any_cast<Entity*>(aMsg.GetData());
-	UpdateCollider(entity);
+	AlignCollider(entity);
 }
 
 
@@ -239,9 +237,6 @@ void CollisionSystem::Receive(Message& aMsg)
 //	}
 //}
 
-
-
-
 //
 //bool Intersecting(const Hi_Engine::Physics::AABB2D<float>& A1, VelocityComponent& aVelocity, const Hi_Engine::Physics::AABB2D<float>& A2, float& entryTime, float& exitTime)
 //{
@@ -311,7 +306,7 @@ void CollisionSystem::LateUpdate(float aDeltaTime)
 	if (!m_entityManager)
 		return;
 
-	UpdateColliders();
+	UpdateDynamicColliders();
 
 	auto entities = m_entityManager->FindAll<ColliderComponent>();
 
@@ -395,99 +390,63 @@ void CollisionSystem::LateUpdate(float aDeltaTime)
 	//}
 }
 
-void CollisionSystem::AdjustColliderPosition(Entity* anEntity)
+//void CollisionSystem::AdjustColliderPosition(Entity* anEntity)
+//{
+//	if (auto* colliderComponent = anEntity->GetComponent<ColliderComponent>())
+//	{
+//		auto* transformComponent = anEntity->GetComponent<TransformComponent>();
+//		const auto position = transformComponent->CurrentPos;
+//
+//		auto& aabb = colliderComponent->Collider;
+//
+//		float halfWidth  = aabb.GetWidth() * 0.5f;
+//		float halfHeight = aabb.GetHeight() * 0.5f;
+//
+//		aabb.Init({ position.x - halfWidth, position.y - halfHeight }, { position.x + halfWidth, position.y + halfHeight });
+//
+//	}
+//}
+
+void CollisionSystem::UpdateDynamicColliders()
 {
-	if (auto* colliderComponent = anEntity->GetComponent<ColliderComponent>())
-	{
-		auto* transformComponent = anEntity->GetComponent<TransformComponent>();
-		const auto position = transformComponent->CurrentPos;
-
-		auto& aabb = colliderComponent->Collider;
-
-		float halfWidth  = aabb.GetWidth() * 0.5f;
-		float halfHeight = aabb.GetHeight() * 0.5f;
-
-		aabb.Init({ position.x - halfWidth, position.y - halfHeight }, { position.x + halfWidth, position.y + halfHeight });
-
-	}
-}
-
-void CollisionSystem::UpdateColliders()
-{
-	auto entities = m_entityManager->FindAll<ColliderComponent>();
+	auto entities = m_entityManager->FindAll<TransformComponent, ColliderComponent>();
 
 	for (auto& entity : entities)
 	{
 		auto* transformComponent = entity->GetComponent<TransformComponent>();
-		auto* velocityComponent = entity->GetComponent<VelocityComponent>();
+		auto* colliderComponent = entity->GetComponent<ColliderComponent>();
+	
+		assert(transformComponent && colliderComponent);
 
-		//if (auto* attackCollider = entity->GetComponent<AttackComponent>())
-		//{
-		//	const auto& velocity = velocityComponent->Velocity;
+		colliderComponent->CollidingEntities.clear(); // DO THIS FIRST?
 
-		//	auto& aabb = attackCollider->Collider;
-		//	auto& offset = attackCollider->Offset;
+		if (colliderComponent->Type != eColliderType::Dynamic) // maybe wont empty dynmaic colliders colliding entities?
+			return;
 
-		//	// Update collider offset
-		//	auto colliderWidth = aabb.GetWidth();
 
-		//	offset.x = velocity.x > 0.f ? colliderWidth : velocity.x < 0.f ? -colliderWidth : 0;
-		//	offset.y = velocity.y > 0.f ? colliderWidth : velocity.y < 0.f ? -colliderWidth : 0;
-		//	//offset.z = velocity.z > 0.f ? colliderWidth : velocity.z < 0.f ? -colliderWidth : 0;
-
-		//	// Update collider position
-		//	const auto position = transformComponent->CurrentPos + attackCollider->Offset;
-
-		//	float halfWidth = aabb.GetWidth() * 0.5f;
-		//	float halfHeight = aabb.GetHeight() * 0.5f;
-
-		//	aabb.Init({ position.x - halfWidth, position.y - halfHeight }, { position.x + halfWidth, position.y + halfHeight });
-		//}
-
-		/*if (auto* hitboxCollider = entity->GetComponent<HitboxComponent>())
+		// TODO: apply offset
+		auto& offset = colliderComponent->Offset;
+		if (offset.XOffset > 0.f || offset.YOffset > 0.f)
 		{
-			auto& aabb = hitboxCollider->Collider;
+		}
+
+		// only updates moving colliders (TODO; update the one with static colliders by listening to entity created event?)
+		if (colliderComponent->Type == eColliderType::Dynamic)
+		{
+			auto& aabb = colliderComponent->Collider;
 			const auto position = transformComponent->CurrentPos;
 
 			float halfWidth = aabb.GetWidth() * 0.5f;
 			float halfHeight = aabb.GetHeight() * 0.5f;
 
 			aabb.Init({ position.x - halfWidth, position.y - halfHeight }, { position.x + halfWidth, position.y + halfHeight });
-		}*/
-
-		if (auto* colliderComponent = entity->GetComponent<ColliderComponent>())
-		{
-			colliderComponent->CollidingEntities.clear();
-
-			// collider->IsColliding = false;
-			//collider->CollisionData.IsColliding = false;
-			//collider->CollisionData.CollidingEntity = nullptr;
-
-			// Calculate offset (TODO; make more optional)
-			auto& offset = colliderComponent->Offset;
-			if (offset.XOffset > 0.f || offset.YOffset > 0.f)
-			{
-				// if ()
-			}
-
-
-			// only updates moving colliders (TODO; update the one with static colliders by listening to entity created event?)
-			if (colliderComponent->Type == eColliderType::Dynamic)
-			{
-				auto& aabb = colliderComponent->Collider;
-				const auto position = transformComponent->CurrentPos;
-
-				float halfWidth = aabb.GetWidth() * 0.5f;
-				float halfHeight = aabb.GetHeight() * 0.5f;
-
-				aabb.Init({ position.x - halfWidth, position.y - halfHeight }, { position.x + halfWidth, position.y + halfHeight });
-			}
 		}
+
 	}
 }
 
 // TODO: include offset
-void CollisionSystem::UpdateCollider(Entity* anEntity)
+void CollisionSystem::AlignCollider(Entity* anEntity)
 {
 	if (!anEntity)
 		return;

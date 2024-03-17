@@ -140,7 +140,8 @@
     {
       "type": "Collider",
       "properties": {
-        "type": "Dynamic"
+        "type": "Dynamic",
+        "size": [ 0.25, 0.25 ]
       }
     },
     {

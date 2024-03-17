@@ -147,6 +147,44 @@ public:
 	}
 
 	template <>
+	static void InitializeComponent<ColliderComponent>(ColliderComponent* aComponent, const ECS::ComponentData& someData)
+	{
+		CU::Vector2<float> position = { 0.f, 0.f };
+
+		auto size = std::any_cast<std::vector<std::any>>(someData.at("size"));
+
+		//auto halfSize = std::any_cast<float>(someData.at("half_size"));
+		// float halfSize = 0.5f;
+		float xSize = std::any_cast<float>(size[0]);
+		float ySize = std::any_cast<float>(size[1]);
+
+		aComponent->Collider.Init({ position.x - xSize, position.y - ySize }, { position.x + xSize, position.y + ySize });
+
+		std::string type = std::any_cast<std::string>(someData.at("type"));
+		if (type == "Trigger")
+		{
+			aComponent->Type = eColliderType::Trigger;
+		}
+		else if (type == "Dynamic")
+		{
+			aComponent->Type = eColliderType::Dynamic;
+		}
+
+
+		if (someData.contains("offset"))
+		{
+			auto offsetData = std::any_cast<std::unordered_map<std::string, std::any>>(someData.at("offset"));
+
+			Offset& offset = aComponent->Offset;
+
+			offset.XOffset = std::any_cast<float>(offsetData.at("xOffset"));
+			offset.YOffset = std::any_cast<float>(offsetData.at("yOffset"));
+			offset.IsDirectionallyBound = std::any_cast<bool>(offsetData.at("isDirectionallyBound"));
+		}
+
+	}
+
+	template <>
 	static void InitializeComponent<HarvestableComponent>(HarvestableComponent* aComponent, const ECS::ComponentData& someData)
 	{
 		std::string resourceType = std::any_cast<std::string>(someData.at("resource_type"));
@@ -435,39 +473,5 @@ public:
 	template <>
 	static void InitializeComponent<SceneTransitionComponent>(SceneTransitionComponent* aComponent, const ECS::ComponentData& someData)
 	{
-	}
-
-	template <>
-	static void InitializeComponent<ColliderComponent>(ColliderComponent* aComponent, const ECS::ComponentData& someData)
-	{
-		CU::Vector2<float> position = { 0.f, 0.f };
-	
-		//auto halfSize = std::any_cast<float>(someData.at("half_size"));
-		float halfSize = 0.5f;
-
-		aComponent->Collider.Init({ position.x - halfSize, position.y - halfSize }, { position.x + halfSize, position.y + halfSize });
-
-		std::string type = std::any_cast<std::string>(someData.at("type"));
-		if (type == "Trigger")
-		{
-			aComponent->Type = eColliderType::Trigger;
-		}
-		else if (type == "Dynamic")
-		{
-			aComponent->Type = eColliderType::Dynamic;
-		}
-
-
-		if (someData.contains("offset"))
-		{
-			auto offsetData = std::any_cast<std::unordered_map<std::string, std::any>>(someData.at("offset"));
-
-			Offset& offset = aComponent->Offset;
-
-			offset.XOffset = std::any_cast<float>(offsetData.at("xOffset"));
-			offset.YOffset = std::any_cast<float>(offsetData.at("yOffset"));
-			offset.IsDirectionallyBound = std::any_cast<bool>(offsetData.at("isDirectionallyBound"));
-		}
-
 	}
 };

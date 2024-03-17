@@ -24,7 +24,8 @@
       {
         "type": "Collider",
         "properties": {
-          "type": "Static"
+          "type": "Static",
+          "size": [ 0.25, 0.25 ]
         }
       },
       {
@@ -68,7 +69,8 @@
       {
         "type": "Collider",
         "properties": {
-          "type": "Static"
+          "type": "Static",
+          "size": [ 0.25, 0.25 ]
         }
       },
       {
@@ -105,7 +107,7 @@
           "position": [ 0.0, 0.1, 0.0 ],
           "scale": [ 0.5, 0.5, 0.5 ],
           "pivot": [ 0.0, 0.0 ],
-          "rotation": 0.0
+          "rotation": -20.0
         }
       },
       {
@@ -120,7 +122,8 @@
       {
         "type": "Collider",
         "properties": {
-          "type": "Static"
+          "type": "Static",
+          "size": [ 0.25, 0.25 ]
         }
       },
       {

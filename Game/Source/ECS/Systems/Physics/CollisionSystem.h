@@ -24,10 +24,11 @@ public:
 
 
 private:
-	void AdjustColliderPosition(Entity* anEntity);
+	void AlignCollider(Entity* anEntity);
 
-	void UpdateColliders();
-	void UpdateCollider(Entity* anEntity);
+	// void AdjustColliderPosition(Entity* anEntity);
+
+	void UpdateDynamicColliders(); // rename update DynamicColliders?
 
 	bool CanCollide(Entity* aFirst, Entity* aSecond) const;
 
