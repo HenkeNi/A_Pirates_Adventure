@@ -9,11 +9,11 @@ public:
 	MapRenderSystem();
 	~MapRenderSystem();
 
-	void Receive(Message& aMsg)	override;
-	void Draw()					override;
+	void Receive(Message& message)	override;
+	void Draw()						override;
 
 private:
-	void DrawMapChunk(MapChunkComponent* aMapChunk, const CU::Vector2<float>& aPosition);
+	void DrawMapChunk(MapChunkComponent* mapChunk, const CU::Vector2<float>& position);
 
 
 	// DO culling first... (before rendering, and maybe before some other systems...) -> maybe after movement system... (no need to update ai for enemies out of view)??

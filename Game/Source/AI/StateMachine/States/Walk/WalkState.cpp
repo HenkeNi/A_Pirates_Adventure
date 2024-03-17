@@ -7,16 +7,16 @@
 void WalkState::Init()
 {}
 
-void WalkState::Update(Entity* anEntity, float aDeltaTime)
+void WalkState::Update(Entity* entity, float deltaTime)
 {
-	m_elapsedTime += aDeltaTime;
+	m_elapsedTime += deltaTime;
 
 	//std::cout << "Walking..\n";
 
-	if (auto* blackboard = anEntity->GetComponent<BlackboardComponent>())
+	if (auto* blackboard = entity->GetComponent<BlackboardComponent>())
 	{
-		auto* transform = anEntity->GetComponent<TransformComponent>();
-		auto* velocity = anEntity->GetComponent<VelocityComponent>();
+		auto* transform = entity->GetComponent<TransformComponent>();
+		auto* velocity = entity->GetComponent<VelocityComponent>();
 
 		const auto currentPos = transform->CurrentPos;
 		const auto desiredPosition = blackboard->PlayerPosition;

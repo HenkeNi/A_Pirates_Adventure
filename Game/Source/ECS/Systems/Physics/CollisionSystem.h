@@ -1,8 +1,6 @@
 #pragma once
 #include "../Base/System.h"
 
-//class MapChunk;
-
 class Entity;
 
 class CollisionSystem : public System
@@ -11,44 +9,36 @@ public:
 	CollisionSystem();
 	~CollisionSystem();
 
-	// maybe init/or  function => sets colliders to their correct position?!
+	void Receive(Message& message)		override;
+	void LateUpdate(float deltaTime)	override;
 
-	void Init();
-
-	void Receive(Message& aMsg)			override;
-	void LateUpdate(float aDeltaTime)	override;
-
-	// Entity* GetMapChunkContainingEntity(const Entity* anEntity);	// move to MapGenerationSystem?
-
-	// TODO; abstract collision checks into functions that can be called from other systems
-
+	static bool CanCollide(Entity* first, Entity* second);
 
 private:
-	void AlignCollider(Entity* anEntity);
+	void AlignCollider(Entity* entity);
+	void AlignDynamicColliders(ECS::Entities& entities);
 
+	void ResetColliders(ECS::Entities& entities);
+	void HandleEntityCollisions(ECS::Entities& entities); // rename EntityVsEntity collisions?
+
+	//void UpdateDynamicColliders();
 	// void AdjustColliderPosition(Entity* anEntity);
 
-	void UpdateDynamicColliders(); // rename update DynamicColliders?
 
-	bool CanCollide(Entity* aFirst, Entity* aSecond) const;
 
 	// TODO; have a collision grid that gets updated when objects are placed in the world...
 
 	// void HandleObjectCollisions(Entity* anEntity, float aDeltaTime);
-	void HandleTileCollisions(Entity* anEntity, float aDeltaTime);
-
-	void CheckMapCollisions(Entity* anEntity);
-
-	void ResolveCollision(Entity* anEntity, struct Tile* aTile);
+	void HandleTileCollisions(Entity* entity, float deltaTime);
+	void CheckMapCollisions(Entity* entity);
+	void ResolveCollision(Entity* entity, struct Tile* tile);
 
 	// Check collisions
 	// Handle Collision / Resolve Collisions
 
-	//7std::vector<MapChunk*> m_mapChunks;
 
 // OR maybe colliders are just small structs (min/max) and free floating functions... DOWNSIDE=> visually debugging collider is less accurate..
 
 
 	// float SweptAABB(Entity* anEntity);
 };
-

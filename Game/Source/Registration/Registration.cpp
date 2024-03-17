@@ -81,64 +81,64 @@ namespace Registration
 		//ObjectManager::LoadPrototypes("../Bin/Assets/Json/Prototypes/Prototypes_UI.json");
 	}
 
-	void RegisterSystems(SystemManager& aSystemManager)
+	void RegisterSystems(SystemManager& systemManager)
 	{
 		/* - Core Systems - */
-		aSystemManager.Register(std::make_unique<InputSystem>());
-		aSystemManager.Register(std::make_unique<MovementSystem>());
-		aSystemManager.Register(std::make_unique<CameraSystem>());
+		systemManager.Register(std::make_unique<InputSystem>());
+		systemManager.Register(std::make_unique<MovementSystem>());
+		systemManager.Register(std::make_unique<CameraSystem>());
 
 
-		aSystemManager.Register(std::make_unique<CollisionSystem>());
-		aSystemManager.Register(std::make_unique<CombatSystem>());
-		aSystemManager.Register(std::make_unique<EnemySpawnSystem>());
-		aSystemManager.Register(std::make_unique<EquipmentSystem>());
+		systemManager.Register(std::make_unique<CollisionSystem>());
+		systemManager.Register(std::make_unique<CombatSystem>());
+		systemManager.Register(std::make_unique<EnemySpawnSystem>());
+		systemManager.Register(std::make_unique<EquipmentSystem>());
 
-		aSystemManager.Register(std::make_unique<InventorySystem>());
-		aSystemManager.Register(std::make_unique<MeleeCombatSystem>());
+		systemManager.Register(std::make_unique<InventorySystem>());
+		systemManager.Register(std::make_unique<MeleeCombatSystem>());
 
-		aSystemManager.Register(std::make_unique<PlayerControllerSystem>());
-		aSystemManager.Register(std::make_unique<RangedCombatSystem>());
+		systemManager.Register(std::make_unique<PlayerControllerSystem>());
+		systemManager.Register(std::make_unique<RangedCombatSystem>());
 
-		aSystemManager.Register(std::make_unique<ShakeSystem>());
-		aSystemManager.Register(std::make_unique<HUDSystem>());
+		systemManager.Register(std::make_unique<ShakeSystem>());
+		systemManager.Register(std::make_unique<HUDSystem>());
 
-		aSystemManager.Register(std::make_unique<SpawnSystem>());
-		aSystemManager.Register(std::make_unique<SpriteAnimationSystem>());
-		aSystemManager.Register(std::make_unique<StatSystem>());
-		aSystemManager.Register(std::make_unique<TimeSystem>());
+		systemManager.Register(std::make_unique<SpawnSystem>());
+		systemManager.Register(std::make_unique<SpriteAnimationSystem>());
+		systemManager.Register(std::make_unique<StatSystem>());
+		systemManager.Register(std::make_unique<TimeSystem>());
 
-		aSystemManager.Register(std::make_unique<SceneTransitionSystem>());
+		systemManager.Register(std::make_unique<SceneTransitionSystem>());
 
 		/* - Map Systems - */
-		aSystemManager.Register(std::make_unique<MapGenerationSystem>());
-		aSystemManager.Register(std::make_unique<MapDecorationSystem>());
+		systemManager.Register(std::make_unique<MapGenerationSystem>());
+		systemManager.Register(std::make_unique<MapDecorationSystem>());
 
 		/* -  UI Systems - */
-		aSystemManager.Register(std::make_unique<UISystem>());
+		systemManager.Register(std::make_unique<UISystem>());
 
 		/* - AI Systems - */
-		aSystemManager.Register(std::make_unique<BlackboardSystem>());
-		aSystemManager.Register(std::make_unique<BehaviorTreeSystem>());
-		aSystemManager.Register(std::make_unique<SteeringBehaviorSystem>());
-		aSystemManager.Register(std::make_unique<StateMachineSystem>());
+		systemManager.Register(std::make_unique<BlackboardSystem>());
+		systemManager.Register(std::make_unique<BehaviorTreeSystem>());
+		systemManager.Register(std::make_unique<SteeringBehaviorSystem>());
+		systemManager.Register(std::make_unique<StateMachineSystem>());
 
 		/* - Render Systems - */
-		aSystemManager.Register(std::make_unique<DebugRenderSystem>());
-		aSystemManager.Register(std::make_unique<TextRenderSystem>());
-		aSystemManager.Register(std::make_unique<UIRenderSystem>());
-		aSystemManager.Register(std::make_unique<SpriteRenderSystem>());
-		aSystemManager.Register(std::make_unique<MapRenderSystem>());
+		systemManager.Register(std::make_unique<DebugRenderSystem>());
+		systemManager.Register(std::make_unique<TextRenderSystem>());
+		systemManager.Register(std::make_unique<UIRenderSystem>());
+		systemManager.Register(std::make_unique<SpriteRenderSystem>());
+		systemManager.Register(std::make_unique<MapRenderSystem>());
 	}
 
-	void RegisterScenes(SceneManager& aSceneManager, SystemManager& aSystemManager)
+	void RegisterScenes(SceneManager& sceneManager, SystemManager& systemManager)
 	{
-		SceneManagerProxy proxy{ aSceneManager };
+		SceneManagerProxy proxy{ sceneManager };
 
-		aSceneManager.Register(std::make_unique<GameScene>(SharedContext{ proxy, aSystemManager }), eScene::Game);	// Register game's scene here as well?
-		aSceneManager.Register(std::make_unique<LoadingScene>(SharedContext{ proxy, aSystemManager }), eScene::Loading);
-		aSceneManager.Register(std::make_unique<MenuScene>(SharedContext{ proxy, aSystemManager }), eScene::Menu);
-		aSceneManager.Register(std::make_unique<PauseScene>(SharedContext{ proxy, aSystemManager }), eScene::Pause);
-		aSceneManager.Register(std::make_unique<TitleScene>(SharedContext{ proxy, aSystemManager }), eScene::Title);
+		sceneManager.Register(std::make_unique<GameScene>(SharedContext{ proxy, systemManager }), eScene::Game);	// Register game's scene here as well?
+		sceneManager.Register(std::make_unique<LoadingScene>(SharedContext{ proxy, systemManager }), eScene::Loading);
+		sceneManager.Register(std::make_unique<MenuScene>(SharedContext{ proxy, systemManager }), eScene::Menu);
+		sceneManager.Register(std::make_unique<PauseScene>(SharedContext{ proxy, systemManager }), eScene::Pause);
+		sceneManager.Register(std::make_unique<TitleScene>(SharedContext{ proxy, systemManager }), eScene::Title);
 	}
 }

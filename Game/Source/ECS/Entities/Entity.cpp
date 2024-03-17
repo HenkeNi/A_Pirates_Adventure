@@ -21,12 +21,12 @@ Entity::~Entity()
 	OnDestroy();
 }
 
-Entity& Entity::operator=(Entity&& anEntity) noexcept
+Entity& Entity::operator=(Entity&& entity) noexcept
 {
-	m_components = anEntity.m_components;
-	m_ID = anEntity.m_ID;
+	m_components = entity.m_components;
+	m_ID = entity.m_ID;
 
-	anEntity.m_components.clear();
+	entity.m_components.clear();
 
 	return *this;
 }
@@ -36,14 +36,14 @@ unsigned Entity::GetID() const
 	return m_ID;
 }
 
-bool Entity::AddComponent(Component* aComponent)
+bool Entity::AddComponent(Component* component)
 {
-	if (aComponent)
+	if (component)
 	{
-		auto key = std::type_index(typeid(*aComponent));
+		auto key = std::type_index(typeid(*component));
 		if (m_components.find(key) == m_components.end())
 		{
-			m_components.insert({ key, aComponent });
+			m_components.insert({ key, component });
 			return true;
 		}
 	}

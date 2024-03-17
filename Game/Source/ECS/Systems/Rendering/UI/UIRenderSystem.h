@@ -7,8 +7,8 @@ public:
 	UIRenderSystem();
 	~UIRenderSystem();
 
-	void Receive(Message& aMsg)	override;
-	void Draw()					override;
+	void Receive(Message& message)	override;
+	void Draw()						override;
 
 private:
 	void RenderHUD();

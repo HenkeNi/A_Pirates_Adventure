@@ -2,8 +2,8 @@
 #include "DungeonScene.h"
 
 
-DungeonScene::DungeonScene(SharedContext aContext)
-	: Scene{ aContext }
+DungeonScene::DungeonScene(SharedContext context)
+	: Scene{ context }
 {
 }
 
@@ -11,12 +11,12 @@ DungeonScene::~DungeonScene()
 {
 }
 
-void DungeonScene::Update(float aDeltaTime)
+void DungeonScene::Update(float deltaTime)
 {
 	std::cout << "Updating dungeon\n";
 }
 
-void DungeonScene::LateUpdate(float aDeltaTime)
+void DungeonScene::LateUpdate(float deltaTime)
 {
 }
 

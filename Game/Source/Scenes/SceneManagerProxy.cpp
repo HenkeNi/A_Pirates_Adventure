@@ -3,14 +3,14 @@
 #include "SceneManager.h"
 
 
-SceneManagerProxy::SceneManagerProxy(SceneManager& aSceneManager)
-	: m_sceneManager{ aSceneManager }
+SceneManagerProxy::SceneManagerProxy(SceneManager& sceneManager)
+	: m_sceneManager{ sceneManager }
 {
 }
 
-void SceneManagerProxy::Push(eScene aType)
+void SceneManagerProxy::Push(eScene type)
 {
-	m_sceneManager.Push(aType);
+	m_sceneManager.Push(type);
 }
 
 void SceneManagerProxy::Pop()
@@ -18,9 +18,9 @@ void SceneManagerProxy::Pop()
 	m_sceneManager.Pop();
 }
 
-void SceneManagerProxy::SwapTo(eScene aType)
+void SceneManagerProxy::SwapTo(eScene type)
 {
-	m_sceneManager.SwapTo(aType);
+	m_sceneManager.SwapTo(type);
 }
 
 void SceneManagerProxy::Clear()

@@ -9,9 +9,9 @@ public:
 	Transition();
 	~Transition();
 
-	void	SetCondition(Condition* aCondition);
-	void	SetTargetState(State* aState);
-	void	SetPriority(unsigned aPriority);
+	void	SetCondition(Condition* condition);
+	void	SetTargetState(State* state);
+	void	SetPriority(unsigned priority);
 
 	State*	GetTargetState()					const;
 	bool	ShouldTransit(float elapsedTime)	const;

@@ -8,9 +8,9 @@ public:
 	EquipmentSystem();
 	~EquipmentSystem();
 
-	void Receive(Message& aMsg)		override;
-	void Update(float aDeltaTime)	override;
+	void Receive(Message& message)	override;
+	void Update(float deltaTime)	override;
 
 private:
-	bool EquipItem(class Entity* anOwner, class Entity* anItem);
+	bool EquipItem(class Entity* owner, class Entity* item);
 };

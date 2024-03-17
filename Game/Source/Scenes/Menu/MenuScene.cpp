@@ -2,8 +2,8 @@
 #include "MenuScene.h"
 
 
-MenuScene::MenuScene(SharedContext aContext)
-	: Scene{ aContext }
+MenuScene::MenuScene(SharedContext context)
+	: Scene{ context }
 {
 }
 
@@ -11,12 +11,12 @@ MenuScene::~MenuScene()
 {
 }
 
-void MenuScene::Update(float aDeltaTime)
+void MenuScene::Update(float deltaTime)
 {
-	m_sharedContext.SystemManager.Update(aDeltaTime);
+	m_sharedContext.SystemManager.Update(deltaTime);
 }
 
-void MenuScene::LateUpdate(float aDeltaTime)
+void MenuScene::LateUpdate(float deltaTime)
 {
 }
 

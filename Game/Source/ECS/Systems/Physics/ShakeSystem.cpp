@@ -15,12 +15,12 @@ ShakeSystem::~ShakeSystem()
 	PostMaster::GetInstance().Unsubscribe(eMessage::EntityAttacked, this);
 }
 
-void ShakeSystem::Receive(Message& aMsg)
+void ShakeSystem::Receive(Message& message)
 {
-	if (aMsg.GetMessageType() == eMessage::EntityAttacked)
+	if (message.GetMessageType() == eMessage::EntityAttacked)
 	{
 
-		if (auto* entity = std::any_cast<Entity*>(aMsg.GetData()))
+		if (auto* entity = std::any_cast<Entity*>(message.GetData()))
 		{
 			if (auto* shake = entity->GetComponent<ShakeComponent>())
 			{
@@ -32,7 +32,7 @@ void ShakeSystem::Receive(Message& aMsg)
 	}
 }
 
-void ShakeSystem::Update(float aDeltaTime)
+void ShakeSystem::Update(float deltaTime)
 {
 	if (!m_entityManager)
 		return;
@@ -49,7 +49,7 @@ void ShakeSystem::Update(float aDeltaTime)
 
 		if (shake->m_elapsedTime < shake->m_duration)
 		{
-			shake->m_elapsedTime += aDeltaTime;
+			shake->m_elapsedTime += deltaTime;
 
 			static float speed = 50.f;
 			static float amount = 1.f;

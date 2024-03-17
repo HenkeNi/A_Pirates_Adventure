@@ -12,14 +12,14 @@ class Entity
 public:
 	Entity();
 	Entity(const Entity&)							 = delete;
-	Entity(Entity&& anEntity)						 noexcept;
+	Entity(Entity&& entity)							 noexcept;
 	~Entity();
 
 	Entity&		operator=(const Entity&)			 = delete;
-	Entity&		operator=(Entity&& anEntity)		 noexcept;
+	Entity&		operator=(Entity&& entity)			 noexcept;
 
 	unsigned	GetID()									const;
-	bool		AddComponent(Component* aComponent);
+	bool		AddComponent(Component* component);
 
 	template	<typename T>
 	bool		RemoveComponent();

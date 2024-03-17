@@ -9,12 +9,12 @@ FlockBehavior::FlockBehavior()
 {
 }
 
-void FlockBehavior::Update(float aDeltaTime)
+void FlockBehavior::Update(float deltaTime)
 {
 	// auto separation = GetSeparationForce();
 }
 
-const CU::Vector2<float> FlockBehavior::GetSteeringForce(const CU::Vector2<float>& aVelocity)
+const CU::Vector2<float> FlockBehavior::GetSteeringForce(const CU::Vector2<float>& velocity)
 {
 	float cohesionWeight = 5.f;
 	float alignmentWeight = 3.f;
@@ -29,21 +29,21 @@ const CU::Vector2<float> FlockBehavior::GetSteeringForce(const CU::Vector2<float
 	//return {};
 }
 
-const CU::Vector2<float> FlockBehavior::GetSteeringForce(const CU::Vector2<float>& aPosition, const CU::Vector2<float>& aVelocity)
+const CU::Vector2<float> FlockBehavior::GetSteeringForce(const CU::Vector2<float>& position, const CU::Vector2<float>& velocity)
 {
 	return {};
 }
 
-void FlockBehavior::SetFlockMembers(const std::vector<Entity*>& someEntities)
+void FlockBehavior::SetFlockMembers(const std::vector<Entity*>& entities)
 {	
 	// TODO; avoid setting self...
 
-	m_flockMembers = someEntities;
+	m_flockMembers = entities;
 }
 
-void FlockBehavior::SetOwner(Entity* anEntity)
+void FlockBehavior::SetOwner(Entity* entity)
 {
-	m_owner = anEntity;
+	m_owner = entity;
 }
 
 CU::Vector2<float> FlockBehavior::CalculateSeparationForce() const

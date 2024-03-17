@@ -15,21 +15,21 @@ SkillTree::~SkillTree()
 }
 
 //void SkillTree::RegisterSkill(SkillNode* aParent, const std::any& someData)
-void SkillTree::RegisterSkill(SkillNode* aParent, const std::string& Identifier)
+void SkillTree::RegisterSkill(SkillNode* parent, const std::string& identifier)
 {
-	if (aParent)
+	if (parent)
 	{
 		auto* newSkill = new SkillNode;
 		newSkill->IsUnlocked = false;
 		//newSkill->Data = someData;
-		newSkill->Identifier = Identifier;
+		newSkill->Identifier = identifier;
 
-		aParent->ChildNodes.push_back(newSkill);
+		parent->ChildNodes.push_back(newSkill);
 	}
 }
 
 //void SkillTree::RegisterSkill(unsigned aParentID, const std::any& someData)
-void SkillTree::RegisterSkill(const std::string& aParentID, const std::string& Identifier)
+void SkillTree::RegisterSkill(const std::string& parentID, const std::string& identifier)
 {
 	if (!m_root)
 		return;
@@ -37,7 +37,7 @@ void SkillTree::RegisterSkill(const std::string& aParentID, const std::string& I
 	auto* newSkill = new SkillNode;
 	newSkill->IsUnlocked = false;
 	//newSkill->Data = someData;
-	newSkill->Identifier = Identifier;
+	newSkill->Identifier = identifier;
 
 	//static bool first = true;
 	//if (first)
@@ -48,7 +48,7 @@ void SkillTree::RegisterSkill(const std::string& aParentID, const std::string& I
 	
 	// Store parent ID??
 
-	InsertSkill(m_root, aParentID, newSkill);
+	InsertSkill(m_root, parentID, newSkill);
 }
 
 SkillNode* SkillTree::GetRoot()
@@ -61,7 +61,7 @@ void SkillTree::DebugLog()
 
 }
 
-SkillNode* SkillTree::BreadthFirstSearch(const std::string& anIdentifier)
+SkillNode* SkillTree::BreadthFirstSearch(const std::string& identifier)
 {
 	return nullptr;
 }
@@ -97,18 +97,18 @@ std::vector<SkillNode*> SkillTree::GetNextUnlockableNodes()
 	return unlockableNodes;
 }
 
-void SkillTree::Unlock(const std::string& anIdentifier)
+void SkillTree::Unlock(const std::string& identifier)
 {
 
 }
 
-void SkillTree::PrintLevelOrder(SkillNode* aRoot)
+void SkillTree::PrintLevelOrder(SkillNode* root)
 {
-	if (!aRoot)
+	if (!root)
 		return;
 
 	std::queue<SkillNode*> queue;
-	queue.push(aRoot);
+	queue.push(root);
 
 	while (!queue.empty())
 	{
@@ -124,31 +124,31 @@ void SkillTree::PrintLevelOrder(SkillNode* aRoot)
 	}
 }
 
-void SkillTree::DeleteTree(SkillNode* aRoot)
+void SkillTree::DeleteTree(SkillNode* root)
 {
-	if (!aRoot)
+	if (!root)
 		return;
 
-	for (auto* child : aRoot->ChildNodes)
+	for (auto* child : root->ChildNodes)
 		DeleteTree(child);
 
-	delete aRoot;
+	delete root;
 }
 
-void SkillTree::InsertSkill(SkillNode* aRoot, const std::string& aParentID, SkillNode* aSkill)
+void SkillTree::InsertSkill(SkillNode* root, const std::string& parentID, SkillNode* skill)
 {
-	if (!aRoot)
+	if (!root)
 		return;
 
-	if (aRoot->Identifier == aParentID)
+	if (root->Identifier == parentID)
 	{
-		aRoot->ChildNodes.push_back(aSkill);
+		root->ChildNodes.push_back(skill);
 	}
 	else
 	{
-		for (auto* child : aRoot->ChildNodes)
+		for (auto* child : root->ChildNodes)
 		{
-			InsertSkill(child, aParentID, aSkill);
+			InsertSkill(child, parentID, skill);
 		}
 	}
 }

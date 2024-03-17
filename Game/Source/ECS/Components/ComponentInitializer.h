@@ -31,19 +31,19 @@ class ComponentInitializer
 {
 public:
 	template <typename T>
-	static void InitializeComponent(T* aComponent, const ECS::ComponentData& someData)
+	static void InitializeComponent(T* component, const ECS::ComponentData& data)
 	{
 	}
 
 	template <>
-	static void InitializeComponent<AnimationComponent>(AnimationComponent* aComponent, const ECS::ComponentData& someData)
+	static void InitializeComponent<AnimationComponent>(AnimationComponent* component, const ECS::ComponentData& data)
 	{
-		auto animationData = std::any_cast<std::vector<std::any>>(someData.at("animations"));
+		auto animationsData = std::any_cast<std::vector<std::any>>(data.at("animations"));
 
 		std::unordered_map<std::string, Animation> animations;
-		for (const auto& data : animationData)
+		for (const auto& animationData : animationsData)
 		{
-			auto properties = std::any_cast<std::unordered_map<std::string, std::any>>(data);
+			auto properties = std::any_cast<std::unordered_map<std::string, std::any>>(animationData);
 
 			std::string identifier = std::any_cast<std::string>(properties.at("identifier"));
 
@@ -81,10 +81,10 @@ public:
 
 
 		// aComponent->Animations = std::any_cast<std::unordered_map<std::string, Animation>>(someData.at("animationMap"));
-		aComponent->Animations = animations;
+		component->Animations = animations;
 
-		std::string active = std::any_cast<std::string>(someData.at("active"));
-		aComponent->Active = active;
+		std::string active = std::any_cast<std::string>(data.at("active"));
+		component->Active = active;
 
 		/*std::string identifier				= std::any_cast<std::string>(someData.at("identifier"));
 		std::vector<std::string> animations = std::any_cast<std::vector<std::string>>(someData.at("animations"));
@@ -105,7 +105,7 @@ public:
 	}
 	
 	template <>
-	static void InitializeComponent<AttackComponent>(AttackComponent* aComponent, const ECS::ComponentData& someData)
+	static void InitializeComponent<AttackComponent>(AttackComponent* component, const ECS::ComponentData& data)
 	{
 		auto startPos = CU::Vector2<float>{ 0.f, 0.f };
 		auto colliderSize = 0.2f;								// FIX!
@@ -116,7 +116,7 @@ public:
 	}
 
 	template <>
-	static void InitializeComponent<BehaviorTreeComponent>(BehaviorTreeComponent* aComponent, const ECS::ComponentData& someData)
+	static void InitializeComponent<BehaviorTreeComponent>(BehaviorTreeComponent* component, const ECS::ComponentData& data)
 	{
 		// DO IN system instead??
 		// aComponent->m_rootNode = new SelectorNode;
@@ -126,56 +126,56 @@ public:
 	}
 
 	template <>
-	static void InitializeComponent<CameraComponent>(CameraComponent* aComponent, const ECS::ComponentData& someData)
+	static void InitializeComponent<CameraComponent>(CameraComponent* component, const ECS::ComponentData& data)
 	{
-		aComponent->ZoomRange = { 0.5f, 1.f };
+		component->ZoomRange = { 0.5f, 1.f };
 
 		// aComponent->Camera.Init(0, 1400, 0, 800, 0.f, 100.f);
 
 	}
 	
 	template <>
-	static void InitializeComponent<CharacterStateComponent>(CharacterStateComponent* aComponent, const ECS::ComponentData& someData)
+	static void InitializeComponent<CharacterStateComponent>(CharacterStateComponent* component, const ECS::ComponentData& data)
 	{
-		aComponent->IsIdle = true;
-		aComponent->IsAlive = true;
-		aComponent->IsWalking = false;
-		aComponent->IsRunning = false;
-		aComponent->IsJumping = false;
-		aComponent->IsAttacking = false;
-		aComponent->IsAiming = false;
+		component->IsIdle = true;
+		component->IsAlive = true;
+		component->IsWalking = false;
+		component->IsRunning = false;
+		component->IsJumping = false;
+		component->IsAttacking = false;
+		component->IsAiming = false;
 	}
 
 	template <>
-	static void InitializeComponent<ColliderComponent>(ColliderComponent* aComponent, const ECS::ComponentData& someData)
+	static void InitializeComponent<ColliderComponent>(ColliderComponent* component, const ECS::ComponentData& data)
 	{
 		CU::Vector2<float> position = { 0.f, 0.f };
 
-		auto size = std::any_cast<std::vector<std::any>>(someData.at("size"));
+		auto size = std::any_cast<std::vector<std::any>>(data.at("size"));
 
 		//auto halfSize = std::any_cast<float>(someData.at("half_size"));
 		// float halfSize = 0.5f;
 		float xSize = std::any_cast<float>(size[0]);
 		float ySize = std::any_cast<float>(size[1]);
 
-		aComponent->Collider.Init({ position.x - xSize, position.y - ySize }, { position.x + xSize, position.y + ySize });
+		component->Collider.Init({ position.x - xSize, position.y - ySize }, { position.x + xSize, position.y + ySize });
 
-		std::string type = std::any_cast<std::string>(someData.at("type"));
+		std::string type = std::any_cast<std::string>(data.at("type"));
 		if (type == "Trigger")
 		{
-			aComponent->Type = eColliderType::Trigger;
+			component->Type = eColliderType::Trigger;
 		}
 		else if (type == "Dynamic")
 		{
-			aComponent->Type = eColliderType::Dynamic;
+			component->Type = eColliderType::Dynamic;
 		}
 
 
-		if (someData.contains("offset"))
+		if (data.contains("offset"))
 		{
-			auto offsetData = std::any_cast<std::unordered_map<std::string, std::any>>(someData.at("offset"));
+			auto offsetData = std::any_cast<std::unordered_map<std::string, std::any>>(data.at("offset"));
 
-			Offset& offset = aComponent->Offset;
+			Offset& offset = component->Offset;
 
 			offset.XOffset = std::any_cast<float>(offsetData.at("xOffset"));
 			offset.YOffset = std::any_cast<float>(offsetData.at("yOffset"));
@@ -185,36 +185,36 @@ public:
 	}
 
 	template <>
-	static void InitializeComponent<HarvestableComponent>(HarvestableComponent* aComponent, const ECS::ComponentData& someData)
+	static void InitializeComponent<HarvestableComponent>(HarvestableComponent* component, const ECS::ComponentData& data)
 	{
-		std::string resourceType = std::any_cast<std::string>(someData.at("resource_type"));
-		int yield = std::any_cast<int>(someData.at("yield"));
+		std::string resourceType = std::any_cast<std::string>(data.at("resource_type"));
+		int yield = std::any_cast<int>(data.at("yield"));
 
-		aComponent->Yield = yield;
-		aComponent->ResourceType = resourceType;
+		component->Yield = yield;
+		component->ResourceType = resourceType;
 	}
 
 	template <>
-	static void InitializeComponent<HealthComponent>(HealthComponent* aComponent, const ECS::ComponentData& someData)
+	static void InitializeComponent<HealthComponent>(HealthComponent* component, const ECS::ComponentData& data)
 	{
-		int value = std::any_cast<int>(someData.at("value"));
-		aComponent->CurrentValue = value;
-		aComponent->IsInvincible = false;
+		int value = std::any_cast<int>(data.at("value"));
+		component->CurrentValue = value;
+		component->IsInvincible = false;
 		// TODO; set health stat?!
 	}
 
 	template <>
-	static void InitializeComponent<InventoryComponent>(InventoryComponent* aComponent, const ECS::ComponentData& someData)
+	static void InitializeComponent<InventoryComponent>(InventoryComponent* component, const ECS::ComponentData& data)
 	{
 		int xx = 20;
 		xx += 20;
 	}
 	
 	template <>
-	static void InitializeComponent<MapChunkComponent>(MapChunkComponent* aComponent, const ECS::ComponentData& someData)
+	static void InitializeComponent<MapChunkComponent>(MapChunkComponent* component, const ECS::ComponentData& data)
 	{
-		int width = std::any_cast<int>(someData.at("width"));
-		int height = std::any_cast<int>(someData.at("height"));
+		int width = std::any_cast<int>(data.at("width"));
+		int height = std::any_cast<int>(data.at("height"));
 
 		MapChunkComponent::TileCountPerSide = width;
 
@@ -223,7 +223,7 @@ public:
 	}
 
 	template <>
-	static void InitializeComponent<PlayerControllerComponent>(PlayerControllerComponent* aComponent, const ECS::ComponentData& someData)
+	static void InitializeComponent<PlayerControllerComponent>(PlayerControllerComponent* component, const ECS::ComponentData& data)
 	{
 		// Temp
 
@@ -234,43 +234,43 @@ public:
 		// Have an map of keys, one with mouse input and one with controller input??
 		
 		// TODO; make sure to delete...
-		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_W, new MoveCommand{{ 0.f,   1.f }}));
-		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_S, new MoveCommand{{ 0.f,	-1.f } }));
-		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_A, new MoveCommand{{ -1.f,	 0.f } }));
-		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_D, new MoveCommand{{ 1.f,  0.f } }));
+		component->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_W, new MoveCommand{{ 0.f,   1.f }}));
+		component->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_S, new MoveCommand{{ 0.f,	-1.f } }));
+		component->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_A, new MoveCommand{{ -1.f,	 0.f } }));
+		component->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_D, new MoveCommand{{ 1.f,  0.f } }));
 
-		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_Space,	new AttackCommand));
-		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_LShift, new SprintCommand));
-		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_Escape, new PauseCommand));
-		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_1,		new AimCommand)); // CHANGE To mouse button
-		aComponent->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_2,		new ShootCommand));
+		component->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_Space,	new AttackCommand));
+		component->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_LShift, new SprintCommand));
+		component->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_Escape, new PauseCommand));
+		component->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_1,		new AimCommand)); // CHANGE To mouse button
+		component->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_2,		new ShootCommand));
 	}
 
 	template <>
-	static void InitializeComponent<SpawnComponent>(SpawnComponent* aComponent, const ECS::ComponentData& someData)
+	static void InitializeComponent<SpawnComponent>(SpawnComponent* component, const ECS::ComponentData& data)
 	{
-		std::string spawned	= std::any_cast<std::string>(someData.at("spawned"));
-		int amount			= std::any_cast<int>(someData.at("amount"));
-		float interval		= std::any_cast<float>(someData.at("interval"));
+		std::string spawned	= std::any_cast<std::string>(data.at("spawned"));
+		int amount			= std::any_cast<int>(data.at("amount"));
+		float interval		= std::any_cast<float>(data.at("interval"));
 
-		aComponent->Spawned	= spawned;
-		aComponent->Amount	= amount;
-		aComponent->Interval	= interval;
-		aComponent->ElapsedTime = 0.f;
-		aComponent->SpawnedAmount = 0;
+		component->Spawned	= spawned;
+		component->Amount	= amount;
+		component->Interval	= interval;
+		component->ElapsedTime = 0.f;
+		component->SpawnedAmount = 0;
 	}
 
 	template <>
-	static void InitializeComponent<SpriteComponent>(SpriteComponent* aComponent, const ECS::ComponentData& someData)
+	static void InitializeComponent<SpriteComponent>(SpriteComponent* component, const ECS::ComponentData& data)
 	{
-		auto shader = std::any_cast<std::string>(someData.at("shader"));
-		auto texture = std::any_cast<std::string>(someData.at("texture"));
-		//auto color = std::any_cast<std::array<float, 4>>(someData.at("color"));
-		auto color = std::any_cast<std::vector<std::any>>(someData.at("color"));
-		auto coordinates = std::any_cast<std::vector<std::any>>(someData.at("coordinates"));
+		auto shader = std::any_cast<std::string>(data.at("shader"));
+		auto texture = std::any_cast<std::string>(data.at("texture"));
+		//auto color = std::any_cast<std::array<float, 4>>(data.at("color"));
+		auto color = std::any_cast<std::vector<std::any>>(data.at("color"));
+		auto coordinates = std::any_cast<std::vector<std::any>>(data.at("coordinates"));
 
-		aComponent->Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ texture, std::any_cast<int>(coordinates[0]), std::any_cast<int>(coordinates[1]) });
-		aComponent->Color = { std::any_cast<float>(color[0]), std::any_cast<float>(color[1]), std::any_cast<float>(color[2]), std::any_cast<float>(color[3]) };
+		component->Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ texture, std::any_cast<int>(coordinates[0]), std::any_cast<int>(coordinates[1]) });
+		component->Color = { std::any_cast<float>(color[0]), std::any_cast<float>(color[1]), std::any_cast<float>(color[2]), std::any_cast<float>(color[3]) };
 		//aComponent->m_material = {
 		//	&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource(texture),
 		//	&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource(shader)
@@ -280,123 +280,123 @@ public:
 	}
 
 	template <>
-	static void InitializeComponent<SteeringBehaviorComponent>(SteeringBehaviorComponent* aComponent, const ECS::ComponentData& someData)
+	static void InitializeComponent<SteeringBehaviorComponent>(SteeringBehaviorComponent* component, const ECS::ComponentData& data)
 	{
-		std::string behaviorType = std::any_cast<std::string>(someData.at("behavior"));
-		std::string layer = std::any_cast<std::string>(someData.at("layer"));
+		std::string behaviorType = std::any_cast<std::string>(data.at("behavior"));
+		std::string layer = std::any_cast<std::string>(data.at("layer"));
 
 		if (behaviorType == "flock_behavior")
 		{
-			aComponent->ActiveBehavior = new FlockBehavior{};	// FIX! don't new? Make sure to delete...
-			aComponent->Layer = layer;
+			component->ActiveBehavior = new FlockBehavior{};	// FIX! don't new? Make sure to delete...
+			component->Layer = layer;
 		}
 		if (behaviorType == "wander_behavior")
 		{
-			aComponent->ActiveBehavior = new WanderBehavior{};
-			aComponent->Layer = layer;
+			component->ActiveBehavior = new WanderBehavior{};
+			component->Layer = layer;
 		}
 	}
 
 	template <>
-	static void InitializeComponent<TransformComponent>(TransformComponent* aComponent, const ECS::ComponentData& someData)
+	static void InitializeComponent<TransformComponent>(TransformComponent* component, const ECS::ComponentData& data)
 	{
 		//auto position = std::any_cast<std::array<float, 3>>(someData.at("position"));
 		//auto scale = std::any_cast<std::array<float, 3>>(someData.at("scale"));
 		
-		auto position  = std::any_cast<std::vector<std::any>>(someData.at("position"));
-		auto scale     = std::any_cast<std::vector<std::any>>(someData.at("scale"));
-		auto pivot	   = std::any_cast<std::vector<std::any>>(someData.at("pivot"));
-		float rotation = std::any_cast<float>(someData.at("rotation"));
+		auto position  = std::any_cast<std::vector<std::any>>(data.at("position"));
+		auto scale     = std::any_cast<std::vector<std::any>>(data.at("scale"));
+		auto pivot	   = std::any_cast<std::vector<std::any>>(data.at("pivot"));
+		float rotation = std::any_cast<float>(data.at("rotation"));
 
 
 
-		aComponent->CurrentPos	= aComponent->PreviousPos = { std::any_cast<float>(position[0]), std::any_cast<float>(position[1]) };
-		aComponent->Scale		= { std::any_cast<float>(scale[0]), std::any_cast<float>(scale[1]) };
-		aComponent->Pivot		= { std::any_cast<float>(pivot[0]), std::any_cast<float>(pivot[1]) };
-		aComponent->Rotation	= rotation;
+		component->CurrentPos	= component->PreviousPos = { std::any_cast<float>(position[0]), std::any_cast<float>(position[1]) };
+		component->Scale		= { std::any_cast<float>(scale[0]), std::any_cast<float>(scale[1]) };
+		component->Pivot		= { std::any_cast<float>(pivot[0]), std::any_cast<float>(pivot[1]) };
+		component->Rotation	= rotation;
 	}
 
 	template <>
-	static void InitializeComponent<TextComponent>(TextComponent* aComponent, const ECS::ComponentData& someData)
+	static void InitializeComponent<TextComponent>(TextComponent* component, const ECS::ComponentData& data)
 	{
-		std::string font	= std::any_cast<std::string>(someData.at("font"));
-		int size			= std::any_cast<int>(someData.at("size"));
-		//auto color			= std::any_cast<std::array<float, 4>>(someData.at("color"));
-		auto color = std::any_cast<std::vector<std::any>>(someData.at("color"));
-		std::string text = std::any_cast<std::string>(someData.at("text"));
+		std::string font	= std::any_cast<std::string>(data.at("font"));
+		int size			= std::any_cast<int>(data.at("size"));
+		//auto color			= std::any_cast<std::array<float, 4>>(data.at("color"));
+		auto color = std::any_cast<std::vector<std::any>>(data.at("color"));
+		std::string text = std::any_cast<std::string>(data.at("text"));
 
-		aComponent->Font = &Hi_Engine::ResourceHolder<Hi_Engine::Font>::GetInstance().GetResource(font);
-		aComponent->Color = { std::any_cast<float>(color[0]), std::any_cast<float>(color[1]), std::any_cast<float>(color[2]), std::any_cast<float>(color[3]) };
-		aComponent->Size = size;
-		aComponent->Text = text;
+		component->Font = &Hi_Engine::ResourceHolder<Hi_Engine::Font>::GetInstance().GetResource(font);
+		component->Color = { std::any_cast<float>(color[0]), std::any_cast<float>(color[1]), std::any_cast<float>(color[2]), std::any_cast<float>(color[3]) };
+		component->Size = size;
+		component->Text = text;
 	}
 
 	template <>
-	static void InitializeComponent<ResourceComponent>(ResourceComponent* aComponent, const ECS::ComponentData& someData)
+	static void InitializeComponent<ResourceComponent>(ResourceComponent* component, const ECS::ComponentData& data)
 	{
-		std::string resource = std::any_cast<std::string>(someData.at("resource"));
-		//int quantity = std::any_cast<int>(someData.at("quantity"));
+		std::string resource = std::any_cast<std::string>(data.at("resource"));
+		//int quantity = std::any_cast<int>(data.at("quantity"));
 
-		//aComponent->m_quantity			= (unsigned)quantity;
-		aComponent->ResourceType = resource;
+		//component->m_quantity			= (unsigned)quantity;
+		component->ResourceType = resource;
 	}
 	
 	template <>
-	static void InitializeComponent<VelocityComponent>(VelocityComponent* aComponent, const ECS::ComponentData& someData)
+	static void InitializeComponent<VelocityComponent>(VelocityComponent* component, const ECS::ComponentData& data)
 	{
-		float speed = std::any_cast<float>(someData.at("speed"));
-		aComponent->Speed = speed;
+		float speed = std::any_cast<float>(data.at("speed"));
+		component->Speed = speed;
 	}
 
 	template <>
-	static void InitializeComponent<WeaponComponent>(WeaponComponent* aComponent, const ECS::ComponentData& someData)
+	static void InitializeComponent<WeaponComponent>(WeaponComponent* component, const ECS::ComponentData& data)
 	{
-		int damage = std::any_cast<int>(someData.at("damage"));
-		float speed = std::any_cast<float>(someData.at("speed"));
+		int damage = std::any_cast<int>(data.at("damage"));
+		float speed = std::any_cast<float>(data.at("speed"));
 
-		aComponent->DamageDealt = damage;
-		aComponent->AttackSpeed = speed;
+		component->DamageDealt = damage;
+		component->AttackSpeed = speed;
 	}
 	
 	template <>
-	static void InitializeComponent<WorldTimeComponent>(WorldTimeComponent* aComponent, const ECS::ComponentData& someData)
+	static void InitializeComponent<WorldTimeComponent>(WorldTimeComponent* component, const ECS::ComponentData& data)
 	{
-		float dayDuration = std::any_cast<float>(someData.at("day_duration"));
-		aComponent->DayDuration = dayDuration;
+		float dayDuration = std::any_cast<float>(data.at("day_duration"));
+		component->DayDuration = dayDuration;
 	}
 
 	template <>
-	static void InitializeComponent<WanderBehaviorComponent>(WanderBehaviorComponent* aComponent, const ECS::ComponentData& someData)
+	static void InitializeComponent<WanderBehaviorComponent>(WanderBehaviorComponent* component, const ECS::ComponentData& data)
 	{
-		aComponent->Behavior = new WanderBehavior{}; // Don't new....
+		component->Behavior = new WanderBehavior{}; // Don't new....
 	}
 
 	template <>
-	static void InitializeComponent<FlockBehaviorComponent>(FlockBehaviorComponent* aComponent, const ECS::ComponentData& someData)
+	static void InitializeComponent<FlockBehaviorComponent>(FlockBehaviorComponent* component, const ECS::ComponentData& data)
 	{
-		aComponent->Behavior = new FlockBehavior{};	// Make sure to delete...
+		component->Behavior = new FlockBehavior{};	// Make sure to delete...
 	}
 
 	template <>
-	static void InitializeComponent<SeekBehaviorComponent>(SeekBehaviorComponent* aComponent, const ECS::ComponentData& someData)
+	static void InitializeComponent<SeekBehaviorComponent>(SeekBehaviorComponent* component, const ECS::ComponentData& data)
 	{
-		// aComponent->m_behavior = new SeekBehavior{}; // Don't new....
+		// component->m_behavior = new SeekBehavior{}; // Don't new....
 	}
 
 	template <>
-	static void InitializeComponent<FleeBehaviorComponent>(FleeBehaviorComponent* aComponent, const ECS::ComponentData& someData)
+	static void InitializeComponent<FleeBehaviorComponent>(FleeBehaviorComponent* component, const ECS::ComponentData& data)
 	{
-		// aComponent->m_behavior = new FleeBehavior{}; // Don't new....
+		// component->m_behavior = new FleeBehavior{}; // Don't new....
 
 	}
 
 	template <>
-	static void InitializeComponent<StateMachineComponent>(StateMachineComponent* aComponent, const ECS::ComponentData& someData)
+	static void InitializeComponent<StateMachineComponent>(StateMachineComponent* component, const ECS::ComponentData& data)
 	{
 		//auto states = std::any_cast<std::vector<std::any>>(someData.at("states"));
 		//auto states = someData.at("states");
 
-		auto states = std::any_cast<std::vector<std::any>>(someData.at("states"));
+		auto states = std::any_cast<std::vector<std::any>>(data.at("states"));
 
 		//std::vector<std::string> states = std::any_cast<std::vector<std::string>>(someData.at("states"));
 
@@ -407,11 +407,11 @@ public:
 
 			if (type == "idle")
 			{
-				aComponent->States.push_back(new IdleState{});
+				component->States.push_back(new IdleState{});
 			}
 			else if (type == "walk")
 			{
-				aComponent->States.push_back(new WalkState{});
+				component->States.push_back(new WalkState{});
 			}
 			else if (type == "attack")
 			{
@@ -426,7 +426,7 @@ public:
 		}
 
 		// Temp
-		aComponent->ActiveState = aComponent->States[0];
+		component->ActiveState = component->States[0];
 
 
 		// std::unorederd_map? string key ? 
@@ -436,14 +436,14 @@ public:
 		// add durtaion condition
 		Transition idleToWalk;
 		idleToWalk.SetCondition(new ElapsedTimeCondition{ 5.f });
-		idleToWalk.SetTargetState(aComponent->States[1]);
+		idleToWalk.SetTargetState(component->States[1]);
 
 		Transition walkToIdle;
 		walkToIdle.SetCondition(new ElapsedTimeCondition{ 5.f }); // use same condition? => cant delte in desturtor then....
-		walkToIdle.SetTargetState(aComponent->States[0]);
+		walkToIdle.SetTargetState(component->States[0]);
 
-		aComponent->States[0]->AddTransition(idleToWalk);
-		aComponent->States[1]->AddTransition(walkToIdle); // duraion condition
+		component->States[0]->AddTransition(idleToWalk);
+		component->States[1]->AddTransition(walkToIdle); // duraion condition
 
 
 		// TODO; connect the states
@@ -461,17 +461,17 @@ public:
 	}
 
 	template <>
-	static void InitializeComponent<ShakeComponent>(ShakeComponent* aComponent, const ECS::ComponentData& someData)
+	static void InitializeComponent<ShakeComponent>(ShakeComponent* component, const ECS::ComponentData& data)
 	{
 	}
 	
 	template <>
-	static void InitializeComponent<ToppleComponent>(ToppleComponent* aComponent, const ECS::ComponentData& someData)
+	static void InitializeComponent<ToppleComponent>(ToppleComponent* component, const ECS::ComponentData& data)
 	{
 	}
 
 	template <>
-	static void InitializeComponent<SceneTransitionComponent>(SceneTransitionComponent* aComponent, const ECS::ComponentData& someData)
+	static void InitializeComponent<SceneTransitionComponent>(SceneTransitionComponent* component, const ECS::ComponentData& data)
 	{
 	}
 };

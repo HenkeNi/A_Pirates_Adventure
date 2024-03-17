@@ -11,11 +11,11 @@ BlackboardSystem::~BlackboardSystem()
 {
 }
 
-void BlackboardSystem::Receive(Message& aMsg)
+void BlackboardSystem::Receive(Message& message)
 {
 }
 
-void BlackboardSystem::Update(float aDeltaTime)
+void BlackboardSystem::Update(float deltaTime)
 {
 	if (!m_entityManager)
 		return;

@@ -8,12 +8,12 @@ public:
 	SteeringBehaviorSystem();
 	~SteeringBehaviorSystem();
 
-	void Receive(Message& aMsg)		override;
-	void Update(float aDeltaTime)	override;
+	void Receive(Message& message)	override;
+	void Update(float deltaTime)	override;
 
 private:
-	void UpdateWanderBehavior(float aDeltaTime);
-	void UpdateFlockBehavior(float aDeltaTime);
-	void UpdateSeekBehavior(float aDeltaTime);
-	void UpdateFleeBehavior(float aDeltaTime);
+	void UpdateWanderBehavior(float deltaTime);
+	void UpdateFlockBehavior(float deltaTime);
+	void UpdateSeekBehavior(float deltaTime);
+	void UpdateFleeBehavior(float deltaTime);
 };

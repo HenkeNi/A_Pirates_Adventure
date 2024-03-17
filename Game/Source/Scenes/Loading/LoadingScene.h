@@ -5,11 +5,11 @@
 class LoadingScene : public Scene
 {
 public:
-	LoadingScene(SharedContext aContext);
+	LoadingScene(SharedContext context);
 	~LoadingScene();
 
-	void Update(float aDeltaTime)			  override;
-	void LateUpdate(float aDeltaTime)		  override;
+	void Update(float deltaTime)			  override;
+	void LateUpdate(float deltaTime)		  override;
 	void Draw()							const override;
 
 	void OnEnter()							  override;

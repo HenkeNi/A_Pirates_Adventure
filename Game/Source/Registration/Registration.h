@@ -9,7 +9,7 @@ namespace Registration
 
 	void RegisterBlueprints();
 
-	void RegisterSystems(SystemManager& aSystemManager);
+	void RegisterSystems(SystemManager& systemManager);
 
-	void RegisterScenes(SceneManager& aSceneManager, SystemManager& aSystemManager);	
+	void RegisterScenes(SceneManager& sceneManager, SystemManager& systemManager);	
 }

@@ -2,8 +2,8 @@
 #include "Scene.h"
 
 
-Scene::Scene(SharedContext aContext)
-	: m_sharedContext{ aContext }
+Scene::Scene(SharedContext context)
+	: m_sharedContext{ context }
 {
 }
 

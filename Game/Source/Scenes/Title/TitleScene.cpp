@@ -3,8 +3,8 @@
 #include "Components/Core/CoreComponents.h"
 
 
-TitleScene::TitleScene(SharedContext aContext)
-	: Scene{ aContext }
+TitleScene::TitleScene(SharedContext context)
+	: Scene{ context }
 {
 }
 
@@ -12,21 +12,21 @@ TitleScene::~TitleScene()
 {
 }
 
-void TitleScene::Update(float aDeltaTime) 
+void TitleScene::Update(float deltaTime) 
 {
 	// TEMP => use component instead??
 	static float elapsedTime = 0.f;
 
-	elapsedTime += aDeltaTime;
+	elapsedTime += deltaTime;
 	if (elapsedTime >= 5.f)
 	{
 		m_sharedContext.SceneManager.Pop();
 	}
 
-	m_sharedContext.SystemManager.Update(aDeltaTime);
+	m_sharedContext.SystemManager.Update(deltaTime);
 }
 
-void TitleScene::LateUpdate(float aDeltaTime) {}
+void TitleScene::LateUpdate(float deltaTime) {}
 
 void TitleScene::Draw() const 
 {

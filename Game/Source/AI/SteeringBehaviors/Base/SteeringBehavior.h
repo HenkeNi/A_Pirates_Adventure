@@ -8,10 +8,10 @@ class SteeringBehavior
 public:
 	~SteeringBehavior() = default;
 
-	virtual void Update(float aDeltaTime) = 0;
+	virtual void Update(float deltaTime) = 0;
 
-	virtual const CU::Vector2<float> GetSteeringForce(const CU::Vector2<float>& aVelocity) = 0;
-	virtual const CU::Vector2<float> GetSteeringForce(const CU::Vector2<float>& aPosition, const CU::Vector2<float>& aVelocity) { return {}; }
+	virtual const CU::Vector2<float> GetSteeringForce(const CU::Vector2<float>& velocity) = 0;
+	virtual const CU::Vector2<float> GetSteeringForce(const CU::Vector2<float>& position, const CU::Vector2<float>& velocity) { return {}; }
 
 	// put funcitons like seek, arrive, etc here?? maybe make namespacfe??
 };

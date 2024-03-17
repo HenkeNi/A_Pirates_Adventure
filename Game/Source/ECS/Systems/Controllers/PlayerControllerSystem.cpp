@@ -20,9 +20,9 @@ PlayerControllerSystem::~PlayerControllerSystem()
 	CleanUpCommands();
 }
 
-void PlayerControllerSystem::Receive(Message& aMsg)
+void PlayerControllerSystem::Receive(Message& message)
 {
-	auto* entity = std::any_cast<Entity*>(aMsg.GetData());
+	auto* entity = std::any_cast<Entity*>(message.GetData());
 
 	if (!entity)
 		return;
@@ -35,7 +35,7 @@ void PlayerControllerSystem::Receive(Message& aMsg)
 
 }
 
-void PlayerControllerSystem::Update(float aDeltaTime)
+void PlayerControllerSystem::Update(float deltaTime)
 {
 	if (!m_entityManager)
 		return;
@@ -49,13 +49,13 @@ void PlayerControllerSystem::Update(float aDeltaTime)
 	}
 }
 
-void PlayerControllerSystem::ProcessCommands(Entity* anEntity)
+void PlayerControllerSystem::ProcessCommands(Entity* entity)
 {
-	if (!anEntity)
+	if (!entity)
 		return;
 
-	auto* playerControllerComponent = anEntity->GetComponent<PlayerControllerComponent>();
-	auto* inputComponent			= anEntity->GetComponent<InputComponent>();
+	auto* playerControllerComponent = entity->GetComponent<PlayerControllerComponent>();
+	auto* inputComponent			= entity->GetComponent<InputComponent>();
 
 	if (!playerControllerComponent || !inputComponent)
 		return;
@@ -66,7 +66,7 @@ void PlayerControllerSystem::ProcessCommands(Entity* anEntity)
 		bool isKeyActive = inputComponent->InputStates[key]; // NOTE: this will add the releveant keys to the map.. (maybe use .find, or .at and initialize keys when creating the component?
 		//bool canPerform = command->CanPerform(anEntity);
 
-		isKeyActive ? command->Execute(anEntity) : command->Undo(anEntity);
+		isKeyActive ? command->Execute(entity) : command->Undo(entity);
 	}
 }
 
@@ -85,13 +85,13 @@ void PlayerControllerSystem::CleanUpCommands()
 	}
 }
 
-void PlayerControllerSystem::UpdatePlayerState(Entity* anEntity) // dO in commands?
+void PlayerControllerSystem::UpdatePlayerState(Entity* entity) // dO in commands?
 {
-	if (!anEntity)
+	if (!entity)
 		return;
 
-	auto* characterStateComponent	= anEntity->GetComponent<CharacterStateComponent>();
-	auto* velocityComponent			= anEntity->GetComponent<VelocityComponent>();
+	auto* characterStateComponent	= entity->GetComponent<CharacterStateComponent>();
+	auto* velocityComponent			= entity->GetComponent<VelocityComponent>();
 
 	if (!characterStateComponent || !velocityComponent)
 		return;

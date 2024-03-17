@@ -9,12 +9,12 @@ public:
 	SpriteAnimationSystem();
 	~SpriteAnimationSystem();
 
-	void Receive(Message& aMsg)		override;
-	void Update(float aDeltaTime)	override;
+	void Receive(Message& message)	override;
+	void Update(float deltaTime)	override;
 
 private:
-	std::string GetCurrentState(Entity* anEntity) const; // ???
+	std::string GetCurrentState(Entity* entity) const; // ???
 
-	void UpdateSpriteOrientation(struct VelocityComponent* aVelocityComponent, struct TransformComponent* aTransformComponent);
+	void UpdateSpriteOrientation(struct VelocityComponent* velocityComponent, struct TransformComponent* transformComponent);
 
 };

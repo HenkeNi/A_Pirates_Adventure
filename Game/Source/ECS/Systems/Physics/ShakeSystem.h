@@ -8,6 +8,6 @@ public:
 	ShakeSystem();
 	~ShakeSystem();
 
-	void Receive(Message& aMsg)		override;
-	void Update(float aDeltaTime) override;
+	void Receive(Message& message)	override;
+	void Update(float deltaTime)	override;
 };

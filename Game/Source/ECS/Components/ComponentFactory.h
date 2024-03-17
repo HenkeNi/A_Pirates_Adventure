@@ -10,12 +10,12 @@ public:
 	~ComponentFactory();
 
 	template	<typename... Args>
-	Component*  Build(const std::string& aType, Args&&... args);
+	Component*  Build(const std::string& type, Args&&... args);
 
-	bool		HasBuilder(const std::string& aType) const;
+	bool		HasBuilder(const std::string& type) const;
 
-	bool		RegisterBuilder(const std::string& aType, ComponentBuilder* aBuilder);
-	void		RemoveBuilder(const std::string& aType);
+	bool		RegisterBuilder(const std::string& type, ComponentBuilder* builder);
+	void		RemoveBuilder(const std::string& type);
 	void		Clear();
 
 private:
@@ -25,10 +25,10 @@ private:
 #pragma region Method_Definitions
 
 template <typename... Args>
-Component* ComponentFactory::Build(const std::string& aType, Args&&... args)
+Component* ComponentFactory::Build(const std::string& type, Args&&... args)
 {
-	assert(HasBuilder(aType) && "No Builder for type found!");
-	return m_builders.at(aType)->Build(std::forward<Args>(args)...);
+	assert(HasBuilder(type) && "No Builder for type found!");
+	return m_builders.at(type)->Build(std::forward<Args>(args)...);
 }
 
 #pragma endregion Method_Definitions

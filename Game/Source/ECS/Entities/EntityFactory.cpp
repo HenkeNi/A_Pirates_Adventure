@@ -1,7 +1,7 @@
 #include "Pch.h"
 #include "EntityFactory.h"
 
-ECS::ComponentData ParseComponent(const rapidjson::Value& aValue);
+ECS::ComponentData ParseComponent(const rapidjson::Value& value);
 
 EntityFactory::EntityFactory()
 {
@@ -15,17 +15,17 @@ EntityFactory::~EntityFactory()
 	PostMaster::GetInstance().Unsubscribe(eMessage::MultipleComponentBuildersCreated, this);
 }
 	
-void EntityFactory::Receive(Message& aMsg)
+void EntityFactory::Receive(Message& message)
 {
-	if (aMsg.GetMessageType() == eMessage::ComponentBuilderCreated)
+	if (message.GetMessageType() == eMessage::ComponentBuilderCreated)
 	{
-		auto builder = std::any_cast<std::pair<std::string, ComponentBuilder*>>(aMsg.GetData());
+		auto builder = std::any_cast<std::pair<std::string, ComponentBuilder*>>(message.GetData());
 		RegisterComponentBuilder(builder.first, builder.second);
 	}
 
-	if (aMsg.GetMessageType() == eMessage::MultipleComponentBuildersCreated)
+	if (message.GetMessageType() == eMessage::MultipleComponentBuildersCreated)
 	{
-		auto builders = std::any_cast<std::vector<std::pair<std::string, ComponentBuilder*>>>(aMsg.GetData());
+		auto builders = std::any_cast<std::vector<std::pair<std::string, ComponentBuilder*>>>(message.GetData());
 
 		for (const auto& [type, builder] : builders)
 		{
@@ -34,13 +34,13 @@ void EntityFactory::Receive(Message& aMsg)
 	}
 }
 
-void EntityFactory::LoadBlueprints(const std::string& aPath)
+void EntityFactory::LoadBlueprints(const std::string& path)
 {
-	auto document = CommonUtilities::ParseDocument(aPath);
+	auto document = CommonUtilities::ParseDocument(path);
 
-	for (auto& path : document["blueprints"].GetArray())
+	for (auto& blueprintPath : document["blueprints"].GetArray())
 	{	
-		auto document = CommonUtilities::ParseDocument(path.GetString());
+		auto document = CommonUtilities::ParseDocument(blueprintPath.GetString());
 
 		if (document.IsArray())
 		{
@@ -85,11 +85,11 @@ void EntityFactory::LoadBlueprints(const std::string& aPath)
 //	// TODO. store type ("type: "transform") in COmponent base?
 //}
 
-void EntityFactory::ConstructBlueprint(const rapidjson::Value& aValue)
+void EntityFactory::ConstructBlueprint(const rapidjson::Value& value)
 {
 	EntityBlueprint blueprint;
 
-	for (auto& component : aValue["components"].GetArray())
+	for (auto& component : value["components"].GetArray())
 	{
 		const rapidjson::Value& properties = component["properties"];
 		assert(properties.IsObject() && "Failed to load component properties for blueprint");
@@ -97,13 +97,13 @@ void EntityFactory::ConstructBlueprint(const rapidjson::Value& aValue)
 		blueprint.AddComponentData(component["type"].GetString(), ParseComponent(properties));
 	}
 
-	std::string blueprintID = aValue["id"].GetString();
+	std::string blueprintID = value["id"].GetString();
 	RegisterBlueprint(blueprintID, blueprint);
 }
 
-Entity EntityFactory::Create(const ECS::EntityType& aType)
+Entity EntityFactory::Create(const ECS::EntityType& type)
 {
-	auto found = m_blueprints.find(aType);
+	auto found = m_blueprints.find(type);
 
 	assert(found != m_blueprints.end() && "ERROR: Failed to create entity - Couldn't find blueprint!");
 	Entity entity;
@@ -117,11 +117,11 @@ Entity EntityFactory::Create(const ECS::EntityType& aType)
 	return entity;
 }
 
-Entity EntityFactory::CreateFromBlueprint(const EntityBlueprint& aBlueprint)
+Entity EntityFactory::CreateFromBlueprint(const EntityBlueprint& blueprint)
 {
 	Entity entity;
 	
-	for (const auto& [type, data] : aBlueprint.m_componentData)
+	for (const auto& [type, data] : blueprint.m_componentData)
 	{
 		auto* component = m_componentFactory.Build(type, data);
 		entity.AddComponent(component);
@@ -130,22 +130,22 @@ Entity EntityFactory::CreateFromBlueprint(const EntityBlueprint& aBlueprint)
 	return entity;
 }
 
-void EntityFactory::RegisterBlueprint(const std::string& anID, EntityBlueprint aBlueprint)
+void EntityFactory::RegisterBlueprint(const std::string& id, EntityBlueprint blueprint)
 {
-	m_blueprints.insert_or_assign(anID, std::move(aBlueprint));
+	m_blueprints.insert_or_assign(id, std::move(blueprint));
 }
 
-void EntityFactory::RegisterComponentBuilder(const std::string& aType, ComponentBuilder* aBuilder)
+void EntityFactory::RegisterComponentBuilder(const std::string& type, ComponentBuilder* builder)
 {
-	m_componentFactory.RegisterBuilder(aType, aBuilder);
+	m_componentFactory.RegisterBuilder(type, builder);
 }
 
-ECS::ComponentData ParseComponent(const rapidjson::Value& aValue)
+ECS::ComponentData ParseComponent(const rapidjson::Value& value)
 {
-	assert(aValue.IsObject() && "ERROR: Parsing Component");
+	assert(value.IsObject() && "ERROR: Parsing Component");
 	ECS::ComponentData data;
 
-	for (auto& property : aValue.GetObject())
+	for (auto& property : value.GetObject())
 	{
 		const std::string key = property.name.GetString();
 		data.insert_or_assign(key, CommonUtilities::ParseJson(property.value));

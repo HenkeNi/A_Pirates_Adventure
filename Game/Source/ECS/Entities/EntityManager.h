@@ -2,14 +2,20 @@
 #include "Entity.h"
 #include "EntityFactory.h"
 
+
+namespace ECS
+{
+	using Entities = std::vector<Entity*>;
+}
+
 class EntityManager
 {
 public:
 	EntityManager();
 	~EntityManager();
 
-	Entity* Create(const std::string& aType);
-	Entity* Find(unsigned anID);
+	Entity* Create(const std::string& type);
+	Entity* Find(unsigned id);
 
 	template <typename... Components>
 	std::vector<Entity*> FindAll();
@@ -17,7 +23,7 @@ public:
 	template <typename... Components>
 	Entity* FindFirst();
 
-	void Destroy(unsigned anID);
+	void Destroy(unsigned id);
 	void DestroyAll();
 
 	static EntityFactory& GetFactory();

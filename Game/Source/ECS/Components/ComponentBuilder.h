@@ -8,17 +8,17 @@ class ComponentBuilder
 public:
 	virtual ~ComponentBuilder() = default;
 
-	virtual Component* Build(std::unordered_map<std::string, std::any> someData) = 0; // just std;;any?
+	virtual Component* Build(std::unordered_map<std::string, std::any> data) = 0; // just std;;any?
 };
 
 template <typename T>
 class ConcreteComponentBuilder : public ComponentBuilder
 {
 public:
-	Component* Build(std::unordered_map<std::string, std::any> someData) override
+	Component* Build(std::unordered_map<std::string, std::any> data) override
 	{
 		T* component = CU::MemoryPool<T>::GetInstance().GetResource();
-		ComponentInitializer::InitializeComponent(component, someData);	// HERE???
+		ComponentInitializer::InitializeComponent(component, data);	// HERE???
 
 		return component;
 	}

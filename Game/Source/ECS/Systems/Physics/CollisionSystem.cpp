@@ -1,7 +1,7 @@
 #include "Pch.h"
 #include "CollisionSystem.h"
-#include "Entities/EntityManager.h"
 #include "Entities/Entity.h"
+#include "Entities/EntityManager.h"
 #include "Components/Core/CoreComponents.h"
 #include "../Utility/Map/MapUtils.h"
 #include "Components/AI/AIComponents.h"
@@ -19,16 +19,12 @@ CollisionSystem::~CollisionSystem()
 	PostMaster::GetInstance().Unsubscribe(eMessage::EntitySpawned, this);
 }
 
-void CollisionSystem::Init()
+void CollisionSystem::Receive(Message& message)
 {
-}
-
-void CollisionSystem::Receive(Message& aMsg)
-{
-	if (aMsg.GetMessageType() != eMessage::EntitySpawned)
+	if (message.GetMessageType() != eMessage::EntitySpawned)
 		return;
 
-	auto* entity = std::any_cast<Entity*>(aMsg.GetData());
+	auto* entity = std::any_cast<Entity*>(message.GetData());
 	AlignCollider(entity);
 }
 
@@ -301,52 +297,17 @@ void CollisionSystem::Receive(Message& aMsg)
 //	return true;
 //}
 
-void CollisionSystem::LateUpdate(float aDeltaTime)
+void CollisionSystem::LateUpdate(float deltaTime)
 {
 	if (!m_entityManager)
 		return;
 
-	UpdateDynamicColliders();
+	auto entities = m_entityManager->FindAll<ColliderComponent, TransformComponent>();
 
-	auto entities = m_entityManager->FindAll<ColliderComponent>();
+	ResetColliders(entities);
+	AlignDynamicColliders(entities);
 
-	for (int i = 0; i < entities.size(); ++i)
-	{
-		auto* source = entities[i];
-		auto* sourceColliderComponent = source->GetComponent<ColliderComponent>();
-	
-		if (!sourceColliderComponent->IsActive || sourceColliderComponent->Type == eColliderType::Static || sourceColliderComponent->Type == eColliderType::Trigger)
-			continue;
-
-		for (int j = i + 1; j < entities.size(); ++j)
-		{
-			auto* target = entities[j];
-			auto* targetColliderComponent = entities[j]->GetComponent<ColliderComponent>();
-
-			if (!targetColliderComponent->IsActive)
-				continue;
-
-			if (CanCollide(source, target))
-			{
-				if (Hi_Engine::Physics::Intersects(sourceColliderComponent->Collider, targetColliderComponent->Collider)) // Make intersects more generic? no need for aabb class?
-				{
-					sourceColliderComponent->CollidingEntities.push_back(target);
-					targetColliderComponent->CollidingEntities.push_back(source);
-						
-					if (targetColliderComponent->Type == eColliderType::Trigger)
-					{
-						PostMaster::GetInstance().SendMessage({ eMessage::TriggerActivated, target });
-						// Remove trigger component?
-					}
-					//else if (targetColliderComponent->Type == eColliderType::Dynamic)
-					{
-						PostMaster::GetInstance().SendMessage({ eMessage::EntitiesCollided, std::vector<Entity*> { source, target } }); // Pass in colliders?
-					}
-
-				}
-			}
-		}
-	}
+	HandleEntityCollisions(entities);
 
 
 	//for (auto& entity : entities)
@@ -390,6 +351,17 @@ void CollisionSystem::LateUpdate(float aDeltaTime)
 	//}
 }
 
+bool CollisionSystem::CanCollide(Entity* first, Entity* second)
+{
+	auto* collider1 = first->GetComponent<ColliderComponent>();
+	auto* collider2 = second->GetComponent<ColliderComponent>();
+
+	if (collider1->Type == eColliderType::Dynamic || collider2->Type == eColliderType::Dynamic)
+		return true;
+
+	return false;
+}
+
 //void CollisionSystem::AdjustColliderPosition(Entity* anEntity)
 //{
 //	if (auto* colliderComponent = anEntity->GetComponent<ColliderComponent>())
@@ -407,55 +379,58 @@ void CollisionSystem::LateUpdate(float aDeltaTime)
 //	}
 //}
 
-void CollisionSystem::UpdateDynamicColliders()
+//void CollisionSystem::UpdateDynamicColliders()
+//{
+//	auto entities = m_entityManager->FindAll<TransformComponent, ColliderComponent>();
+//
+//	for (auto& entity : entities)
+//	{
+//		auto* transformComponent = entity->GetComponent<TransformComponent>();
+//		auto* colliderComponent = entity->GetComponent<ColliderComponent>();
+//	
+//		assert(transformComponent && colliderComponent);
+//
+//		colliderComponent->CollidingEntities.clear(); // DO THIS FIRST? or do in update loop (first thing??)
+//
+//		if (colliderComponent->Type != eColliderType::Dynamic) // maybe wont empty dynmaic colliders colliding entities?
+//			return;
+//
+//		// AlignCollider(entity);
+//
+//
+//		// TODO: apply offset
+//		auto& offset = colliderComponent->Offset;
+//		if (offset.XOffset > 0.f || offset.YOffset > 0.f)
+//		{
+//		}
+//
+//		// only updates moving colliders (TODO; update the one with static colliders by listening to entity created event?)
+//		if (colliderComponent->Type == eColliderType::Dynamic)
+//		{
+//			auto& aabb = colliderComponent->Collider;
+//			const auto position = transformComponent->CurrentPos;
+//
+//			float halfWidth = aabb.GetWidth() * 0.5f;
+//			float halfHeight = aabb.GetHeight() * 0.5f;
+//
+//			aabb.Init({ position.x - halfWidth, position.y - halfHeight }, { position.x + halfWidth, position.y + halfHeight });
+//		}
+//
+//	}
+//}
+
+void CollisionSystem::AlignCollider(Entity* entity)
 {
-	auto entities = m_entityManager->FindAll<TransformComponent, ColliderComponent>();
-
-	for (auto& entity : entities)
-	{
-		auto* transformComponent = entity->GetComponent<TransformComponent>();
-		auto* colliderComponent = entity->GetComponent<ColliderComponent>();
-	
-		assert(transformComponent && colliderComponent);
-
-		colliderComponent->CollidingEntities.clear(); // DO THIS FIRST?
-
-		if (colliderComponent->Type != eColliderType::Dynamic) // maybe wont empty dynmaic colliders colliding entities?
-			return;
-
-
-		// TODO: apply offset
-		auto& offset = colliderComponent->Offset;
-		if (offset.XOffset > 0.f || offset.YOffset > 0.f)
-		{
-		}
-
-		// only updates moving colliders (TODO; update the one with static colliders by listening to entity created event?)
-		if (colliderComponent->Type == eColliderType::Dynamic)
-		{
-			auto& aabb = colliderComponent->Collider;
-			const auto position = transformComponent->CurrentPos;
-
-			float halfWidth = aabb.GetWidth() * 0.5f;
-			float halfHeight = aabb.GetHeight() * 0.5f;
-
-			aabb.Init({ position.x - halfWidth, position.y - halfHeight }, { position.x + halfWidth, position.y + halfHeight });
-		}
-
-	}
-}
-
-// TODO: include offset
-void CollisionSystem::AlignCollider(Entity* anEntity)
-{
-	if (!anEntity)
+	if (!entity)
 		return;
 
-	auto* colliderComponent = anEntity->GetComponent<ColliderComponent>();
-	auto* transformComponent = anEntity->GetComponent<TransformComponent>();
+	auto* colliderComponent = entity->GetComponent<ColliderComponent>();
+	auto* transformComponent = entity->GetComponent<TransformComponent>();
 
 	if (colliderComponent && transformComponent)
 	{
+		// TODO: include offset
+		
 		auto& collider = colliderComponent->Collider;
 		const auto position = transformComponent->CurrentPos;
 
@@ -464,6 +439,85 @@ void CollisionSystem::AlignCollider(Entity* anEntity)
 
 		collider.Init({ position.x - halfWidth, position.y - halfHeight }, { position.x + halfWidth, position.y + halfHeight });
 	}
+}
+
+void CollisionSystem::AlignDynamicColliders(ECS::Entities& entities)
+{
+	for (auto& entity : entities)
+	{
+		auto* transformComponent = entity->GetComponent<TransformComponent>();
+		auto* colliderComponent = entity->GetComponent<ColliderComponent>();
+
+		assert(transformComponent && colliderComponent);
+
+		if (colliderComponent->Type != eColliderType::Dynamic)
+			continue;
+
+		// TODO: apply offset
+		auto& offset = colliderComponent->Offset;
+		if (offset.XOffset > 0.f || offset.YOffset > 0.f)
+		{
+		}
+
+		auto& aabb = colliderComponent->Collider;
+		const auto position = transformComponent->CurrentPos;
+
+		float halfWidth = aabb.GetWidth() * 0.5f;
+		float halfHeight = aabb.GetHeight() * 0.5f;
+
+		aabb.Init({ position.x - halfWidth, position.y - halfHeight }, { position.x + halfWidth, position.y + halfHeight });
+	}
+}
+
+void CollisionSystem::ResetColliders(ECS::Entities& entities)
+{
+	for (auto* entity : entities)
+	{
+		auto* colliderComponent = entity->GetComponent<ColliderComponent>();
+		colliderComponent->CollidingEntities.clear();
+	}
+}
+
+void CollisionSystem::HandleEntityCollisions(ECS::Entities& entities)
+{
+	for (int i = 0; i < entities.size(); ++i)
+	{
+		auto* source = entities[i];
+		auto* sourceColliderComponent = source->GetComponent<ColliderComponent>();
+
+		if (!sourceColliderComponent->IsActive || sourceColliderComponent->Type != eColliderType::Dynamic)
+			continue;
+
+		for (int j = i + 1; j < entities.size(); ++j)
+		{
+			auto* target = entities[j];
+			auto* targetColliderComponent = entities[j]->GetComponent<ColliderComponent>();
+
+			if (!targetColliderComponent->IsActive)
+				continue;
+
+			if (CanCollide(source, target))
+			{
+				if (Hi_Engine::Physics::Intersects(sourceColliderComponent->Collider, targetColliderComponent->Collider)) // Make intersects more generic? no need for aabb class?
+				{
+					sourceColliderComponent->CollidingEntities.push_back(target);
+					targetColliderComponent->CollidingEntities.push_back(source);
+
+					if (targetColliderComponent->Type == eColliderType::Trigger)
+					{
+						PostMaster::GetInstance().SendMessage({ eMessage::TriggerActivated, target });
+						// Remove trigger component?
+					}
+					//else if (targetColliderComponent->Type == eColliderType::Dynamic)
+					{
+						PostMaster::GetInstance().SendMessage({ eMessage::EntitiesCollided, std::vector<Entity*> { source, target } }); // Pass in colliders?
+					}
+
+				}
+			}
+		}
+	}
+
 }
 
 //Entity* CollisionSystem::GetMapChunkContainingEntity(const Entity* anEntity)
@@ -482,18 +536,8 @@ void CollisionSystem::AlignCollider(Entity* anEntity)
 //	return nullptr;
 //}
 
-bool CollisionSystem::CanCollide(Entity* aFirst, Entity* aSecond) const
-{
-	auto* collider1 = aFirst->GetComponent<ColliderComponent>();
-	auto* collider2 = aSecond->GetComponent<ColliderComponent>();
 
-	if (collider1->Type == eColliderType::Dynamic || collider2->Type == eColliderType::Dynamic)
-		return true;
-
-	return false;
-}
-
-void CollisionSystem::CheckMapCollisions(Entity* anEntity)
+void CollisionSystem::CheckMapCollisions(Entity* entity)
 {
 	//// auto entityPosition = anEntity->GetComponent<TransformComponent>()->m_currentPos;
 	//
@@ -571,11 +615,11 @@ void CollisionSystem::CheckMapCollisions(Entity* anEntity)
 
 }
 
-void CollisionSystem::ResolveCollision(Entity* anEntity, Tile* aTile)
+void CollisionSystem::ResolveCollision(Entity* entity, Tile* tile)
 {
 	// Move first x, then y-axis? each step check collisions...
 	
-	auto transformComponent = anEntity->GetComponent<TransformComponent>();
+	auto transformComponent = entity->GetComponent<TransformComponent>();
 	transformComponent->CurrentPos = transformComponent->PreviousPos;
 
 	//auto velocityComponent = anEntity->GetComponent<VelocityComponent>();
@@ -609,14 +653,14 @@ void CollisionSystem::ResolveCollision(Entity* anEntity, Tile* aTile)
 //	return 0.f;
 //}
 
-void CollisionSystem::HandleTileCollisions(Entity* anEntity, float aDeltaTime)
+void CollisionSystem::HandleTileCollisions(Entity* entity, float deltaTime)
 {
-	if (!anEntity)
+	if (!entity)
 		return;
 
-	auto* transformComponent = anEntity->GetComponent<TransformComponent>();
-	auto* velocityComponent = anEntity->GetComponent<VelocityComponent>();
-	auto* colliderComponent = anEntity->GetComponent<ColliderComponent>();
+	auto* transformComponent = entity->GetComponent<TransformComponent>();
+	auto* velocityComponent = entity->GetComponent<VelocityComponent>();
+	auto* colliderComponent = entity->GetComponent<ColliderComponent>();
 
 	auto& collider = colliderComponent->Collider;
 
@@ -668,7 +712,7 @@ void CollisionSystem::HandleTileCollisions(Entity* anEntity, float aDeltaTime)
 		// Draw map AABB...
 
 
-		Hi_Engine::HitResult<float> result = Hi_Engine::Physics::Intersects(collider, { velocityComponent->Velocity.x, velocityComponent->Velocity.y }, tileBounds, aDeltaTime);
+		Hi_Engine::HitResult<float> result = Hi_Engine::Physics::Intersects(collider, { velocityComponent->Velocity.x, velocityComponent->Velocity.y }, tileBounds, deltaTime);
 
 		// std::cout << result.IsColliding << "\n";
 

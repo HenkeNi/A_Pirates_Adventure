@@ -5,11 +5,11 @@
 class TitleScene : public Scene 
 {
 public:
-	TitleScene(SharedContext aContext);
+	TitleScene(SharedContext context);
 	~TitleScene();
 
-	void Update(float aDeltaTime)			  override;
-	void LateUpdate(float aDeltaTime)		  override;
+	void Update(float deltaTime)			  override;
+	void LateUpdate(float deltaTime)		  override;
 	void Draw()							const override;
 
 	void OnCreated()						  override;

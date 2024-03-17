@@ -15,12 +15,12 @@ EquipmentSystem::~EquipmentSystem()
 	PostMaster::GetInstance().Unsubscribe(eMessage::EntitiesCollided, this);
 }
 
-void EquipmentSystem::Receive(Message& aMsg)
+void EquipmentSystem::Receive(Message& message)
 {
-	if (aMsg.GetMessageType() != eMessage::EntitiesCollided) // TODO: called each frame!
+	if (message.GetMessageType() != eMessage::EntitiesCollided) // TODO: called each frame!
 		return;
 
-	auto entities = std::any_cast<std::vector<Entity*>>(aMsg.GetData()); // Dont pass colliding entities?
+	auto entities = std::any_cast<std::vector<Entity*>>(message.GetData()); // Dont pass colliding entities?
 	
 	Entity* player = nullptr;
 	Entity* equippable = nullptr;
@@ -39,36 +39,36 @@ void EquipmentSystem::Receive(Message& aMsg)
 	
 	// TODO: make sure dont send event each fraem!
 	if (EquipItem(player, equippable))
-		aMsg.HandleMessage(); // rename MarkAsHandled(); ??
+		message.HandleMessage(); // rename MarkAsHandled(); ??
 
 	// sword, etc should have a pickup component?!
 	// if item was equiped...  or colliding with item (an not such slot is taken)
 }
 
-void EquipmentSystem::Update(float aDeltaTime)
+void EquipmentSystem::Update(float deltaTime)
 {
 }
 
-bool EquipmentSystem::EquipItem(class Entity* anOwner, class Entity* anItem)
+bool EquipmentSystem::EquipItem(class Entity* owner, class Entity* item)
 {
-	if (!anOwner || !anItem)
+	if (!owner || !item)
 		return false;
 
-	auto* equippableComponent = anItem->GetComponent<EquippableComponent>();
+	auto* equippableComponent = item->GetComponent<EquippableComponent>();
 	if (equippableComponent->IsEquipped)
 		return false;
 
 	equippableComponent->IsEquipped = true;
 	// remove equippable compoentn??
 
-	auto* equipmentComponent = anOwner->GetComponent<EquipmentComponent>();
-	equipmentComponent->EquippedItemIDs[(int)eEquipmentSlot::Melee] = anItem->GetID();
+	auto* equipmentComponent = owner->GetComponent<EquipmentComponent>();
+	equipmentComponent->EquippedItemIDs[(int)eEquipmentSlot::Melee] = item->GetID();
 	
 	
-	auto childEntities = anOwner->GetComponent<SubEntitiesComponent>();
-	childEntities->IDs.push_back(anItem->GetID());
+	auto childEntities = owner->GetComponent<SubEntitiesComponent>();
+	childEntities->IDs.push_back(item->GetID());
 
-	anItem->RemoveComponent<CollectableComponent>(); // Maybe?
+	item->RemoveComponent<CollectableComponent>(); // Maybe?
 
 	return true;
 

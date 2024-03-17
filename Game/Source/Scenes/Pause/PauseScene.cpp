@@ -2,8 +2,8 @@
 #include "PauseScene.h"
 
 
-PauseScene::PauseScene(SharedContext aContext)
-	: Scene{ aContext }
+PauseScene::PauseScene(SharedContext context)
+	: Scene{ context }
 {
 }
 
@@ -11,11 +11,11 @@ PauseScene::~PauseScene()
 {
 }
 
-void PauseScene::Update(float aDeltaTime)
+void PauseScene::Update(float deltaTime)
 {
 }
 
-void PauseScene::LateUpdate(float aDeltaTime)
+void PauseScene::LateUpdate(float deltaTime)
 {
 }
 

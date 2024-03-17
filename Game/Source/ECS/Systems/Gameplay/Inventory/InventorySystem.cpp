@@ -16,12 +16,12 @@ InventorySystem::~InventorySystem()
 	PostMaster::GetInstance().Unsubscribe(eMessage::EntitiesCollided, this);
 }
 
-void InventorySystem::Receive(Message& aMsg)
+void InventorySystem::Receive(Message& message)
 {
 	// Listen for collision events (triggers)?
 	// listen to entity collision => make sure its done after equipment system
 
-	auto entities = std::any_cast<std::vector<Entity*>>(aMsg.GetData());
+	auto entities = std::any_cast<std::vector<Entity*>>(message.GetData());
 
 	Entity* player = nullptr;
 	Entity* collectable = nullptr;
@@ -49,11 +49,11 @@ void InventorySystem::Receive(Message& aMsg)
 		auto* collectableComponent = collectable->GetComponent<CollectableComponent>();
 		collectableComponent->IsCollected = true;
 		// m_entityManager->Destroy(collectable->GetID()); -- do in a clean up system?
-		aMsg.HandleMessage(); // rename MarkAsHandled(); ??
+		message.HandleMessage(); // rename MarkAsHandled(); ??
 	}
 }
   
-void InventorySystem::Update(float aDeltaTime)
+void InventorySystem::Update(float deltaTime)
 {
 	if (!m_entityManager)
 		return;
@@ -72,9 +72,9 @@ void InventorySystem::Update(float aDeltaTime)
 		m_entityManager->Destroy(entity);
 }
 
-bool InventorySystem::CanPickup(Entity* anEntity)
+bool InventorySystem::CanPickup(Entity* entity)
 {
-	if (auto* collectableComponent = anEntity->GetComponent<CollectableComponent>())
+	if (auto* collectableComponent = entity->GetComponent<CollectableComponent>())
 	{
 		double currentTime = Hi_Engine::Engine::GetTimer().GetTotalTime();
 		double endTime = collectableComponent->SpawnTimestamp + collectableComponent->PickupDelay;
@@ -84,13 +84,13 @@ bool InventorySystem::CanPickup(Entity* anEntity)
 	return false;
 }
 
-bool InventorySystem::CollectItem(class Entity* anOwner, class Entity* anItem)
+bool InventorySystem::CollectItem(class Entity* owner, class Entity* item)
 {
-	if (!anOwner || !anItem)
+	if (!owner || !item)
 		return false;
 
-	auto* inventoryComponent = anOwner->GetComponent<InventoryComponent>();
-	auto* collectableComponent = anItem->GetComponent<CollectableComponent>();
+	auto* inventoryComponent = owner->GetComponent<InventoryComponent>();
+	auto* collectableComponent = item->GetComponent<CollectableComponent>();
 
 	auto& slots = inventoryComponent->Slots;
 	auto itr = std::find_if(slots.begin(), slots.end(), [=](const InventorySlot& aSlot) { return aSlot.Item.ItemID == collectableComponent->Item.ItemID; });

@@ -10,8 +10,8 @@ public:
 	
 	// Init function for setting up AI??
 
-	void Receive(Message& aMsg)		override;
-	void Update(float aDeltaTime)	override;
+	void Receive(Message& message)	override;
+	void Update(float deltaTime)	override;
 
 private:
 	void ClearBehaviorTreeNodes();

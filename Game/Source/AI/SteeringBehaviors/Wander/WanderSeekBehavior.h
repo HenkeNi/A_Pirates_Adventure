@@ -10,9 +10,9 @@ class WanderSeekBehavior : public SteeringBehavior
 public:
 	WanderSeekBehavior();
 
-	void Update(float aDeltaTime) override;
-	const CU::Vector2<float> GetSteeringForce(const CU::Vector2<float>& aVelocity) override;
-	const CU::Vector2<float> GetSteeringForce(const CU::Vector2<float>& aPosition, const CU::Vector2<float>& aVelocity) override;
+	void Update(float deltaTime) override;
+	const CU::Vector2<float> GetSteeringForce(const CU::Vector2<float>& velocity) override;
+	const CU::Vector2<float> GetSteeringForce(const CU::Vector2<float>& position, const CU::Vector2<float>& velocity) override;
 
 
 private:

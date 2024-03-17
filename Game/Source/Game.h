@@ -10,8 +10,8 @@ public:
 	Game();
 	~Game();
 
-	void OnUpdate(float aDeltaTime)		override;
-	void OnLateUpdate(float aDeltaTime)	override;
+	void OnUpdate(float deltaTime)		override;
+	void OnLateUpdate(float deltaTime)	override;
 	void OnDraw()						override;
 
 	void OnCreate()						override;

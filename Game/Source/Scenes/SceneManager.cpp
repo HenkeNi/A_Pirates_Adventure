@@ -13,33 +13,33 @@ SceneManager::~SceneManager()
 	Clear();
 }
 
-void SceneManager::Receive(Message& aMsg)
+void SceneManager::Receive(Message& message)
 {
-	if (aMsg.GetMessageType() == eMessage::TransitionToScene)
+	if (message.GetMessageType() == eMessage::TransitionToScene)
 	{
-		auto sceneType = std::any_cast<eScene>(aMsg.GetData());
+		auto sceneType = std::any_cast<eScene>(message.GetData());
 
 		Push(sceneType);
 	}
 }
 
-void SceneManager::Init(std::bitset<(int)eScene::Count> someScenes)
+void SceneManager::Init(std::bitset<(int)eScene::Count> scenes)
 {
 	for (int i = 0; i < (int)eScene::Count; ++i)
 	{
-		if (someScenes[i])
+		if (scenes[i])
 		{
 			m_stack.Push((eScene)i);
 		}
 	}
 }
 
-void SceneManager::Register(MutableScene aScene, eScene aType)
+void SceneManager::Register(MutableScene scene, eScene type)
 {
-	assert(aScene != nullptr);
+	assert(scene != nullptr);
 
-	m_scenes.insert_or_assign(aType, std::move(aScene));
-	m_scenes[aType]->OnCreated();
+	m_scenes.insert_or_assign(type, std::move(scene));
+	m_scenes[type]->OnCreated();
 }
 
 //void SceneManager::Init(int aSceneSet)
@@ -77,14 +77,14 @@ std::shared_ptr<const Scene> SceneManager::GetActiveScene() const
 
 
 
-void SceneManager::Push(eScene aType)
+void SceneManager::Push(eScene type)
 {
 	if (!m_stack.IsEmpty())
 	{
 		m_scenes[m_stack.Top()]->OnExit();
 	}
 
-	m_stack.Push(aType);
+	m_stack.Push(type);
 	m_scenes[m_stack.Top()]->OnEnter();
 }
 
@@ -99,7 +99,7 @@ void SceneManager::Pop()
 	}
 }
 
-void SceneManager::SwapTo(eScene aType)
+void SceneManager::SwapTo(eScene type)
 {
 	if (!m_stack.IsEmpty())
 	{
@@ -107,7 +107,7 @@ void SceneManager::SwapTo(eScene aType)
 		m_stack.Pop();
 	}
 
-	m_stack.Push(aType);
+	m_stack.Push(type);
 	m_scenes[m_stack.Top()]->OnEnter();
 }
 

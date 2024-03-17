@@ -16,29 +16,29 @@ SpawnSystem::~SpawnSystem()
 	// Listen to chest opened, etc...
 }
 
-void SpawnSystem::Receive(Message& aMsg)
+void SpawnSystem::Receive(Message& message)
 {
-	if (aMsg.GetMessageType() == eMessage::EntityDestroyed)
+	if (message.GetMessageType() == eMessage::EntityDestroyed)
 	{
-		auto* entity = std::any_cast<Entity*>(aMsg.GetData());
+		auto* entity = std::any_cast<Entity*>(message.GetData());
 		Spawn(entity);
 	}
 }
 
-void SpawnSystem::Update(float aDeltaTime)
+void SpawnSystem::Update(float deltaTime)
 {
 	// get entieis with spawn components... (check what should be spawned )
 }
 
-void SpawnSystem::Spawn(Entity* aSpawner)
+void SpawnSystem::Spawn(Entity* spawner)
 {
-	if (!aSpawner)
+	if (!spawner)
 		return;
 
-	auto* transformComponent = aSpawner->GetComponent<TransformComponent>();
+	auto* transformComponent = spawner->GetComponent<TransformComponent>();
 	auto position = transformComponent->CurrentPos;
 
-	if (auto* spawnComponent = aSpawner->GetComponent<SpawnComponent>())
+	if (auto* spawnComponent = spawner->GetComponent<SpawnComponent>())
 	{
 		for (int i = 0; i < spawnComponent->Amount; ++i)
 		{

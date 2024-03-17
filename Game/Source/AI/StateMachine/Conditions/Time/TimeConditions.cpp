@@ -3,8 +3,8 @@
 
 
 
-ElapsedTimeCondition::ElapsedTimeCondition(float aDuration)
-	: m_start{ 0.f }, m_duration{ aDuration }
+ElapsedTimeCondition::ElapsedTimeCondition(float duration)
+	: m_start{ 0.f }, m_duration{ duration }
 {
 }
 

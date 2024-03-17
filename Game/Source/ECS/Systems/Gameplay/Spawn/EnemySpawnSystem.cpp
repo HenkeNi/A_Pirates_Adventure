@@ -19,11 +19,11 @@ EnemySpawnSystem::~EnemySpawnSystem()
 {
 }
 
-void EnemySpawnSystem::Receive(Message& aMsg)
+void EnemySpawnSystem::Receive(Message& message)
 {
 }
 
-void EnemySpawnSystem::Update(float aDeltaTime)
+void EnemySpawnSystem::Update(float deltaTime)
 {
 	return;
 
@@ -37,7 +37,7 @@ void EnemySpawnSystem::Update(float aDeltaTime)
 	{
  		auto* spawnComponent = spawner->GetComponent<SpawnComponent>();	// TODO; fix... spawner(s) seems to be garabage.. 201030302 m_components size....
 
-		spawnComponent->ElapsedTime += aDeltaTime; // replace with timestap + duration...
+		spawnComponent->ElapsedTime += deltaTime; // replace with timestap + duration...
 
 		bool isTimeToSpawn = spawnComponent->ElapsedTime >= spawnComponent->Interval;
 		bool isSpawnLimitReached = spawnComponent->SpawnedAmount >= spawnComponent->Amount;
@@ -64,17 +64,17 @@ void EnemySpawnSystem::Update(float aDeltaTime)
 }
 
 // DONT DO here:...
-void EnemySpawnSystem::SpawnEnemy(const std::string& aType, const CU::Vector2<float>& aPosition)
+void EnemySpawnSystem::SpawnEnemy(const std::string& type, const CU::Vector2<float>& position)
 {
 	auto* player = *m_entityManager->FindAll<PlayerControllerComponent>().begin();
 	
 	if (!player)
 		return;
 	
-	auto entity = m_entityManager->Create(aType);
+	auto entity = m_entityManager->Create(type);
 
 	auto transform = entity->GetComponent<TransformComponent>();
-	transform->CurrentPos = aPosition;
+	transform->CurrentPos = position;
 
 	
 

@@ -18,7 +18,7 @@ StatSystem::~StatSystem()
 	PostMaster::GetInstance().Unsubscribe(eMessage::EntityAttacked, this);
 }
 
-void StatSystem::Receive(Message& aMsg)
+void StatSystem::Receive(Message& message)
 {
 	// Maybe should listen to if something is attacked, get data from attacker AND victim (defense, health, etc) Needs to 
 
@@ -51,7 +51,7 @@ void StatSystem::Receive(Message& aMsg)
 	//}
 }
 
-void StatSystem::Update(float aDeltaTime)
+void StatSystem::Update(float deltaTime)
 {
 	// Send event if something dies...
 	

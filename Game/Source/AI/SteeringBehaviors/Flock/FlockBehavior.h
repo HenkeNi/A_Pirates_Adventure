@@ -17,15 +17,15 @@ class FlockBehavior : public SteeringBehavior
 public:
 	FlockBehavior();
 
-	void Update(float aDeltaTime) override;
+	void Update(float deltaTime) override;
 
-	const CU::Vector2<float> GetSteeringForce(const CU::Vector2<float>& aVelocity) override;
-	const CU::Vector2<float> GetSteeringForce(const CU::Vector2<float>& aPosition, const CU::Vector2<float>& aVelocity) override;
+	const CU::Vector2<float> GetSteeringForce(const CU::Vector2<float>& velocity) override;
+	const CU::Vector2<float> GetSteeringForce(const CU::Vector2<float>& position, const CU::Vector2<float>& velocity) override;
 
 
 	// Fix both...
-	void SetFlockMembers(const std::vector<Entity*>& someEntities);
-	void SetOwner(Entity* anEntity);
+	void SetFlockMembers(const std::vector<Entity*>& entities);
+	void SetOwner(Entity* entity);
 
 private:
 	CU::Vector2<float> CalculateSeparationForce() const;

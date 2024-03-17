@@ -18,18 +18,18 @@ public:
 	EntityFactory();
 	~EntityFactory();
 
-	void Receive(Message& aMsg) override;
+	void Receive(Message& message) override;
 
-	void LoadBlueprints(const std::string& aPath);
+	void LoadBlueprints(const std::string& path);
 	//void LoadBlueprint(const std::string& aPath);
 
-	void ConstructBlueprint(const rapidjson::Value& aValue);
+	void ConstructBlueprint(const rapidjson::Value& value);
 
-	Entity Create(const ECS::EntityType& aType);
-	Entity CreateFromBlueprint(const EntityBlueprint& aBlueprint);
+	Entity Create(const ECS::EntityType& type);
+	Entity CreateFromBlueprint(const EntityBlueprint& blueprint);
 
-	void RegisterBlueprint(const std::string& anID, EntityBlueprint aBlueprint);
-	void RegisterComponentBuilder(const std::string& aType, ComponentBuilder* aBuilder);
+	void RegisterBlueprint(const std::string& id, EntityBlueprint blueprint);
+	void RegisterComponentBuilder(const std::string& type, ComponentBuilder* builder);
 
 private:
 	ECS::ComponentFactory								m_componentFactory;

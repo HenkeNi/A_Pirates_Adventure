@@ -24,18 +24,18 @@ public:
 
 	// LoadScene("MainMenu"	);
 	//void Init(int aSceneSet);					
-	void Receive(Message& aMsg) override;
+	void Receive(Message& message) override;
 
-	void Init(std::bitset<(int)eScene::Count> someScenes);
-	void Register(MutableScene aScene, eScene aType);
+	void Init(std::bitset<(int)eScene::Count> scenes);
+	void Register(MutableScene scene, eScene type);
 
 	MutableScene GetActiveScene();
 	ImmutableScene GetActiveScene() const;
 
 
-	void Push(eScene aType);
+	void Push(eScene type);
 	void Pop();
-	void SwapTo(eScene aType);
+	void SwapTo(eScene type);
 	void Clear();
 
 

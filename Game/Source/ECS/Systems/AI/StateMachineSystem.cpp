@@ -13,11 +13,11 @@ StateMachineSystem::~StateMachineSystem()
 {
 }
 
-void StateMachineSystem::Receive(Message& aMsg)
+void StateMachineSystem::Receive(Message& message)
 {
 }
 
-void StateMachineSystem::Update(float aDeltaTime)
+void StateMachineSystem::Update(float deltaTime)
 {
 	if (!m_entityManager)
 		return;
@@ -30,7 +30,7 @@ void StateMachineSystem::Update(float aDeltaTime)
 
 		if (auto* activeState = stateMachine->ActiveState) // maybe becvause local pointer?
 		{
-			activeState->Update(entity, aDeltaTime);
+			activeState->Update(entity, deltaTime);
 
 			if (auto* desiredState = activeState->GetDesiredState())
 			{

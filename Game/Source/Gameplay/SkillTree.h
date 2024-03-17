@@ -25,24 +25,24 @@ public:
 	SkillTree();
 	~SkillTree();
 
-	void RegisterSkill(SkillNode* aParent, /*const std::any& someData*/  const std::string& Identifier);
-	void RegisterSkill(const std::string& aParentID,  /*const std::any& someData*/ const std::string& Identifier);
+	void RegisterSkill(SkillNode* parent, /*const std::any& data*/  const std::string& identifier);
+	void RegisterSkill(const std::string& parentID,  /*const std::any& data*/ const std::string& identifier);
 
 	SkillNode* GetRoot();
 
 	void DebugLog();
 
-	SkillNode* BreadthFirstSearch(const std::string& anIdentifier);
+	SkillNode* BreadthFirstSearch(const std::string& identifier);
 
 	std::vector<SkillNode*> GetNextUnlockableNodes();
 
-	void Unlock(const std::string& anIdentifier);
+	void Unlock(const std::string& identifier);
 
-	void PrintLevelOrder(SkillNode* aRoot);
+	void PrintLevelOrder(SkillNode* root);
 
 private:
-	void DeleteTree(SkillNode* aRoot);
-	void InsertSkill(SkillNode* aRoot, const std::string& aParentID, SkillNode* aSkill);	// STORE ParentID?
+	void DeleteTree(SkillNode* root);
+	void InsertSkill(SkillNode* root, const std::string& parentID, SkillNode* skill);	// STORE ParentID?
 
 	SkillNode* m_root;
 };

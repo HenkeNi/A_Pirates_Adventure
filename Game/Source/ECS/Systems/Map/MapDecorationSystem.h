@@ -9,10 +9,10 @@ public:
 	MapDecorationSystem();
 	~MapDecorationSystem();
 
-	void Receive(Message& aMsg)		override;
-	void Update(float aDeltaTime)	override;
+	void Receive(Message& message)	override;
+	void Update(float deltaTime)	override;
 
 private:
-	void GenerateResources(Entity* anEnity);
-	void PopulateWithFoilage(const Entity* aMapChunk); // PopulateWithFoilage, Decorate?
+	void GenerateResources(Entity* entity);
+	void PopulateWithFoilage(const Entity* mapChunk); // PopulateWithFoilage, Decorate?
 };

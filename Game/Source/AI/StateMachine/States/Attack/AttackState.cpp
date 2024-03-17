@@ -5,7 +5,7 @@ void AttackState::Init()
 {
 }
 
-void AttackState::Update(Entity* anEntity, float aDeltaTime)
+void AttackState::Update(Entity* entity, float deltaTime)
 {
 	//std::cout << "Attacking..\n";
 }

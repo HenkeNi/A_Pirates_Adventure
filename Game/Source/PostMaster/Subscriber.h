@@ -5,5 +5,5 @@ class Message;
 class Subscriber
 {
 public:
-	virtual void Receive(Message& aMsg) = 0;
+	virtual void Receive(Message& message) = 0;
 };

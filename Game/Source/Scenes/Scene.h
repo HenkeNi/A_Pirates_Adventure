@@ -9,11 +9,11 @@
 class Scene
 {
 public:
-	Scene(SharedContext aContext);
+	Scene(SharedContext context);
 	virtual ~Scene() = default;
 
-	virtual void Update(float aDeltaTime)			= 0;
-	virtual void LateUpdate(float aDeltaTime)		= 0;	
+	virtual void Update(float deltaTime)			= 0;
+	virtual void LateUpdate(float deltaTime)		= 0;	
 	virtual void Draw()						const	= 0;
 	virtual bool IsTransparent()			const;
 

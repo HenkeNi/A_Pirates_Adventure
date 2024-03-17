@@ -5,7 +5,7 @@
 class ElapsedTimeCondition : public Condition
 {
 public:
-	ElapsedTimeCondition(float aDuration);
+	ElapsedTimeCondition(float duration);
 
 	void Init()									override;
 	bool IsSatisfied(float elapsedTime) const	override;

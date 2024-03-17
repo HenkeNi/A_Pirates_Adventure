@@ -15,9 +15,9 @@ State::~State()
 	}
 }
 
-void State::AddTransition(const Transition& aTransition)
+void State::AddTransition(const Transition& transition)
 {
-	m_transitions.push_back(aTransition);
+	m_transitions.push_back(transition);
 }
 
 State* State::GetDesiredState()

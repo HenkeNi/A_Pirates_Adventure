@@ -2,8 +2,8 @@
 #include "Message.h"
 
 
-Message::Message(eMessage aMsgType, const std::any& someData)
-	: m_type{ aMsgType }, m_data{ someData }, m_isHandled{ false }
+Message::Message(eMessage messageType, const std::any& data)
+	: m_type{ messageType }, m_data{ data }, m_isHandled{ false }
 {
 }
 

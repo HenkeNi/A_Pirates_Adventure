@@ -8,12 +8,12 @@ public:
 	EnemySpawnSystem();
 	~EnemySpawnSystem();
 
-	void Receive(Message& aMsg)		override;
-	void Update(float aDeltaTime)	override;
+	void Receive(Message& message)	override;
+	void Update(float deltaTime)	override;
 
 
 private:
-	void SpawnEnemy(const std::string& aType, const CU::Vector2<float>& aPosition);
+	void SpawnEnemy(const std::string& type, const CU::Vector2<float>& position);
 	bool ShouldSpawn() const;
 
 };

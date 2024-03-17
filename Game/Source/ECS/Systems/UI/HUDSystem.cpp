@@ -16,9 +16,9 @@ HUDSystem::~HUDSystem()
 	PostMaster::GetInstance().Unsubscribe(eMessage::GameStarted, this);
 }
 
-void HUDSystem::Receive(Message& aMsg)
+void HUDSystem::Receive(Message& message)
 {
-	if (aMsg.GetMessageType() == eMessage::GameStarted)
+	if (message.GetMessageType() == eMessage::GameStarted)
 	{
 		SetupHUDElements();
 	}
@@ -50,7 +50,7 @@ void HUDSystem::Receive(Message& aMsg)
 
 }
 
-void HUDSystem::Update(float aDeltaTime)
+void HUDSystem::Update(float deltaTime)
 {
 }
 

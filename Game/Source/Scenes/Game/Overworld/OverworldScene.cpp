@@ -2,8 +2,8 @@
 #include "OverworldScene.h"
 
 
-OverworldScene::OverworldScene(SharedContext aContext)
-	: Scene{ aContext }
+OverworldScene::OverworldScene(SharedContext context)
+	: Scene{ context }
 {
 }
 
@@ -11,14 +11,14 @@ OverworldScene::~OverworldScene()
 {
 }
 
-void OverworldScene::Update(float aDeltaTime)
+void OverworldScene::Update(float deltaTime)
 {
-	m_sharedContext.SystemManager.Update(aDeltaTime);
+	m_sharedContext.SystemManager.Update(deltaTime);
 }
 
-void OverworldScene::LateUpdate(float aDeltaTime)
+void OverworldScene::LateUpdate(float deltaTime)
 {
-	m_sharedContext.SystemManager.LateUpdate(aDeltaTime);
+	m_sharedContext.SystemManager.LateUpdate(deltaTime);
 }
 
 void OverworldScene::Draw() const

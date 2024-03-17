@@ -8,14 +8,14 @@ public:
 	MapGenerationSystem();
 	~MapGenerationSystem();
 
-	void Receive(Message& aMsg)		override;
-	void Update(float aDeltaTime)	override;
+	void Receive(Message& message)	override;
+	void Update(float deltaTime)	override;
 
 private:
 	void GenerateMapChunk(int xCoord, int yCoord);
 
 	// ApplyTileSettings?
-	void ApplyTextures(class Entity* anEntity); // RetileMapChunk - do in separate system?	TextureMappingSystem? -> creates holes. etc when digging?!
+	void ApplyTextures(class Entity* entity); // RetileMapChunk - do in separate system?	TextureMappingSystem? -> creates holes. etc when digging?!
 
 
 	// Maybe?

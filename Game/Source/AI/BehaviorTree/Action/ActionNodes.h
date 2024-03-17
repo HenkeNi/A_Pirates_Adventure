@@ -21,9 +21,9 @@ class EntityManager;
 class IdleNode : public BehaviorTreeNode
 {
 public:
-	IdleNode(int anOwnerID);
+	IdleNode(int ownerID);
 
-	eBTNodeStatus	Execute(EntityManager* anEntityManager)	override;
+	eBTNodeStatus	Execute(EntityManager* entityManager)	override;
 	void			Clear()									override;
 };
 
@@ -54,13 +54,13 @@ public:
 class MoveToTargetNode : public BehaviorTreeNode
 {
 public:
-	MoveToTargetNode(int anOwnerID, int aTargetID = -1);
+	MoveToTargetNode(int ownerID, int targetID = -1);
 
-	eBTNodeStatus	Execute(EntityManager* anEntityManager)		override;
+	eBTNodeStatus	Execute(EntityManager* entityManager)		override;
 	void			Clear()										override;
 
-	void			SetCallback(const std::function<void()>& aCallback);
-	void			SetTargetID(int aTargetID);
+	void			SetCallback(const std::function<void()>& callback);
+	void			SetTargetID(int targetID);
 
 private:
 	bool			IsValidTarget() const;
@@ -76,12 +76,12 @@ private:
 class AttackTargetNode : public BehaviorTreeNode
 {
 public:
-	AttackTargetNode(int anOwnerID, int aTargetID = -1);
+	AttackTargetNode(int ownerID, int targetID = -1);
 
-	eBTNodeStatus	Execute(EntityManager* anEntityManager)	override;
+	eBTNodeStatus	Execute(EntityManager* entityManager)	override;
 	void			Clear()									override;
 
-	void			SetTargetID(int aTargetID);
+	void			SetTargetID(int targetID);
 private:
 	int				m_targetID;
 };

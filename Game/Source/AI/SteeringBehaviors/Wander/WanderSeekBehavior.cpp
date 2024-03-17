@@ -12,7 +12,7 @@ WanderSeekBehavior::WanderSeekBehavior()
 	//m_timer.m_elapsed = 0.f;
 }
 
-void WanderSeekBehavior::Update(float aDeltaTime)
+void WanderSeekBehavior::Update(float deltaTime)
 {
 	//m_timer.m_elapsed += aDeltaTime;	// Dont do in behavior???
 	if (ShouldChangeDir())
@@ -22,26 +22,26 @@ void WanderSeekBehavior::Update(float aDeltaTime)
 	}
 }
 
-const CU::Vector2<float> WanderSeekBehavior::GetSteeringForce(const CU::Vector2<float>& aVelocity)
+const CU::Vector2<float> WanderSeekBehavior::GetSteeringForce(const CU::Vector2<float>& velocity)
 {
 	assert(false);
 
 	return {};
 }
 
-const CU::Vector2<float> WanderSeekBehavior::GetSteeringForce(const CU::Vector2<float>& aPosition, const CU::Vector2<float>& aVelocity)
+const CU::Vector2<float> WanderSeekBehavior::GetSteeringForce(const CU::Vector2<float>& position, const CU::Vector2<float>& velocity)
 {
 	static float maxVelocity = 50.f;
 
 	// Seek towards target...
-	auto desiredVelocity = m_window - aPosition;
+	auto desiredVelocity = m_window - position;
 
 	if (desiredVelocity.Length() == 0)
 		desiredVelocity.Normalize();
 
 	desiredVelocity *= maxVelocity;
 
-	auto steeringForce = desiredVelocity - aVelocity;
+	auto steeringForce = desiredVelocity - velocity;
 
 
 	return steeringForce;

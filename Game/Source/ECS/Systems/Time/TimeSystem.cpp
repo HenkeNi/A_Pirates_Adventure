@@ -12,19 +12,19 @@ TimeSystem::~TimeSystem()
 {
 }
 
-void TimeSystem::Receive(Message& aMsg)	
+void TimeSystem::Receive(Message& message)	
 {
 
 }
 
-void TimeSystem::Update(float aDeltaTime) 
+void TimeSystem::Update(float deltaTime) 
 {
 	if (!m_entityManager)
 		return;
 
 	auto entities = m_entityManager->FindAll<WorldTimeComponent>();
 
-	float scaledDeltaTime = aDeltaTime * GetAverageDeltaTime(aDeltaTime);
+	float scaledDeltaTime = deltaTime * GetAverageDeltaTime(deltaTime);
 
 	//const float timeScaleFactory = WorldTimeComponent::s_dayDurationInRealWorldMinues * fps / averageDeltaTime;
 
@@ -49,14 +49,14 @@ void TimeSystem::Update(float aDeltaTime)
 }
 
 
-float TimeSystem::GetAverageDeltaTime(float aDeltaTime) const
+float TimeSystem::GetAverageDeltaTime(float deltaTime) const
 {
 	static float averageDeltaTime = 0.f;
 	static float totalTime = 0.f;
 	static int numFrames = 0;
 
 	++numFrames;
-	if ((totalTime += aDeltaTime) > 10.f) // FIX magic number (number of frames to average)
+	if ((totalTime += deltaTime) > 10.f) // FIX magic number (number of frames to average)
 	{
 		averageDeltaTime = totalTime / numFrames;
 		totalTime = 0.f;

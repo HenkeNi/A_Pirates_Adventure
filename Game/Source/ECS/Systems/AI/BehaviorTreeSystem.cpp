@@ -14,11 +14,11 @@ BehaviorTreeSystem::~BehaviorTreeSystem()
 	ClearBehaviorTreeNodes();
 }
 
-void BehaviorTreeSystem::Receive(Message& aMsg)
+void BehaviorTreeSystem::Receive(Message& message)
 {
 }
 
-void BehaviorTreeSystem::Update(float aDeltaTime)
+void BehaviorTreeSystem::Update(float deltaTime)
 {
 	if (!m_entityManager)
 		return;

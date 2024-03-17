@@ -12,10 +12,10 @@ enum class eBTNodeStatus;
 class BehaviorTreeNode
 {
 public:
-	BehaviorTreeNode(int anOwnerID);
+	BehaviorTreeNode(int ownerID);
 	virtual ~BehaviorTreeNode() = default;
 
-	virtual eBTNodeStatus	Execute(EntityManager* anEntityManager)	= 0;
+	virtual eBTNodeStatus	Execute(EntityManager* entityManager)	= 0;
 	virtual void			Clear()									= 0;
 	//eBTNodeStatus			GetStatus()						const;
 

@@ -10,10 +10,10 @@ CraftingSystem::~CraftingSystem()
 {
 }
 
-void CraftingSystem::Receive(Message& aMsg)	
+void CraftingSystem::Receive(Message& message)	
 {
 }
 
-void CraftingSystem::Update(float aDeltaTime) 
+void CraftingSystem::Update(float deltaTime) 
 {
 }

@@ -12,11 +12,11 @@ RangedCombatSystem::~RangedCombatSystem()
 	PostMaster::GetInstance().Unsubscribe(eMessage::EntityFired, this);
 }
 
-void RangedCombatSystem::Receive(Message& aMsg)
+void RangedCombatSystem::Receive(Message& message)
 {
-	if (aMsg.GetMessageType() == eMessage::EntityFired)
+	if (message.GetMessageType() == eMessage::EntityFired)
 	{
-		auto data = std::any_cast<ProjectileData>(aMsg.GetData());
+		auto data = std::any_cast<ProjectileData>(message.GetData());
 
 		auto* projectile = m_entityManager->Create("Bullet");
 
@@ -33,7 +33,7 @@ void RangedCombatSystem::Receive(Message& aMsg)
 	}
 }
 
-void RangedCombatSystem::Update(float aDeltaTime)
+void RangedCombatSystem::Update(float deltaTime)
 {
 	if (!m_entityManager)
 		return;

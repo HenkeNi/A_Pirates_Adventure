@@ -7,12 +7,12 @@ public:
 	UISystem();
 	~UISystem();
 
-	void Receive(Message& aMsg)		override;
-	void Update(float aDeltaTime)	override;
+	void Receive(Message& message)	override;
+	void Update(float deltaTime)	override;
 
-	static glm::vec2 ScreenToWorldCoordinates(const glm::vec2& aPosition);
+	static glm::vec2 ScreenToWorldCoordinates(const glm::vec2& position);
 
 private:
-	void OnButtonActivated(Entity* aButton);
+	void OnButtonActivated(Entity* button);
 	void UpdateCursor();
 };

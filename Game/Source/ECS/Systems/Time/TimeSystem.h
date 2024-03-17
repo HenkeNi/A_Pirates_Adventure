@@ -8,9 +8,9 @@ public:
 	TimeSystem();
 	~TimeSystem();
 
-	void Receive(Message& aMsg)		override;
-	void Update(float aDeltaTime)	override;
+	void Receive(Message& message)	override;
+	void Update(float deltaTime)	override;
 
 private:
-	float GetAverageDeltaTime(float aDeltaTime) const;
+	float GetAverageDeltaTime(float deltaTime) const;
 };

@@ -9,15 +9,15 @@ public:
 	CombatSystem();
 	~CombatSystem();
 
-	void		Receive(Message& aMsg)								 override;
-	void		Update(float aDeltaTime)							 override;
+	void		Receive(Message& message)						 override;
+	void		Update(float deltaTime)							 override;
 
 private:
-	void		PerformAttack(Entity* anEntity);
-	bool		IsTargetable(Entity* anEntity)							const;
+	void		PerformAttack(Entity* entity);
+	bool		IsTargetable(Entity* entity)						const;
 
-	unsigned	GetDamageOutput(Entity* anEntity)						const;
+	unsigned	GetDamageOutput(Entity* entity)						const;
 	// std::vector<Entity*>	GetNearbyEntities()							const;
-	bool		ApplyDamageOutput(Entity* anEntity, unsigned aDamage);
-	void		ApplyKnockback(Entity* aSource, Entity* aTarget);
+	bool		ApplyDamageOutput(Entity* entity, unsigned damage);
+	void		ApplyKnockback(Entity* source, Entity* target);
 };

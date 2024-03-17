@@ -4,7 +4,7 @@
 class Message
 {
 public:
-	Message(eMessage aMsgType, const std::any& someData);
+	Message(eMessage messageType, const std::any& data);
 	virtual	~Message() = default;
 
 	eMessage			GetMessageType()	const;

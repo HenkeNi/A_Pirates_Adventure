@@ -1,8 +1,8 @@
 #include "Pch.h"
 #include "InventoryScene.h"
 
-InventoryScene::InventoryScene(SharedContext aContext)
-	: Scene{ aContext }
+InventoryScene::InventoryScene(SharedContext context)
+	: Scene{ context }
 {
 }
 
@@ -10,11 +10,11 @@ InventoryScene::~InventoryScene()
 {
 }
 
-void InventoryScene::Update(float aDeltaTime)
+void InventoryScene::Update(float deltaTime)
 {
 }
 
-void InventoryScene::LateUpdate(float aDeltaTime)
+void InventoryScene::LateUpdate(float deltaTime)
 {
 }
 

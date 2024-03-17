@@ -13,9 +13,9 @@ SceneTransitionSystem::~SceneTransitionSystem()
 	PostMaster::GetInstance().Unsubscribe(eMessage::TriggerActivated, this);
 }
 
-void SceneTransitionSystem::Receive(Message& aMsg) // Psas trigger?? check if have scen transition componennt
+void SceneTransitionSystem::Receive(Message& message) // Psas trigger?? check if have scen transition componennt
 {
-	if (auto* entity = std::any_cast<Entity*>(aMsg.GetData()))
+	if (auto* entity = std::any_cast<Entity*>(message.GetData()))
 	{
 		if (auto* sceneTransition = entity->GetComponent<SceneTransitionComponent>())
 		{
@@ -26,6 +26,6 @@ void SceneTransitionSystem::Receive(Message& aMsg) // Psas trigger?? check if ha
 	//std::cout << "Change scene...\n";
 }
 
-void SceneTransitionSystem::Update(float aDeltaTime)
+void SceneTransitionSystem::Update(float deltaTime)
 {
 }

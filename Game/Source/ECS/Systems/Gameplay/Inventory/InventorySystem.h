@@ -9,11 +9,11 @@ public:
 	InventorySystem();
 	~InventorySystem();
 
-	void Receive(Message& aMsg)		override;
-	void Update(float aDeltaTime)	override;
+	void Receive(Message& message)	override;
+	void Update(float deltaTime)	override;
 
-	static bool CanPickup(Entity* anEntity);
+	static bool CanPickup(Entity* entity);
 
 private:
-	bool CollectItem(class Entity* anOwner, class Entity* anItem);
+	bool CollectItem(class Entity* owner, class Entity* item);
 };

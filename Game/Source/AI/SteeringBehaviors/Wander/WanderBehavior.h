@@ -11,9 +11,9 @@ class WanderBehavior : public SteeringBehavior
 public:
 	WanderBehavior();
 
-	void Update(float aDeltaTime) override;
+	void Update(float deltaTime) override;
 
-	const CU::Vector2<float> GetSteeringForce(const CU::Vector2<float>& aVelocity) override;
+	const CU::Vector2<float> GetSteeringForce(const CU::Vector2<float>& velocity) override;
 
 
 private:
@@ -24,7 +24,7 @@ private:
 	void SetNewTarget();
 	bool ShouldChangeDir() const;
 
-	void SetAngle(CU::Vector2<float>& aVelocity, float aValue);
+	void SetAngle(CU::Vector2<float>& velocity, float value);
 
 
 	Range<float> m_walkDuration;

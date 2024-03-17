@@ -11,11 +11,11 @@ UISystem::~UISystem()
 {
 }
 
-void UISystem::Receive(Message& aMsg)
+void UISystem::Receive(Message& message)
 {
 }
 
-void UISystem::Update(float aDeltaTime)
+void UISystem::Update(float deltaTime)
 {
 	if (!m_entityManager)
 		return;
@@ -23,14 +23,14 @@ void UISystem::Update(float aDeltaTime)
 	UpdateCursor();	
 }
 
-glm::vec2 UISystem::ScreenToWorldCoordinates(const glm::vec2& aPosition)
+glm::vec2 UISystem::ScreenToWorldCoordinates(const glm::vec2& position)
 {
 	return glm::vec2();
 }
 
-void UISystem::OnButtonActivated(Entity* aButton)
+void UISystem::OnButtonActivated(Entity* button)
 {
-	auto* buttonComponent = aButton->GetComponent<ButtonComponent>();
+	auto* buttonComponent = button->GetComponent<ButtonComponent>();
 
 	if (buttonComponent->OnClick)
 		buttonComponent->OnClick();

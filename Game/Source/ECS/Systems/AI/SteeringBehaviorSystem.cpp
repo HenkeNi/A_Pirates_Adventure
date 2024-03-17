@@ -15,19 +15,19 @@ SteeringBehaviorSystem::~SteeringBehaviorSystem()
 {
 }
 
-void SteeringBehaviorSystem::Receive(Message& aMsg)
+void SteeringBehaviorSystem::Receive(Message& message)
 {
 }
 
-void SteeringBehaviorSystem::Update(float aDeltaTime)
+void SteeringBehaviorSystem::Update(float deltaTime)
 {
-	UpdateWanderBehavior(aDeltaTime);
-	UpdateFlockBehavior(aDeltaTime);
-	UpdateSeekBehavior(aDeltaTime);
-	UpdateFleeBehavior(aDeltaTime);
+	UpdateWanderBehavior(deltaTime);
+	UpdateFlockBehavior(deltaTime);
+	UpdateSeekBehavior(deltaTime);
+	UpdateFleeBehavior(deltaTime);
 }
 
-void SteeringBehaviorSystem::UpdateWanderBehavior(float aDeltaTime)
+void SteeringBehaviorSystem::UpdateWanderBehavior(float deltaTime)
 {
 	if (!m_entityManager)
 		return;
@@ -41,7 +41,7 @@ void SteeringBehaviorSystem::UpdateWanderBehavior(float aDeltaTime)
 
 		if (auto* activeBehavior = behaviorComponent->Behavior)
 		{
-			activeBehavior->Update(aDeltaTime);
+			activeBehavior->Update(deltaTime);
 			
 			auto currentVelocity = velocityComponent->Velocity;
 			auto steeringForce = activeBehavior->GetSteeringForce(currentVelocity);
@@ -83,7 +83,7 @@ void SteeringBehaviorSystem::UpdateWanderBehavior(float aDeltaTime)
 	}
 }
 
-void SteeringBehaviorSystem::UpdateFlockBehavior(float aDeltaTime)
+void SteeringBehaviorSystem::UpdateFlockBehavior(float deltaTime)
 {
 	// FInd all with sterringBeha and flock Component
 	// updat behavior
@@ -171,12 +171,12 @@ void SteeringBehaviorSystem::UpdateFlockBehavior(float aDeltaTime)
 	//}
 }
 
-void SteeringBehaviorSystem::UpdateSeekBehavior(float aDeltaTime)
+void SteeringBehaviorSystem::UpdateSeekBehavior(float deltaTime)
 {
 
 }
 
-void SteeringBehaviorSystem::UpdateFleeBehavior(float aDeltaTime)
+void SteeringBehaviorSystem::UpdateFleeBehavior(float deltaTime)
 {
 
 }

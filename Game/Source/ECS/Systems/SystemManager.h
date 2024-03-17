@@ -15,12 +15,12 @@ public:
 	SystemManager();
 	~SystemManager();
 
-	void Init(EntityManager* aManager);
-	void Update(float aDeltaTime);
-	void LateUpdate(float aDeltaTime);
+	void Init(EntityManager* entityManager);
+	void Update(float deltaTime);
+	void LateUpdate(float deltaTime);
 	void Draw()	const;
 
-	void Register(std::unique_ptr<System> aSystem);
+	void Register(std::unique_ptr<System> system);
 	void Clear();
 
 private:

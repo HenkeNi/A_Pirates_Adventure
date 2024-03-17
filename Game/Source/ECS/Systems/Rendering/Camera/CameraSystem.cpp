@@ -15,9 +15,9 @@ CameraSystem::~CameraSystem()
 	PostMaster::GetInstance().Unsubscribe(eMessage::GameStarted, this);
 }
 
-void CameraSystem::Receive(Message& aMsg)
+void CameraSystem::Receive(Message& message)
 {
-	if (aMsg.GetMessageType() == eMessage::GameStarted)
+	if (message.GetMessageType() == eMessage::GameStarted)
 	{
 		auto* entity = m_entityManager->FindFirst<CameraComponent>();
 		auto* camera = entity->GetComponent<CameraComponent>();
@@ -27,7 +27,7 @@ void CameraSystem::Receive(Message& aMsg)
 	}
 }
 
-void CameraSystem::Update(float aDeltaTime)
+void CameraSystem::Update(float deltaTime)
 {
 	if (!m_entityManager)
 		return;
@@ -98,11 +98,11 @@ void CameraSystem::Update(float aDeltaTime)
 	cameraComponent->Frustum.Init({ minX,  minY }, { maxX, maxY });
 }
 
-bool CameraSystem::IsInView(Entity* aCamera, const Hi_Engine::Physics::AABB2D<float>& someBounds)
+bool CameraSystem::IsInView(Entity* camera, const Hi_Engine::Physics::AABB2D<float>& bounds)
 {
-	auto* cameraComponent = aCamera->GetComponent<CameraComponent>();
+	auto* cameraComponent = camera->GetComponent<CameraComponent>();
 
-	return Hi_Engine::Physics::Intersects(someBounds, cameraComponent->Frustum);
+	return Hi_Engine::Physics::Intersects(bounds, cameraComponent->Frustum);
 }
 
 void CameraSystem::CullEntities()

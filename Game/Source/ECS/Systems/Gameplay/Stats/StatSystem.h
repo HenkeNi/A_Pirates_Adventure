@@ -12,8 +12,8 @@ public:
 	StatSystem();
 	~StatSystem();
 
-	void Receive(Message& aMsg)		override;
-	void Update(float aDeltaTime)	override;
+	void Receive(Message& message)	override;
+	void Update(float deltaTime)	override;
 
 private:
 	// std::vector<unsigned> m_entitiesToRemove;

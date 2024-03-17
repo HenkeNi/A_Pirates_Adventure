@@ -8,7 +8,7 @@ public:
 	InputSystem();
 	~InputSystem();
 
-	void HandleEvent(Hi_Engine::InputEvent& anEvent)	override;
-	void Receive(Message& aMsg)							override;
-	void Update(float aDeltaTime)						override;
+	void HandleEvent(Hi_Engine::InputEvent& inputEvent)	override;
+	void Receive(Message& message)						override;
+	void Update(float DeltaTime)						override;
 };

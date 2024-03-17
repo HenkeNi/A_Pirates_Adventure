@@ -25,7 +25,7 @@
         "type": "Collider",
         "properties": {
           "type": "Static",
-          "size": [ 0.5, 0.5 ]
+          "size": [ 0.25, 0.25 ]
         }
       },
       {
@@ -60,7 +60,7 @@
         "type": "Collider",
         "properties": {
           "type": "Static",
-          "size": [ 0.5, 0.5 ]
+          "size": [ 0.25, 0.25 ]
         }
       },
       {
@@ -96,7 +96,7 @@
         "type": "Collider",
         "properties": {
           "type": "Static",
-          "size": [ 0.5, 0.5 ]
+          "size": [ 0.25, 0.25 ]
         }
       },
       {

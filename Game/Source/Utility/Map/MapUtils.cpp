@@ -6,9 +6,9 @@
 //#include "../../Data/Structs.h"
 
 
-Entity* MapUtils::GetMapChunkAtPosition(const std::vector<Entity*>& someMapChunks, const CU::Vector2<float>& aPosition)
+Entity* MapUtils::GetMapChunkAtPosition(const std::vector<Entity*>& mapChunks, const CU::Vector2<float>& position)
 {
-	for (const auto& mapChunk : someMapChunks)
+	for (const auto& mapChunk : mapChunks)
 	{
 		auto transformComponent = mapChunk->GetComponent<TransformComponent>();
 		auto mapChunkComponent  = mapChunk->GetComponent<MapChunkComponent>();
@@ -21,8 +21,8 @@ Entity* MapUtils::GetMapChunkAtPosition(const std::vector<Entity*>& someMapChunk
 		auto maxYPosition = minYPosition + MapChunkComponent::TileCountPerSide;
 		//auto maxYPosition = minYPosition + mapChunkComponent->Height;
 
-		if (aPosition.x < minXPosition || aPosition.x > maxXPosition ||
-			aPosition.y < minYPosition || aPosition.y > maxYPosition)
+		if (position.x < minXPosition || position.x > maxXPosition ||
+			position.y < minYPosition || position.y > maxYPosition)
 			continue;
 
 
@@ -32,15 +32,15 @@ Entity* MapUtils::GetMapChunkAtPosition(const std::vector<Entity*>& someMapChunk
 	return nullptr;
 }
 
-Tile* MapUtils::GetTileAtWorldPosition(Entity* aMapChunk, const CU::Vector2<float>& aWorldPosition)
+Tile* MapUtils::GetTileAtWorldPosition(Entity* mapChunk, const CU::Vector2<float>& worldPosition)
 {
 	static float tileSize = 1.f;
 
-	auto mapChunkTransform = aMapChunk->GetComponent<TransformComponent>();
-	auto mapChunkComponent = aMapChunk->GetComponent<MapChunkComponent>();
+	auto mapChunkTransform = mapChunk->GetComponent<TransformComponent>();
+	auto mapChunkComponent = mapChunk->GetComponent<MapChunkComponent>();
 
 	// calculate local position
-	const CU::Vector2<float> localPosition = aWorldPosition - CU::Vector2<float>{ mapChunkTransform->CurrentPos.x, mapChunkTransform->CurrentPos.y };
+	const CU::Vector2<float> localPosition = worldPosition - CU::Vector2<float>{ mapChunkTransform->CurrentPos.x, mapChunkTransform->CurrentPos.y };
 
 	//std::cout << "Locla: " << localPosition.x << ", " << localPosition.y << '\n';
 
@@ -84,85 +84,85 @@ Tile* MapUtils::GetTileAtWorldPosition(Entity* aMapChunk, const CU::Vector2<floa
 	//return tile;
 }
 
-void MapUtils::GetCoordinates(int aIndex, int aWidth, int& outX, int& outY)
+void MapUtils::GetCoordinates(int index, int width, int& outX, int& outY)
 {
-	outX = aIndex % aWidth;
-	outY = aIndex / aWidth;
+	outX = index % width;
+	outY = index / width;
 }
 
-eTile MapUtils::GetTileTypeInDirection(const Entity* aMapChunk, int anIndex, eDirection aDirection)
+eTile MapUtils::GetTileTypeInDirection(const Entity* mapChunk, int index, eDirection direction)
 {
-	auto* mapChunkComponent = aMapChunk->GetComponent<MapChunkComponent>();
+	auto* mapChunkComponent = mapChunk->GetComponent<MapChunkComponent>();
 
 	auto tiles = mapChunkComponent->Tiles;
 
 	unsigned chunkSize = MapChunkComponent::TileCountPerSide;
 
-	int row = anIndex / chunkSize;
-	int col = anIndex % chunkSize;
+	int row = index / chunkSize;
+	int col = index % chunkSize;
 
 	//if (aDirection == eDirection::Up && row > 0)
-	if (aDirection == eDirection::Up && row < chunkSize - 1)
+	if (direction == eDirection::Up && row < chunkSize - 1)
 	{
 		//int index = ((row - 1) * chunkSize) + col;
-		int index = ((row + 1) * chunkSize) + col;
-		return tiles.at(index).Type;
+		int i = ((row + 1) * chunkSize) + col;
+		return tiles.at(i).Type;
 	}
 	//if (aDirection == eDirection::Down && row < chunkSize - 1)
-	if (aDirection == eDirection::Down && row > 0)
+	if (direction == eDirection::Down && row > 0)
 	{
 		//int index = ((row + 1) * chunkSize) + col;
-		int index = ((row - 1) * chunkSize) + col;
-		return tiles.at(index).Type;
+		int i = ((row - 1) * chunkSize) + col;
+		return tiles.at(i).Type;
 	}
-	if (aDirection == eDirection::Left && col > 0)
+	if (direction == eDirection::Left && col > 0)
 	{
-		int index = anIndex - 1;
-		return tiles.at(index).Type;
+		int i = index - 1;
+		return tiles.at(i).Type;
 	}
-	if (aDirection == eDirection::Right && col < chunkSize - 1)
+	if (direction == eDirection::Right && col < chunkSize - 1)
 	{
-		int index = anIndex + 1;
-		return tiles.at(index).Type;
+		int i = index + 1;
+		return tiles.at(i).Type;
 	}
 
 	return eTile::Void;
 }
 
-int MapUtils::IsTileTypeInDirection(Entity* aMapChunk, int anIndex, eDirectionalValue aDirection, eTile aType)
+int MapUtils::IsTileTypeInDirection(Entity* mapChunk, int index, eDirectionalValue direction, eTile type)
 {
-	auto* mapChunkComponent = aMapChunk->GetComponent<MapChunkComponent>();
+	auto* mapChunkComponent = mapChunk->GetComponent<MapChunkComponent>();
 
 	auto tiles = mapChunkComponent->Tiles;
 
 	unsigned chunkSize = MapChunkComponent::TileCountPerSide;
 
-	int row = anIndex / chunkSize;
-	int col = anIndex % chunkSize;
+	int row = index / chunkSize;
+	int col = index % chunkSize;
 
 	//if (aDirection == eDirection::Up && row > 0)
-	if (aDirection == eDirectionalValue::North && row < chunkSize - 1)
+	if (direction == eDirectionalValue::North && row < chunkSize - 1)
 	{
 		//int index = ((row - 1) * chunkSize) + col;
-		int index = ((row + 1) * chunkSize) + col;
-		return (tiles.at(index).Type == aType);
+		int i = ((row + 1) * chunkSize) + col;
+		return (tiles.at(i).Type == type);
 	}
 	//if (aDirection == eDirection::Down && row < chunkSize - 1)
-	if (aDirection == eDirectionalValue::South && row > 0)
+	if (direction == eDirectionalValue::South && row > 0)
 	{
 		//int index = ((row + 1) * chunkSize) + col;
-		int index = ((row - 1) * chunkSize) + col;
-		return tiles.at(index).Type == aType;
+		int i = ((row - 1) * chunkSize) + col;
+		return tiles.at(i).Type == type;
 	}
-	if (aDirection == eDirectionalValue::West && col > 0)
+	if (direction == eDirectionalValue::West && col > 0)
 	{
-		int index = anIndex - 1;
-		return tiles.at(index).Type == aType;
+		int i = index - 1;
+		return tiles.at(i).Type == type;
 	}
-	if (aDirection == eDirectionalValue::East && col < chunkSize - 1)
+	if (direction == eDirectionalValue::East && col < chunkSize - 1)
 	{
-		int index = anIndex + 1;
-		return tiles.at(index).Type == aType;
+		int i = index + 1;
+		return tiles.at(i).Type == type;
 	}
 
 	return 0;

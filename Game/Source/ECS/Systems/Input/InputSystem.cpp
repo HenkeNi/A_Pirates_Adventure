@@ -3,7 +3,7 @@
 #include "Entities/EntityManager.h"
 #include "Components/Core/CoreComponents.h"
 
-CU::Vector2<double> ConvertMousePositionToWorldPosition(const glm::vec2& mousePos, int windowWidth, int windowHeight, const glm::mat4& aViewProjectionMatrix);
+CU::Vector2<double> ConvertMousePositionToWorldPosition(const glm::vec2& mousePos, int windowWidth, int windowHeight, const glm::mat4& viewProjectionMatrix);
 
 InputSystem::InputSystem()
 {
@@ -15,16 +15,16 @@ InputSystem::~InputSystem()
 	Hi_Engine::Dispatcher::GetInstance().Unsubscribe(this);
 }
 
-void InputSystem::HandleEvent(Hi_Engine::InputEvent& anEvent)
+void InputSystem::HandleEvent(Hi_Engine::InputEvent& inputEvent)
 {
 	// auto keyState = anEvent.GetKeyState(Hi_Engine::eKey::Key_W);
 }
 
-void InputSystem::Receive(Message& aMsg)
+void InputSystem::Receive(Message& message)
 {
 }
 
-void InputSystem::Update(float aDeltaTime)
+void InputSystem::Update(float deltaTime)
 {
 	if (!m_entityManager)
 		return;
@@ -54,7 +54,7 @@ void InputSystem::Update(float aDeltaTime)
 	}
 }
 
-CU::Vector2<double> ConvertMousePositionToWorldPosition(const glm::vec2& mousePos, int windowWidth, int windowHeight, const glm::mat4& aViewProjectionMatrix)
+CU::Vector2<double> ConvertMousePositionToWorldPosition(const glm::vec2& mousePos, int windowWidth, int windowHeight, const glm::mat4& viewProjectionMatrix)
 {
 	// Convert mouse coordinates to NDC
 	float ndcX = (2.0f * mousePos.x) / windowWidth - 1.0f;
@@ -64,7 +64,7 @@ CU::Vector2<double> ConvertMousePositionToWorldPosition(const glm::vec2& mousePo
 	//glm::vec4 viewport = glm::vec4(0.0f, 0.0f, windowWidth, windowHeight);
 
 	// Create inverse projection-view matrix
-	glm::mat4 invPVMatrix = glm::inverse(aViewProjectionMatrix);
+	glm::mat4 invPVMatrix = glm::inverse(viewProjectionMatrix);
 
 	// Perform unprojection
 	glm::vec4 mouseCoords = glm::vec4(ndcX, ndcY, 0.0f, 1.0f);

@@ -12,19 +12,19 @@ Transition::~Transition()
 {
 }
 
-void Transition::SetCondition(Condition* aCondition)
+void Transition::SetCondition(Condition* condition)
 {
-	m_condition = aCondition;
+	m_condition = condition;
 }
 
-void Transition::SetTargetState(State* aState)
+void Transition::SetTargetState(State* state)
 {
-	m_targetState = aState;
+	m_targetState = state;
 }
 
-void Transition::SetPriority(unsigned aPriority)
+void Transition::SetPriority(unsigned priority)
 {
-	m_priority = aPriority;
+	m_priority = priority;
 }
 
 State* Transition::GetTargetState() const

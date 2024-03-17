@@ -7,11 +7,11 @@ class SceneManager;
 class SceneManagerProxy
 {
 public:
-	SceneManagerProxy(SceneManager& aSceneManager);
+	SceneManagerProxy(SceneManager& sceneManager);
 
-	void Push(eScene aType);
+	void Push(eScene type);
 	void Pop();
-	void SwapTo(eScene aType);
+	void SwapTo(eScene type);
 	void Clear();
 
 private:

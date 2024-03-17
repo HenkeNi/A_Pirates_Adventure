@@ -6,11 +6,11 @@
 class MenuScene : public Scene
 {
 public:
-	MenuScene(SharedContext aContext);
+	MenuScene(SharedContext context);
 	~MenuScene();
 
-	void Update(float aDeltaTime)			  override;
-	void LateUpdate(float aDeltaTime)		  override;
+	void Update(float deltaTime)			  override;
+	void LateUpdate(float deltaTime)		  override;
 	void Draw()							const override;
 
 	void OnEnter()							  override;

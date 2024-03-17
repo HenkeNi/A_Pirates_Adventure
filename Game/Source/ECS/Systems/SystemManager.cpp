@@ -11,22 +11,22 @@ SystemManager::~SystemManager()
 {
 }
 
-void SystemManager::Init(class EntityManager* aManager)
+void SystemManager::Init(class EntityManager* entityManager)
 {
 	for (auto& system : m_systems)
-		system->Init(aManager);
+		system->Init(entityManager);
 }
 
-void SystemManager::Update(float aDeltaTime)
+void SystemManager::Update(float deltaTime)
 {
 	for (auto& system : m_systems)
-		system->Update(aDeltaTime);
+		system->Update(deltaTime);
 }
 
-void SystemManager::LateUpdate(float aDeltaTime)
+void SystemManager::LateUpdate(float deltaTime)
 {
 	for (auto& system : m_systems)
-		system->LateUpdate(aDeltaTime);
+		system->LateUpdate(deltaTime);
 }
 
 void SystemManager::Draw() const
@@ -35,9 +35,9 @@ void SystemManager::Draw() const
 			system->Draw();
 }
 
-void SystemManager::Register(std::unique_ptr<System> aSystem)
+void SystemManager::Register(std::unique_ptr<System> system)
 {
-	m_systems.push_back(std::move(aSystem));
+	m_systems.push_back(std::move(system));
 
 	// TODO; sort systems?? or use heap?
 }

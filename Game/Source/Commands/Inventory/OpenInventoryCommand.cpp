@@ -5,12 +5,12 @@ OpenInventoryCommand::OpenInventoryCommand()
 {
 }
 
-void OpenInventoryCommand::Execute(Entity* anEntity)
+void OpenInventoryCommand::Execute(Entity* entity)
 {
 	// Send event, should transition..
 }
 
-bool OpenInventoryCommand::CanPerform(Entity* anEntity) const
+bool OpenInventoryCommand::CanPerform(Entity* entity) const
 {
 	return true;
 }

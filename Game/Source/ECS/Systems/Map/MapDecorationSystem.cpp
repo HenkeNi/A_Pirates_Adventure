@@ -6,7 +6,7 @@
 #include "Components/Core/CoreComponents.h"
 #include "Components/Gameplay/GameplayComponents.h"
 
-unsigned GetResourceSpawnChance(const std::string& aResource); // FIX!
+unsigned GetResourceSpawnChance(const std::string& resource); // FIX!
 
 struct ResourceSpawnSettings
 {
@@ -24,25 +24,25 @@ MapDecorationSystem::~MapDecorationSystem()
 	PostMaster::GetInstance().Unsubscribe(eMessage::MapChunkGenerated, this);
 }
 
-void MapDecorationSystem::Receive(Message& aMsg)
+void MapDecorationSystem::Receive(Message& message)
 {
 
 	// map chunk generated
 
-	auto mapChunk = std::any_cast<Entity*>(aMsg.GetData());
+	auto mapChunk = std::any_cast<Entity*>(message.GetData());
 
 	GenerateResources(mapChunk);
 	// PopulateWithFoilage(mapChunk);
 }
 
-void MapDecorationSystem::Update(float aDeltaTime)
+void MapDecorationSystem::Update(float deltaTime)
 {
 }
 
-void MapDecorationSystem::GenerateResources(Entity* anEnity)
+void MapDecorationSystem::GenerateResources(Entity* entity)
 {
-	auto* mapChunkComponent = anEnity->GetComponent<MapChunkComponent>();
-	auto* transformComponent = anEnity->GetComponent<TransformComponent>();
+	auto* mapChunkComponent = entity->GetComponent<MapChunkComponent>();
+	auto* transformComponent = entity->GetComponent<TransformComponent>();
 
 	auto position = transformComponent->CurrentPos;
 
@@ -86,22 +86,22 @@ void MapDecorationSystem::GenerateResources(Entity* anEnity)
 
 }
 
-void MapDecorationSystem::PopulateWithFoilage(const Entity* aMapChunk)
+void MapDecorationSystem::PopulateWithFoilage(const Entity* mapChunk)
 {
-	auto generateFoilage = [&](const std::string& aType, unsigned anAmount, const Entity* aMapChunk)
+	auto generateFoilage = [&](const std::string& type, unsigned amount, const Entity* mapChunk)
 		{
 			static const float tileSize = 1.f;
 
-			auto* mapChunkComponent = aMapChunk->GetComponent<MapChunkComponent>();
-			auto* mapTransformComponent = aMapChunk->GetComponent<TransformComponent>();
+			auto* mapChunkComponent = mapChunk->GetComponent<MapChunkComponent>();
+			auto* mapTransformComponent = mapChunk->GetComponent<TransformComponent>();
 
 			auto chunkPosition = mapTransformComponent->CurrentPos;
 			auto endPosition = CU::Vector2<float>{ chunkPosition.x + MapChunkComponent::TileCountPerSide * tileSize, chunkPosition.y + MapChunkComponent::TileCountPerSide * tileSize };
 			//auto endPosition = CU::Vector2<float>{ chunkPosition.x + mapChunkComponent->Width * tileSize, chunkPosition.y + mapChunkComponent->Height * tileSize };
 
-			for (int i = 0; i < anAmount; ++i)
+			for (int i = 0; i < amount; ++i)
 			{
-				auto* entity = m_entityManager->Create(aType);
+				auto* entity = m_entityManager->Create(type);
 				auto* transform = entity->GetComponent<TransformComponent>();
 
 				//auto sizet = entity->GetComponent<SpriteComponent>()->Subtexture->GetSize(); // TEMP..
@@ -131,18 +131,18 @@ void MapDecorationSystem::PopulateWithFoilage(const Entity* aMapChunk)
 
 
 
-	generateFoilage("PalmTree", 1, aMapChunk);
-	//generateFoilage("PalmTree", 2, aMapChunk);
-	generateFoilage("Grass", 7, aMapChunk);
-	generateFoilage("Rock", 1, aMapChunk);
+	generateFoilage("PalmTree", 1, mapChunk);
+	//generateFoilage("PalmTree", 2, mapChunk);
+	generateFoilage("Grass", 7, mapChunk);
+	generateFoilage("Rock", 1, mapChunk);
 
 	//static int count = 0;
 
 	//if ((count++) % 5 == 0)
-	//	generateFoilage("SkeletonSpawner", 1, aMapChunk);
+	//	generateFoilage("SkeletonSpawner", 1, mapChunk);
 }
 
-unsigned GetResourceSpawnChance(const std::string& aResource)
+unsigned GetResourceSpawnChance(const std::string& resource)
 {
 	const std::unordered_map<std::string, unsigned> resourceSpawnChance = {
 		{ "PalmTree", 20 },
@@ -150,5 +150,5 @@ unsigned GetResourceSpawnChance(const std::string& aResource)
 		{ "Grass", 30 }
 	};
 
-	return resourceSpawnChance.at(aResource);
+	return resourceSpawnChance.at(resource);
 }

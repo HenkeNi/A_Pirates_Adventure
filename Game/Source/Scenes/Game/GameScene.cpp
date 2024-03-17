@@ -5,8 +5,8 @@
 #include "Overworld/OverworldScene.h"
 
 
-GameScene::GameScene(SharedContext aContext)
-	: Scene{ aContext }
+GameScene::GameScene(SharedContext context)
+	: Scene{ context }
 {
 }
 
@@ -19,23 +19,23 @@ GameScene::~GameScene()
 //	m_sceneManager.Register(std::move(aScene), aType);
 //}
 
-void GameScene::Update(float aDeltaTime)
+void GameScene::Update(float deltaTime)
 {
 	std::weak_ptr<Scene> activeScene = m_sceneManager.GetActiveScene();
 	if (auto scene = activeScene.lock())
 	{
-		scene->Update(aDeltaTime);
+		scene->Update(deltaTime);
 	}
 
 	//m_sceneManager.Update(aDeltaTime); // not needed??
 }
 
-void GameScene::LateUpdate(float aDeltaTime)
+void GameScene::LateUpdate(float deltaTime)
 {
 	std::weak_ptr<Scene> activeScene = m_sceneManager.GetActiveScene();
 	if (auto scene = activeScene.lock())
 	{
-		scene->LateUpdate(aDeltaTime);
+		scene->LateUpdate(deltaTime);
 	}
 
 

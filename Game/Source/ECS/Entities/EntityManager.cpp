@@ -15,9 +15,9 @@ EntityManager::~EntityManager()
 {
 }
 
-Entity* EntityManager::Create(const std::string& aType)
+Entity* EntityManager::Create(const std::string& type)
 {
-	auto entity = s_entityFactory.Create(aType);
+	auto entity = s_entityFactory.Create(type);
 
 	m_entities.push_back(std::move(entity));
 
@@ -27,9 +27,9 @@ Entity* EntityManager::Create(const std::string& aType)
 	return created;
 }
 
-Entity* EntityManager::Find(unsigned anID)
+Entity* EntityManager::Find(unsigned id)
 {
-	auto it = std::find_if(m_entities.begin(), m_entities.end(), [=](const Entity& anEntity) { return anEntity.GetID() == anID; });
+	auto it = std::find_if(m_entities.begin(), m_entities.end(), [=](const Entity& anEntity) { return anEntity.GetID() == id; });
 
 	if (it != m_entities.end())
 		return &(*it);
@@ -37,9 +37,9 @@ Entity* EntityManager::Find(unsigned anID)
 	return nullptr;
 }
 
-void EntityManager::Destroy(unsigned anID)
+void EntityManager::Destroy(unsigned id)
 {
-	auto it = std::find_if(m_entities.begin(), m_entities.end(), [=](const Entity& anEntity) { return anEntity.GetID() == anID; });
+	auto it = std::find_if(m_entities.begin(), m_entities.end(), [=](const Entity& anEntity) { return anEntity.GetID() == id; });
 
 	if (it != m_entities.end())
 	{

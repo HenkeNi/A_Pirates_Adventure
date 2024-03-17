@@ -15,7 +15,7 @@ SpriteRenderSystem::~SpriteRenderSystem()
 {
 }
 
-void SpriteRenderSystem::Receive(Message& aMsg)
+void SpriteRenderSystem::Receive(Message& message)
 {
 }
 

@@ -11,9 +11,9 @@ public:
 	SpawnSystem();
 	~SpawnSystem();
 
-	void Receive(Message& aMsg)		override;
-	void Update(float aDeltaTime)	override;
+	void Receive(Message& message)	override;
+	void Update(float deltaTime)	override;
 
 private:
-	void Spawn(Entity* aSpawner);
+	void Spawn(Entity* spawner);
 };

@@ -5,11 +5,11 @@
 class DungeonScene : public Scene
 {
 public:
-	DungeonScene(SharedContext aContext);
+	DungeonScene(SharedContext context);
 	~DungeonScene();
 
-	void Update(float aDeltaTime)			  override;
-	void LateUpdate(float aDeltaTime)		  override;
+	void Update(float deltaTime)			  override;
+	void LateUpdate(float deltaTime)		  override;
 	void Draw()							const override;
 
 	void OnCreated()						  override;

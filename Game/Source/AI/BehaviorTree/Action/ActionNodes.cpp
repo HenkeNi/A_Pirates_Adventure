@@ -8,16 +8,16 @@
 
 
 
-IdleNode::IdleNode(int anOwnerID)
-	: BehaviorTreeNode{ anOwnerID }
+IdleNode::IdleNode(int ownerID)
+	: BehaviorTreeNode{ ownerID }
 {
 }
 
-eBTNodeStatus IdleNode::Execute(EntityManager* anEntityManager)
+eBTNodeStatus IdleNode::Execute(EntityManager* entityManager)
 {
-	if (anEntityManager)
+	if (entityManager)
 	{
-		auto* owner = anEntityManager->Find(m_ownerID);
+		auto* owner = entityManager->Find(m_ownerID);
 
 		owner->GetComponent<VelocityComponent>()->Velocity = { 0.f, 0.f };
 	}
@@ -38,18 +38,18 @@ void IdleNode::Clear()
 
 
 
-MoveToTargetNode::MoveToTargetNode(int anOwnerID, int aTargetID)
-	: BehaviorTreeNode{ anOwnerID }, m_targetID{ aTargetID }, m_arriveRange{ 0.2f }
+MoveToTargetNode::MoveToTargetNode(int ownerID, int targetID)
+	: BehaviorTreeNode{ ownerID }, m_targetID{ targetID }, m_arriveRange{ 0.2f }
 {
 }
 
-eBTNodeStatus MoveToTargetNode::Execute(EntityManager* anEntityManager)
+eBTNodeStatus MoveToTargetNode::Execute(EntityManager* entityManager)
 {
-	if (IsValidTarget() && anEntityManager)
+	if (IsValidTarget() && entityManager)
 	{
 		// use Enemy/NPC controllers instead??
-		auto target = anEntityManager->Find(m_targetID);
-		auto owner	= anEntityManager->Find(m_ownerID);
+		auto target = entityManager->Find(m_targetID);
+		auto owner	= entityManager->Find(m_ownerID);
 
 		if (!target || !owner)
 			return eBTNodeStatus::Failure; // Return failure??
@@ -80,14 +80,14 @@ void MoveToTargetNode::Clear()
 
 }
 
-void MoveToTargetNode::SetCallback(const std::function<void()>& aCallback)
+void MoveToTargetNode::SetCallback(const std::function<void()>& callback)
 {
-	m_callback = aCallback;
+	m_callback = callback;
 }
 
-void MoveToTargetNode::SetTargetID(int aTargetID)
+void MoveToTargetNode::SetTargetID(int targetID)
 {
-	m_targetID = aTargetID;
+	m_targetID = targetID;
 }
 
 bool MoveToTargetNode::IsValidTarget() const
@@ -100,19 +100,19 @@ bool MoveToTargetNode::IsValidTarget() const
 
 
 
-AttackTargetNode::AttackTargetNode(int anOwnerID, int aTargetID)
-	: BehaviorTreeNode{ anOwnerID }, m_targetID{ aTargetID }
+AttackTargetNode::AttackTargetNode(int ownerID, int targetID)
+	: BehaviorTreeNode{ ownerID }, m_targetID{ targetID }
 {
 }
 
-eBTNodeStatus AttackTargetNode::Execute(EntityManager* anEntityManager)
+eBTNodeStatus AttackTargetNode::Execute(EntityManager* entityManager)
 {
 	//std::cout << "Attaclomg..\n";
 
-	if (!anEntityManager)
+	if (!entityManager)
 		return eBTNodeStatus::Failure; // CORRECT OT RETURN FAILURE??
 
-	if (auto* owner = anEntityManager->Find(m_ownerID))
+	if (auto* owner = entityManager->Find(m_ownerID))
 	{
 		owner->GetComponent<VelocityComponent>()->Velocity = { 0.f, 0.f };
 	}
@@ -127,9 +127,9 @@ void AttackTargetNode::Clear()
 
 }
 
-void AttackTargetNode::SetTargetID(int aTargetID)
+void AttackTargetNode::SetTargetID(int targetID)
 {
-	m_targetID = aTargetID;
+	m_targetID = targetID;
 }
 
 

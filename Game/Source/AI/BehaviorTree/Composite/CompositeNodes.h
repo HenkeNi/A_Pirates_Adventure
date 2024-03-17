@@ -7,13 +7,13 @@
 class SelectorNode : public BehaviorTreeNode
 {
 public:
-	SelectorNode(int anOwnerID);
+	SelectorNode(int ownerID);
 	~SelectorNode();
 
-	eBTNodeStatus	Execute(EntityManager* anEntityManager)		override;
+	eBTNodeStatus	Execute(EntityManager* entityManager)		override;
 	void			Clear()										override;
 
-	void			AddChild(BehaviorTreeNode* aNode);
+	void			AddChild(BehaviorTreeNode* node);
 
 private:
 	std::vector<BehaviorTreeNode*> m_children;
@@ -24,13 +24,13 @@ private:
 class SequenceNode : public BehaviorTreeNode
 {
 public:
-	SequenceNode(int anOwnerID);
+	SequenceNode(int ownerID);
 	~SequenceNode();
 
-	eBTNodeStatus	Execute(EntityManager* anEntityManager)		override;
+	eBTNodeStatus	Execute(EntityManager* entityManager)		override;
 	void			Clear()										override;
 
-	void			AddChild(BehaviorTreeNode* aNode);
+	void			AddChild(BehaviorTreeNode* node);
 
 private:
 	std::vector<BehaviorTreeNode*> m_children;

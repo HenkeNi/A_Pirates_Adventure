@@ -9,13 +9,13 @@ namespace CU = CommonUtilities;
 class MapUtils // Static functions in one of the MapSystems?
 {
 public:
-	static Entity*	GetMapChunkAtPosition(const std::vector<Entity*>& someMapChunks, const CU::Vector2<float>& aPosition);
+	static Entity*	GetMapChunkAtPosition(const std::vector<Entity*>& mapChunks, const CU::Vector2<float>& position);
 
-	static Tile*	GetTileAtWorldPosition(Entity* aMapChunk, const CU::Vector2<float>& aWorldPosition);
+	static Tile*	GetTileAtWorldPosition(Entity* mapChunk, const CU::Vector2<float>& worldPosition);
 
-	static void		GetCoordinates(int aIndex, int aWidth, int& outX, int& outY);
+	static void		GetCoordinates(int index, int width, int& outX, int& outY);
 
-	static eTile GetTileTypeInDirection(const Entity* aMapChunk, int anIndex, eDirection aDirection);
+	static eTile GetTileTypeInDirection(const Entity* mapChunk, int index, eDirection direction);
 
-	static int IsTileTypeInDirection(Entity* aMapChunk, int anIndex, eDirectionalValue aDirection, eTile aType);
+	static int IsTileTypeInDirection(Entity* mapChunk, int index, eDirectionalValue direction, eTile type);
 };

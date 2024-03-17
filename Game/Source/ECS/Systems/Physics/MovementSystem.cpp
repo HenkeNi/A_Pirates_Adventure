@@ -13,12 +13,12 @@ MovementSystem::~MovementSystem()
 {
 }
 
-void MovementSystem::Receive(Message& aMsg)
+void MovementSystem::Receive(Message& message)
 {
 	// TODO: listen to collision resolved event (from collision system) => update subentities?
 }
 
-void MovementSystem::Update(float aDeltaTime)
+void MovementSystem::Update(float deltaTime)
 {
 	if (!m_entityManager)
 		return;
@@ -36,7 +36,7 @@ void MovementSystem::Update(float aDeltaTime)
 		auto* velocityComponent = entity->GetComponent<VelocityComponent>();
 
 		transformComponent->PreviousPos = transformComponent->CurrentPos;
-		transformComponent->CurrentPos += velocityComponent->Speed * velocityComponent->Velocity * aDeltaTime;
+		transformComponent->CurrentPos += velocityComponent->Speed * velocityComponent->Velocity * deltaTime;
 
 		// TODO; decrease velocity... (maybe not for all? => bullets shouldnt decrease?) decrease property?
 		if (velocityComponent->ShouldSlowDown) // TODO: FIX! temp solution
@@ -47,15 +47,15 @@ void MovementSystem::Update(float aDeltaTime)
 	}
 }
 
-bool MovementSystem::HasMoved(const Entity* anEntity)
+bool MovementSystem::HasMoved(const Entity* entity)
 {
-	auto transform = anEntity->GetComponent<TransformComponent>();
+	auto transform = entity->GetComponent<TransformComponent>();
 	return transform->CurrentPos != transform->PreviousPos;
 }
 
-bool MovementSystem::IsKnockbacked(Entity* anEntity)
+bool MovementSystem::IsKnockbacked(Entity* entity)
 {
-	if (auto* knockbackComponent = anEntity->GetComponent<KnockbackComponent>())
+	if (auto* knockbackComponent = entity->GetComponent<KnockbackComponent>())
 	{
 		double currentTime = Hi_Engine::Engine::GetTimer().GetTotalTime();
 		double knockbackEndTime = knockbackComponent->Timestamp + knockbackComponent->Duration;
@@ -66,12 +66,12 @@ bool MovementSystem::IsKnockbacked(Entity* anEntity)
 	return false;
 }
 
-void MovementSystem::MoveSubEntities(Entity* anEntity)
+void MovementSystem::MoveSubEntities(Entity* entity)
 {
 	// HERE? or in Transform System?
-	if (auto* childComponent = anEntity->GetComponent<SubEntitiesComponent>())
+	if (auto* childComponent = entity->GetComponent<SubEntitiesComponent>())
 	{
-		auto* transformComponent = anEntity->GetComponent<TransformComponent>();
+		auto* transformComponent = entity->GetComponent<TransformComponent>();
 
 		for (unsigned entityID : childComponent->IDs)
 		{
@@ -86,13 +86,13 @@ void MovementSystem::MoveSubEntities(Entity* anEntity)
 	}
 }
 
-void MovementSystem::ApplyKnockback(Entity* anEntity)
+void MovementSystem::ApplyKnockback(Entity* entity)
 {
-	if (!IsKnockbacked(anEntity))
+	if (!IsKnockbacked(entity))
 		return;
 
-	auto* knockbackComponent = anEntity->GetComponent<KnockbackComponent>();
-	auto* velocityComponent = anEntity->GetComponent<VelocityComponent>();
+	auto* knockbackComponent = entity->GetComponent<KnockbackComponent>();
+	auto* velocityComponent = entity->GetComponent<VelocityComponent>();
 
 	velocityComponent->Velocity = knockbackComponent->Direction;
 	velocityComponent->Speed = knockbackComponent->Power;					// TOOD: fix side effect where movement speed is increased after knockback

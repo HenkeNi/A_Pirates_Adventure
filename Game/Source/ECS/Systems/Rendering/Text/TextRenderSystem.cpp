@@ -12,7 +12,7 @@ TextRenderSystem::~TextRenderSystem()
 {
 }
 
-void TextRenderSystem::Receive(Message& aMsg)
+void TextRenderSystem::Receive(Message& message)
 {
 }
 

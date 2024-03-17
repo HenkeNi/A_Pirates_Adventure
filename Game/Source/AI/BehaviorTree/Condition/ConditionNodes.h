@@ -6,9 +6,9 @@
 class TargetInViewNode : public BehaviorTreeNode
 {
 public:
-	TargetInViewNode(int anOwnerID, int aTargetID = -1);
+	TargetInViewNode(int ownerID, int targetID = -1);
 
-	eBTNodeStatus	Execute(EntityManager* anEntityManager)	override;
+	eBTNodeStatus	Execute(EntityManager* entityManager)	override;
 	void			Clear()									override;
 
 
@@ -24,9 +24,9 @@ class GameObject;
 class TargetInRangeNode : public BehaviorTreeNode
 {
 public:
-	TargetInRangeNode(int anOwnerID, int aTargetID = -1);
+	TargetInRangeNode(int ownerID, int targetID = -1);
 
-	eBTNodeStatus	Execute(EntityManager* anEntityManager)	override;
+	eBTNodeStatus	Execute(EntityManager* entityManager)	override;
 	void			Clear()									override;
 
 

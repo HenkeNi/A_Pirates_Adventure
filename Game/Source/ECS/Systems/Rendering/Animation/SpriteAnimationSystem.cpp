@@ -12,11 +12,11 @@ SpriteAnimationSystem::~SpriteAnimationSystem()
 {
 }
 
-void SpriteAnimationSystem::Receive(Message& aMsg)
+void SpriteAnimationSystem::Receive(Message& message)
 {
 }
 
-void SpriteAnimationSystem::Update(float aDeltaTime) 
+void SpriteAnimationSystem::Update(float deltaTime) 
 {
 	if (!m_entityManager)
 		return;
@@ -42,7 +42,7 @@ void SpriteAnimationSystem::Update(float aDeltaTime)
 
 
 		float& elapsedTime = animation.ElapsedFrameTime;
-		elapsedTime += aDeltaTime;
+		elapsedTime += deltaTime;
 
 		if (elapsedTime >= animation.FrameDuration)
 		{
@@ -102,10 +102,10 @@ void SpriteAnimationSystem::Update(float aDeltaTime)
 }
 
 // Todo; no need for m_active?
-std::string SpriteAnimationSystem::GetCurrentState(Entity* anEntity) const
+std::string SpriteAnimationSystem::GetCurrentState(Entity* entity) const
 {
-	auto* characterStateComponent	= anEntity->GetComponent<CharacterStateComponent>();
-	auto* animationComponent		= anEntity->GetComponent<AnimationComponent>();
+	auto* characterStateComponent	= entity->GetComponent<CharacterStateComponent>();
+	auto* animationComponent		= entity->GetComponent<AnimationComponent>();
 
 	// Todo; create map?
 
@@ -130,20 +130,20 @@ std::string SpriteAnimationSystem::GetCurrentState(Entity* anEntity) const
 	return "Idle";
 }
 
-void SpriteAnimationSystem::UpdateSpriteOrientation(struct VelocityComponent* aVelocityComponent, struct TransformComponent* aTransformComponent)
+void SpriteAnimationSystem::UpdateSpriteOrientation(struct VelocityComponent* velocityComponent, struct TransformComponent* transformComponent)
 {
-	if (aVelocityComponent->Velocity.x >= 1.f)
+	if (velocityComponent->Velocity.x >= 1.f)
 	{
-		if (aTransformComponent->Scale.x < 0.f)
-			aTransformComponent->Scale.x *= -1.f;
+		if (transformComponent->Scale.x < 0.f)
+			transformComponent->Scale.x *= -1.f;
 
 		//if (aTransformComponent->Scale.x == -1.f)
 		//	aTransformComponent->Scale.x = 1.f;
 	}
-	else if (aVelocityComponent->Velocity.x <= -1.f)
+	else if (velocityComponent->Velocity.x <= -1.f)
 	{
-		if (aTransformComponent->Scale.x > 0.f)
-			aTransformComponent->Scale.x *= -1.f;
+		if (transformComponent->Scale.x > 0.f)
+			transformComponent->Scale.x *= -1.f;
 		//if (aTransformComponent->Scale.x == 1.f)
 		//	aTransformComponent->Scale.x = -1.f;
 	}

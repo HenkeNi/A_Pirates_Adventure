@@ -10,29 +10,29 @@ PostMaster& PostMaster::GetInstance()
 	return instance;
 }
 
-void PostMaster::Subscribe(const eMessage aMsgType, Subscriber* aSubscriber)
+void PostMaster::Subscribe(const eMessage messageType, Subscriber* subscriber)
 {
-	auto it = std::find(m_subscribers[aMsgType].begin(), m_subscribers[aMsgType].end(), aSubscriber);
-	assert(it == m_subscribers[aMsgType].end());
+	auto it = std::find(m_subscribers[messageType].begin(), m_subscribers[messageType].end(), subscriber);
+	assert(it == m_subscribers[messageType].end());
 
-	m_subscribers[aMsgType].push_back(aSubscriber);
+	m_subscribers[messageType].push_back(subscriber);
 }
 
-void PostMaster::Unsubscribe(const eMessage aMsgType, Subscriber* aSubscriber)
+void PostMaster::Unsubscribe(const eMessage messageType, Subscriber* subscriber)
 {
-	auto it = std::find(m_subscribers[aMsgType].begin(), m_subscribers[aMsgType].end(), aSubscriber);
-	assert(it != m_subscribers[aMsgType].end());
+	auto it = std::find(m_subscribers[messageType].begin(), m_subscribers[messageType].end(), subscriber);
+	assert(it != m_subscribers[messageType].end());
 
-	m_subscribers[aMsgType].erase(it);
+	m_subscribers[messageType].erase(it);
 }
 
-void PostMaster::SendMessage(Message aMessage)
+void PostMaster::SendMessage(Message message)
 {
- 	for (auto& subsriber : m_subscribers[aMessage.GetMessageType()])
+ 	for (auto& subsriber : m_subscribers[message.GetMessageType()])
 	{
-		if (aMessage.IsHandled())
+		if (message.IsHandled())
 			break;
 
-		subsriber->Receive(aMessage);
+		subsriber->Receive(message);
 	}
 }

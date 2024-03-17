@@ -10,25 +10,25 @@ ComponentFactory::~ComponentFactory()
 	Clear();
 }
 
-bool ComponentFactory::HasBuilder(const std::string& aType) const
+bool ComponentFactory::HasBuilder(const std::string& type) const
 {
-	return m_builders.find(aType) != m_builders.end();
+	return m_builders.find(type) != m_builders.end();
 }
 
-bool ComponentFactory::RegisterBuilder(const std::string& aType, ComponentBuilder* aBuilder)
+bool ComponentFactory::RegisterBuilder(const std::string& type, ComponentBuilder* builder)
 {
-	assert(aBuilder && "Can't register a Builder containing a nullptr");
+	assert(builder && "Can't register a Builder containing a nullptr");
 
-	return !HasBuilder(aType) ? m_builders.insert({ aType, aBuilder }).second : false;
+	return !HasBuilder(type) ? m_builders.insert({ type, builder }).second : false;
 }
 
-void ComponentFactory::RemoveBuilder(const std::string& aType)
+void ComponentFactory::RemoveBuilder(const std::string& type)
 {
-	if (HasBuilder(aType))	// Check if needed??!
+	if (HasBuilder(type))	// Check if needed??!
 	{
-		delete m_builders[aType];
-		m_builders[aType] = nullptr; // Delete as well??
-		m_builders.erase(aType);
+		delete m_builders[type];
+		m_builders[type] = nullptr; // Delete as well??
+		m_builders.erase(type);
 	}
 }
 

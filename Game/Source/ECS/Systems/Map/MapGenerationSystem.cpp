@@ -9,13 +9,13 @@
 
 
 
-CU::Vector2<int> ConvertWorldPositionToMapChunkCoordinates(const CU::Vector2<float>& aWorldPosition)
+CU::Vector2<int> ConvertWorldPositionToMapChunkCoordinates(const CU::Vector2<float>& worldPosition)
 {
 	float chunkSize = MapChunkComponent::TileCountPerSide * Tile::Size;
 
 	CU::Vector2<int> coordinates;
-	coordinates.x = (int)std::floor(aWorldPosition.x / chunkSize);
-	coordinates.y = (int)std::floor(aWorldPosition.y / chunkSize);
+	coordinates.x = (int)std::floor(worldPosition.x / chunkSize);
+	coordinates.y = (int)std::floor(worldPosition.y / chunkSize);
 
 	return coordinates;
 }
@@ -31,9 +31,9 @@ struct TileSettings
 };
 
 
-eTile GetTileType(float aNoise)
+eTile GetTileType(float noise)
 {
-	int noise = (int)(aNoise * 10);
+	int noiseValue = (int)(noise * 10);
 
 	// std::cout << noise << "\n";
 
@@ -47,7 +47,7 @@ eTile GetTileType(float aNoise)
 
 	for (const auto& [type, value] : tileHeightValues)
 	{
-		if (noise >= value)
+		if (noiseValue >= value)
 		{
 			return type;
 		}
@@ -75,7 +75,7 @@ eTile GetTileType(float aNoise)
 	return eTile::Water;*/
 }
 
-Hi_Engine::Subtexture2D* GetSubtexture(eTile aType) // TODO: check neighbours?
+Hi_Engine::Subtexture2D* GetSubtexture(eTile type) // TODO: check neighbours?
 {
 	static const std::unordered_map<eTile, Hi_Engine::SubtextureData> textures = {
 		{ eTile::Grass,			{ "island_tileset", 3, 6 }},
@@ -85,18 +85,18 @@ Hi_Engine::Subtexture2D* GetSubtexture(eTile aType) // TODO: check neighbours?
 		{ eTile::DeepWater,		{ "island_tileset", 1, 8 }}, // NEEDED??
 	};
 
-	const auto& texture = textures.at(aType);
+	const auto& texture = textures.at(type);
 
 	return &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource(texture);
 }
 
-glm::vec4 GetTileColor(eTile aType)
+glm::vec4 GetTileColor(eTile type)
 {
-	if (aType == eTile::ShallowWater)
+	if (type == eTile::ShallowWater)
 		return { 0.25f, 0.88f, 0.81f, 1.f };
-	if (aType == eTile::Water)
+	if (type == eTile::Water)
 		return { 0.f, 0.69f, 0.63f, 1.f };
-	if (aType == eTile::DeepWater)
+	if (type == eTile::DeepWater)
 		return { 0.f, 0.16f, 0.16f, 1.f };
 
 	return { 1.f, 1.f, 1.f, 1.f };
@@ -113,7 +113,7 @@ MapGenerationSystem::~MapGenerationSystem()
 	PostMaster::GetInstance().Unsubscribe(eMessage::GameStarted, this);
 }
 
-void MapGenerationSystem::Receive(Message& aMsg)
+void MapGenerationSystem::Receive(Message& message)
 {
 	// Generate x amount of areas...
 
@@ -126,7 +126,7 @@ void MapGenerationSystem::Receive(Message& aMsg)
 	}
 }
 
-void MapGenerationSystem::Update(float aDeltaTime)
+void MapGenerationSystem::Update(float deltaTime)
 {
 	if (!m_entityManager)
 		return;
@@ -197,12 +197,12 @@ void MapGenerationSystem::GenerateMapChunk(int xCoord, int yCoord)
 	PostMaster::GetInstance().SendMessage({ eMessage::MapChunkGenerated, entity });
 }
 
-void MapGenerationSystem::ApplyTextures(Entity* anEntity) // Rename; texture map chunk?
+void MapGenerationSystem::ApplyTextures(Entity* entity) // Rename; texture map chunk?
 {
 	static const std::array<eDirectionalValue, 4> directionalValues = { eDirectionalValue::North, eDirectionalValue::West, eDirectionalValue::East, eDirectionalValue::South };
 
-	auto* transformComponent = anEntity->GetComponent<TransformComponent>();
-	auto* mapChunkComponent = anEntity->GetComponent<MapChunkComponent>();
+	auto* transformComponent = entity->GetComponent<TransformComponent>();
+	auto* mapChunkComponent = entity->GetComponent<MapChunkComponent>();
 
 	for (int i = 0; i < mapChunkComponent->Tiles.size(); ++i)
 	{
@@ -214,29 +214,29 @@ void MapGenerationSystem::ApplyTextures(Entity* anEntity) // Rename; texture map
 
 			for (const auto& directionalValue : directionalValues)
 			{
-				bool isEmptySpace = MapUtils::IsTileTypeInDirection(anEntity, i, directionalValue, eTile::ShallowWater);
+				bool isEmptySpace = MapUtils::IsTileTypeInDirection(entity, i, directionalValue, eTile::ShallowWater);
 				//if (MapUtils::GetTileTypeInDirection())
 				baseValue += (int)directionalValue * isEmptySpace;
 			}
 
 
 
-			if (MapUtils::GetTileTypeInDirection(anEntity, i, eDirection::Down) == eTile::ShallowWater)
+			if (MapUtils::GetTileTypeInDirection(entity, i, eDirection::Down) == eTile::ShallowWater)
 			{
 				tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({"island_tileset", 3, 1 });
 				//tile.Color = { 0.f, 0.3f, 0.5f, 1.f };
 			}
-			else if (MapUtils::GetTileTypeInDirection(anEntity, i, eDirection::Up) == eTile::ShallowWater)
+			else if (MapUtils::GetTileTypeInDirection(entity, i, eDirection::Up) == eTile::ShallowWater)
 			{
 				tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ "island_tileset", 5, 1 });
 				//tile.Color = { 0.f, 0.3f, 0.5f, 1.f };
 			}
-			else if (MapUtils::GetTileTypeInDirection(anEntity, i, eDirection::Left) == eTile::ShallowWater)
+			else if (MapUtils::GetTileTypeInDirection(entity, i, eDirection::Left) == eTile::ShallowWater)
 			{
 				tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ "island_tileset", 4,0 });
 				//tile.Color = { 0.f, 0.3f, 0.5f, 1.f };
 			}
-			else if (MapUtils::GetTileTypeInDirection(anEntity, i, eDirection::Right) == eTile::ShallowWater)
+			else if (MapUtils::GetTileTypeInDirection(entity, i, eDirection::Right) == eTile::ShallowWater)
 			{
 				tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ "island_tileset", 4,2 });
 				//tile.Color = { 0.f, 0.3f, 0.5f, 1.f };

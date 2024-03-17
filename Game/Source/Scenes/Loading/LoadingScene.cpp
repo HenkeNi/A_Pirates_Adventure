@@ -2,8 +2,8 @@
 #include "LoadingScene.h"
 
 
-LoadingScene::LoadingScene(SharedContext aContext)
-	: Scene{ aContext }
+LoadingScene::LoadingScene(SharedContext context)
+	: Scene{ context }
 {
 }
 
@@ -11,11 +11,11 @@ LoadingScene::~LoadingScene()
 {
 }
 
-void LoadingScene::Update(float aDeltaTime)
+void LoadingScene::Update(float deltaTime)
 {
 }
 
-void LoadingScene::LateUpdate(float aDeltaTime)
+void LoadingScene::LateUpdate(float deltaTime)
 {
 }
 

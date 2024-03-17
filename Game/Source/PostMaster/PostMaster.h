@@ -12,9 +12,9 @@ public:
 	
 	static PostMaster&	GetInstance();
 
-	void				Subscribe(const eMessage aMsgType, Subscriber* aSubscriber);
-	void				Unsubscribe(const eMessage aMsgType, Subscriber* aSubscriber);
-	void				SendMessage(Message aMessage);
+	void				Subscribe(const eMessage messageType, Subscriber* subscriber);
+	void				Unsubscribe(const eMessage messageType, Subscriber* subscriber);
+	void				SendMessage(Message message);
 
 private:
 	PostMaster() = default;

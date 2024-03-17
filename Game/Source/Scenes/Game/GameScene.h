@@ -6,13 +6,13 @@
 class GameScene : public Scene
 {
 public:
-	GameScene(SharedContext aContext);
+	GameScene(SharedContext context);
 	~GameScene();
 
 	//void Register(MutableScene aScene, eScene aType);
 
-	void Update(float aDeltaTime)			  override;
-	void LateUpdate(float aDeltaTime)		  override;
+	void Update(float deltaTime)			  override;
+	void LateUpdate(float deltaTime)		  override;
 	void Draw()							const override;
 
 	void OnCreated()						  override;

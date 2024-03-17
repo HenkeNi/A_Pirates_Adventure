@@ -13,8 +13,8 @@ public:
 	EntityBlueprint();
 	~EntityBlueprint();
 
-	void SetIdentifier(const std::string& anIdentifier);
-	void AddComponentData(const std::string& aType, const ECS::ComponentData& someData);
+	void SetIdentifier(const std::string& identifier);
+	void AddComponentData(const std::string& type, const ECS::ComponentData& data);
 
 private:
 	friend class EntityFactory;

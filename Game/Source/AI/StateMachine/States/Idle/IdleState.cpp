@@ -7,9 +7,9 @@ void IdleState::Init()
 {
 }
 
-void IdleState::Update(Entity* anEntity, float aDeltaTime)
+void IdleState::Update(Entity* entity, float deltaTime)
 {
-	m_elapsedTime += aDeltaTime; // Dont want to do this in every state...
+	m_elapsedTime += deltaTime; // Dont want to do this in every state...
 
 	//std::cout << "Ideling..\n";
 	//std::cout << "Idle\n";

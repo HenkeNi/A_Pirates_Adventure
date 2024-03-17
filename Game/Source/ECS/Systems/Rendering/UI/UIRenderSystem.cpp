@@ -13,7 +13,7 @@ UIRenderSystem::~UIRenderSystem()
 {
 }
 
-void UIRenderSystem::Receive(Message& aMsg)
+void UIRenderSystem::Receive(Message& message)
 {
 }
 

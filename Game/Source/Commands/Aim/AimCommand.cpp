@@ -8,12 +8,12 @@ AimCommand::AimCommand()
 {
 }
 
-void AimCommand::Execute(Entity* anEntity)
+void AimCommand::Execute(Entity* entity)
 {
-	if (!CanPerform(anEntity))
+	if (!CanPerform(entity))
 		return;
 
-	if (auto* characterStateComponent = anEntity->GetComponent<CharacterStateComponent>())
+	if (auto* characterStateComponent = entity->GetComponent<CharacterStateComponent>())
 	{
 		characterStateComponent->IsAiming = true;
 	}
@@ -21,18 +21,18 @@ void AimCommand::Execute(Entity* anEntity)
 	///std::cout << "AIM!!";
 }
 
-void AimCommand::Undo(Entity* anEntity)
+void AimCommand::Undo(Entity* entity)
 {
 	//std::cout << "\n\n\n" << "Stop Aiming ###############" << "\n\n\n";
 
-	if (auto* characterStateComponent = anEntity->GetComponent<CharacterStateComponent>())
+	if (auto* characterStateComponent = entity->GetComponent<CharacterStateComponent>())
 	{
 		characterStateComponent->IsAiming = false;
 	}
 
 }
 
-bool AimCommand::CanPerform(Entity* anEntity) const
+bool AimCommand::CanPerform(Entity* entity) const
 {
 	return true;
 }

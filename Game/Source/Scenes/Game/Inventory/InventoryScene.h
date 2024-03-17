@@ -5,11 +5,11 @@
 class InventoryScene : public Scene
 {
 public:
-	InventoryScene(SharedContext aContext);
+	InventoryScene(SharedContext context);
 	~InventoryScene();
 
-	void Update(float aDeltaTime)			  override;
-	void LateUpdate(float aDeltaTime)		  override;
+	void Update(float deltaTime)			  override;
+	void LateUpdate(float deltaTime)		  override;
 	void Draw()							const override;
 
 	void OnCreated()						  override;

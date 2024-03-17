@@ -9,15 +9,15 @@ public:
 	PlayerControllerSystem();
 	~PlayerControllerSystem();
 
-	void Receive(Message& aMsg)		override;
-	void Update(float aDeltaTime)	override;
+	void Receive(Message& message)	override;
+	void Update(float deltaTime)	override;
 
 	// Static function for getting player position? or just use blackboard?
 
 private:
-	void ProcessCommands(Entity* anEntity);
+	void ProcessCommands(Entity* entity);
 	void CleanUpCommands();
 
-	void UpdateCooldowns(Entity* anEntity);
-	void UpdatePlayerState(Entity* anEntity);
+	void UpdateCooldowns(Entity* entity);
+	void UpdatePlayerState(Entity* entity);
 };
