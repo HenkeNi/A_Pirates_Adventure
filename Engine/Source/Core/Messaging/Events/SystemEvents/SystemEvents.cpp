@@ -102,6 +102,8 @@ namespace Hi_Engine
 	{
 		if (m_mouseButtonStates.contains(btn))
 			return m_mouseButtonStates.at(btn);
+
+		return eInputState::Invalid;
 	}
 
 	const glm::vec2& InputEvent::GetMousePosition() const

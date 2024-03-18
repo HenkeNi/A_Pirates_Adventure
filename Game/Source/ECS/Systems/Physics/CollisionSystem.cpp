@@ -441,7 +441,7 @@ void CollisionSystem::AlignCollider(Entity* entity)
 	}
 }
 
-void CollisionSystem::AlignDynamicColliders(ECS::Entities& entities)
+void CollisionSystem::AlignDynamicColliders(std::vector<Entity*>& entities)
 {
 	for (auto& entity : entities)
 	{
@@ -469,7 +469,7 @@ void CollisionSystem::AlignDynamicColliders(ECS::Entities& entities)
 	}
 }
 
-void CollisionSystem::ResetColliders(ECS::Entities& entities)
+void CollisionSystem::ResetColliders(std::vector<Entity*>& entities)
 {
 	for (auto* entity : entities)
 	{
@@ -478,7 +478,7 @@ void CollisionSystem::ResetColliders(ECS::Entities& entities)
 	}
 }
 
-void CollisionSystem::HandleEntityCollisions(ECS::Entities& entities)
+void CollisionSystem::HandleEntityCollisions(std::vector<Entity*>& entities)
 {
 	for (int i = 0; i < entities.size(); ++i)
 	{

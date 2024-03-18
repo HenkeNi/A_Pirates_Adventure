@@ -106,7 +106,7 @@ bool InventorySystem::CollectItem(class Entity* owner, class Entity* item)
 	}
 	
 	// If inventory contains an empty space
-	for (int i = 0; i < inventoryComponent->UnlockedSlots; ++i)
+	for (unsigned i = 0; i < inventoryComponent->UnlockedSlots; ++i)
 	{
 		if (slots[i].Item.ItemID == "Empty")
 		{

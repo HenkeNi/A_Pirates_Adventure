@@ -137,8 +137,8 @@ namespace Hi_Engine
 			int rows = value["rows"].GetInt();
 			int cols = value["cols"].GetInt();
 
-			int spriteWidth = (float)width / cols;
-			int spriteHeight = (float)height / rows;
+			float spriteWidth = (float)width / cols;
+			float spriteHeight = (float)height / rows;
 
 			for (float row = 0; row < rows; ++row)
 			{

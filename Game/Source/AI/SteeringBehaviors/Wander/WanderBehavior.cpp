@@ -3,7 +3,7 @@
 
 
 WanderBehavior::WanderBehavior()
-	: m_wanderAngle{ (float)Random::InRange(0, 1) }, m_distanceToSteeringCircle{ 100.f } /* 10 ? ?*/, m_steeringCircleRadius{ 125.f }, m_angleChange{ 100.f }
+	: m_wanderAngle{ Random::GenerateRandomFloatingPoint<float>(0.f, 1.f) }, m_distanceToSteeringCircle{ 100.f } /* 10 ? ?*/, m_steeringCircleRadius{ 125.f }, m_angleChange{ 100.f }, m_walkDuration{ 0.f }, m_shouldSeek{ false }
 {
 }
 
@@ -21,7 +21,7 @@ const CU::Vector2<float> WanderBehavior::GetSteeringForce(const CU::Vector2<floa
 
 	SetAngle(displacement, m_wanderAngle);	// What is wander angle??
 
-	m_wanderAngle += (Random::InRange(0, 1) * m_angleChange) - (m_angleChange * 0.5f);
+	m_wanderAngle += (Random::GenerateRandomFloatingPoint<float>(0.f, 1.f) * m_angleChange) - (m_angleChange * 0.5f);
 
 	auto wanderForce = circleCenter + displacement;
 
@@ -34,7 +34,7 @@ void WanderBehavior::Update(float deltaTime)
 	//m_timer.m_elapsed += aDeltaTime;
 	if (ShouldChangeDir())
 	{
-		m_window = { (float)Random::InRange(2, 62), (float)Random::InRange(2, 62) };
+		m_window = { Random::GenerateRandomFloatingPoint<float>(2.f, 62.f), Random::GenerateRandomFloatingPoint<float>(2.f, 62.f) };
 	}
 
 	

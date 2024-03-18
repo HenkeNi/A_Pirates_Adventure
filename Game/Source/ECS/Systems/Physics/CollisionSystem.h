@@ -16,10 +16,10 @@ public:
 
 private:
 	void AlignCollider(Entity* entity);
-	void AlignDynamicColliders(ECS::Entities& entities);
+	void AlignDynamicColliders(std::vector<Entity*>& entities);
 
-	void ResetColliders(ECS::Entities& entities);
-	void HandleEntityCollisions(ECS::Entities& entities); // rename EntityVsEntity collisions?
+	void ResetColliders(std::vector<Entity*>& entities);
+	void HandleEntityCollisions(std::vector<Entity*>& entities); // rename EntityVsEntity collisions?
 
 	//void UpdateDynamicColliders();
 	// void AdjustColliderPosition(Entity* anEntity);

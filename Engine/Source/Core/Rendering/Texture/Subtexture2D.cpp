@@ -34,16 +34,16 @@ namespace Hi_Engine
 		return m_size;
 	}
 
-	Subtexture2D& Subtexture2D::CreateFromCoords(Texture2D& texture, const glm::vec2& coords, const glm::vec2& spriteSize)
-	{
-		auto textureSize = texture.GetSize();
+	//Subtexture2D& Subtexture2D::CreateFromCoords(Texture2D& texture, const glm::vec2& coords, const glm::vec2& spriteSize)
+	//{
+	//	auto textureSize = texture.GetSize();
 
-		glm::vec2 min	= { (coords.x * spriteSize.x) / textureSize.x, (coords.y * spriteSize.y) / textureSize.y };
-		glm::vec2 max		= { ((coords.x + 1) * spriteSize.x) / textureSize.x, ((coords.y + 1) * spriteSize.y) / textureSize.y };
+	//	glm::vec2 min	= { (coords.x * spriteSize.x) / textureSize.x, (coords.y * spriteSize.y) / textureSize.y };
+	//	glm::vec2 max		= { ((coords.x + 1) * spriteSize.x) / textureSize.x, ((coords.y + 1) * spriteSize.y) / textureSize.y };
 
-		Subtexture2D result{ texture, min, max };
-		return result;
-	}
+	//	Subtexture2D result{ texture, min, max };
+	//	return result;
+	//}
 
 	void Subtexture2D::Invert()
 	{

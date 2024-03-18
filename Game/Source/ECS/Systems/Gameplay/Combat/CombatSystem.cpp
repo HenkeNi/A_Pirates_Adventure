@@ -170,7 +170,7 @@ void CombatSystem::Update(float deltaTime)
 
 void CombatSystem::PerformAttack(Entity* entity)
 {
-	auto* equipmentComponent = entity->GetComponent<EquipmentComponent>();
+	auto* equipmentComponent = entity->GetComponent<EquipmentComponent>(); // why?
 	if (!equipmentComponent)
 		return;
 
@@ -182,20 +182,20 @@ void CombatSystem::PerformAttack(Entity* entity)
 		auto* weaponComponent = weapon->GetComponent<WeaponComponent>();
 		int damageOutput = weaponComponent->DamageDealt;
 
-		for (const auto& entity : colliderComponent->CollidingEntities)
+		for (const auto& target : colliderComponent->CollidingEntities)
 		{
-			if (entity->GetID() == entity->GetID() || !IsTargetable(entity))
+			if (target->GetID() == entity->GetID() || !IsTargetable(target))
 				continue;
 
 			// TODO: calculate damage output
 
-			if (entity->HasComponent<KnockbackComponent>() && !MovementSystem::IsKnockbacked(entity))
+			if (target->HasComponent<KnockbackComponent>() && !MovementSystem::IsKnockbacked(target))
 			{
-				ApplyKnockback(entity, entity);
+				ApplyKnockback(entity, target);
 			}
 
 
-			auto* healthComponent = entity->GetComponent<HealthComponent>();
+			auto* healthComponent = target->GetComponent<HealthComponent>();
 			healthComponent->CurrentValue = CommonUtilities::Clamp(healthComponent->CurrentValue - damageOutput, 0, healthComponent->MaxHealth);
 
 			// store entities to remoev in entity manager?

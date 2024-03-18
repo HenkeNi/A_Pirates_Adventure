@@ -53,23 +53,23 @@ void MapDecorationSystem::GenerateResources(Entity* entity)
 		if (tile.Type == eTile::Grass)
 		{
 
-			if (Random::InRange(0, 100) < GetResourceSpawnChance("Grass"))
+			if (Random::GenerateRandomInteger<unsigned>(0, 100) < GetResourceSpawnChance("Grass"))
 			{
 				entity = m_entityManager->Create("Grass");
 			}
-			else if (Random::InRange(0, 100) < GetResourceSpawnChance("PalmTree"))
+			else if (Random::GenerateRandomInteger<unsigned>(0, 100) < GetResourceSpawnChance("PalmTree"))
 			{
 				entity = m_entityManager->Create("PalmTree");
 			}
 		}
 		else if (tile.Type == eTile::Sand)
 		{
-			if (Random::InRange(0, 100) < GetResourceSpawnChance("PalmTree"))
+			if (Random::GenerateRandomInteger<unsigned>(0, 100) < GetResourceSpawnChance("PalmTree"))
 			{
 				entity = m_entityManager->Create("PalmTree");
 
 			}
-			else if (Random::InRange(0, 100) < GetResourceSpawnChance("Rock"))
+			else if (Random::GenerateRandomInteger<unsigned>(0, 100) < GetResourceSpawnChance("Rock"))
 			{
 				entity = m_entityManager->Create("Rock");
 			}
@@ -99,14 +99,16 @@ void MapDecorationSystem::PopulateWithFoilage(const Entity* mapChunk)
 			auto endPosition = CU::Vector2<float>{ chunkPosition.x + MapChunkComponent::TileCountPerSide * tileSize, chunkPosition.y + MapChunkComponent::TileCountPerSide * tileSize };
 			//auto endPosition = CU::Vector2<float>{ chunkPosition.x + mapChunkComponent->Width * tileSize, chunkPosition.y + mapChunkComponent->Height * tileSize };
 
-			for (int i = 0; i < amount; ++i)
+			for (unsigned i = 0; i < amount; ++i)
 			{
 				auto* entity = m_entityManager->Create(type);
 				auto* transform = entity->GetComponent<TransformComponent>();
 
 				//auto sizet = entity->GetComponent<SpriteComponent>()->Subtexture->GetSize(); // TEMP..
 
-				CU::Vector2<float> position = { (float)Random::InRange(chunkPosition.x + 1.f, endPosition.x - 1.f), (float)Random::InRange(chunkPosition.y + 1.f, endPosition.y - 1.f) };
+				CU::Vector2<float> position = {
+					Random::GenerateRandomFloatingPoint<float>(chunkPosition.x + 1.f, endPosition.x - 1.f),
+					Random::GenerateRandomFloatingPoint<float>(chunkPosition.y + 1.f, endPosition.y - 1.f) };
 				transform->CurrentPos = transform->PreviousPos = position;
 
 				if (i % 2 == 0)

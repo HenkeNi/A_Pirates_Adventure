@@ -218,7 +218,7 @@ namespace CommonUtilities
 		{
 			if (useSafeMode)
 			{
-				for (int i = 0; i < elementsToCopy; ++i)
+				for (std::size_t i = 0; i < elementsToCopy; ++i)
 					temp[i] = m_data[i];
 			}
 			else

@@ -49,7 +49,7 @@ const CU::Vector2<float> WanderSeekBehavior::GetSteeringForce(const CU::Vector2<
 
 void WanderSeekBehavior::SetRandomizedTarget()
 {
-	m_window = { (float)Random::InRange(2, 62), (float)Random::InRange(2, 62) };
+	m_window = { Random::GenerateRandomFloatingPoint<float>(2, 62), Random::GenerateRandomFloatingPoint<float>(2, 62) };
 }
 
 bool WanderSeekBehavior::ShouldChangeDir() const

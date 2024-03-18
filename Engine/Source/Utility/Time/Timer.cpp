@@ -83,13 +83,14 @@ namespace Hi_Engine
 
 	void Timer::CheckTimerRequests()
 	{
-		for (int i = m_timeRequests.size() - 1; i >= 0; --i)
+		// TODO: fix..
+		/*for (std::size_t i = m_timeRequests.size() - 1; i >= 0; --i)
 		{
 			if (HasTimeElapsed(m_timeRequests[i].DurationInSecs, m_timeRequests[i].TimeOfRequest))
 			{
 				m_timeRequests[i].Callback();
 				m_timeRequests.erase(m_timeRequests.begin() + i);
 			}
-		}
+		}*/
 	}
 }

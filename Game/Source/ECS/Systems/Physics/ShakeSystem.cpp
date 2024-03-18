@@ -53,7 +53,7 @@ void ShakeSystem::Update(float deltaTime)
 
 			static float speed = 50.f;
 			static float amount = 1.f;
-			transform->Rotation += std::sin(Hi_Engine::Engine::GetTimer().GetTotalTime() * speed) * amount;
+			transform->Rotation += std::sin((float)Hi_Engine::Engine::GetTimer().GetTotalTime() * speed) * amount;
 		}
 		else
 		{

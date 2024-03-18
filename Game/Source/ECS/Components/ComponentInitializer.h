@@ -69,7 +69,7 @@ public:
 			// animation.Animations
 			Animation animation;
 			animation.Animations = animationFrames;
-			animation.TotalFrames = animationFrames.size();
+			animation.TotalFrames = (unsigned)animationFrames.size();
 			animation.CurrentFrame = 0;
 			animation.ElapsedFrameTime = 0.f;
 			animation.FrameDuration = frameDuration;

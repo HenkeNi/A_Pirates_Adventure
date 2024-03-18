@@ -1,7 +1,7 @@
 #pragma once
 #include "../../Base/System.h"
 
-class MapChunkComponent;
+struct MapChunkComponent;
 
 class MapRenderSystem : public System
 {

@@ -52,7 +52,7 @@ struct Tile
 	class Hi_Engine::Subtexture2D* Subtexture; // NEED TO STORE?
 	CU::Vector4<float>	Color  = { 1.f, 1.f, 1.f, 1.f }; // DO ELSEWHER!?
 	CU::Vector2<float>	Position;			// store chunk coordiante instead?
-	CU::Vector2<int>	Coordinates;			// Use only one!!
+	CU::Vector2<unsigned>	Coordinates;			// Use only one!!
 	eTile				Type;
 	bool				IsCollidable;
 
@@ -64,14 +64,14 @@ struct Animation
 {
 	std::vector<class Hi_Engine::Subtexture2D*> Animations; // rename AnimationFrames or Frames
 	// std::vector<std::string>	Sprites;
-	unsigned					TotalFrames;
-	unsigned					CurrentFrame;
-	float						FrameDuration;
-	float						ElapsedFrameTime;
-	bool						IsPlaying;
-	bool						IsLooping;
+	unsigned					TotalFrames		= 0;
+	unsigned					CurrentFrame	= 0;
+	float						FrameDuration	= 0.f;
+	float						ElapsedFrameTime = 0.f;
+	bool						IsPlaying = false;
+	bool						IsLooping = false;
 	
-	bool						IsInverted;
+	bool						IsInverted = false;
 
 
 	// TODO; store keyframes??

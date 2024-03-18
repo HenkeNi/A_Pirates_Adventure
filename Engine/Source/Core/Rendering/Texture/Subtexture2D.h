@@ -17,7 +17,7 @@ namespace Hi_Engine
 		const glm::vec2& GetSize() const;
 
 		// Maybe remove??
-		static Subtexture2D& CreateFromCoords(Texture2D& texture, const glm::vec2& coords, const glm::vec2& spriteSize);
+		// static Subtexture2D& CreateFromCoords(Texture2D& texture, const glm::vec2& coords, const glm::vec2& spriteSize);
 
 		void Invert();
 		bool IsInverted() const;

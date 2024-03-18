@@ -177,9 +177,9 @@ void MapGenerationSystem::GenerateMapChunk(int xCoord, int yCoord)
 	float yPos = yCoord * (MapChunkComponent::TileCountPerSide * Tile::Size);
 	transformComponent->CurrentPos = { xPos, yPos };
 
-	for (int height = 0; height < MapChunkComponent::TileCountPerSide; ++height)
+	for (unsigned height = 0; height < MapChunkComponent::TileCountPerSide; ++height)
 	{
-		for (int width = 0; width < MapChunkComponent::TileCountPerSide; ++width)
+		for (unsigned width = 0; width < MapChunkComponent::TileCountPerSide; ++width)
 		{
 			float noise = fastNoise.GetNoise((float)xPos + (float)width, (float)yPos + float(height));
 
