@@ -318,7 +318,6 @@
     <None Include="Assets\Json\Blueprints\Gameplay\Ships\ships.json" />
     <None Include="Assets\Json\Blueprints\Gameplay\Interactables\spawners.json" />
     <None Include="Assets\Json\Blueprints\UI\HUD\hud.json" />
-    <None Include="Assets\Json\Blueprints\UI\buttons.json" />
     <None Include="Assets\Json\Blueprints\UI\ui.json" />
     <None Include="Assets\Json\Blueprints\Utility\world_time.json" />
     <None Include="Assets\Json\Map\TileSettings.json" />
