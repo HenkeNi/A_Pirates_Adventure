@@ -28,10 +28,25 @@ public:
 	Entity Create(const ECS::EntityType& type);
 	Entity CreateFromBlueprint(const EntityBlueprint& blueprint);
 
+	template <typename T>
+	void RegisterComponentBuilder(const std::string& type);
 	void RegisterBlueprint(const std::string& id, EntityBlueprint blueprint);
-	void RegisterComponentBuilder(const std::string& type, ComponentBuilder* builder);
+
+	// void RegisterComponentBuilder(const std::string& type, ComponentBuilder* builder);
 
 private:
-	ECS::ComponentFactory								m_componentFactory;
+	//ECS::ComponentFactory								m_componentFactory;
+	CU::Factory<ComponentBuilder, Component>			m_componentFactory;
 	std::unordered_map<std::string, EntityBlueprint>	m_blueprints;		
 };
+
+
+#pragma region Method_Definitions
+
+template<typename T>
+inline void EntityFactory::RegisterComponentBuilder(const std::string& type)
+{
+	m_componentFactory.RegisterBuilder(type, new ConcreteComponentBuilder<T>{});
+}
+
+#pragma endregion Method_Definitions

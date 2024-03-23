@@ -19,28 +19,28 @@ void SceneManager::Receive(Message& message)
 	{
 		auto sceneType = std::any_cast<eScene>(message.GetData());
 
-		Push(sceneType);
-	}
-}
-
-void SceneManager::Init(std::bitset<(int)eScene::Count> scenes)
-{
-	for (int i = 0; i < (int)eScene::Count; ++i)
-	{
-		if (scenes[i])
+		if (m_scenes.contains(sceneType))
 		{
-			m_stack.Push((eScene)i);
+			Push(sceneType);
 		}
 	}
 }
 
-void SceneManager::Register(MutableScene scene, eScene type)
+void SceneManager::Init(std::initializer_list<eScene> scenes)
 {
-	assert(scene != nullptr);
+	for (auto& scene : m_scenes)
+		scene.second->OnCreated();
 
-	m_scenes.insert_or_assign(type, std::move(scene));
-	m_scenes[type]->OnCreated();
+	for (const auto scene : scenes)
+		m_stack.Push(scene);
+
+
+	// TODO: do elsewhere?
+	m_paths.insert({ eScene::Menu, "../Game/Assets/Json/Scenes/MainMenu.json" });
+	LoadEntities(m_paths.at(eScene::Menu)); // TEST
 }
+
+
 
 //void SceneManager::Init(int aSceneSet)
 //{
@@ -122,6 +122,11 @@ void SceneManager::Clear()
 	m_stack.Clear();
 }
 
+void SceneManager::TransitionToScene(eScene type)
+{
+	LoadEntities(m_paths[type]);
+}
+
 //void SceneManager::Update(float aDeltaTime)
 //{
 //	if (!IsEmpty()) 
@@ -162,28 +167,31 @@ void SceneManager::Clear()
 //}
 
 
-void SceneManager::LoadScenes()
+void SceneManager::LoadEntities(const std::string& aPath)
 {
-	// TODO; rework... (move elsewhere??) -> read scene stack from json??
-	std::ifstream ifs{ "../Game/Assets/Json/Scenes/Scenes.json" };
-	std::string content{ std::istreambuf_iterator<char>(ifs), std::istreambuf_iterator<char>() };
+	auto document = CommonUtilities::ParseDocument(aPath);
 
-	rapidjson::Document document;
-	assert(!document.Parse(content.c_str()).HasParseError() && "Failed to Parse");
-	// Put above part in engine??
-
-	int sceneIndex = 0;
-	for (auto& scene : document["scenes"].GetArray())
+	for (const auto& entity : document["entities"].GetArray())
 	{
-		std::string type = scene["type"].GetString();
-		int id = scene["id"].GetInt();
+		std::string id = entity["entity_id"].GetString();
 
-		auto Type = (eScene)id;
+		// Get entity manager from current scene? make scene manager a friend class?
 
-		//if (m_scenes[eScene(id)])	//F IX::::
-			// m_scenes[eScene(id)]->Init(scene);
-
-
-		// TODO: Fectch/store path to entities to load in?
+		int x = 10;
+		x += 10;
 	}
+
+
+	// Store data
+
+	// TODO; for each entity in list => create entity, for each component in entity => ComponentIntializer?
+	// pass in data 
+
+	// Call the component-initialize?
+
+
+
+
+
 }
+

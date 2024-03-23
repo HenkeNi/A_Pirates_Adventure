@@ -1,10 +1,9 @@
 #pragma once
 //#include "../Data/Structs.h"
 #include "ECS/Entities/EntityManager.h"
-#include "ECS/Systems/SystemManager.h"
+//#include "ECS/Systems/SystemManager.h"
 
-// Rework to handle Scene transitions...
-// set order of systems...
+// class SceneManager;
 
 class Scene
 {
@@ -25,4 +24,5 @@ public:
 protected:	
 	SharedContext m_sharedContext;
 	EntityManager m_entityManager;
+	// std::string 
 };

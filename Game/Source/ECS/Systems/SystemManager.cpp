@@ -35,12 +35,12 @@ void SystemManager::Draw() const
 			system->Draw();
 }
 
-void SystemManager::Register(std::unique_ptr<System> system)
-{
-	m_systems.push_back(std::move(system));
-
-	// TODO; sort systems?? or use heap?
-}
+//void SystemManager::Register(std::unique_ptr<System> system)
+//{
+//	m_systems.push_back(std::move(system));
+//
+//	// TODO; sort systems?? or use heap?
+//}
 
 void SystemManager::Clear()
 {

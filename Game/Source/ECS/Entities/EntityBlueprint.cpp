@@ -2,7 +2,6 @@
 #include "EntityBlueprint.h"
 
 
-
 EntityBlueprint::EntityBlueprint()
 {
 }

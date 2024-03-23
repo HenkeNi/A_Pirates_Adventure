@@ -1,5 +1,6 @@
 #include "Pch.h"
 #include "MenuScene.h"
+#include "Systems/SystemManager.h"
 
 
 MenuScene::MenuScene(SharedContext context)
@@ -30,7 +31,7 @@ void MenuScene::OnEnter()
 	auto& systemManager = m_sharedContext.SystemManager;
 	systemManager.Init(&m_entityManager);
 
-	m_entityManager.GetFactory().LoadBlueprints("../Game/Assets/Json/Blueprints/blueprint_manifest.json");
+	m_entityManager.GetFactory().LoadBlueprints("../Game/Assets/Json/Blueprints/blueprint_manifest.json"); // load differnet blueprints depding on scene? OR read scene specific entities
 
 	// Change json; button prefab, separate between prefabs adn  scene entities
 
@@ -38,7 +39,7 @@ void MenuScene::OnEnter()
 
 
 
-	auto* play = m_entityManager.Create("play_button");
+	auto* play = m_entityManager.Create("button");
 	auto* buttonComponent = play->GetComponent<ButtonComponent>();
 	buttonComponent->OnClick = [&]() { m_sharedContext.SceneManager.Pop(); };
 	play->GetComponent<TransformComponent>()->CurrentPos = { 2.f, 2.f };
@@ -48,7 +49,9 @@ void MenuScene::OnEnter()
 	quit->GetComponent<ButtonComponent>()->OnClick = [&]() { Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::TerminationEvent>(); };*/
 	//quit->GetComponent<ButtonComponent>()->OnClick = [&]() { m_sharedContext.SceneManager.Clear();  }; // OR SEND EVENT?
 
-	auto* background = m_entityManager.Create("main_background");
+	auto* background = m_entityManager.Create("image");
+	background->GetComponent<TransformComponent>()->Scale = { 10.f, 10.f };
+	background->GetComponent<SpriteComponent>()->Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ "main_image", 0, 0});
 
 	auto* title = m_entityManager.Create("title_text");
 	title->GetComponent<TextComponent>()->Text = "Main Menu";

@@ -15,15 +15,23 @@ public:
 	SystemManager();
 	~SystemManager();
 
+	template <typename T>
+	void Register();
+
 	void Init(EntityManager* entityManager);
 	void Update(float deltaTime);
 	void LateUpdate(float deltaTime);
 	void Draw()	const;
-
-	void Register(std::unique_ptr<System> system);
+	
 	void Clear();
 
 private:
 	ECS::Systems m_systems; // Separate between registed systems and active systems??
 	// SystemFactory	m_systemFactory; -> scene decides what systems to add (OnEnter) => clears on Exit?
 };
+
+template<typename T>
+inline void SystemManager::Register()
+{
+	m_systems.emplace_back(std::make_unique<T>());
+}

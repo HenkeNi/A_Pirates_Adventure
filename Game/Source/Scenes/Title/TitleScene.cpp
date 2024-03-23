@@ -1,6 +1,7 @@
 #include "Pch.h"
 #include "TitleScene.h"
 #include "Components/Core/CoreComponents.h"
+#include "Systems/SystemManager.h"
 
 
 TitleScene::TitleScene(SharedContext context)
@@ -45,7 +46,7 @@ void TitleScene::OnEnter()
 	auto& systemManager = m_sharedContext.SystemManager;
 	systemManager.Init(&m_entityManager);
 
-	// Should factory itself load blueprints (listen for scene change)?
+	// Should factory itself load blueprints (listen for scene change)? maybe load scene specific "blueprints"?
 	m_entityManager.GetFactory().LoadBlueprints("../Game/Assets/Json/Blueprints/blueprint_manifest.json");
 
 
@@ -55,8 +56,11 @@ void TitleScene::OnEnter()
 
 
 
-	auto* background = m_entityManager.Create("title_background");
+	auto* background = m_entityManager.Create("image");
+	background->GetComponent<TransformComponent>()->Scale = { 2.f, 2.f };
+	background->GetComponent<SpriteComponent>()->Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ "title_image", 0, 0 });
 	auto* transformComponent = background->GetComponent<TransformComponent>();
+	// transformComponent->Pivot = { 0.5f, 0.5f };
 	transformComponent->Scale *= 2.5f;
 	transformComponent->Scale.x *= 2.f;
 	transformComponent->CurrentPos.y = 0.f;
@@ -72,7 +76,8 @@ void TitleScene::OnEnter()
 
 	// TODO; read from json?? Title_text.json...
 	auto* title = m_entityManager.Create("title_text");
-
+	title->GetComponent<TransformComponent>()->CurrentPos.x = 1400.f * 0.5f;
+	title->GetComponent<TransformComponent>()->Pivot.x = -0.5f;
 	// auto* inputListener = m_entityManager.CreateResources()
 
 	auto* camera = m_entityManager.Create("Camera");

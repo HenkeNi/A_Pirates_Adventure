@@ -1,0 +1,28 @@
+{
+  "entities": [
+    {
+      "entity_id": "camera",
+      "components_data": [
+
+      ]
+    },
+    {
+      "entity_id": "image",
+      "properties": {
+        "texture": "title_image",
+        "coordinates": [ 0, 0 ],
+        "color": [ 1.0, 1.0, 1.0, 1.0 ]
+      }
+      
+    },
+    {
+      "entity_id": "title"
+    },
+    {
+      "entity_id": "button"
+    },
+    {
+      "entity_id": "Mouse_Cursor"
+    }
+  ]
+}

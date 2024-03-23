@@ -3,6 +3,7 @@
 #include "Systems/SystemManager.h"
 #include "Dungeon/DungeonScene.h"
 #include "Overworld/OverworldScene.h"
+#include "Inventory/InventoryScene.h"
 
 
 GameScene::GameScene(SharedContext context)
@@ -55,15 +56,19 @@ void GameScene::Draw() const
 
 void GameScene::OnCreated()
 {
+	m_sceneManager.Register<OverworldScene>(eScene::Overworld, m_sharedContext);
+	m_sceneManager.Register<DungeonScene>(eScene::Dungeon, m_sharedContext);
+	m_sceneManager.Register<InventoryScene>(eScene::Inventory, m_sharedContext);
 
 	// TODO; pass the entity manager to game scene's?
-	m_sceneManager.Register(std::make_unique<OverworldScene>(m_sharedContext),	eScene::Overworld); 
-	m_sceneManager.Register(std::make_unique<DungeonScene>(m_sharedContext),	eScene::Dungeon);
+	//m_sceneManager.Register(std::make_unique<OverworldScene>(m_sharedContext),	eScene::Overworld); 
+	//m_sceneManager.Register(std::make_unique<DungeonScene>(m_sharedContext),	eScene::Dungeon);
+	//m_sceneManager.Register(std::make_unique<InventoryScene>(m_sharedContext),	eScene::Inventory);
 
 	//m_sceneManager.Init((int)eScene::Overworld);
-	std::bitset<(int)eScene::Count> scenes(0);
-	scenes[(int)eScene::Overworld] = 1;
-	m_sceneManager.Init(scenes);
+	//std::bitset<(int)eScene::Count> scenes(0);
+	//scenes[(int)eScene::Overworld] = 1;
+	m_sceneManager.Init({ eScene::Overworld });
 
 	// m_sceneManager.Init((int)eScene::Overworld); // TODO; FIX!
 }

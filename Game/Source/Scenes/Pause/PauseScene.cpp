@@ -1,5 +1,6 @@
 #include "Pch.h"
 #include "PauseScene.h"
+#include "Systems/SystemManager.h"
 
 
 PauseScene::PauseScene(SharedContext context)

@@ -10,6 +10,7 @@
 #include "../Commands/Pause/PauseCommand.h"
 #include "../Commands/Aim/AimCommand.h"
 #include "../Commands/Shoot/ShootCommand.h"
+#include "../Commands/Inventory/OpenInventoryCommand.h"
 
 #include "../AI/SteeringBehaviors/Flock/FlockBehavior.h"
 #include "../AI/SteeringBehaviors/Wander/WanderBehavior.h"
@@ -76,7 +77,7 @@ public:
 			animation.IsLooping = isLooping;
 			animation.IsPlaying = isPlaying;
 
-			animations.insert_or_assign(identifier, animation);
+			animations.insert_or_assign(identifier, animation); // just use insert?
 		}
 
 
@@ -240,8 +241,9 @@ public:
 		component->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_D, new MoveCommand{{ 1.f,  0.f } }));
 
 		component->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_Space,	new AttackCommand));
-		component->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_LShift, new SprintCommand));
-		component->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_Escape, new PauseCommand));
+		component->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_LShift,	new SprintCommand));
+		component->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_Escape,	new PauseCommand));
+		component->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_I,		new OpenInventoryCommand));
 		component->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_1,		new AimCommand)); // CHANGE To mouse button
 		component->InputMapping.insert(std::make_pair(Hi_Engine::eKey::Key_2,		new ShootCommand));
 	}

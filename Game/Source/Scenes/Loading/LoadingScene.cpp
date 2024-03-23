@@ -1,5 +1,6 @@
 #include "Pch.h"
 #include "LoadingScene.h"
+#include "Systems/SystemManager.h"
 
 
 LoadingScene::LoadingScene(SharedContext context)

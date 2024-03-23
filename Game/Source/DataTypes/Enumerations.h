@@ -10,6 +10,7 @@ enum class eScene
 	Title		/*= 16*/,
 	Overworld	/*= 32*/,
 	Dungeon		/*= 64*/,
+	Inventory,
 	Count		/*= 128*/
 	//Settings, 
 	//GameOver, 
