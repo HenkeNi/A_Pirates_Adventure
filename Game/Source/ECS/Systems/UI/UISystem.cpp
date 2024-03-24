@@ -115,11 +115,14 @@ void UISystem::UpdateCursor()
 		auto* buttonComponent = entity->GetComponent<ButtonComponent>();
 		auto* colliderComponent = entity->GetComponent<ColliderComponent>();
 
+		if (!buttonComponent || !colliderComponent)
+			continue;
+
 		if (colliderComponent->Collider.IsInside({ new_valueX, new_valueY }))
 		{
 			if (Hi_Engine::InputHandler::IsMouseButtonPressed(Hi_Engine::eMouseBtn::LeftBtn))
 			{
-				OnButtonActivated(entity);
+				OnButtonActivated(entity); // Crashes since second button will be destroyed
 			}
 		}
 	}

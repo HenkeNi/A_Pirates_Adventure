@@ -53,6 +53,8 @@ void SceneManager::Init(std::initializer_list<eScene> scenes)
 	for (const auto scene : scenes)
 		m_stack.Push(scene);
 
+	m_paths.insert({ eScene::Inventory, "../Game/Assets/Json/Scenes/Inventory.json" });
+	m_paths.insert({ eScene::Settings, "../Game/Assets/Json/Scenes/Settings.json" });
 	m_paths.insert({ eScene::Menu, "../Game/Assets/Json/Scenes/MainMenu.json" });
 	m_paths.insert({ eScene::Title, "../Game/Assets/Json/Scenes/Title.json" });
 }

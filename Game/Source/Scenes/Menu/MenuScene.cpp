@@ -46,4 +46,5 @@ void MenuScene::OnEnter()
 
 void MenuScene::OnExit()
 {
+	m_entityManager.DestroyAll();
 }

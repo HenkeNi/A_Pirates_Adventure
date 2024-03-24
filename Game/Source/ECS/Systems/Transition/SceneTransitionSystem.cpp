@@ -27,14 +27,31 @@ void SceneTransitionSystem::Receive(Message& message) // Psas trigger?? check if
 
 	auto* sceneTransitionComponent = entity->GetComponent<SceneTransitionComponent>();
 
-	if (sceneTransitionComponent->ShouldPush)
+	sceneTransitionComponent->ShouldTransition = true;
+
+	/*if (sceneTransitionComponent->ShouldPush)
 		PostMaster::GetInstance().SendMessage({ eMessage::TransitionToScene, sceneTransitionComponent->SceneType });
 	else
-		PostMaster::GetInstance().SendMessage({ eMessage::RemoveScene, sceneTransitionComponent->SceneType });
+		PostMaster::GetInstance().SendMessage({ eMessage::RemoveScene, sceneTransitionComponent->SceneType });*/
 
 	// If behind current scene pop, else push/swap?!
 }
 
 void SceneTransitionSystem::Update(float deltaTime)
 {
+	auto entities = m_entityManager->FindAll<SceneTransitionComponent>();
+	for (const auto& entity : entities)
+	{
+		auto* sceneTransitionComponent = entity->GetComponent<SceneTransitionComponent>();
+		if (sceneTransitionComponent->ShouldTransition)
+		{
+			if (sceneTransitionComponent->ShouldPush)
+				PostMaster::GetInstance().SendMessage({ eMessage::TransitionToScene, sceneTransitionComponent->SceneType });
+			else
+				PostMaster::GetInstance().SendMessage({ eMessage::RemoveScene, sceneTransitionComponent->SceneType });
+		
+			break;
+		}
+	}
+
 }

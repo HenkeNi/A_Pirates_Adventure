@@ -178,4 +178,6 @@ struct SceneTransitionComponent : public Component
 	enum class eScene SceneType; // Scene to transition to
 	bool IsActive = true;
 	bool ShouldPush = true;
+
+	bool ShouldTransition = false;
 };

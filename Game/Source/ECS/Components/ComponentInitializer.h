@@ -507,7 +507,8 @@ public:
 			component->SceneType = eScene::Title;
 		else if (scene == "settings")
 			component->SceneType = eScene::Settings;
-
+		else if (scene == "inventory")
+			component->SceneType = eScene::Inventory;
 	}
 
 	template <>
