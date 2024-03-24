@@ -69,7 +69,7 @@ void HUDSystem::SetupHUDElements()
 
 	for (int i = 0; i < 5; ++i)
 	{
-		auto* heart = m_entityManager->Create("HeartContainer");
+		auto* heart = m_entityManager->Create("heart_container");
 
 		auto* transform = heart->GetComponent<TransformComponent>();
 		transform->CurrentPos = { -4.f + heartScale * i, 2.f }; // TODO; FIX! probably generates them backwards...

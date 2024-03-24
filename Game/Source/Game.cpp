@@ -4,6 +4,7 @@
 #include "Scenes/Scene.h"
 #include <Core/Resources/ResourceHolder.hpp>
 
+
 Game::Game()
 {
 }
@@ -61,16 +62,7 @@ void Game::OnCreate()
 	Registration::RegisterScenes(m_sceneManager, m_systemManager);
 
 	m_sceneManager.Init({ eScene::Game, eScene::Menu, eScene::Title });
-
-	std::weak_ptr<Scene> activeScene = m_sceneManager.GetActiveScene();
-
-	if (!activeScene.expired())
-	{
-		if (auto scene = activeScene.lock())
-		{
-			scene->OnEnter();
-		}
-	}
+	m_sceneManager.TransitionToScene(eScene::Title);
 }
 
 void Game::OnDestroy()

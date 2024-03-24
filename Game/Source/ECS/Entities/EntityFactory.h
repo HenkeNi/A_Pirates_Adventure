@@ -12,17 +12,16 @@ namespace ECS
 }
 
 // TODO: Store blueprints in ResourceHolder??
-class EntityFactory : public Subscriber
+class EntityFactory
 {
 public:
 	EntityFactory();
 	~EntityFactory();
 
-	void Receive(Message& message) override;
+	static ECS::ComponentData ParseComponent(const rapidjson::Value& value);
 
 	void LoadBlueprints(const std::string& path);
 	//void LoadBlueprint(const std::string& aPath);
-
 	void ConstructBlueprint(const rapidjson::Value& value);
 
 	Entity Create(const ECS::EntityType& type);
@@ -33,6 +32,11 @@ public:
 	void RegisterBlueprint(const std::string& id, EntityBlueprint blueprint);
 
 	// void RegisterComponentBuilder(const std::string& type, ComponentBuilder* builder);
+
+	// Function to modify/initialize component?
+
+	// TEST
+	inline CU::Factory<ComponentBuilder, Component>& GetCompFactory() { return m_componentFactory; }
 
 private:
 	//ECS::ComponentFactory								m_componentFactory;

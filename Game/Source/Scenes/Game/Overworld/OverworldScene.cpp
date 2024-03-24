@@ -92,10 +92,10 @@ void OverworldScene::OnEnter()
 	//for (auto* node : skillTree.GetNextUnlockableNodes())
 	//	std::cout << node->Identifier << ' ';
 
-	auto* cursor = m_entityManager.Create("Mouse_Cursor");
+	auto* cursor = m_entityManager.Create("mouse_cursor");
 
 	// Player
-	auto* player = m_entityManager.Create("Player");
+	auto* player = m_entityManager.Create("player");
 	//CU::Vector3<float> position = { (float)Random::InRange(2, 62), 0.42f, (float)Random::InRange(2, 62) };
 	CU::Vector2<float> position = { 0.f, 0.f }; // { 27.f, 25.f };
 	player->GetComponent<TransformComponent>()->CurrentPos = position;
@@ -103,14 +103,14 @@ void OverworldScene::OnEnter()
 	// player->GetComponent<SpriteComponent>()->Pivot = { -0.5f, -0.5f };
 
 
-	auto* weapon = m_entityManager.Create("RustySword");
+	auto* weapon = m_entityManager.Create("rusty_sword");
 
-	auto* time = m_entityManager.Create("WorldTime");
+	auto* time = m_entityManager.Create("world_time");
 
 
-	auto* skeleton = m_entityManager.Create("Skeleton");
+	auto* skeleton = m_entityManager.Create("skeleton");
 
-	auto* caveEntrance = m_entityManager.Create("Cave_Entrance");
+	auto* caveEntrance = m_entityManager.Create("cave_entrance");
 	caveEntrance->GetComponent<TransformComponent>()->CurrentPos = { 2.f, 2.f };
 
 	//auto healthbar = m_entityManager.Create("Healthbar");
@@ -124,7 +124,7 @@ void OverworldScene::OnEnter()
 	}*/
 
 	// Camera => do in camera system??
-	auto camera = m_entityManager.Create("Camera");
+	auto camera = m_entityManager.Create("camera");
 	camera->GetComponent<TransformComponent>()->CurrentPos = { 0.f, 0.f };
 	camera->GetComponent<CameraComponent>()->TargetOffset = { 0.f, 0.f, 2.f };
 	camera->GetComponent<CameraComponent>()->TargetID = m_entityManager.FindFirst<PlayerControllerComponent>()->GetID();

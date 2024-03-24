@@ -127,6 +127,23 @@ public:
 	}
 
 	template <>
+	static void InitializeComponent<ButtonComponent>(ButtonComponent* component, const ECS::ComponentData& data)
+	{
+		// std::string identifier = std::any_cast<std::string>(data.at("identifier"));
+
+		// TODO; improve! use SceneTransition component instead?
+		/*if (identifier == "play_button")
+		{
+			component->OnClick = []() {
+				PostMaster::GetInstance().SendMessage({ eMessage::PopScene, eScene::Menu });
+				};
+		}*/
+
+
+		// component->Identifier = type;
+	}
+
+	template <>
 	static void InitializeComponent<CameraComponent>(CameraComponent* component, const ECS::ComponentData& data)
 	{
 		component->ZoomRange = { 0.5f, 1.f };
@@ -162,11 +179,11 @@ public:
 		component->Collider.Init({ position.x - xSize, position.y - ySize }, { position.x + xSize, position.y + ySize });
 
 		std::string type = std::any_cast<std::string>(data.at("type"));
-		if (type == "Trigger")
+		if (type == "trigger")
 		{
 			component->Type = eColliderType::Trigger;
 		}
-		else if (type == "Dynamic")
+		else if (type == "dynamic")
 		{
 			component->Type = eColliderType::Dynamic;
 		}
@@ -475,5 +492,35 @@ public:
 	template <>
 	static void InitializeComponent<SceneTransitionComponent>(SceneTransitionComponent* component, const ECS::ComponentData& data)
 	{
+		if (!data.contains("scene"))
+			return;
+
+		std::string scene = std::any_cast<std::string>(data.at("scene"));
+
+		component->ShouldPush = !std::any_cast<bool>(data.at("should_remove"));
+
+		if (scene == "game")
+			component->SceneType = eScene::Game;
+		else if (scene == "menu")
+			component->SceneType = eScene::Menu;
+		else if (scene == "title")
+			component->SceneType = eScene::Title;
+		else if (scene == "settings")
+			component->SceneType = eScene::Settings;
+
+	}
+
+	template <>
+	static void InitializeComponent<TimerComponent>(TimerComponent* component, const ECS::ComponentData& data)
+	{
+		float duration = std::any_cast<float>(data.at("duration"));
+		component->Duration = duration;
+	}
+
+	template <>
+	static void InitializeComponent<UIComponent>(UIComponent* component, const ECS::ComponentData& data)
+	{
+		if (data.contains("render_depth"))
+			component->RenderDepth = std::any_cast<int>(data.at("render_depth"));
 	}
 };

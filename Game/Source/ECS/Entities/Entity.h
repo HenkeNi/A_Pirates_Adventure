@@ -20,7 +20,7 @@ public:
 
 	unsigned	GetID()									const;
 	bool		AddComponent(Component* component);
-
+	
 	template	<typename T>
 	bool		RemoveComponent();
 	template	<typename T>

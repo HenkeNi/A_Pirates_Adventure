@@ -62,7 +62,7 @@ void SpriteAnimationSystem::Update(float deltaTime)
 					
 
 					// each animation has a callback instead?!
-					if (currentState == "Attack") // Fix...
+					if (currentState == "attack") // Fix...
 					{
 						PostMaster::GetInstance().SendMessage({ eMessage::AttackAnimationFinished, entity });
 					}
@@ -112,22 +112,22 @@ std::string SpriteAnimationSystem::GetCurrentState(Entity* entity) const
 	if (characterStateComponent->IsAttacking)
 	{
 		//animationComponent->m_active = "Attack";
-		return "Attack";
+		return "attack";
 	}
 	else if (characterStateComponent->IsRunning)
 	{
-		return "Run";
+		return "run";
 	}
 	else if (characterStateComponent->IsWalking)
 	{
-		return "Walk";
+		return "walk";
 	}
 	else if (characterStateComponent->IsIdle)
 	{
-		return "Idle";
+		return "idle";
 	}
 
-	return "Idle";
+	return "idle";
 }
 
 void SpriteAnimationSystem::UpdateSpriteOrientation(struct VelocityComponent* velocityComponent, struct TransformComponent* transformComponent)

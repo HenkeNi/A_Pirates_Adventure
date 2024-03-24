@@ -5,14 +5,26 @@
 
 UISystem::UISystem()
 {
+	PostMaster::GetInstance().Subscribe(eMessage::EntityCreated, this);
 }
 
 UISystem::~UISystem()
 {
+	PostMaster::GetInstance().Unsubscribe(eMessage::EntityCreated, this);
 }
 
 void UISystem::Receive(Message& message)
 {
+	if (message.GetMessageType() != eMessage::EntityCreated)
+		return;
+
+	if (auto* entity = std::any_cast<Entity*>(message.GetData()))
+	{
+		if (!entity->HasComponent<ButtonComponent>())
+			return;
+
+		// AssignCallback(entity);
+	}
 }
 
 void UISystem::Update(float deltaTime)
@@ -32,9 +44,21 @@ void UISystem::OnButtonActivated(Entity* button)
 {
 	auto* buttonComponent = button->GetComponent<ButtonComponent>();
 
-	if (buttonComponent->OnClick)
-		buttonComponent->OnClick();
+	if (buttonComponent->IsPressed)
+		return;
+
+	buttonComponent->IsPressed = true; // TODO; make sure to add timstamp and reset?
+
+	PostMaster::GetInstance().SendMessage({ eMessage::ButtonActivated, button });
+
+	//if (buttonComponent->OnClick)
+	//	buttonComponent->OnClick();
 }
+
+//void UISystem::AssignCallback(Entity* button)
+//{
+//	auto* buttonComponent = button->GetComponent<ButtonComponent>();
+//}
 
 void UISystem::UpdateCursor()
 {

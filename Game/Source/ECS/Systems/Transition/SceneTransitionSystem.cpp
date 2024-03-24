@@ -1,29 +1,38 @@
 #include "Pch.h"
 #include "SceneTransitionSystem.h"
 #include "Entities/Entity.h"
+#include "Entities/EntityManager.h"
 #include "Components/Core/CoreComponents.h"
 
 SceneTransitionSystem::SceneTransitionSystem()
 {
-	PostMaster::GetInstance().Subscribe(eMessage::TriggerActivated, this);
+	PostMaster::GetInstance().Subscribe(eMessage::TriggerActivated, this); // add ability to subscribe to multiple events!
+	PostMaster::GetInstance().Subscribe(eMessage::ButtonActivated, this);
+	PostMaster::GetInstance().Subscribe(eMessage::TimerFinished, this);
 }
 
 SceneTransitionSystem::~SceneTransitionSystem()
 {
 	PostMaster::GetInstance().Unsubscribe(eMessage::TriggerActivated, this);
+	PostMaster::GetInstance().Unsubscribe(eMessage::ButtonActivated, this);
+	PostMaster::GetInstance().Unsubscribe(eMessage::TimerFinished, this);
 }
 
 void SceneTransitionSystem::Receive(Message& message) // Psas trigger?? check if have scen transition componennt
 {
-	if (auto* entity = std::any_cast<Entity*>(message.GetData()))
-	{
-		if (auto* sceneTransition = entity->GetComponent<SceneTransitionComponent>())
-		{
-			//PostMaster::GetInstance().SendMessage({ eMessage::TransitionToScene, sceneTransition->SceneType }); // Maybe pass in json (or blueprint to scene)??
-		}
-	}
+	auto* entity = std::any_cast<Entity*>(message.GetData());
 
-	//std::cout << "Change scene...\n";
+	if (!entity || !entity->HasComponent<SceneTransitionComponent>())
+		return;
+
+	auto* sceneTransitionComponent = entity->GetComponent<SceneTransitionComponent>();
+
+	if (sceneTransitionComponent->ShouldPush)
+		PostMaster::GetInstance().SendMessage({ eMessage::TransitionToScene, sceneTransitionComponent->SceneType });
+	else
+		PostMaster::GetInstance().SendMessage({ eMessage::RemoveScene, sceneTransitionComponent->SceneType });
+
+	// If behind current scene pop, else push/swap?!
 }
 
 void SceneTransitionSystem::Update(float deltaTime)

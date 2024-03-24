@@ -41,11 +41,14 @@ bool Entity::AddComponent(Component* component)
 	if (component)
 	{
 		auto key = std::type_index(typeid(*component));
-		if (m_components.find(key) == m_components.end())
-		{
-			m_components.insert({ key, component });
-			return true;
-		}
+		m_components.insert_or_assign(key, component);
+
+		return true;
+		//if (m_components.find(key) == m_components.end())
+		//{
+		//	//m_components.insert({ key, component });
+		//	return true;
+		//}
 	}
 	return false;
 }

@@ -55,23 +55,23 @@ void MapDecorationSystem::GenerateResources(Entity* entity)
 
 			if (Random::GenerateRandomInteger<unsigned>(0, 100) < GetResourceSpawnChance("Grass"))
 			{
-				entity = m_entityManager->Create("Grass");
+				entity = m_entityManager->Create("grass");
 			}
 			else if (Random::GenerateRandomInteger<unsigned>(0, 100) < GetResourceSpawnChance("PalmTree"))
 			{
-				entity = m_entityManager->Create("PalmTree");
+				entity = m_entityManager->Create("palm_tree");
 			}
 		}
 		else if (tile.Type == eTile::Sand)
 		{
 			if (Random::GenerateRandomInteger<unsigned>(0, 100) < GetResourceSpawnChance("PalmTree"))
 			{
-				entity = m_entityManager->Create("PalmTree");
+				entity = m_entityManager->Create("palm_tree");
 
 			}
 			else if (Random::GenerateRandomInteger<unsigned>(0, 100) < GetResourceSpawnChance("Rock"))
 			{
-				entity = m_entityManager->Create("Rock");
+				entity = m_entityManager->Create("rock");
 			}
 		}
 

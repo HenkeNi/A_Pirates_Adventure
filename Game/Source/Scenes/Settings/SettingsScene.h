@@ -1,18 +1,17 @@
 #pragma once
 #include "../Scene.h"
 
-// Derive PauseSceen from MenuScene??
-class PauseScene : public Scene
+
+class SettingsScene : public Scene
 {
 public:
-	PauseScene(SharedContext context);
-	~PauseScene();
+	SettingsScene(SharedContext context);
+	~SettingsScene();
 
 	void Update(float deltaTime)			  override;
 	void LateUpdate(float deltaTime)		  override;
 	void Draw()							const override;
 
-	void OnCreated()						  override;
 	void OnEnter()							  override;
 	void OnExit()							  override;
 };

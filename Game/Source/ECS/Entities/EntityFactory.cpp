@@ -5,35 +5,12 @@ ECS::ComponentData ParseComponent(const rapidjson::Value& value);
 
 EntityFactory::EntityFactory()
 {
-	PostMaster::GetInstance().Subscribe(eMessage::ComponentBuilderCreated, this);
-	PostMaster::GetInstance().Subscribe(eMessage::MultipleComponentBuildersCreated, this);
 }
 
 EntityFactory::~EntityFactory()
 {
-	PostMaster::GetInstance().Unsubscribe(eMessage::ComponentBuilderCreated, this);
-	PostMaster::GetInstance().Unsubscribe(eMessage::MultipleComponentBuildersCreated, this);
 }
 	
-void EntityFactory::Receive(Message& message)
-{
-	//if (message.GetMessageType() == eMessage::ComponentBuilderCreated)
-	//{
-	//	auto builder = std::any_cast<std::pair<std::string, ComponentBuilder*>>(message.GetData());
-	//	RegisterComponentBuilder(builder.first, builder.second);
-	//}
-
-	//if (message.GetMessageType() == eMessage::MultipleComponentBuildersCreated)
-	//{
-	//	auto builders = std::any_cast<std::vector<std::pair<std::string, ComponentBuilder*>>>(message.GetData());
-
-	//	for (const auto& [type, builder] : builders)
-	//	{
-	//		RegisterComponentBuilder(type, builder);
-	//	}
-	//}
-}
-
 void EntityFactory::LoadBlueprints(const std::string& path)
 {
 	auto document = CommonUtilities::ParseDocument(path);
@@ -132,7 +109,7 @@ Entity EntityFactory::CreateFromBlueprint(const EntityBlueprint& blueprint)
 
 void EntityFactory::RegisterBlueprint(const std::string& id, EntityBlueprint blueprint)
 {
-	m_blueprints.insert_or_assign(id, std::move(blueprint));
+	m_blueprints.insert_or_assign(id, std::move(blueprint)); // no need to move?
 }
 
 //void EntityFactory::RegisterComponentBuilder(const std::string& type, ComponentBuilder* builder)
@@ -140,7 +117,7 @@ void EntityFactory::RegisterBlueprint(const std::string& id, EntityBlueprint blu
 //	m_componentFactory.RegisterBuilder(type, builder);
 //}
 
-ECS::ComponentData ParseComponent(const rapidjson::Value& value)
+ECS::ComponentData EntityFactory::ParseComponent(const rapidjson::Value& value)
 {
 	assert(value.IsObject() && "ERROR: Parsing Component");
 	ECS::ComponentData data;

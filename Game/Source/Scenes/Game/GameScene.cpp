@@ -28,7 +28,7 @@ void GameScene::Update(float deltaTime)
 		scene->Update(deltaTime);
 	}
 
-	//m_sceneManager.Update(aDeltaTime); // not needed??
+	// TODO: should update own systems (in shared context)??
 }
 
 void GameScene::LateUpdate(float deltaTime)
@@ -39,8 +39,7 @@ void GameScene::LateUpdate(float deltaTime)
 		scene->LateUpdate(deltaTime);
 	}
 
-
-	//m_sceneManager.LateUpdate(aDeltaTime); // not needed??
+	// TODO: should update own systems (in shared context)??
 }
 
 void GameScene::Draw() const
@@ -51,26 +50,18 @@ void GameScene::Draw() const
 		scene->Draw();
 	}
 
-	//m_sceneManager.Draw(); // not needed??
+	// TODO: should update own systems (in shared context)??
 }
 
 void GameScene::OnCreated()
 {
+	// TODO; pass the Game Scene's entitymanager to subscene's?
+
 	m_sceneManager.Register<OverworldScene>(eScene::Overworld, m_sharedContext);
 	m_sceneManager.Register<DungeonScene>(eScene::Dungeon, m_sharedContext);
 	m_sceneManager.Register<InventoryScene>(eScene::Inventory, m_sharedContext);
 
-	// TODO; pass the entity manager to game scene's?
-	//m_sceneManager.Register(std::make_unique<OverworldScene>(m_sharedContext),	eScene::Overworld); 
-	//m_sceneManager.Register(std::make_unique<DungeonScene>(m_sharedContext),	eScene::Dungeon);
-	//m_sceneManager.Register(std::make_unique<InventoryScene>(m_sharedContext),	eScene::Inventory);
-
-	//m_sceneManager.Init((int)eScene::Overworld);
-	//std::bitset<(int)eScene::Count> scenes(0);
-	//scenes[(int)eScene::Overworld] = 1;
 	m_sceneManager.Init({ eScene::Overworld });
-
-	// m_sceneManager.Init((int)eScene::Overworld); // TODO; FIX!
 }
 
 void GameScene::OnEnter()
@@ -80,16 +71,6 @@ void GameScene::OnEnter()
 	{
 		scene->OnEnter();
 	}
-
-	// m_sceneManager.GetActiveScene().OnEnter();
-	// HOW TO CALL OnEnter on SCENE!
-	// 
-	// 
-	// 	
-	// TODO; on ENter...
-
-
-	// How to call on enter for active subscene
 }
 
 void GameScene::OnExit()

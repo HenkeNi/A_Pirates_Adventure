@@ -52,8 +52,9 @@ public:
 private:
 	void LoadEntities(const std::string& aPath);
 	
-	Scenes				m_scenes;
+	Scenes				m_scenes; // m_registeredScenes
 	CU::Stack<eScene>	m_stack;
+	//std::vector<eScene> m_currentScenes;
 
 	std::unordered_map<eScene, std::string> m_paths; // Function in scene?
 };

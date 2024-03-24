@@ -94,6 +94,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Scenes\Settings\SettingsScene.h" />
     <ClInclude Include="Source\Commands\Shoot\ShootCommand.h" />
     <ClInclude Include="Source\ECS\Systems\Transition\SceneTransitionSystem.h" />
     <ClInclude Include="Source\Commands\Pause\PauseCommand.h" />
@@ -164,7 +165,6 @@
     <ClInclude Include="Source\Scenes\Game\GameScene.h" />
     <ClInclude Include="Source\Scenes\Loading\LoadingScene.h" />
     <ClInclude Include="Source\Scenes\Menu\MenuScene.h" />
-    <ClInclude Include="Source\Scenes\Pause\PauseScene.h" />
     <ClInclude Include="Source\DataTypes\Constants.h" />
     <ClInclude Include="Source\DataTypes\Enumerations.h" />
     <ClInclude Include="Source\DataTypes\Structs.h" />
@@ -197,6 +197,7 @@
     <ClInclude Include="Source\ECS\Systems\UI\UISystem.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Scenes\Settings\SettingsScene.cpp" />
     <ClCompile Include="Source\Commands\Shoot\ShootCommand.cpp" />
     <ClCompile Include="Source\ECS\Systems\Transition\SceneTransitionSystem.cpp" />
     <ClCompile Include="Source\Commands\Pause\PauseCommand.cpp" />
@@ -269,7 +270,6 @@
     <ClCompile Include="Source\Scenes\Game\GameScene.cpp" />
     <ClCompile Include="Source\Scenes\Loading\LoadingScene.cpp" />
     <ClCompile Include="Source\Scenes\Menu\MenuScene.cpp" />
-    <ClCompile Include="Source\Scenes\Pause\PauseScene.cpp" />
     <ClCompile Include="Source\Scenes\SceneManager.cpp" />
     <ClCompile Include="Source\Scenes\SceneManagerProxy.cpp" />
     <ClCompile Include="Source\Scenes\Scene.cpp" />
@@ -326,6 +326,8 @@
     <None Include="Assets\Json\Resources\Textures.json" />
     <None Include="Assets\Json\Resources\Textures2.json" />
     <None Include="Assets\Json\Resources\TexturesNew.json" />
+    <None Include="Assets\Json\Scenes\MainMenu.json" />
+    <None Include="Assets\Json\Scenes\Title.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -5,5 +5,5 @@
 #include "Game/GameScene.h"
 #include "Loading/LoadingScene.h"
 #include "Menu/MenuScene.h"
-#include "Pause/PauseScene.h"
+#include "Settings/SettingsScene.h"
 #include "Title/TitleScene.h"

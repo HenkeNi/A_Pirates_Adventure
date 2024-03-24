@@ -3,7 +3,7 @@
 #include "ECS/Entities/EntityManager.h"
 //#include "ECS/Systems/SystemManager.h"
 
-// class SceneManager;
+class SceneManager;
 
 class Scene
 {
@@ -22,7 +22,8 @@ public:
 	virtual void OnExit()					   {};
 
 protected:	
+	friend class SceneManager;
+
 	SharedContext m_sharedContext;
 	EntityManager m_entityManager;
-	// std::string 
 };

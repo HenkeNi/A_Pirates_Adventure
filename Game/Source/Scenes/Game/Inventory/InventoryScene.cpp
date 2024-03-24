@@ -54,7 +54,7 @@ void InventoryScene::OnEnter()
 		// equip different items...
 
 
-	auto* camera = m_entityManager.Create("Camera");
+	auto* camera = m_entityManager.Create("camera");
 	camera->GetComponent<CameraComponent>()->ShouldCull = false;
 }
 

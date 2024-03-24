@@ -166,7 +166,7 @@ void MapGenerationSystem::GenerateMapChunk(int xCoord, int yCoord)
 
 	// Generate numbers first??
 
-	auto* entity = m_entityManager->Create("MapChunk");
+	auto* entity = m_entityManager->Create("map_chunk");
 
 	auto* mapChunkComponent = entity->GetComponent<MapChunkComponent>();
 	auto* transformComponent = entity->GetComponent<TransformComponent>(); // Do it need a transform compoentn?

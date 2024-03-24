@@ -5,12 +5,16 @@
 /* ######################### UI ######################### */
 struct UIComponent : public Component
 {
+	int RenderDepth = 0; // FIX!
 };
 
 struct ButtonComponent : public Component
 {
+	std::string				Identifier;
+
 	std::function<void()>	OnClick;
-	bool					IsHovered; // store button state?? => send mouse click event (ui system listens for it, rather than checking directly if mouse is pressed??)
+	bool					IsHovered = false; // store button state?? => send mouse click event (ui system listens for it, rather than checking directly if mouse is pressed??)
+	bool					IsPressed = false;
 	CU::Vector4<float>		HoverColor = { 0.2f, 0.2f, 0.2f, 1.f }; // HERE??
 	//class Command* Command; // ??
 };

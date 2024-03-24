@@ -6,7 +6,8 @@ enum class eScene
 	Game		/*= 1*/, 
 	Pause		/*= 2*/,
 	Menu		/*= 4*/,
-	Loading		/*= 8*/, 
+	Loading		/*= 8*/,
+	Settings,
 	Title		/*= 16*/,
 	Overworld	/*= 32*/,
 	Dungeon		/*= 64*/,
@@ -18,20 +19,18 @@ enum class eScene
 
 enum class eMessage
 {
-	ComponentBuilderCreated,
-	MultipleComponentBuildersCreated,
 	EntityCreated,
-	EntityDestroyed,
 	EntitySpawned,
-
 	EntitiesCollided,
 
+	EntityDestroyed,
 	EntityDied,				// just destroyed?
 	EntityAttacked,				// rename AttackEvent? AttackBegan? AttackEnded?
 
+
 	EntityAttacking,
-	EntityWalking,
-	EntityIdle,
+	EntityWalking, // REMOVE?
+	EntityIdle,		// REMOVE?
 
 	EntityFired,
 
@@ -42,10 +41,19 @@ enum class eMessage
 
 	GameStarted,
 	MapChunkGenerated,
+
+
 	TriggerActivated,
-	TransitionToScene
+	ButtonActivated,
+	TimerFinished,
+
+
+	TransitionToScene,
+	RemoveScene,
 	// MapChunkCreated,
 	//MapChunkDestroyed
+
+	
 };
 
 enum class eLayer

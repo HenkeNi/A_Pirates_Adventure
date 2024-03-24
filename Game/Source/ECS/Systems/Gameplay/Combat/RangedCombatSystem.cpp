@@ -18,7 +18,7 @@ void RangedCombatSystem::Receive(Message& message)
 	{
 		auto data = std::any_cast<ProjectileData>(message.GetData());
 
-		auto* projectile = m_entityManager->Create("Bullet");
+		auto* projectile = m_entityManager->Create("bullet");
 
 		auto* transformComponent = projectile->GetComponent<TransformComponent>();
 		transformComponent->CurrentPos = data.Position;
