@@ -24,7 +24,7 @@
           "type": "sprite",
           "properties": {
             "shader": "sprite_batch",
-            "texture": "settings_image",
+            "texture": "sky",
             "coordinates": [ 0, 0 ],
             "color": [ 1.0, 1.0, 1.0, 1.0 ]
           }
@@ -49,7 +49,7 @@
             "font": "Basic",
             "size": 32,
             "color": [ 0.95, 0.42, 0.1, 1.0 ],
-            "text": "Settings"
+            "text": "Inventory"
           }
         }
       ]
@@ -78,7 +78,7 @@
         {
           "type": "scene_transition",
           "properties": {
-            "scene": "settings",
+            "scene": "inventory",
             "should_remove": true
           }
         }

@@ -322,11 +322,11 @@
     <None Include="Assets\Json\Blueprints\Utility\world_time.json" />
     <None Include="Assets\Json\Map\TileSettings.json" />
     <None Include="Assets\Json\Resources\Fonts.json" />
-    <None Include="Assets\Json\Resources\Subtextures.json" />
     <None Include="Assets\Json\Resources\Textures.json" />
     <None Include="Assets\Json\Resources\Textures2.json" />
-    <None Include="Assets\Json\Resources\TexturesNew.json" />
+    <None Include="Assets\Json\Scenes\Inventory.json" />
     <None Include="Assets\Json\Scenes\MainMenu.json" />
+    <None Include="Assets\Json\Scenes\Settings.json" />
     <None Include="Assets\Json\Scenes\Title.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

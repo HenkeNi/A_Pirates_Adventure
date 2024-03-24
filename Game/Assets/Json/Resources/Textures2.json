@@ -347,7 +347,7 @@
   },
   {
     "id": "settings_image",
-    "path": "../Game/Assets/Textures/Backgrounds/title_screen.jpeg",
+    "path": "../Game/Assets/Textures/Backgrounds/settings_screen.jpeg",
     "alpha": false,
     "filtering": "Linear",
     "width": 1024,
@@ -368,6 +368,16 @@
   {
     "id": "settings_icon",
     "path": "../Game/Assets/Textures/Icons/cog.png",
+    "alpha": true,
+    "filtering": "Linear",
+    "width": 512,
+    "height": 512,
+    "rows": 1,
+    "cols": 1
+  },
+  {
+    "id": "previous_icon",
+    "path": "../Game/Assets/Textures/Icons/previous-button.png",
     "alpha": true,
     "filtering": "Linear",
     "width": 512,
