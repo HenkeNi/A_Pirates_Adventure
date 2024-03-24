@@ -76,10 +76,28 @@ void UIRenderSystem::RenderUI()
 	if (!camera)
 		return;
 
+
+
+	// Render cursor, buttons, images
+
 	auto entities = m_entityManager->FindAll<UIComponent, SpriteComponent>();
 
 	if (entities.empty())
 		return;
+	
+
+	std::sort(entities.begin(), entities.end(), [](const Entity* e1, const Entity* e2)
+		{
+			auto e1UIComponent = e1->GetComponent<UIComponent>();
+			auto e2UIComponent = e2->GetComponent<UIComponent>();
+
+			return e1UIComponent->RenderDepth > e2UIComponent->RenderDepth;
+		});
+
+
+
+
+
 
 
 	// TODO; use a simpler Shader for HUD?

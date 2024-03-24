@@ -25,12 +25,12 @@ struct WorldTimeComponent : public Component
 
 struct TimerComponent : public Component
 {
-	float Elapsed;
-	float Duration;
-	bool IsRunning = false;
+	float Elapsed = 0.f;
+	double Timestamp = 0.0;
+	float Duration = 0.f;
+	bool IsActive = true;
 
 
-	float Timestamp;
 	//	float Duration
 	// std::function<void()>	m_callback = nullptr; ?? or observers??
 };

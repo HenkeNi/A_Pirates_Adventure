@@ -11,7 +11,7 @@
 CollisionSystem::CollisionSystem()
 	: System{ 1 }
 {
-	PostMaster::GetInstance().Subscribe(eMessage::EntitySpawned, this);
+	PostMaster::GetInstance().Subscribe(eMessage::EntitySpawned, this); // Listen to entity initialized
 }
 
 CollisionSystem::~CollisionSystem()

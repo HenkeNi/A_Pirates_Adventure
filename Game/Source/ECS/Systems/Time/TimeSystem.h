@@ -13,4 +13,7 @@ public:
 
 private:
 	float GetAverageDeltaTime(float deltaTime) const;
+
+	void UpdateWorldTime(float deltaTime);
+	void UpdateTimers(float deltaTime);
 };
