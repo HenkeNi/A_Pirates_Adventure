@@ -1,10 +1,10 @@
 [
   {
-    "id": "Fiber_Resource",
-    "layer": "Resource",
+    "id": "fiber_resource",
+    "layer": "resource",
     "components": [
       {
-        "type": "Transform",
+        "type": "transform",
         "properties": {
           "position": [ 0.0, 0.0 ],
           "scale": [ 0.25, 0.25 ],
@@ -13,7 +13,7 @@
         }
       },
       {
-        "type": "Sprite",
+        "type": "sprite",
         "properties": {
           "shader": "sprite_batch",
           "texture": "grass",
@@ -22,24 +22,24 @@
         }
       },
       {
-        "type": "Collider",
+        "type": "collider",
         "properties": {
-          "type": "Static",
+          "type": "static",
           "size": [ 0.25, 0.25 ]
         }
       },
       {
-        "type": "Collectable",
+        "type": "collectable",
         "properties": {}
       }
     ]
   },
   {
-    "id": "Stone_Resource",
-    "layer": "Resource",
+    "id": "stone_resource",
+    "layer": "resource",
     "components": [
       {
-        "type": "Transform",
+        "type": "transform",
         "properties": {
           "position": [ 0.0, 0.0 ],
           "scale": [ 0.25, 0.25 ],
@@ -48,7 +48,7 @@
         }
       },
       {
-        "type": "Sprite",
+        "type": "sprite",
         "properties": {
           "shader": "sprite_batch",
           "texture": "rock_fragment",
@@ -57,25 +57,25 @@
         }
       },
       {
-        "type": "Collider",
+        "type": "collider",
         "properties": {
-          "type": "Static",
+          "type": "static",
           "size": [ 0.25, 0.25 ]
         }
       },
       {
-        "type": "Collectable",
+        "type": "collectable",
         "properties": {}
       }
 
     ]
   },
   {
-    "id": "Wood_Resource",
-    "layer": "Resource",
+    "id": "wood_resource",
+    "layer": "resource",
     "components": [
       {
-        "type": "Transform",
+        "type": "transform",
         "properties": {
           "position": [ 0.0, 0.0 ],
           "scale": [ 0.25, 0.25 ],
@@ -84,7 +84,7 @@
         }
       },
       {
-        "type": "Sprite",
+        "type": "sprite",
         "properties": {
           "shader": "sprite_batch",
           "texture": "log",
@@ -93,14 +93,14 @@
         }
       },
       {
-        "type": "Collider",
+        "type": "collider",
         "properties": {
-          "type": "Static",
+          "type": "static",
           "size": [ 0.25, 0.25 ]
         }
       },
       {
-        "type": "Collectable",
+        "type": "collectable",
         "properties": {}
       }
     ]

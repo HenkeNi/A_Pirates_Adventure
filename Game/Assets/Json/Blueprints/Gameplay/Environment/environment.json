@@ -1,10 +1,10 @@
 [
   {
-    "id": "Grass",
-    "layer": "Environment",
+    "id": "grass",
+    "layer": "environment",
     "components": [
       {
-        "type": "Transform",
+        "type": "transform",
         "properties": {
           "position": [ 0.0, 0.41 ],
           "scale": [ 0.8, 0.8 ],
@@ -13,7 +13,7 @@
         }
       },
       {
-        "type": "Sprite",
+        "type": "sprite",
         "properties": {
           "shader": "sprite_batch",
           "texture": "grass",
@@ -22,22 +22,22 @@
         }
       },
       {
-        "type": "Collider",
+        "type": "collider",
         "properties": {
-          "type": "Static",
+          "type": "static",
           "size": [ 0.25, 0.25 ]
         }
       },
       {
-        "type": "Health",
+        "type": "health",
         "properties": {
           "value": 50
         }
       },
       {
-        "type": "Spawner",
+        "type": "spawner",
         "properties": {
-          "spawned": "Fiber_Resource",
+          "spawned": "fiber_resource",
           "amount": 5,
           "interval": 0.0
         }
@@ -45,11 +45,11 @@
     ]
   },
   {
-    "id": "PalmTree",
-    "layer": "Environment",
+    "id": "palm_tree",
+    "layer": "environment",
     "components": [
       {
-        "type": "Transform",
+        "type": "transform",
         "properties": {
           "position": [ 0.0, 1.2 ],
           "scale": [ 1.4, 2.4 ],
@@ -58,7 +58,7 @@
         }
       },
       {
-        "type": "Sprite",
+        "type": "sprite",
         "properties": {
           "shader": "sprite_batch",
           "texture": "palm",
@@ -67,42 +67,42 @@
         }
       },
       {
-        "type": "Collider",
+        "type": "collider",
         "properties": {
-          "type": "Static",
+          "type": "static",
           "size": [ 0.25, 0.25 ]
         }
       },
       {
-        "type": "Health",
+        "type": "health",
         "properties": {
           "value": 100
         }
       },
       {
-        "type": "Spawner",
+        "type": "spawner",
         "properties": {
-          "spawned": "Wood_Resource",
+          "spawned": "wood_resource",
           "amount": 5,
           "interval": 0.0
         }
       },
       {
-        "type": "Topple",
+        "type": "topple",
         "properties": {}
       },
       {
-        "type": "Shake",
+        "type": "shake",
         "properties": {}
       }
     ]
   },
   {
-    "id": "Rock",
-    "layer": "Environment",
+    "id": "rock",
+    "layer": "environment",
     "components": [
       {
-        "type": "Transform",
+        "type": "transform",
         "properties": {
           "position": [ 0.0, 0.1 ],
           "scale": [ 0.5, 0.5 ],
@@ -111,7 +111,7 @@
         }
       },
       {
-        "type": "Sprite",
+        "type": "sprite",
         "properties": {
           "shader": "sprite_batch",
           "texture": "rock",
@@ -120,28 +120,28 @@
         }
       },
       {
-        "type": "Collider",
+        "type": "collider",
         "properties": {
-          "type": "Static",
+          "type": "static",
           "size": [ 0.25, 0.25 ]
         }
       },
       {
-        "type": "Health",
+        "type": "health",
         "properties": {
           "value": 50
         }
       },
       {
-        "type": "Spawner",
+        "type": "spawner",
         "properties": {
-          "spawned": "Stone_Resource",
+          "spawned": "stone_resource",
           "amount": 5,
           "interval": 0.0
         }
       },
       {
-        "type": "Shake",
+        "type": "shake",
         "properties": {}
       }
     ]

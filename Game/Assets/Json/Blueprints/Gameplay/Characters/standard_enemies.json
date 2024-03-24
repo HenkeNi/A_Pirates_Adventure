@@ -1,10 +1,10 @@
 [
   {
-    "id": "Skeleton",
-    "layer": "Enemy",
+    "id": "skeleton",
+    "layer": "enemy",
     "components": [
       {
-        "type": "Transform",
+        "type": "transform",
         "properties": {
           "position": [ 0.0, 0.3 ],
           "scale": [ 0.5, 0.5 ],
@@ -13,20 +13,20 @@
         }
       },
       {
-        "type": "Velocity",
+        "type": "velocity",
         "properties": {
           "speed": 1.0
         }
       },
       {
-        "type": "Collider",
+        "type": "collider",
         "properties": {
-          "type": "Dynamic",
+          "type": "dynamic",
           "size": [ 0.5, 0.5 ]
         }
       },
       {
-        "type": "Sprite",
+        "type": "sprite",
         "properties": {
           "shader": "sprite_batch",
           "texture": "skeleton",
@@ -35,33 +35,33 @@
         }
       },
       {
-        "type": "StateMachine",
+        "type": "state_machine",
         "properties": {
           "states": [ "idle", "walk", "attack" ]
         }
       },
       {
-        "type": "Blackboard",
+        "type": "blackboard",
         "properties": {}
       },
       {
-        "type": "Health",
+        "type": "health",
         "properties": {
           "value": 50000
         }
       },
       {
-        "type": "Knockback",
+        "type": "knockback",
         "properties": {}
       }
     ]
   },
   {
-    "id": "Spider",
-    "layer": "Enemy",
+    "id": "spider",
+    "layer": "enemy",
     "components": [
       {
-        "type": "Transform",
+        "type": "transform",
         "properties": {
           "position": [ 0.0, 0.0 ],
           "scale": [ 1.0, 1.0 ],
@@ -70,7 +70,7 @@
         }
       },
       {
-        "type": "Sprite",
+        "type": "sprite",
         "properties": {
           "shader": "sprite_batch",
           "texture": "crab",
@@ -79,7 +79,7 @@
         }
       },
       {
-        "type": "BehaviorTree",
+        "type": "behavior_tree",
         "properties": {}
       }
     ]

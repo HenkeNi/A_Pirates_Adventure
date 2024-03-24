@@ -1,9 +1,9 @@
 {
-  "id": "Player",
-  "layer": "Player",
+  "id": "player",
+  "layer": "player",
   "components": [
     {
-      "type": "Transform",
+      "type": "transform",
       "properties": {
         "position": [ 0.0, 0.0 ],
         "scale": [ 1.0, 1.0 ],
@@ -12,7 +12,7 @@
       }
     },
     {
-      "type": "Sprite",
+      "type": "sprite",
       "properties": {
         "shader": "sprite_batch",
         "texture": "pirate_idle",
@@ -21,26 +21,26 @@
       }
     },
     {
-      "type": "Velocity",
+      "type": "velocity",
       "properties": {
         "speed": 1.0
       }
     },
     {
-      "type": "Input",
+      "type": "input",
       "properties": {}
     },
     {
-      "type": "PlayerController",
+      "type": "player_controller",
       "properties": {
         "commands": [
           {
-            "type": "MoveCommand",
+            "type": "move_command",
             "input": "up",
             "direction": [ 0.0, -1.0 ]
           },
           {
-            "type": "MoveCommand",
+            "type": "move_command",
             "input": "down",
             "direction": [ 0.0, -1.0 ]
           }
@@ -48,16 +48,16 @@
       }
     },
     {
-      "type": "CharacterState",
+      "type": "character_state",
       "properties": {}
     },
     {
-      "type": "Animation",
+      "type": "animation",
       "properties": {
-        "active": "Idle",
+        "active": "idle",
         "animations": [
           {
-            "identifier": "Idle",
+            "identifier": "idle",
             "texture": "pirate_idle",
             "subtexture_coordinates": [
               [ 0, 0 ],
@@ -73,7 +73,7 @@
             "is_playing": true
           },
           {
-            "identifier": "Walk",
+            "identifier": "walk",
             "texture": "pirate_walk",
             "subtexture_coordinates": [
               [ 0, 0 ],
@@ -89,7 +89,7 @@
             "is_playing": false
           },
           {
-            "identifier": "Attack",
+            "identifier": "attack",
             "texture": "pirate_attack",
             "subtexture_coordinates": [
               [ 0, 0 ],
@@ -105,7 +105,7 @@
             "is_playing": false
           },
           {
-            "identifier": "Run",
+            "identifier": "run",
             "texture": "pirate_run",
             "subtexture_coordinates": [
               [ 0, 0 ],
@@ -124,28 +124,28 @@
       }
     },
     {
-      "type": "Equipment",
+      "type": "equipment",
       "properties": {}
     },
     {
-      "type": "Inventory",
+      "type": "inventory",
       "properties": {}
     },
     {
-      "type": "Health",
+      "type": "health",
       "properties": {
         "value": 5
       }
     },
     {
-      "type": "Collider",
+      "type": "collider",
       "properties": {
-        "type": "Dynamic",
+        "type": "dynamic",
         "size": [ 0.25, 0.25 ]
       }
     },
     {
-      "type": "SubEntities",
+      "type": "sub_entities",
       "properties": {}
     }
 

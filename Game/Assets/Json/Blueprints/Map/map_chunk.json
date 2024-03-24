@@ -1,9 +1,9 @@
 {
-  "id": "MapChunk",
-  "layer": "Map",
+  "id": "map_chunk",
+  "layer": "map",
   "components": [
     {
-      "type": "Transform",
+      "type": "transform",
       "properties": {
         "position": [ 0.0, 0.0 ],
         "scale": [ 1.0, 1.0 ],
@@ -12,7 +12,7 @@
       }
     },
     {
-      "type": "MapChunk",
+      "type": "map_chunk",
       "properties": {
         "width": 10,
         "height": 10

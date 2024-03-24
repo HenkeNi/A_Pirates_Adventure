@@ -1,12 +1,33 @@
-{
-  "id": "WorldTime",
-  "layer": "None",
-  "components": [
-    {
-      "type": "WorldTime",
-      "properties": {
-        "day_duration": 10.0
+[
+  {
+    "id": "world_time",
+    "layer": "none",
+    "components": [
+      {
+        "type": "world_time",
+        "properties": {
+          "day_duration": 10.0
+        }
       }
-    }
-  ]
-}
+    ]
+  },
+  {
+    "id": "scene_timer",
+    "layer": "none",
+    "components": [
+      {
+        "type": "timer",
+        "properties": {
+          "duration": 10.0
+        }
+      },
+      {
+        "type": "scene_transition",
+        "properties": {
+          "scene": "menu",
+          "should_remove": false
+        }
+      }
+    ]
+  }
+]

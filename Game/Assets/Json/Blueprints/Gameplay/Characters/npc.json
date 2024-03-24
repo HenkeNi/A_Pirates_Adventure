@@ -1,10 +1,10 @@
 [
   {
-    "id": "Castaway",
-    "layer": "NPC",
+    "id": "castaway",
+    "layer": "npc",
     "components": [
       {
-        "type": "Transform",
+        "type": "transform",
         "properties": {
           "position": [ 0.0, 0.3 ],
           "scale": [ 4.5, 4.5 ],
@@ -13,13 +13,13 @@
         }
       },
       {
-        "type": "Velocity",
+        "type": "velocity",
         "properties": {
           "speed": 1.0
         }
       },
       {
-        "type": "Sprite",
+        "type": "sprite",
         "properties": {
           "shader": "sprite_batch",
           "texture": "castaway",
@@ -28,7 +28,7 @@
         }
       },
       {
-        "type": "BehaviorTree",
+        "type": "behavior_tree",
         "properties": {}
       }
     ]

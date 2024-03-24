@@ -1,10 +1,44 @@
 [
   {
-    "id": "image",
-    "layer": "UI",
+    "id": "mouse_cursor",
+    "layer": "ui",
     "components": [
       {
-        "type": "Transform",
+        "type": "transform",
+        "properties": {
+          "position": [ 0.0, 0.3 ],
+          "scale": [ 0.35, 0.35 ],
+          "pivot": [ 0.0, 0.0 ],
+          "rotation": 0.0
+        }
+      },
+      {
+        "type": "sprite",
+        "properties": {
+          "shader": "sprite_batch",
+          "texture": "mouse_icon",
+          "coordinates": [ 0, 0 ],
+          "color": [ 1.0, 1.0, 1.0, 1.0 ]
+        }
+      },
+      {
+        "type": "ui",
+        "properties": {
+          "render_depth": 5
+        }
+      },
+      {
+        "type": "cursor",
+        "properties": {}
+      }
+    ]
+  },
+  {
+    "id": "image",
+    "layer": "ui",
+    "components": [
+      {
+        "type": "transform",
         "properties": {
           "position": [ 0.0, 0.0 ],
           "scale": [ 1.0, 1.0 ],
@@ -13,7 +47,7 @@
         }
       },
       {
-        "type": "Sprite",
+        "type": "sprite",
         "properties": {
           "shader": "sprite_batch",
           "texture": "title_image",
@@ -22,45 +56,79 @@
         }
       },
       {
-        "type": "UI",
-        "properties": {}
+        "type": "ui",
+        "properties": {
+          "render_depth": 2
+        }
       }
     ]
   },
   {
-    "id": "title_text",
-    "layer": "UI",
+    "id": "background",
+    "layer": "ui",
     "components": [
       {
-        "type": "Transform",
+        "type": "transform",
         "properties": {
-          "position": [ 100.0, 600.0 ],
-          "scale": [ 2.0, 2.0 ],
+          "position": [ 0.0, 0.0 ],
+          "scale": [ 10.0, 10.0 ],
           "pivot": [ 0.0, 0.0 ],
           "rotation": 0.0
         }
       },
       {
-        "type": "Text",
+        "type": "sprite",
         "properties": {
-          "font": "Basic",
-          "size": 32,
-          "color": [ 0.95, 0.42, 0.1, 1.0 ],
-          "text": "A Pirate's Adventure"
+          "shader": "sprite_batch",
+          "texture": "title_image",
+          "coordinates": [ 0, 0 ],
+          "color": [ 1.0, 1.0, 1.0, 1.0 ]
         }
       },
       {
-        "type": "UI",
-        "properties": {}
+        "type": "ui",
+        "properties": {
+          "render_depth": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "title_text",
+    "layer": "ui",
+    "components": [
+      {
+        "type": "transform",
+        "properties": {
+          "position": [ 0.0, 0.0 ],
+          "scale": [ 1.0, 1.0 ],
+          "pivot": [ 0.0, 0.0 ],
+          "rotation": 0.0
+        }
+      },
+      {
+        "type": "text",
+        "properties": {
+          "font": "Basic",
+          "size": 32,
+          "color": [ 1.0, 1.0, 1.0, 1.0 ],
+          "text": "[Title]"
+        }
+      },
+      {
+        "type": "ui",
+        "properties": {
+          "render_depth": 5
+        }
       }
     ]
   },
   {
     "id": "button",
-    "layer": "UI",
+    "layer": "ui",
     "components": [
       {
-        "type": "Transform",
+        "type": "transform",
         "properties": {
           "position": [ 0.1, 0.1 ],
           "scale": [ 2.0, 2.0 ],
@@ -69,7 +137,7 @@
         }
       },
       {
-        "type": "Sprite",
+        "type": "sprite",
         "properties": {
           "shader": "sprite_batch",
           "texture": "play_button",
@@ -78,19 +146,66 @@
         }
       },
       {
-        "type": "Collider",
+        "type": "collider",
         "properties": {
-          "type": "Static",
+          "type": "static",
           "size": [ 0.5, 0.5 ]
         }
       },
       {
-        "type": "Button",
+        "type": "button",
         "properties": {}
       },
       {
-        "type": "UI",
+        "type": "ui",
+        "properties": {
+          "render_depth": 4
+        }
+      }
+    ]
+  },
+  {
+    "id": "scene_transition_button",
+    "layer": "ui",
+    "components": [
+      {
+        "type": "transform",
+        "properties": {
+          "position": [ 0.1, 0.1 ],
+          "scale": [ 2.0, 2.0 ],
+          "pivot": [ 0.0, 0.0 ],
+          "rotation": 0.0
+        }
+      },
+      {
+        "type": "sprite",
+        "properties": {
+          "shader": "sprite_batch",
+          "texture": "play_button",
+          "coordinates": [ 0, 0 ],
+          "color": [ 1.0, 1.0, 1.0, 1.0 ]
+        }
+      },
+      {
+        "type": "collider",
+        "properties": {
+          "type": "static",
+          "size": [ 0.5, 0.5 ]
+        }
+      },
+      {
+        "type": "button",
         "properties": {}
+      },
+      {
+        "type": "scene_transition",
+        "properties": {}
+      },
+      {
+        "type": "ui",
+        "properties": {
+          "render_depth": 4
+        }
       }
     ]
   }

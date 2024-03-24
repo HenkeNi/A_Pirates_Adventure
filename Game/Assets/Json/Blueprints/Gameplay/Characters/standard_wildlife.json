@@ -1,10 +1,10 @@
 [
   {
-    "id": "Crab",
-    "layer": "Animal",
+    "id": "crab",
+    "layer": "animal",
     "components": [
       {
-        "type": "Transform",
+        "type": "transform",
         "properties": {
           "position": [ 0.0, 0.2 ],
           "scale": [ 0.5, 0.5 ],
@@ -13,13 +13,13 @@
         }
       },
       {
-        "type": "Velocity",
+        "type": "velocity",
         "properties": {
           "speed": 1.0
         }
       },
       {
-        "type": "Sprite",
+        "type": "sprite",
         "properties": {
           "shader": "sprite_batch",
           "texture": "crab",
@@ -28,32 +28,32 @@
         }
       },
       {
-        "type": "StateMachine",
+        "type": "state_machine",
         "properties": {
           "states": [ "idle", "walk", "flee", "attack", "death" ],
           "active_state": "idle"
         }
       },
       {
-        "type": "SteeringBehavior",
+        "type": "steering_behavior",
         "properties": {
           "behavior": "wander_behavior",
           "layer": "animal"
         }
       },
       {
-        "type": "WanderBehavior",
+        "type": "wander_behavior",
         "properties": {
         }
       }
     ]
   },
   {
-    "id": "Fish",
-    "layer": "Animal",
+    "id": "fish",
+    "layer": "animal",
     "components": [
       {
-        "type": "Transform",
+        "type": "transform",
         "properties": {
           "position": [ 0.0, 0.3 ],
           "scale": [ 0.5, 0.5 ],
@@ -62,13 +62,13 @@
         }
       },
       {
-        "type": "Velocity",
+        "type": "velocity",
         "properties": {
           "speed": 1.0
         }
       },
       {
-        "type": "Sprite",
+        "type": "sprite",
         "properties": {
           "shader": "sprite_batch",
           "texture": "fish",
@@ -77,14 +77,14 @@
         }
       },
       {
-        "type": "SteeringBehavior",
+        "type": "steering_behavior",
         "properties": {
           "behavior": "flock_behavior",
           "layer": "fish"
         }
       },
       {
-        "type": "FlockBehavior",
+        "type": "flock_behavior",
         "properties": {}
       }
     ]

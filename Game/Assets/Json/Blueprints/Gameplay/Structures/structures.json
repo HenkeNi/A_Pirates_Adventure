@@ -1,10 +1,10 @@
 [
   {
-    "id": "Hut",
-    "layer": "Environment",
+    "id": "hut",
+    "layer": "environment",
     "components": [
       {
-        "type": "Transform",
+        "type": "transform",
         "properties": {
           "position": [ 0.0, 1.0 ],
           "scale": [ 2.0, 2.0 ],
@@ -13,7 +13,7 @@
         }
       },
       {
-        "type": "Sprite",
+        "type": "sprite",
         "properties": {
           "shader": "sprite_batch",
           "texture": "hut",
@@ -22,9 +22,9 @@
         }
       },
       {
-        "type": "Collider",
+        "type": "collider",
         "properties": {
-          "type": "Trigger",
+          "type": "trigger",
           "size": [ 0.5, 0.5 ]
         }
       }

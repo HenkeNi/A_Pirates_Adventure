@@ -1,28 +1,117 @@
 {
   "entities": [
     {
-      "entity_id": "camera",
-      "components_data": [
-
-      ]
+      "entity_id": "camera"
     },
     {
       "entity_id": "image",
-      "properties": {
-        "texture": "title_image",
-        "coordinates": [ 0, 0 ],
-        "color": [ 1.0, 1.0, 1.0, 1.0 ]
-      }
-      
+      "components_data": [
+        {
+          "type": "transform",
+          "properties": {
+            "position": [ 0.0, 0.0 ],
+            "scale": [ 10.0, 8.0 ],
+            "pivot": [ 0.0, 0.0 ],
+            "rotation": 0.0
+          }
+        },
+        {
+          "type": "sprite",
+          "properties": {
+            "shader": "sprite_batch",
+            "texture": "main_image",
+            "coordinates": [ 0, 0 ],
+            "color": [ 1.0, 1.0, 1.0, 1.0 ]
+          }
+        }
+      ]
     },
     {
-      "entity_id": "title"
+      "entity_id": "title_text",
+      "components_data": [
+        {
+          "type": "transform",
+          "properties": {
+            "position": [ 700.0, 650.0 ],
+            "scale": [ 2.0, 2.0 ],
+            "pivot": [ -2.0, 0.0 ],
+            "rotation": 0.0
+          }
+        },
+        {
+          "type": "text",
+          "properties": {
+            "font": "Basic",
+            "size": 32,
+            "color": [ 0.95, 0.42, 0.1, 1.0 ],
+            "text": "Main Menu"
+          }
+        }
+      ]
     },
     {
-      "entity_id": "button"
+      "entity_id": "button",
+      "components_data": [
+        {
+          "type": "transform",
+          "properties": {
+            "position": [ -2.0, -2.0 ],
+            "scale": [ 1.0, 1.0 ],
+            "pivot": [ 220.0, 220.0 ],
+            "rotation": 0.0
+          }
+        },
+        {
+          "type": "sprite",
+          "properties": {
+            "shader": "sprite_batch",
+            "texture": "play_button",
+            "coordinates": [ 0, 0 ],
+            "color": [ 1.0, 1.0, 1.0, 1.0 ]
+          }
+        },
+        {
+          "type": "scene_transition",
+          "properties": {
+            "scene": "menu",
+            "should_remove": true
+          }
+        }
+      ]
     },
     {
-      "entity_id": "Mouse_Cursor"
+      "entity_id": "button",
+      "components_data": [
+        {
+          "type": "transform",
+          "properties": {
+            "position": [ 0.0, -2.0 ],
+            "scale": [ 1.0, 1.0 ],
+            "pivot": [ 220.0, 220.0 ],
+            "rotation": 0.0
+          }
+        },
+        {
+          "type": "sprite",
+          "properties": {
+            "shader": "sprite_batch",
+            "texture": "settings_icon",
+            "coordinates": [ 0, 0 ],
+            "color": [ 1.0, 1.0, 1.0, 1.0 ]
+          }
+        },
+        {
+          "type": "scene_transition",
+          "properties": {
+            "scene": "settings",
+            "should_remove": false
+          }
+        }
+      ]
+
+    },
+    {
+      "entity_id": "mouse_cursor"
     }
   ]
 }

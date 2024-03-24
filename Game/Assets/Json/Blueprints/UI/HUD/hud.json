@@ -1,42 +1,10 @@
 [
   {
-    "id": "Mouse_Cursor",
-    "layer": "HUD",
+    "id": "healthbar",
+    "layer": "hud",
     "components": [
       {
-        "type": "Transform",
-        "properties": {
-          "position": [ 0.0, 0.3 ],
-          "scale": [ 0.35, 0.35 ],
-          "pivot": [ 0.0, 0.0 ],
-          "rotation": 0.0
-        }
-      },
-      {
-        "type": "Sprite",
-        "properties": {
-          "shader": "sprite_batch",
-          "texture": "mouse_icon",
-          "coordinates": [ 0, 0 ],
-          "color": [ 1.0, 1.0, 1.0, 1.0 ]
-        }
-      },
-      {
-        "type": "HUD",
-        "properties": {}
-      },
-      {
-        "type": "Cursor",
-        "properties": {}
-      }
-    ]
-  },
-  {
-    "id": "Healthbar",
-    "layer": "HUD",
-    "components": [
-      {
-        "type": "Transform",
+        "type": "transform",
         "properties": {
           "position": [ 0.0, 0.3 ],
           "scale": [ 1.0, 1.0 ],
@@ -45,7 +13,7 @@
         }
       },
       {
-        "type": "Sprite",
+        "type": "sprite",
         "properties": {
           "shader": "sprite_batch",
           "texture": "castaway",
@@ -54,17 +22,17 @@
         }
       },
       {
-        "type": "HUD",
+        "type": "hud",
         "properties": {}
       }
     ]
   },
   {
-    "id": "HeartContainer",
-    "layer": "HUD",
+    "id": "heart_container",
+    "layer": "hud",
     "components": [
       {
-        "type": "Transform",
+        "type": "transform",
         "properties": {
           "position": [ 0.0, 0.3 ],
           "scale": [ 0.5, 0.5 ],
@@ -73,7 +41,7 @@
         }
       },
       {
-        "type": "Sprite",
+        "type": "sprite",
         "properties": {
           "shader": "sprite_batch",
           "texture": "heart",
@@ -82,7 +50,7 @@
         }
       },
       {
-        "type": "HUD",
+        "type": "hud",
         "properties": {}
       }
     ]
