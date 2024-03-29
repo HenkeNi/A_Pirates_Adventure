@@ -384,5 +384,15 @@
     "height": 512,
     "rows": 1,
     "cols": 1
+  },
+  {
+    "id": "square",
+    "path": "../Game/Assets/Textures/square.png",
+    "alpha": true,
+    "filtering": "Linear",
+    "width": 512,
+    "height": 512,
+    "rows": 1,
+    "cols": 1
   }
 ]

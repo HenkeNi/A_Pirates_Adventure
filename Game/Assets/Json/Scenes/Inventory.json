@@ -37,9 +37,9 @@
         {
           "type": "transform",
           "properties": {
-            "position": [ 250.0, 650.0 ],
+            "position": [ 700.0, 650.0 ],
             "scale": [ 2.0, 2.0 ],
-            "pivot": [ -0.5, 0.0 ],
+            "pivot": [ 0.5, 0.0 ],
             "rotation": 0.0
           }
         },
@@ -49,7 +49,8 @@
             "font": "Basic",
             "size": 32,
             "color": [ 0.95, 0.42, 0.1, 1.0 ],
-            "text": "Inventory"
+            "text": "Inventory",
+            "alignment": "center"
           }
         }
       ]
@@ -83,6 +84,9 @@
           }
         }
       ]
+    },
+    {
+      "entity_id": "inventory_slot"
     }
   ]
 }

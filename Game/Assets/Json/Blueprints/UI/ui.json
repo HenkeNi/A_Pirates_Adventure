@@ -110,9 +110,10 @@
         "type": "text",
         "properties": {
           "font": "Basic",
-          "size": 32,
+          "size": 4,
           "color": [ 1.0, 1.0, 1.0, 1.0 ],
-          "text": "[Title]"
+          "text": "[Title]",
+          "alignment": "center"
         }
       },
       {
@@ -200,6 +201,42 @@
       {
         "type": "scene_transition",
         "properties": {}
+      },
+      {
+        "type": "ui",
+        "properties": {
+          "render_depth": 4
+        }
+      }
+    ]
+  },
+  {
+    "id": "inventory_slot",
+    "components": [
+      {
+        "type": "transform",
+        "properties": {
+          "position": [ 0.1, 0.1 ],
+          "scale": [ 1.0, 1.0 ],
+          "pivot": [ 0.0, 0.0 ],
+          "rotation": 0.0
+        }
+      },
+      {
+        "type": "sprite",
+        "properties": {
+          "shader": "sprite_batch",
+          "texture": "square",
+          "coordinates": [ 0, 0 ],
+          "color": [ 1.0, 1.0, 1.0, 1.0 ]
+        }
+      },
+      {
+        "type": "collider",
+        "properties": {
+          "type": "static",
+          "size": [ 0.5, 0.5 ]
+        }
       },
       {
         "type": "ui",

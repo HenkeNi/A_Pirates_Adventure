@@ -35,6 +35,10 @@
         }
       },
       {
+        "type": "character_state",
+        "properties": {}
+      },
+      {
         "type": "state_machine",
         "properties": {
           "states": [ "idle", "walk", "attack" ]

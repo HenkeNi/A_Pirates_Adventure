@@ -34,9 +34,9 @@
         {
           "type": "transform",
           "properties": {
-            "position": [ 250.0, 600.0 ],
-            "scale": [ 2.0, 2.0 ],
-            "pivot": [ -0.5, 0.0 ],
+            "position": [ 700.0, 600.0 ],
+            "scale": [ 1.0, 1.0 ],
+            "pivot": [ 0.5, 0.0 ],
             "rotation": 0.0
           }
         },
@@ -44,9 +44,10 @@
           "type": "text",
           "properties": {
             "font": "Basic",
-            "size": 32,
+            "size": 1,
             "color": [ 0.95, 0.42, 0.1, 1.0 ],
-            "text": "A Pirate's Adventure"
+            "text": "A Pirate's Adventure",
+            "alignment": "center"
           }
         }
       ]
