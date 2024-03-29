@@ -11,11 +11,11 @@ public:
 	PostMaster(const PostMaster&)			 = delete;
 	PostMaster& operator=(const PostMaster&) = delete;
 	
-	static PostMaster&	GetInstance();
+	static PostMaster& GetInstance();
 
-	void				Subscribe(const eMessage messageType, Subscriber* subscriber);
-	void				Unsubscribe(const eMessage messageType, Subscriber* subscriber);
-	void				SendMessage(Message message);
+	void Subscribe(const eMessage messageType, Subscriber* subscriber);
+	void Unsubscribe(const eMessage messageType, Subscriber* subscriber);
+	void SendMessage(Message message);
 
 private:
 	PostMaster() = default;

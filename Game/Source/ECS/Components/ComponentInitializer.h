@@ -17,8 +17,10 @@
 
 #include "../AI/StateMachine/States/Idle/IdleState.h"
 #include "../AI/StateMachine/States/Walk/WalkState.h"
+#include "../AI/StateMachine/States/Attack/AttackState.h"
 
 #include "../AI/StateMachine/Conditions/Time/TimeConditions.h"
+#include "../AI/StateMachine/Conditions/Distance/DistanceConditions.h"
 
 
 // struct ComponentData;
@@ -344,10 +346,25 @@ public:
 		auto color = std::any_cast<std::vector<std::any>>(data.at("color"));
 		std::string text = std::any_cast<std::string>(data.at("text"));
 
+		std::string alignment = std::any_cast<std::string>(data.at("alignment"));
+		
 		component->Font = &Hi_Engine::ResourceHolder<Hi_Engine::Font>::GetInstance().GetResource(font);
 		component->Color = { std::any_cast<float>(color[0]), std::any_cast<float>(color[1]), std::any_cast<float>(color[2]), std::any_cast<float>(color[3]) };
 		component->Size = size;
 		component->Text = text;
+
+		if (alignment == "center")
+		{
+			component->Alignment = Hi_Engine::eTextAlginment::Align_Center;
+		}
+		else if (alignment == "left")
+		{
+			component->Alignment = Hi_Engine::eTextAlginment::Align_Left;
+		}
+		else if (alignment == "right")
+		{ 
+			component->Alignment = Hi_Engine::eTextAlginment::Align_Right;
+		}
 	}
 
 	template <>
@@ -434,11 +451,9 @@ public:
 			}
 			else if (type == "attack")
 			{
-				// aComponent->States.push_back(new AttackState{});
+				component->States.push_back(new AttackState{});
 			}
 			else if (type == "flee")
-			{ }
-			else if (type == "attack")
 			{ }
 			else if (type == "death")
 			{ }
@@ -461,9 +476,18 @@ public:
 		walkToIdle.SetCondition(new ElapsedTimeCondition{ 5.f }); // use same condition? => cant delte in desturtor then....
 		walkToIdle.SetTargetState(component->States[0]);
 
+		Transition walkToAttack;
+		walkToAttack.SetCondition(new InRangeCondition{ 20.f });
+		walkToAttack.SetTargetState(component->States[2]);
+
+		Transition attackToIdle;
+		attackToIdle.SetCondition(new HasAttackedCondition{});
+		attackToIdle.SetTargetState(component->States[0]);
+
 		component->States[0]->AddTransition(idleToWalk);
 		component->States[1]->AddTransition(walkToIdle); // duraion condition
-
+		component->States[1]->AddTransition(walkToAttack);
+		component->States[2]->AddTransition(attackToIdle);
 
 		// TODO; connect the states
 		// set start time in condition	

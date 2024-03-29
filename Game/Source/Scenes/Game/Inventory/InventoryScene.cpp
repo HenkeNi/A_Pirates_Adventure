@@ -36,6 +36,14 @@ void InventoryScene::OnEnter()
 
 	m_entityManager.GetFactory().LoadBlueprints("../Game/Assets/Json/Blueprints/blueprint_manifest.json");
 
+
+	auto* box = m_entityManager.Create("inventory_slot");
+	box->GetComponent<TransformComponent>()->CurrentPos = { 20.f, 20.f };
+
+
+	auto* box1 = m_entityManager.Create("inventory_slot");
+	box1->GetComponent<TransformComponent>()->CurrentPos = { 120.f, 120.f };
+
 	// UI element box...
 	// render slots in grid...
 	// todo. drag and drop

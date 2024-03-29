@@ -97,6 +97,7 @@ struct TextComponent : public Component
 	//Hi_Engine::Font*	Font;
 	// float				m_scale; use transform instead..
 	CU::Vector4<float>		Color;
+	Hi_Engine::eTextAlginment Alignment;
 };
 
 struct CameraComponent : public Component

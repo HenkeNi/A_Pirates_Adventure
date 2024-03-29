@@ -9,7 +9,7 @@
 
 namespace Hi_Engine
 {
-	TextRenderer::TextRenderer()
+    TextRenderer::TextRenderer()
         : m_windowSize{ 1400, 800 }
 	{}
 	
@@ -51,7 +51,6 @@ namespace Hi_Engine
 	void TextRenderer::Shutdown()
 	{}
 
-
 	void TextRenderer::Render(const TextRenderData& data, glm::mat4 projection) // pass in projection matrix?
 	{
         auto& shader = data.Shader;
@@ -66,14 +65,31 @@ namespace Hi_Engine
         glBindVertexArray(m_textContext.VAO);
 
         auto position = data.Position;
+        auto startPosition = position;
+        auto endPosition = startPosition;
+
+        float textWidth = 0.f;
+
+
+
+        position.x = GetTextStartPosition(data);
+
+       
+
+
         auto scale = data.Scale;
 
         for (const char& c : data.Text)
         {
             const auto& ch = data.Font->m_characters[c];
-                     
+              
+            //position.x += (ch.m_bearing.x * scale);
+            //position.y -= (ch.Size.y - ch.m_bearing.y) * scale;
             float xPos = position.x + ch.m_bearing.x * scale;
             float yPos = position.y - (ch.Size.y - ch.m_bearing.y) * scale;
+
+            //float xPos = position.x;
+            //float yPos = position.y;
 
             float w = ch.Size.x * scale;
             float h = ch.Size.y * scale;
@@ -105,10 +121,43 @@ namespace Hi_Engine
 
             glDrawArrays(GL_TRIANGLES, 0, 6);
 
-            position.x += (ch.m_advance >> 6) * data.Scale; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
+            //position.x += (ch.m_advance >> 6) * data.Scale; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
+            position.x += (ch.m_advance >> 6);
         }
         glBindVertexArray(0);
         glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
+    float TextRenderer::CalculateTextWidth(const std::string& text, class Font* font, float scale)
+    {
+        float width = 0.f;
+
+        for (const char& ch : text)
+        {
+            const auto& character = font->m_characters[ch];
+            width += (character.m_advance >> 6) * scale;
+        }
+        return width;
+    }
+
+    float TextRenderer::GetTextStartPosition(const TextRenderData& data)
+    {
+        if (data.Alignment == eTextAlginment::Align_Left)
+            return data.Position.x;
+        
+        float width = CalculateTextWidth(data.Text, data.Font, data.Scale);
+        
+        if (data.Alignment == eTextAlginment::Align_Center)
+        {
+            return data.Position.x - (width * 0.5f);
+        }
+        else if (data.Alignment == eTextAlginment::Align_Right)
+        {
+            return data.Position.x + (width * 0.5f);
+        }
+
+
+
+        return 0.0f;
+    }
 }

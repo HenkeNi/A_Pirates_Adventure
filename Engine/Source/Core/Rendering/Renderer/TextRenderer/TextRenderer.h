@@ -22,8 +22,14 @@ namespace Hi_Engine
 
 		// void LoadFont(const std::string& aPath, unsigned aFontSize);	// Register font instead?
 		void Render(const TextRenderData& data, glm::mat4 projection);
+		// Pass in alignment for text...
 
 
+
+		// Here?
+		static float CalculateTextWidth(const std::string& text, class Font* font, float scale);
+
+		float GetTextStartPosition(const TextRenderData& data);
 
 
 	private:

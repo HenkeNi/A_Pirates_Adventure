@@ -188,6 +188,7 @@ namespace Hi_Engine
 	//	float					Rotation;
 	//};
 	
+	// Rename TextRenderProperties?
 	struct TextRenderData
 	{
 		class Shader*		Shader;
@@ -196,6 +197,7 @@ namespace Hi_Engine
 		CU::Vector4<float>	Color;
 		CU::Vector2<float>	Position; //??
 		std::string			Text;
+		eTextAlginment		Alignment;
 	};
 	
 	//struct PrimitiveRenderData

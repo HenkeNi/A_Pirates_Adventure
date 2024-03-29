@@ -9,11 +9,13 @@
 CombatSystem::CombatSystem()
 {
 	PostMaster::GetInstance().Subscribe(eMessage::AttackAnimationFinished, this);
+	//PostMaster::GetInstance().Subscribe(eMessage::EnemyAttacked, this);
 }
 
 CombatSystem::~CombatSystem()
 {
 	PostMaster::GetInstance().Unsubscribe(eMessage::AttackAnimationFinished, this);
+	//PostMaster::GetInstance().Unsubscribe(eMessage::EnemyAttacked, this);
 }
 
 void CombatSystem::Receive(Message& message)	// Listen to collisions from physics
@@ -28,6 +30,13 @@ void CombatSystem::Receive(Message& message)	// Listen to collisions from physic
 		// call ApplyKnockback here instead?
 	}
 
+
+	// TEmp
+	/*if (message.GetMessageType() == eMessage::EnemyAttacked)
+	{
+		auto* entity = std::any_cast<Entity*>(message.GetData());
+		PerformAttack(entity);
+	}*/
 
 
 	

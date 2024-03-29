@@ -87,9 +87,11 @@ void SpriteRenderSystem::Draw() // TODO; should pass along if bash should be flu
 		renderPosition.x = transform->CurrentPos.x + (transform->Pivot.x * transform->Scale.x);
 		renderPosition.y = transform->CurrentPos.y + (transform->Pivot.y * transform->Scale.y);
 
+		glm::vec4 color = { 1.f, 1.f, 1.f, 1.f };
+
 		Hi_Engine::RenderCommand command{};
 		command.Type = Hi_Engine::eRenderCommandType::DrawSprite;
-		command.SpriteRenderData = { subtexture, { 1.f, 1.f, 1.f, 1.f }, Hi_Engine::Transform{{ renderPosition.x, renderPosition.y, 0.f }, { scale.x, scale.y }, rotation } }; // CHANGE TO Transform
+		command.SpriteRenderData = { subtexture, color, Hi_Engine::Transform{{ renderPosition.x, renderPosition.y, 0.f }, { scale.x, scale.y }, rotation } }; // CHANGE TO Transform
 		//command.SpriteRenderData = { subtexture, { 1.f, 1.f, 1.f, 1.f }, Hi_Engine::Transform{{ position.x, position.y, 0.f }, { scale.x, scale.y }, rotation } }; // CHANGE TO Transform
 
 		commandQueue.push(command);

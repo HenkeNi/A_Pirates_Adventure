@@ -9,11 +9,13 @@
 HUDSystem::HUDSystem()
 {
 	PostMaster::GetInstance().Subscribe(eMessage::GameStarted, this);
+	PostMaster::GetInstance().Subscribe(eMessage::EntityAttacked, this);
 }
 
 HUDSystem::~HUDSystem()
 {
 	PostMaster::GetInstance().Unsubscribe(eMessage::GameStarted, this);
+	PostMaster::GetInstance().Unsubscribe(eMessage::EntityAttacked, this);
 }
 
 void HUDSystem::Receive(Message& message)
@@ -21,6 +23,16 @@ void HUDSystem::Receive(Message& message)
 	if (message.GetMessageType() == eMessage::GameStarted)
 	{
 		SetupHUDElements();
+	}
+
+	if (message.GetMessageType() == eMessage::EntityAttacked)
+	{
+		auto* entity = std::any_cast<Entity*>(message.GetData());
+		if (entity->HasComponent<PlayerControllerComponent>())
+		{
+			UpdateHealthDisplay(entity);
+
+		}
 	}
 
 
@@ -36,7 +48,16 @@ void HUDSystem::Receive(Message& message)
 
 		// TODO DO IN SOME OTHER SYSTME?
 	// TODO: Send event instead!!!
+	
+}
+
+void HUDSystem::Update(float deltaTime)
+{
+	// if aiming...  (do with event instead)?
 	auto* player = m_entityManager->FindFirst<PlayerControllerComponent>();
+	if (!player)
+		return;
+
 	auto* cursor = m_entityManager->FindFirst<CursorComponent>();
 
 	// press 1 to test...
@@ -50,24 +71,27 @@ void HUDSystem::Receive(Message& message)
 
 }
 
-void HUDSystem::Update(float deltaTime)
-{
-}
-
 void HUDSystem::SetupHUDElements()
 {
 	if (!m_entityManager)
 		return;
 
 	auto* player = m_entityManager->FindFirst<PlayerControllerComponent>();
-	auto* healthComponent = player->GetComponent<HealthComponent>(); // OR stats component (check health)
+	UpdateHealthDisplay(player);
+}
+
+void HUDSystem::UpdateHealthDisplay(Entity* entity)
+{
+	auto* healthComponent = entity->GetComponent<HealthComponent>(); // OR stats component (check health)
 
 	// TODO; Get entities with Hudcomponent (that are hearts), set if should be rendered based on players health...
 
 	float heartScale = 0.5f; // FIX!
 	float windSize = 800.f;
 
-	for (int i = 0; i < 5; ++i)
+
+
+	for (int i = 0; i < healthComponent->CurrentValue; ++i)
 	{
 		auto* heart = m_entityManager->Create("heart_container");
 
@@ -75,5 +99,5 @@ void HUDSystem::SetupHUDElements()
 		transform->CurrentPos = { -4.f + heartScale * i, 2.f }; // TODO; FIX! probably generates them backwards...
 		//transform->CurrentPos = { -2.f + -1.f * heartScale * i, 2.f }; // TODO; FIX! probably generates them backwards...
 	}
-}
 
+}
