@@ -1,11 +1,10 @@
 #pragma once
-#include "../DataTypes/Enumerations.h"
 #include <Utility/DataStructures/Linear/Dynamic/Stack/Stack.hpp>
-#include <bitset>
-
+#include "../DataTypes/Enumerations.h"
 
 namespace CU = CommonUtilities;
 
+enum class eScenen;
 class Scene;
 
 // REMOVE empty namespace?

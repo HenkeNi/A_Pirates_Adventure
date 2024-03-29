@@ -1,21 +1,9 @@
-###################### TODO ######################
 
-	-> Render thread...
-
-	-> Text, batched?
-
-	Day/night cycle
-		* two different textuers?? blend => (one is day texture, and one is night texture.) YES!!
-
-
-
-	-> place bombs (stardew valley)
 
 ###################### MAYBE ######################
 
 UI;
 	-> Render all hearts as a texture (when losing a heart, move the rendered area...)
-
 
 
 Input;
@@ -28,33 +16,10 @@ Water;
 	-> Water is an animated tiles??
 
 
-
-
-
-
-
-
-
 	** AI - GOAP
 
 		-> have a plan generator (generates (multiple) queues of plans) -> an npc takes (from the queue that fits best - solider, builder, etc)
 			and perform the plan (can generate x amount of plans each frame... spread out...)
-
-
-
-
-
-
-
-	* Component that hnadles scene transitions??s
-
-		SceneTransition Entity?
-
-
-
-
-
-
 
 
 
@@ -85,19 +50,6 @@ Rendering;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 Activate/Deactivate systems when transitioning to new scene?
 
 register commands in engine/input handler?
@@ -106,11 +58,8 @@ splines--!?
 
 add .ZeroVector to vector classes??
 
-
-
 IF not compile in relase,
 	put FT_Library.dll in bin with .exe for launcher...
-
 
 
 Systems
@@ -123,7 +72,6 @@ Systems
 
 Update scene to not future Update, LateUpdate and Render?
 	- sends message when transitioning to a new scene? pass in bool if should clear entities?
-
 
 
 
@@ -161,10 +109,6 @@ Todo;
 
 
 
-
-
-
-
 		consider putting SceneManager and scenes in engine...
 		and gameobject/component base classes...
 
@@ -196,7 +140,6 @@ should world be x and z (laying flat) or x and y (standing up/on its edge)
 ## Code check-ups ##
 	
 * make sure to always delete a pointer before setting it...
-
 
 
 

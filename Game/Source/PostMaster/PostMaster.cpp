@@ -2,6 +2,7 @@
 #include "PostMaster.h"
 #include "Message.h"
 #include "Subscriber.h"
+#include "../DataTypes/Enumerations.h"
 
 
 PostMaster& PostMaster::GetInstance()

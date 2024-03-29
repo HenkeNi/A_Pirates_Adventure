@@ -1,8 +1,9 @@
 #pragma once
-#include "../DataTypes/Enumerations.h"
 
 class Message;
 class Subscriber;
+
+enum class eMessage;
 
 class PostMaster
 {

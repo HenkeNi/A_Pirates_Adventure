@@ -1,5 +1,6 @@
 #pragma once
-#include "../DataTypes/Enumerations.h"
+
+enum class eScene;
 
 class SceneManager;
 

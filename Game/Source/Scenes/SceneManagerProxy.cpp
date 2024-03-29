@@ -1,6 +1,7 @@
 #include "Pch.h"
 #include "SceneManagerProxy.h"
 #include "SceneManager.h"
+#include "../DataTypes/Enumerations.h"
 
 
 SceneManagerProxy::SceneManagerProxy(SceneManager& sceneManager)

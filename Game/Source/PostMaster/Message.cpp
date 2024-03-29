@@ -1,5 +1,6 @@
 #include "Pch.h"
 #include "Message.h"
+#include "../DataTypes/Enumerations.h"
 
 
 Message::Message(eMessage messageType, const std::any& data)
