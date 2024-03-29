@@ -4,16 +4,25 @@
 
 
 ElapsedTimeCondition::ElapsedTimeCondition(float duration)
-	: m_start{ 0.f }, m_duration{ duration }
+	:  m_duration{ duration }, m_timestamp{ 0.0 }
 {
 }
 
 void ElapsedTimeCondition::Init()
 {
-	m_start = 0.f; // TODO: fix this with curent time?!  CU:TIMEr get elapsedTime???
+	// m_start = 0.f; // TODO: fix this with curent time?!  CU:TIMEr get elapsedTime???
 }
 
-bool ElapsedTimeCondition::IsSatisfied(float elapsedTime) const
+bool ElapsedTimeCondition::IsSatisfied(Entity* entity) const
 {
-	return elapsedTime >= (m_start + m_duration);
+	double currentTime = Hi_Engine::Engine::GetTimer().GetTotalTime();
+
+	return currentTime > m_timestamp + m_duration;
+
+	// return elapsedTime >= (m_start + m_duration);
+}
+
+void ElapsedTimeCondition::Reset()
+{
+	m_timestamp = Hi_Engine::Engine::GetTimer().GetTotalTime();
 }

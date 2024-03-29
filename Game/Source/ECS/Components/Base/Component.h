@@ -1,9 +1,9 @@
 #pragma once
-#include "PostMaster/PostMaster.h"
-#include "PostMaster/Message.h"
+//#include "PostMaster/PostMaster.h"
+//#include "PostMaster/Message.h"
 
-template <typename T>
-class ConcreteComponentBuilder;
+//template <typename T>
+//class ConcreteComponentBuilder;
 
 class Component
 {

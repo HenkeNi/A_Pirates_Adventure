@@ -7,9 +7,9 @@
 void WalkState::Init()
 {}
 
-void WalkState::Update(Entity* entity, float deltaTime)
+void WalkState::Update(Entity* entity)
 {
-	m_elapsedTime += deltaTime;
+ 	// m_elapsedTime += deltaTime;
 
 	//std::cout << "Walking..\n";
 
@@ -46,5 +46,5 @@ void WalkState::OnEnter()
 
 void WalkState::OnExit()
 {
-	std::cout << m_elapsedTime << "\n";
+	//std::cout << m_elapsedTime << "\n";
 }

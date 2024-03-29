@@ -1,5 +1,6 @@
 #pragma once
 
+class Entity;
 class Condition;
 class State;
 
@@ -13,10 +14,11 @@ public:
 	void	SetTargetState(State* state);
 	void	SetPriority(unsigned priority);
 
-	State*	GetTargetState()					const;
-	bool	ShouldTransit(float elapsedTime)	const;
+	State*	GetTargetState()				const;
+	bool	ShouldTransit(Entity* entity)	const;
 
-	void	Reset();
+	void	ResetCondition();
+	void	Clear();
 
 private:
 	Condition*	m_condition;	// vector of multiple conditions? std::function instead?

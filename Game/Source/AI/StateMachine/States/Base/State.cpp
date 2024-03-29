@@ -3,7 +3,7 @@
 
 
 State::State()
-	: m_elapsedTime{ 0.f }
+//	: m_elapsedTime{ 0.f }
 {
 }
 
@@ -11,20 +11,15 @@ State::~State()
 {
 	for (auto& transition : m_transitions)
 	{
-		transition.Reset();
+		transition.Clear();
 	}
 }
 
-void State::AddTransition(const Transition& transition)
-{
-	m_transitions.push_back(transition);
-}
-
-State* State::GetDesiredState()
+State* State::GetDesiredState(Entity* entity)
 {
 	for (auto& transition : m_transitions)
 	{
-		if (transition.ShouldTransit(m_elapsedTime))
+		if (transition.ShouldTransit(entity))
 		{
 			return transition.GetTargetState();
 		}
@@ -33,7 +28,16 @@ State* State::GetDesiredState()
 	return nullptr;
 }
 
+void State::AddTransition(const Transition& transition)
+{
+	m_transitions.push_back(transition);
+}
+
 void State::Reset()
 {
-	m_elapsedTime = 0.f;
+	//m_elapsedTime = 0.f;
+	for (auto& transition : m_transitions)
+	{
+		transition.ResetCondition();
+	}
 }

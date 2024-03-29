@@ -1,14 +1,5 @@
 #pragma once
 #include "../Base/SteeringBehavior.h"
-#include <Source/Utility/Math/Vectors/Vector.hpp> // NEEDED`?
-
-
-namespace CU = CommonUtilities;
-
-//namespace
-//{
-//	using Vec3 = CommonUtilities::Vector3<float>;
-//}
 
 class Entity;
 

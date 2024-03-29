@@ -53,7 +53,8 @@ enum class eMessage
 	// MapChunkCreated,
 	//MapChunkDestroyed
 
-	
+	// TEMP
+	EnemyAttacked
 };
 
 enum class eLayer

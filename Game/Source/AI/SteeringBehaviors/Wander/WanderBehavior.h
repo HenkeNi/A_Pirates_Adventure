@@ -1,10 +1,5 @@
 #pragma once
 #include "../Base/SteeringBehavior.h"
-//#include "Data/Structs.h"
-//#include "../../../Data/Structs.h"
-#include <Source/Utility/Math/Vectors/Vector.hpp> // NEEDED`?
-
-namespace CU = CommonUtilities;
 
 class WanderBehavior : public SteeringBehavior
 {

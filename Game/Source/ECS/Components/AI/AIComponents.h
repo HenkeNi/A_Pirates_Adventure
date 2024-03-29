@@ -3,6 +3,8 @@
 
 namespace CU = CommonUtilities;
 
+//#################### AI Components //####################//
+
 struct BlackboardComponent : public Component
 {
 	inline static CU::Vector2<float> PlayerPosition; // use std::any instead?
@@ -19,7 +21,6 @@ struct BehaviorTreeComponent : public Component
 	class BehaviorTreeNode* RootNode = nullptr;
 	// current node?
 };
-
 
 // TODO; Maybe only need SteeringBehaviorComponent (or have separate)?
 struct WanderBehaviorComponent : public Component

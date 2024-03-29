@@ -1,8 +1,7 @@
 #pragma once
 #include "../Base/Command.h"
-#include "Utility/Math/Vectors/Vector.hpp"
 
-namespace CU = CommonUtilities;
+//namespace CU = CommonUtilities;
 
 class MoveCommand : public Command	// derive from EntityCommand? (GlobalCommand)
 {

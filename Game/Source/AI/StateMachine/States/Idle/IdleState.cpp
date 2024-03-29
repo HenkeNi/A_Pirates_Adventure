@@ -7,9 +7,9 @@ void IdleState::Init()
 {
 }
 
-void IdleState::Update(Entity* entity, float deltaTime)
+void IdleState::Update(Entity* entity)
 {
-	m_elapsedTime += deltaTime; // Dont want to do this in every state...
+	// m_elapsedTime += deltaTime; // Dont want to do this in every state...
 
 	//std::cout << "Ideling..\n";
 	//std::cout << "Idle\n";
@@ -37,5 +37,5 @@ void IdleState::OnEnter()
 
 void IdleState::OnExit() 
 {
-	std::cout << m_elapsedTime << "\n";
+	// std::cout << m_elapsedTime << "\n";
 }

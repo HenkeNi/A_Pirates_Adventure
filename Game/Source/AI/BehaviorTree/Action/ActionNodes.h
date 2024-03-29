@@ -1,7 +1,7 @@
 #pragma once
 #include "../Base/BehaviorTreeNode.h"
 
-#include <functional>  // remove later...
+//#include <functional>  // remove later...
 // Maybe add an ActionNode base class??
 
 

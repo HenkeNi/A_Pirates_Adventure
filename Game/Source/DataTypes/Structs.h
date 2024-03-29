@@ -152,7 +152,11 @@ struct KeyStatus
 
 
 
-
+struct StateData
+{
+	class Entity* Owner;
+	float ElapsedTime;
+};
 
 
 //struct BaseComponentData

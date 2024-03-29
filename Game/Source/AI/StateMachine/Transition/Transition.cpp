@@ -4,7 +4,7 @@
 
 
 Transition::Transition()
-	: m_targetState{ nullptr }, m_priority{ 0 }
+	: m_condition{ nullptr }, m_targetState{ nullptr }, m_priority{ 0 }
 {
 }
 
@@ -33,12 +33,18 @@ State* Transition::GetTargetState() const
 	return m_targetState;
 }
 
-bool Transition::ShouldTransit(float elapsedTime) const
+bool Transition::ShouldTransit(Entity* entity) const
 {
-	return m_condition->IsSatisfied(elapsedTime);
+	return m_condition->IsSatisfied(entity);
 }
 
-void Transition::Reset()
+void Transition::ResetCondition()
+{
+	if (m_condition)
+		m_condition->Reset();
+}
+
+void Transition::Clear()
 {
 	if (m_condition)
 		delete m_condition;
