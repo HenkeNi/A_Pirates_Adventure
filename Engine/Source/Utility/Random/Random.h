@@ -1,4 +1,5 @@
 #pragma once
+#include "../../Data/Constants.h"
 
 namespace Random
 {
@@ -25,5 +26,17 @@ namespace Random
 
 		std::uniform_real_distribution<T> dis(min, max);
 		return dis(gen);
+	}
+
+	template <typename T>
+	CU::Vector2<T> GenerateRandomFloatingPointInRadius(const CU::Vector2<T>& center, T radius)
+	{
+		T angle = GenerateRandomFloatingPoint<T>(0.0, 2.0 * 3.14159);
+		T randomRadius = GenerateRandomFloatingPoint<T>(0.0, radius);
+
+		T x = center.x + randomRadius * cos(angle);
+		T y = center.y + randomRadius * sin(angle);
+
+		return CU::Vector2<T>{ x, y };
 	}
 }

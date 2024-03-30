@@ -176,7 +176,6 @@
     <ClInclude Include="Source\Scenes\Scenes.h" />
     <ClInclude Include="Source\Scenes\Title\TitleScene.h" />
     <ClInclude Include="Source\AI\SteeringBehaviors\Base\SteeringBehavior.h" />
-    <ClInclude Include="Source\AI\SteeringBehaviors\Wander\WanderBehavior.h" />
     <ClInclude Include="Source\AI\SteeringBehaviors\Wander\WanderSeekBehavior.h" />
     <ClInclude Include="Source\ECS\Systems\SystemManager.h" />
     <ClInclude Include="Source\ECS\Systems\Base\System.h" />
@@ -280,7 +279,6 @@
     </ClCompile>
     <ClCompile Include="Source\Scenes\Title\TitleScene.cpp" />
     <ClCompile Include="Source\AI\SteeringBehaviors\Base\SteeringBehavior.cpp" />
-    <ClCompile Include="Source\AI\SteeringBehaviors\Wander\WanderBehavior.cpp" />
     <ClCompile Include="Source\ECS\Systems\SystemManager.cpp" />
     <ClCompile Include="Source\ECS\Systems\Base\System.cpp" />
     <ClCompile Include="Source\ECS\Systems\Rendering\Animation\SpriteAnimationSystem.cpp" />

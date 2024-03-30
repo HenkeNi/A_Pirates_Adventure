@@ -110,6 +110,8 @@ void OverworldScene::OnEnter()
 
 	auto* skeleton = m_entityManager.Create("skeleton");
 
+	auto* crab = m_entityManager.Create("crab");
+
 	auto* caveEntrance = m_entityManager.Create("cave_entrance");
 	caveEntrance->GetComponent<TransformComponent>()->CurrentPos = { 2.f, 2.f };
 

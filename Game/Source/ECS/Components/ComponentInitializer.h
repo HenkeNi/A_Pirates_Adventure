@@ -13,7 +13,7 @@
 #include "../Commands/Inventory/OpenInventoryCommand.h"
 
 #include "../AI/SteeringBehaviors/Flock/FlockBehavior.h"
-#include "../AI/SteeringBehaviors/Wander/WanderBehavior.h"
+// #include "../AI/SteeringBehaviors/Wander/WanderBehavior.h"
 
 #include "../AI/StateMachine/States/Idle/IdleState.h"
 #include "../AI/StateMachine/States/Walk/WalkState.h"
@@ -313,7 +313,7 @@ public:
 		}
 		if (behaviorType == "wander_behavior")
 		{
-			component->ActiveBehavior = new WanderBehavior{};
+			// component->ActiveBehavior = new WanderBehavior{};
 			component->Layer = layer;
 		}
 	}
@@ -404,7 +404,8 @@ public:
 	template <>
 	static void InitializeComponent<WanderBehaviorComponent>(WanderBehaviorComponent* component, const ECS::ComponentData& data)
 	{
-		component->Behavior = new WanderBehavior{}; // Don't new....
+		// component->Behavior = new WanderBehavior{}; // Don't new....
+		//component->Behavior = new WanderBehavior{}; // Don't new....
 	}
 
 	template <>

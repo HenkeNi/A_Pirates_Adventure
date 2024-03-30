@@ -16,4 +16,5 @@ private:
 	void UpdateFlockBehavior(float deltaTime);
 	void UpdateSeekBehavior(float deltaTime);
 	void UpdateFleeBehavior(float deltaTime);
+
 };

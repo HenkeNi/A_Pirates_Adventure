@@ -5,7 +5,7 @@
 #include "Components/AI/AIComponents.h"
 
 #include "../AI/SteeringBehaviors/Flock/FlockBehavior.h"
-#include "../AI/SteeringBehaviors/Wander/WanderBehavior.h"
+// #include "../AI/SteeringBehaviors/Wander/WanderBehavior.h"
 
 SteeringBehaviorSystem::SteeringBehaviorSystem()
 {
@@ -36,50 +36,80 @@ void SteeringBehaviorSystem::UpdateWanderBehavior(float deltaTime)
 
 	for (auto entity : entities)
 	{
-		auto* behaviorComponent = entity->GetComponent<WanderBehaviorComponent>();
+		auto* transformComponent = entity->GetComponent<TransformComponent>();
+		auto* wanderComponent = entity->GetComponent<WanderBehaviorComponent>();
+
+		const auto& currentPosition = transformComponent->CurrentPos;
+
+		wanderComponent->ElapsedTime += deltaTime;
+		if (wanderComponent->ElapsedTime > wanderComponent->WalkDuration)
+		{
+			wanderComponent->Target = Random::GenerateRandomFloatingPointInRadius<float>(currentPosition, 200.f);
+			wanderComponent->ElapsedTime = 0.f;
+		}
+
+		static const float maxVelocity = 5.f;
+		static const float maxForce = 5.f;
+		static const float maxSpeed = 2.5f;
+
+		CU::Vector2<float> desiredDirection = { wanderComponent->Target - transformComponent->CurrentPos };
+		desiredDirection.Normalize();
+		
 		auto* velocityComponent = entity->GetComponent<VelocityComponent>();
 
-		if (auto* activeBehavior = behaviorComponent->Behavior)
-		{
-			activeBehavior->Update(deltaTime);
-			
-			auto currentVelocity = velocityComponent->Velocity;
-			auto steeringForce = activeBehavior->GetSteeringForce(currentVelocity);
+		//CU::Vector2<float> desiredVelocity = (randomPosition - transformComponent->CurrentPos) * maxVelocity;
+		CU::Vector2<float> desiredVelocity = desiredDirection * maxVelocity;
+		CU::Vector2<float> steering = desiredVelocity - velocityComponent->Velocity;
+
+
+		steering.x = CommonUtilities::Min(steering.x, maxForce);	
+		steering.y = CommonUtilities::Min(steering.y, maxForce);
+
+		velocityComponent->Velocity.x = CommonUtilities::Min(velocityComponent->Velocity.x + steering.x, maxSpeed);
+		velocityComponent->Velocity.y = CommonUtilities::Min(velocityComponent->Velocity.y + steering.y, maxSpeed);
+
+		continue;
 
 
 
 
-			static float maxForce = 30.f; // MaxVelocity in Movmenet??
-			static float maxSpeed = 60.f;
-			static float mass = 20.f;
 
-			if (steeringForce.Length() > maxForce)
-			{
-				steeringForce.Normalize();
-				steeringForce *= maxForce;
-			}
 
-			steeringForce /= mass;
+		//auto* behaviorComponent = entity->GetComponent<WanderBehaviorComponent>();
+		//auto* velocityComponent = entity->GetComponent<VelocityComponent>();
 
-			auto combined = currentVelocity + steeringForce;
-			if (combined.Length() > maxSpeed)
-			{
-				combined.Normalize();
-				combined *= maxSpeed;
-			}
-
-			//std::cout << "combined: " << combined.x << ", " << combined.y << ", " << combined.z << '\n';
-			velocityComponent->Velocity = combined;
+		//if (auto* activeBehavior = behaviorComponent->Behavior)
+		//{
+		//	activeBehavior->Update(deltaTime);
+		//	
+		//	auto currentVelocity = velocityComponent->Velocity;
+		//	auto steeringForce = activeBehavior->GetSteeringForce(currentVelocity);
 
 
 
-			// how to update position? => movement?
 
-			//m_activebehavior->update(transform->m_currposition); // use desired position later..??
+		//	//static float maxForce = 30.f; // MaxVelocity in Movmenet??
+		//	//static float maxSpeed = 60.f;
+		//	static float mass = 20.f;
 
+		//	if (steeringForce.Length() > maxForce)
+		//	{
+		//		steeringForce.Normalize();
+		//		steeringForce *= maxForce;
+		//	}
 
+		//	steeringForce /= mass;
 
-		}
+		//	auto combined = currentVelocity + steeringForce;
+		//	if (combined.Length() > maxSpeed)
+		//	{
+		//		combined.Normalize();
+		//		combined *= maxSpeed;
+		//	}
+
+		//	velocityComponent->Velocity = combined;
+
+		//}
 	}
 }
 

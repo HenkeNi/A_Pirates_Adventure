@@ -15,7 +15,7 @@
       {
         "type": "velocity",
         "properties": {
-          "speed": 1.0
+          "speed": 0.25
         }
       },
       {
