@@ -1,7 +1,5 @@
 #pragma once
 
-
-
 /* - Standard Library includes - */
 #include <algorithm>
 #include <any>

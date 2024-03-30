@@ -20,7 +20,7 @@ void SceneManager::Receive(Message& message)
 {
 	auto sceneType = std::any_cast<eScene>(message.GetData());
 	
-	if (!m_scenes.contains(sceneType))
+	if (!m_registeredScenes.contains(sceneType))
 		return;
 
 	
@@ -45,9 +45,9 @@ void SceneManager::Receive(Message& message)
 	}
 }
 
-void SceneManager::Init(std::initializer_list<eScene> scenes)
+void SceneManager::Init(const std::initializer_list<eScene>& scenes)
 {
-	for (auto& scene : m_scenes)
+	for (auto& scene : m_registeredScenes)
 		scene.second->OnCreated();
 
 	for (const auto scene : scenes)
@@ -75,7 +75,7 @@ void SceneManager::Init(std::initializer_list<eScene> scenes)
 //	//m_sceneStack.Push(eScene::Title);
 //
 //	LoadScenes();
-//	m_scenes[m_sceneStack.Top()]->OnEnter();
+//	m_registeredScenes[m_sceneStack.Top()]->OnEnter();
 //}
 
 std::shared_ptr<Scene> SceneManager::GetActiveScene()
@@ -83,7 +83,7 @@ std::shared_ptr<Scene> SceneManager::GetActiveScene()
 	if (m_stack.IsEmpty()) // OR Return menu scene??
 		return nullptr;
 
-	return m_scenes[m_stack.Top()];
+	return m_registeredScenes[m_stack.Top()];
 }
 
 std::shared_ptr<const Scene> SceneManager::GetActiveScene() const
@@ -91,7 +91,7 @@ std::shared_ptr<const Scene> SceneManager::GetActiveScene() const
 	if (m_stack.IsEmpty())
 		return nullptr;
 
-	return m_scenes.at(m_stack.Top());
+	return m_registeredScenes.at(m_stack.Top());
 }
 
 
@@ -100,27 +100,27 @@ void SceneManager::Push(eScene type)
 {
 	if (!m_stack.IsEmpty())
 	{
-		m_scenes[m_stack.Top()]->OnExit();
+		m_registeredScenes[m_stack.Top()]->OnExit();
 	}
 
 	m_stack.Push(type);
 	
 	TransitionToScene(m_stack.Top());
-	//m_scenes[m_stack.Top()]->OnEnter();
+	//m_registeredScenes[m_stack.Top()]->OnEnter();
 }
 
 void SceneManager::Pop()
 {
 	if (!m_stack.IsEmpty())
 	{
-		m_scenes[m_stack.Top()]->OnExit();
+		m_registeredScenes[m_stack.Top()]->OnExit();
 		m_stack.Pop();
 
 		if (m_stack.IsEmpty())
 			int x = 10;
 
 		TransitionToScene(m_stack.Top());
-		//m_scenes[m_stack.Top()]->OnEnter();
+		//m_registeredScenes[m_stack.Top()]->OnEnter();
 	}
 }
 
@@ -128,19 +128,19 @@ void SceneManager::SwapTo(eScene type)
 {
 	if (!m_stack.IsEmpty())
 	{
-		m_scenes[m_stack.Top()]->OnExit();
+		m_registeredScenes[m_stack.Top()]->OnExit();
 		m_stack.Pop();
 	}
 
 	m_stack.Push(type);
 	
 	TransitionToScene(type);
-	//m_scenes[m_stack.Top()]->OnEnter();
+	//m_registeredScenes[m_stack.Top()]->OnEnter();
 }
 
 void SceneManager::Clear()
 {
-	for (auto& scene : m_scenes)
+	for (auto& scene : m_registeredScenes)
 	{
 		if (scene.second)
 			scene.second->OnDestroyed();
@@ -152,7 +152,7 @@ void SceneManager::Clear()
 void SceneManager::TransitionToScene(eScene type)
 {
 	//m_stack.Push(type);
-	m_scenes[type]->OnEnter();
+	m_registeredScenes[type]->OnEnter();
 
 	if (m_paths.contains(type))
 		LoadEntities(m_paths[type]);
@@ -162,7 +162,7 @@ void SceneManager::TransitionToScene(eScene type)
 //{
 //	if (!IsEmpty()) 
 //	{  
-//		m_scenes[m_sceneStack.Top()]->Update(aDeltaTime);
+//		m_registeredScenes[m_sceneStack.Top()]->Update(aDeltaTime);
 //	}
 //}
 //
@@ -170,7 +170,7 @@ void SceneManager::TransitionToScene(eScene type)
 //{
 //	if (!IsEmpty()) 
 //	{
-//		m_scenes[m_sceneStack.Top()]->LateUpdate(aDeltaTime);
+//		m_registeredScenes[m_sceneStack.Top()]->LateUpdate(aDeltaTime);
 //	}
 //}
 
@@ -178,15 +178,15 @@ void SceneManager::TransitionToScene(eScene type)
 //{
 //	if (!IsEmpty()) 
 //	{ 
-//		const auto iterator = m_scenes.find(m_sceneStack.Top());
-//		if (iterator != m_scenes.end())
+//		const auto iterator = m_registeredScenes.find(m_sceneStack.Top());
+//		if (iterator != m_registeredScenes.end())
 //		{
 //			// TODO;
 //			// Always render the game scene if the scene is transparent?? or render all scenes in the stack...
 //			if (iterator->second->IsTransparent() && m_sceneStack.Top() != eScene::Game)
 //			{
-//				auto gameSceneItr = m_scenes.find(eScene::Game);
-//				if (gameSceneItr != m_scenes.end())
+//				auto gameSceneItr = m_registeredScenes.find(eScene::Game);
+//				if (gameSceneItr != m_registeredScenes.end())
 //				{
 //					gameSceneItr->second->Draw();
 //				}
@@ -260,10 +260,7 @@ void SceneManager::LoadEntities(const std::string& aPath)
 
 		// Get entity manager from current scene? make scene manager a friend class?
 
-		int x = 10;
-		x += 10;
 	}
-
 
 	// Store data
 
@@ -271,10 +268,4 @@ void SceneManager::LoadEntities(const std::string& aPath)
 	// pass in data 
 
 	// Call the component-initialize?
-
-
-
-
-
 }
-

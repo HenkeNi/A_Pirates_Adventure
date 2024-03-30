@@ -8,33 +8,27 @@ enum class eScenen;
 class Scene;
 
 // REMOVE empty namespace?
-namespace
+namespace Utility
 {
 	using Scenes = std::unordered_map<eScene, std::shared_ptr<Scene>>;
-
-	using MutableScene	 = std::shared_ptr<Scene>;
-	using ImmutableScene = std::shared_ptr<const Scene>;
 }
 
 class SceneManager : public Subscriber
 {
+private:
+
 public:
 	SceneManager();
 	~SceneManager();
 
-	// LoadScene("MainMenu"	);
 	void Receive(Message& message) override;
 
 	template <typename T, typename... Args>
 	void Register(eScene type, Args&&... args);
-	void Init(std::initializer_list<eScene> scenes);
+	void Init(const std::initializer_list<eScene>& scenes);
 
-	//void Init(int aSceneSet);					
-	//void Register(MutableScene scene, eScene type); // pass in path?
-	
-	MutableScene GetActiveScene();
-	ImmutableScene GetActiveScene() const;
-
+	std::shared_ptr<Scene> GetActiveScene();
+	std::shared_ptr<const Scene> GetActiveScene() const;
 
 	void Push(eScene type);
 	void Pop();
@@ -43,15 +37,15 @@ public:
 
 	void TransitionToScene(eScene type);
 
-
 	// Scene& GetActiveScene();
 	// void LoadScene();
+	// LoadScene("MainMenu"	);
 	// void UnloadScene()
 
 private:
 	void LoadEntities(const std::string& aPath);
-	
-	Scenes				m_scenes; // m_registeredScenes
+
+	Utility::Scenes		m_registeredScenes; // m_registeredScenes
 	CU::Stack<eScene>	m_stack;
 	//std::vector<eScene> m_currentScenes;
 
@@ -63,7 +57,7 @@ private:
 template <typename T, typename... Args>
 void SceneManager::Register(eScene type, Args&&... args)
 {
-	m_scenes.insert({ type, std::make_shared<T>(std::forward<Args>(args)...) });
+	m_registeredScenes.insert({ type, std::make_shared<T>(std::forward<Args>(args)...) });
 }
 
 #pragma endregion Method_Definitions

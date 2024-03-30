@@ -26,7 +26,7 @@ namespace Hi_Engine
 
 
 
-		// Here?
+		// Here? make static in font class?
 		static float CalculateTextWidth(const std::string& text, class Font* font, float scale);
 
 		float GetTextStartPosition(const TextRenderData& data);

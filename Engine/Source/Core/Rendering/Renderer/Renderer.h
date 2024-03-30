@@ -25,7 +25,7 @@ namespace Hi_Engine
 		void ProcessCommands();
 		void Reset();
 
-		void DrawSprite(const SpriteRenderData& data);
+		void DrawSprite(const SpriteRenderData& data); // RenderData RenderInfo RenderSPecs RenderCOnfigs
 		void DrawQuad(const QuadRenderData& data);
 
 
