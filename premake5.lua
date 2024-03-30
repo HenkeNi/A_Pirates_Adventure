@@ -49,6 +49,10 @@ project "Engine"
 	includedirs
 	{
 		"%{prj.name}/Source",
+		"%{prj.name}/Source/Core",
+		"%{prj.name}/Source/Data",
+		"%{prj.name}/Source/Precompiled",
+		"%{prj.name}/Source/Utility",
 		"%{IncludeDir.FastNoise}",
 		"%{IncludeDir.FreeType}",
 		"%{IncludeDir.GLEW}",
@@ -100,6 +104,7 @@ project "Game"
 	includedirs
 	{
 		"%{prj.name}/Source",
+		 "%{prj.name}/../Engine/Hi_Engine.h",
 		"%{IncludeDir.glm}"
 	}
 
