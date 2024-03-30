@@ -5,8 +5,8 @@ workspace "A_Pirates_Adventure"
 	startproject "Launcher"
 
     -- Set output directories for binaries
-	outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
-	
+	outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"	
+
 -- Engine Project
 project "Engine"
 	location "Engine"
@@ -48,7 +48,8 @@ project "Engine"
 	-- (C++/General -> Additional Include Directories)
 	includedirs
 	{
-		"%{prj.name}/Source",
+		"%{prj.name}/",
+		"%{prj.name}/Source/",
 		"%{prj.name}/Source/Core",
 		"%{prj.name}/Source/Data",
 		"%{prj.name}/Source/Precompiled",
@@ -94,18 +95,27 @@ project "Game"
 	pchheader "Pch.h"
 	pchsource "Game/Source/Precompiled/Pch.cpp"
 
-	files
-	{
-		"%{prj.name}/Source/**.h",
-		"%{prj.name}/Source/**.hpp",
-		"%{prj.name}/Source/**.cpp"
-	}
+	files { "%{prj.name}/Source/**.h", "%{prj.name}/Source/**.hpp", "%{prj.name}/Source/**.cpp" }
 
 	includedirs
 	{
+		"ThirdParty/GLEW/include",
+		"ThirdParty/GLFW/include",
+		"ThirdParty/FreeType/include",
+		"ThirdParty/FastNoise/",
+		"ThirdParty/glm",
+		"Engine/Hi_Engine.h",
 		"%{prj.name}/Source",
-		 "%{prj.name}/../Engine/Hi_Engine.h",
-		"%{IncludeDir.glm}"
+		"%{prj.name}/Source/AI",
+		"%{prj.name}/Source/Commands",
+		"%{prj.name}/Source/DataTypes",
+		"%{prj.name}/Source/ECS",
+		"%{prj.name}/Source/Gameplay",
+		"%{prj.name}/Source/PostMaster",
+		"%{prj.name}/Source/Precompiled",
+		"%{prj.name}/Source/Registration",
+		"%{prj.name}/Source/Scenes",
+		"%{prj.name}/Source/Utility",
 	}
 
 	links
@@ -148,13 +158,28 @@ project "Launcher"
 
 	includedirs
 	{
-		"%{prj.name}/ThirdParty/FreeType/include",
-		"%{prj.name}/ThirdParty/GLEW/include",
-		"%{prj.name}/ThirdParty/GLFW/include",
-		"%{prj.name}/ThirdParty/glm",
-		"%{prj.name}/ThirdParty/rapidjson",
-		"%{prj.name}/ThirdParty/stb_image",
-		"Engine/Source"
+		"ThirdParty/FreeType/include",
+		"ThirdParty/GLEW/include",
+		"ThirdParty/GLFW/include/",
+		"ThirdParty/glm",
+		--"ThirdParty/rapidjson",
+		--"ThirdParty/stb_image",
+		"Engine/Source",
+		"Game/Source",
+		"%{prj.name}/Source/Precompiled"
+	}
+
+	-- (Linker/General -> Additional Library Directories)
+	libdirs
+	{
+		"ThirdParty/FreeType/lib",
+        "ThirdParty/GLEW/lib/Release/x64/",
+        "ThirdParty/GLFW/lib-vc2022/",
+		--"Bin/" .. outputdir .."/Game",
+		--"Bin/" .. outputdir .."/Engine",
+        --"ThirdParty/glm",
+        --"ThirdParty/rapidjson",
+        --"ThirdParty/stb_image",
 	}
 
 	-- (Linker/Input -> Additional Dependencies)
@@ -164,10 +189,10 @@ project "Launcher"
 		"Game",
 
 		-- External libraries
-		"freetype",
-		"opengl32",
-		"glew32s",
-		"glfw3"
+		"opengl32.lib",
+		"glew32s.lib",
+		"glfw3.lib",
+		"freetype.lib"
 	}
 
 	filter "system:windows"
