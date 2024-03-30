@@ -3,7 +3,7 @@ project "Engine"
 	kind "StaticLib"
 	language "C++"
 	cppdialect "C++20"
-	staticruntime "on"
+	staticruntime "On"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -14,12 +14,14 @@ project "Engine"
 	files
 	{
 		"%{prj.name}/Source/**.h",
+		"%{prj.name}/Source/**.hpp",
 		"%{prj.name}/Source/**.cpp",
 	}
 
 
 	-- Include directories are relative to root folder (solution directory)  (Creates a table)
 	IncludeDir = {}
+	IncludeDir["FastNoise"]  = "ThirdParty/FastNoise"
 	IncludeDir["FreeType"]  = "ThirdParty/FreeType/include"
 	IncludeDir["rapidjson"] = "ThirdParty/rapidjson"
 	IncludeDir["stb_image"] = "ThirdParty/stb_image"
@@ -42,6 +44,7 @@ project "Engine"
 	includedirs
 	{
 		"%{prj.name}/Source",
+		"%{IncludeDir.FastNoise}",
 		"%{IncludeDir.FreeType}",
 		"%{IncludeDir.GLEW}",
 		"%{IncludeDir.GLFW}",
@@ -76,5 +79,5 @@ project "Engine"
 		optimize "on"
 
 	filter "configurations:Dist"
-		runtime "Release"
+		runtime "Distribution"
 		optimize "on"

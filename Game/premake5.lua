@@ -3,7 +3,7 @@ project "Game"
 	kind "StaticLib"
  	language "C++"
 	cppdialect "C++20"
-	staticruntime "on"
+	staticruntime "On"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -14,9 +14,9 @@ project "Game"
 	files
 	{
 		"%{prj.name}/Source/**.h",
+		"%{prj.name}/Source/**.hpp",
 		"%{prj.name}/Source/**.cpp"
 	}
-
 
 	includedirs
 	{
@@ -26,7 +26,7 @@ project "Game"
 
 	links
 	{
-		"Engine" -- needs to reference engien (but not other way around...)
+		"Engine"
 	}
 
 	filter "system:windows"
