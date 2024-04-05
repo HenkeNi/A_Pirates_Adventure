@@ -467,3 +467,16 @@ public:
 		return new T{};
 	}
 };
+
+
+
+
+
+
+
+
+
+
+
+
+TextureMappingSystem`??

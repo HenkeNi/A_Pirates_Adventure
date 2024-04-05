@@ -6,6 +6,7 @@
 #include "Components/AI/AIComponents.h"
 #include "Components/Core/CoreComponents.h"
 #include "Components/Map/MapComponents.h"
+#include <FastNoiseLite.h>
 
 
 
