@@ -3,19 +3,19 @@ workspace "A_Pirates_Adventure"
 	configurations { "Debug", "Release" }
 	architecture "x64"
 	startproject "Launcher"
+	language "C++"
+	cppdialect "C++20"
 
-    -- Set output directories for binaries
+    -- Output directories
 	outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"	
+
 
 -- Engine Project
 project "Engine"
 	location "Engine"
 	kind "StaticLib"
-	language "C++"
-	cppdialect "C++20"
 	staticruntime "on"
 
-	targetname ("%{prj.name}")
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
@@ -26,51 +26,63 @@ project "Engine"
 
 	-- Include directories are relative to root folder (solution directory)  (Creates a table)
 	IncludeDir = {}
-	IncludeDir["FastNoise"]  = "ThirdParty/FastNoise"
-	IncludeDir["FreeType"]   = "ThirdParty/FreeType/include"
+	IncludeDir["GLFW"]		 = "ThirdParty/GLFW/include"
+	IncludeDir["GLEW"]		 = "ThirdParty/GLEW/include"
 	IncludeDir["rapidjson"]  = "ThirdParty/rapidjson"
 	IncludeDir["stb_image"]  = "ThirdParty/stb_image"
-	IncludeDir["GLEW"]		 = "ThirdParty/GLEW/include"
-	IncludeDir["GLFW"]		 = "ThirdParty/GLFW/include"
+	--IncludeDir["FreeType"]   = "ThirdParty/FreeType/include"
+	IncludeDir["FastNoise"]  = "ThirdParty/FastNoise"
 	IncludeDir["glm"]		 = "ThirdParty/glm"
 
-	-- group "Dependencies"
-	-- include "ThirdParty/GLEW"
-	-- include "ThirdParty/GLFW" 
-	-- group ""
-
 	-- (C++/Preprocessor -> Preprocessor Definitions)
-	defines
-	{
-		"GLEW_STATIC"
-	}
+	defines { "GLEW_STATIC" }
 
 	-- (C++/General -> Additional Include Directories)
 	includedirs
 	{
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.GLEW}",
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.FastNoise}",
+		--"%{IncludeDir.FreeType}",
+		"%{IncludeDir.rapidjson}",
+		"%{IncludeDir.stb_image}",
 		"%{prj.name}/",
 		"%{prj.name}/Source/",
 		"%{prj.name}/Source/Core",
 		"%{prj.name}/Source/Data",
 		"%{prj.name}/Source/Precompiled",
-		"%{prj.name}/Source/Utility",
-		"%{IncludeDir.FastNoise}",
-		"%{IncludeDir.FreeType}",
-		"%{IncludeDir.GLEW}",
-		"%{IncludeDir.GLFW}",
-		"%{IncludeDir.glm}",
-		"%{IncludeDir.rapidjson}",
-		"%{IncludeDir.stb_image}"
+		"%{prj.name}/Source/Utility"
+	}
+	
+	libdirs
+	{
+        "ThirdParty/GLFW/lib-vc2022/",
+        "ThirdParty/GLEW/lib/Release/x64/",
+		--"ThirdParty/FreeType/lib/",
+        --"ThirdParty/glm",
+        --"ThirdParty/rapidjson",
+        --"ThirdParty/stb_image",
+	}
+
+	-- (Linker/Input -> Additional Dependencies)
+	links
+	{
+		-- External libraries
+		"glfw3_mt",
+		"glew32s",
+		"opengl32",
+		--"freetype",
+
+		"gdi32",      -- For GLFW on Windows
+	    "user32",     -- For GLFW on Windows
+		"kernel32",   -- For GLFW on Windows
+		"ole32"       -- For GLFW on Windows
 	}
 
 	filter "system:windows"
 		systemversion "latest"
 	
-		defines
-		{
-			"GLEW_STATIC"
-		}
-
 	filter "configurations:Debug"
 		runtime "Debug"
 		symbols "on"
@@ -84,11 +96,9 @@ project "Engine"
 project "Game"
 	location "Game"
 	kind "StaticLib"
- 	language "C++"
-	cppdialect "C++20"
 	staticruntime "On"
 
-	targetname ("%{prj.name}")
+	--targetname ("%{prj.name}")
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
@@ -139,11 +149,9 @@ project "Game"
 project "Launcher"
 	location "Launcher"
 	kind "ConsoleApp"
-	language "C++"
-	cppdialect "C++20"
 	staticruntime "on"
 
-	targetname ("%{prj.name}")
+	--targetname ("%{prj.name}")
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
@@ -158,9 +166,9 @@ project "Launcher"
 
 	includedirs
 	{
-		"ThirdParty/FreeType/include",
+		--"ThirdParty/FreeType/include",
 		"ThirdParty/GLEW/include",
-		"ThirdParty/GLFW/include/",
+		--"ThirdParty/GLFW/include/",
 		"ThirdParty/glm",
 		--"ThirdParty/rapidjson",
 		--"ThirdParty/stb_image",
@@ -169,30 +177,28 @@ project "Launcher"
 		"%{prj.name}/Source/Precompiled"
 	}
 
+	--linkGLFW()
+
+	--defines
+	--{
+	--	"GLEW_STATIC"
+	--}
 	-- (Linker/General -> Additional Library Directories)
+		
 	libdirs
 	{
-		"ThirdParty/FreeType/lib",
-        "ThirdParty/GLEW/lib/Release/x64/",
-        "ThirdParty/GLFW/lib-vc2022/",
-		--"Bin/" .. outputdir .."/Game",
-		--"Bin/" .. outputdir .."/Engine",
+		--"ThirdParty/FreeType/lib",
+        --"ThirdParty/GLEW/lib/Release/x64/",
+        --"ThirdParty/GLFW/lib-vc2022/",
         --"ThirdParty/glm",
         --"ThirdParty/rapidjson",
         --"ThirdParty/stb_image",
 	}
 
-	-- (Linker/Input -> Additional Dependencies)
 	links
 	{
 		"Engine",
-		"Game",
-
-		-- External libraries
-		"opengl32.lib",
-		"glew32s.lib",
-		"glfw3.lib",
-		"freetype.lib"
+		"Game"
 	}
 
 	filter "system:windows"
