@@ -59,30 +59,27 @@ project "Engine"
 	{
         "ThirdParty/GLFW/lib-vc2022/",
         "ThirdParty/GLEW/lib/Release/x64/",
-		--"ThirdParty/FreeType/lib/"
-        --"ThirdParty/glm",
-        --"ThirdParty/rapidjson",
-        --"ThirdParty/stb_image",
 	}
 
 	-- (Linker/Input -> Additional Dependencies)
 	links
 	{
-		-- External libraries
 		"glfw3_mt",
 		"glew32s",
 		"opengl32",
-		"freetype",
-
-		"gdi32",      -- For GLFW on Windows
-	    "user32",     -- For GLFW on Windows
-		"kernel32",   -- For GLFW on Windows
-		"ole32"       -- For GLFW on Windows
+		"freetype", 
 	}
 
 	filter "system:windows"
 		systemversion "latest"
-	
+		links
+		{
+			"gdi32",
+			"user32",
+			"kernel32",
+			"ole32"
+		}
+
 	filter "configurations:Debug"
 		runtime "Debug"
 		symbols "on"
@@ -100,7 +97,6 @@ project "Game"
 	kind "StaticLib"
 	staticruntime "On"
 
-	--targetname ("%{prj.name}")
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
@@ -111,8 +107,6 @@ project "Game"
 
 	includedirs
 	{
-		"ThirdParty/GLEW/include",
-		"ThirdParty/GLFW/include",
 		"ThirdParty/FreeType/include",
 		"ThirdParty/FastNoise/",
 		"ThirdParty/glm",
@@ -153,7 +147,6 @@ project "Launcher"
 	kind "ConsoleApp"
 	staticruntime "on"
 
-	--targetname ("%{prj.name}")
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
@@ -169,34 +162,12 @@ project "Launcher"
 	includedirs
 	{
 		"ThirdParty/FreeType/include",
-		"ThirdParty/GLEW/include",
-		--"ThirdParty/GLFW/include/",
 		"ThirdParty/glm",
-		--"ThirdParty/rapidjson",
-		--"ThirdParty/stb_image",
 		"Engine/Source",
 		"Game/Source",
 		"%{prj.name}/Source/Precompiled"
 	}
-
-	--linkGLFW()
-
-	--defines
-	--{
-	--	"GLEW_STATIC"
-	--}
-	-- (Linker/General -> Additional Library Directories)
 		
-	libdirs
-	{
-		--"ThirdParty/FreeType/lib",
-        --"ThirdParty/GLEW/lib/Release/x64/",
-        --"ThirdParty/GLFW/lib-vc2022/",
-        --"ThirdParty/glm",
-        --"ThirdParty/rapidjson",
-        --"ThirdParty/stb_image",
-	}
-
 	links
 	{
 		"Engine",
