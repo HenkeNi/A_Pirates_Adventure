@@ -30,7 +30,7 @@ project "Engine"
 	IncludeDir["GLEW"]		 = "ThirdParty/GLEW/include"
 	IncludeDir["rapidjson"]  = "ThirdParty/rapidjson"
 	IncludeDir["stb_image"]  = "ThirdParty/stb_image"
-	--IncludeDir["FreeType"]   = "ThirdParty/FreeType/include"
+	IncludeDir["FreeType"]   = "ThirdParty/FreeType/include"
 	IncludeDir["FastNoise"]  = "ThirdParty/FastNoise"
 	IncludeDir["glm"]		 = "ThirdParty/glm"
 
@@ -44,7 +44,7 @@ project "Engine"
 		"%{IncludeDir.GLEW}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.FastNoise}",
-		--"%{IncludeDir.FreeType}",
+		"%{IncludeDir.FreeType}",
 		"%{IncludeDir.rapidjson}",
 		"%{IncludeDir.stb_image}",
 		"%{prj.name}/",
@@ -59,7 +59,7 @@ project "Engine"
 	{
         "ThirdParty/GLFW/lib-vc2022/",
         "ThirdParty/GLEW/lib/Release/x64/",
-		--"ThirdParty/FreeType/lib/",
+		--"ThirdParty/FreeType/lib/"
         --"ThirdParty/glm",
         --"ThirdParty/rapidjson",
         --"ThirdParty/stb_image",
@@ -72,7 +72,7 @@ project "Engine"
 		"glfw3_mt",
 		"glew32s",
 		"opengl32",
-		--"freetype",
+		"freetype",
 
 		"gdi32",      -- For GLFW on Windows
 	    "user32",     -- For GLFW on Windows
@@ -86,10 +86,12 @@ project "Engine"
 	filter "configurations:Debug"
 		runtime "Debug"
 		symbols "on"
+		libdirs { "ThirdParty/FreeType/lib/Debug" }
 
 	filter "configurations:Release"
 		runtime "Release"
 		optimize "on"
+		libdirs { "ThirdParty/FreeType/lib/Release" }
 
 
 -- Game Project
@@ -166,7 +168,7 @@ project "Launcher"
 
 	includedirs
 	{
-		--"ThirdParty/FreeType/include",
+		"ThirdParty/FreeType/include",
 		"ThirdParty/GLEW/include",
 		--"ThirdParty/GLFW/include/",
 		"ThirdParty/glm",
