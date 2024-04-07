@@ -17,11 +17,17 @@
 *.user
 *.sln.docstates
 
+# Folders
+bin/
+bin-int/
+
 # Visual Studio files
 .vs/
 *.vcxproj.filters
 *.vcxproj.user
 *.vcxproj.*.user
+*.sln
+*.vcxproj
 
 # CMake files
 CMakeLists.txt.user
