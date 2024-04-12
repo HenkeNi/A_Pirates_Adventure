@@ -33,6 +33,7 @@ project "Engine"
 	IncludeDir["FreeType"]   = "ThirdParty/FreeType/include"
 	IncludeDir["FastNoise"]  = "ThirdParty/FastNoise"
 	IncludeDir["glm"]		 = "ThirdParty/glm"
+	IncludeDir["irrKlang"]	 = "ThirdParty/irrKlang/include"
 
 	-- (C++/Preprocessor -> Preprocessor Definitions)
 	defines { "GLEW_STATIC" }
@@ -47,6 +48,7 @@ project "Engine"
 		"%{IncludeDir.FreeType}",
 		"%{IncludeDir.rapidjson}",
 		"%{IncludeDir.stb_image}",
+		"%{IncludeDir.irrKlang}",
 		"%{prj.name}/",
 		"%{prj.name}/Source/",
 		"%{prj.name}/Source/Core",
@@ -59,6 +61,7 @@ project "Engine"
 	{
         "ThirdParty/GLFW/lib-vc2022/",
         "ThirdParty/GLEW/lib/Release/x64/",
+		"ThirdParty/irrKlang/lib/"
 	}
 
 	-- (Linker/Input -> Additional Dependencies)
@@ -67,7 +70,8 @@ project "Engine"
 		"glfw3_mt",
 		"glew32s",
 		"opengl32",
-		"freetype", 
+		"freetype",
+		"irrKlang"
 	}
 
 	filter "system:windows"
@@ -83,12 +87,18 @@ project "Engine"
 	filter "configurations:Debug"
 		runtime "Debug"
 		symbols "on"
-		libdirs { "ThirdParty/FreeType/lib/Debug" }
+		libdirs 
+		{ 
+			"ThirdParty/FreeType/lib/Debug", 
+		}
 
 	filter "configurations:Release"
 		runtime "Release"
 		optimize "on"
-		libdirs { "ThirdParty/FreeType/lib/Release" }
+		libdirs 
+		{ 
+			"ThirdParty/FreeType/lib/Release",
+		}
 
 
 -- Game Project
@@ -172,6 +182,11 @@ project "Launcher"
 	{
 		"Engine",
 		"Game"
+	}
+
+	postbuildcommands
+	{
+		"{COPY} ../ThirdParty/irrKlang/lib/irrKlang.dll %{cfg.targetdir}"
 	}
 
 	filter "system:windows"
