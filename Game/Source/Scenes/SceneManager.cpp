@@ -1,6 +1,7 @@
 #include "Pch.h"
 #include "SceneManager.h"
 #include "Scene.h"
+#include "../DataTypes/Enumerations.h"
 
 
 SceneManager::SceneManager()
@@ -58,7 +59,6 @@ void SceneManager::Init(const std::initializer_list<eScene>& scenes)
 	m_paths.insert({ eScene::Menu, "../Game/Assets/Json/Scenes/MainMenu.json" });
 	m_paths.insert({ eScene::Title, "../Game/Assets/Json/Scenes/Title.json" });
 }
-
 
 
 //void SceneManager::Init(int aSceneSet)
@@ -155,7 +155,7 @@ void SceneManager::TransitionToScene(eScene type)
 	m_registeredScenes[type]->OnEnter();
 
 	if (m_paths.contains(type))
-		LoadEntities(m_paths[type]);
+		LoadScene(m_paths[type]);
 }
 
 //void SceneManager::Update(float aDeltaTime)
@@ -198,8 +198,9 @@ void SceneManager::TransitionToScene(eScene type)
 //}
 
 
-void SceneManager::LoadEntities(const std::string& aPath)
+void SceneManager::LoadScene(const std::string& aPath) 
 {
+	// TODO; Load entities in EntityManager, or EntityFactory?
 	auto activeScene = GetActiveScene(); // take as weak pointer?
 	activeScene->m_entityManager.DestroyAll();
 
@@ -222,50 +223,11 @@ void SceneManager::LoadEntities(const std::string& aPath)
 
 			//activeScene->m_entityManager.GetFactory().
 			//ComponetnFactory::Build()
-
-
 			auto* component = activeScene->m_entityManager.GetFactory().GetCompFactory().Build(type, componentData);
 			entity->AddComponent(component);
-			//if (type == "Transform")
-			//	ComponentInitializer::InitializeComponent(entity->GetComponent<TransformComponent>(), componentData);  // HOW TO GET CORRECT COMPONENT?
-		
 		}
 
 		// Send event spawned? Change to initailzied?
 		PostMaster::GetInstance().SendMessage({ eMessage::EntitySpawned, entity });
-
-
-
-
-
-		// for each component : components_data
-
-		// get properties...
-		//const rapidjson::Value& properties = component["properties"];
-
-		// Use static method in factory??
-
-
-		///auto* transformComponent = entity->GetComponent<TransformComponent>();
-
-		// ComponentInitializer::InitializeComponent(transformComponent);
-
-		// for (auto& component : entity->)
-
-
-
-		// Initialize component here?
-
-
-
-		// Get entity manager from current scene? make scene manager a friend class?
-
 	}
-
-	// Store data
-
-	// TODO; for each entity in list => create entity, for each component in entity => ComponentIntializer?
-	// pass in data 
-
-	// Call the component-initialize?
 }

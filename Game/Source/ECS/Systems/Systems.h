@@ -1,5 +1,9 @@
 #pragma once
 
+
+/* - Audio systems - */
+#include "Audio/AudioSystem.h"
+
 /* - AI systems - */
 #include "AI/BehaviorTreeSystem.h"
 #include "AI/BlackboardSystem.h"

@@ -1,6 +1,10 @@
 #pragma once
 #include "Components.h"
-#include <Core/Resources/ResourceHolder.hpp>
+
+#include <../Hi_Engine.h> //?
+//#include <../Engine/Source/Core/Resources/ResourceHolder.hpp> //?
+//#include <Core/Resources/ResourceHolder.hpp>
+
 
 #include "../Entities/EntityBlueprint.h" // DON'T?
 
@@ -116,6 +120,16 @@ public:
 		// Do in MovementSystem init?
 		// aComponent->Offset = { 1.0f, 0.f };
 		// aComponent->Collider.Init({ startPos.x - colliderSize, startPos.y - colliderSize }, { startPos.x + colliderSize, startPos.y + colliderSize });
+	}
+
+	template <>
+	static void InitializeComponent<AudioComponent>(AudioComponent* component, const ECS::ComponentData& data)
+	{
+		std::string soundName = std::any_cast<std::string>(data.at("sound_name"));
+
+		auto* audioSource = &Hi_Engine::ResourceHolder<Hi_Engine::AudioSource>::GetInstance().GetResource(soundName);
+
+		component->Audio.Init(audioSource);
 	}
 
 	template <>

@@ -1,5 +1,8 @@
 #pragma once
-#include <Utility/Math/Vectors/Vector3.hpp>
+//#include <Utility/Math/Vectors/Vector3.hpp>
+//#include <../Engine/Source/Utility/Math/Vectors/Vector3.hpp> // ?
+#include <../Hi_Engine.h>
+
 #include "../Base/Component.h"
 
 namespace CU = CommonUtilities;
@@ -182,3 +185,15 @@ struct SceneTransitionComponent : public Component
 
 	bool ShouldTransition = false;
 };
+
+
+
+// ############# Audio Components ############# //
+struct AudioComponent : public Component
+{
+	Hi_Engine::Audio Audio;
+	bool IsLooping = false;
+	bool ShouldPlay = false;
+};
+
+// audio component, audio settings component, etc

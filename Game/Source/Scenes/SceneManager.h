@@ -1,10 +1,11 @@
 #pragma once
-#include <Utility/DataStructures/Linear/Dynamic/Stack/Stack.hpp>
-#include "../DataTypes/Enumerations.h"
+#include <../Hi_Engine.h>
+//#include <Utility/DataStructures/Linear/Dynamic/Stack/Stack.hpp>
+//#include "../DataTypes/Enumerations.h"
 
 namespace CU = CommonUtilities;
 
-enum class eScenen;
+enum class eScene;
 class Scene;
 
 // REMOVE empty namespace?
@@ -43,7 +44,7 @@ public:
 	// void UnloadScene()
 
 private:
-	void LoadEntities(const std::string& aPath);
+	void LoadScene(const std::string& aPath);
 
 	Utility::Scenes		m_registeredScenes; // m_registeredScenes
 	CU::Stack<eScene>	m_stack;

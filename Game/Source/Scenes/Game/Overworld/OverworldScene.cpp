@@ -26,7 +26,7 @@ void OverworldScene::Draw() const
 	m_sharedContext.SystemManager.Draw();
 }
 
-#include "Core/Resources/ResourceHolder.hpp"
+#include <../Hi_Engine.h>
 #include "../AI/BehaviorTree/Composite/CompositeNodes.h"
 #include "../AI/BehaviorTree/Action/ActionNodes.h"
 #include "../AI/BehaviorTree/Condition/ConditionNodes.h"
@@ -36,10 +36,6 @@ void OverworldScene::Draw() const
 #include "Components/AI/AIComponents.h"
 #include "Components/Gameplay/GameplayComponents.h"
 
-#include <Core/Resources/ResourceHolder.hpp>
-
-
-#include "../Gameplay/SkillTree.h"
 
 void OverworldScene::OnCreated()
 {

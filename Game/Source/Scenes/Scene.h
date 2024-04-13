@@ -1,6 +1,6 @@
 #pragma once
-//#include "../Data/Structs.h"
 #include "ECS/Entities/EntityManager.h"
+//#include "../Data/Structs.h"
 //#include "ECS/Systems/SystemManager.h"
 
 class SceneManager;
