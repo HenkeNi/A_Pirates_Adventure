@@ -1,7 +1,6 @@
 #pragma once
-#include "../../Data/Enumerations.h"
-#include <unordered_map>
 
+enum class eKey;
 struct GLFWwindow;
 
 namespace Hi_Engine

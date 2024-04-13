@@ -1,14 +1,13 @@
 #include "Pch.h"
 #include "Engine.h"
-#include "Application.h"
+#include "Application/Application.h"
 #include "FileIO/FileSystem.h"
 #include "FileIO/Parsers/WindowParser.h"
 #include "Resources/ResourceHolder.hpp"
-
-#include "Rendering/Renderer/TextRenderer/TextRenderer.h"
+#include "Messaging/Dispatcher/Dispatcher.h"
 #include "../Utility/Time/Timer.h"
-#include "../Messaging/Dispatcher/Dispatcher.h"
-
+#include "Rendering/Renderer/TextRenderer/TextRenderer.h"
+#include "ServiceLocator/ServiceLocator.h"
 
 namespace Hi_Engine
 {
@@ -47,11 +46,15 @@ namespace Hi_Engine
 		m_renderer.Init();
 		//m_renderer.SetRenderTarget(&m_window);
 
+		m_audioController.Init();
+
 		m_application->OnCreate(); 
 
 
 		m_renderer.SetShader(&ResourceHolder<Shader>::GetInstance().GetResource("sprite_batch")); // Rename default_sprite_bact
 
+		
+		ServiceLocator::Register(&m_audioController);
 		
 		return (m_isRunning = true);
 	}
@@ -68,8 +71,9 @@ namespace Hi_Engine
 			m_window.Close();
 
 		m_renderer.Shutdown();
-
 		TextRenderer::GetInstance().Shutdown();
+
+		m_audioController.Shutdown();
 	}
 
 	void Engine::GameLoop()

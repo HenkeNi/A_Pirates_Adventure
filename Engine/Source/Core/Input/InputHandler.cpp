@@ -1,7 +1,8 @@
-	#include "Pch.h"
+#include "Pch.h"
 #include "InputHandler.h"
 #include "Messaging/Dispatcher/Dispatcher.h"
 #include "Messaging/Events/SystemEvents/SystemEvents.h"
+#include "../../Data/Enumerations.h"
 
 
 namespace Hi_Engine

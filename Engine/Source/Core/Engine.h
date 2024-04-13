@@ -1,5 +1,5 @@
 #pragma once
-#include "Audio/AudioManager.h"
+#include "Audio/AudioController.h"
 #include "Rendering/Renderer/Renderer.h"
 #include "Input/InputHandler.h"
 #include "Window/Window.h"
@@ -23,6 +23,7 @@ namespace Hi_Engine
 		void GameLoop();
 		bool IsRunning() const;
 
+		// static AudioController& GetAudioController();
 		static Timer& GetTimer();
 
 	private:
@@ -32,7 +33,7 @@ namespace Hi_Engine
 		//ResourceHolder<Shader>		m_shaderHolder;
 
 		InputHandler	m_inputHandler;
-		AudioManager	m_audioManager;
+		AudioController	m_audioController;
 		Application*	m_application;
 		Renderer		m_renderer;
 		Window			m_window;
