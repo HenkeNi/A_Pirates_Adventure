@@ -6,7 +6,6 @@
 #include "Components/Components.h"
 #include "Components/ComponentBuilder.h"
 
-
 namespace Registration
 {
 	void RegisterComponents() // takes in an factory?
@@ -27,6 +26,7 @@ namespace Registration
 		Factory.RegisterComponentBuilder<SubEntitiesComponent>("sub_entities");
 		Factory.RegisterComponentBuilder<SceneTransitionComponent>("scene_transition");
 		Factory.RegisterComponentBuilder<PlayerControllerComponent>("player_controller");
+		Factory.RegisterComponentBuilder<AudioComponent>("audio");
 
 		/* - AI Components - */
 		Factory.RegisterComponentBuilder<BlackboardComponent>("blackboard");
@@ -118,6 +118,9 @@ namespace Registration
 		systemManager.Register<BehaviorTreeSystem>();
 		systemManager.Register<SteeringBehaviorSystem>();
 		systemManager.Register<StateMachineSystem>();
+
+		/* - Audio System - */
+		systemManager.Register<AudioSystem>();
 
 		/* - Render Systems - */
 		systemManager.Register<DebugRenderSystem>();

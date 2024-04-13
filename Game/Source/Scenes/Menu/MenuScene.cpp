@@ -33,18 +33,14 @@ void MenuScene::OnEnter()
 
 	m_entityManager.GetFactory().LoadBlueprints("../Game/Assets/Json/Blueprints/blueprint_manifest.json"); // load differnet blueprints depding on scene? OR read scene specific entities
 
-
-	/*auto* quit = m_entityManager.Create("quit_button");
-	quit->GetComponent<TransformComponent>()->CurrentPos = { 0.1f, 0.1f };
-	quit->GetComponent<ButtonComponent>()->OnClick = [&]() { Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::TerminationEvent>(); };*/
-	//quit->GetComponent<ButtonComponent>()->OnClick = [&]() { m_sharedContext.SceneManager.Clear();  }; // OR SEND EVENT?
-
-	//auto* camera = m_entityManager.Create("camera");
-	// camera->GetComponent<CameraComponent>()->TargetID = play->GetID();
-	//camera->GetComponent<CameraComponent>()->ShouldCull = false;
+	auto& sound = Hi_Engine::ResourceHolder<Hi_Engine::AudioSource>::GetInstance().GetResource("theme_song"); // TODO; read from json...
+	Hi_Engine::ServiceLocator::GetAudioController()->PlaySound(sound);
 }
 
 void MenuScene::OnExit()
 {
 	m_entityManager.DestroyAll();
+
+	auto& sound = Hi_Engine::ResourceHolder<Hi_Engine::AudioSource>::GetInstance().GetResource("theme_song");
+	Hi_Engine::ServiceLocator::GetAudioController()->StopSound(sound);
 }

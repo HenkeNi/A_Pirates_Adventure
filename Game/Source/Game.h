@@ -1,5 +1,5 @@
 #pragma once
-#include <Core/Application/Application.h>
+// #include <Core/Application/Application.h>
 #include "ECS/Systems/SystemManager.h"
 #include "Scenes/SceneManager.h"
 
