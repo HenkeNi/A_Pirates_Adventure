@@ -1,5 +1,5 @@
 #pragma once
-#include <../../../ThirdParty/GLEW/include/GL/glew.h>
+#include <../../../ThirdParty/GLEW/include/GL/glew.h> // use typedef for GLEnum?
 
 namespace Hi_Engine
 {

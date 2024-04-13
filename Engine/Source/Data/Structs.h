@@ -1,11 +1,9 @@
 #pragma once
 #include "../Utility/Math/Vectors/Vector.hpp"
 #include "../Core/Messaging/Events/Event.h"
-#include "../Core/Rendering/Texture/Texture2D.h"
+//#include "../Core/Rendering/Texture/Texture2D.h"
 
 #include <../../ThirdParty/glm/glm.hpp>
-// #include <../glm/glm.hpp>
-#include <../../ThirdParty/GLEW/include/GL/glew.h>
 #include <array>
 #include <functional>
 #include <string>

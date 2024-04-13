@@ -1,18 +1,4 @@
 #pragma once
-//#include <../ThirdParty/GLEW/include/GL/glew.h>
-
-//#include <GL/glew.h>
-//#include <GLFW/glfw3.h>
-//#include <../ThirdParty/GLEW/include/GL/glew.h>
-//#include <../ThirdParty/GLFW/include/GLFW/glfw3.h>
-//#include <GL/glew.h>
-//#include <GLFW/glfw3.h>
-// #include <../../ThirdParty/../GLFW/include/GLFW/glfw3.h>
-//#include <../../ThirdParty/GLEW/include/GL/glew.h>
-//#include <../GLEW/include/GL/glew.h>
-//#include <../GLFW/include/GLFW/glfw3.h>
-//#include <GL/glew.h>
-// #include <GLFW/glfw3.h>
 
 namespace Hi_Engine
 {

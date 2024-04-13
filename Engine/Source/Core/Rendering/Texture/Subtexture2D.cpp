@@ -1,5 +1,6 @@
 #include "Pch.h"
 #include "Subtexture2D.h"
+#include "Texture2D.h"
 
 
 namespace Hi_Engine

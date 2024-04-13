@@ -39,14 +39,18 @@
 #include "Messaging/Events/RenderEvents/RenderEvents.h"
 #include "Messaging/Events/SystemEvents/SystemEvents.h"
 #include "Messaging/Listener/EventListener.h"
+//#include "../Source/Core/Messaging/Dispatcher/Dispatcher.h"
+//#include "../Source/Core/Messaging/Events/RenderEvents/RenderEvents.h"
+//#include "../Source/Core/Messaging/Events/SystemEvents/SystemEvents.h"
+//#include "../Source/Core/Messaging/Listener/EventListener.h"
 
 /* - CommonUtilities - */
 #include "../Utility/Math/Vectors/Vector.hpp"
 #include "../Utility/Math/Matrices/Matrix3x3.hpp"
 #include "../Utility/Math/Matrices/Matrix4x4.hpp"
 
-
-/* - Third Party - */
+// TODO; dont put these here... (not glew/glfw stuff)
+/* - Third Party - */ 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <document.h>
@@ -58,6 +62,8 @@
 
 #include <FastNoiseLite.h>
 
-
+//#include <ft2build.h>
+//#include <freetype/freetype.h>
 #include <ft2build.h>
+#include <freetype/freetype.h>
 #include FT_FREETYPE_H  

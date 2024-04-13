@@ -1,15 +1,7 @@
 #pragma once
 #include "../Utility/Math/Vectors/Vector.hpp"
-#include <../GLFW/include/GLFW/glfw3.h>
-//#include "../Data/Structs.h"
-//#include <GLFW/glfw3.h>
-//#include <../GLEW/include/GL/glew.h>
 
-
-namespace
-{
-	using WndSize = CU::Vector2<unsigned>;
-}
+struct GLFWwindow;
 
 namespace Hi_Engine
 {
@@ -24,7 +16,7 @@ namespace Hi_Engine
 
 		bool			Init(WindowData data);
 		bool			IsOpen()										const;
-		const WndSize&	GetSize()										const;
+		const CU::Vector2<unsigned>& GetSize()							const;
 		void			PollEvents()									const;
 		void			ClearScreen()									const;
 		void			SwapBuffers()									const;
