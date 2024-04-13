@@ -22,7 +22,7 @@ project "Engine"
 	pchheader "Pch.h"
 	pchsource "Engine/Source/Precompiled/Pch.cpp"
 	
-	files { "%{prj.name}/Source/**.h", "%{prj.name}/Source/**.hpp", "%{prj.name}/Source/**.cpp" }
+	files { "%{prj.name}/Hi_Engine.h", "%{prj.name}/Source/**.h", "%{prj.name}/Source/**.hpp", "%{prj.name}/Source/**.cpp" }
 
 	-- Include directories are relative to root folder (solution directory)  (Creates a table)
 	IncludeDir = {}
@@ -186,7 +186,8 @@ project "Launcher"
 
 	postbuildcommands
 	{
-		"{COPY} ../ThirdParty/irrKlang/lib/irrKlang.dll %{cfg.targetdir}"
+		"{COPY} ../ThirdParty/irrKlang/lib/irrKlang.dll %{cfg.targetdir}",
+		"{COPY} ../ThirdParty/irrKlang/lib/ikpMP3.dll %{cfg.targetdir}"
 	}
 
 	filter "system:windows"
