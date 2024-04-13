@@ -3,7 +3,7 @@
 #include "../Rendering/Shader/Shader.h"
 #include "../Rendering/Texture/Texture2D.h"
 #include "../Rendering/Texture/Subtexture2D.h"
-
+#include "../Audio/AudioSource.h"
 #include "../Rendering/Font/Font.h"
 #include <../../ThirdParty/rapidjson/document.h>
 // #include <document.h>
@@ -14,6 +14,7 @@
 #include <fstream>
 #include <iostream>
 
+// #include <irrKlang.h>
 #include <../../ThirdParty/FreeType/include/ft2build.h>
 //#include <ft2build.h>
 #include FT_FREETYPE_H  
@@ -271,6 +272,32 @@ namespace Hi_Engine
 			Insert(name, std::move(font));
 		}
 	}
+	
+	template <>
+	inline void ResourceHolder<AudioSource, std::string>::CreateResources(const rapidjson::Document& document)
+	{
+		for (auto& value : document.GetArray())
+		{
+			// TODO; use engine parser??
+			std::string name = value["name"].GetString();
+			std::string path = value["filepath"].GetString();
+			bool isLooping = value["is_looping"].GetBool();
+
+			auto audioSource = std::make_unique<AudioSource>();
+			// audioSource->SetSource = 
+
+
+			audioSource->SetSource(path);
+			audioSource->SetIsLooping(isLooping);
+			// audioSource->SetSource(engine->getSoundSource(path));
+
+			// TODO: Geometryshader
+
+			// shader->Init(vertex.c_str(), fragment.c_str(), nullptr);
+
+			Insert(name, std::move(audioSource));
+		}
+	}
 
 	template <class Resource, typename Identifier>
 	void ResourceHolder<Resource, Identifier>::Insert(Identifier identifier, std::unique_ptr<Resource> resource)
@@ -282,7 +309,7 @@ namespace Hi_Engine
 	template <class Resource, typename Identifier>
 	void ResourceHolder<Resource, Identifier>::Clear()
 	{
-		m_resources.clear();
+		m_resources.clear(); // TODO; delete/unload resources (call function)?
 	}
 
 #pragma endregion Method_Definitions
