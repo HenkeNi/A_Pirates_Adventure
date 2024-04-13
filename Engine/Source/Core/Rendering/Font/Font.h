@@ -1,6 +1,7 @@
 #pragma once
 // #include "Data/Structs.h"
 #include "../../../Data/Structs.h"
+#include <../../../ThirdParty/GLEW/include/GL/glew.h> // use typedef for GLchar?
 
 namespace Hi_Engine
 {

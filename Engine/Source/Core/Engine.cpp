@@ -120,7 +120,7 @@ namespace Hi_Engine
 		return timer;
 	}
 
-	bool Engine::CreateWindow()
+	bool Engine::CreateWindow() // FIX?!
 	{
 		auto windowData = FileSystem::ParseJson<WindowParser, WindowData>("../Engine/Assets/Json/Window/Window.json");
 		return m_window.Init(windowData);

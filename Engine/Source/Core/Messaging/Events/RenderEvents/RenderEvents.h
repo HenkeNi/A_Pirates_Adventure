@@ -2,6 +2,8 @@
 #include "../Event.h"
 #include "../../../../Data/Structs.h"
 
+#include <queue>
+
 namespace Hi_Engine
 {
 	namespace CU = CommonUtilities;

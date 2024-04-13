@@ -10,4 +10,4 @@ namespace Hi_Engine::Constants
 	constexpr uint32_t MaxTextureSlots = 32;		// Or max textures?
 
 	constexpr double PI = 3.14159;
-}
+}	

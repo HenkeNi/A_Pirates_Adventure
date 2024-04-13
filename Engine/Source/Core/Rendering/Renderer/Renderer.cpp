@@ -2,6 +2,7 @@
 #include "Renderer.h"
 #include "../Data/Constants.h"
 #include "../Material/Material.h"
+#include "../Texture/Texture2D.h"
 #include "../Texture/Subtexture2D.h"
 #include "../Camera/Camera.h" // TEMP..
 #include "../Shader/Shader.h"

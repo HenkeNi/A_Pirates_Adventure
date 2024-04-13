@@ -1,7 +1,7 @@
 #pragma once
 #include "../Base/Component.h"
-#include "Data/Enumerations.h"
-
+//#include "DataTypes/Enumerations.h"
+#include "Enumerations.h"
 
 
  

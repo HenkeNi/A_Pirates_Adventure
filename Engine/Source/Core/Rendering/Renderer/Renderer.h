@@ -3,6 +3,7 @@
 #include "../../../Data/Constants.h"
 #include "Messaging/Listener/EventListener.h"
 #include <queue>
+#include <../../../ThirdParty/GLEW/include/GL/glew.h> //FIX! dont include later...
 
 namespace Hi_Engine
 {

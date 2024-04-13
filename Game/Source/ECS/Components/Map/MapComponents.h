@@ -2,7 +2,8 @@
 #include "../Base/Component.h"
 //#include "../../DataTypes/Structs.h"
 #include <vector>
-#include <Utility/Math/Vectors/Vector3.hpp>
+//#include <Utility/Math/Vectors/Vector3.hpp>
+#include <../Hi_Engine.h>
 
 namespace CU = CommonUtilities;
 
