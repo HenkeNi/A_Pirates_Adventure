@@ -50,6 +50,8 @@ void InventorySystem::Receive(Message& message)
 		collectableComponent->IsCollected = true;
 		// m_entityManager->Destroy(collectable->GetID()); -- do in a clean up system?
 		message.HandleMessage(); // rename MarkAsHandled(); ??
+
+		PostMaster::GetInstance().SendMessage({ eMessage::ItemCollected, collectable });
 	}
 }
   
@@ -58,6 +60,7 @@ void InventorySystem::Update(float deltaTime)
 	if (!m_entityManager)
 		return;
 
+	// Clean up collected items
 	std::vector<unsigned> collectedEntityIDs;
 
 	auto entities = m_entityManager->FindAll<CollectableComponent>();

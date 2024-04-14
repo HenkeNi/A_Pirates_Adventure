@@ -47,6 +47,8 @@ enum class eMessage
 	ButtonActivated,
 	TimerFinished,
 
+	ItemCollected, // PickedUp instead??
+	ItemUsed,
 
 	TransitionToScene,
 	RemoveScene,

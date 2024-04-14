@@ -191,6 +191,8 @@ void CombatSystem::PerformAttack(Entity* entity)
 		auto* weaponComponent = weapon->GetComponent<WeaponComponent>();
 		int damageOutput = weaponComponent->DamageDealt;
 
+		PostMaster::GetInstance().SendMessage({ eMessage::ItemUsed, weapon }); // Send weapon swung instead??
+
 		for (const auto& target : colliderComponent->CollidingEntities)
 		{
 			if (target->GetID() == entity->GetID() || !IsTargetable(target))
@@ -203,6 +205,8 @@ void CombatSystem::PerformAttack(Entity* entity)
 				ApplyKnockback(entity, target);
 			}
 
+			// HERE??
+			PostMaster::GetInstance().SendMessage({ eMessage::EntityAttacked, target });
 
 			auto* healthComponent = target->GetComponent<HealthComponent>();
 			healthComponent->CurrentValue = CommonUtilities::Clamp(healthComponent->CurrentValue - damageOutput, 0, healthComponent->MaxHealth);

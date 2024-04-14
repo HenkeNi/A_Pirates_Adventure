@@ -36,7 +36,7 @@ namespace Hi_Engine
 		
 
 
-		Resource&				GetResource(const Identifier& identifier);
+		Resource&				GetResource(const Identifier& identifier);					// return pointer instead
 		const Resource&			GetResource(const Identifier& identifier)		const;
 		bool					HasResource(const Identifier& identifier)		const;
 

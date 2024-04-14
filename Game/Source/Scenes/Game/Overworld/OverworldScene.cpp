@@ -26,17 +26,6 @@ void OverworldScene::Draw() const
 	m_sharedContext.SystemManager.Draw();
 }
 
-#include <../Hi_Engine.h>
-#include "../AI/BehaviorTree/Composite/CompositeNodes.h"
-#include "../AI/BehaviorTree/Action/ActionNodes.h"
-#include "../AI/BehaviorTree/Condition/ConditionNodes.h"
-
-#include "Entities/Entity.h"
-#include "Components/Core/CoreComponents.h"
-#include "Components/AI/AIComponents.h"
-#include "Components/Gameplay/GameplayComponents.h"
-
-
 void OverworldScene::OnCreated()
 {
 }
@@ -49,44 +38,9 @@ void OverworldScene::OnEnter()
 	// Send event??
 	m_entityManager.GetFactory().LoadBlueprints("../Game/Assets/Json/Blueprints/blueprint_manifest.json");
 
+	auto& sound = Hi_Engine::ResourceHolder<Hi_Engine::AudioSource>::GetInstance().GetResource("ocean_ambience"); // TODO; read from json...
+	Hi_Engine::ServiceLocator::GetAudioController()->PlaySound(sound);
 
-	//auto* sky = m_entityManager.Create("sky_background");
-	//auto* transformComponent = background->GetComponent<TransformComponent>();
-	//transformComponent->Scale *= 1.5f;
-	//transformComponent->CurrentPos.y = 0.5f;
-
-	//SkillTree skillTree;
-	//skillTree.RegisterSkill("Base", "A-Base");
-	//skillTree.RegisterSkill("Base", "B-Base");
-	//skillTree.RegisterSkill("Base", "C-Base");
-
-	//skillTree.RegisterSkill("A-Base",   "A-Tier1-01");
-	//skillTree.RegisterSkill("A-Base", "A-Tier1-02");
-	//skillTree.RegisterSkill("A-Base", "A-Tier1-03");
-
-	//skillTree.RegisterSkill("A-Tier1-01", "A-Tier2-01");
-	//skillTree.RegisterSkill("A-Tier1-01", "A-Tier2-02");
-	//skillTree.RegisterSkill("A-Tier1-01", "A-Tier2-03");
-
-	//skillTree.RegisterSkill("B-Base", "B-Tier1-01");
-	//skillTree.RegisterSkill("B-Base", "B-Tier1-02");
-	//skillTree.RegisterSkill("B-Base", "B-Tier1-03");
-
-	//skillTree.RegisterSkill("C-Base", "C-Tier1-01");
-	//skillTree.RegisterSkill("C-Base", "C-Tier1-02");
-	//skillTree.RegisterSkill("C-Base", "C-Tier1-03");
-
-
-	//skillTree.RegisterSkill("A-Tier1-01", "A-Tier2-04");
-	//skillTree.RegisterSkill("A-Tier1-01", "A-Tier2-05");
-	//skillTree.RegisterSkill("A-Tier1-01", "A-Tier2-06");
-
-
-
-	////skillTree.PrintLevelOrder(skillTree.GetRoot());
-
-	//for (auto* node : skillTree.GetNextUnlockableNodes())
-	//	std::cout << node->Identifier << ' ';
 
 	auto* cursor = m_entityManager.Create("mouse_cursor");
 
@@ -137,4 +91,6 @@ void OverworldScene::OnEnter()
 
 void OverworldScene::OnExit()
 {
+	auto& sound = Hi_Engine::ResourceHolder<Hi_Engine::AudioSource>::GetInstance().GetResource("ocean_ambience"); // TODO; read from json...
+	Hi_Engine::ServiceLocator::GetAudioController()->StopSound(sound);
 }

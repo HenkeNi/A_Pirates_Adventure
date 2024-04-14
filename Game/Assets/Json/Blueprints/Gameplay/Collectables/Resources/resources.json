@@ -66,8 +66,13 @@
       {
         "type": "collectable",
         "properties": {}
+      },
+      {
+        "type": "audio",
+        "properties": {
+          "sound_name": "pickup"
+        }
       }
-
     ]
   },
   {

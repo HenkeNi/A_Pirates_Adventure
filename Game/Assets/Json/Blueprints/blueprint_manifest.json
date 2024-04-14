@@ -1,6 +1,5 @@
 {
   "blueprints": [
-    "../Game/Assets/Json/Blueprints/Audio/sound_effects.json",
     "../Game/Assets/Json/Blueprints/Camera/camera.json",
     "../Game/Assets/Json/Blueprints/Gameplay/Characters/npc.json",
     "../Game/Assets/Json/Blueprints/Gameplay/Characters/player.json",

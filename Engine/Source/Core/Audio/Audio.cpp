@@ -17,7 +17,7 @@ namespace Hi_Engine
 
 	bool Audio::Play(irrklang::ISoundEngine* engine)
 	{
-		if (!m_sound)
+		if (!m_source)
 			return false;
 
 		m_sound = engine->play2D(m_source->GetSource());

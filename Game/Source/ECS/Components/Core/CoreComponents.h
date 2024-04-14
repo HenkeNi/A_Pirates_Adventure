@@ -191,7 +191,7 @@ struct SceneTransitionComponent : public Component
 // ############# Audio Components ############# //
 struct AudioComponent : public Component
 {
-	Hi_Engine::Audio Audio;
+	Hi_Engine::Audio Audio;				// Store array of sounds? with key that determines when it should play
 	bool IsLooping = false;
 	bool ShouldPlay = false;
 };

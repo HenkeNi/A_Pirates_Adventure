@@ -1,7 +1,27 @@
 [
   {
     "name": "theme_song",
-    "filepath": "../Game/Assets/Sound/bloodpixelhero_adventure-theme-5.wav",
+    "filepath": "../Game/Assets/Sound/707884__dave4884__pirates-song.wav",
     "is_looping": true
+  },
+  {
+    "name": "ocean_ambience",
+    "filepath": "../Game/Assets/Sound/479431__sheyvan__ambience-waves-beach-1-stereo.wav",
+    "is_looping": true
+  },
+  {
+    "name": "button_click",
+    "filepath": "../Game/Assets/Sound/623175__aphom000__button-click-selection.wav",
+    "is_looping": false
+  },
+  {
+    "name": "pickaxe",
+    "filepath": "../Game/Assets/Sound/654499__bigal13__pickaxe-striking-hard-rock.wav",
+    "is_looping": false
+  },
+  {
+    "name": "pickup",
+    "filepath": "../Game/Assets/Sound/654251__strechy__item-pickup-sound.ogg",
+    "is_looping": false
   }
 ]
