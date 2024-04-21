@@ -32,9 +32,16 @@ void SettingsScene::OnEnter()
 	systemManager.Init(&m_entityManager);
 
 	m_entityManager.GetFactory().LoadBlueprints("../Game/Assets/Json/Blueprints/blueprint_manifest.json");
+
+	// Todo; PlaySound(sound identifier in resourceholder)
+	auto& sound = Hi_Engine::ResourceHolder<Hi_Engine::AudioSource>::GetInstance().GetResource("night_ambience"); // TODO; read from json...
+	Hi_Engine::ServiceLocator::GetAudioController()->PlaySound(sound);
 }
 
 void SettingsScene::OnExit()
 {
 	m_entityManager.DestroyAll();
+
+	auto& sound = Hi_Engine::ResourceHolder<Hi_Engine::AudioSource>::GetInstance().GetResource("night_ambience");
+	Hi_Engine::ServiceLocator::GetAudioController()->StopSound(sound);
 }
