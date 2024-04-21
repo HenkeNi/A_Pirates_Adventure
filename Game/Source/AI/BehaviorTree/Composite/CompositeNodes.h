@@ -1,17 +1,13 @@
 #pragma once
 #include "../Base/BehaviorTreeNode.h"
 
-// ## Composite nodes; contains instructions on how to run its children nodes. ##
 
 /* The selector’s goal is to run just one of its children Successfully */
 class SelectorNode : public BehaviorTreeNode
 {
 public:
-	SelectorNode(int ownerID);
-	~SelectorNode();
-
-	eBTNodeStatus	Execute(EntityManager* entityManager)		override;
-	void			Clear()										override;
+	eBTNodeStatus	Execute(class Entity* entity)	override;
+	void			OnDestroy()						override;
 
 	void			AddChild(BehaviorTreeNode* node);
 
@@ -24,11 +20,8 @@ private:
 class SequenceNode : public BehaviorTreeNode
 {
 public:
-	SequenceNode(int ownerID);
-	~SequenceNode();
-
-	eBTNodeStatus	Execute(EntityManager* entityManager)		override;
-	void			Clear()										override;
+	eBTNodeStatus	Execute(class Entity* entity)	override;
+	void			OnDestroy()						override;
 
 	void			AddChild(BehaviorTreeNode* node);
 

@@ -2,6 +2,7 @@
 #include "../Base/System.h"
 
 
+// Merge into a single AISysem?
 class BehaviorTreeSystem : public System
 {
 public:

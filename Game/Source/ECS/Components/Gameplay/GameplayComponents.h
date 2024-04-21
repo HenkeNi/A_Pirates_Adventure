@@ -1,26 +1,49 @@
 #pragma once
 #include "../Base/Component.h"
-
 #include "Stat.hpp"
 
 
+//#################### Character Components ####################//
+struct AttributesComponent : public Component
+{
+	int Perception = 5;
+
+	// std::unordered_map<std::string, Stat<int>>		m_attributes;
+};
+
+// Rename TraitComponent?
+struct PersonalityComponent : public Component
+{
+	bool IsAggressive = false;
+	// bool IsFriendly = false;
+	// bool IsHostile = false;
+	// bool IsLoyal = false;
+};
+
+
+
+// Rename? PlayerStateComponent, should just be used by the player??
+struct CharacterStateComponent : public Component
+{
+	bool IsIdle;
+	bool IsWalking;
+	bool IsRunning;
+	bool IsAttacking;
+	bool IsAlive;		// remove?
+	bool IsAiming;
+};
 
 
 
 
-
-
-
-
-
-
-
-
+//#################### Crafting Components ####################//
 struct RecipeComponent : public Component
 {
 	std::string CraftedItem;
 	std::unordered_map<std::string, unsigned> RequiredItems;
 };
+
+
 
 
 
@@ -64,12 +87,7 @@ struct ResourceProducerComponent : public Component
 
 
 
-struct AttributeComponent : public Component
-{
-	// contains 
-	// std::unordered_map<std::string, Stat<int>>		m_attributes;
 
-};
 
 
 /* - Controllers - */ // MOVE THIS 0> Not ai...	
@@ -82,20 +100,6 @@ struct PlayerControllerComponent : public Component
 	// COmmands..
 };
 
-
-// Rename? PlayerStateComponent, EntityState, StateComponent?
-struct CharacterStateComponent : public Component
-{
-	bool IsIdle;
-	bool IsWalking;
-	bool IsRunning;
-	bool IsJumping;
-	bool IsAttacking;
-	bool IsAlive;
-
-	bool IsAiming;
-	// State machine??
-};
 
 
 

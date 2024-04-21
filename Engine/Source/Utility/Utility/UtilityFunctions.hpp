@@ -121,8 +121,6 @@ namespace CommonUtilities
 			std::unordered_map<std::string, std::any> values;
 			for (const auto& [name, value] : value.GetObject())
 			{
-		
-
 				values.insert_or_assign(name.GetString(), ParseJson(value));
 			}
 			return values;

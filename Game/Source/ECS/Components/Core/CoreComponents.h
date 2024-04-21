@@ -191,6 +191,8 @@ struct SceneTransitionComponent : public Component
 // ############# Audio Components ############# //
 struct AudioComponent : public Component
 {
+	std::unordered_map<eMessage, Hi_Engine::Audio> AudioTriggers; // TODO; store sounds when doing something "bad", like trying to mine with an axe -> "AttackFailed" as key?
+
 	Hi_Engine::Audio Audio;				// Store array of sounds? with key that determines when it should play
 	bool IsLooping = false;
 	bool ShouldPlay = false;

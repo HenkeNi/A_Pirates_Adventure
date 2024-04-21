@@ -33,8 +33,8 @@ void Launcher::StartGameLoop()
 	if (engine->Init())
 	{
 		engine->GameLoop();
-		engine->Shutdown();
 	}
 
+	engine->Shutdown();
 	delete engine;
 }

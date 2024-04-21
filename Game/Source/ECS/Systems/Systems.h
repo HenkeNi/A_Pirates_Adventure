@@ -8,7 +8,7 @@
 #include "AI/BehaviorTreeSystem.h"
 #include "AI/BlackboardSystem.h"
 #include "AI/SteeringBehaviorSystem.h"
-#include "AI/StateMachineSystem.h"
+// #include "AI/StateMachineSystem.h"
 
 /* - Gameplay systems - */
 #include "Gameplay/Combat/CombatSystem.h"
@@ -34,7 +34,9 @@
 #include "Map/MapGenerationSystem.h"
 #include "Map/MapDecorationSystem.h"
 #include "Time/TimeSystem.h"
+
 #include "Transition/SceneTransitionSystem.h"
+#include "Transition/StateTransitionSystem.h"
 
 /* Rendering systems */
 #include "Rendering/Animation/SpriteAnimationSystem.h"

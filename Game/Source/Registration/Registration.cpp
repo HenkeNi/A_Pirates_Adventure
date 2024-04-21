@@ -12,7 +12,6 @@ namespace Registration
 	{
 		auto& Factory = EntityManager::GetFactory();
 
-		
 		/* - Core Components - */		
 		Factory.RegisterComponentBuilder<AnimationComponent>("animation");
 		Factory.RegisterComponentBuilder<CameraComponent>("camera");
@@ -30,15 +29,18 @@ namespace Registration
 
 		/* - AI Components - */
 		Factory.RegisterComponentBuilder<BlackboardComponent>("blackboard");
+		Factory.RegisterComponentBuilder<BehaviorTreeComponent>("behavior_tree");
 		Factory.RegisterComponentBuilder<SteeringBehaviorComponent>("steering_behavior");
 		Factory.RegisterComponentBuilder<WanderBehaviorComponent>("wander_behavior");
 		Factory.RegisterComponentBuilder<FlockBehaviorComponent>("flock_behavior");
 		Factory.RegisterComponentBuilder<SeekBehaviorComponent>("seek_behavior");
 		Factory.RegisterComponentBuilder<FleeBehaviorComponent>("flee_behavior");
-		Factory.RegisterComponentBuilder<StateMachineComponent>("state_machine");
-		Factory.RegisterComponentBuilder<BehaviorTreeComponent>("behavior_tree");
+		//Factory.RegisterComponentBuilder<StateMachineComponent>("state_machine");
+		Factory.RegisterComponentBuilder<IdleComponent>("idle");
+
 
 		/* - Gameplay Components - */
+		Factory.RegisterComponentBuilder<AttributesComponent>("attribute");
 		Factory.RegisterComponentBuilder<HealthComponent>("health");
 		Factory.RegisterComponentBuilder<WeaponComponent>("weapon");
 		Factory.RegisterComponentBuilder<ToppleComponent>("topple");
@@ -49,6 +51,7 @@ namespace Registration
 		Factory.RegisterComponentBuilder<InventoryComponent>("inventory");
 		Factory.RegisterComponentBuilder<CollectableComponent>("collectable");
 		Factory.RegisterComponentBuilder<SpawnComponent>("spawner");
+		Factory.RegisterComponentBuilder<PersonalityComponent>("personality");
 
 
 		Factory.RegisterComponentBuilder<AttackComponent>("attack"); // RENAME!
@@ -56,7 +59,6 @@ namespace Registration
 		Factory.RegisterComponentBuilder<ResourceComponent>("resource");
 		Factory.RegisterComponentBuilder<CharacterStateComponent>("character_state");
 		Factory.RegisterComponentBuilder<KnockbackComponent>("knockback");
-
 
 		/* - UI Components - */
 		Factory.RegisterComponentBuilder<HUDComponent>("hud");
@@ -67,8 +69,6 @@ namespace Registration
 		/* - Utility Components - */
 		Factory.RegisterComponentBuilder<WorldTimeComponent>("world_time");
 		Factory.RegisterComponentBuilder<TimerComponent>("timer");
-
-		//PostMaster::GetInstance().SendMessage({ eMessage::MultipleComponentBuildersCreated, componentBuilders });
 	}
 
 	void RegisterBlueprints()
@@ -84,27 +84,23 @@ namespace Registration
 		systemManager.Register<InputSystem>();
 		systemManager.Register<MovementSystem>();
 		systemManager.Register<CameraSystem>();
-
 		systemManager.Register<CollisionSystem>();
+		systemManager.Register<PlayerControllerSystem>();
+		systemManager.Register<SceneTransitionSystem>();
+
+		/* - Gameplay Systems - */
 		systemManager.Register<CombatSystem>();
 		systemManager.Register<EnemySpawnSystem>();
 		systemManager.Register<EquipmentSystem>();
-
 		systemManager.Register<InventorySystem>();
 		systemManager.Register<MeleeCombatSystem>();
-
-		systemManager.Register<PlayerControllerSystem>();
 		systemManager.Register<RangedCombatSystem>();
-
 		systemManager.Register<ShakeSystem>();
-		systemManager.Register<HUDSystem>();
-
-		systemManager.Register<SpawnSystem>();
-		systemManager.Register<SpriteAnimationSystem>();
-		systemManager.Register<StatSystem>();
 		systemManager.Register<TimeSystem>();
+		systemManager.Register<SpawnSystem>();
+		systemManager.Register<StatSystem>();
 
-		systemManager.Register<SceneTransitionSystem>();
+		systemManager.Register<SpriteAnimationSystem>();
 
 		/* - Map Systems - */
 		systemManager.Register<MapGenerationSystem>();
@@ -112,12 +108,13 @@ namespace Registration
 
 		/* -  UI Systems - */
 		systemManager.Register<UISystem>();
+		systemManager.Register<HUDSystem>();
 
 		/* - AI Systems - */
 		systemManager.Register<BlackboardSystem>();
 		systemManager.Register<BehaviorTreeSystem>();
 		systemManager.Register<SteeringBehaviorSystem>();
-		systemManager.Register<StateMachineSystem>();
+		systemManager.Register<StateTransitionSystem>();
 
 		/* - Audio System - */
 		systemManager.Register<AudioSystem>();

@@ -13,7 +13,7 @@
 
 // Todo, put in Engine??
 
-class EntityManager;
+// EntityManager;
 
 
 
@@ -21,14 +21,10 @@ class EntityManager;
 class IdleNode : public BehaviorTreeNode
 {
 public:
-	IdleNode(int ownerID);
+	eBTNodeStatus	Execute(class Entity* entity)	override;
+	void			OnDestroy()						override;
 
-	eBTNodeStatus	Execute(EntityManager* entityManager)	override;
-	void			Clear()									override;
 };
-
-
-
 
 
 
@@ -40,24 +36,12 @@ public:
 //
 //};
 
-
-
-
-
-
-
-
-
-
-
-
 class MoveToTargetNode : public BehaviorTreeNode
 {
 public:
-	MoveToTargetNode(int ownerID, int targetID = -1);
+	eBTNodeStatus	Execute(class Entity* entity)	override;
+	void			OnDestroy()						override;
 
-	eBTNodeStatus	Execute(EntityManager* entityManager)		override;
-	void			Clear()										override;
 
 	void			SetCallback(const std::function<void()>& callback);
 	void			SetTargetID(int targetID);
@@ -76,14 +60,12 @@ private:
 class AttackTargetNode : public BehaviorTreeNode
 {
 public:
-	AttackTargetNode(int ownerID, int targetID = -1);
+	eBTNodeStatus	Execute(class Entity* entity)	override;
+	void			OnDestroy()						override;
 
-	eBTNodeStatus	Execute(EntityManager* entityManager)	override;
-	void			Clear()									override;
-
-	void			SetTargetID(int targetID);
+	//void			SetTargetID(int targetID);
 private:
-	int				m_targetID;
+	//int				m_targetID;
 };
 
 

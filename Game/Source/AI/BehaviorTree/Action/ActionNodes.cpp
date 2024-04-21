@@ -5,14 +5,6 @@
 #include "Entities/EntityManager.h"
 
 
-
-
-
-IdleNode::IdleNode(int ownerID)
-	: BehaviorTreeNode{ ownerID }
-{
-}
-
 eBTNodeStatus IdleNode::Execute(EntityManager* entityManager)
 {
 	if (entityManager)
@@ -33,15 +25,6 @@ void IdleNode::Clear()
 
 
 
-
-
-
-
-
-MoveToTargetNode::MoveToTargetNode(int ownerID, int targetID)
-	: BehaviorTreeNode{ ownerID }, m_targetID{ targetID }, m_arriveRange{ 0.2f }
-{
-}
 
 eBTNodeStatus MoveToTargetNode::Execute(EntityManager* entityManager)
 {
@@ -98,13 +81,6 @@ bool MoveToTargetNode::IsValidTarget() const
 
 
 
-
-
-AttackTargetNode::AttackTargetNode(int ownerID, int targetID)
-	: BehaviorTreeNode{ ownerID }, m_targetID{ targetID }
-{
-}
-
 eBTNodeStatus AttackTargetNode::Execute(EntityManager* entityManager)
 {
 	//std::cout << "Attaclomg..\n";
@@ -131,8 +107,3 @@ void AttackTargetNode::SetTargetID(int targetID)
 {
 	m_targetID = targetID;
 }
-
-
-
-
-

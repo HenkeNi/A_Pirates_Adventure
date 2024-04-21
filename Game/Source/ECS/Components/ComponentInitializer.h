@@ -19,15 +19,6 @@
 #include "../AI/SteeringBehaviors/Flock/FlockBehavior.h"
 // #include "../AI/SteeringBehaviors/Wander/WanderBehavior.h"
 
-#include "../AI/StateMachine/States/Idle/IdleState.h"
-#include "../AI/StateMachine/States/Walk/WalkState.h"
-#include "../AI/StateMachine/States/Attack/AttackState.h"
-
-#include "../AI/StateMachine/Conditions/Time/TimeConditions.h"
-#include "../AI/StateMachine/Conditions/Distance/DistanceConditions.h"
-
-
-// struct ComponentData;
 
 namespace ECS
 {
@@ -123,18 +114,55 @@ public:
 	}
 
 	template <>
+	static void InitializeComponent<AttributesComponent>(AttributesComponent* component, const ECS::ComponentData& data)
+	{
+		int perception = std::any_cast<int>(data.at("perception"));
+
+		component->Perception = perception;
+	}
+
+	template <>
 	static void InitializeComponent<AudioComponent>(AudioComponent* component, const ECS::ComponentData& data)
 	{
 		std::string soundName = std::any_cast<std::string>(data.at("sound_name"));
 
+		std::string trigger = std::any_cast<std::string>(data.at("trigger"));
+
+		eMessage triggerType;
+
+		if (trigger == "item_used")
+		{
+			triggerType = eMessage::ItemUsed;
+		} 
+		else if (trigger == "item_collected")
+		{
+			triggerType = eMessage::ItemCollected;
+		}
+		else if (trigger == "entity_destroyed")
+		{
+			triggerType = eMessage::EntityDestroyed;
+		}
+		else if (trigger == "button_activated")
+		{
+			triggerType = eMessage::ButtonActivated;
+		}
+
 		auto* audioSource = &Hi_Engine::ResourceHolder<Hi_Engine::AudioSource>::GetInstance().GetResource(soundName);
 
-		component->Audio.Init(audioSource);
+		Hi_Engine::Audio audio;
+		audio.Init(audioSource);
+		component->AudioTriggers.insert({ triggerType, audio });
+
+		//component->Audio.Init(audioSource);
 	}
 
 	template <>
 	static void InitializeComponent<BehaviorTreeComponent>(BehaviorTreeComponent* component, const ECS::ComponentData& data)
 	{
+
+
+
+
 		// DO IN system instead??
 		// aComponent->m_rootNode = new SelectorNode;
 
@@ -175,7 +203,6 @@ public:
 		component->IsAlive = true;
 		component->IsWalking = false;
 		component->IsRunning = false;
-		component->IsJumping = false;
 		component->IsAttacking = false;
 		component->IsAiming = false;
 	}
@@ -423,6 +450,14 @@ public:
 	}
 
 	template <>
+	static void InitializeComponent<PersonalityComponent>(PersonalityComponent* component, const ECS::ComponentData& data)
+	{
+		bool isAggressive = std::any_cast<bool>(data.at("IsAggressive"));
+
+		component->IsAggressive = isAggressive;
+	}
+
+	template <>
 	static void InitializeComponent<FlockBehaviorComponent>(FlockBehaviorComponent* component, const ECS::ComponentData& data)
 	{
 		component->Behavior = new FlockBehavior{};	// Make sure to delete...
@@ -441,82 +476,82 @@ public:
 
 	}
 
-	template <>
-	static void InitializeComponent<StateMachineComponent>(StateMachineComponent* component, const ECS::ComponentData& data)
-	{
-		//auto states = std::any_cast<std::vector<std::any>>(someData.at("states"));
-		//auto states = someData.at("states");
+	//template <>
+	//static void InitializeComponent<StateMachineComponent>(StateMachineComponent* component, const ECS::ComponentData& data)
+	//{
+	//	//auto states = std::any_cast<std::vector<std::any>>(someData.at("states"));
+	//	//auto states = someData.at("states");
 
-		auto states = std::any_cast<std::vector<std::any>>(data.at("states"));
+	//	auto states = std::any_cast<std::vector<std::any>>(data.at("states"));
 
-		//std::vector<std::string> states = std::any_cast<std::vector<std::string>>(someData.at("states"));
+	//	//std::vector<std::string> states = std::any_cast<std::vector<std::string>>(someData.at("states"));
 
-		// Fetch state machine from factory??
-		for (const auto& state : states)
-		{
-			std::string type = std::any_cast<std::string>(state);
+	//	// Fetch state machine from factory??
+	//	for (const auto& state : states)
+	//	{
+	//		std::string type = std::any_cast<std::string>(state);
 
-			if (type == "idle")
-			{
-				component->States.push_back(new IdleState{});
-			}
-			else if (type == "walk")
-			{
-				component->States.push_back(new WalkState{});
-			}
-			else if (type == "attack")
-			{
-				component->States.push_back(new AttackState{});
-			}
-			else if (type == "flee")
-			{ }
-			else if (type == "death")
-			{ }
-		}
+	//		if (type == "idle")
+	//		{
+	//			component->States.push_back(new IdleState{});
+	//		}
+	//		else if (type == "walk")
+	//		{
+	//			component->States.push_back(new WalkState{});
+	//		}
+	//		else if (type == "attack")
+	//		{
+	//			component->States.push_back(new AttackState{});
+	//		}
+	//		else if (type == "flee")
+	//		{ }
+	//		else if (type == "death")
+	//		{ }
+	//	}
 
-		// Temp
-		component->ActiveState = component->States[0];
-
-
-		// std::unorederd_map? string key ? 
+	//	// Temp
+	//	component->ActiveState = component->States[0];
 
 
-		// TEmp
-		// add durtaion condition
-		Transition idleToWalk;
-		idleToWalk.SetCondition(new ElapsedTimeCondition{ 5.f });
-		idleToWalk.SetTargetState(component->States[1]);
-
-		Transition walkToIdle;
-		walkToIdle.SetCondition(new ElapsedTimeCondition{ 5.f }); // use same condition? => cant delte in desturtor then....
-		walkToIdle.SetTargetState(component->States[0]);
-
-		Transition walkToAttack;
-		walkToAttack.SetCondition(new InRangeCondition{ 20.f });
-		walkToAttack.SetTargetState(component->States[2]);
-
-		Transition attackToIdle;
-		attackToIdle.SetCondition(new HasAttackedCondition{});
-		attackToIdle.SetTargetState(component->States[0]);
-
-		component->States[0]->AddTransition(idleToWalk);
-		component->States[1]->AddTransition(walkToIdle); // duraion condition
-		component->States[1]->AddTransition(walkToAttack);
-		component->States[2]->AddTransition(attackToIdle);
-
-		// TODO; connect the states
-		// set start time in condition	
+	//	// std::unorederd_map? string key ? 
 
 
-		
-		// add duration condition to idle state.... and duration condition to walk state...
+	//	// TEmp
+	//	// add durtaion condition
+	//	Transition idleToWalk;
+	//	idleToWalk.SetCondition(new ElapsedTimeCondition{ 5.f });
+	//	idleToWalk.SetTargetState(component->States[1]);
+
+	//	Transition walkToIdle;
+	//	walkToIdle.SetCondition(new ElapsedTimeCondition{ 5.f }); // use same condition? => cant delte in desturtor then....
+	//	walkToIdle.SetTargetState(component->States[0]);
+
+	//	Transition walkToAttack;
+	//	walkToAttack.SetCondition(new InRangeCondition{ 20.f });
+	//	walkToAttack.SetTargetState(component->States[2]);
+
+	//	Transition attackToIdle;
+	//	attackToIdle.SetCondition(new HasAttackedCondition{});
+	//	attackToIdle.SetTargetState(component->States[0]);
+
+	//	component->States[0]->AddTransition(idleToWalk);
+	//	component->States[1]->AddTransition(walkToIdle); // duraion condition
+	//	component->States[1]->AddTransition(walkToAttack);
+	//	component->States[2]->AddTransition(attackToIdle);
+
+	//	// TODO; connect the states
+	//	// set start time in condition	
+
+
+	//	
+	//	// add duration condition to idle state.... and duration condition to walk state...
 
 
 
-		// unoredred map? string, state?
-		// c
+	//	// unoredred map? string, state?
+	//	// c
 
-	}
+	//}
 
 	template <>
 	static void InitializeComponent<ShakeComponent>(ShakeComponent* component, const ECS::ComponentData& data)

@@ -8,7 +8,7 @@ class Component;
 namespace ECS
 {
 	using EntityType = std::string;
-	using ComponentFactory = CU::Factory<ComponentBuilder, Component>;
+	//using ComponentFactory = CU::Factory<ComponentBuilder, Component>;
 }
 
 // TODO: Store blueprints in ResourceHolder??

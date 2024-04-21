@@ -2,20 +2,13 @@
 #include "CompositeNodes.h"
 
 
-SelectorNode::SelectorNode(int ownerID)
-	: BehaviorTreeNode{ ownerID }
-{
-}
+#pragma region SelectorNode
 
-SelectorNode::~SelectorNode()
-{
-}
-
-eBTNodeStatus SelectorNode::Execute(EntityManager* entityManager)
+eBTNodeStatus SelectorNode::Execute(Entity* entity)
 {
 	for (auto* child : m_children)
 	{
-		eBTNodeStatus status = child->Execute(entityManager);
+		eBTNodeStatus status = child->Execute(entity);
 
 		if (status == eBTNodeStatus::Running || status == eBTNodeStatus::Success)
 			return status;
@@ -24,8 +17,13 @@ eBTNodeStatus SelectorNode::Execute(EntityManager* entityManager)
 	return eBTNodeStatus::Failure;
 }
 
-void SelectorNode::Clear()
+void SelectorNode::OnDestroy()
 {
+	for (auto* child : m_children)
+	{
+		if (child)
+			child->OnDestroy();
+	}
 }
 
 void SelectorNode::AddChild(BehaviorTreeNode* node)
@@ -34,24 +32,15 @@ void SelectorNode::AddChild(BehaviorTreeNode* node)
 	m_children.push_back(node);
 }
 
+#pragma endregion SelectorNode
 
-// ---------------------------------------------------------------------------------------------------- //
+#pragma region SequenceNode
 
-
-SequenceNode::SequenceNode(int ownerID)
-	: BehaviorTreeNode{ ownerID }
-{
-}
-
-SequenceNode::~SequenceNode()
-{
-}
-
-eBTNodeStatus SequenceNode::Execute(EntityManager* entityManager)
+eBTNodeStatus SequenceNode::Execute(Entity* entity)
 {
 	for (auto* child : m_children)
 	{
-		auto status = child->Execute(entityManager);
+		auto status = child->Execute(entity);
 
 		if (status == eBTNodeStatus::Running || status == eBTNodeStatus::Failure)
 			return status;
@@ -60,8 +49,13 @@ eBTNodeStatus SequenceNode::Execute(EntityManager* entityManager)
 	return eBTNodeStatus::Success;
 }
 
-void SequenceNode::Clear()
+void SequenceNode::OnDestroy()
 {
+	for (auto* child : m_children)
+	{
+		if (child)
+			child->OnDestroy();
+	}
 }
 
 void SequenceNode::AddChild(BehaviorTreeNode* node)
@@ -69,3 +63,5 @@ void SequenceNode::AddChild(BehaviorTreeNode* node)
 	assert(node && "ERROR; trying to add a nullptr");
 	m_children.push_back(node);
 }
+
+#pragma endregion SequenceNode

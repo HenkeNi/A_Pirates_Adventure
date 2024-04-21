@@ -36,13 +36,20 @@ void InventoryScene::OnEnter()
 
 	m_entityManager.GetFactory().LoadBlueprints("../Game/Assets/Json/Blueprints/blueprint_manifest.json");
 
+	for (int row = 0; row < 3; ++row)
+	{
+		for (int col = 0; col < 16; ++col)
+		{
+			auto* box = m_entityManager.Create("inventory_slot");
+			box->GetComponent<TransformComponent>()->CurrentPos = { (float)col, (float)row };
+		}
+	}
+	//auto* box = m_entityManager.Create("inventory_slot");
+	//box->GetComponent<TransformComponent>()->CurrentPos = { 20.f, 20.f };
 
-	auto* box = m_entityManager.Create("inventory_slot");
-	box->GetComponent<TransformComponent>()->CurrentPos = { 20.f, 20.f };
 
-
-	auto* box1 = m_entityManager.Create("inventory_slot");
-	box1->GetComponent<TransformComponent>()->CurrentPos = { 120.f, 120.f };
+	//auto* box1 = m_entityManager.Create("inventory_slot");
+	//box1->GetComponent<TransformComponent>()->CurrentPos = { 120.f, 120.f };
 
 	// UI element box...
 	// render slots in grid...

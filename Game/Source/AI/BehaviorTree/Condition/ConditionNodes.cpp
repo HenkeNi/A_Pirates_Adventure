@@ -5,11 +5,6 @@
 #include "Components/Components.h"
 
 
-TargetInViewNode::TargetInViewNode(int ownerID, int targetID)
-	: BehaviorTreeNode{ ownerID }, m_targetID{ targetID }, m_radius{ 2.f }
-{
-}
-
 eBTNodeStatus TargetInViewNode::Execute(EntityManager* entityManager)
 {
 	if (entityManager)
@@ -40,11 +35,6 @@ void TargetInViewNode::Clear()
 
 
 
-
-TargetInRangeNode::TargetInRangeNode(int ownerID, int targetID)
-	: BehaviorTreeNode{ ownerID }, m_targetID{ targetID }, m_radius{ 0.5f }
-{
-}
 
 eBTNodeStatus TargetInRangeNode::Execute(EntityManager* entityManager)
 {
