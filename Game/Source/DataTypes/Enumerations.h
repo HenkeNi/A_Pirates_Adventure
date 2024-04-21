@@ -13,7 +13,6 @@ enum class eScene
 	Dungeon		/*= 64*/,
 	Inventory,
 	Count		/*= 128*/
-	//Settings, 
 	//GameOver, 
 };
 

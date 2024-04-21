@@ -29,7 +29,7 @@ Entity* EntityManager::Create(const std::string& type)
 
 Entity* EntityManager::Find(unsigned id)
 {
-	auto it = std::find_if(m_entities.begin(), m_entities.end(), [=](const Entity& anEntity) { return anEntity.GetID() == id; });
+	auto it = std::find_if(m_entities.begin(), m_entities.end(), [=](const Entity& entity) { return entity.GetID() == id; });
 
 	if (it != m_entities.end())
 		return &(*it);
@@ -39,7 +39,7 @@ Entity* EntityManager::Find(unsigned id)
 
 void EntityManager::Destroy(unsigned id)
 {
-	auto it = std::find_if(m_entities.begin(), m_entities.end(), [=](const Entity& anEntity) { return anEntity.GetID() == id; });
+	auto it = std::find_if(m_entities.begin(), m_entities.end(), [=](const Entity& entity) { return entity.GetID() == id; });
 
 	if (it != m_entities.end())
 	{

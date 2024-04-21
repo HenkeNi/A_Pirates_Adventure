@@ -6,10 +6,10 @@ class SprintCommand : public Command
 public:
 	SprintCommand();
 
-	void Execute(Entity* anEntity)			override;
-	bool CanPerform(Entity* anEntity) const override;
+	void Execute(Entity* entity)		  override;
+	bool CanPerform(Entity* entity)	const override;
 
-	void Undo(Entity* anEntity)				override;
+	void Undo(Entity* entity)			  override;
 
 private:
 	float m_sprintSpeed; // HERE?

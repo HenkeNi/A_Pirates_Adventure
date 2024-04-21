@@ -9,8 +9,8 @@ public:
 	MoveCommand();
 	MoveCommand(const CU::Vector2<float>& aDirection);
 
-	void Execute(Entity* anEntity)			override;
-	bool CanPerform(Entity* anEntity) const override;
+	void Execute(Entity* entity)		  override;
+	bool CanPerform(Entity* entity) const override;
 
 private:
 	CU::Vector2<float>			m_direction;

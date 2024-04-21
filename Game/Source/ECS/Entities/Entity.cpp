@@ -10,10 +10,10 @@ Entity::Entity()
 	m_components.reserve(16);
 }
 
-Entity::Entity(Entity&& anEntity) noexcept
-	: m_components{ std::move(anEntity.m_components) }, m_ID{ anEntity.m_ID }
+Entity::Entity(Entity&& entity) noexcept
+	: m_components{ std::move(entity.m_components) }, m_ID{ entity.m_ID }
 {
-	anEntity.m_components.clear();
+	entity.m_components.clear();
 }
 
 Entity::~Entity()

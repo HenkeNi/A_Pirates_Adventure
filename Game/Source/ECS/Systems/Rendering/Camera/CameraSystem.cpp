@@ -121,7 +121,7 @@ void CameraSystem::CullEntities()
 	}
 }
 
-bool CameraSystem::IsVisible(Entity* anEntity) const
+bool CameraSystem::IsVisible(Entity* entity) const
 {
 	// Check if bounding volume is inside fustrum...
 

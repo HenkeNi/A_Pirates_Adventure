@@ -8,7 +8,7 @@ ShootCommand::ShootCommand()
 {
 }
 
-void ShootCommand::Execute(Entity* anEntity)
+void ShootCommand::Execute(Entity* entity)
 {
 	double currentTime = Hi_Engine::Engine::GetTimer().GetTotalTime();
 
@@ -17,8 +17,8 @@ void ShootCommand::Execute(Entity* anEntity)
 
 	m_timestamp = currentTime;
 
-	auto* transformComponent = anEntity->GetComponent<TransformComponent>();
-	auto* inputComponent = anEntity->GetComponent<InputComponent>();
+	auto* transformComponent = entity->GetComponent<TransformComponent>();
+	auto* inputComponent = entity->GetComponent<InputComponent>();
 
 	// TODO; convert mouse to inworld position => store mouse pls in woorld coord on player?
 	//MousePosToWorldCoords(mousePosition.x, mousePosition.y, 1400, 800, );
@@ -34,7 +34,7 @@ void ShootCommand::Execute(Entity* anEntity)
 	PostMaster::GetInstance().SendMessage({ eMessage::EntityFired, data });
 }
 
-bool ShootCommand::CanPerform(Entity* anEntity) const
+bool ShootCommand::CanPerform(Entity* entity) const
 {
 	return false;
 }

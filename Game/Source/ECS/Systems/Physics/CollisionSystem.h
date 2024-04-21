@@ -22,13 +22,13 @@ private:
 	void HandleEntityCollisions(std::vector<Entity*>& entities); // rename EntityVsEntity collisions?
 
 	//void UpdateDynamicColliders();
-	// void AdjustColliderPosition(Entity* anEntity);
+	// void AdjustColliderPosition(Entity* entity);
 
 
 
 	// TODO; have a collision grid that gets updated when objects are placed in the world...
 
-	// void HandleObjectCollisions(Entity* anEntity, float aDeltaTime);
+	// void HandleObjectCollisions(Entity* entity, float aDeltaTime);
 	void HandleTileCollisions(Entity* entity, float deltaTime);
 	void CheckMapCollisions(Entity* entity);
 	void ResolveCollision(Entity* entity, struct Tile* tile);
@@ -40,5 +40,5 @@ private:
 // OR maybe colliders are just small structs (min/max) and free floating functions... DOWNSIDE=> visually debugging collider is less accurate..
 
 
-	// float SweptAABB(Entity* anEntity);
+	// float SweptAABB(Entity* entity);
 };

@@ -14,24 +14,24 @@ MoveCommand::MoveCommand(const CU::Vector2<float>& aDirection)
 {
 }
 
-void MoveCommand::Execute(Entity* anEntity)			
+void MoveCommand::Execute(Entity* entity)			
 {
-	if (!anEntity)
+	if (!entity)
 		return;
 
-	if (auto* velocityComponent = anEntity->GetComponent<VelocityComponent>())
+	if (auto* velocityComponent = entity->GetComponent<VelocityComponent>())
 	{
 		velocityComponent->Velocity.x = m_direction.x == 0.f ? velocityComponent->Velocity.x : m_direction.x;
 		velocityComponent->Velocity.y = m_direction.y == 0.f ? velocityComponent->Velocity.y : m_direction.y;
 	}
 }
 
-bool MoveCommand::CanPerform(Entity* anEntity) const
+bool MoveCommand::CanPerform(Entity* entity) const
 {
-	if (!anEntity)
+	if (!entity)
 		return false;
 
-	if (auto* characterStateComponent = anEntity->GetComponent<CharacterStateComponent>())
+	if (auto* characterStateComponent = entity->GetComponent<CharacterStateComponent>())
 	{
 
 	}

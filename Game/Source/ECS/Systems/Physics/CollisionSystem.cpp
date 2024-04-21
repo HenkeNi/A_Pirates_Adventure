@@ -362,11 +362,11 @@ bool CollisionSystem::CanCollide(Entity* first, Entity* second)
 	return false;
 }
 
-//void CollisionSystem::AdjustColliderPosition(Entity* anEntity)
+//void CollisionSystem::AdjustColliderPosition(Entity* entity)
 //{
-//	if (auto* colliderComponent = anEntity->GetComponent<ColliderComponent>())
+//	if (auto* colliderComponent = entity->GetComponent<ColliderComponent>())
 //	{
-//		auto* transformComponent = anEntity->GetComponent<TransformComponent>();
+//		auto* transformComponent = entity->GetComponent<TransformComponent>();
 //		const auto position = transformComponent->CurrentPos;
 //
 //		auto& aabb = colliderComponent->Collider;
@@ -520,7 +520,7 @@ void CollisionSystem::HandleEntityCollisions(std::vector<Entity*>& entities)
 
 }
 
-//Entity* CollisionSystem::GetMapChunkContainingEntity(const Entity* anEntity)
+//Entity* CollisionSystem::GetMapChunkContainingEntity(const Entity* entity)
 //{
 //	auto mapChunks = m_entityManager->FindAll<MapChunkComponent>();
 //
@@ -539,11 +539,11 @@ void CollisionSystem::HandleEntityCollisions(std::vector<Entity*>& entities)
 
 void CollisionSystem::CheckMapCollisions(Entity* entity)
 {
-	//// auto entityPosition = anEntity->GetComponent<TransformComponent>()->m_currentPos;
+	//// auto entityPosition = entity->GetComponent<TransformComponent>()->m_currentPos;
 	//
 	//// Check all 4 corners of the collider...?
 
-	//auto hitbox = anEntity->GetComponent<HitboxComponent>();
+	//auto hitbox = entity->GetComponent<HitboxComponent>();
 
 	//// temp
 	//auto center = hitbox->Collider.GetCenter();
@@ -558,8 +558,8 @@ void CollisionSystem::CheckMapCollisions(Entity* entity)
 	//	Hi_Engine::Physics::AABB2D<float> tileBounds;
 	//	tileBounds.Init({ tile->Position.x, tile->Position.y }, { tile->Position.x + 1.f, tile->Position.y + 1.f });
 
-	//	auto hitbox = anEntity->GetComponent<HitboxComponent>()->Collider;
-	//	auto& velocity = anEntity->GetComponent<VelocityComponent>()->Velocity;
+	//	auto hitbox = entity->GetComponent<HitboxComponent>()->Collider;
+	//	auto& velocity = entity->GetComponent<VelocityComponent>()->Velocity;
 
 	//	// Dont check against the dynamic?
 	//	CommonUtilities::Vector2<float> contactPoint;
@@ -574,7 +574,7 @@ void CollisionSystem::CheckMapCollisions(Entity* entity)
 	//		velocity.z += contactNormal.y * vec.y;
 	//	}
 
-	//	// ResolveCollision(anEntity, tile);
+	//	// ResolveCollision(entity, tile);
 	//	
 	//}
 
@@ -622,7 +622,7 @@ void CollisionSystem::ResolveCollision(Entity* entity, Tile* tile)
 	auto transformComponent = entity->GetComponent<TransformComponent>();
 	transformComponent->CurrentPos = transformComponent->PreviousPos;
 
-	//auto velocityComponent = anEntity->GetComponent<VelocityComponent>();
+	//auto velocityComponent = entity->GetComponent<VelocityComponent>();
 
 	//static float tileSize = 1.f;
 
@@ -642,10 +642,10 @@ void CollisionSystem::ResolveCollision(Entity* entity, Tile* tile)
 
 }
 //
-//float CollisionSystem::SweptAABB(Entity* anEntity)
+//float CollisionSystem::SweptAABB(Entity* entity)
 //{
-//	auto* hitbox = anEntity->GetComponent<HitboxComponent>();
-//	auto* velocity = anEntity->GetComponent<VelocityComponent>();
+//	auto* hitbox = entity->GetComponent<HitboxComponent>();
+//	auto* velocity = entity->GetComponent<VelocityComponent>();
 //
 //
 //

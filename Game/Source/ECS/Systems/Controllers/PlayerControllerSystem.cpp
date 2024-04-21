@@ -64,7 +64,7 @@ void PlayerControllerSystem::ProcessCommands(Entity* entity)
 	{
 		// TODO: dont do input check? check in component instead?? store commands in simple array?
 		bool isKeyActive = inputComponent->InputStates[key]; // NOTE: this will add the releveant keys to the map.. (maybe use .find, or .at and initialize keys when creating the component?
-		//bool canPerform = command->CanPerform(anEntity);
+		//bool canPerform = command->CanPerform(entity);
 
 		isKeyActive ? command->Execute(entity) : command->Undo(entity);
 	}
