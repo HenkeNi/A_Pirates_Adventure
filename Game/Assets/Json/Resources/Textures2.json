@@ -316,7 +316,7 @@
     "cols": 1
   },
   {
-    "id": "quit_button",
+    "id": "quit_icon",
     "path": "../Game/Assets/Textures/Icons/power-button.png",
     "alpha": true,
     "filtering": "Linear",

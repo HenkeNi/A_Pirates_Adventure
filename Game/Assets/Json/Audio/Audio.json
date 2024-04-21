@@ -10,6 +10,11 @@
     "is_looping": true
   },
   {
+    "name": "night_ambience",
+    "filepath": "../Game/Assets/Sound/366516__scotthurly__ambience-night-time-with-frogs-and-crickets.wav",
+    "is_looping": true
+  },
+  {
     "name": "button_click",
     "filepath": "../Game/Assets/Sound/623175__aphom000__button-click-selection.wav",
     "is_looping": false
@@ -22,6 +27,16 @@
   {
     "name": "pickup",
     "filepath": "../Game/Assets/Sound/654251__strechy__item-pickup-sound.ogg",
+    "is_looping": false
+  },
+  {
+    "name": "rock_smash",
+    "filepath": "../Game/Assets/Sound/437602__debsound__brick-debris-fall-06.wav",
+    "is_looping": false
+  },
+  {
+    "name": "tree_fall",
+    "filepath": "../Game/Assets/Sound/593875__igroglaz__tree-fall.mp3",
     "is_looping": false
   }
 ]

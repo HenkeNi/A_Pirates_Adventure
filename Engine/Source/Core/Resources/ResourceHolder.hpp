@@ -6,11 +6,10 @@
 #include "../Audio/AudioSource.h"
 #include "../Rendering/Font/Font.h"
 #include <../../ThirdParty/rapidjson/document.h>
-// #include <document.h>
+#include <../../ThirdParty/stb_image/stb_image.h>
 #include <memory>
 #include <string>
 #include <unordered_map>
-#include <../../ThirdParty/stb_image/stb_image.h>
 #include <fstream>
 #include <iostream>
 

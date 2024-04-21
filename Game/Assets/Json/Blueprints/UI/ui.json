@@ -162,6 +162,13 @@
         "properties": {
           "render_depth": 4
         }
+      },
+      {
+        "type": "audio",
+        "properties": {
+          "sound_name": "button_click",
+          "trigger": "button_activated"
+        }
       }
     ]
   },
@@ -206,6 +213,13 @@
         "type": "ui",
         "properties": {
           "render_depth": 4
+        }
+      },
+      {
+        "type": "audio",
+        "properties": {
+          "sound_name": "button_click",
+          "trigger": "button_activated"
         }
       }
     ]

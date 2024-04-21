@@ -51,7 +51,7 @@
       ]
     },
     {
-      "entity_id": "button",
+      "entity_id": "scene_transition_button",
       "components_data": [
         {
           "type": "transform",
@@ -81,7 +81,7 @@
       ]
     },
     {
-      "entity_id": "button",
+      "entity_id": "scene_transition_button",
       "components_data": [
         {
           "type": "transform",
@@ -109,8 +109,31 @@
           }
         }
       ]
-
     },
+    {
+      "entity_id": "button",
+      "components_data": [
+        {
+          "type": "transform",
+          "properties": {
+            "position": [ 3.75, 2.0 ],
+            "scale": [ 0.5, 0.5 ],
+            "pivot": [ 0.5, 0.5 ],
+            "rotation": 0.0
+          }
+        },
+        {
+          "type": "sprite",
+          "properties": {
+            "shader": "sprite_batch",
+            "texture": "quit_icon",
+            "coordinates": [ 0, 0 ],
+            "color": [ 1.0, 1.0, 1.0, 1.0 ]
+          }
+        }
+      ]
+    },
+
     {
       "entity_id": "mouse_cursor"
     }

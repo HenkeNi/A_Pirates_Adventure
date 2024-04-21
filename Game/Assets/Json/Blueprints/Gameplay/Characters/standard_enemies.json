@@ -39,16 +39,6 @@
         "properties": {}
       },
       {
-        "type": "state_machine",
-        "properties": {
-          "states": [ "idle", "walk", "attack" ]
-        }
-      },
-      {
-        "type": "blackboard",
-        "properties": {}
-      },
-      {
         "type": "health",
         "properties": {
           "value": 50000
@@ -57,6 +47,26 @@
       {
         "type": "knockback",
         "properties": {}
+      },
+      {
+        "type": "blackboard",
+        "properties": {}
+      },
+      {
+        "type": "behavior_tree",
+        "properties": {}
+      },
+      {
+        "type": "attribute",
+        "properties": {
+          "perception": 6
+        }
+      },
+      {
+        "type": "personality",
+        "properties": {
+          "IsAggressive": true
+        }
       }
     ]
   },

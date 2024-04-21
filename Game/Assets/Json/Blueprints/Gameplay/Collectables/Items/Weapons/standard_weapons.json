@@ -51,7 +51,8 @@
       {
         "type": "audio",
         "properties": {
-          "sound_name": "pickaxe"
+          "sound_name": "pickaxe",
+          "trigger": "item_used"
         }
       }
     ]

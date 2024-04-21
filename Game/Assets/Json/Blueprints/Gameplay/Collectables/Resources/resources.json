@@ -31,6 +31,13 @@
       {
         "type": "collectable",
         "properties": {}
+      },
+      {
+        "type": "audio",
+        "properties": {
+          "sound_name": "pickup",
+          "trigger": "item_collected"
+        }
       }
     ]
   },
@@ -70,7 +77,8 @@
       {
         "type": "audio",
         "properties": {
-          "sound_name": "pickup"
+          "sound_name": "pickup",
+          "trigger": "item_collected"
         }
       }
     ]
@@ -107,6 +115,13 @@
       {
         "type": "collectable",
         "properties": {}
+      },
+      {
+        "type": "audio",
+        "properties": {
+          "sound_name": "pickup",
+          "trigger": "item_collected"
+        }
       }
     ]
   }

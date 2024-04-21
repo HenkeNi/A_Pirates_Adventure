@@ -28,13 +28,6 @@
         }
       },
       {
-        "type": "state_machine",
-        "properties": {
-          "states": [ "idle", "walk", "flee", "attack", "death" ],
-          "active_state": "idle"
-        }
-      },
-      {
         "type": "steering_behavior",
         "properties": {
           "behavior": "wander_behavior",

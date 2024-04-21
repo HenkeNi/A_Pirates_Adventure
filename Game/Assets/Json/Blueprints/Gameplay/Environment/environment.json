@@ -94,6 +94,13 @@
       {
         "type": "shake",
         "properties": {}
+      },
+      {
+        "type": "audio",
+        "properties": {
+          "sound_name": "tree_fall",
+          "trigger": "entity_destroyed"
+        }
       }
     ]
   },
@@ -143,6 +150,13 @@
       {
         "type": "shake",
         "properties": {}
+      },
+      {
+        "type": "audio",
+        "properties": {
+          "sound_name": "rock_smash",
+          "trigger": "entity_destroyed"
+        }
       }
     ]
   }
