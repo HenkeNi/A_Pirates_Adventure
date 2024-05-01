@@ -2,7 +2,7 @@
 #include "DoublyLinkedListNode.h"
 #include <cassert>
 
-namespace CommonUtilities
+namespace Hi_Engine
 {
 	template <class Type, typename SizeType = unsigned>
 	class DoublyLinkedList

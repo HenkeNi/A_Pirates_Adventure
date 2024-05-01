@@ -44,21 +44,21 @@
           "type": "text",
           "properties": {
             "font": "Basic",
-            "size": 1,
+            "size": 5,
             "color": [ 0.95, 0.42, 0.1, 1.0 ],
             "text": "A Pirate's Adventure",
             "alignment": "center"
           }
         }
       ]
-    },
+    },  
     {
       "entity_id": "scene_timer",
       "components_data": [
         {
           "type": "timer",
           "properties": {
-            "duration": 4.0
+            "duration": 1.0
           }
         },
         {

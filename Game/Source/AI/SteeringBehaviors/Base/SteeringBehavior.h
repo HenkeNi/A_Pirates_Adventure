@@ -8,8 +8,8 @@ public:
 
 	virtual void Update(float deltaTime) = 0;
 
-	virtual const CU::Vector2<float> GetSteeringForce(const CU::Vector2<float>& velocity) = 0;
-	virtual const CU::Vector2<float> GetSteeringForce(const CU::Vector2<float>& position, const CU::Vector2<float>& velocity) { return {}; }
+	virtual const FVector2 GetSteeringForce(const FVector2& velocity) = 0;
+	virtual const FVector2 GetSteeringForce(const FVector2& position, const FVector2& velocity) { return {}; }
 
 	// put funcitons like seek, arrive, etc here?? maybe make namespacfe??
 };

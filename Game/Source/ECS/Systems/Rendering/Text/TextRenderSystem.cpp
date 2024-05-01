@@ -21,31 +21,25 @@ void TextRenderSystem::Draw()
 	if (!m_entityManager)
 		return;
 
-	auto entities = m_entityManager->FindAll<TextComponent, TransformComponent>();
-
 	// DO in initilaizcomponent instead
 	auto* shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Text"); // FIX!! set in Renderer before...
 
 	auto* camera = m_entityManager->FindFirst<CameraComponent>();
 	const auto& projection = camera->GetComponent<CameraComponent>()->Camera.GetProjectionMatrix();
 
+	auto entities = m_entityManager->FindAll<TextComponent, TransformComponent>();
 	for (const auto& entity : entities)
 	{
-		const auto& textComponent = entity->GetComponent<TextComponent>();
-		const auto& transformComponent = entity->GetComponent<TransformComponent>();
+		const auto* transformComponent = entity->GetComponent<TransformComponent>();
+		const auto* textComponent = entity->GetComponent<TextComponent>();
 
-		const auto& position = CU::Vector2<float>{ transformComponent->CurrentPos.x, transformComponent->CurrentPos.y };
+		const auto& position = FVector2{ transformComponent->CurrentPos.x, transformComponent->CurrentPos.y };
 
-		CU::Vector2<float> renderPosition;
+		FVector2 renderPosition;
 		renderPosition.x = transformComponent->CurrentPos.x + (transformComponent->Pivot.x * textComponent->Size); // transformComponent->Scale.x);
 		renderPosition.y = transformComponent->CurrentPos.y + (transformComponent->Pivot.y * textComponent->Size); // transformComponent->Scale.y); // TODO: add font size??
 
 		Hi_Engine::TextRenderer::GetInstance().Render({ shader, textComponent->Font, (float)1.f, textComponent->Color, renderPosition, textComponent->Text, textComponent->Alignment }, projection);
 		//Hi_Engine::TextRenderer::GetInstance().Render({ shader, textComponent->Font, (float)textComponent->Size, textComponent->Color, renderPosition, textComponent->Text }, projection);
 	}
-
-	// TEST
-	//auto& shader = Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Text");
-	//auto& font = Hi_Engine::ResourceHolder<Hi_Engine::Font>::GetInstance().GetResource("Basic");
-	// Hi_Engine::TextRenderer::GetInstance().Render({ shader, &font, 2.f, { 1.f, 1.f, 1.f }, { 230.f, 338.f}, "GHello world" });
 }

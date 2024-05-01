@@ -44,7 +44,7 @@ void SteeringBehaviorSystem::UpdateWanderBehavior(float deltaTime)
 		wanderComponent->ElapsedTime += deltaTime;
 		if (wanderComponent->ElapsedTime > wanderComponent->WalkDuration)
 		{
-			wanderComponent->Target = Random::GenerateRandomFloatingPointInRadius<float>(currentPosition, 200.f);
+			wanderComponent->Target = Hi_Engine::GenerateRandomFloatingPointInRadius<float>(currentPosition, 200.f);
 			wanderComponent->ElapsedTime = 0.f;
 		}
 
@@ -52,21 +52,21 @@ void SteeringBehaviorSystem::UpdateWanderBehavior(float deltaTime)
 		static const float maxForce = 5.f;
 		static const float maxSpeed = 2.5f;
 
-		CU::Vector2<float> desiredDirection = { wanderComponent->Target - transformComponent->CurrentPos };
+		FVector2 desiredDirection = { wanderComponent->Target - transformComponent->CurrentPos };
 		desiredDirection.Normalize();
 		
 		auto* velocityComponent = entity->GetComponent<VelocityComponent>();
 
 		//CU::Vector2<float> desiredVelocity = (randomPosition - transformComponent->CurrentPos) * maxVelocity;
-		CU::Vector2<float> desiredVelocity = desiredDirection * maxVelocity;
-		CU::Vector2<float> steering = desiredVelocity - velocityComponent->Velocity;
+		FVector2 desiredVelocity = desiredDirection * maxVelocity;
+		FVector2 steering = desiredVelocity - velocityComponent->Velocity;
 
 
-		steering.x = CommonUtilities::Min(steering.x, maxForce);	
-		steering.y = CommonUtilities::Min(steering.y, maxForce);
+		steering.x = Hi_Engine::Math::Min(steering.x, maxForce);	
+		steering.y = Hi_Engine::Math::Min(steering.y, maxForce);
 
-		velocityComponent->Velocity.x = CommonUtilities::Min(velocityComponent->Velocity.x + steering.x, maxSpeed);
-		velocityComponent->Velocity.y = CommonUtilities::Min(velocityComponent->Velocity.y + steering.y, maxSpeed);
+		velocityComponent->Velocity.x = Hi_Engine::Math::Min(velocityComponent->Velocity.x + steering.x, maxSpeed);
+		velocityComponent->Velocity.y = Hi_Engine::Math::Min(velocityComponent->Velocity.y + steering.y, maxSpeed);
 
 		continue;
 

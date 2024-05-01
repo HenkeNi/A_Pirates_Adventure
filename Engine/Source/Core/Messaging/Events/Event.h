@@ -1,10 +1,11 @@
 #pragma once
-#include "../Data/Enumerations.h"
 #include "../Utility/DataStructures/Linear/Static/MemoryPool/MemoryPool.hpp"
+#include "../Data/Enumerations.h"
 
 namespace Hi_Engine
 {
 	class EventListener;
+
 	class BaseEvent
 	{
 	public:
@@ -57,13 +58,13 @@ namespace Hi_Engine
 	template<typename Derived>
 	void* Event<Derived>::operator new(size_t size)
 	{
-		return CommonUtilities::MemoryPool<Derived>::GetInstance().GetResource();
+		return MemoryPool<Derived>::GetInstance().GetResource();
 	}
 
 	template<typename Derived>
 	void Event<Derived>::operator delete(void* pointer)
 	{
-		CommonUtilities::MemoryPool<Derived>::GetInstance().ReturnResource(static_cast<Derived*>(pointer));
+		MemoryPool<Derived>::GetInstance().ReturnResource(static_cast<Derived*>(pointer));
 	}
 
 	template<typename Derived>

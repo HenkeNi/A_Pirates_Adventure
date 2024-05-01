@@ -214,7 +214,7 @@ struct InventoryComponent : public Component
 
 	bool IsOpen = false;
 
-	CU::Vector2<unsigned> GridDimensions;
+	UVector2 GridDimensions;
 
 	// std::unordered_map<std::string, unsigned> Inventory; // Or list of entities? or list of ItemComponents?
 
@@ -261,7 +261,7 @@ struct ExplosionComponent : public Component
 
 struct KnockbackComponent : public Component
 {
-	CU::Vector2<float> Direction;
+	FVector2 Direction;
 	float Power;
 	double Timestamp;
 	float Duration;	

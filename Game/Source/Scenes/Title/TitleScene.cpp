@@ -13,7 +13,7 @@ TitleScene::~TitleScene()
 {
 }
 
-void TitleScene::Update(float deltaTime) 
+void TitleScene::Update(float deltaTime)  // TODO; listen for any button press - add trigger componment to background?
 {
 	// TEMP => use component instead??
 	/*static float elapsedTime = 0.f;

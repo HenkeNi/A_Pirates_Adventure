@@ -5,7 +5,7 @@
 
 namespace Hi_Engine
 {
-	namespace CU = CommonUtilities;
+	using namespace Math;
 
 	class TerminationEvent : public Event<TerminationEvent>
 	{
@@ -25,17 +25,17 @@ namespace Hi_Engine
 	{
 	public:
 		WindowEvent();			// Overload new operatp`?? placement new?? 
-		~WindowEvent() override;
+		~WindowEvent()										override;
 
-		void					Dispatch(EventListener& listener)	override;	// Put in base class?
-		void					Reset()								override;
-		void					Init(eWindowEvent type);
+		void			Dispatch(EventListener& listener)	override;	// Put in base class?
+		void			Reset()								override;
+		void			Init(eWindowEvent type);
 
-		eWindowEvent			GetEventType()						   const;
+		eWindowEvent	GetEventType()						   const;
 
 	private:
-		eWindowEvent			m_eventType;
-		CU::Vector2<unsigned>	m_windowSize;
+		eWindowEvent	m_eventType;
+		UVector2		m_windowSize;
 	};
 
 

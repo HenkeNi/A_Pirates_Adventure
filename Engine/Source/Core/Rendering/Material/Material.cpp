@@ -21,7 +21,7 @@ namespace Hi_Engine
 	{
 	}
 
-	void Material::SetColor(const CU::Vector4<float> color)
+	void Material::SetColor(const Vector4<float> color)
 	{
 		m_color = color;
 	}
@@ -41,7 +41,7 @@ namespace Hi_Engine
 		m_shader = shader;
 	}
 
-	const CU::Vector4<float>& Material::GetColor() const
+	const Vector4<float>& Material::GetColor() const
 	{
 		return m_color;
 	}

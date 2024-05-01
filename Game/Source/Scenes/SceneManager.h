@@ -1,9 +1,5 @@
 #pragma once
 #include <../Hi_Engine.h>
-//#include <Utility/DataStructures/Linear/Dynamic/Stack/Stack.hpp>
-//#include "../DataTypes/Enumerations.h"
-
-namespace CU = CommonUtilities;
 
 enum class eScene;
 class Scene;
@@ -46,8 +42,8 @@ public:
 private:
 	void LoadScene(const std::string& aPath);
 
-	Utility::Scenes		m_registeredScenes; // m_registeredScenes
-	CU::Stack<eScene>	m_stack;
+	Utility::Scenes				m_registeredScenes; // m_registeredScenes
+	Hi_Engine::Stack<eScene>	m_stack;
 	//std::vector<eScene> m_currentScenes;
 
 	std::unordered_map<eScene, std::string> m_paths; // Function in scene?

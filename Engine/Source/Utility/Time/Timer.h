@@ -5,7 +5,6 @@
 
 namespace Hi_Engine
 {
-	// make static?
 	class Timer	
 	{
 	public:

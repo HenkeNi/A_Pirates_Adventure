@@ -1,9 +1,5 @@
 #pragma once
-#include "../../../Data/Enumerations.h"
 #include "../../../Data/Structs.h"
-#include "../../../Utility/DataStructures/Linear/Static/MemoryPool/MemoryPool.hpp"
-#include <queue>
-
 
 // TODO: replace array with Binary Search Tree Set or AVL or SPlay Tree? or map
 // TODO; check if sorting after importance works?
@@ -11,8 +7,6 @@
 // Todo: rename EventSystem?? or MessageSystem??
 namespace Hi_Engine
 {
-	namespace CU = CommonUtilities;
-
 	class BaseEvent;
 	class EventListener;
 

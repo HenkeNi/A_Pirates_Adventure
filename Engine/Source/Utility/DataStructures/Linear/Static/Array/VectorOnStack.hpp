@@ -6,7 +6,7 @@
 
 // TODO: move constructor?
 
-namespace CommonUtilities
+namespace Hi_Engine
 {
 	template <typename Type, int size, typename SizeType = unsigned short, bool useSafeModeFlag = true>
 	class VectorOnStack

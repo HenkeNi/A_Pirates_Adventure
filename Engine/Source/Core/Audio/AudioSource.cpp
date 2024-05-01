@@ -12,8 +12,6 @@ namespace Hi_Engine
 
 	AudioSource::~AudioSource()
 	{
-		int xx = 10;
-		xx += 10;
 		// m_source->
 	}
 

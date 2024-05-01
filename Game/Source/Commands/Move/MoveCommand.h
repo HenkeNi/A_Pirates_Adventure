@@ -7,11 +7,11 @@ class MoveCommand : public Command	// derive from EntityCommand? (GlobalCommand)
 {
 public:
 	MoveCommand();
-	MoveCommand(const CU::Vector2<float>& aDirection);
+	MoveCommand(const FVector2& direction);
 
 	void Execute(Entity* entity)		  override;
 	bool CanPerform(Entity* entity) const override;
 
 private:
-	CU::Vector2<float>			m_direction;
+	FVector2			m_direction;
 };

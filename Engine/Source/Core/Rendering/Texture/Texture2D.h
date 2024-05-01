@@ -3,7 +3,7 @@
 
 namespace Hi_Engine
 {
-	namespace CU = CommonUtilities;
+	using namespace Math;
 
 	class Texture2D
 	{
@@ -11,20 +11,20 @@ namespace Hi_Engine
 		Texture2D(GLenum textureFormat = GL_RGB, bool linearFiltering = true);
 		~Texture2D();
 
-		void					Init(const CU::Vector2<int>& size, unsigned char* data);		// Take in texturedata...
-		void					Bind()																const;
-		void					Unbind()															const;
+		void			Init(const IVector2& size, unsigned char* data);		// Take in texturedata...
+		void			Bind()												const;
+		void			Unbind()											const;
 
-		const CU::Vector2<int>& GetSize()															const;
-		unsigned				GetID()																const;
-		unsigned char*			GetData()															const;
+		const IVector2& GetSize()											const;
+		unsigned		GetID()												const;
+		unsigned char*	GetData()											const;
 
 	private:
-		CU::Vector2<int>		m_size;
-		GLenum					m_internalFormat, m_imageFormat;
-		unsigned				m_id;
+		IVector2		m_size;
+		GLenum			m_internalFormat, m_imageFormat;
+		unsigned		m_id;
 
-		unsigned char* m_data;
-		bool m_linearFiltering;	// replace with GLInt?? 
+		unsigned char*	m_data;
+		bool			m_linearFiltering;	// replace with GLInt?? 
 	};
 }

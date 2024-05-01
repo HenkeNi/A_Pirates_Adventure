@@ -77,7 +77,7 @@ void CameraSystem::Update(float deltaTime)
 	{
 		auto targetPosition = target->GetComponent<TransformComponent>()->CurrentPos;
 		//auto newPosition = targetPosition + cameraComponent->TargetOffset;
-		CU::Vector3<float> newPosition = { targetPosition.x + cameraComponent->TargetOffset.x, targetPosition.y + cameraComponent->TargetOffset.y, cameraComponent->TargetOffset.z };
+		FVector2 newPosition = { targetPosition.x + cameraComponent->TargetOffset.x, targetPosition.y + cameraComponent->TargetOffset.y };
 
 		cameraComponent->Camera.SetPosition(newPosition);
 		camera->GetComponent<TransformComponent>()->CurrentPos = { newPosition.x, newPosition.y };

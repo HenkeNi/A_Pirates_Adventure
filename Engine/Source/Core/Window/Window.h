@@ -5,7 +5,8 @@ struct GLFWwindow;
 
 namespace Hi_Engine
 {
-	namespace CU = CommonUtilities;
+	using namespace Math;
+
 	class Engine;
 
 	class Window
@@ -15,20 +16,20 @@ namespace Hi_Engine
 		~Window();
 
 		bool			Init(WindowData data);
-		bool			IsOpen()										const;
-		const CU::Vector2<unsigned>& GetSize()							const;
-		void			PollEvents()									const;
-		void			ClearScreen()									const;
-		void			SwapBuffers()									const;
+		const UVector2& GetSize()									const;
+		bool			IsOpen()									const;
+		void			PollEvents()								const;
+		void			ClearScreen()								const;
+		void			SwapBuffers()								const;
 		void			Close();
 
 		void			SetTitle(const std::string& title);
-		void			SetSize(const CU::Vector2<unsigned>& size);
+		void			SetSize(const Vector2<unsigned>& size);
 		void			SetIcon(const std::string& texturePath);
 		void			ToggleFullscreen();
 
 	private:
-		bool			InitGlfw()										const;	// integrate in Init?
+		bool			InitGlfw()									const;	// integrate in Init?
 		bool			CreateWindow();	// static?
 
 		friend	class Engine;

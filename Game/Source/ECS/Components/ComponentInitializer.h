@@ -20,6 +20,12 @@
 // #include "../AI/SteeringBehaviors/Wander/WanderBehavior.h"
 
 
+#include "AI/BehaviorTree/Action/ActionNodes.h"
+#include "AI/BehaviorTree/Composite/CompositeNodes.h"
+#include "AI/BehaviorTree/Condition/ConditionNodes.h"
+#include "AI/BehaviorTree/Decorator/DecoratorNodes.h"
+#include "AI/BehaviorTree/Base/BehaviorTreeNode.h"
+
 namespace ECS
 {
 	using ComponentData = std::unordered_map<std::string, std::any>;
@@ -105,7 +111,7 @@ public:
 	template <>
 	static void InitializeComponent<AttackComponent>(AttackComponent* component, const ECS::ComponentData& data)
 	{
-		auto startPos = CU::Vector2<float>{ 0.f, 0.f };
+		auto startPos = FVector2{ 0.f, 0.f };
 		auto colliderSize = 0.2f;								// FIX!
 
 		// Do in MovementSystem init?
@@ -156,9 +162,54 @@ public:
 		//component->Audio.Init(audioSource);
 	}
 
+
 	template <>
 	static void InitializeComponent<BehaviorTreeComponent>(BehaviorTreeComponent* component, const ECS::ComponentData& data)
 	{
+
+		auto* behavior = new SelectorNode;
+
+		// Patrol sequence
+		auto* patrolSequence = new SequenceNode;
+		patrolSequence->AddChild(new HasTaget);
+		patrolSequence->AddChild(new InverterNode(new IsTargetReached)); // inverter node?
+		patrolSequence->AddChild(new MoveToNode);
+
+		behavior->AddChild(patrolSequence);
+
+		// Idle sequence
+		behavior->AddChild(new IdleNode);
+
+
+		component->RootNode = behavior;
+		
+		
+		
+		//rootNode->AddChild(new MoveToNode);
+		//rootNode->AddChild(new IdleNode);
+
+
+
+		// Sequence => PAtrol > idle...
+
+		// Selector; Alert Patrol Idle?
+
+
+
+		// rootNode->AddChild(new IdleNode);
+
+		// rootNode->
+
+		//component->RootNode = new SequenceNode;
+
+		//component->RootNode
+
+		// selector
+
+
+		// Idle Patrol Alert  Chase Flee Attack 
+
+
 
 
 
@@ -210,7 +261,7 @@ public:
 	template <>
 	static void InitializeComponent<ColliderComponent>(ColliderComponent* component, const ECS::ComponentData& data)
 	{
-		CU::Vector2<float> position = { 0.f, 0.f };
+		FVector2 position = { 0.f, 0.f };
 
 		auto size = std::any_cast<std::vector<std::any>>(data.at("size"));
 
@@ -274,10 +325,10 @@ public:
 	template <>
 	static void InitializeComponent<MapChunkComponent>(MapChunkComponent* component, const ECS::ComponentData& data)
 	{
-		int width = std::any_cast<int>(data.at("width"));
-		int height = std::any_cast<int>(data.at("height"));
+		//int width = std::any_cast<int>(data.at("width"));
+		//int height = std::any_cast<int>(data.at("height"));
 
-		MapChunkComponent::TileCountPerSide = width;
+		// MapChunkComponent::TileCountPerSide = width;
 
 		//aComponent->Width = width;
 		//aComponent->Height = height;

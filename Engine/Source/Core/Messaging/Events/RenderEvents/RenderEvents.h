@@ -6,10 +6,6 @@
 
 namespace Hi_Engine
 {
-	namespace CU = CommonUtilities;
-
-
-
 	//class RenderSpriteEvent : public Event<RenderSpriteEvent>
 	//{
 	//public:

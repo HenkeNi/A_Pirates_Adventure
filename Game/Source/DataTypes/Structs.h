@@ -7,8 +7,7 @@
 #include  <../../../Engine/Source/Core/Rendering/Material/Material.h>
 #include  <../../../Engine/Source/Core/Rendering/Texture/Subtexture2D.h>
 
-namespace CU = CommonUtilities;
-
+/// using namespace Hi_Engine::Math;
 // Todo; change naming convention to sceneManager, rather thna m_sceneManager;
 
 struct SharedContext
@@ -48,14 +47,12 @@ struct Range
 
 struct Tile
 {
-	//Hi_Engine::Material m_material;
-	class Hi_Engine::Subtexture2D* Subtexture; // NEED TO STORE?
-	CU::Vector4<float>	Color  = { 1.f, 1.f, 1.f, 1.f }; // DO ELSEWHER!?
-	CU::Vector2<float>	Position;			// store chunk coordiante instead?
-	CU::Vector2<unsigned>	Coordinates;			// Use only one!!
-	eTile				Type;
-	bool				IsCollidable;
-
+	class Hi_Engine::Subtexture2D*  Subtexture; // NEED TO STORE?
+	FVector4						Color  = { 1.f, 1.f, 1.f, 1.f }; // DO ELSEWHER!?
+	FVector2						Position;			// store chunk coordiante instead?
+	UVector2						Coordinates;			// Use only one!!
+	eTile							Type;
+	bool							IsCollidable;
 	static constexpr float Size = 1.f;
 };
 
@@ -79,9 +76,9 @@ struct Animation
 
 struct ProjectileData
 {
-	CU::Vector2<float> Position;
-	CU::Vector2<float> Directin;
-	float		       Speed;
+	FVector2 Position;
+	FVector2 Directin;
+	float	 Speed;
 };
 
 struct Item

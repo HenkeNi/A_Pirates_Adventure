@@ -3,7 +3,7 @@
 
 namespace Hi_Engine::Physics
 {
-	using namespace CommonUtilities;
+	using namespace Math;
 
 	// RENAEM Line2D?
 	template <class T>

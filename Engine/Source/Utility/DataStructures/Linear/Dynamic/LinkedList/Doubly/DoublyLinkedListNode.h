@@ -1,6 +1,6 @@
 #pragma once
 
-namespace CommonUtilities
+namespace Hi_Engine
 {
 	template <class Type>
 	struct DoublyLinkedListNode

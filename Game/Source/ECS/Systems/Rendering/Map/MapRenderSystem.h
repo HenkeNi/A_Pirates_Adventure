@@ -13,7 +13,7 @@ public:
 	void Draw()						override;
 
 private:
-	void DrawMapChunk(MapChunkComponent* mapChunk, const CU::Vector2<float>& position);
+	void DrawMapChunk(MapChunkComponent* mapChunk, const FVector2& position);
 
 
 	// DO culling first... (before rendering, and maybe before some other systems...) -> maybe after movement system... (no need to update ai for enemies out of view)??

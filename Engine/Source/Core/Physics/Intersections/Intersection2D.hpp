@@ -7,6 +7,8 @@
 
 namespace Hi_Engine::Physics
 {
+    using namespace Math;
+
     /* AABB vs AABB */
     template <typename T>
 	bool Intersects(const AABB2D<T>& source, const AABB2D<T>& target)
@@ -113,22 +115,22 @@ namespace Hi_Engine::Physics
     {
         HitResult<T> result;
 
-        const CU::Vector2<T>& rayOrigin = ray.GetOrigin();
-        const CU::Vector2<T>& rayDir    = ray.GetDirection();
+        const Vector2<T>& rayOrigin = ray.GetOrigin();
+        const Vector2<T>& rayDir    = ray.GetDirection();
 
 
         // Check for 0 division?
-        CU::Vector2<T> invdir = { 
+        Vector2<T> invdir = { 
             1.f / rayDir.x, 
             1.f / rayDir.y 
         };
 
-        CU::Vector2<T> tNear = { 
+        Vector2<T> tNear = { 
             (target.GetMinPoint().x - rayOrigin.x) * invdir.x,
             (target.GetMinPoint().y - rayOrigin.y) * invdir.y
         };
        
-        CU::Vector2<T> tFar = {
+        Vector2<T> tFar = {
             (target.GetMaxPoint().x - rayOrigin.x) * invdir.x,
             (target.GetMaxPoint().y - rayOrigin.y) * invdir.y,
         };

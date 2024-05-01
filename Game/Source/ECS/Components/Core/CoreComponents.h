@@ -5,28 +5,27 @@
 
 #include "../Base/Component.h"
 
-namespace CU = CommonUtilities;
 
 
 // ############# Physics Components ############# //
 struct TransformComponent : public Component
 {
-	CU::Vector2<float> CurrentPos = { 0.f, 0.f };
-	CU::Vector2<float> PreviousPos = { 0.f, 0.f };
-	CU::Vector2<float> Scale = { 1.f, 1.f };
-	CU::Vector2<float> Pivot = { 0.f, 0.f }; // Rename origin?
+	FVector2 CurrentPos = { 0.f, 0.f };
+	FVector2 PreviousPos = { 0.f, 0.f };
+	FVector2 Scale = { 1.f, 1.f };
+	FVector2 Pivot = { 0.f, 0.f }; // Rename origin?
 	float			   Rotation = 0.f;
 };
 
 struct VelocityComponent : public Component // Physics componetn instad?
 {
-	CU::Vector2<float>	Velocity;
-	CU::Vector2<float>	Acceleration;
+	FVector2 Velocity;
+	FVector2 Acceleration;
 	//float DeaccelerationRate; TODO; implement instead of bool check? or put in physics? mass, etc?
 
-	float				MaxVelocity;
-	float				Speed;
-	bool				ShouldSlowDown = true;
+	float	MaxVelocity;
+	float	Speed;
+	bool	ShouldSlowDown = true;
 };
 
 // Rename BoxColliderComponent (or RectangleComponent)
@@ -59,9 +58,9 @@ struct CircleColliderComponent : public Component
 struct SpriteComponent : public Component
 {
 	Hi_Engine::Subtexture2D* Subtexture = nullptr;
-	CU::Vector4<float> Color = { 1.f, 1.f, 1.f, 1.f };
+	FVector4 Color = { 1.f, 1.f, 1.f, 1.f };
 	// CU::Vector4<float> DefaultColor = { 1.f, 1.f, 1.f, 1.f };
-	CU::Vector4<float> CurrentColor = { 1.f, 1.f, 1.f, 1.f };
+	FVector4 CurrentColor = { 1.f, 1.f, 1.f, 1.f };
 
 	// Hi_Engine::Material m_material;	// Store strings instead?? keys..
 
@@ -99,15 +98,15 @@ struct TextComponent : public Component
 	//Hi_Engine::Shader*	Shader;
 	//Hi_Engine::Font*	Font;
 	// float				m_scale; use transform instead..
-	CU::Vector4<float>		Color;
+	FVector4		Color;
 	Hi_Engine::eTextAlginment Alignment;
 };
 
 struct CameraComponent : public Component
 {
-	Hi_Engine::Camera	Camera;
-	CU::Vector3<float>  TargetOffset;
-	CU::Vector2<float>	ZoomRange;
+	Hi_Engine::Camera			Camera;
+ 	FVector2					TargetOffset;
+	Hi_Engine::Range<float>	ZoomRange;
 	//class Entity*		m_target = nullptr;
 	unsigned			TargetID = 0;
 
@@ -130,8 +129,8 @@ struct InputComponent : public Component
 {
 	//std::unordered_map<Hi_Engine::eKey, Hi_Engine::eInputState> InputStates; // replace with state instead of bool?? rename KeyStates?
 	std::unordered_map<Hi_Engine::eKey, bool> InputStates; // replace with state instead of bool?? rename KeyStates?
-	CU::Vector2<double>						  MousePosition;
-	CU::Vector2<double>						  MouseWorldPosition;
+	FVector2									MousePosition;
+	FVector2									MouseWorldPosition;
 	float									  MouseScroll;
 };
 
@@ -199,3 +198,16 @@ struct AudioComponent : public Component
 };
 
 // audio component, audio settings component, etc
+
+
+
+
+
+
+
+struct DestinationComponent : public Component
+{
+	FVector2 Destination;
+	float ArriveRadius = 10.f;
+	// TODO: store path? (tiles -> pathfinding)?
+};

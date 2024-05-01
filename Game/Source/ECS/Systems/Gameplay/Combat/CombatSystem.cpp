@@ -209,7 +209,7 @@ void CombatSystem::PerformAttack(Entity* entity)
 			PostMaster::GetInstance().SendMessage({ eMessage::EntityAttacked, target });
 
 			auto* healthComponent = target->GetComponent<HealthComponent>();
-			healthComponent->CurrentValue = CommonUtilities::Clamp(healthComponent->CurrentValue - damageOutput, 0, healthComponent->MaxHealth);
+			healthComponent->CurrentValue = Hi_Engine::Math::Clamp(healthComponent->CurrentValue - damageOutput, 0, healthComponent->MaxHealth);
 
 			// store entities to remoev in entity manager?
 		}

@@ -1,12 +1,11 @@
 #pragma once
-#include "../../../Data/Structs.h"
  #include "../../../Data/Enumerations.h"
 #include <../../ThirdParty/glm/glm.hpp>
+#include "../../../Utility/Math/Range/Range.hpp"
 
 namespace Hi_Engine
 {
-	namespace CU = CommonUtilities;
-
+	using namespace Math;
 	// listen to window changed?! size!
 	class Camera
 	{
@@ -14,9 +13,9 @@ namespace Hi_Engine
 		Camera();
 		Camera(const Rect& rect);
 		
-		void Init(const CU::Vector3<float> position);	// Parse from json...? CameraData?
-		void SetPosition(const CU::Vector3<float>& position);
-		void SetZoomRange(const CU::Vector2<float>& range);
+		void Init(const Vector2<float>& position);	// Parse from json...? CameraData?
+		void SetPosition(const Vector2<float>& position);
+		void SetZoomRange(const Range<float>& range);
 
 		void AdjustZoom(float adjustment);
 		void ResetZoom();
@@ -27,10 +26,10 @@ namespace Hi_Engine
 	
 	private:
 		void RecalculateMatrixes();
-		void OnWindowResized(const CU::Vector2<unsigned>& size);
+		void OnWindowResized(const Vector2<unsigned>& size);
 	
 		glm::vec2 m_position; // focus position, center position.?
-		CU::Vector2<float> m_zoomRange;
+		Range<float> m_zoomRange;
 
 		float m_aspectRatio;
 		float m_rotation;

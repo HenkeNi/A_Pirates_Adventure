@@ -13,11 +13,11 @@ EntityFactory::~EntityFactory()
 	
 void EntityFactory::LoadBlueprints(const std::string& path)
 {
-	auto document = CommonUtilities::ParseDocument(path);
+	auto document = Hi_Engine::ParseDocument(path);
 
 	for (auto& blueprintPath : document["blueprints"].GetArray())
 	{	
-		auto document = CommonUtilities::ParseDocument(blueprintPath.GetString());
+		auto document = Hi_Engine::ParseDocument(blueprintPath.GetString());
 
 		if (document.IsArray())
 		{
@@ -125,7 +125,7 @@ ECS::ComponentData EntityFactory::ParseComponent(const rapidjson::Value& value)
 	for (auto& property : value.GetObject())
 	{
 		const std::string key = property.name.GetString();
-		data.insert_or_assign(key, CommonUtilities::ParseJson(property.value));
+		data.insert_or_assign(key, Hi_Engine::ParseJson(property.value));
 	}
 
 	return data;

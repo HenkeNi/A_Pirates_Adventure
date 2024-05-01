@@ -8,7 +8,7 @@
 // TODO: move constructor/assignment AND copy assignment?
 // TODO: copy deep function??
 
-namespace CommonUtilities
+namespace Hi_Engine
 {
 	template <class Type, typename SizeType = unsigned, bool useSafeMode = true>
 	class Stack

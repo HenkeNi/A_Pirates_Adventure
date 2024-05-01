@@ -2,7 +2,7 @@
 #include <cassert>
 #include <cmath>
 
-namespace CommonUtilities
+namespace Hi_Engine::Math
 {
 	// TODO: maybe make struct with free floating functions??
 	template <class T>

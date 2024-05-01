@@ -1,6 +1,6 @@
  #include "Pch.h"
 #include "Camera.h"
-#include "../Utility/Utility/UtilityFunctions.hpp"
+#include "../Utility/Math/Mathf.hpp"
 
 
 namespace Hi_Engine
@@ -40,11 +40,11 @@ namespace Hi_Engine
 		return m_viewMatrix;
 	}
 
-	void Camera::Init(const CU::Vector3<float> position)
+	void Camera::Init(const Vector2<float>& position)
 	{
 	}
 
-	void Camera::SetPosition(const CU::Vector3<float>& position)
+	void Camera::SetPosition(const Vector2<float>& position)
 	{
 		m_position = { position.x, position.y };
 		RecalculateMatrixes();
@@ -52,14 +52,14 @@ namespace Hi_Engine
 		//m_viewMatrix = glm::translate(glm::mat4(1.f), { -aPosition.x, -aPosition.y, 0.f });
 	}
 
-	void Camera::SetZoomRange(const CU::Vector2<float>& range)
+	void Camera::SetZoomRange(const Range<float>& range)
 	{
 		m_zoomRange = range;
 	}
 
 	void Camera::AdjustZoom(float adjustment)
 	{
-		m_zoom = CommonUtilities::Clamp(m_zoom - adjustment, m_zoomRange.x, m_zoomRange.y);
+		m_zoom = Clamp(m_zoom - adjustment, m_zoomRange.Min, m_zoomRange.Max);
 		RecalculateMatrixes();
 	}
 
@@ -68,7 +68,7 @@ namespace Hi_Engine
 		m_zoom = 1.f;
 	}
 
-	void Camera::OnWindowResized(const CU::Vector2<unsigned>& size)
+	void Camera::OnWindowResized(const Vector2<unsigned>& size)
 	{
 
 	}

@@ -3,8 +3,6 @@
 #include "Entities/EntityManager.h"
 #include "Components/Core/CoreComponents.h"
 
-namespace CU = CommonUtilities;
-
 
 SpriteRenderSystem::SpriteRenderSystem()
 	: System{ 0 }

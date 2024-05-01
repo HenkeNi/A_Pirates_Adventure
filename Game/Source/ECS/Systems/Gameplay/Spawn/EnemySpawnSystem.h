@@ -13,7 +13,7 @@ public:
 
 
 private:
-	void SpawnEnemy(const std::string& type, const CU::Vector2<float>& position);
+	void SpawnEnemy(const std::string& type, const FVector2& position);
 	bool ShouldSpawn() const;
 
 };

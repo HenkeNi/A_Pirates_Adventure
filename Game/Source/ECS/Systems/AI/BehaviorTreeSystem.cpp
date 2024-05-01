@@ -2,7 +2,7 @@
 #include "BehaviorTreeSystem.h"
 #include "Entities/EntityManager.h"
 #include "Components/AI/AIComponents.h"
-#include "../AI/BehaviorTree/Base/BehaviorTreeNode.h"
+#include "AI/BehaviorTree/Base/BehaviorTreeNode.h"
 
 
 BehaviorTreeSystem::BehaviorTreeSystem()
@@ -27,11 +27,10 @@ void BehaviorTreeSystem::Update(float deltaTime)
 
 	for (auto& entity : entities)
 	{
-		if (auto* behaviorComponent = entity->GetComponent<BehaviorTreeComponent>())
-		{
-			if (auto rootNode = behaviorComponent->RootNode)
-				rootNode->Execute(m_entityManager);
-		}
+		auto* behaviorComponent = entity->GetComponent<BehaviorTreeComponent>();
+			
+		if (auto* rootNode = behaviorComponent->RootNode)
+			rootNode->Execute(entity);
 	}
 }
 
@@ -41,9 +40,11 @@ void BehaviorTreeSystem::ClearBehaviorTreeNodes()
 
 	for (auto& entity : entities)
 	{
-		if (auto* behaviorComponet = entity->GetComponent<BehaviorTreeComponent>())
+		auto* behaviorComponet = entity->GetComponent<BehaviorTreeComponent>();
+
+		if (auto* rootNode = behaviorComponet->RootNode)
 		{
-			behaviorComponet->RootNode->Clear();
+			rootNode->OnDestroy();
 		
 			delete behaviorComponet->RootNode;
 			behaviorComponet->RootNode = nullptr;

@@ -9,20 +9,16 @@
 #include <string>
 #include <vector>
 
-namespace CU = CommonUtilities;
 
 // Todo; change naming convention for structs?? Position rather than m_position?
 
 namespace Hi_Engine
 {
+	using namespace Math;
+
 #pragma region Utility_Structs	
 
-	template <typename Type>
-	struct Point
-	{
-		Type X;
-		Type Y;
-	};
+	// Todo, function "IsInsideRange" etc?
 
 	struct Transform
 	{
@@ -43,8 +39,8 @@ namespace Hi_Engine
 	struct HitResult
 	{
 		bool			IsColliding = false;
-		CU::Vector2<T>	ContactPoint { 0, 0 };
-		CU::Vector2<T>	ContactNormal{ 0, 0 };
+		Vector2<T>	ContactPoint { 0, 0 };
+		Vector2<T>	ContactNormal{ 0, 0 };
 
 		// Union?
 		float ContactTime = 0;	// BEEDED???
@@ -118,7 +114,7 @@ namespace Hi_Engine
 	
 	struct WindowData
 	{
-		CU::Vector2<unsigned>	Size;
+		Vector2<unsigned>	Size;
 		std::string				Identifier, IconPath;
 	};
 
@@ -192,8 +188,8 @@ namespace Hi_Engine
 		class Shader*		Shader;
 		class Font*			Font;
 		float				Scale;
-		CU::Vector4<float>	Color;
-		CU::Vector2<float>	Position; //??
+		FVector4			Color;
+		FVector2			Position; //??
 		std::string			Text;
 		eTextAlginment		Alignment;
 	};

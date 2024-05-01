@@ -4,4 +4,7 @@
 namespace Constants
 {
 	constexpr const char* Filepath = "../Bin/Assets/";	// place in dir class??
+
+	constexpr unsigned MapChunkLength = 10;
+	constexpr unsigned MapChunkSize = MapChunkLength * MapChunkLength;
 }

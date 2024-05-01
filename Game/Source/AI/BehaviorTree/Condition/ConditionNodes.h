@@ -3,40 +3,68 @@
 
 // Have nodes derive from ConditionNode??
 
+// Condition nodes should only return success or failure
 
 
-
-class InRangeNode : public BehaviorTreeNode
+class HasTaget : public BehaviorTreeNode
 {
 public:
+	eBTNodeStatus	Execute(class Entity* entity)	override;
+	void			OnDestroy()						override;
+};
 
-private:
+class IsTargetReached : public BehaviorTreeNode
+{
+public:
+	eBTNodeStatus	Execute(class Entity* entity)	override;
+	void			OnDestroy()						override;
 };
 
 
 
-class TargetInViewNode : public BehaviorTreeNode
+class DistanceCheckNode : public BehaviorTreeNode
 {
 public:
 	eBTNodeStatus	Execute(class Entity* entity)	override;
 	void			OnDestroy()						override;
 
 private:
-	//int				m_targetID;
-	float			m_radius;
+
 };
 
 
 
-class GameObject;
 
-class TargetInRangeNode : public BehaviorTreeNode
+// IsNearHostileNode, 
+class CheckEnemyPresenceNode : public BehaviorTreeNode
 {
 public:
 	eBTNodeStatus	Execute(class Entity* entity)	override;
 	void			OnDestroy()						override;
 
 private:
-	//int				m_targetID;
-	float			m_radius;
 };
+
+
+
+//class TargetInViewNode : public BehaviorTreeNode
+//{
+//public:
+//	eBTNodeStatus	Execute(class Entity* entity)	override;
+//	void			OnDestroy()						override;
+//
+//private:
+//	//int				m_targetID;
+//	float			m_radius;
+//};
+//
+//class TargetInRangeNode : public BehaviorTreeNode
+//{
+//public:
+//	eBTNodeStatus	Execute(class Entity* entity)	override;
+//	void			OnDestroy()						override;
+//
+//private:
+//	//int				m_targetID;
+//	float			m_radius;
+//};

@@ -17,7 +17,7 @@ namespace Hi_Engine
 		glDeleteTextures(1, &m_id);
 	}
 
-	void Texture2D::Init(const CU::Vector2<int>& size, unsigned char* data)
+	void Texture2D::Init(const IVector2& size, unsigned char* data)
 	{
 		// assert(someData);
 		m_size = size;
@@ -56,7 +56,7 @@ namespace Hi_Engine
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
-	const CU::Vector2<int>& Texture2D::GetSize() const
+	const IVector2& Texture2D::GetSize() const
 	{
 		return m_size;
 	}

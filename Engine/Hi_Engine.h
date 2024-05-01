@@ -50,13 +50,15 @@
 #include "Source/Utility/Math/Vectors/Vector.hpp"
 #include "Source/Utility/Math/Matrices/Matrix3x3.hpp"
 #include "Source/Utility/Math/Matrices/Matrix4x4.hpp"
+#include "Source/Utility/Math/Point/Point.hpp"
+#include "Source/Utility/Math/Range/Range.hpp"
 #include "Source/Utility/Math/Mathf.hpp"
 
 /* - Utility - */
 #include "Source/Utility/Utility/UtilityFunctions.hpp"
 #include "Source/Utility/Random/Random.h"
 #include "Source/Utility/Time/Timer.h"
-
+#include "Source/Utility/Algorithms/PathFinding/AStar.hpp"
 
 /* - Data (Expose???) - */
 #include "Source/Data/Enumerations.h"

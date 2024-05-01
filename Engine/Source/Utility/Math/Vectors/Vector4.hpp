@@ -2,7 +2,7 @@
 #include <cassert>
 #include <cmath>
 
-namespace CommonUtilities
+namespace Hi_Engine::Math
 {
 	template <class T>
 	class Vector4

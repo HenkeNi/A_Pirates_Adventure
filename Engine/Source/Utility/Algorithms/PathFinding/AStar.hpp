@@ -1,95 +1,145 @@
 #pragma once
+#include <algorithm>
+#include <cmath>
+#include <queue>
 #include <vector>
-#include "Utility/Math/Vectors/Vector.hpp"
 
-namespace Hi_Engine::Algorithms
+namespace Hi_Engine::Algorithms::AStar
 {
-	namespace CU = CommonUtilities;
-
-	/* A-Star Algorithm */
-	// f(x) = g(x) + h(x)
-
-	// where g(x) describes the true cost from the start node to the current node x, 
-	// and h(x) is a heuristic function that estimates the cost in moving from x to the nearest goal node
-	// (nearest, according to the metric).
-	// a graph is a set of locations, connected via edges
-
-	enum class eNodeStatus
+	struct AStarNode
 	{
-		Unvisited, Open, Closed
-	};
-
-	struct Node
-	{
-		CU::Vector2<unsigned> m_coordinates; 
-		CU::Vector2<unsigned> m_parentCoordinates;
-
-		/*int m_parentIndex;
-		int m_g;
-		int m_f;*/
-
-
-
-		bool m_isTraversable;
-		bool m_isVisited;
-		float m_distanceToGoal;
-		float m_x;
-		float m_y;
-
-
-		
-
-		Node* m_parent = nullptr;
-		int m_g = INT16_MAX; // check if correct with intmax..... shortest path to this node?! or how many step to get to this node -> can be changed/updated?
-		eNodeStatus m_status = eNodeStatus::Unvisited;
-		int m_h; // estimated distance to target/goal -> remains the same
-		int m_f; // Sum of g and h 
-	};
-
-
-	struct MapData
-	{
-		int m_mapWidth; // or area width
-		int m_mapHeight; // or area height
-	};
-
-	int CalculateManhattanDistance()	
-	{
-		return -1;
-	}
-
-	// rename someNodes?? someVertices? aGraph?? take in a map??
-	template <typename T>
-	std::vector<unsigned> AStar(const std::vector<T>& someNodes, unsigned aStartIndex, unsigned anEndIndex)
-	{
-		// 
-		std::vector<Node> nodes(someNodes.size());
-
-		auto startNode = nodes[aStartIndex];
-		startNode.m_status = eNodeStatus::Open;
-		startNode.m_g = 0;
-
-		std::vector<Node> openNodes;
-		openNodes.push_back(startNode);
-
-		while (!openNodes.empty())
+		AStarNode(int x, int y, int index, int heuristics)
+			: X{ x }, Y{ y }, G{ 0 }, Parent{ nullptr }, IsVisited{ false }, Index{ index }, H{ heuristics }
 		{
-			// get node with lowest f 
-
-			// if that node is goal => return
-
-			// mark n as closed
 		}
 
+		int G; // Cost from start node
+		int H; // Heuristic cost to goal node
+		
+		int Index;
 
+		// Coordinates
+		int X;
+		int Y;
 
+		AStarNode* Parent;
+		bool IsVisited;
 
-		// Pick the node with lowest f and moves it from open to closed (we won't look at it again at this point)
+		inline int F() const { return G + H; }
+	};
 
+	struct CompareAStarNode
+	{
+		bool operator() (const AStarNode* lhs, const AStarNode* rhs)
+		{
+			return lhs->F() > rhs->F();
+		}
+	};
 
+	//int CalculateManhattanDistance(int nodeX, int nodeY, int goalX, int goalY)
+	//{
+	//	return std::abs(nodeX - goalX) + std::abs(nodeY - goalY);
+	//}
+
+	inline int CalculateManhattanDistance(int x, int y, int goalX, int goalY, int numCols) {
+		return std::abs(x % numCols - goalX) + std::abs(y / numCols - goalY);
 	}
 
-#pragma region Helper_Functions
+	inline bool IsValidPosition(int x, int y, int rows, int cols)
+	{
+		return (x >= 0 && x < cols) && (y >= 0 && y < rows);
+	}
+	
+	inline std::pair<int, int> CalculateCoordinates(int index, int gridWidth)
+	{
+		int x = index % gridWidth;
+		int y = index / gridWidth;
 
-#pragma endregion Helper_Functions
+		return { x, y };
+	}
+
+
+	inline std::vector<int> GeneratePath(const std::vector<int>& grid, int gridWidth, int start, int goal)
+	{
+		if (start == goal)
+			return {};
+
+		int cols = gridWidth;
+		int rows = grid.size() / gridWidth;
+
+		std::vector<AStarNode> nodes;
+		nodes.reserve(grid.size());
+
+		const auto& [goalX, goalY] = CalculateCoordinates(goal, gridWidth);
+
+		for (int i = 0; i < grid.size(); ++i)
+		{
+			const auto& [nodeX, nodeY] = CalculateCoordinates(i, gridWidth);
+
+			int heuristics = CalculateManhattanDistance(nodeX, nodeY, goalX, goalY, cols);
+			nodes.emplace_back(nodeX, nodeY, i, heuristics);
+		}
+
+		auto* startNode = &nodes[start];
+		auto* goalNode = &nodes[goal];
+		
+		startNode->G = 0;
+		startNode->H = CalculateManhattanDistance(startNode->X, startNode->Y, goalNode->X, goalNode->Y, cols);
+
+		std::priority_queue<AStarNode*, std::vector<AStarNode*>, CompareAStarNode> openNodes;
+		openNodes.push(startNode);
+		
+		while (!openNodes.empty())
+		{
+			auto* currentNode = openNodes.top();
+			openNodes.pop();
+
+			currentNode->IsVisited = true;
+				
+			if (currentNode == goalNode)
+			{
+				std::vector<int> path;
+				while (currentNode != nullptr)
+				{
+					path.emplace_back(currentNode->Index);
+					currentNode = currentNode->Parent;
+				}
+
+				std::reverse(path.begin(), path.end());
+				return path;
+			}
+
+			// explore neighbors
+			static const int dx[] = { 1, -1, 0, 0 };
+			static const int dy[] = { 0, 0, 1, -1 };
+
+			for (int i = 0; i < 4; ++i)
+			{
+				int nx = currentNode->X + dx[i];
+				int ny = currentNode->Y + dy[i];
+
+				if (IsValidPosition(nx, ny, rows, cols) && grid[ny * cols + nx] != 1)
+				{
+					int neighborIndex = ny * cols + nx;
+					AStarNode* neighbor = &nodes[neighborIndex];
+
+					if (!neighbor->IsVisited)
+					{
+						int tentativeG = currentNode->G + 1;
+
+						if (tentativeG < neighbor->G || !neighbor->Parent)
+						{
+							neighbor->G = tentativeG;
+							neighbor->H = CalculateManhattanDistance(nx, ny, goalNode->X, goalNode->Y, cols);
+							neighbor->Parent = currentNode;
+							openNodes.push(neighbor);
+						}
+					}
+				}
+			}
+
+		}
+
+		return {};
+	}
 }

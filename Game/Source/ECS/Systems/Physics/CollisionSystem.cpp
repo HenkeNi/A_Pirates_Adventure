@@ -732,7 +732,7 @@ void CollisionSystem::HandleTileCollisions(Entity* entity, float deltaTime)
 
 	for (const auto& result : results)
 	{
-		CommonUtilities::Vector2<float> vec = CommonUtilities::Vector2(std::abs(velocityComponent->Velocity.x), std::abs(velocityComponent->Velocity.y)) * (1 - result.second.ContactTime);
+		FVector2 vec = FVector2(std::abs(velocityComponent->Velocity.x), std::abs(velocityComponent->Velocity.y)) * (1 - result.second.ContactTime);
 		velocityComponent->Velocity.x += result.second.ContactNormal.x * vec.x;
 		velocityComponent->Velocity.y += result.second.ContactNormal.y * vec.y;
 	}

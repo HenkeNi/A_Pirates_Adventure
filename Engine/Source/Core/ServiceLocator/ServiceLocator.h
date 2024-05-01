@@ -11,6 +11,8 @@ namespace Hi_Engine
 
 		static void Register(AudioController* controller);
 
+		// static Renderer* GetRenderer(); returns interface to renderer...
+
 	private:
 		static AudioController* s_audioController;
 	};

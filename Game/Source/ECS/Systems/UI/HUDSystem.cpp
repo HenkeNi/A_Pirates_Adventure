@@ -40,15 +40,12 @@ void HUDSystem::Receive(Message& message)
 
 	// player hit event?
 
-
 	// listen for entity attacked...
 
 	// update size of Healthbar...
 
-
-		// TODO DO IN SOME OTHER SYSTME?
+	// TODO DO IN SOME OTHER SYSTME?
 	// TODO: Send event instead!!!
-	
 }
 
 void HUDSystem::Update(float deltaTime)

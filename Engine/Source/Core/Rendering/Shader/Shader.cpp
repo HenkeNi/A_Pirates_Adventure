@@ -78,17 +78,17 @@ namespace Hi_Engine
         glUniform1iv(glGetUniformLocation(m_id, name.c_str()), count, values);
     }
 
-    void Shader::SetVector2f(const std::string& name, const CU::Vector2<float>& value) const
+    void Shader::SetVector2f(const std::string& name, const FVector2& value) const
     {
         glUniform2f(glGetUniformLocation(m_id, name.c_str()), value.x, value.y);
     }
 
-    void Shader::SetVector3f(const std::string& name, const CU::Vector3<float>& value) const
+    void Shader::SetVector3f(const std::string& name, const FVector3& value) const
     {
         glUniform3f(glGetUniformLocation(m_id, name.c_str()), value.x, value.y, value.z);
     }
 
-    void Shader::SetVector4f(const std::string& name, const CU::Vector4<float>& value) const
+    void Shader::SetVector4f(const std::string& name, const FVector4& value) const
     {
         glUniform4f(glGetUniformLocation(m_id, name.c_str()), value.x, value.y, value.z, value.w);
     }

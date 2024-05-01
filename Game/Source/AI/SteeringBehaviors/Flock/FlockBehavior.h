@@ -10,8 +10,8 @@ public:
 
 	void Update(float deltaTime) override;
 
-	const CU::Vector2<float> GetSteeringForce(const CU::Vector2<float>& velocity) override;
-	const CU::Vector2<float> GetSteeringForce(const CU::Vector2<float>& position, const CU::Vector2<float>& velocity) override;
+	const FVector2 GetSteeringForce(const FVector2& velocity) override;
+	const FVector2 GetSteeringForce(const FVector2& position, const FVector2& velocity) override;
 
 
 	// Fix both...
@@ -19,9 +19,9 @@ public:
 	void SetOwner(Entity* entity);
 
 private:
-	CU::Vector2<float> CalculateSeparationForce() const;
-	CU::Vector2<float> CalculateCohesionForce() const;
-	CU::Vector2<float> CalculateAlignmentForce() const; // Rename ComputeAlignment or CalculateAlignment
+	FVector2 CalculateSeparationForce() const;
+	FVector2 CalculateCohesionForce() const;
+	FVector2 CalculateAlignmentForce() const; // Rename ComputeAlignment or CalculateAlignment
 
 
 	std::vector<Entity*> m_flockMembers;

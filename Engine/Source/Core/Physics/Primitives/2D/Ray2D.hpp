@@ -3,7 +3,7 @@
 
 namespace Hi_Engine::Physics
 {
-	using namespace CommonUtilities;
+	using namespace Math;
 
 	template <class T>
 	class Ray2D

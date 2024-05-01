@@ -15,7 +15,7 @@ struct ButtonComponent : public Component
 	std::function<void()>	OnClick;
 	bool					IsHovered = false; // store button state?? => send mouse click event (ui system listens for it, rather than checking directly if mouse is pressed??)
 	bool					IsPressed = false;
-	CU::Vector4<float>		HoverColor = { 0.2f, 0.2f, 0.2f, 1.f }; // HERE??
+	FVector4				HoverColor = { 0.2f, 0.2f, 0.2f, 1.f }; // HERE??
 	//class Command* Command; // ??
 };
 
@@ -52,7 +52,7 @@ struct CrosshairComponent : public Component
 /* ######################### Inventory ######################### */
 struct GridComponent : public Component
 {
-	CU::Vector2<unsigned> Grid; // grid class? or use inventory..
+	FVector2 Grid; // grid class? or use inventory..
 };
 
 // TODO; sprite renderer fetches 

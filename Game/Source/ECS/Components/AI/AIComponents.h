@@ -1,12 +1,14 @@
 #pragma once
 #include "../Base/Component.h"
 
-namespace CU = CommonUtilities;
 
 //#################### AI Components ####################//
 struct BlackboardComponent : public Component
 {
-	inline static CU::Vector2<float> PlayerPosition; // Todo; use std::any instead? store player ID AND vector of crew IDs??
+	inline static FVector2 PlayerPosition; // Todo; use std::any instead? store player ID AND vector of crew IDs??
+	
+	FVector2 PointOfInterest; // TargetWaypoint?
+	bool IsMovingToPOI = false; // replace with destination component instead?
 };
 
 struct BehaviorTreeComponent : public Component
@@ -63,9 +65,9 @@ struct FleeComponent : public Component
 // TODO; Maybe only need SteeringBehaviorComponent (or have separate)?
 struct WanderBehaviorComponent : public Component
 {
-	CU::Vector2<float>		Target;
-	float					WalkDuration = 1.3f;
-	float					ElapsedTime = 0.f;
+	FVector2	Target;
+	float		WalkDuration = 1.3f;
+	float		ElapsedTime = 0.f;
 };
 
 struct FlockBehaviorComponent : public Component
@@ -77,7 +79,7 @@ struct FlockBehaviorComponent : public Component
 struct SeekBehaviorComponent : public Component
 {
 	class SeekBehavior*		Behavior = nullptr;
-	CU::Vector2<float>		Target;
+	FVector2				Target;
 };
 
 struct FleeBehaviorComponent : public Component

@@ -4,7 +4,7 @@
 #include <array>
 
 
-namespace CommonUtilities
+namespace Hi_Engine::Math
 {
 	template <typename T>
 	class Matrix3x3

@@ -204,7 +204,7 @@ void SceneManager::LoadScene(const std::string& aPath)
 	auto activeScene = GetActiveScene(); // take as weak pointer?
 	activeScene->m_entityManager.DestroyAll();
 
-	auto document = CommonUtilities::ParseDocument(aPath);
+	auto document = Hi_Engine::ParseDocument(aPath);
 	for (const auto& jsonEntity : document["entities"].GetArray())
 	{
 		std::string id = jsonEntity["entity_id"].GetString();

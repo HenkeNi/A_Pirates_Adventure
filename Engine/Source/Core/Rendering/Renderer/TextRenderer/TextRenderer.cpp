@@ -94,7 +94,7 @@ namespace Hi_Engine
             float w = ch.Size.x * scale;
             float h = ch.Size.y * scale;
             
-            CU::Vector4<float> color = data.Color;
+            FVector4 color = data.Color;
 
             // update VBO for each character
             float vertices[6][8] = 

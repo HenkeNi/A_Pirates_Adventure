@@ -4,8 +4,48 @@
 
 #define PI 3.14159265358979323846
 
-namespace CommonUtilities
+namespace Hi_Engine::Math
 {
+	template <typename T>
+	T Min(T value1, T value2)
+	{
+		return value1 < value2 ? value1 : value2;
+	}
+
+	template <typename T>
+	T Max(T value1, T value2)
+	{
+		return value1 > value2 ? value1 : value2;
+	}
+
+	template <typename T>
+	T Abs(T value)
+	{
+		return value < 0 ? -value : value;
+	}
+
+	template <typename T>
+	T Clamp(T value, T min, T max)
+	{
+		assert(max >= min);
+		return std::max(min, std::min(max, value));
+	}
+
+	template <typename T>
+	T Lerp(T a, T b, float c)
+	{
+		T result = (a + c * (b - a));
+		return result;
+	}
+
+	template <typename T>
+	void Swap(T& value1, T& value2)
+	{
+		T temp = value1;
+		value1 = value2;
+		value2 = temp;
+	}
+
 	template <typename T>
 	inline T ConvertToRadians(T degrees)
 	{
@@ -16,6 +56,18 @@ namespace CommonUtilities
 	inline T ConvertToDegrees(T radians)
 	{
 		return 180 * (radians / PI);
+	}
+
+	template <typename T>
+	T ConvertRadiansToDegrees(T radians) // Todo remove??
+	{
+		return (radians * (180 / PI));
+	}
+
+	template <typename T>
+	T ConvertDegreesToRadians(T degrees) // Todo remove??
+	{
+		return (degrees * (PI / 180));
 	}
 
 	template <typename T>

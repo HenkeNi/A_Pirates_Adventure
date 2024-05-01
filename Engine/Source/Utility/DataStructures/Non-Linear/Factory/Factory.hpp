@@ -4,7 +4,7 @@
 
 // TODO: rename all structures with a T infront? TArray, TFactory??
 
-namespace CommonUtilities
+namespace Hi_Engine
 {
 	//template <typename Builder, typename Created, typename Identifier = std::string>
 	template <typename BuilderType, typename ReturnType, typename Identifier = std::string>

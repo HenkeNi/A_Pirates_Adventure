@@ -4,26 +4,17 @@
 #include <vector>
 //#include <Utility/Math/Vectors/Vector3.hpp>
 #include <../Hi_Engine.h>
-
-namespace CU = CommonUtilities;
+#include "Constants.h"
 
 struct MapChunkComponent : public Component
 {
-	CU::Vector2<int>	Coordinates;
-	// CU::Vector3<float>	m_position; - stored in TransformComponent
-	std::vector<Tile>	Tiles;
+	IVector2 Coordinates; // In world coordinates
 
-	inline static unsigned TileCountPerSide; // Side length in tiles
+	//std::vector<Tile>	Tiles;
+	std::array<Tile, Constants::MapChunkSize> Tiles;
+	std::array<bool, Constants::MapChunkSize> CollisionMap;
 
-	// TEMP
-	bool IsEdgeChunk = false;
-
-	// static unsigned		Width, Height;		// replace with size?? Transform instead?? what does size refere to?
-
-
-	//	unsigned				m_chunkID;
-
-	// neighbours??
+	// static constexpr unsigned SideLength;
 
 	// HERE? or a new component...
 	std::vector<Hi_Engine::SpriteRenderData> RenderData;

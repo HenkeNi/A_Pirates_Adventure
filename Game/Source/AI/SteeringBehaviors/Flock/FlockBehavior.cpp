@@ -14,7 +14,7 @@ void FlockBehavior::Update(float deltaTime)
 	// auto separation = GetSeparationForce();
 }
 
-const CU::Vector2<float> FlockBehavior::GetSteeringForce(const CU::Vector2<float>& velocity)
+const FVector2 FlockBehavior::GetSteeringForce(const FVector2& velocity)
 {
 	float cohesionWeight = 5.f;
 	float alignmentWeight = 3.f;
@@ -29,7 +29,7 @@ const CU::Vector2<float> FlockBehavior::GetSteeringForce(const CU::Vector2<float
 	//return {};
 }
 
-const CU::Vector2<float> FlockBehavior::GetSteeringForce(const CU::Vector2<float>& position, const CU::Vector2<float>& velocity)
+const FVector2 FlockBehavior::GetSteeringForce(const FVector2& position, const FVector2& velocity)
 {
 	return {};
 }
@@ -46,9 +46,9 @@ void FlockBehavior::SetOwner(Entity* entity)
 	m_owner = entity;
 }
 
-CU::Vector2<float> FlockBehavior::CalculateSeparationForce() const
+FVector2 FlockBehavior::CalculateSeparationForce() const
 {
-	CU::Vector2<float> separationForce;
+	FVector2 separationForce;
 	float separationDistance = 2.f;
 	int neighbours = 0;
 
@@ -87,7 +87,7 @@ CU::Vector2<float> FlockBehavior::CalculateSeparationForce() const
 	// return {};
 }
 
-CU::Vector2<float> FlockBehavior::CalculateCohesionForce() const
+FVector2 FlockBehavior::CalculateCohesionForce() const
 {
 	auto centerOfMass = m_owner->GetComponent<TransformComponent>()->CurrentPos;
 	int neighbours = 0;
@@ -117,9 +117,9 @@ CU::Vector2<float> FlockBehavior::CalculateCohesionForce() const
 	return centerOfMass.GetNormalized();
 }
 
-CU::Vector2<float> FlockBehavior::CalculateAlignmentForce() const
+FVector2 FlockBehavior::CalculateAlignmentForce() const
 {
-	CU::Vector2<float> alignmentForce;
+	FVector2 alignmentForce;
 	int neighbours = 0;
 
 	for (auto* member : m_flockMembers)
@@ -147,5 +147,5 @@ CU::Vector2<float> FlockBehavior::CalculateAlignmentForce() const
 
 	
 	alignmentForce = { alignmentForce.x / neighbours, alignmentForce.y / neighbours };
-	return alignmentForce.Length() == 0.f ? CU::Vector2<float>{ 0.f, 0.f } : alignmentForce.GetNormalized();
+	return alignmentForce.Length() == 0.f ? FVector2{ 0.f, 0.f } : alignmentForce.GetNormalized();
 }

@@ -3,11 +3,8 @@
 
 namespace Hi_Engine
 {
-	namespace CU = CommonUtilities;
-
 	struct TextRenderData;
 	
-
 	class TextRenderer
 	{
 	public:
@@ -40,7 +37,7 @@ namespace Hi_Engine
 
 
 		// class Camera* m_camera;
-		CU::Vector2<unsigned>	m_windowSize;	// FIX LATER...
+		UVector2	m_windowSize;	// FIX LATER...
 		// unsigned	m_VAO, m_VBO;
 
 		//std::unordered_map<GLchar, Character>   m_characters;

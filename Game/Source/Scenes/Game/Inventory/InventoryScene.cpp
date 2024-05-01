@@ -41,7 +41,7 @@ void InventoryScene::OnEnter()
 		for (int col = 0; col < 16; ++col)
 		{
 			auto* box = m_entityManager.Create("inventory_slot");
-			box->GetComponent<TransformComponent>()->CurrentPos = { (float)col, (float)row };
+			box->GetComponent<TransformComponent>()->CurrentPos = { (float)col * 0.01f, (float)row * 0.01f };
 		}
 	}
 	//auto* box = m_entityManager.Create("inventory_slot");

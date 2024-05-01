@@ -1,7 +1,8 @@
 #pragma once
-#include "../../Data/Constants.h"
 
-namespace Random
+#define PI 3.14159
+
+namespace Hi_Engine
 {
 	template <typename T>
 	T GenerateRandomInteger(T min, T max)
@@ -29,14 +30,14 @@ namespace Random
 	}
 
 	template <typename T>
-	CU::Vector2<T> GenerateRandomFloatingPointInRadius(const CU::Vector2<T>& center, T radius)
+	Vector2<T> GenerateRandomFloatingPointInRadius(const Vector2<T>& center, T radius)
 	{
-		T angle = GenerateRandomFloatingPoint<T>(0.0, 2.0 * 3.14159);
+		T angle = GenerateRandomFloatingPoint<T>(0.0, 2.0 * PI);
 		T randomRadius = GenerateRandomFloatingPoint<T>(0.0, radius);
 
 		T x = center.x + randomRadius * cos(angle);
 		T y = center.y + randomRadius * sin(angle);
 
-		return CU::Vector2<T>{ x, y };
+		return Vector2<T>{ x, y };
 	}
 }

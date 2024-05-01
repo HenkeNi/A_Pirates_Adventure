@@ -10,7 +10,7 @@
 // Check Allocators (Cherno)
 // Rename; ObjectPool?
 
-namespace CommonUtilities
+namespace Hi_Engine
 {
 	template <class Type, typename SizeType = unsigned, SizeType size = 1024>	// TODO; rmove parameters??
 	class MemoryPool

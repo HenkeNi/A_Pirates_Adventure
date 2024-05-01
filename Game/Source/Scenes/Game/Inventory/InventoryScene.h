@@ -1,7 +1,7 @@
 #pragma once
 #include "../../Scene.h"
 
-
+// Rename GameMenu or InGameMenu?
 class InventoryScene : public Scene
 {
 public:

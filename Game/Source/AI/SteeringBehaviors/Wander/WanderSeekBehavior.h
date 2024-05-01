@@ -7,14 +7,14 @@ public:
 	WanderSeekBehavior();
 
 	void Update(float deltaTime) override;
-	const CU::Vector2<float> GetSteeringForce(const CU::Vector2<float>& velocity) override;
-	const CU::Vector2<float> GetSteeringForce(const CU::Vector2<float>& position, const CU::Vector2<float>& velocity) override;
+	const FVector2 GetSteeringForce(const FVector2& velocity) override;
+	const FVector2 GetSteeringForce(const FVector2& position, const FVector2& velocity) override;
 
 
 private:
 	void SetRandomizedTarget();
 	bool ShouldChangeDir() const;
 
-	Range<float>		m_walkDurationRange;
-	CU::Vector2<float>	m_window;
+	Range<float>	m_walkDurationRange;
+	FVector2		m_window;
 };

@@ -1,6 +1,6 @@
 #include "Pch.h"
 #include "CompositeNodes.h"
-
+#include "DataTypes/Enumerations.h"
 
 #pragma region SelectorNode
 

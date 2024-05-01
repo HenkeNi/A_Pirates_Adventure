@@ -5,19 +5,68 @@
 #include "Components/Components.h"
 
 
-eBTNodeStatus TargetInViewNode::Execute(EntityManager* entityManager)
+
+
+
+
+
+
+
+
+eBTNodeStatus HasTaget::Execute(Entity* entity)
 {
-	if (entityManager)
+	if (entity)
 	{
-		auto* owner = entityManager->Find(m_ownerID);
-		auto* target = entityManager->Find(m_targetID); // target ID becomes invalid..
+		auto* blackboardComponent = entity->GetComponent<BlackboardComponent>();
 
-		auto currentPosition = owner->GetComponent<TransformComponent>()->CurrentPos;
-		auto targetPosition = target->GetComponent<TransformComponent>()->CurrentPos;
+		if (blackboardComponent->IsMovingToPOI)
+			return eBTNodeStatus::Success;
+	}
 
-		float distance = currentPosition.DistanceTo(targetPosition);
+	return eBTNodeStatus::Failure;
+}
 
-		if (distance <= m_radius)
+void HasTaget::OnDestroy()
+{
+}
+
+eBTNodeStatus IsTargetReached::Execute(Entity* entity)
+{
+	if (entity)
+	{
+		auto* transformComponent = entity->GetComponent<TransformComponent>();
+		auto* blackboardComponent = entity->GetComponent<BlackboardComponent>();
+
+		if (transformComponent->CurrentPos.DistanceTo(blackboardComponent->PointOfInterest) < 0.1f)
+		{
+			blackboardComponent->IsMovingToPOI = false;
+			return eBTNodeStatus::Success;
+		}
+	}
+
+	return eBTNodeStatus::Failure;
+}
+
+void IsTargetReached::OnDestroy()
+{
+}
+
+
+
+
+
+
+eBTNodeStatus DistanceCheckNode::Execute(Entity* entity)
+{
+	if (entity)
+	{
+		auto* transformComponent = entity->GetComponent<TransformComponent>();
+	
+		//auto targetPosition = target->GetComponent<TransformComponent>()->CurrentPos;
+
+		//float distance = currentPosition.DistanceTo(targetPosition);
+
+		//if (distance <= m_radius)
 		{
 			return eBTNodeStatus::Success;
 		}
@@ -25,42 +74,72 @@ eBTNodeStatus TargetInViewNode::Execute(EntityManager* entityManager)
 	return eBTNodeStatus::Failure;
 }
 
-void TargetInViewNode::Clear()
+void DistanceCheckNode::OnDestroy()
 {
-
 }
 
 
 
+//eBTNodeStatus TargetInViewNode::Execute(EntityManager* entityManager)
+//{
+//}
+//
+//void TargetInViewNode::Clear()
+//{
+//}
+//
+//eBTNodeStatus TargetInRangeNode::Execute(EntityManager* entityManager)
+//{
+//	if (entityManager)
+//	{
+//		auto* owner = entityManager->Find(m_ownerID);
+//
+//		if (auto* target = entityManager->Find(m_targetID))
+//		{
+//
+//			auto currentPosition = owner->GetComponent<TransformComponent>()->CurrentPos;
+//			auto targetPosition = target->GetComponent<TransformComponent>()->CurrentPos;
+//
+//			float distance = currentPosition.DistanceTo(targetPosition);
+//
+//			if (distance <= m_radius)
+//			{
+//			//	// set attacking to true => walking to false?
+//				return eBTNodeStatus::Success;
+//			}
+//		}
+//	}
+//	return eBTNodeStatus::Failure;
+//}
+//
+//void TargetInRangeNode::Clear()
+//{
+//}
 
-
-
-
-eBTNodeStatus TargetInRangeNode::Execute(EntityManager* entityManager)
+eBTNodeStatus CheckEnemyPresenceNode::Execute(Entity* entity)
 {
-	if (entityManager)
+	if (entity)
 	{
-		auto* owner = entityManager->Find(m_ownerID);
+		auto* transformComponent = entity->GetComponent<TransformComponent>();
+		auto currentPosition = transformComponent->CurrentPos;
 
-		if (auto* target = entityManager->Find(m_targetID))
+		auto* attributesComponent = entity->GetComponent<AttributesComponent>();
+		int perception = attributesComponent->Perception;
+
+		auto* blackboardComponent = entity->GetComponent<BlackboardComponent>();
+		auto playerPosition = blackboardComponent->PlayerPosition;
+		
+		if (currentPosition.DistanceTo(playerPosition) <= perception * Tile::Size)
 		{
-
-			auto currentPosition = owner->GetComponent<TransformComponent>()->CurrentPos;
-			auto targetPosition = target->GetComponent<TransformComponent>()->CurrentPos;
-
-			float distance = currentPosition.DistanceTo(targetPosition);
-
-			if (distance <= m_radius)
-			{
-			//	// set attacking to true => walking to false?
-				return eBTNodeStatus::Success;
-			}
+			blackboardComponent->PointOfInterest = playerPosition;
+			return eBTNodeStatus::Success;
 		}
 	}
+
 	return eBTNodeStatus::Failure;
 }
 
-void TargetInRangeNode::Clear()
+void CheckEnemyPresenceNode::OnDestroy()
 {
-
 }
+

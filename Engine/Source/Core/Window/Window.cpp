@@ -42,7 +42,7 @@ namespace Hi_Engine
 		return !glfwWindowShouldClose(m_window);
 	}
 
-	const CU::Vector2<unsigned>& Window::GetSize() const
+	const UVector2& Window::GetSize() const
 	{
 		return m_data.Size;
 	}
@@ -73,7 +73,7 @@ namespace Hi_Engine
 		glfwSetWindowTitle(m_window, title.c_str());
 	}
 
-	void Window::SetSize(const CU::Vector2<unsigned>& size)
+	void Window::SetSize(const Vector2<unsigned>& size)
 	{
 		glfwSetWindowSize(m_window, size.x, size.y);
 		m_data.Size = size;

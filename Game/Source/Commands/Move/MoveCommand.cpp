@@ -9,8 +9,8 @@ MoveCommand::MoveCommand()
 {
 }
 
-MoveCommand::MoveCommand(const CU::Vector2<float>& aDirection)
-	: m_direction{ aDirection }
+MoveCommand::MoveCommand(const FVector2& direction)
+	: m_direction{ direction }
 {
 }
 

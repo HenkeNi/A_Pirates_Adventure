@@ -36,11 +36,11 @@ public:
 	// Function to modify/initialize component?
 
 	// TEST
-	inline CU::Factory<ComponentBuilder, Component>& GetCompFactory() { return m_componentFactory; }
+	inline Hi_Engine::Factory<ComponentBuilder, Component>& GetCompFactory() { return m_componentFactory; }
 
 private:
 	//ECS::ComponentFactory								m_componentFactory;
-	CU::Factory<ComponentBuilder, Component>			m_componentFactory;
+	Hi_Engine::Factory<ComponentBuilder, Component>			m_componentFactory;
 	std::unordered_map<std::string, EntityBlueprint>	m_blueprints;		
 };
 

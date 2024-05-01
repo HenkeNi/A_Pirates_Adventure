@@ -64,49 +64,49 @@ void EnemySpawnSystem::Update(float deltaTime)
 }
 
 // DONT DO here:...
-void EnemySpawnSystem::SpawnEnemy(const std::string& type, const CU::Vector2<float>& position)
+void EnemySpawnSystem::SpawnEnemy(const std::string& type, const FVector2& position)
 {
-	auto* player = *m_entityManager->FindAll<PlayerControllerComponent>().begin();
-	
-	if (!player)
-		return;
-	
-	auto entity = m_entityManager->Create(type);
+	//auto* player = *m_entityManager->FindAll<PlayerControllerComponent>().begin();
+	//
+	//if (!player)
+	//	return;
+	//
+	//auto entity = m_entityManager->Create(type);
 
-	auto transform = entity->GetComponent<TransformComponent>();
-	transform->CurrentPos = position;
+	//auto transform = entity->GetComponent<TransformComponent>();
+	//transform->CurrentPos = position;
 
-	
+	//
 
-	// TODO; assign a pre-built behavior tree suitable for enemy (save type in json) a
+	//// TODO; assign a pre-built behavior tree suitable for enemy (save type in json) a
 
 
-	// Set up behavior tree 
-	auto behaviorTree = entity->GetComponent<BehaviorTreeComponent>();
+	//// Set up behavior tree 
+	//auto behaviorTree = entity->GetComponent<BehaviorTreeComponent>();
 
-	// Maybe not all nodes needs ID??
+	//// Maybe not all nodes needs ID??
 
-	int entityID = entity->GetID();
-	int playerID = player->GetID();
+	//int entityID = entity->GetID();
+	//int playerID = player->GetID();
 
-	// DO in AI system when entity is registered?!
-	auto* root = new SelectorNode{ entityID };
+	//// DO in AI system when entity is registered?!
+	//auto* root = new SelectorNode{ entityID };
 
-	auto attackSequence = new SequenceNode{ entityID };
-	attackSequence->AddChild(new TargetInRangeNode{ entityID, playerID });
-	attackSequence->AddChild(new AttackTargetNode{ entityID, playerID });
+	//auto attackSequence = new SequenceNode{ entityID };
+	//attackSequence->AddChild(new TargetInRangeNode{ entityID, playerID });
+	//attackSequence->AddChild(new AttackTargetNode{ entityID, playerID });
 
-	auto alertSequence = new SequenceNode{ entityID };
-	alertSequence->AddChild(new TargetInViewNode{ entityID, playerID });
-	alertSequence->AddChild(new MoveToTargetNode{ entityID, playerID });
+	//auto alertSequence = new SequenceNode{ entityID };
+	//alertSequence->AddChild(new TargetInViewNode{ entityID, playerID });
+	//alertSequence->AddChild(new MoveToTargetNode{ entityID, playerID });
 
-	auto idle = new IdleNode{ entityID };
+	//auto idle = new IdleNode{ entityID };
 
-	root->AddChild(attackSequence);
-	root->AddChild(alertSequence);
-	root->AddChild(idle);
+	//root->AddChild(attackSequence);
+	//root->AddChild(alertSequence);
+	//root->AddChild(idle);
 
-	behaviorTree->RootNode = root;
+	//behaviorTree->RootNode = root;
 
 	//auto root = new WalkToTarget{ &m_objectManager.GetAllObjects().back() };
 	//root->SetTarget(&m_objectManager.GetAllObjects()[1]);

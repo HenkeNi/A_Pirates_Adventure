@@ -95,7 +95,7 @@ void MapRenderSystem::Draw()
 	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::RenderEvent>(renderCommands); // Static call to Renderer instead??
 }
 
-void MapRenderSystem::DrawMapChunk(MapChunkComponent* mapChunk, const CU::Vector2<float>& position)
+void MapRenderSystem::DrawMapChunk(MapChunkComponent* mapChunk, const FVector2& position)
 {
 	// static const float size = 1.f; // TODO; FIX!!
 

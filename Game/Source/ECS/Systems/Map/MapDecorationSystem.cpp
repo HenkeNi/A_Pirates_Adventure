@@ -5,6 +5,7 @@
 #include "Components/Map/MapComponents.h"
 #include "Components/Core/CoreComponents.h"
 #include "Components/Gameplay/GameplayComponents.h"
+#include "Constants.h"
 
 unsigned GetResourceSpawnChance(const std::string& resource); // FIX!
 
@@ -53,23 +54,23 @@ void MapDecorationSystem::GenerateResources(Entity* entity)
 		if (tile.Type == eTile::Grass)
 		{
 
-			if (Random::GenerateRandomInteger<unsigned>(0, 100) < GetResourceSpawnChance("Grass"))
+			if (Hi_Engine::GenerateRandomInteger<unsigned>(0, 100) < GetResourceSpawnChance("Grass"))
 			{
 				entity = m_entityManager->Create("grass");
 			}
-			else if (Random::GenerateRandomInteger<unsigned>(0, 100) < GetResourceSpawnChance("PalmTree"))
+			else if (Hi_Engine::GenerateRandomInteger<unsigned>(0, 100) < GetResourceSpawnChance("PalmTree"))
 			{
 				entity = m_entityManager->Create("palm_tree");
 			}
 		}
 		else if (tile.Type == eTile::Sand)
 		{
-			if (Random::GenerateRandomInteger<unsigned>(0, 100) < GetResourceSpawnChance("PalmTree"))
+			if (Hi_Engine::GenerateRandomInteger<unsigned>(0, 100) < GetResourceSpawnChance("PalmTree"))
 			{
 				entity = m_entityManager->Create("palm_tree");
 
 			}
-			else if (Random::GenerateRandomInteger<unsigned>(0, 100) < GetResourceSpawnChance("Rock"))
+			else if (Hi_Engine::GenerateRandomInteger<unsigned>(0, 100) < GetResourceSpawnChance("Rock"))
 			{
 				entity = m_entityManager->Create("rock");
 			}
@@ -96,7 +97,7 @@ void MapDecorationSystem::PopulateWithFoilage(const Entity* mapChunk)
 			auto* mapTransformComponent = mapChunk->GetComponent<TransformComponent>();
 
 			auto chunkPosition = mapTransformComponent->CurrentPos;
-			auto endPosition = CU::Vector2<float>{ chunkPosition.x + MapChunkComponent::TileCountPerSide * tileSize, chunkPosition.y + MapChunkComponent::TileCountPerSide * tileSize };
+			auto endPosition = FVector2{ chunkPosition.x + Constants::MapChunkLength * tileSize, chunkPosition.y + Constants::MapChunkLength * tileSize };
 			//auto endPosition = CU::Vector2<float>{ chunkPosition.x + mapChunkComponent->Width * tileSize, chunkPosition.y + mapChunkComponent->Height * tileSize };
 
 			for (unsigned i = 0; i < amount; ++i)
@@ -106,9 +107,9 @@ void MapDecorationSystem::PopulateWithFoilage(const Entity* mapChunk)
 
 				//auto sizet = entity->GetComponent<SpriteComponent>()->Subtexture->GetSize(); // TEMP..
 
-				CU::Vector2<float> position = {
-					Random::GenerateRandomFloatingPoint<float>(chunkPosition.x + 1.f, endPosition.x - 1.f),
-					Random::GenerateRandomFloatingPoint<float>(chunkPosition.y + 1.f, endPosition.y - 1.f) };
+				FVector2 position = {
+					Hi_Engine::GenerateRandomFloatingPoint<float>(chunkPosition.x + 1.f, endPosition.x - 1.f),
+					Hi_Engine::GenerateRandomFloatingPoint<float>(chunkPosition.y + 1.f, endPosition.y - 1.f) };
 				transform->CurrentPos = transform->PreviousPos = position;
 
 				if (i % 2 == 0)

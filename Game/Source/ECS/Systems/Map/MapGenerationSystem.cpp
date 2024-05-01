@@ -2,6 +2,7 @@
 #include "MapGenerationSystem.h"
 #include "Entities/EntityManager.h"
 //#include "../Data/Constants.h"
+#include "Constants.h"
 #include "../Utility/Map/MapUtils.h"
 #include "Components/AI/AIComponents.h"
 #include "Components/Core/CoreComponents.h"
@@ -10,11 +11,11 @@
 
 
 
-CU::Vector2<int> ConvertWorldPositionToMapChunkCoordinates(const CU::Vector2<float>& worldPosition)
+IVector2 ConvertWorldPositionToMapChunkCoordinates(const FVector2& worldPosition)
 {
-	float chunkSize = MapChunkComponent::TileCountPerSide * Tile::Size;
+	float chunkSize = Constants::MapChunkLength * Tile::Size;
 
-	CU::Vector2<int> coordinates;
+	IVector2 coordinates;
 	coordinates.x = (int)std::floor(worldPosition.x / chunkSize);
 	coordinates.y = (int)std::floor(worldPosition.y / chunkSize);
 
@@ -26,11 +27,16 @@ CU::Vector2<int> ConvertWorldPositionToMapChunkCoordinates(const CU::Vector2<flo
 struct TileSettings
 {
 	std::string Identifier; //?? NEEDED?
-	CU::Vector4<float> Color;
+	FVector4 Color;
 	// ARray of subtextures??
 	bool IsCollidable;
 };
 
+struct TerrainSettings
+{
+	std::string Identifier;
+	FVector2 NoiseRange;
+};
 
 eTile GetTileType(float noise)
 {
@@ -75,6 +81,8 @@ eTile GetTileType(float noise)
 
 	return eTile::Water;*/
 }
+
+//int GetMaskValue()
 
 Hi_Engine::Subtexture2D* GetSubtexture(eTile type) // TODO: check neighbours?
 {
@@ -159,11 +167,10 @@ void MapGenerationSystem::Update(float deltaTime)
 
 void MapGenerationSystem::GenerateMapChunk(int xCoord, int yCoord)
 {
-	// MOVE ELSEWHERE? static in a function (GetNoise)?
-	FastNoiseLite fastNoise;
+	// MOVE ELSEWHERE? static in a function (GetNoise)? put class in Engine??
+	static FastNoiseLite fastNoise;
 	fastNoise.SetNoiseType(FastNoiseLite::NoiseType_Perlin);
 	fastNoise.SetFrequency(0.06f);
-	//fastNoise.SetFrequency(0.006f);
 
 	// Generate numbers first??
 
@@ -174,28 +181,33 @@ void MapGenerationSystem::GenerateMapChunk(int xCoord, int yCoord)
 
 	mapChunkComponent->Coordinates = { xCoord, yCoord };
 
-	float xPos = xCoord * (MapChunkComponent::TileCountPerSide * Tile::Size);
-	float yPos = yCoord * (MapChunkComponent::TileCountPerSide * Tile::Size);
+	float xPos = xCoord * (Constants::MapChunkLength * Tile::Size);
+	float yPos = yCoord * (Constants::MapChunkLength * Tile::Size);
 	transformComponent->CurrentPos = { xPos, yPos };
 
-	for (unsigned height = 0; height < MapChunkComponent::TileCountPerSide; ++height)
+	int counter = 0;
+	for (int i = 0; i < Constants::MapChunkSize; ++i)
 	{
-		for (unsigned width = 0; width < MapChunkComponent::TileCountPerSide; ++width)
-		{
-			float noise = fastNoise.GetNoise((float)xPos + (float)width, (float)yPos + float(height));
+		int x, y;
+		MapUtils::GetCoordinates(i, Constants::MapChunkLength, x, y);
 
-			Tile tile;
-			tile.Coordinates = { width, height };
-			tile.IsCollidable = false; // FIX!
-			tile.Type = GetTileType(noise);
+		float noise = fastNoise.GetNoise((float)xPos + (float)x, (float)yPos + float(y));
 
-			mapChunkComponent->Tiles.push_back(tile);
-		}
+		Tile tile;
+		tile.Coordinates = { (unsigned)x, (unsigned)y };
+		tile.IsCollidable = false; // FIX!
+		tile.Type = GetTileType(noise);
+
+		mapChunkComponent->Tiles[counter++] = tile;
 	}
 
 	ApplyTextures(entity);
+	PostMaster::GetInstance().SendMessage({ eMessage::MapChunkGenerated, entity }); // send entity created instead?
+}
 
-	PostMaster::GetInstance().SendMessage({ eMessage::MapChunkGenerated, entity });
+void MapGenerationSystem::UnloadMapChunk()
+{
+	// TODO; need to save world state in map chunk (placed objects, etc).. (store changes done by the player)
 }
 
 void MapGenerationSystem::ApplyTextures(Entity* entity) // Rename; texture map chunk?
@@ -211,36 +223,29 @@ void MapGenerationSystem::ApplyTextures(Entity* entity) // Rename; texture map c
 
 		if (tile.Type == eTile::Sand)
 		{
-			int baseValue = 0;
+			// get neighbors
+			int bitmaskValue = 0;
 
 			for (const auto& directionalValue : directionalValues)
 			{
 				bool isEmptySpace = MapUtils::IsTileTypeInDirection(entity, i, directionalValue, eTile::ShallowWater);
+				
+				if (isEmptySpace)	
+					continue;
 				//if (MapUtils::GetTileTypeInDirection())
-				baseValue += (int)directionalValue * isEmptySpace;
+				bitmaskValue += (int)directionalValue;
 			}
 
-
-
-			if (MapUtils::GetTileTypeInDirection(entity, i, eDirection::Down) == eTile::ShallowWater)
+			if (bitmaskValue != 0)
 			{
-				tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({"island_tileset", 3, 1 });
-				//tile.Color = { 0.f, 0.3f, 0.5f, 1.f };
-			}
-			else if (MapUtils::GetTileTypeInDirection(entity, i, eDirection::Up) == eTile::ShallowWater)
-			{
-				tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ "island_tileset", 5, 1 });
-				//tile.Color = { 0.f, 0.3f, 0.5f, 1.f };
-			}
-			else if (MapUtils::GetTileTypeInDirection(entity, i, eDirection::Left) == eTile::ShallowWater)
-			{
-				tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ "island_tileset", 4,0 });
-				//tile.Color = { 0.f, 0.3f, 0.5f, 1.f };
-			}
-			else if (MapUtils::GetTileTypeInDirection(entity, i, eDirection::Right) == eTile::ShallowWater)
-			{
-				tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ "island_tileset", 4,2 });
-				//tile.Color = { 0.f, 0.3f, 0.5f, 1.f };
+				static const std::array<std::pair<int, int>, 16> sandTextures = { {
+					{ 1, 3 }, { 1, 4 }, { 1, 4 }, { 3, 2 },
+					{ 1, 4 }, { 3, 0 }, { 1, 4 }, { 3, 1 },
+					{ 1, 4 }, { 1, 4 }, { 5, 2 }, { 4, 2 },
+					{ 5, 0 }, { 4, 0 }, { 5, 1 }, { 1, 4 },
+				}};
+ 
+				tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({"island_tileset", sandTextures[bitmaskValue].first, sandTextures[bitmaskValue].second });
 			}
 			else
 			{
@@ -265,9 +270,4 @@ void MapGenerationSystem::ApplyTextures(Entity* entity) // Rename; texture map c
 		mapChunkComponent->RenderData.push_back(renderData);
 
 	}
-}
-
-void MapGenerationSystem::UnloadMapChunk()
-{
-	// TODO; need to save world state in map chunk (placed objects, etc).. (store changes done by the player)
 }
