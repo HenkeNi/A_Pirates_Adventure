@@ -61,7 +61,7 @@ namespace Hi_Engine
 	void Window::SwapBuffers() const
 	{
 		glfwSwapBuffers(m_window);
-	}
+	}	
 
 	void Window::Close()
 	{
@@ -73,7 +73,7 @@ namespace Hi_Engine
 		glfwSetWindowTitle(m_window, title.c_str());
 	}
 
-	void Window::SetSize(const Vector2<unsigned>& size)
+	void Window::SetSize(const UVector2& size)
 	{
 		glfwSetWindowSize(m_window, size.x, size.y);
 		m_data.Size = size;
