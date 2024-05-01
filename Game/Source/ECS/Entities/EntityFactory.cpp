@@ -47,7 +47,7 @@ void EntityFactory::LoadBlueprints(const std::string& path)
 // {
 //	EntityBlueprint blueprint;
 //
-//	auto document = CommonUtilities::ParseDocument(aPath);
+//	auto document = ParseDocument(aPath);
 //	for (auto& component : document["components"].GetArray())
 //	{
 //		const rapidjson::Value& properties = component["properties"];

@@ -44,7 +44,7 @@
 //#include "../Source/Core/Messaging/Events/SystemEvents/SystemEvents.h"
 //#include "../Source/Core/Messaging/Listener/EventListener.h"
 
-/* - CommonUtilities - */
+/* - Math - */
 #include "../Utility/Math/Vectors/Vector.hpp"
 #include "../Utility/Math/Matrices/Matrix3x3.hpp"
 #include "../Utility/Math/Matrices/Matrix4x4.hpp"

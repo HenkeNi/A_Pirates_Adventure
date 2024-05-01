@@ -114,8 +114,8 @@ namespace Hi_Engine
 	
 	struct WindowData
 	{
-		Vector2<unsigned>	Size;
-		std::string				Identifier, IconPath;
+		UVector2		Size;
+		std::string		Identifier, IconPath;
 	};
 
 #pragma endregion Window_Structs
@@ -154,8 +154,8 @@ namespace Hi_Engine
 		glm::vec4					Color = { 1.f, 1.f, 1.f, 1.f };
 		Transform					Transform{};
 
-		//glm::vec3					Position;	// CU::Vector3<float>
-		//glm::vec2					Scale;		// Rename size?? CU::Vector2<float>
+		//glm::vec3					Position;	// Vector3<float>
+		//glm::vec2					Scale;		// Rename size?? Vector2<float>
 		//float						Rotation;
 	};	
 

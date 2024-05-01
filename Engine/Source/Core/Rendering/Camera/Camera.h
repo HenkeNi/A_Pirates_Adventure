@@ -13,8 +13,8 @@ namespace Hi_Engine
 		Camera();
 		Camera(const Rect& rect);
 		
-		void Init(const Vector2<float>& position);	// Parse from json...? CameraData?
-		void SetPosition(const Vector2<float>& position);
+		void Init(const FVector2& position);	// Parse from json...? CameraData?
+		void SetPosition(const FVector2& position);
 		void SetZoomRange(const Range<float>& range);
 
 		void AdjustZoom(float adjustment);
@@ -26,7 +26,7 @@ namespace Hi_Engine
 	
 	private:
 		void RecalculateMatrixes();
-		void OnWindowResized(const Vector2<unsigned>& size);
+		void OnWindowResized(const UVector2& size);
 	
 		glm::vec2 m_position; // focus position, center position.?
 		Range<float> m_zoomRange;

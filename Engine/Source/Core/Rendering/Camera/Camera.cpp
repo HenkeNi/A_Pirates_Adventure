@@ -40,11 +40,11 @@ namespace Hi_Engine
 		return m_viewMatrix;
 	}
 
-	void Camera::Init(const Vector2<float>& position)
+	void Camera::Init(const FVector2& position)
 	{
 	}
 
-	void Camera::SetPosition(const Vector2<float>& position)
+	void Camera::SetPosition(const FVector2& position)
 	{
 		m_position = { position.x, position.y };
 		RecalculateMatrixes();
@@ -68,7 +68,7 @@ namespace Hi_Engine
 		m_zoom = 1.f;
 	}
 
-	void Camera::OnWindowResized(const Vector2<unsigned>& size)
+	void Camera::OnWindowResized(const UVector2& size)
 	{
 
 	}

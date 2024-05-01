@@ -24,7 +24,7 @@ namespace Hi_Engine
 		void			Close();
 
 		void			SetTitle(const std::string& title);
-		void			SetSize(const Vector2<unsigned>& size);
+		void			SetSize(const UVector2& size);
 		void			SetIcon(const std::string& texturePath);
 		void			ToggleFullscreen();
 

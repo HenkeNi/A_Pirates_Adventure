@@ -21,7 +21,7 @@ namespace Hi_Engine
 	{
 	}
 
-	void Material::SetColor(const Vector4<float> color)
+	void Material::SetColor(const FVector4& color)
 	{
 		m_color = color;
 	}
@@ -41,7 +41,7 @@ namespace Hi_Engine
 		m_shader = shader;
 	}
 
-	const Vector4<float>& Material::GetColor() const
+	const FVector4& Material::GetColor() const
 	{
 		return m_color;
 	}

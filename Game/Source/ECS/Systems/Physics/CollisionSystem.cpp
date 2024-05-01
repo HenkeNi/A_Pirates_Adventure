@@ -562,14 +562,14 @@ void CollisionSystem::CheckMapCollisions(Entity* entity)
 	//	auto& velocity = entity->GetComponent<VelocityComponent>()->Velocity;
 
 	//	// Dont check against the dynamic?
-	//	CommonUtilities::Vector2<float> contactPoint;
-	//	CommonUtilities::Vector2<float> contactNormal;
+	//	Vector2<float> contactPoint;
+	//	Vector2<float> contactNormal;
 	//	float contactTime = 0.f;
 	//	float dt = 0.01f;
 
 	//	if (Hi_Engine::Physics::Intersects(hitbox, { velocity.x, velocity.z }, tileBounds, { 0.f, 0.f }, contactPoint, contactNormal, contactTime, dt))
 	//	{
-	//		CommonUtilities::Vector2 vec = CommonUtilities::Vector2(std::abs(velocity.x), std::abs(velocity.z)) * (1 - contactTime);
+	//		Vector2 vec = Vector2(std::abs(velocity.x), std::abs(velocity.z)) * (1 - contactTime);
 	//		velocity.x += contactNormal.x * vec.x;
 	//		velocity.z += contactNormal.y * vec.y;
 	//	}

@@ -16,18 +16,18 @@ namespace Hi_Engine
 		//Material(Subtexture2D* aSubtexture, Shader* aShader);
 		Material(Texture2D* texture, Shader* shader);
 
-		void						SetColor(const Vector4<float> color);
+		void						SetColor(const FVector4& color);
 		//void						SetSubtexture(const Subtexture2D* aSubtexture);
 		void						SetTexture(const Texture2D* texture);
 		void						SetShader(Shader* shader);
 
-		const Vector4<float>&	GetColor()		const;
+		const FVector4&	GetColor()		const;
 		//const Subtexture2D*			GetSubtexture()	const;
 		const Texture2D*			GetTexture()	const;
 		const Shader*				GetShader()		const;
 
 	private:
-		Vector4<float>			m_color;
+		FVector4			m_color;
 		//const Subtexture2D*			m_subtexture;
 		const Texture2D*			m_texture; 
 		const Shader*				m_shader;
