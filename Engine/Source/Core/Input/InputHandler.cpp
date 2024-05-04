@@ -3,7 +3,7 @@
 #include "Messaging/Dispatcher/Dispatcher.h"
 #include "Messaging/Events/SystemEvents/SystemEvents.h"
 #include "../../Data/Enumerations.h"
-
+#include <GLFW/glfw3.h> 
 
 namespace Hi_Engine
 {
@@ -25,14 +25,14 @@ namespace Hi_Engine
 
 	void InputHandler::Init(GLFWwindow* window)
 	{
-		m_window = window;
+		//m_window = window;
 
-		glfwSetKeyCallback(m_window, InputHandler::KeyCallback);
-		glfwSetCursorPosCallback(m_window, InputHandler::CursorCallback);
-		glfwSetMouseButtonCallback(m_window, InputHandler::MouseButtonCallback);
-		glfwSetScrollCallback(m_window, InputHandler::MouseScrollCallback);
+		glfwSetKeyCallback(window, InputHandler::KeyCallback);
+		glfwSetCursorPosCallback(window, InputHandler::CursorCallback);
+		glfwSetMouseButtonCallback(window, InputHandler::MouseButtonCallback);
+		glfwSetScrollCallback(window, InputHandler::MouseScrollCallback);
  
-		glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
 
 		//static GLFWimage image;

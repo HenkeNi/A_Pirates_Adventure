@@ -1,7 +1,7 @@
 #include "Pch.h"
 #include "Window.h"
+#include <GLFW/glfw3.h>
 
-#include <GLFW/glfw3.h> // needed??
 
 namespace Hi_Engine
 {
@@ -21,20 +21,29 @@ namespace Hi_Engine
 
 	bool Window::Init(WindowData data)
 	{
-		std::swap(m_data, data);
-
-		if (!InitGlfw() || !CreateWindow())
+		if (!glfwInit())
 			return false;
 
-		glfwMakeContextCurrent(m_window);
-		glfwSetFramebufferSizeCallback(m_window, FrameBufferSizeCallback);
-		glfwSetWindowFocusCallback(m_window, WindowFocusCallback);
-		glfwSwapInterval(0); // turns off V-sync
+		m_window = CreateWindow(data.Size, data.WindowName);
+		
+		if (!m_window)
+			return false;
 
-		glViewport(0, 0, m_data.Size.x, m_data.Size.y);
-		SetIcon(m_data.IconPath);
+		m_size = data.Size;
+
+		glfwSwapInterval(0); // turns off V-sync
+		glViewport(0, 0, m_size.x, m_size.y);
+		SetIcon(data.IconPath);
 
 		return true;
+	}
+
+	void Window::Shutdown()
+	{
+		if (IsOpen())
+			Close();
+
+		glfwTerminate();
 	}
 
 	bool Window::IsOpen() const
@@ -42,9 +51,9 @@ namespace Hi_Engine
 		return !glfwWindowShouldClose(m_window);
 	}
 
-	const UVector2& Window::GetSize() const
+	const IVector2& Window::GetSize() const
 	{
-		return m_data.Size;
+		return m_size;
 	}
 
 	void Window::PollEvents() const
@@ -73,16 +82,14 @@ namespace Hi_Engine
 		glfwSetWindowTitle(m_window, title.c_str());
 	}
 
-	void Window::SetSize(const UVector2& size)
+	void Window::SetSize(const IVector2& size)
 	{
 		glfwSetWindowSize(m_window, size.x, size.y);
-		m_data.Size = size;
+		m_size = size;
 	}
 
 	void Window::SetIcon(const std::string& texturePath)
 	{
-		m_data.IconPath = texturePath;
-
 		GLFWimage image;
 		image.pixels = stbi_load(texturePath.c_str(), &image.width, &image.height, 0, 4);
 
@@ -94,11 +101,8 @@ namespace Hi_Engine
 	{
 	}
 
-	bool Window::InitGlfw() const
+	GLFWwindow* Window::CreateWindow(const IVector2& size, const std::string& title)
 	{
-		if (!glfwInit())
-			return false;
-
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -107,19 +111,16 @@ namespace Hi_Engine
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif // __APPLE__
 
-		return true;
-	}
-
-	bool Window::CreateWindow()
-	{
-		m_window = glfwCreateWindow(m_data.Size.x, m_data.Size.y, m_data.Identifier.c_str(), nullptr, nullptr);
-		if (!m_window)
+		if (auto* window = glfwCreateWindow(size.x, size.y, title.c_str(), nullptr, nullptr))
 		{
-			glfwTerminate();
-			return false;
+			glfwMakeContextCurrent(window);
+			glfwSetFramebufferSizeCallback(window, FrameBufferSizeCallback);
+			glfwSetWindowFocusCallback(window, WindowFocusCallback);
+			return window;
 		}
 
-		return true;
+		glfwTerminate();
+		return nullptr;
 	}
 
 #pragma region CALLBACK_FUNCTIONS

@@ -1,8 +1,6 @@
 #pragma once
 
-
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
-
 
 /* - Standard Library includes - */
 #include <algorithm>
@@ -39,10 +37,6 @@
 #include "Messaging/Events/RenderEvents/RenderEvents.h"
 #include "Messaging/Events/SystemEvents/SystemEvents.h"
 #include "Messaging/Listener/EventListener.h"
-//#include "../Source/Core/Messaging/Dispatcher/Dispatcher.h"
-//#include "../Source/Core/Messaging/Events/RenderEvents/RenderEvents.h"
-//#include "../Source/Core/Messaging/Events/SystemEvents/SystemEvents.h"
-//#include "../Source/Core/Messaging/Listener/EventListener.h"
 
 /* - Math - */
 #include "../Utility/Math/Vectors/Vector.hpp"
@@ -51,21 +45,16 @@
 #include "../Utility/Math/Range/Range.hpp"
 #include "../Utility/Math/Point/Point.hpp"
 
-// TODO; dont put these here... (not glew/glfw stuff)
-/* - Third Party - */ 
+/* - Third Party - 	 ..... TODO; dont put these here... (not glew/glfw stuff) */
 #include <GL/glew.h>
-#include <GLFW/glfw3.h>
+//#include <GLFW/glfw3.h>
 #include <document.h>
 //#include <glm.hpp>
 #include <../glm/glm.hpp>
 #include <gtc/matrix_transform.hpp> 
 #include <gtc/type_ptr.hpp>
 #include <stb_image.h>
-
 #include <FastNoiseLite.h>
-
-//#include <ft2build.h>
-//#include <freetype/freetype.h>
 #include <ft2build.h>
 #include <freetype/freetype.h>
 #include FT_FREETYPE_H  

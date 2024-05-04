@@ -1,6 +1,7 @@
 #pragma once
 #include "../Data/Structs.h"
 
+// Todo; remove??
 namespace Hi_Engine	 
 {
 	class WindowParser 

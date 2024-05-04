@@ -27,7 +27,7 @@ namespace Hi_Engine
 		float		Rotation = 0.f;
 	};
 
-	struct TimerRequest
+	struct TimerRequest // remove?
 	{
 		double					DurationInSecs, TimeOfRequest;
 		std::function<void()>	Callback = nullptr;
@@ -114,8 +114,8 @@ namespace Hi_Engine
 	
 	struct WindowData
 	{
-		UVector2		Size;
-		std::string		Identifier, IconPath;
+		IVector2		Size;
+		std::string		WindowName, IconPath;
 	};
 
 #pragma endregion Window_Structs

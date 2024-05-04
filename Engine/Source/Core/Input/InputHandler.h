@@ -35,6 +35,6 @@ namespace Hi_Engine
 		static glm::vec2	s_mousePosition;
 		static float		s_scrollOffset;
 		// static GLFWcursor*	s_customCursor;
-		GLFWwindow*	m_window;
+		//GLFWwindow*	m_window;
 	};
 }

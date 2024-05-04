@@ -8,8 +8,8 @@ namespace Hi_Engine
 		auto obj = aDocument["window"].GetObj();
 
 		WindowData windowData;
-		windowData.Size		= { obj["size"]["width"].GetUint(), obj["size"]["height"].GetUint() };
-		windowData.Identifier		= obj["name"].GetString();
+		windowData.Size		= { obj["size"]["width"].GetInt(), obj["size"]["height"].GetInt() };
+		windowData.WindowName		= obj["name"].GetString();
 		windowData.IconPath	= obj["icon_path"].GetString();
  
 		return windowData;

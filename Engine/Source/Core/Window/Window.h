@@ -1,12 +1,9 @@
 #pragma once
-#include "../Utility/Math/Vectors/Vector.hpp"
 
 struct GLFWwindow;
 
 namespace Hi_Engine
 {
-	using namespace Math;
-
 	class Engine;
 
 	class Window
@@ -16,7 +13,9 @@ namespace Hi_Engine
 		~Window();
 
 		bool			Init(WindowData data);
-		const UVector2& GetSize()									const;
+		void			Shutdown();
+
+		const IVector2& GetSize()									const;
 		bool			IsOpen()									const;
 		void			PollEvents()								const;
 		void			ClearScreen()								const;
@@ -24,17 +23,16 @@ namespace Hi_Engine
 		void			Close();
 
 		void			SetTitle(const std::string& title);
-		void			SetSize(const UVector2& size);
+		void			SetSize(const IVector2& size);
 		void			SetIcon(const std::string& texturePath);
 		void			ToggleFullscreen();
 
 	private:
-		bool			InitGlfw()									const;	// integrate in Init?
-		bool			CreateWindow();	// static?
+		GLFWwindow*		CreateWindow(const IVector2& size, const std::string& title);
 
 		friend	class Engine;
 
-		WindowData		m_data;
+		IVector2		m_size;
 		GLFWwindow*		m_window;
 	};
 }

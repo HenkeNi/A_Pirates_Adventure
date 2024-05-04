@@ -39,6 +39,8 @@ namespace Hi_Engine
 
 		m_inputHandler.Init(m_window.m_window);
 
+		//m_window.SetIcon("../Game/Assets/Textures/Icons/pirate_flag_icon.png"); // TODO: read from windows file
+
 		// REMOVE...
 		TextRenderer::GetInstance().Init();
 
@@ -67,9 +69,7 @@ namespace Hi_Engine
 			delete m_application;
 		}
 
-		if (m_window.IsOpen())
-			m_window.Close();
-
+		m_window.Shutdown();
 		m_renderer.Shutdown();
 		TextRenderer::GetInstance().Shutdown();
 

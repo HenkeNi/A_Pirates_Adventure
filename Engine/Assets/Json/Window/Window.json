@@ -5,6 +5,6 @@
       "width": 1400,
       "height": 800
     },
-    "icon_path": "../Bin/Assets/Icons/window_icon.png"
+    "icon_path": "../Game/Assets/Textures/Icons/pirate_flag_icon.png"
   }
 }
