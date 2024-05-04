@@ -21,10 +21,9 @@ namespace Hi_Engine
 		static void CursorCallback(GLFWwindow* window, double xPos, double yPos);
 
 		static glm::vec2 GetMousePosition();
-		static float	GetScrollOffset();
+		static float	 GetScrollOffset();
 
 		static bool IsMouseButtonPressed(eMouseBtn btn);
-
 		static bool IsKeyPressed(eKey key);
 		static bool IsKeyHeld(eKey key);
 		static bool IsKeyReleased(eKey key);
@@ -35,6 +34,5 @@ namespace Hi_Engine
 		static glm::vec2	s_mousePosition;
 		static float		s_scrollOffset;
 		// static GLFWcursor*	s_customCursor;
-		//GLFWwindow*	m_window;
 	};
 }

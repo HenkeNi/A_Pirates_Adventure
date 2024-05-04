@@ -1,7 +1,5 @@
 #include "Pch.h"
 #include "InputHandler.h"
-#include "Messaging/Dispatcher/Dispatcher.h"
-#include "Messaging/Events/SystemEvents/SystemEvents.h"
 #include "../../Data/Enumerations.h"
 #include <GLFW/glfw3.h> 
 
@@ -25,13 +23,11 @@ namespace Hi_Engine
 
 	void InputHandler::Init(GLFWwindow* window)
 	{
-		//m_window = window;
-
+		// Consider handling this in windows class?
 		glfwSetKeyCallback(window, InputHandler::KeyCallback);
 		glfwSetCursorPosCallback(window, InputHandler::CursorCallback);
 		glfwSetMouseButtonCallback(window, InputHandler::MouseButtonCallback);
 		glfwSetScrollCallback(window, InputHandler::MouseScrollCallback);
- 
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
 
