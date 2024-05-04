@@ -8,4 +8,13 @@ namespace Hi_Engine::Math
 		T Min;
 		T Max;
 	};
+
+	template <typename T>
+	T MapToNewRange(const T& value, const Range<T>& oldRange, const Range<T>& newRange)
+	{
+		T normalized = (value - oldRange.Min) / (oldRange.Max - oldRange.Min);
+		T mapped = normalized * (newRange.Max - newRange.Min) + newRange.Min;
+	
+		return mapped;
+	}
 }
