@@ -9,7 +9,7 @@ namespace Hi_Engine
 	class Texture2D;
 	//class Subtexture2D;
 
-	class Material
+	class Material // TODO; delete?
 	{
 	public:
 		Material();
