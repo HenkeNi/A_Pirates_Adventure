@@ -1,7 +1,8 @@
 #include "Pch.h"
 #include "RenderEvents.h"
-#include "../../Listener/EventListener.h"
+//#include "../../Listener/EventListener.h"
 #include "../../../../Utility/DataStructures/Linear/Static/MemoryPool/MemoryPool.hpp"
+#include "../../../../Data/Structs.h"
 
 
 namespace Hi_Engine

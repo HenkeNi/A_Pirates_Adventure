@@ -1,5 +1,4 @@
 #pragma once
-#include "../../../Data/Structs.h"
 
 // TODO: replace array with Binary Search Tree Set or AVL or SPlay Tree? or map
 // TODO; check if sorting after importance works?
@@ -9,6 +8,8 @@ namespace Hi_Engine
 {
 	class BaseEvent;
 	class EventListener;
+
+	struct EventCompare;
 
 	class Dispatcher
 	{

@@ -1,8 +1,6 @@
 #pragma once
 #include "../Event.h"
-#include "../../../../Data/Structs.h"
 
-#include <queue>
 
 namespace Hi_Engine
 {
@@ -17,12 +15,7 @@ namespace Hi_Engine
 	//{
 
 	//};
-
-
-
-
-
-
+	struct RenderCommand;
 
 	class RenderEvent : public Event<RenderEvent>
 	{

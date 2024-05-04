@@ -2,6 +2,7 @@
 #include "Dispatcher.h"
 #include "Messaging/Events/Event.h"
 #include "Messaging/Listener/EventListener.h"
+#include "../../../Data/Structs.h"
 
 
 namespace Hi_Engine

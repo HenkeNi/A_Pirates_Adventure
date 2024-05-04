@@ -1,12 +1,20 @@
 #pragma once
 #include "../Event.h"
-#include "../../../../Data/Enumerations.h"
 
 
 namespace Hi_Engine
 {
 	using namespace Math;
 
+	enum class ePriority;
+	enum class eWindowEvent;
+	enum class eMouseBtn;
+	enum class eInputState;
+	enum class eKey;
+
+	class InputHandler;
+
+	/* ########################## Termination Event ########################## */
 	class TerminationEvent : public Event<TerminationEvent>
 	{
 	public:
@@ -21,6 +29,7 @@ namespace Hi_Engine
 	private:
 	};
 
+	/* ########################## Window Event ########################## */
 	class WindowEvent : public Event<WindowEvent>
 	{
 	public:
@@ -39,8 +48,7 @@ namespace Hi_Engine
 	};
 
 
-	
-	class InputHandler;
+	/* ########################## Input Event ########################## */
 	class InputEvent : public Event<InputEvent>
 	{
 	public:

@@ -1,5 +1,4 @@
 #pragma once
-//#include "Math/Vectors/Vector.hpp"
 #include "../Rendering/Shader/Shader.h"
 #include "../Rendering/Texture/Texture2D.h"
 #include "../Rendering/Texture/Subtexture2D.h"

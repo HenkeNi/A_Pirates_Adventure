@@ -2,9 +2,6 @@
 #include "Components.h"
 
 #include <../Hi_Engine.h> //?
-//#include <../Engine/Source/Core/Resources/ResourceHolder.hpp> //?
-//#include <Core/Resources/ResourceHolder.hpp>
-
 
 #include "../Entities/EntityBlueprint.h" // DON'T?
 

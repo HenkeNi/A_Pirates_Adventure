@@ -1,13 +1,13 @@
 #include "Pch.h"
 #include "Engine.h"
 #include "Application/Application.h"
-#include "FileIO/FileSystem.h"
 #include "FileIO/Parsers/WindowParser.h"
 #include "Resources/ResourceHolder.hpp"
 #include "Messaging/Dispatcher/Dispatcher.h"
 #include "../Utility/Time/Timer.h"
 #include "Rendering/Renderer/TextRenderer/TextRenderer.h"
 #include "ServiceLocator/ServiceLocator.h"
+#include "Utility/UtilityFunctions.hpp"
 
 namespace Hi_Engine
 {
@@ -122,8 +122,18 @@ namespace Hi_Engine
 
 	bool Engine::CreateWindow() // FIX?!
 	{
-		auto windowData = FileSystem::ParseJson<WindowParser, WindowData>("../Engine/Assets/Json/Window/Window.json");
-		return m_window.Init(windowData);
+		auto document = ParseDocument("../Engine/Assets/Json/Window/Window.json");
+		auto json = ParseJson(document.GetObj());
+
+		auto values = std::any_cast<std::unordered_map<std::string, std::any>>(json);
+		auto size = std::any_cast<std::unordered_map<std::string, std::any>>(values.at("size"));
+
+		WindowData data;
+		data.WindowName = std::any_cast<std::string>(values.at("name"));
+		data.IconPath = std::any_cast<std::string>(values.at("icon_path"));
+		data.Size = { std::any_cast<int>(size.at("width")), std::any_cast<int>(size.at("height")) };
+		
+		return m_window.Init(data);
 	}
 
 	//void Engine::ConfigureRenderStates()
