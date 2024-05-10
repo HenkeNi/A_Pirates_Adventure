@@ -1,12 +1,11 @@
 #include "Pch.h"
 #include "TimeSystem.h"
 #include "Entities/EntityManager.h"
+#include "Entities/Entity.h"
 #include "Components/Utility/UtilityComponents.h"
-
 
 TimeSystem::TimeSystem()
 {
-	//PostMaster::GetInstance().Subscribe(eMessage::Entit, this);
 }
 
 TimeSystem::~TimeSystem()
@@ -34,28 +33,64 @@ void TimeSystem::Update(float deltaTime)
 	if (!m_entityManager)
 		return;
 
-	
 	UpdateWorldTime(deltaTime);
 	UpdateTimers(deltaTime);
 }
 
+//float TimeSystem::CalculateDayProgression(Entity* entity)
+//{
+//	if (entity)
+//	{
+//		if (auto* worldTimeComponent = entity->GetComponent<WorldTimeComponent>())
+//		{
+//			float progression = worldTimeComponent->TimeSinceDayStart / worldTimeComponent->DayDuration;
+//			return progression;
+//		}
+//	}
+//	return 0.f;
+//}
 
-float TimeSystem::GetAverageDeltaTime(float deltaTime) const
+FVector4 TimeSystem::CalculateDaylightColor(Entity* worldTimeEntity)
 {
-	static float averageDeltaTime = 0.f;
-	static float totalTime = 0.f;
-	static int numFrames = 0;
+	// put elsewhere????
+	static std::unordered_map<eTimeOfDay, FVector4> daylights;
+	daylights.insert(std::make_pair(eTimeOfDay::Dawn, FVector4{ 0.9804f,	0.7725f,	0.5529f,	1.f }));
+	//daylights.insert(std::make_pair(eTimeOfDay::Day, FVector4{ 0.9569f,	0.8471f,	0.6706f,	1.f }));
+	daylights.insert(std::make_pair(eTimeOfDay::Day, FVector4{ 1.f,	1.f,	1.f,	1.f }));
+	daylights.insert(std::make_pair(eTimeOfDay::Dusk, FVector4{ 0.89f,		0.68f,		0.42f,		1.f }));
+	daylights.insert(std::make_pair(eTimeOfDay::Night, FVector4{ 0.3f,	0.3f,		0.3f,		1.f }));
 
-	++numFrames;
-	if ((totalTime += deltaTime) > 10.f) // FIX magic number (number of frames to average)
+	if (worldTimeEntity)
 	{
-		averageDeltaTime = totalTime / numFrames;
-		totalTime = 0.f;
-		numFrames = 0;
+		if (auto* worldTimeComponent = worldTimeEntity->GetComponent<WorldTimeComponent>())
+		{
+			float progress = worldTimeComponent->CurrentDayProgress;
+			return Hi_Engine::Lerp(daylights.at(eTimeOfDay::Day), daylights.at(eTimeOfDay::Night), progress);
+
+		}
 	}
 
-	return averageDeltaTime;
+	return FVector4();
 }
+
+
+
+//float TimeSystem::GetAverageDeltaTime(float deltaTime) const
+//{
+//	static float averageDeltaTime = 0.f;
+//	static float totalTime = 0.f;
+//	static int numFrames = 0;
+//
+//	++numFrames;
+//	if ((totalTime += deltaTime) > 10.f) // FIX magic number (number of frames to average)
+//	{
+//		averageDeltaTime = totalTime / numFrames;
+//		totalTime = 0.f;
+//		numFrames = 0;
+//	}
+//
+//	return averageDeltaTime;
+//}
 
 void TimeSystem::UpdateWorldTime(float deltaTime)
 {
@@ -64,24 +99,49 @@ void TimeSystem::UpdateWorldTime(float deltaTime)
 	if (!entity)
 		return;
 
-	float scaledDeltaTime = deltaTime * GetAverageDeltaTime(deltaTime);
+	auto* worldTimeComponent = entity->GetComponent<WorldTimeComponent>();
 
-	//const float timeScaleFactory = WorldTimeComponent::s_dayDurationInRealWorldMinues * fps / averageDeltaTime;
-
-	auto worldTimeComponent = entity->GetComponent<WorldTimeComponent>();
-
-	float& progress = worldTimeComponent->CurrentDayProgress;
-
-
-	//if ((progress += aDeltaTime) >= worldTimeComponent->m_dayDuration)
-	if ((progress += scaledDeltaTime) >= worldTimeComponent->DayDuration)
+	worldTimeComponent->TimeSinceDayStart += deltaTime;
+	if (worldTimeComponent->TimeSinceDayStart >= worldTimeComponent->DayDuration)
 	{
-		progress = 0.f;
-		worldTimeComponent->Day += 1; // Notify on day changed
+		worldTimeComponent->TimeSinceDayStart = 0.f;
+		++worldTimeComponent->Day;
+	}
 
-		std::cout << "New dayy!";
+	worldTimeComponent->CurrentDayProgress = worldTimeComponent->TimeSinceDayStart / worldTimeComponent->DayDuration;
+	std::cout << "Day Progression: " << worldTimeComponent->CurrentDayProgress << "\n";
+
+	SetTimeOfDay(entity);
+}
+
+void TimeSystem::SetTimeOfDay(Entity* worldTimeEntity)
+{
+	if (!worldTimeEntity)
+		return;
+
+	auto* worldTimeComponent = worldTimeEntity->GetComponent<WorldTimeComponent>();
+
+	eTimeOfDay timeOfDay = worldTimeComponent->TimeOfDay;
+
+	auto found = std::find_if(worldTimeComponent->TimeOfDayDurations.begin(), worldTimeComponent->TimeOfDayDurations.end(),
+		[&](const std::pair<eTimeOfDay, Hi_Engine::Range<float>>& dayDuration)
+		{
+			const Hi_Engine::Range<float>& range = dayDuration.second;
+			return worldTimeComponent->CurrentDayProgress >=  range.Min && worldTimeComponent->CurrentDayProgress <= range.Max;
+			//return Hi_Engine::Math::RangeContains(worldTimeComponent->CurrentDayProgress, range);
+		});
+
+	if (found != worldTimeComponent->TimeOfDayDurations.end())
+	{
+		worldTimeComponent->TimeOfDay = found->first;
+		if (worldTimeComponent->TimeOfDay != timeOfDay)
+		{
+			PostMaster::GetInstance().SendMessage({ eMessage::TimeOfDayChanged, worldTimeComponent->TimeOfDay });
+		}
 	}
 }
+
+
 
 void TimeSystem::UpdateTimers(float deltaTime)
 {

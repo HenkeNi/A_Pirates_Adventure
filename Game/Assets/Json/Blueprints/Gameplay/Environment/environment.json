@@ -8,7 +8,7 @@
         "properties": {
           "position": [ 0.0, 0.41 ],
           "scale": [ 0.8, 0.8 ],
-          "pivot": [0.0, 0.0],
+          "pivot": [ 0.0, 0.0 ],
           "rotation": 0.0
         }
       },
@@ -40,6 +40,12 @@
           "spawned": "fiber_resource",
           "amount": 5,
           "interval": 0.0
+        }
+      },
+      {
+        "type": "environment",
+        "properties": {
+          "tiles": [ "grass" ]
         }
       }
     ]
@@ -85,6 +91,12 @@
           "spawned": "wood_resource",
           "amount": 5,
           "interval": 0.0
+        }
+      },
+      {
+        "type": "environment",
+        "properties": {
+          "tiles": ["sand", "grass"]
         }
       },
       {
@@ -145,6 +157,12 @@
           "spawned": "stone_resource",
           "amount": 5,
           "interval": 0.0
+        }
+      },
+      {
+        "type": "environment",
+        "properties": {
+          "tiles": [ "sand", "grass" ]
         }
       },
       {

@@ -14,6 +14,9 @@ struct MapChunkComponent : public Component
 	std::array<Tile, Constants::MapChunkSize> Tiles;
 	std::array<bool, Constants::MapChunkSize> CollisionMap;
 
+	// Todo, store tile types in chunk??
+
+
 	// static constexpr unsigned SideLength;
 
 	// HERE? or a new component...

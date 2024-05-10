@@ -293,7 +293,10 @@ struct ItemSpawnerComponent : public Component
 };
 
 
-
+struct EnvironmentComponent : public Component
+{
+	// static std::vector<eTile> AcceptableTileTypes; // remove?
+};
 
 
 

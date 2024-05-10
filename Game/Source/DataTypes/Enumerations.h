@@ -41,6 +41,7 @@ enum class eMessage
 	GameStarted,
 	MapChunkGenerated,
 
+	TimeOfDayChanged,
 
 	TriggerActivated,
 	ButtonActivated,

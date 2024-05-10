@@ -28,3 +28,26 @@ void InverterNode::OnDestroy()
 {
     delete m_child;
 }
+
+
+
+
+SucceederNode::SucceederNode(BehaviorTreeNode* child)
+    : m_child{ child }
+{
+}
+
+eBTNodeStatus SucceederNode::Execute(Entity* entity)
+{
+    if (entity && m_child)
+    {
+        m_child->Execute(entity);
+    }
+
+    return eBTNodeStatus::Success;
+}
+
+void SucceederNode::OnDestroy()
+{
+    delete m_child;
+}

@@ -9,6 +9,5 @@ public:
 	virtual ~BehaviorTreeNode() = default;
 
 	virtual eBTNodeStatus	Execute(class Entity* entity)	= 0;
-	virtual void			OnDestroy()						= 0;
-	//eBTNodeStatus			GetStatus()						const;
+	virtual void			OnDestroy()						 {};
 };

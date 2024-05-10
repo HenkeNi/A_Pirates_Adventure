@@ -1,8 +1,7 @@
 #include "Pch.h"
 #include "ActionNodes.h"
-#include "Components/Components.h"
 #include "Entities/Entity.h"
-#include "Entities/EntityManager.h"
+#include "Components/Components.h"
 
 
 #pragma region IdleNode
@@ -13,38 +12,10 @@ eBTNodeStatus IdleNode::Execute(Entity* entity)
 	{
 		StopMovement(entity);
 
-
-
-		auto* blackboardComponent = entity->GetComponent<BlackboardComponent>();
-
-		//if (blackboardComponent->IsMovingToPOI)
-		//	return eBTNodeStatus::Failure;
-
-		std::cout << "IDle\n";
-
-
-
-		auto* transformComponent = entity->GetComponent<TransformComponent>();
-		auto currentPosition = transformComponent->CurrentPos;
-
-		auto* attributesComponent = entity->GetComponent<AttributesComponent>();
-		int perception = attributesComponent->Perception;
-
-		auto random = Hi_Engine::GenerateRandomFloatingPointInRadius<float>(currentPosition, perception * Tile::Size);
-
-		blackboardComponent->PointOfInterest = random.GetNormalized() * (perception * Tile::Size);
-		blackboardComponent->IsMovingToPOI = true;
-
-		//entity->AddComponent() -> add DestinationComponent instead?
-
 		return eBTNodeStatus::Success;
 	}
 
 	return eBTNodeStatus::Invalid;
-}
-
-void IdleNode::OnDestroy()
-{
 }
 
 void IdleNode::StopMovement(Entity* entity)
@@ -79,7 +50,7 @@ eBTNodeStatus MoveToNode::Execute(Entity* entity)
 {
 	if (entity)
 	{
-		std::cout << "move\n";
+		//std::cout << "move\n";
 
 		auto* blackboardComponent = entity->GetComponent<BlackboardComponent>();
 		auto* transformComponent = entity->GetComponent<TransformComponent>();
@@ -116,10 +87,6 @@ eBTNodeStatus MoveToNode::Execute(Entity* entity)
 	return eBTNodeStatus::Failure;
 }
 
-void MoveToNode::OnDestroy()
-{
-}
-
 #pragma endregion MoveToTargetNode
 
 
@@ -133,9 +100,6 @@ eBTNodeStatus AttackTargetNode::Execute(Entity* entity)
 	return eBTNodeStatus();
 }
 
-void AttackTargetNode::OnDestroy()
-{
-}
 #pragma endregion AttackTargetNode
 
 

@@ -13,8 +13,10 @@ public:
 	void Draw()						override;
 
 private:
-	void DrawMapChunk(MapChunkComponent* mapChunk, const FVector2& position);
+	// void DrawMapChunk(MapChunkComponent* mapChunk, const FVector2& position);
+	FVector4 CalculateDaylightColor() const;
 
+	void ApplyTint();
 
 	// DO culling first... (before rendering, and maybe before some other systems...) -> maybe after movement system... (no need to update ai for enemies out of view)??
 	// CullingSystem? Has Static functions? or not part of ECS? Move To Camera System?!!

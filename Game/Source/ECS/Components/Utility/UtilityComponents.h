@@ -7,15 +7,18 @@
  
 struct WorldTimeComponent : public Component
 {
-	unsigned Day;
+	eTimeOfDay TimeOfDay; // needed?? 
+	std::unordered_map<eTimeOfDay, Hi_Engine::Range<float>> TimeOfDayDurations; // renmae ratio?
 
-	eTimeOfDay TimeOfDay;
+	unsigned Day = 0;
+
+	float DayDuration = 20.f;			// rename Total duration?
+	float TimeSinceDayStart = 0.f;
 
 	float CurrentDayProgress = 0.f;
-	float DayDuration = 20.f;
-
-
-	static const int DayDurationInRealWorldMinues = 2; // FIX!
+	
+	
+	// static const int DayDurationInRealWorldMinues = 2; // FIX!
 	// bool shouldSkipDay?
 };
 

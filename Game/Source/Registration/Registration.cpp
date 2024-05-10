@@ -52,6 +52,7 @@ namespace Registration
 		Factory.RegisterComponentBuilder<CollectableComponent>("collectable");
 		Factory.RegisterComponentBuilder<SpawnComponent>("spawner");
 		Factory.RegisterComponentBuilder<PersonalityComponent>("personality");
+		Factory.RegisterComponentBuilder<EnvironmentComponent>("environment");
 
 
 		Factory.RegisterComponentBuilder<AttackComponent>("attack"); // RENAME!

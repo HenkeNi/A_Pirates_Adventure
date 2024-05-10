@@ -11,6 +11,49 @@
 
 
 
+
+std::unordered_map<eTimeOfDay, FVector4> GetTileColors(eTile type)
+{
+	std::unordered_map<eTimeOfDay, FVector4> colors;
+
+	switch (type)
+	{
+	case eTile::Grass:
+
+		break;
+	case eTile::Sand:
+		colors.insert(std::make_pair(eTimeOfDay::Dawn,	FVector4{ 0.9804f, 0.7725f, 0.5529f, 1.f }));
+		colors.insert(std::make_pair(eTimeOfDay::Day,	FVector4{ 0.9569f, 0.8471f, 0.6706f, 1.f }));
+		colors.insert(std::make_pair(eTimeOfDay::Dusk,  FVector4{ 0.89f, 0.68f, 0.42f, 1.f }));
+		colors.insert(std::make_pair(eTimeOfDay::Night, FVector4{ 0.302f, 0.302f, 0.302f, 1.f }));
+		break;
+	case eTile::ShallowWater:
+		break;
+	case eTile::Water:
+		break;
+	case eTile::DeepWater:
+		break;
+	case eTile::Void:
+		break;
+	default:
+		break;
+	}
+	return colors;
+}
+
+
+// WHere to store various tile settings? ResourceHolder TileSettings?
+struct TileSettings
+{
+	std::string Identifier; //?? NEEDED?
+	std::unordered_map<eTimeOfDay, FVector4> Colors;
+	// ARray of subtextures??
+	bool IsCollidable;
+};
+
+
+
+
 IVector2 ConvertWorldPositionToMapChunkCoordinates(const FVector2& worldPosition)
 {
 	float chunkSize = Constants::MapChunkLength * Tile::Size;
@@ -23,14 +66,7 @@ IVector2 ConvertWorldPositionToMapChunkCoordinates(const FVector2& worldPosition
 }
 
 
-// WHere to store various tile settings? ResourceHolder TileSettings?
-struct TileSettings
-{
-	std::string Identifier; //?? NEEDED?
-	FVector4 Color;
-	// ARray of subtextures??
-	bool IsCollidable;
-};
+
 
 struct TerrainSettings
 {
@@ -107,6 +143,8 @@ glm::vec4 GetTileColor(eTile type)
 		return { 0.f, 0.69f, 0.63f, 1.f };
 	if (type == eTile::DeepWater)
 		return { 0.f, 0.16f, 0.16f, 1.f };
+	//if (type == eTile::Sand)
+	//	return { 0.302f, 0.302f, 0.302f, 1.f };
 
 	return { 1.f, 1.f, 1.f, 1.f };
 }

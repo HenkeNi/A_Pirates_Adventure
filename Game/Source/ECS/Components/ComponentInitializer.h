@@ -166,13 +166,20 @@ public:
 
 		auto* behavior = new SelectorNode;
 
-		// Patrol sequence
-		auto* patrolSequence = new SequenceNode;
-		patrolSequence->AddChild(new HasTaget);
-		patrolSequence->AddChild(new InverterNode(new IsTargetReached)); // inverter node?
-		patrolSequence->AddChild(new MoveToNode);
+		// Patrol sequence or wander sequence
+		auto* wanderSequence = new SequenceNode;
+		wanderSequence->AddChild(new IsIdleNode);
 
-		behavior->AddChild(patrolSequence);
+		wanderSequence->AddChild(new HasTagetNode);
+
+
+		wanderSequence->AddChild(new InverterNode(new IsTargetReachedNode)); // inverter node?
+		wanderSequence->AddChild(new MoveToNode);
+
+		behavior->AddChild(wanderSequence);
+
+
+
 
 		// Idle sequence
 		behavior->AddChild(new IdleNode);
@@ -293,6 +300,26 @@ public:
 
 	}
 
+	template <>
+	static void InitializeComponent<EnvironmentComponent>(EnvironmentComponent* component, const ECS::ComponentData& data)
+	{
+		auto types = std::any_cast<std::vector<std::any>>(data.at("tiles"));
+		
+		for (const auto& type : types)
+		{
+			if (std::any_cast<std::string>(type) == "grass")
+			{
+				//component->AcceptableTileTypes.push_back(eTile::Grass);
+
+			}
+			else if (std::any_cast<std::string>(type) == "sand")
+			{
+				//component->AcceptableTileTypes.push_back(eTile::Sand);
+			}
+		}
+
+	}
+	
 	template <>
 	static void InitializeComponent<HarvestableComponent>(HarvestableComponent* component, const ECS::ComponentData& data)
 	{
@@ -487,6 +514,13 @@ public:
 	static void InitializeComponent<WorldTimeComponent>(WorldTimeComponent* component, const ECS::ComponentData& data)
 	{
 		float dayDuration = std::any_cast<float>(data.at("day_duration"));
+
+		// TOOD; fix
+		component->TimeOfDayDurations.insert(std::make_pair(eTimeOfDay::Dawn,	Hi_Engine::Range{ 0.f, 0.1f }));
+		component->TimeOfDayDurations.insert(std::make_pair(eTimeOfDay::Day,	Hi_Engine::Range{ 1.01f, 0.6f }));
+		component->TimeOfDayDurations.insert(std::make_pair(eTimeOfDay::Dusk,	Hi_Engine::Range{ 0.61f, 0.8f }));
+		component->TimeOfDayDurations.insert(std::make_pair(eTimeOfDay::Night,  Hi_Engine::Range{ 0.81f, 1.0f }));
+
 		component->DayDuration = dayDuration;
 	}
 

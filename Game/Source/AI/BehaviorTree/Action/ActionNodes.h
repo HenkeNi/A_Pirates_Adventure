@@ -6,7 +6,6 @@ class IdleNode : public BehaviorTreeNode
 {
 public:
 	eBTNodeStatus	Execute(class Entity* entity)	override;
-	void			OnDestroy()						override;
 
 private:
 	void			StopMovement(class Entity* entity);
@@ -27,7 +26,6 @@ class MoveToNode : public BehaviorTreeNode
 {
 public:
 	eBTNodeStatus	Execute(class Entity* entity)	override;
-	void			OnDestroy()						override;
 
 
 	//void			SetCallback(const std::function<void()>& callback);
@@ -48,7 +46,6 @@ class AttackTargetNode : public BehaviorTreeNode
 {
 public:
 	eBTNodeStatus	Execute(class Entity* entity)	override;
-	void			OnDestroy()						override;
 
 	//void			SetTargetID(int targetID);
 private:

@@ -6,7 +6,7 @@
       {
         "type": "world_time",
         "properties": {
-          "day_duration": 10.0
+          "day_duration": 30.0
         }
       }
     ]

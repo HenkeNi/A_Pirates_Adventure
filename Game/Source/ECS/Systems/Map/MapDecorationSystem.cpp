@@ -40,6 +40,7 @@ void MapDecorationSystem::Update(float deltaTime)
 {
 }
 
+// TODO; redo...
 void MapDecorationSystem::GenerateResources(Entity* entity)
 {
 	auto* mapChunkComponent = entity->GetComponent<MapChunkComponent>();
@@ -51,26 +52,29 @@ void MapDecorationSystem::GenerateResources(Entity* entity)
 	{
 		Entity* entity = nullptr;
 
+		// Check if enviroenment component contains tile??? how to store for each enico
+
+		float random = Hi_Engine::GenerateRandomInteger<unsigned>(0, 100);
+
 		if (tile.Type == eTile::Grass)
 		{
-
-			if (Hi_Engine::GenerateRandomInteger<unsigned>(0, 100) < GetResourceSpawnChance("Grass"))
+			if (random < GetResourceSpawnChance("Grass"))
 			{
 				entity = m_entityManager->Create("grass");
 			}
-			else if (Hi_Engine::GenerateRandomInteger<unsigned>(0, 100) < GetResourceSpawnChance("PalmTree"))
+			else if (random < GetResourceSpawnChance("PalmTree"))
 			{
 				entity = m_entityManager->Create("palm_tree");
 			}
 		}
 		else if (tile.Type == eTile::Sand)
 		{
-			if (Hi_Engine::GenerateRandomInteger<unsigned>(0, 100) < GetResourceSpawnChance("PalmTree"))
+			if (random < GetResourceSpawnChance("PalmTree"))
 			{
 				entity = m_entityManager->Create("palm_tree");
 
 			}
-			else if (Hi_Engine::GenerateRandomInteger<unsigned>(0, 100) < GetResourceSpawnChance("Rock"))
+			else if (random < GetResourceSpawnChance("Rock"))
 			{
 				entity = m_entityManager->Create("rock");
 			}
@@ -83,8 +87,6 @@ void MapDecorationSystem::GenerateResources(Entity* entity)
 		}
 
 	}
-
-
 }
 
 void MapDecorationSystem::PopulateWithFoilage(const Entity* mapChunk)

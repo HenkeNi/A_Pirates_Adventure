@@ -6,65 +6,65 @@
 // Condition nodes should only return success or failure
 
 
-class HasTaget : public BehaviorTreeNode
+class IsIdleNode : public BehaviorTreeNode
+{
+public:
+	eBTNodeStatus Execute(class Entity* entity)	override;
+};
+
+class IsDestinationSetNode : public BehaviorTreeNode
+{
+public:
+	eBTNodeStatus Execute(class Entity* entity)	override;
+};
+
+class IsDestinationReachedNode : public BehaviorTreeNode
+{
+public:
+	eBTNodeStatus Execute(class Entity* entity)	override;
+};
+
+class IsTargetSetNode : public BehaviorTreeNode
+{
+public:
+	eBTNodeStatus Execute(class Entity* entity)	override;
+};
+
+class IsTargetReachedNode : public BehaviorTreeNode // assure is valid! blackboard system, or some system handles it..
+{
+public:
+	eBTNodeStatus Execute(class Entity* entity)	override;
+};
+
+
+class IsTargetInSightNode : public BehaviorTreeNode
+{
+public:
+	eBTNodeStatus Execute(class Entity* entity)	override;
+
+};
+
+
+
+class HasTagetNode : public BehaviorTreeNode
 {
 public:
 	eBTNodeStatus	Execute(class Entity* entity)	override;
-	void			OnDestroy()						override;
 };
-
-class IsTargetReached : public BehaviorTreeNode
-{
-public:
-	eBTNodeStatus	Execute(class Entity* entity)	override;
-	void			OnDestroy()						override;
-};
-
-
 
 class DistanceCheckNode : public BehaviorTreeNode
 {
 public:
 	eBTNodeStatus	Execute(class Entity* entity)	override;
-	void			OnDestroy()						override;
 
 private:
 
 };
-
-
-
 
 // IsNearHostileNode, 
 class CheckEnemyPresenceNode : public BehaviorTreeNode
 {
 public:
 	eBTNodeStatus	Execute(class Entity* entity)	override;
-	void			OnDestroy()						override;
 
-private:
 };
-
-
-
-//class TargetInViewNode : public BehaviorTreeNode
-//{
-//public:
-//	eBTNodeStatus	Execute(class Entity* entity)	override;
-//	void			OnDestroy()						override;
-//
-//private:
-//	//int				m_targetID;
-//	float			m_radius;
-//};
-//
-//class TargetInRangeNode : public BehaviorTreeNode
-//{
-//public:
-//	eBTNodeStatus	Execute(class Entity* entity)	override;
-//	void			OnDestroy()						override;
-//
-//private:
-//	//int				m_targetID;
-//	float			m_radius;
-//};

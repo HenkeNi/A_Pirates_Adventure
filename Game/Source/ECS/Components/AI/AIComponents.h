@@ -7,8 +7,8 @@ struct BlackboardComponent : public Component
 {
 	inline static FVector2 PlayerPosition; // Todo; use std::any instead? store player ID AND vector of crew IDs??
 	
-	FVector2 PointOfInterest; // TargetWaypoint?
-	bool IsMovingToPOI = false; // replace with destination component instead?
+	std::vector<FVector2> PointOfInterests; // TargetWaypoint?
+	//bool IsMovingToPOI = false; // replace with destination component instead?
 };
 
 struct BehaviorTreeComponent : public Component

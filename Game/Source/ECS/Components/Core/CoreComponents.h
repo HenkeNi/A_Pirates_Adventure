@@ -62,6 +62,8 @@ struct SpriteComponent : public Component
 	// CU::Vector4<float> DefaultColor = { 1.f, 1.f, 1.f, 1.f };
 	FVector4 CurrentColor = { 1.f, 1.f, 1.f, 1.f };
 
+	// TINT????
+
 	// Hi_Engine::Material m_material;	// Store strings instead?? keys..
 
 	// Store temporary color, or alterantive color? or fix by having a component?
@@ -210,4 +212,10 @@ struct DestinationComponent : public Component
 	FVector2 Destination;
 	float ArriveRadius = 10.f;
 	// TODO: store path? (tiles -> pathfinding)?
+};
+
+struct TargetComponent : public Component
+{
+	unsigned TargetID;
+	class Entity* Target; // use instead?? make sure some system sets it to nullptr if entity is killed! -> maybe wont work?
 };
