@@ -9,6 +9,8 @@ namespace Hi_Engine::Math
 		T Max;
 	};
 
+
+
 	template <typename T>
 	T MapToNewRange(const T& value, const Range<T>& oldRange, const Range<T>& newRange)
 	{
@@ -17,4 +19,10 @@ namespace Hi_Engine::Math
 	
 		return mapped;
 	}
+
+	//template <typename T>
+	//bool RangeContains(const T& value, const Range<T>& range)
+	//{
+	//	return value >= range.Min && range <= range.Max;
+	//}
 }
