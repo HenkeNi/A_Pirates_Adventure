@@ -12,6 +12,8 @@ public:
 	void		Receive(Message& message)						 override;
 	void		Update(float deltaTime)							 override;
 
+	static std::vector<Entity*> GetAdversaries(const Entity* entity); // GetHostileEntities
+
 private:
 	void		PerformAttack(Entity* entity);
 	bool		IsTargetable(Entity* entity)						const;

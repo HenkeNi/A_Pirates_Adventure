@@ -7,7 +7,7 @@ namespace Hi_Engine
 {
 	std::unordered_map<eKey, eInputState>		InputHandler::s_keyStates;
 	std::unordered_map<eMouseBtn, eInputState>	InputHandler::s_mouseButtonStates;
-	glm::vec2									InputHandler::s_mousePosition;
+	FVector2									InputHandler::s_mousePosition;
 	float										InputHandler::s_scrollOffset;
 	//GLFWcursor*									InputHandler::s_customCursor = nullptr;
 
@@ -81,10 +81,10 @@ namespace Hi_Engine
 
 	void InputHandler::CursorCallback(GLFWwindow* window, double xPos, double yPos)
 	{
-		s_mousePosition = { xPos, yPos };
+		s_mousePosition = { (float)xPos, (float)yPos };
 	}
 
-	glm::vec2 InputHandler::GetMousePosition()
+	FVector2 InputHandler::GetMousePosition()
 	{
 		return s_mousePosition;
 	}
@@ -96,21 +96,21 @@ namespace Hi_Engine
 
 	bool InputHandler::IsMouseButtonPressed(eMouseBtn btn)
 	{
-		return s_mouseButtonStates[btn] == eInputState::Press;
+		return s_mouseButtonStates[btn] == eInputState::Input_Press;
 	}
 
 	bool InputHandler::IsKeyPressed(eKey key)
 	{
-		return s_keyStates[key] == eInputState::Press;
+		return s_keyStates[key] == eInputState::Input_Press;
 	}
 
 	bool InputHandler::IsKeyHeld(eKey key)
 	{
-		return s_keyStates[key] == eInputState::Repeat;
+		return s_keyStates[key] == eInputState::Input_Repeat;
 	}
 
 	bool InputHandler::IsKeyReleased(eKey key)
 	{
-		return s_keyStates[key] == eInputState::Release;
+		return s_keyStates[key] == eInputState::Input_Release;
 	}
 }

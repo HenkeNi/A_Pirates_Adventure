@@ -21,9 +21,9 @@ namespace Hi_Engine
 		m_viewProjectionMatrix = m_projectionMatrix * m_viewMatrix;
 	}
 
-	Camera::Camera(const Rect& rect)
-	{
-	}
+	//Camera::Camera(const Rect& rect)
+	//{
+	//}
 
 	glm::mat4 Camera::GetViewProjectionMatrix() const
 	{

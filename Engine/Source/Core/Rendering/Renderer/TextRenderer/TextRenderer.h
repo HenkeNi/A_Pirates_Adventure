@@ -41,7 +41,7 @@ namespace Hi_Engine
 		// unsigned	m_VAO, m_VBO;
 
 		//std::unordered_map<GLchar, Character>   m_characters;
-		//class Shader* m_textShader;
+		//class GLSLShader* m_textShader;
 		// TODO; store text/fonts in resource holder?!
 	};
 }

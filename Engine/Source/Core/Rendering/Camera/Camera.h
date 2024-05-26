@@ -1,17 +1,16 @@
 #pragma once
- #include "../../../Data/Enumerations.h"
 #include <../../ThirdParty/glm/glm.hpp>
-#include "../../../Utility/Math/Range/Range.hpp"
+#include "../../../Utility/Math/Range/Range.hpp" // try re,pve
 
 namespace Hi_Engine
 {
-	using namespace Math;
+	//using namespace Math;
 	// listen to window changed?! size!
 	class Camera
 	{
 	public:
 		Camera();
-		Camera(const Rect& rect);
+		//Camera(const Rect& rect);
 		
 		void Init(const FVector2& position);	// Parse from json...? CameraData?
 		void SetPosition(const FVector2& position);

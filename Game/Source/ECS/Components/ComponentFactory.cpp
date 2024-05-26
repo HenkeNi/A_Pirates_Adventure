@@ -1,5 +1,6 @@
 #include "Pch.h"
 #include "ComponentFactory.h"
+#include "ComponentBuilder.h"
 
 ComponentFactory::ComponentFactory()
 {

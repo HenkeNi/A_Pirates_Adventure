@@ -177,6 +177,18 @@ void CombatSystem::Update(float deltaTime)
 	//}
 }
 
+std::vector<Entity*> CombatSystem::GetAdversaries(const Entity* entity)
+{
+	std::vector<Entity*> adversaries; 
+
+	if (entity)
+	{
+		// m_entityManager->
+	}
+
+	return adversaries;
+}
+
 void CombatSystem::PerformAttack(Entity* entity)
 {
 	auto* equipmentComponent = entity->GetComponent<EquipmentComponent>(); // why?

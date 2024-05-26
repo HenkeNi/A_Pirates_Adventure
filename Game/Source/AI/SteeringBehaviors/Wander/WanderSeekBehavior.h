@@ -15,6 +15,6 @@ private:
 	void SetRandomizedTarget();
 	bool ShouldChangeDir() const;
 
-	Range<float>	m_walkDurationRange;
-	FVector2		m_window;
+	Hi_Engine::Range<float>	m_walkDurationRange;
+	FVector2				m_window;
 };

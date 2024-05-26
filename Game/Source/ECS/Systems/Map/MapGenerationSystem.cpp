@@ -123,11 +123,11 @@ eTile GetTileType(float noise)
 Hi_Engine::Subtexture2D* GetSubtexture(eTile type) // TODO: check neighbours?
 {
 	static const std::unordered_map<eTile, Hi_Engine::SubtextureData> textures = {
-		{ eTile::Grass,			{ "island_tileset", 3, 6 }},
-		{ eTile::Sand,			{ "island_tileset", 1, 3 }},
-		{ eTile::ShallowWater,  { "island_tileset", 1, 8 }},
-		{ eTile::Water,			{ "island_tileset", 1, 8 }},
-		{ eTile::DeepWater,		{ "island_tileset", 1, 8 }}, // NEEDED??
+		{ eTile::Grass,			{ "island_tileset", 2, 6 }},
+		{ eTile::Sand,			{ "island_tileset", 4, 3 }},
+		{ eTile::ShallowWater,  { "island_tileset", 4, 8 }},
+		{ eTile::Water,			{ "island_tileset", 4, 8 }},
+		{ eTile::DeepWater,		{ "island_tileset", 4, 8 }}, // NEEDED??
 	};
 
 	const auto& texture = textures.at(type);
@@ -277,10 +277,10 @@ void MapGenerationSystem::ApplyTextures(Entity* entity) // Rename; texture map c
 			if (bitmaskValue != 0)
 			{
 				static const std::array<std::pair<int, int>, 16> sandTextures = { {
-					{ 1, 3 }, { 1, 4 }, { 1, 4 }, { 3, 2 },
-					{ 1, 4 }, { 3, 0 }, { 1, 4 }, { 3, 1 },
-					{ 1, 4 }, { 1, 4 }, { 5, 2 }, { 4, 2 },
-					{ 5, 0 }, { 4, 0 }, { 5, 1 }, { 1, 4 },
+					{ 4, 3 }, { 4, 4 }, { 4, 4 }, { 2, 2 },
+					{ 4, 4 }, { 2, 0 }, { 4, 4 }, { 2, 1 },
+					{ 4, 4 }, { 4, 4 }, { 0, 2 }, { 1, 2 },
+					{ 0, 0 }, { 1, 0 }, { 0, 1 }, { 4, 4 },
 				}};
  
 				tile.Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({"island_tileset", sandTextures[bitmaskValue].first, sandTextures[bitmaskValue].second });

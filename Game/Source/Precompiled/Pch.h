@@ -24,6 +24,7 @@
 /* - Engine - */
 #include <../Hi_Engine.h>	// TODO; remove this file? 
 #include <../Source/Utility/Math/Vectors/Vector.hpp>
+#include <../Source/Utility/DataStructures/Linear/Dynamic/Stack/Stack.hpp>
 
 /* - Message System - */
 #include "PostMaster/PostMaster.h"

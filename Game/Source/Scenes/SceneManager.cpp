@@ -140,10 +140,10 @@ void SceneManager::SwapTo(eScene type)
 
 void SceneManager::Clear()
 {
-	for (auto& scene : m_registeredScenes)
+	for (auto& [type, scene] : m_registeredScenes)
 	{
-		if (scene.second)
-			scene.second->OnDestroyed();
+		if (scene)
+			scene->OnDestroyed();
 	}
 
 	m_stack.Clear();

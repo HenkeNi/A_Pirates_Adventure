@@ -172,7 +172,6 @@ project "Launcher"
 	includedirs
 	{
 		"ThirdParty/FreeType/include",
-		"ThirdParty/glm",
 		"Engine/Source",
 		"Game/Source",
 		"%{prj.name}/Source/Precompiled"

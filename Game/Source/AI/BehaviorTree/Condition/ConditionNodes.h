@@ -36,35 +36,9 @@ public:
 	eBTNodeStatus Execute(class Entity* entity)	override;
 };
 
-
 class IsTargetInSightNode : public BehaviorTreeNode
 {
 public:
 	eBTNodeStatus Execute(class Entity* entity)	override;
-
-};
-
-
-
-class HasTagetNode : public BehaviorTreeNode
-{
-public:
-	eBTNodeStatus	Execute(class Entity* entity)	override;
-};
-
-class DistanceCheckNode : public BehaviorTreeNode
-{
-public:
-	eBTNodeStatus	Execute(class Entity* entity)	override;
-
-private:
-
-};
-
-// IsNearHostileNode, 
-class CheckEnemyPresenceNode : public BehaviorTreeNode
-{
-public:
-	eBTNodeStatus	Execute(class Entity* entity)	override;
 
 };

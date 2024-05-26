@@ -43,6 +43,57 @@ void AlertNode::OnDestroy()
 
 #pragma endregion AlertNode
 
+eBTNodeStatus MoveToDestinationNode::Execute(Entity* entity)
+{
+	static float wanderSpeed = 0.5f;
+
+	if (entity)
+	{
+		auto* destinationComponent = entity->GetComponent<DestinationComponent>();
+		const auto& destination = destinationComponent->Destination;
+
+		auto* transformComponent = entity->GetComponent<TransformComponent>();
+		const auto& currentPosition = transformComponent->CurrentPos;
+
+		auto direction = currentPosition.DirectionTo(destination);
+		
+		auto* velocityComponent = entity->GetComponent<VelocityComponent>();
+		velocityComponent->Velocity = direction.GetNormalized();
+		velocityComponent->Speed = wanderSpeed;
+
+	}
+
+	// Remove destination component if in range??
+
+	// check if destination is reached...?? return succedded then?
+	return eBTNodeStatus::Running;
+}
+
+eBTNodeStatus ChaseTargetNode::Execute(Entity* entity)
+{
+	static float chaseSpeed = 1.f;
+
+	if (entity)
+	{
+		auto* targetComponent = entity->GetComponent<TargetComponent>();
+		auto* transformComponent = entity->GetComponent<TransformComponent>();
+
+		const auto& currentPosition = transformComponent->CurrentPos;
+
+
+		auto* targetTransformComponent = targetComponent->Target->GetComponent<TransformComponent>();
+		const auto& targetCurrentPosition = targetTransformComponent->CurrentPos;
+
+		auto direction = currentPosition.DirectionTo(targetCurrentPosition);
+
+		auto* velocityComponent = entity->GetComponent<VelocityComponent>();
+		velocityComponent->Velocity = direction.GetNormalized();
+		velocityComponent->Speed = chaseSpeed;
+
+	}
+
+	return eBTNodeStatus::Running;
+}
 
 #pragma region MoveToTargetNode
 
@@ -58,8 +109,8 @@ eBTNodeStatus MoveToNode::Execute(Entity* entity)
 		//if (!blackboardComponent->IsMovingToPOI)
 		//	return eBTNodeStatus::Failure;
 
-		if (transformComponent->CurrentPos.DistanceTo(blackboardComponent->PointOfInterest) <= 0.001f)
-			return eBTNodeStatus::Success;
+		//if (transformComponent->CurrentPos.DistanceTo(blackboardComponent->PointOfInterest) <= 0.001f)
+		//	return eBTNodeStatus::Success;
 
 		
 		//if (transformComponent->CurrentPos == blackboardComponent->PointOfInterest)
@@ -67,8 +118,8 @@ eBTNodeStatus MoveToNode::Execute(Entity* entity)
 
 		auto* velocityComponent = entity->GetComponent<VelocityComponent>();
 
-		auto direction = transformComponent->CurrentPos.DirectionTo(blackboardComponent->PointOfInterest);
-		velocityComponent->Velocity = direction.GetNormalized();
+	//	auto direction = transformComponent->CurrentPos.DirectionTo(blackboardComponent->PointOfInterest);
+	//	velocityComponent->Velocity = direction.GetNormalized();
 
 		return eBTNodeStatus::Running;
 		// auto direction = en
@@ -201,3 +252,5 @@ eBTNodeStatus AttackTargetNode::Execute(Entity* entity)
 //	m_targetID = targetID;
 //}
 //
+
+

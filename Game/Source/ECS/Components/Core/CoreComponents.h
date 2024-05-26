@@ -10,11 +10,11 @@
 // ############# Physics Components ############# //
 struct TransformComponent : public Component
 {
-	FVector2 CurrentPos = { 0.f, 0.f };
-	FVector2 PreviousPos = { 0.f, 0.f };
-	FVector2 Scale = { 1.f, 1.f };
-	FVector2 Pivot = { 0.f, 0.f }; // Rename origin?
-	float			   Rotation = 0.f;
+	FVector2 CurrentPos		= { 0.f, 0.f };
+	FVector2 PreviousPos	= { 0.f, 0.f };
+	FVector2 Scale			= { 1.f, 1.f };
+	FVector2 Pivot			= { 0.f, 0.f }; // Rename origin?
+	float    Rotation		= 0.f;
 };
 
 struct VelocityComponent : public Component // Physics componetn instad?
@@ -43,7 +43,7 @@ struct ColliderComponent : public Component
 	// Store collision normal..
 
 	// store size?
-	//CollisionData CollisionData; // have as pointer?
+	//CollisionData						CollisionData; // have as pointer?
 	// bool								IsColliding;
 
 	bool								IsActive; // ?? or just remove component?
@@ -97,7 +97,7 @@ struct TextComponent : public Component
 	class Hi_Engine::Font* Font;
 	std::string				Text;
 	unsigned				Size = 32;
-	//Hi_Engine::Shader*	Shader;
+	//Hi_Engine::GLSLShader*	GLSLShader;
 	//Hi_Engine::Font*	Font;
 	// float				m_scale; use transform instead..
 	FVector4		Color;
@@ -210,7 +210,7 @@ struct AudioComponent : public Component
 struct DestinationComponent : public Component
 {
 	FVector2 Destination;
-	float ArriveRadius = 10.f;
+	float ArriveRadius = 0.5f;
 	// TODO: store path? (tiles -> pathfinding)?
 };
 

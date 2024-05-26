@@ -2,8 +2,7 @@
 #include "Game.h"
 #include "Registration/Registration.h"
 #include "Scenes/Scene.h"
-#include <../Hi_Engine.h>
-
+//#include <../Hi_Engine.h>
 
 Game::Game()
 {
@@ -74,7 +73,7 @@ void Game::OnDestroy()
 void Game::LoadResources()
 {
 	Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().LoadResources("../Game/Assets/Json/Resources/Textures2.json");
-	Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().LoadResources("../Engine/Assets/Json/Resources/Shaders.json");
+	Hi_Engine::ResourceHolder<Hi_Engine::GLSLShader>::GetInstance().LoadResources("../Engine/Assets/Json/Resources/Shaders.json");
 	Hi_Engine::ResourceHolder<Hi_Engine::Font>::GetInstance().LoadResources("../Game/Assets/Json/Resources/Fonts.json");
 	Hi_Engine::ResourceHolder<Hi_Engine::AudioSource>::GetInstance().LoadResources("../Game/Assets/Json/Audio/Audio.json");
 }

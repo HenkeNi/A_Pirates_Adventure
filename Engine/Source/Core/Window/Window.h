@@ -12,7 +12,7 @@ namespace Hi_Engine
 		Window();
 		~Window();
 
-		bool			Init(WindowData data);
+		bool			Init(IVector2 size, const std::string& name);
 		void			Shutdown();
 
 		const IVector2& GetSize()									const;

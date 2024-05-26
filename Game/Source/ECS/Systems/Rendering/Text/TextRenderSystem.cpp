@@ -22,7 +22,7 @@ void TextRenderSystem::Draw()
 		return;
 
 	// DO in initilaizcomponent instead
-	auto* shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Text"); // FIX!! set in Renderer before...
+	auto* shader = &Hi_Engine::ResourceHolder<Hi_Engine::GLSLShader>::GetInstance().GetResource("Text"); // FIX!! set in Renderer before...
 
 	auto* camera = m_entityManager->FindFirst<CameraComponent>();
 	const auto& projection = camera->GetComponent<CameraComponent>()->Camera.GetProjectionMatrix();

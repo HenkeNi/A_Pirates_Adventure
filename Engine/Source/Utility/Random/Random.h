@@ -1,6 +1,6 @@
 #pragma once
-
-#define PI 3.14159
+#include "../Math/Mathf.hpp"
+//#define PI 3.14159
 
 namespace Hi_Engine
 {
@@ -32,7 +32,7 @@ namespace Hi_Engine
 	template <typename T>
 	Vector2<T> GenerateRandomFloatingPointInRadius(const Vector2<T>& center, T radius)
 	{
-		T angle = GenerateRandomFloatingPoint<T>(0.0, 2.0 * PI);
+		T angle = GenerateRandomFloatingPoint<T>(0.0, 2.0 * Math::PI);
 		T randomRadius = GenerateRandomFloatingPoint<T>(0.0, radius);
 
 		T x = center.x + randomRadius * cos(angle);

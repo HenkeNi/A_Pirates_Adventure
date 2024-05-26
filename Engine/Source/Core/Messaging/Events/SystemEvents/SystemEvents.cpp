@@ -9,6 +9,7 @@ namespace Hi_Engine
 #pragma region TERMINATION_EVENT
 
 	TerminationEvent::TerminationEvent()
+		: Event{ ePriority::High }
 	{
 	}
 
@@ -21,18 +22,9 @@ namespace Hi_Engine
 		listener.HandleEvent(*this);
 	}
 
-	ePriority TerminationEvent::GetPriority() const
-	{
-		return ePriority::High;
-	}
-
 	bool TerminationEvent::IsHandled() const
 	{
 		return false;
-	}
-
-	void TerminationEvent::Reset()
-	{
 	}
 
 #pragma endregion TERMINATION_EVENT
@@ -43,17 +35,9 @@ namespace Hi_Engine
 	{
 	}
 
-	WindowEvent::~WindowEvent()
-	{
-	}
-
 	void WindowEvent::Dispatch(EventListener& listener)
 	{
 		listener.HandleEvent(*this);
-	}
-
-	void WindowEvent::Reset()
-	{
 	}
 	
 	void WindowEvent::Init(eWindowEvent type)
@@ -73,6 +57,7 @@ namespace Hi_Engine
 #pragma region INPUT_EVENT
 
 	InputEvent::InputEvent()
+		: Event{ ePriority::Moderate }
 	{}
 
 	/*InputEvent::InputEvent(const std::unordered_map<eKey, eInputState>& someKeyStates,
@@ -87,16 +72,13 @@ namespace Hi_Engine
 		listener.HandleEvent(*this);
 	}
 
-	void InputEvent::Reset()
-	{
-	}
-
 	eInputState InputEvent::GetKeyState(eKey key) const
 	{
 		if (m_keyStates.contains(key))
 			return m_keyStates.at(key);
 
-		return eInputState::Invalid;
+		return eInputState::Input_Release;
+		//return eInputState::Invalid;
 	}
 	
 	eInputState InputEvent::GetMouseBtnState(eMouseBtn btn) const
@@ -104,10 +86,11 @@ namespace Hi_Engine
 		if (m_mouseButtonStates.contains(btn))
 			return m_mouseButtonStates.at(btn);
 
-		return eInputState::Invalid;
+		return eInputState::Input_Release;
+		//return eInputState::Invalid;
 	}
 
-	const glm::vec2& InputEvent::GetMousePosition() const
+	const FVector2& InputEvent::GetMousePosition() const
 	{
 		return m_mousePosition;
 	}

@@ -1,6 +1,6 @@
 #pragma once
-
-enum class eKey;
+#include "InputTypes.h"
+//#include "Math/Vectors/Vector.hpp" // REMOVE!!!
 struct GLFWwindow;
 
 namespace Hi_Engine
@@ -20,7 +20,7 @@ namespace Hi_Engine
 		static void MouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 		static void CursorCallback(GLFWwindow* window, double xPos, double yPos);
 
-		static glm::vec2 GetMousePosition();
+		static FVector2  GetMousePosition();
 		static float	 GetScrollOffset();
 
 		static bool IsMouseButtonPressed(eMouseBtn btn);
@@ -31,7 +31,7 @@ namespace Hi_Engine
 	private:	
 		static std::unordered_map<eKey, eInputState> s_keyStates;
 		static std::unordered_map<eMouseBtn, eInputState> s_mouseButtonStates;
-		static glm::vec2	s_mousePosition;
+		static FVector2		s_mousePosition;
 		static float		s_scrollOffset;
 		// static GLFWcursor*	s_customCursor;
 	};

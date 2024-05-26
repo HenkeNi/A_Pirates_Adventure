@@ -21,6 +21,8 @@
 #include "Controllers/PlayerControllerSystem.h"
 #include "Input/InputSystem.h"
 
+//#include "Development/DebugSystem.h"
+
 /* - Physics systems - */
 #include "Physics/CollisionSystem.h"
 #include "Physics/MovementSystem.h"

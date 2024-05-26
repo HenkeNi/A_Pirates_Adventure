@@ -4,7 +4,7 @@
 #include <string>
 #include <any>
 
-#define PI 3.14159265358979323846 
+//#define PI 3.14159265358979323846 
 
 namespace Hi_Engine
 {

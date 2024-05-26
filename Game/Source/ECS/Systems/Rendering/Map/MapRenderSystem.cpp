@@ -162,7 +162,8 @@ FVector4 MapRenderSystem::CalculateDaylightColor() const
 		auto* worldTimeComponent = worldTime->GetComponent<WorldTimeComponent>();
 		float progress = worldTimeComponent->CurrentDayProgress;
 		
-		color = Hi_Engine::Lerp(daylights.at(eTimeOfDay::Day), daylights.at(eTimeOfDay::Night), progress);
+		//color = Hi_Engine::Lerp(daylights.at(eTimeOfDay::Day), daylights.at(eTimeOfDay::Night), progress);
+		color = { 1.f,  1.f ,  1.f ,  1.f };
 
 		//if (progress < 0.25f)
 		//{

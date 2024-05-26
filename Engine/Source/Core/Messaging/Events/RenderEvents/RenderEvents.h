@@ -1,22 +1,12 @@
 #pragma once
-#include "../Event.h"
+#include "../Base/Event.h"
 
 
 namespace Hi_Engine
 {
-	//class RenderSpriteEvent : public Event<RenderSpriteEvent>
-	//{
-	//public:
-
-	//private:
-	//};
-
-	//class RenderSpriteBatchEvent : public Event<RenderSpriteBatchEvent>
-	//{
-
-	//};
 	struct RenderCommand;
-
+	 
+	// RenderSpriteEvent, BatchRenderEvent, BatchSpriteRenderEvent?
 	class RenderEvent : public Event<RenderEvent>
 	{
 	public:
@@ -24,8 +14,6 @@ namespace Hi_Engine
 		~RenderEvent();
 
 		void Dispatch(EventListener& listener)			override;
-		void Reset()									override;
-
 		//void Init(const std::vector<RenderCommand>& someCommands);
 		void Init(const std::queue<RenderCommand>& commands);
 		//void AddRenderCommand(const RenderCommand& aCommand);

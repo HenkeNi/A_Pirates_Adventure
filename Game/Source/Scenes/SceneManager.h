@@ -1,5 +1,6 @@
 #pragma once
-#include <../Hi_Engine.h>
+//#include <../Hi_Engine.h>
+#include "PostMaster/Subscriber.h"
 
 enum class eScene;
 class Scene;

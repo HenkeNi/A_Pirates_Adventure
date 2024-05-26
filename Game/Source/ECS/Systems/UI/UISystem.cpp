@@ -71,7 +71,7 @@ void UISystem::UpdateCursor()
 
 	auto* input = m_entityManager->FindFirst<InputComponent>(); // if no InputComponent => pull straight from inputhandler
 
-	glm::vec2 mousePosition;
+	FVector2 mousePosition;
 
 	if (input)
 	{

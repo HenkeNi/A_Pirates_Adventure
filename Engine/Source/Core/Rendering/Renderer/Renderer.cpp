@@ -6,6 +6,7 @@
 #include "../Texture/Subtexture2D.h"
 #include "../Camera/Camera.h" // TEMP..
 #include "../Shader/Shader.h"
+#include "glm.hpp"
 
 #define INDICES_PER_QUAD 6
 #define VERTICES_PER_QUAD 4
@@ -204,7 +205,7 @@ namespace Hi_Engine
 		//	else if (command.Type == eRenderCommandType::SetProjectionMatrix)
 		//	{
 		//		glm::mat4 viewProjection = m_camera->GetViewProjectionMatrix();
-		//		m_quadContext.Shader->SetMatrix4("uViewProjection", viewProjection);
+		//		m_quadContext.GLSLShader->SetMatrix4("uViewProjection", viewProjection);
 		//	}
 
 		//	commands.pop();
@@ -246,13 +247,13 @@ namespace Hi_Engine
 				}
 				else if (command.Type == eRenderCommandType::SetCamera)
 				{
-					// m_quadContext.Shader->SetMatrix4("uViewProjection", command.Camera->GetProjectionMatrix());
+					// m_quadContext.GLSLShader->SetMatrix4("uViewProjection", command.Camera->GetProjectionMatrix());
 
 				}
 				else if (command.Type == eRenderCommandType::SetProjectionMatrix)
 				{
 					//glm::mat4 viewProjection = m_camera->GetViewProjectionMatrix();
-					m_quadContext.Shader->SetMatrix4("uViewProjection", command.ProjectionMatrix);
+					m_quadContext.GLSLShader->SetMatrix4("uViewProjection", command.ProjectionMatrix);
 				}
 
 				//m_renderCommands.pop();
@@ -351,11 +352,11 @@ namespace Hi_Engine
 		}
 
 		// m_activeShader->SetIntArray("uTextures", m_textureSlots, m_textureSlotIndex);	// NEEDED??
-		m_quadContext.Shader->Activate();	// Fetch instead from ResourceHolder??
+		m_quadContext.GLSLShader->Activate();	// Fetch instead from ResourceHolder??
 
 		/* Set view-projection matrix */
 		//glm::mat4 viewProjection = m_camera->GetViewProjectionMatrix();
-		// m_quadContext.Shader->SetMatrix4("uViewProjection", viewProjection);
+		// m_quadContext.GLSLShader->SetMatrix4("uViewProjection", viewProjection);
 		
 		glBindVertexArray(m_quadContext.VAO);
 		glDrawElements(GL_TRIANGLES, m_quadContext.IndexCount, GL_UNSIGNED_INT, nullptr);
@@ -377,19 +378,19 @@ namespace Hi_Engine
 	
 	void Renderer::SetProjectionMatrix(const glm::mat4& natrix)
 	{
-		m_quadContext.Shader->SetMatrix4("uViewProjection", natrix);
+		m_quadContext.GLSLShader->SetMatrix4("uViewProjection", natrix);
 	}
 
-	void Renderer::SetShader(Shader* shader)
+	void Renderer::SetShader(GLSLShader* shader)
 	{
-		m_quadContext.Shader = shader;
-		m_quadContext.Shader->Activate();
+		m_quadContext.GLSLShader = shader;
+		m_quadContext.GLSLShader->Activate();
 
 		int samplers[32];
 		for (int i = 0; i < 32; ++i)
 			samplers[i] = i;
 
-		m_quadContext.Shader->SetIntArray("uTextures", samplers, 32);
+		m_quadContext.GLSLShader->SetIntArray("uTextures", samplers, 32);
 
 		// set view projection here as well??
 	}
@@ -419,7 +420,7 @@ namespace Hi_Engine
 
 	void Renderer::DisplayText()
 	{
-		//auto* shader = m_textContext.Shader;
+		//auto* shader = m_textContext.GLSLShader;
 
 		//shader->Activate();
 		//shader->SetVector4f("uText Color", { 1.f, 1.f, 1.f, 1.f }); // TODO; fix color...

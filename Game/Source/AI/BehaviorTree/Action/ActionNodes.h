@@ -22,6 +22,18 @@ public:
 };
 
 
+class MoveToDestinationNode : public BehaviorTreeNode
+{
+public:
+	eBTNodeStatus	Execute(class Entity* entity)	override;
+};
+
+class ChaseTargetNode : public BehaviorTreeNode
+{
+public:
+	eBTNodeStatus	Execute(class Entity* entity)	override;
+};
+
 class MoveToNode : public BehaviorTreeNode
 {
 public:

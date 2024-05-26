@@ -11,12 +11,12 @@ namespace Hi_Engine
 	{
 	}
 
-	//Material::Material(Subtexture2D* aSubtexture, Shader* aShader)
+	//Material::Material(Subtexture2D* aSubtexture, GLSLShader* aShader)
 	//	: m_subtexture{ aSubtexture }, m_shader{ aShader }, m_color{ 1.f, 1.f, 1.f, 1.f }
 	//{
 	//}
 
-	Material::Material(Texture2D* texture, Shader* shader)
+	Material::Material(Texture2D* texture, GLSLShader* shader)
 		: m_texture{ texture }, m_shader{ shader }, m_color{ 1.f, 1.f, 1.f, 1.f }
 	{
 	}
@@ -36,7 +36,7 @@ namespace Hi_Engine
 		m_texture = texture;
 	}
 
-	void Material::SetShader(Shader* shader)
+	void Material::SetShader(GLSLShader* shader)
 	{
 		m_shader = shader;
 	}
@@ -56,7 +56,7 @@ namespace Hi_Engine
 		return m_texture;
 	}
 
-	const Shader* Material::GetShader() const
+	const GLSLShader* Material::GetShader() const
 	{
 		return m_shader;
 	}

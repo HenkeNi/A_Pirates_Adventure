@@ -20,14 +20,17 @@ void BlackboardSystem::Update(float deltaTime)
 	if (!m_entityManager)
 		return;
 
-	auto* entity = m_entityManager->FindFirst<BlackboardComponent>();
-	auto* player = m_entityManager->FindFirst<PlayerControllerComponent>();
-
-	if (entity && player)
-	{
-		auto* blackboard = entity->GetComponent<BlackboardComponent>();
-		auto* transform = player->GetComponent<TransformComponent>();
+	SetPlayerPosition();
 	
-		blackboard->PlayerPosition = transform->CurrentPos;
+	BlackboardComponent::Friendly = m_entityManager->FindAll<FriendlyComponent>();
+	BlackboardComponent::Hostile = m_entityManager->FindAll<HostileComponent>();
+}
+
+void BlackboardSystem::SetPlayerPosition()
+{
+	if (auto* player = m_entityManager->FindFirst<PlayerControllerComponent>())
+	{
+		auto* transformComponent = player->GetComponent<TransformComponent>();
+		BlackboardComponent::PlayerPosition = transformComponent->CurrentPos;
 	}
 }

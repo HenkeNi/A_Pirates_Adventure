@@ -3,7 +3,7 @@
 #include "../Primitives/2D/Circle.hpp"
 #include "../Primitives/2D/Ray2D.hpp"
 #include "../Primitives/2D/LineSegment2D.hpp"
-
+#include "HitResult.h"
 
 namespace Hi_Engine::Physics
 {

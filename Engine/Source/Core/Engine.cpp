@@ -1,13 +1,17 @@
 #include "Pch.h"
 #include "Engine.h"
 #include "Application/Application.h"
-#include "FileIO/Parsers/WindowParser.h"
+
 #include "Resources/ResourceHolder.hpp"
-#include "Messaging/Dispatcher/Dispatcher.h"
+//#include "Messaging/Dispatcher/Dispatcher.h"
 #include "../Utility/Time/Timer.h"
 #include "Rendering/Renderer/TextRenderer/TextRenderer.h"
 #include "ServiceLocator/ServiceLocator.h"
 #include "Utility/UtilityFunctions.hpp"
+#include "Rendering/Renderer/Renderer.h"
+#include "Input/InputHandler.h"
+#include "Audio/AudioController.h"
+#include "Window/Window.h"
 
 namespace Hi_Engine
 {
@@ -15,6 +19,11 @@ namespace Hi_Engine
 		: m_application{ app }, m_isRunning{ false }
 	{
 		Dispatcher::GetInstance().Subscribe(this);
+
+		m_inputHandler = std::make_unique<InputHandler>();
+		m_renderer = std::make_unique<Renderer>();;
+		m_window = std::make_unique<Window>();
+		m_audioController = std::make_unique<AudioController>();
 	}
 
 	Engine::~Engine()
@@ -37,7 +46,7 @@ namespace Hi_Engine
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_BLEND);
 
-		m_inputHandler.Init(m_window.m_window);
+		m_inputHandler->Init(m_window->m_window);
 
 		//m_window.SetIcon("../Game/Assets/Textures/Icons/pirate_flag_icon.png"); // TODO: read from windows file
 
@@ -45,18 +54,20 @@ namespace Hi_Engine
 		TextRenderer::GetInstance().Init();
 
 		// TEMP
-		m_renderer.Init();
+		m_renderer->Init();
 		//m_renderer.SetRenderTarget(&m_window);
 
-		m_audioController.Init();
+		m_audioController->Init();
 
 		m_application->OnCreate(); 
 
 
-		m_renderer.SetShader(&ResourceHolder<Shader>::GetInstance().GetResource("sprite_batch")); // Rename default_sprite_bact
+		// Load default resources 
+		m_renderer->SetShader(&ResourceHolder<GLSLShader>::GetInstance().GetResource("sprite_batch")); // Rename default_sprite_bact
 
 		
-		ServiceLocator::Register(&m_audioController);
+		ServiceLocator::Register(m_audioController.get()); // FIX!
+		//ServiceLocator::Register(&m_audioController);
 		
 		return (m_isRunning = true);
 	}
@@ -69,20 +80,20 @@ namespace Hi_Engine
 			delete m_application;
 		}
 
-		m_window.Shutdown();
-		m_renderer.Shutdown();
+		m_window->Shutdown();
+		m_renderer->Shutdown();
 		TextRenderer::GetInstance().Shutdown();
 
-		m_audioController.Shutdown();
+		m_audioController->Shutdown();
 	}
 
-	void Engine::GameLoop()
+	void Engine::Run()
 	{
 		assert(m_application && "Failed to launch application");
 		Timer& timer = GetTimer();
 		//Timer timer;
 
-		while (IsRunning())	// Todo, use enum for GameState instead? !GameState::EXIT or call function in Application? ShouldRun()?
+		while (m_isRunning)	// Todo, use enum for GameState instead? !GameState::EXIT or call function in Application? ShouldRun()?
 		{
 
  			timer.Update();
@@ -91,29 +102,24 @@ namespace Hi_Engine
 			Dispatcher::GetInstance().DispatchEvents();
 
 			/* - Process input - */
-			m_window.PollEvents();					
-			m_inputHandler.ProcessInput();
+			m_window->PollEvents();					
+			m_inputHandler->ProcessInput();
 
 			/* - Update - */
 			m_application->OnUpdate(deltaTime);
 			m_application->OnLateUpdate(deltaTime);
 
 			/* - Render - */
-			m_window.ClearScreen();
+			m_window->ClearScreen();
 			m_application->OnDraw();
-			m_renderer.ProcessCommands(); // NEEDED? Or render when event directly? Maybe wont work when multithreading?
-			m_window.SwapBuffers();
+			m_renderer->ProcessCommands(); // NEEDED? Or render when event directly? Maybe wont work when multithreading?
+			m_window->SwapBuffers();
 			
-			m_inputHandler.Reset(); // OR Force user to listen to scroll event??
-			m_window.SetTitle("Fps: " + std::to_string((int)timer.GetAverageFPS())); // TODO; Get Draw calls...
+			m_inputHandler->Reset(); // OR Force user to listen to scroll event??
+			m_window->SetTitle("Fps: " + std::to_string((int)timer.GetAverageFPS())); // TODO; Get Draw calls...
 		}
 	}
 		
-	bool Engine::IsRunning() const
-	{
-		return m_window.IsOpen() && m_isRunning;
-	}
-
 	Timer& Engine::GetTimer()
 	{
 		static Timer timer;
@@ -122,18 +128,25 @@ namespace Hi_Engine
 
 	bool Engine::CreateWindow() // FIX?!
 	{
+		bool success = false;
+
 		auto document = ParseDocument("../Engine/Assets/Json/Window/Window.json");
 		auto json = ParseJson(document.GetObj());
 
 		auto values = std::any_cast<std::unordered_map<std::string, std::any>>(json);
 		auto size = std::any_cast<std::unordered_map<std::string, std::any>>(values.at("size"));
 
-		WindowData data;
-		data.WindowName = std::any_cast<std::string>(values.at("name"));
-		data.IconPath = std::any_cast<std::string>(values.at("icon_path"));
-		data.Size = { std::any_cast<int>(size.at("width")), std::any_cast<int>(size.at("height")) };
+		std::string windowName = std::any_cast<std::string>(values.at("name"));
+		std::string iconPath = std::any_cast<std::string>(values.at("icon_path"));
+		IVector2 windowSize = { std::any_cast<int>(size.at("width")), std::any_cast<int>(size.at("height")) };
 		
-		return m_window.Init(data);
+		if (m_window->Init(windowSize, windowName))
+		{
+			m_window->SetIcon(iconPath);
+			success = true;
+		}
+
+		return success;
 	}
 
 	//void Engine::ConfigureRenderStates()

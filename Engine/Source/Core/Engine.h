@@ -1,9 +1,5 @@
 #pragma once
-#include "Audio/AudioController.h"
-#include "Rendering/Renderer/Renderer.h"
-#include "Input/InputHandler.h"
-#include "Window/Window.h"
-
+#include "Messaging/Listener/EventListener.h"
 
 namespace Hi_Engine
 {
@@ -16,12 +12,11 @@ namespace Hi_Engine
 		Engine(Application* app);
 		~Engine();
 
-		void HandleEvent(TerminationEvent& event) override;
+		void HandleEvent(class TerminationEvent& event) override;
 
 		bool Init();
 		void Shutdown();
-		void GameLoop();
-		bool IsRunning() const;
+		void Run();
 
 		// static AudioController& GetAudioController();
 		static Timer& GetTimer();
@@ -30,13 +25,14 @@ namespace Hi_Engine
 		bool			CreateWindow();		
 
 		//ResourceHolder<Texture2D> m_textureHolder;	// static? in Game?
-		//ResourceHolder<Shader>		m_shaderHolder;
+		//ResourceHolder<GLSLShader>		m_shaderHolder;
 
-		InputHandler	m_inputHandler;
-		AudioController	m_audioController;
+		std::unique_ptr<class InputHandler>		m_inputHandler = nullptr;
+		std::unique_ptr<class Renderer>			m_renderer = nullptr;
+		std::unique_ptr<class Window>			m_window = nullptr;
+		std::unique_ptr<class AudioController>	m_audioController = nullptr;
+
 		Application*	m_application;
-		Renderer		m_renderer;
-		Window			m_window;
-		bool			m_isRunning;
+		bool m_isRunning;
 	};
 }

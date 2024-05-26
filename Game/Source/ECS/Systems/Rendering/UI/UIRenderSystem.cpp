@@ -40,7 +40,7 @@ void UIRenderSystem::RenderHUD()
 	if (entities.empty())
 		return;
 
-	// TODO; use a simpler Shader for HUD?
+	// TODO; use a simpler GLSLShader for HUD?
 
 	std::queue<Hi_Engine::RenderCommand> renderCommands;
 
@@ -100,7 +100,7 @@ void UIRenderSystem::RenderUI()
 
 
 
-	// TODO; use a simpler Shader for HUD?
+	// TODO; use a simpler GLSLShader for HUD?
 
 	std::queue<Hi_Engine::RenderCommand> renderCommands;
 

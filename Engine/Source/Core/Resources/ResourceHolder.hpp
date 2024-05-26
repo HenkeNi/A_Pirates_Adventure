@@ -50,7 +50,7 @@ namespace Hi_Engine
 	};
 
 	/*using TextureHolder = ResourceHolder<Texture2D>;
-	using ShaderHolder  = ResourceHolder<Shader>;*/
+	using ShaderHolder  = ResourceHolder<GLSLShader>;*/
 
 #pragma region Constructor
 
@@ -139,9 +139,9 @@ namespace Hi_Engine
 			float spriteWidth = (float)width / cols;
 			float spriteHeight = (float)height / rows;
 
-			for (float row = 0; row < rows; ++row)
+			for (int row = value["rows"].GetInt() - 1; row >= 0; --row)
 			{
-				for (float col = 0; col < cols; ++col)
+				for (int col = value["cols"].GetInt() - 1; col >= 0; --col)
 				{
 					float minX = (col * spriteWidth) / width;
 					float minY = (row * spriteHeight) / height;
@@ -150,11 +150,30 @@ namespace Hi_Engine
 
 					auto subtexture = std::make_unique<Subtexture2D>(GetResource(id), glm::vec2{ minX, minY }, glm::vec2{ maxX, maxY });
 
-					ResourceHolder<Subtexture2D, SubtextureData>::GetInstance().Insert({ id, (int)row, (int)col }, std::move(subtexture));
-					//std::string subID = id + "_" + std::to_string((int)row) + std::to_string((int)col);
-					//ResourceHolder<Subtexture2D>::GetInstance().Insert(subID, std::move(subtexture));
+					int invertedRow = (rows - 1) - row;
+					ResourceHolder<Subtexture2D, SubtextureData>::GetInstance().Insert({ id, invertedRow, (int)col }, std::move(subtexture));
 				}
 			}
+
+
+
+			//for (float row = 0; row < rows; ++row)
+			//{
+			//	for (float col = 0; col < cols; ++col)
+			//	{
+			//		float minX = (col * spriteWidth) / width;
+			//		float minY = (row * spriteHeight) / height;
+			//		float maxX = ((col + 1) * spriteWidth) / width;	
+			//		float maxY = ((row + 1) * spriteHeight) / height;
+
+			//		auto subtexture = std::make_unique<Subtexture2D>(GetResource(id), glm::vec2{ minX, minY }, glm::vec2{ maxX, maxY });
+
+			//		ResourceHolder<Subtexture2D, SubtextureData>::GetInstance().Insert({ id, (int)col, (int)row }, std::move(subtexture));
+			//		//ResourceHolder<Subtexture2D, SubtextureData>::GetInstance().Insert({ id, (int)row, (int)col }, std::move(subtexture));
+			//		//std::string subID = id + "_" + std::to_string((int)row) + std::to_string((int)col);
+			//		//ResourceHolder<Subtexture2D>::GetInstance().Insert(subID, std::move(subtexture));
+			//	}
+			//}
 		}
 	}
 
@@ -181,14 +200,14 @@ namespace Hi_Engine
 	}
 
 	template <>
-	inline void	ResourceHolder<Shader, std::string>::CreateResources(const rapidjson::Document& document)
+	inline void	ResourceHolder<GLSLShader, std::string>::CreateResources(const rapidjson::Document& document)
 	{
 		for (auto& value : document.GetArray())
 		{
 			std::string id = value["name"].GetString();
 			std::string path = value["filepath"].GetString();
 
-			auto shader = std::make_unique<Shader>();
+			auto shader = std::make_unique<GLSLShader>();
 
 			std::string vertex, fragment;
 

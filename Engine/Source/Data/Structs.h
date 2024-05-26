@@ -1,11 +1,11 @@
 #pragma once
 #include "../Utility/Math/Vectors/Vector.hpp"
-#include "../Core/Messaging/Events/Event.h"
+#include "Enumerations.h"
+//#include "../Core/Messaging/Events/Base/Event.h"
 //#include "../Core/Rendering/Texture/Texture2D.h"
-
 #include <../../ThirdParty/glm/glm.hpp>
 #include <array>
-#include <functional>
+//#include <functional>
 #include <string>
 #include <vector>
 
@@ -27,25 +27,9 @@ namespace Hi_Engine
 		float		Rotation = 0.f;
 	};
 
-	struct TimerRequest // remove?
-	{
-		double					DurationInSecs, TimeOfRequest;
-		std::function<void()>	Callback = nullptr;
 
-		//TimeObserver*			m_observer = nullptr;
-	};
 
-	template <typename T>
-	struct HitResult
-	{
-		bool			IsColliding = false;
-		Vector2<T>	ContactPoint { 0, 0 };
-		Vector2<T>	ContactNormal{ 0, 0 };
 
-		// Union?
-		float ContactTime = 0;	// BEEDED???
-		float THitNear = 0;
-	};
 
 	//struct Position
 	//{
@@ -81,24 +65,11 @@ namespace Hi_Engine
 		glm::mat4 Projection;
 		glm::mat4 ProjectionView;
 	};
+	*/
 
-	struct CameraAttributes
-	{
-		glm::vec3 Position;
-		glm::vec3 Front;
-		glm::vec3 Up;
-		glm::vec3 Right;
-		glm::vec3 WorldUp;
-	};
 
-	struct EulerAngles
-	{
-		float Yaw;
-		float Pitch;
-		float Roll;
-	};*/
 
-	// Remove later?
+	// Remove later? or using for vec4 together with color?
 	struct Rect
 	{
 		float Top;
@@ -112,11 +83,7 @@ namespace Hi_Engine
 
 #pragma region Window_Structs
 	
-	struct WindowData
-	{
-		IVector2		Size;
-		std::string		WindowName, IconPath;
-	};
+
 
 #pragma endregion Window_Structs
 
@@ -183,21 +150,12 @@ namespace Hi_Engine
 	//};
 	
 	// Rename TextRenderProperties?
-	struct TextRenderData
-	{
-		class Shader*		Shader;
-		class Font*			Font;
-		float				Scale;
-		FVector4			Color;
-		FVector2			Position; //??
-		std::string			Text;
-		eTextAlginment		Alignment;
-	};
+
 	
 	//struct PrimitiveRenderData
 	//{
 	//	CU::Vector4<float>	m_color;
-	//	// class Shader*		m_shader;
+	//	// class GLSLShader*		m_shader;
 	//	glm::vec3			Position;
 	//	glm::vec2			Scale;
 	//	float				Rotation;
@@ -208,7 +166,7 @@ namespace Hi_Engine
 
 	struct RenderContext
 	{
-		class Shader*		Shader			= nullptr;
+		class GLSLShader*		GLSLShader			= nullptr;
 		Vertex*				Buffer			= nullptr;
 		Vertex*				CurrentVertex	= nullptr;		// unsigned	m_currentBufferIndex;
 		uint16_t			IndexCount		= 0;
@@ -240,15 +198,8 @@ namespace Hi_Engine
 
 
 #pragma region Event_Structs
+	
 
-	/* Comparers */
-	struct EventCompare
-	{
-		bool operator()(const BaseEvent* lhs, const BaseEvent* rhs)
-		{
-			return lhs->GetPriority() < rhs->GetPriority();
-		}
-	};
 
 	struct RenderCommand
 	{
@@ -261,7 +212,7 @@ namespace Hi_Engine
 			//std::vector<SpriteRenderData>	SpriteBatch;
 			SpriteRenderData				SpriteRenderData;
 			//SpriteBatchData					SpriteBatchData;
-			class Shader*					Shader;
+			class GLSLShader*					GLSLShader;
 			class Camera*					Camera;
 			glm::mat4						ProjectionMatrix;
 		};

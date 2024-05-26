@@ -39,6 +39,10 @@
         "properties": {}
       },
       {
+        "type": "hostile",
+        "properties": {}
+      },
+      {
         "type": "health",
         "properties": {
           "value": 50000

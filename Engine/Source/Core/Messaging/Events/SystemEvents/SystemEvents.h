@@ -1,16 +1,19 @@
 #pragma once
-#include "../Event.h"
-
+#include "../Base/Event.h"
+#include "../../../../Data/Enumerations.h"
+#include "../../../Input/InputTypes.h"
+//#include "Enum"
 
 namespace Hi_Engine
 {
-	using namespace Math;
+	//using namespace Math;
 
-	enum class ePriority;
+	/*
 	enum class eWindowEvent;
 	enum class eMouseBtn;
 	enum class eInputState;
-	enum class eKey;
+	enum class eKey;*/
+	//enum class eInputState;
 
 	class InputHandler;
 
@@ -22,9 +25,7 @@ namespace Hi_Engine
 
 		void					Init();
 		void					Dispatch(EventListener& listener)		  override;
-		ePriority				GetPriority()						const override;
 		bool					IsHandled()							const override;
-		void					Reset()									  override;
 
 	private:
 	};
@@ -34,11 +35,9 @@ namespace Hi_Engine
 	{
 	public:
 		WindowEvent();			// Overload new operatp`?? placement new?? 
-		~WindowEvent()										override;
 
-		void			Dispatch(EventListener& listener)	override;	// Put in base class?
-		void			Reset()								override;
 		void			Init(eWindowEvent type);
+		void			Dispatch(EventListener& listener)	override;	// Put in base class?
 
 		eWindowEvent	GetEventType()						   const;
 
@@ -48,6 +47,12 @@ namespace Hi_Engine
 	};
 
 
+	class WindowResizeRequestEvent;
+
+
+
+
+
 	/* ########################## Input Event ########################## */
 	class InputEvent : public Event<InputEvent>
 	{
@@ -55,18 +60,17 @@ namespace Hi_Engine
 		InputEvent();
 
 		void				Dispatch(EventListener& listener)   override;
-		void				Reset()								 override;
 
 		eInputState			GetKeyState(eKey key)				    const;
 		eInputState			GetMouseBtnState(eMouseBtn btn)			const;
-		const glm::vec2&	GetMousePosition()						const;
+		const FVector2&		GetMousePosition()						const;
 
 	private:
 		friend class InputHandler;
 
 		std::unordered_map<eKey, eInputState>		m_keyStates;
 		std::unordered_map<eMouseBtn, eInputState>	m_mouseButtonStates;
-		glm::vec2									m_mousePosition;
+		FVector2									m_mousePosition;
 	};
 
 	/*class KeyEvent : public Event

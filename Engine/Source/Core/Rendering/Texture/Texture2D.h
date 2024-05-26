@@ -12,6 +12,7 @@ namespace Hi_Engine
 		~Texture2D();
 
 		void			Init(const IVector2& size, unsigned char* data);		// Take in texturedata...
+		// Delte function??
 		void			Bind()												const;
 		void			Unbind()											const;
 

@@ -37,14 +37,6 @@ struct CollisionData // Data used for resolving/handling collisions
 	//Entity* Entity;
 };
 
-template <typename T>
-struct Range
-{
-	T Min;
-	T Max;
-};
-
-
 struct Tile
 {
 	class Hi_Engine::Subtexture2D*  Subtexture; // NEED TO STORE?

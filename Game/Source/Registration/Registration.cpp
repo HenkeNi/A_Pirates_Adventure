@@ -41,6 +41,10 @@ namespace Registration
 
 		/* - Gameplay Components - */
 		Factory.RegisterComponentBuilder<AttributesComponent>("attribute");
+		Factory.RegisterComponentBuilder<PersonalityComponent>("personality");
+		Factory.RegisterComponentBuilder<FriendlyComponent>("friendly");
+		Factory.RegisterComponentBuilder<HostileComponent>("hostile");
+		Factory.RegisterComponentBuilder<CrewComponent>("crew");
 		Factory.RegisterComponentBuilder<HealthComponent>("health");
 		Factory.RegisterComponentBuilder<WeaponComponent>("weapon");
 		Factory.RegisterComponentBuilder<ToppleComponent>("topple");
@@ -51,7 +55,6 @@ namespace Registration
 		Factory.RegisterComponentBuilder<InventoryComponent>("inventory");
 		Factory.RegisterComponentBuilder<CollectableComponent>("collectable");
 		Factory.RegisterComponentBuilder<SpawnComponent>("spawner");
-		Factory.RegisterComponentBuilder<PersonalityComponent>("personality");
 		Factory.RegisterComponentBuilder<EnvironmentComponent>("environment");
 
 

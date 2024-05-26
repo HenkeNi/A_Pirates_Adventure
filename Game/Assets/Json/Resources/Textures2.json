@@ -394,5 +394,16 @@
     "height": 512,
     "rows": 1,
     "cols": 1
+  },
+  {
+    "id": "pirate_01",
+    "path": "../Game/Assets/Textures/Characters/captain-m-001-light.png",
+    "alpha": true,
+    "filtering": "Linear",
+    "width": 144,
+    "height": 256,
+    "rows": 4,
+    "cols": 3
+
   }
 ]

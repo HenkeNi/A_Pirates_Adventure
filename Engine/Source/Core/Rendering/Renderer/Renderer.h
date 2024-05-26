@@ -1,17 +1,21 @@
 #pragma once
 #include "../../../Data/Structs.h"
 #include "../../../Data/Constants.h"
-#include "Messaging/Listener/EventListener.h"
+#include "../../Messaging/Listener/EventListener.h"
 #include <queue>
 #include <../../../ThirdParty/GLEW/include/GL/glew.h> //FIX! dont include later...
 
 namespace Hi_Engine
 {
-	class Shader;
+	class GLSLShader;
+
+// 	separe veiw ports for HUD and game
 
 	// internal messaging system? static..?
 	// Possible alternatives; 1) Singleton, 2) Static members, 3) Dependency injection (in Game), 4) Each system have a renderer?...... (currently listens to render commands (events))
 		// have function for enabling line rendering..?
+
+	//class EventListener;
 
 	class Renderer : public EventListener
 	{
@@ -29,15 +33,22 @@ namespace Hi_Engine
 		void DrawSprite(const SpriteRenderData& data); // RenderData RenderInfo RenderSPecs RenderCOnfigs
 		void DrawQuad(const QuadRenderData& data);
 
+		// TODO; use glGetError()
+
+
+
 
 		//void SetRenderContext(); // proj matrix, shader... 
 		// bool IsContextBound() const; // ????
 
 
 		// Begin, End  Submit
-		void BeginFrame();	// BeginScene Reset
+		void BeginFrame();	// BeginScene Reset // 
 		void Display();		// 
 		void EndFrame();
+
+
+		// BeginSpriteBatch(Camera, GLSLShader);
 
 
 		//void SetRenderState();
@@ -47,7 +58,7 @@ namespace Hi_Engine
 		// void SetRenderMode();
 
 		void SetProjectionMatrix(const glm::mat4& matrix);
-		void SetShader(Shader* shader);
+		void SetShader(GLSLShader* shader);
 
 		bool IsTextureBound(unsigned texID, float& outTexIndex);
 		// void ProcessCommands();					// ??? ProcessDrawCalls();
@@ -91,7 +102,7 @@ namespace Hi_Engine
 	struct SceneData
 	{
 		glm::mat4 ViewProjectionMatrix;
-		Shader* Shader;
+		GLSLShader* GLSLShader;
 	};
 
 	class Renderer2D

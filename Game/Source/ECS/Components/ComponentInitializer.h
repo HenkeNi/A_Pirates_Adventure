@@ -21,6 +21,7 @@
 #include "AI/BehaviorTree/Composite/CompositeNodes.h"
 #include "AI/BehaviorTree/Condition/ConditionNodes.h"
 #include "AI/BehaviorTree/Decorator/DecoratorNodes.h"
+#include "AI/BehaviorTree/Service/ServiceNodes.h"
 #include "AI/BehaviorTree/Base/BehaviorTreeNode.h"
 
 namespace ECS
@@ -39,16 +40,19 @@ public:
 	template <>
 	static void InitializeComponent<AnimationComponent>(AnimationComponent* component, const ECS::ComponentData& data)
 	{
-		auto animationsData = std::any_cast<std::vector<std::any>>(data.at("animations"));
+		// TODO; engine classes Animation2D and Frame?
+
+		// store animations in resource holder??
 
 		std::unordered_map<std::string, Animation> animations;
-		for (const auto& animationData : animationsData)
+
+		auto animationsData = std::any_cast<std::vector<std::any>>(data.at("animations"));
+		for (const auto& animationData : animationsData) // rename Animation Frames instead?
 		{
 			auto properties = std::any_cast<std::unordered_map<std::string, std::any>>(animationData);
 
 			std::string identifier = std::any_cast<std::string>(properties.at("identifier"));
-
-			//Animation animation;
+			std::string textureName = std::any_cast<std::string>(properties.at("texture"));
 			float frameDuration = std::any_cast<float>(properties.at("frame_duration"));
 			bool isLooping = std::any_cast<bool>(properties.at("is_looping"));
 			bool isPlaying = std::any_cast<bool>(properties.at("is_playing"));
@@ -56,15 +60,16 @@ public:
 			//std::vector<std::string> animationFrames;
 
 			std::vector<Hi_Engine::Subtexture2D*> animationFrames;
-			std::string textureName = std::any_cast<std::string>(properties.at("texture"));
 			for (const auto& sprite : std::any_cast<std::vector<std::any>>(properties.at("subtexture_coordinates")))
 			{
 				auto s = std::any_cast<std::vector<std::any>>(sprite);
-				int x = std::any_cast<int>(s[0]);
-				int y = std::any_cast<int>(s[1]);
+				int row = std::any_cast<int>(s[0]);
+				int col = std::any_cast<int>(s[1]);
 	
+				// Have frame class? row and col to subtexture?
+
 				//auto coords = std::any_cast<std::vector<int>>(sprite);
-				auto* subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ textureName, x, y });
+				auto* subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ textureName, row, col });
 				animationFrames.push_back(subtexture);
 			}
 			// animation.Animations
@@ -163,29 +168,62 @@ public:
 	template <>
 	static void InitializeComponent<BehaviorTreeComponent>(BehaviorTreeComponent* component, const ECS::ComponentData& data)
 	{
-
 		auto* behavior = new SelectorNode;
 
-		// Patrol sequence or wander sequence
+
+		auto* chaseSequence = new SequenceNode;
+		chaseSequence->AddChild(new IsTargetSetNode);
+		chaseSequence->AddChild(new IsTargetInSightNode);
+		chaseSequence->AddChild(new InverterNode(new IsTargetReachedNode));
+		chaseSequence->AddChild(new ChaseTargetNode);
+
+		auto* setTarget = new SetTargetNode;
+
+		auto* chaseBehavior = new SelectorNode;
+		chaseBehavior->AddChild(chaseSequence);
+		chaseBehavior->AddChild(setTarget);
+
 		auto* wanderSequence = new SequenceNode;
-		wanderSequence->AddChild(new IsIdleNode);
+		wanderSequence->AddChild(new IsDestinationSetNode);
+		wanderSequence->AddChild(new InverterNode(new IsDestinationReachedNode));
+		wanderSequence->AddChild(new MoveToDestinationNode);
 
-		wanderSequence->AddChild(new HasTagetNode);
+		auto* setPosition = new SetWanderPosition;
 
-
-		wanderSequence->AddChild(new InverterNode(new IsTargetReachedNode)); // inverter node?
-		wanderSequence->AddChild(new MoveToNode);
-
+		behavior->AddChild(chaseBehavior);
 		behavior->AddChild(wanderSequence);
+		behavior->AddChild(setPosition);
 
+		component->RootNode = behavior;
+
+		//auto* wanderBehavior = new SelectorNode;
+
+
+		//wanderSequence->AddChild(new IsIdleNode);
+
+
+
+
+
+
+
+
+		//auto* setPosition 
+
+		// parallell node => in range OR position not set? => set position...
+
+
+
+		//behavior->AddChild(wanderSequence);
+
+		//auto* updateWanderPositionSequence = new SequenceNode;
 
 
 
 		// Idle sequence
-		behavior->AddChild(new IdleNode);
+		//behavior->AddChild(new IdleNode);
 
 
-		component->RootNode = behavior;
 		
 		
 		
@@ -410,7 +448,7 @@ public:
 		component->Color = { std::any_cast<float>(color[0]), std::any_cast<float>(color[1]), std::any_cast<float>(color[2]), std::any_cast<float>(color[3]) };
 		//aComponent->m_material = {
 		//	&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource(texture),
-		//	&Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource(shader)
+		//	&Hi_Engine::ResourceHolder<Hi_Engine::GLSLShader>::GetInstance().GetResource(shader)
 		//};
 
 		// aComponent->m_material.SetColor({ color[0], color[1], color[2], color[3] });

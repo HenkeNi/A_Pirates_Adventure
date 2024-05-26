@@ -1,17 +1,17 @@
 #pragma once
-#include "Vectors/Vector.hpp"
-#include "../glm/glm.hpp"
 
-#define PI 3.14159265358979323846
+//#define PI 3.14159265358979323846
 
 namespace Hi_Engine::Math
 {
+	constexpr double PI = 3.14159;
+
 	template <typename T>
 	T Min(T value1, T value2)
 	{
 		return value1 < value2 ? value1 : value2;
 	}
-
+	
 	template <typename T>
 	T Max(T value1, T value2)
 	{
@@ -32,7 +32,7 @@ namespace Hi_Engine::Math
 	}
 
 	template <typename T>
-	T Lerp(T a, T b, float c)
+	T Lerp(T a, T b, T c)
 	{
 		T result = (a + c * (b - a));
 		return result;
@@ -70,20 +70,43 @@ namespace Hi_Engine::Math
 		return (degrees * (PI / 180));
 	}
 
-	template <typename T>
-	inline glm::vec2 ConvertVecToGlm(const Vector2<T>& vector)
-	{
-		return glm::vec2{ vector.x, vector.y };
-	}
-
-	template <typename T>
-	inline glm::vec3 ConvertVecToGlm(const Vector3<T>& vector)
-	{
-		return glm::vec3{ vector.x, vector.y, vector.z };
-	}
-
 	inline bool IsNearlyEqual(float value1, float value2, float epsilon = 0.0001f) // not checked...
 	{
 		return std::abs(value1 - value2) < epsilon * std::abs(value1);
 	}
+
+	// deleted template specializations
+#pragma region Deleted_Template_Specializations
+
+	template <>
+	const char* Abs(const char* value) = delete;
+
+	template <>
+	std::string Abs(std::string value) = delete;
+
+	template <>
+	const char* Clamp(const char* value, const char* min, const char* max) = delete;
+	
+	template <>
+	std::string Clamp(std::string value, std::string min, std::string max) = delete;
+
+	template <>
+	const char* Lerp(const char* a, const char* b, const char* c) = delete;
+
+	template <>
+	std::string Lerp(std::string a, std::string b, std::string c) = delete;
+
+	template <>
+	const char* ConvertToRadians(const char* degrees) = delete;
+
+	template <>
+	std::string ConvertToRadians(std::string degrees) = delete;
+
+	template <>
+	const char* ConvertToDegrees(const char* radians) = delete;
+
+	template <>
+	std::string ConvertToDegrees(std::string radians) = delete;		
+
+#pragma endregion Deleted_Template_Specializations
 }

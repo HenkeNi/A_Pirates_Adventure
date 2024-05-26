@@ -44,10 +44,10 @@ namespace Hi_Engine
 		}
 
 
-		if (ContainsTimerRequests())
+		/*if (ContainsTimerRequests())
 		{
 			CheckTimerRequests();
-		}
+		}*/
 	}
 
 	float Timer::GetDeltaTime() const
@@ -65,16 +65,16 @@ namespace Hi_Engine
 		return m_totalTime.count();
 	}
 
-	void Timer::NotifyOnTimePassed(TimerRequest request)
-	{
-		request.TimeOfRequest = GetTotalTime();
-		m_timeRequests.push_back(request);
-	}
+	//void Timer::NotifyOnTimePassed(TimerRequest request)
+	//{
+	//	request.TimeOfRequest = GetTotalTime();
+	//	m_timeRequests.push_back(request);
+	//}
 
-	bool Timer::ContainsTimerRequests() const
-	{
-		return !m_timeRequests.empty();
-	}
+	//bool Timer::ContainsTimerRequests() const
+	//{
+	//	return !m_timeRequests.empty();
+	//}
 
 	bool Timer::HasTimeElapsed(double duration, double startTime) const
 	{

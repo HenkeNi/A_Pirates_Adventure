@@ -5,6 +5,7 @@
 #include "../../Texture/Texture2D.h" // TODO; remove---
 #include "../../Font/Font.h"
 #include "Resources/ResourceHolder.hpp"
+#include "../../Text/TextTypes.h"
 
 
 namespace Hi_Engine
@@ -53,7 +54,7 @@ namespace Hi_Engine
 
 	void TextRenderer::Render(const TextRenderData& data, glm::mat4 projection) // pass in projection matrix?
 	{
-        auto& shader = data.Shader;
+        auto& shader = data.GLSLShader;
 
         shader->Activate();
         shader->SetVector4f("uTextColor", data.Color);

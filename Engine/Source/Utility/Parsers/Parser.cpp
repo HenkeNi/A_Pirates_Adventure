@@ -1,9 +1,9 @@
 #include "Pch.h"
-#include "WindowParser.h"
+#include "Parser.h"
 
-namespace Hi_Engine
+namespace Hi_Engine::Parser
 {
-	WindowData WindowParser::Parse(rapidjson::Document& aDocument)
+	/*WindowData WindowParser(rapidjson::Document& aDocument)
 	{
 		auto obj = aDocument["window"].GetObj();
 
@@ -13,5 +13,5 @@ namespace Hi_Engine
 		windowData.IconPath	= obj["icon_path"].GetString();
  
 		return windowData;
-	}
+	}*/
 }

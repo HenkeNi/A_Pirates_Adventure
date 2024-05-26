@@ -20,7 +20,17 @@ struct PersonalityComponent : public Component
 	// bool IsLoyal = false;
 };
 
+struct FriendlyComponent : public Component
+{
+};
 
+struct HostileComponent : public Component
+{
+};
+
+struct CrewComponent : public Component
+{
+};
 
 // Rename? PlayerStateComponent, should just be used by the player??
 struct CharacterStateComponent : public Component
@@ -32,6 +42,7 @@ struct CharacterStateComponent : public Component
 	bool IsAlive;		// remove?
 	bool IsAiming;
 };
+
 
 
 
@@ -267,7 +278,10 @@ struct KnockbackComponent : public Component
 	float Duration;	
 };
 
-
+struct VisionComponent : public Component
+{
+	Hi_Engine::Physics::LineSegment2D<float> LineOfSight;
+};
 
 
 

@@ -89,110 +89,27 @@ eBTNodeStatus IsTargetReachedNode::Execute(Entity* entity)
 eBTNodeStatus IsTargetInSightNode::Execute(class Entity* entity)
 {
 	// send event request target? passes itself and target component....
-}
-
-
-
-eBTNodeStatus HasTagetNode::Execute(Entity* entity)
-{
 	if (entity)
 	{
-		auto* blackboardComponent = entity->GetComponent<BlackboardComponent>();
-
-		if (blackboardComponent->IsMovingToPOI)
-			return eBTNodeStatus::Success;
-	}
-
-	return eBTNodeStatus::Failure;
-}
-
-
-
-
-
-
-
-
-
-
-
-eBTNodeStatus DistanceCheckNode::Execute(Entity* entity)
-{
-	if (entity)
-	{
+		auto* targetComponent = entity->GetComponent<TargetComponent>();
 		auto* transformComponent = entity->GetComponent<TransformComponent>();
-	
-		//auto targetPosition = target->GetComponent<TransformComponent>()->CurrentPos;
 
-		//float distance = currentPosition.DistanceTo(targetPosition);
-
-		//if (distance <= m_radius)
+		if (targetComponent && transformComponent)
 		{
-			return eBTNodeStatus::Success;
-		}
-	}
-	return eBTNodeStatus::Failure;
-}
+			if (auto* target = targetComponent->Target)
+			{
+				auto* targetTransformComponent = target->GetComponent<TransformComponent>();
 
+				const auto& targetPosition = targetTransformComponent->CurrentPos;
+				const auto& currentPosition = transformComponent->CurrentPos;
 
-
-//eBTNodeStatus TargetInViewNode::Execute(EntityManager* entityManager)
-//{
-//}
-//
-//void TargetInViewNode::Clear()
-//{
-//}
-//
-//eBTNodeStatus TargetInRangeNode::Execute(EntityManager* entityManager)
-//{
-//	if (entityManager)
-//	{
-//		auto* owner = entityManager->Find(m_ownerID);
-//
-//		if (auto* target = entityManager->Find(m_targetID))
-//		{
-//
-//			auto currentPosition = owner->GetComponent<TransformComponent>()->CurrentPos;
-//			auto targetPosition = target->GetComponent<TransformComponent>()->CurrentPos;
-//
-//			float distance = currentPosition.DistanceTo(targetPosition);
-//
-//			if (distance <= m_radius)
-//			{
-//			//	// set attacking to true => walking to false?
-//				return eBTNodeStatus::Success;
-//			}
-//		}
-//	}
-//	return eBTNodeStatus::Failure;
-//}
-//
-//void TargetInRangeNode::Clear()
-//{
-//}
-
-eBTNodeStatus CheckEnemyPresenceNode::Execute(Entity* entity)
-{
-	if (entity)
-	{
-		auto* transformComponent = entity->GetComponent<TransformComponent>();
-		auto currentPosition = transformComponent->CurrentPos;
-
-		auto* attributesComponent = entity->GetComponent<AttributesComponent>();
-		int perception = attributesComponent->Perception;
-
-		auto* blackboardComponent = entity->GetComponent<BlackboardComponent>();
-		auto playerPosition = blackboardComponent->PlayerPosition;
-		
-		if (currentPosition.DistanceTo(playerPosition) <= perception * Tile::Size)
-		{
-			blackboardComponent->PointOfInterest = playerPosition;
-			return eBTNodeStatus::Success;
+				if (currentPosition.DistanceTo(targetPosition) < 2.1f)
+				{
+					return eBTNodeStatus::Success;
+				}
+			}
 		}
 	}
 
 	return eBTNodeStatus::Failure;
 }
-
-

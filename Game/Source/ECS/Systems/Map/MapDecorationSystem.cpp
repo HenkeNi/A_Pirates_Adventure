@@ -120,7 +120,7 @@ void MapDecorationSystem::PopulateWithFoilage(const Entity* mapChunk)
 				//transform->m_scale = { 0.75f, 0.75f, 0.75f };														// should be read from json...
 
 				//auto rect = entity->GetComponent<RectComponent>();
-				//rect->m_shader = &Hi_Engine::ResourceHolder<Hi_Engine::Shader>::GetInstance().GetResource("Primitive");
+				//rect->m_shader = &Hi_Engine::ResourceHolder<Hi_Engine::GLSLShader>::GetInstance().GetResource("Primitive");
 
 				// Fix somehow => need to work even if not moving
 				//auto colliderComponent = entity->GetComponent<ColliderComponent>();

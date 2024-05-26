@@ -1,7 +1,7 @@
 #pragma once
-// #include <Core/Application/Application.h>
 #include "ECS/Systems/SystemManager.h"
 #include "Scenes/SceneManager.h"
+#include <../Source/Core/Application/Application.h>
 
 
 class Game : public Hi_Engine::Application

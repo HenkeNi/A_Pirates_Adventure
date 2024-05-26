@@ -4,6 +4,15 @@
 #include "Source/Core/Application/Application.h"
 #include "Source/Core/Engine.h"
 
+//#include "Source/Core/Window/Window.h"
+
+#include "Source/Core/Rendering/Renderer/Renderer.h"
+#include "Source/Core/Input/InputHandler.h"
+#include "Source/Core/Audio/AudioController.h"
+#include "Source/Core/Window/Window.h"
+
+
+
 /* - Service Locator - */
 #include "Source/Core/ServiceLocator/ServiceLocator.h"
 
@@ -12,6 +21,7 @@
 #include "Source/Core/Physics/Primitives/2D/Ray2D.hpp"
 #include "Source/Core/Physics/Primitives/2D/LineSegment2D.hpp"
 #include "Source/Core/Physics/Intersections/Intersection2D.hpp"
+#include "Source/Core/Physics/Intersections/HitResult.h"
 
 /* - Input - */
 #include "Source/Core/Input/InputHandler.h"
@@ -24,6 +34,7 @@
 #include "Source/Core/Rendering/Shader/Shader.h"
 #include "Source/Core/Rendering/Texture/Texture2D.h"
 #include "Source/Core/Rendering/Texture/Subtexture2D.h"
+#include "Source/Core/Rendering/Text/TextTypes.h"
 
 /* - Audio - */
 #include "Source/Core/Audio/Audio.h"

@@ -2,15 +2,15 @@
 #include <cassert>
 #include <initializer_list>
 
-#define DEF_CAP			16
-#define RESIZE_CONST	2
+//#define DEF_CAP			16
+//#define RESIZE_CONST	2
 
 // TODO: move constructor/assignment AND copy assignment?
 // TODO: copy deep function??
 
 namespace Hi_Engine
 {
-	template <class Type, typename SizeType = unsigned, bool useSafeMode = true>
+	template <class Type, typename SizeType = unsigned, SizeType size = 16, SizeType resize = 2, bool useSafeMode = true>
 	class Stack
 	{
 	public:
@@ -44,14 +44,14 @@ namespace Hi_Engine
 
 #pragma region Constructor
 
-	template <class Type, typename SizeType, bool useSafeMode>
-	Stack<Type, SizeType, useSafeMode>::Stack()
-		: m_data{ new Type[DEF_CAP + RESIZE_CONST] }, m_capacity{ DEF_CAP + RESIZE_CONST }, m_top{ 0 }
+	template <class Type, typename SizeType, SizeType size, SizeType resize, bool useSafeMode>
+	Stack<Type, SizeType, size, resize, useSafeMode>::Stack()
+		: m_data{ new Type[size + resize] }, m_capacity{ size + resize }, m_top{ 0 }
 	{
 	}
 
-	template <class Type, typename SizeType, bool useSafeMode>
-	Stack<Type, SizeType, useSafeMode>::Stack(const Stack& stack)
+	template <class Type, typename SizeType, SizeType size, SizeType resize, bool useSafeMode>
+	Stack<Type, SizeType, size, resize, useSafeMode>::Stack(const Stack& stack)
 		: m_data{ new Type[stack.m_capacity] }, m_capacity{ stack.m_capacity }, m_top{ stack.m_top }
 	{
 		assert(&stack != this && "Self assignment detected!");
@@ -67,9 +67,9 @@ namespace Hi_Engine
 		}
 	}
 
-	template <class Type, typename SizeType, bool useSafeMode>
-	Stack<Type, SizeType, useSafeMode>::Stack(const std::initializer_list<Type>& list)
-		: m_data{ new Type[list.size() + RESIZE_CONST] }, m_capacity{ (SizeType)list.size() + RESIZE_CONST }
+	template <class Type, typename SizeType, SizeType size, SizeType resize, bool useSafeMode>
+	Stack<Type, SizeType, size, resize, useSafeMode>::Stack(const std::initializer_list<Type>& list)
+		: m_data{ new Type[list.size() + resize] }, m_capacity{ (SizeType)list.size() + resize }
 	{
 		if (useSafeMode)
 		{
@@ -83,16 +83,16 @@ namespace Hi_Engine
 		}
 	}
 
-	template <class Type, typename SizeType, bool useSafeMode>
-	Stack<Type, SizeType, useSafeMode>::Stack(Stack&& stack) noexcept
+	template <class Type, typename SizeType, SizeType size, SizeType resize, bool useSafeMode>
+	Stack<Type, SizeType, size, resize, useSafeMode>::Stack(Stack&& stack) noexcept
 		: m_data{ stack.m_data }, m_capacity{ stack.m_capacity }, m_top{ stack.m_top }
 	{
 		stack.m_data = nullptr;
 		stack.Clear();
 	}
 
-	template <class Type, typename SizeType, bool useSafeMode>
-	Stack<Type, SizeType, useSafeMode>::~Stack()
+	template <class Type, typename SizeType, SizeType size, SizeType resize, bool useSafeMode>
+	Stack<Type, SizeType, size, resize, useSafeMode>::~Stack()
 	{
 		delete[] m_data;
 	}
@@ -101,8 +101,8 @@ namespace Hi_Engine
 
 #pragma region Operators
 
-	template <class Type, typename SizeType, bool useSafeMode>
-	Stack<Type, SizeType, useSafeMode>& Stack<Type, SizeType, useSafeMode>::operator=(const Stack& stack)
+	template <class Type, typename SizeType, SizeType size, SizeType resize, bool useSafeMode>
+	Stack<Type, SizeType, size, resize, useSafeMode>& Stack<Type, SizeType, size, resize, useSafeMode>::operator=(const Stack& stack)
 	{
 		m_data = new Type[stack.m_capacity];
 		m_capacity = stack.m_capacity;
@@ -121,8 +121,8 @@ namespace Hi_Engine
 		return *this;
 	}
 
-	template <class Type, typename SizeType, bool useSafeMode>
-	Stack<Type, SizeType, useSafeMode>& Stack<Type, SizeType, useSafeMode>::operator=(Stack&& stack) noexcept
+	template <class Type, typename SizeType, SizeType size, SizeType resize, bool useSafeMode>
+	Stack<Type, SizeType, size, resize, useSafeMode>& Stack<Type, SizeType, size, resize, useSafeMode>::operator=(Stack&& stack) noexcept
 	{
 		m_data = stack.m_data;
 		m_capacity = stack.m_capacity;
@@ -138,75 +138,75 @@ namespace Hi_Engine
 
 #pragma region Method_Definitions
 
-	template <class Type, typename SizeType, bool useSafeMode>
-	Type& Stack<Type, SizeType, useSafeMode>::Top()
+	template <class Type, typename SizeType, SizeType size, SizeType resize, bool useSafeMode>
+	Type& Stack<Type, SizeType, size, resize, useSafeMode>::Top()
 	{
 		assert(!IsEmpty() && "Unable get Top an empty stack");
 
 		return m_data[m_top - 1];
 	}
 
-	template <class Type, typename SizeType, bool useSafeMode>
-	const Type& Stack<Type, SizeType, useSafeMode>::Top() const
+	template <class Type, typename SizeType, SizeType size, SizeType resize, bool useSafeMode>
+	const Type& Stack<Type, SizeType, size, resize, useSafeMode>::Top() const
 	{
 		assert(!IsEmpty() && "Unable get Top an empty stack");
 
 		return m_data[m_top - 1];
 	}
 
-	template <class Type, typename SizeType, bool useSafeMode>
+	template <class Type, typename SizeType, SizeType size, SizeType resize, bool useSafeMode>
 	template <typename... Args>
-	void Stack<Type, SizeType, useSafeMode>::Emplace(Args&&... args)
+	void Stack<Type, SizeType, size, resize, useSafeMode>::Emplace(Args&&... args)
 	{
 		if (m_top == m_capacity)
-			Resize(m_capacity + RESIZE_CONST);
+			Resize(m_capacity + resize);
 
 		m_data[m_top++] = Type{ std::forward<Args>(args)... };
 	}
 
-	template <class Type, typename SizeType, bool useSafeMode>
-	void Stack<Type, SizeType, useSafeMode>::Push(const Type& value)
+	template <class Type, typename SizeType, SizeType size, SizeType resize, bool useSafeMode>
+	void Stack<Type, SizeType, size, resize, useSafeMode>::Push(const Type& value)
 	{
 		if (m_top == m_capacity)
-			Resize(m_capacity + RESIZE_CONST);
+			Resize(m_capacity + resize);
 
 		m_data[m_top++] = value;
 	}
 
-	template <class Type, typename SizeType, bool useSafeMode>
-	Type Stack<Type, SizeType, useSafeMode>::Pop()
+	template <class Type, typename SizeType, SizeType size, SizeType resize, bool useSafeMode>
+	Type Stack<Type, SizeType, size, resize, useSafeMode>::Pop()
 	{
 		assert(!IsEmpty() && "Unable Pop an empty stack");
 
 		return m_data[--m_top];
 	}
 
-	template <class Type, typename SizeType, bool useSafeMode>
-	SizeType Stack<Type, SizeType, useSafeMode>::Size() const
+	template <class Type, typename SizeType, SizeType size, SizeType resize, bool useSafeMode>
+	SizeType Stack<Type, SizeType, size, resize, useSafeMode>::Size() const
 	{
 		return m_top;
 	}
 
-	template <class Type, typename SizeType, bool useSafeMode>
-	SizeType Stack<Type, SizeType, useSafeMode>::Capacity() const
+	template <class Type, typename SizeType, SizeType size, SizeType resize, bool useSafeMode>
+	SizeType Stack<Type, SizeType, size, resize, useSafeMode>::Capacity() const
 	{
 		return m_capacity;
 	}
 
-	template <class Type, typename SizeType, bool useSafeMode>
-	bool Stack<Type, SizeType, useSafeMode>::IsEmpty()	const
+	template <class Type, typename SizeType, SizeType size, SizeType resize, bool useSafeMode>
+	bool Stack<Type, SizeType, size, resize, useSafeMode>::IsEmpty()	const
 	{
 		return m_top == 0;
 	}
 
-	template <class Type, typename SizeType, bool useSafeMode>
-	void Stack<Type, SizeType, useSafeMode>::Clear()
+	template <class Type, typename SizeType, SizeType size, SizeType resize, bool useSafeMode>
+	void Stack<Type, SizeType, size, resize, useSafeMode>::Clear()
 	{
 		m_top = 0;
 	}
 
-	template <class Type, typename SizeType, bool useSafeMode>
-	void Stack<Type, SizeType, useSafeMode>::Resize(const SizeType capacity)
+	template <class Type, typename SizeType, SizeType size, SizeType resize, bool useSafeMode>
+	void Stack<Type, SizeType, size, resize, useSafeMode>::Resize(const SizeType capacity)
 	{
 		if (capacity == m_capacity || capacity <= 0)
 			return;

@@ -24,6 +24,7 @@ private:
 	//void UpdateDynamicColliders();
 	// void AdjustColliderPosition(Entity* entity);
 
+	void HandleMapCollisions(std::vector<Entity*>& entities);
 
 
 	// TODO; have a collision grid that gets updated when objects are placed in the world...

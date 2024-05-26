@@ -11,7 +11,7 @@ namespace Hi_Engine
 //	class KeyEvent;
 //	class MouseEvent;
 	class RenderEvent;
-	class RenderSpriteEvent;
+	//class RenderSpriteEvent;
 
 
 	class EntityEvent;
@@ -20,12 +20,12 @@ namespace Hi_Engine
 	{
 	public:
 		virtual void HandleEvent(BaseEvent& event)			{};
-		virtual void HandleEvent(TerminationEvent& event)		{};
-		virtual void HandleEvent(WindowEvent& event)			{};
-		//virtual void HandleEvent(KeyEvent& anEvent)				{};
-		//virtual void HandleEvent(MouseEvent& anEvent)			{};
+		virtual void HandleEvent(TerminationEvent& event)	{};
+		virtual void HandleEvent(WindowEvent& event)		{};
+		//virtual void HandleEvent(KeyEvent& anEvent)		{};
+		//virtual void HandleEvent(MouseEvent& anEvent)		{};
 		virtual void HandleEvent(InputEvent& event)			{};
-		virtual void HandleEvent(RenderEvent& event)			{};
-		virtual void HandleEvent(RenderSpriteEvent& event)	{};
+		virtual void HandleEvent(RenderEvent& event)		{};
+		//virtual void HandleEvent(RenderSpriteEvent& event)	{};
 	};
 }

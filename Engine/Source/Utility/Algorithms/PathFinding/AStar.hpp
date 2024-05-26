@@ -65,7 +65,7 @@ namespace Hi_Engine::Algorithms::AStar
 			return {};
 
 		int cols = gridWidth;
-		int rows = grid.size() / gridWidth;
+		int rows = (int)grid.size() / gridWidth;
 
 		std::vector<AStarNode> nodes;
 		nodes.reserve(grid.size());

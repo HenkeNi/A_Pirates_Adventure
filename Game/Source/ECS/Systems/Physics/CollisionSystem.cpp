@@ -8,6 +8,7 @@
 #include "Components/Map/MapComponents.h"
 //#include <../Engine/Source/Utility/Math/Mathf.hpp>
 
+
 CollisionSystem::CollisionSystem()
 	: System{ 1 }
 {
@@ -308,7 +309,7 @@ void CollisionSystem::LateUpdate(float deltaTime)
 	AlignDynamicColliders(entities);
 
 	HandleEntityCollisions(entities);
-
+	HandleMapCollisions(entities);
 
 	//for (auto& entity : entities)
 	//{
@@ -518,6 +519,15 @@ void CollisionSystem::HandleEntityCollisions(std::vector<Entity*>& entities)
 		}
 	}
 
+}
+
+void CollisionSystem::HandleMapCollisions(std::vector<Entity*>& entities)
+{
+	for (auto& entity : entities)
+	{
+
+
+	}
 }
 
 //Entity* CollisionSystem::GetMapChunkContainingEntity(const Entity* entity)

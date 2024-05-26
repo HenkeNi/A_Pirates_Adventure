@@ -1,7 +1,10 @@
 #pragma once
+#include "../Events/Compare/EventCompare.h"
+#include "../Events/Base/Event.h"
 
 // TODO: replace array with Binary Search Tree Set or AVL or SPlay Tree? or map
 // TODO; check if sorting after importance works?
+#include <queue>
 
 // Todo: rename EventSystem?? or MessageSystem??
 namespace Hi_Engine
@@ -9,7 +12,7 @@ namespace Hi_Engine
 	class BaseEvent;
 	class EventListener;
 
-	struct EventCompare;
+	//struct EventCompare;
 
 	class Dispatcher
 	{

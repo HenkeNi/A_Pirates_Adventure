@@ -5,33 +5,33 @@
 
 namespace Hi_Engine
 {
-    Shader::Shader()
+    GLSLShader::GLSLShader()
         : m_id{ 0 }
     {
     }
 
-    Shader::~Shader()
+    GLSLShader::~GLSLShader()
     {
         glDeleteProgram(m_id);
     }
 
-    const Shader& Shader::Activate() const
+    const GLSLShader& GLSLShader::Activate() const
     {
         glUseProgram(m_id);
         return *this;
     }
 
-    void Shader::Init(const char* vSource, const char* fSource, const char* gSource)
+    void GLSLShader::Init(const char* vSource, const char* fSource, const char* gSource)
     {
-        /* Create Vertex Shader */
+        /* Create Vertex GLSLShader */
         unsigned vertexShader = CreateShader(GL_VERTEX_SHADER, vSource);
         CheckCompileErrors(vertexShader, "VERTEX");
 
-        /* Create Fragment Shader */
+        /* Create Fragment GLSLShader */
         unsigned fragmentShader = CreateShader(GL_FRAGMENT_SHADER, fSource);
         CheckCompileErrors(fragmentShader, "FRAGMENT");
 
-        /* Create Geometry Shader */
+        /* Create Geometry GLSLShader */
         unsigned geometryShader;
         if (gSource)
         {
@@ -58,47 +58,47 @@ namespace Hi_Engine
             glDeleteShader(geometryShader);
     }
 
-    void Shader::SetBool(const std::string& name, bool value) const
+    void GLSLShader::SetBool(const std::string& name, bool value) const
     {
         glUniform1i(glGetUniformLocation(m_id, name.c_str()), (int)value);
     }
 
-    void Shader::SetInt(const std::string& name, int value) const
+    void GLSLShader::SetInt(const std::string& name, int value) const
     {
         glUniform1i(glGetUniformLocation(m_id, name.c_str()), value);
     }
 
-    void Shader::SetFloat(const std::string& name, float value) const
+    void GLSLShader::SetFloat(const std::string& name, float value) const
     {
         glUniform1f(glGetUniformLocation(m_id, name.c_str()), value);
     }
 
-    void Shader::SetIntArray(const std::string& name, int* values, int count) const
+    void GLSLShader::SetIntArray(const std::string& name, int* values, int count) const
     {
         glUniform1iv(glGetUniformLocation(m_id, name.c_str()), count, values);
     }
 
-    void Shader::SetVector2f(const std::string& name, const FVector2& value) const
+    void GLSLShader::SetVector2f(const std::string& name, const FVector2& value) const
     {
         glUniform2f(glGetUniformLocation(m_id, name.c_str()), value.x, value.y);
     }
 
-    void Shader::SetVector3f(const std::string& name, const FVector3& value) const
+    void GLSLShader::SetVector3f(const std::string& name, const FVector3& value) const
     {
         glUniform3f(glGetUniformLocation(m_id, name.c_str()), value.x, value.y, value.z);
     }
 
-    void Shader::SetVector4f(const std::string& name, const FVector4& value) const
+    void GLSLShader::SetVector4f(const std::string& name, const FVector4& value) const
     {
         glUniform4f(glGetUniformLocation(m_id, name.c_str()), value.x, value.y, value.z, value.w);
     }
 
-    void Shader::SetMatrix4(const std::string& name, const glm::mat4& matrix) const
+    void GLSLShader::SetMatrix4(const std::string& name, const glm::mat4& matrix) const
     {
         glUniformMatrix4fv(glGetUniformLocation(m_id, name.c_str()), 1, false, glm::value_ptr(matrix));
     }
 
-    int Shader::CreateShader(GLenum shaderType, const char* source)
+    int GLSLShader::CreateShader(GLenum shaderType, const char* source)
     {
         unsigned shader = glCreateShader(shaderType);
         glShaderSource(shader, 1, &source, nullptr);
@@ -107,7 +107,7 @@ namespace Hi_Engine
         return shader;
     }
 
-    void Shader::CheckCompileErrors(unsigned object, const std::string& type)
+    void GLSLShader::CheckCompileErrors(unsigned object, const std::string& type)
     {
         int		success;
         char	infoLog[1024];

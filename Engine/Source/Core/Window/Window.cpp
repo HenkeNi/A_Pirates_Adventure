@@ -7,6 +7,7 @@ namespace Hi_Engine
 {
 	void FrameBufferSizeCallback(GLFWwindow* window, int width, int height);
 	void WindowFocusCallback(GLFWwindow* window, int focused);
+	void WindowCloseCallback(GLFWwindow* window);
 
 
 	Window::Window()
@@ -19,21 +20,21 @@ namespace Hi_Engine
 		glfwTerminate();
 	}
 
-	bool Window::Init(WindowData data)
+	bool Window::Init(IVector2 size, const std::string& name)
 	{
 		if (!glfwInit())
 			return false;
 
-		m_window = CreateWindow(data.Size, data.WindowName);
+		m_window = CreateWindow(size, name);
 		
 		if (!m_window)
 			return false;
 
-		m_size = data.Size;
+		m_size = size;
 
 		glfwSwapInterval(0); // turns off V-sync
 		glViewport(0, 0, m_size.x, m_size.y);
-		SetIcon(data.IconPath);
+		//
 
 		return true;
 	}
@@ -109,13 +110,15 @@ namespace Hi_Engine
 
 #ifdef __APPLE__
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-#endif // __APPLE__
+#endif
 
 		if (auto* window = glfwCreateWindow(size.x, size.y, title.c_str(), nullptr, nullptr))
 		{
 			glfwMakeContextCurrent(window);
 			glfwSetFramebufferSizeCallback(window, FrameBufferSizeCallback);
 			glfwSetWindowFocusCallback(window, WindowFocusCallback);
+			glfwSetWindowCloseCallback(window, WindowCloseCallback);
+
 			return window;
 		}
 
@@ -135,6 +138,11 @@ namespace Hi_Engine
 		//assert(false && "Not implemtend");
 
 		//Dispatcher::GetInstance().SendEvent(Event{ aFocused ? eEventType::WindowGainedFocus : eEventType::WindowLostFocus, nullptr });
+	}
+
+	void WindowCloseCallback(GLFWwindow* window)
+	{
+		Dispatcher::GetInstance().SendEventInstantly(new TerminationEvent);
 	}
 
 #pragma endregion CALLBACK_FUNCTIONS

@@ -3,6 +3,7 @@
 namespace Hi_Engine
 {
 	class AudioController;
+	class Window;
 	
 	class ServiceLocator
 	{
@@ -15,5 +16,6 @@ namespace Hi_Engine
 
 	private:
 		static AudioController* s_audioController;
+		static Window* s_window;
 	};
 }

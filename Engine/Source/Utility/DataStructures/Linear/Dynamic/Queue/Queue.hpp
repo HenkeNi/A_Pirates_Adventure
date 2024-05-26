@@ -2,8 +2,11 @@
 #include <cassert>
 #include <initializer_list>
 
-#define DEF_CAP			6
-#define RESIZE_CONST	2
+//#define DEF_CAP			6
+//#define RESIZE_CONST	2
+
+//constexpr int DEF_CAP = 2; // what does this do?
+//constexpr int RESIZE_CONST = 2; // what does this do?
 
 // TODO; maybe used memcpy??
 // TODO; fix Resize working with smaller size than current...
@@ -45,13 +48,16 @@ namespace Hi_Engine
 		Type*			m_data;
 		SizeType		m_capacity, m_size;
 		int				m_frontIndex, m_backIndex;
+		
+		int m_numberOfElementsToGrow = 2;
+		int m_originalSize = 2; // default capacity
 	};
 
 #pragma region Constructor
 
 	template <class Type, typename SizeType>
 	Queue<Type, SizeType>::Queue()
-		: m_data{ new Type[DEF_CAP] }, m_capacity{ DEF_CAP }, m_size{ 0 }
+		: m_data{ new Type[m_originalSize] }, m_capacity{ m_originalSize }, m_size{ 0 }
 	{
 		m_frontIndex = m_backIndex = -1;
 	}
@@ -152,7 +158,7 @@ namespace Hi_Engine
 	{
 		if (IsFull())
 		{
-			Resize(m_capacity + RESIZE_CONST);
+			Resize(m_capacity + m_numberOfElementsToGrow);
 		}
 		else if (IsEmpty())
 		{

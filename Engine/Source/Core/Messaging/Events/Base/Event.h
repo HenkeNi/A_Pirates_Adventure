@@ -1,6 +1,9 @@
 #pragma once
-#include "../Utility/DataStructures/Linear/Static/MemoryPool/MemoryPool.hpp"
-#include "../Data/Enumerations.h"
+#include "../../../../Utility/DataStructures/Linear/Static/MemoryPool/MemoryPool.hpp"
+//#include "Utility/DataStructures/Linear/Static/MemoryPool/MemoryPool.hpp"
+//#include "../Utility/DataStructures/Linear/Static/MemoryPool/MemoryPool.hpp"
+//#include "../Data/Enumerations.h"
+#include "../../../../Data/Enumerations.h"
 
 namespace Hi_Engine
 {
@@ -14,14 +17,14 @@ namespace Hi_Engine
 		virtual void		Dispatch(EventListener& listener)		  = 0;
 		virtual ePriority	GetPriority()						const = 0;
 		virtual bool		IsHandled()							const = 0; // used for what?
-		virtual void		Reset()									  = 0; // not pure virtual?
+		virtual void		Reset()									   {}; // not pure virtual?
 	};
 
 	template <typename Derived>
 	class Event : public BaseEvent
 	{
 	public:
-		Event(ePriority priority = ePriority::Moderate);
+		Event(ePriority priority);
 		~Event();
 
 		void*			operator new (size_t size);
@@ -37,6 +40,7 @@ namespace Hi_Engine
 		ePriority		m_priority;
 		bool			m_isHandled;
 	};
+
 
 #pragma region Constructors
 

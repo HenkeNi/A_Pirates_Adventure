@@ -8,6 +8,7 @@
 namespace Hi_Engine
 {
 	RenderEvent::RenderEvent()
+		: Event{ ePriority::Moderate }
 	{
 	}
 
@@ -18,10 +19,6 @@ namespace Hi_Engine
 	void RenderEvent::Dispatch(EventListener& listener)
 	{
 		listener.HandleEvent(*this);
-	}
-
-	void RenderEvent::Reset()						
-	{
 	}
 
 	void RenderEvent::Init(const std::queue<RenderCommand>& commands)

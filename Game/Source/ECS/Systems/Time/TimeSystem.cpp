@@ -65,8 +65,8 @@ FVector4 TimeSystem::CalculateDaylightColor(Entity* worldTimeEntity)
 		if (auto* worldTimeComponent = worldTimeEntity->GetComponent<WorldTimeComponent>())
 		{
 			float progress = worldTimeComponent->CurrentDayProgress;
-			return Hi_Engine::Lerp(daylights.at(eTimeOfDay::Day), daylights.at(eTimeOfDay::Night), progress);
-
+			//return Hi_Engine::Lerp(daylights.at(eTimeOfDay::Day), daylights.at(eTimeOfDay::Night), progress);
+			return { 1.f, 1.f, 1.f, 1.f };
 		}
 	}
 

@@ -3,7 +3,7 @@
 #include "Entities/EntityManager.h"
 #include "Components/Core/CoreComponents.h"
 
-FVector2 ConvertMousePositionToWorldPosition(const glm::vec2& mousePos, int windowWidth, int windowHeight, const glm::mat4& viewProjectionMatrix);
+FVector2 ConvertMousePositionToWorldPosition(const FVector2& mousePos, int windowWidth, int windowHeight, const glm::mat4& viewProjectionMatrix);
 
 InputSystem::InputSystem()
 {
@@ -54,7 +54,7 @@ void InputSystem::Update(float deltaTime)
 	}
 }
 
-FVector2 ConvertMousePositionToWorldPosition(const glm::vec2& mousePos, int windowWidth, int windowHeight, const glm::mat4& viewProjectionMatrix)
+FVector2 ConvertMousePositionToWorldPosition(const FVector2& mousePos, int windowWidth, int windowHeight, const glm::mat4& viewProjectionMatrix)
 {
 	// Convert mouse coordinates to NDC
 	float ndcX = (2.0f * mousePos.x) / windowWidth - 1.0f;

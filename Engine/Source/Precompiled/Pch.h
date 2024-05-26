@@ -34,9 +34,9 @@
 
 /* - Event system - */
 #include "Messaging/Dispatcher/Dispatcher.h"
+#include "Messaging/Listener/EventListener.h"
 #include "Messaging/Events/RenderEvents/RenderEvents.h"
 #include "Messaging/Events/SystemEvents/SystemEvents.h"
-#include "Messaging/Listener/EventListener.h"
 
 /* - Math - */
 #include "../Utility/Math/Vectors/Vector.hpp"

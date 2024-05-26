@@ -1,5 +1,6 @@
-	 #pragma once
+#pragma once
 #include "Base/System.h"
+#include <../Source/Utility/DataStructures/Linear/Dynamic/Stack/Stack.hpp>
 
 namespace ECS
 {
