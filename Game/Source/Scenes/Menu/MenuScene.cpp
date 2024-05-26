@@ -34,7 +34,7 @@ void MenuScene::OnEnter()
 	m_entityManager.GetFactory().LoadBlueprints("../Game/Assets/Json/Blueprints/blueprint_manifest.json"); // load differnet blueprints depding on scene? OR read scene specific entities
 
 	auto& sound = Hi_Engine::ResourceHolder<Hi_Engine::AudioSource>::GetInstance().GetResource("theme_song"); // TODO; read from json...
-	Hi_Engine::ServiceLocator::GetAudioController()->PlaySound(sound);
+	//Hi_Engine::ServiceLocator::GetAudioController().lock()->PlaySound(sound);
 }
 
 void MenuScene::OnExit()
@@ -42,5 +42,5 @@ void MenuScene::OnExit()
 	m_entityManager.DestroyAll();
 
 	auto& sound = Hi_Engine::ResourceHolder<Hi_Engine::AudioSource>::GetInstance().GetResource("theme_song");
-	Hi_Engine::ServiceLocator::GetAudioController()->StopSound(sound);
+	//Hi_Engine::ServiceLocator::GetAudioController().lock()->StopSound(sound);
 }

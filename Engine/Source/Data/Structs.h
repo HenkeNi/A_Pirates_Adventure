@@ -5,12 +5,9 @@
 //#include "../Core/Rendering/Texture/Texture2D.h"
 #include <../../ThirdParty/glm/glm.hpp>
 #include <array>
-//#include <functional>
 #include <string>
 #include <vector>
 
-
-// Todo; change naming convention for structs?? Position rather than m_position?
 
 namespace Hi_Engine
 {
@@ -58,16 +55,6 @@ namespace Hi_Engine
 
 #pragma region Camera_Structs
 
-	// TODO: Remove?!
-	/*struct CameraMatrices
-	{
-		glm::mat4 View{ 1.f };
-		glm::mat4 Projection;
-		glm::mat4 ProjectionView;
-	};
-	*/
-
-
 
 	// Remove later? or using for vec4 together with color?
 	struct Rect
@@ -80,14 +67,6 @@ namespace Hi_Engine
 
 #pragma endregion Camera_Structs
 
-
-#pragma region Window_Structs
-	
-
-
-#pragma endregion Window_Structs
-
-
 #pragma region Rendering_Structs
 
 	struct Vertex	
@@ -99,20 +78,7 @@ namespace Hi_Engine
 		//GLint		TexIndex;
 	};
 
-	struct Text
-	{
-		glm::vec2	Position;
-		glm::vec4	Color;
-		glm::vec2	TexCoords;
-	};
 
-	struct Character
-	{
-		std::string		m_textureID;
-		glm::ivec2		Size = { 0, 0 };       // Size of glyph
-		glm::ivec2		m_bearing = { 0, 0 };    // Offset from baseline to left/top of glyph
-		unsigned int	m_advance = 0;    // Offset to advance to next glyph
-	};
 
 	struct SpriteRenderData
 	{
@@ -152,17 +118,6 @@ namespace Hi_Engine
 	// Rename TextRenderProperties?
 
 	
-	//struct PrimitiveRenderData
-	//{
-	//	CU::Vector4<float>	m_color;
-	//	// class GLSLShader*		m_shader;
-	//	glm::vec3			Position;
-	//	glm::vec2			Scale;
-	//	float				Rotation;
-	//};
-
-
-
 
 	struct RenderContext
 	{

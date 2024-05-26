@@ -1,11 +1,12 @@
 #include "Pch.h"
 #include "Engine.h"
 #include "Application/Application.h"
+#include <GLFW/glfw3.h> 
 
 #include "Resources/ResourceHolder.hpp"
 //#include "Messaging/Dispatcher/Dispatcher.h"
 #include "../Utility/Time/Timer.h"
-#include "Rendering/Renderer/TextRenderer/TextRenderer.h"
+#include "Rendering/Text/Renderer/TextRenderer.h"
 #include "ServiceLocator/ServiceLocator.h"
 #include "Utility/UtilityFunctions.hpp"
 #include "Rendering/Renderer/Renderer.h"
@@ -19,11 +20,7 @@ namespace Hi_Engine
 		: m_application{ app }, m_isRunning{ false }
 	{
 		Dispatcher::GetInstance().Subscribe(this);
-
-		m_inputHandler = std::make_unique<InputHandler>();
-		m_renderer = std::make_unique<Renderer>();;
-		m_window = std::make_unique<Window>();
-		m_audioController = std::make_unique<AudioController>();
+		RegisterModules();
 	}
 
 	Engine::~Engine()
@@ -46,7 +43,19 @@ namespace Hi_Engine
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_BLEND);
 
-		m_inputHandler->Init(m_window->m_window);
+		
+		auto audioController = m_moduleManager.GetModule<AudioController>();
+		auto renderer = m_moduleManager.GetModule<Renderer>();
+		auto window = m_moduleManager.GetModule<Window>();
+		auto inputHandler = m_moduleManager.GetModule<InputHandler>();
+			
+		audioController.lock()->Init();
+		inputHandler.lock()->Init(window.lock()->m_window);
+		renderer.lock()->Init();
+
+
+
+		//m_inputHandler->Init(m_window->m_window);
 
 		//m_window.SetIcon("../Game/Assets/Textures/Icons/pirate_flag_icon.png"); // TODO: read from windows file
 
@@ -54,19 +63,20 @@ namespace Hi_Engine
 		TextRenderer::GetInstance().Init();
 
 		// TEMP
-		m_renderer->Init();
+		//m_renderer->Init();
 		//m_renderer.SetRenderTarget(&m_window);
 
-		m_audioController->Init();
+		//m_audioController->Init();
 
 		m_application->OnCreate(); 
 
 
 		// Load default resources 
-		m_renderer->SetShader(&ResourceHolder<GLSLShader>::GetInstance().GetResource("sprite_batch")); // Rename default_sprite_bact
+		renderer.lock()->SetShader(&ResourceHolder<GLSLShader>::GetInstance().GetResource("sprite_batch")); // Rename default_sprite_bact
+		//m_renderer->SetShader(&ResourceHolder<GLSLShader>::GetInstance().GetResource("sprite_batch")); // Rename default_sprite_bact
 
 		
-		ServiceLocator::Register(m_audioController.get()); // FIX!
+		//ServiceLocator::Register(audioController); // FIX!
 		//ServiceLocator::Register(&m_audioController);
 		
 		return (m_isRunning = true);
@@ -80,11 +90,18 @@ namespace Hi_Engine
 			delete m_application;
 		}
 
-		m_window->Shutdown();
-		m_renderer->Shutdown();
+		// shutdown module manager
+		m_moduleManager.GetModule<Window>().lock()->Shutdown();
+		m_moduleManager.GetModule<AudioController>().lock()->Shutdown();
+		m_moduleManager.GetModule<Renderer>().lock()->Shutdown();
+		auto inputHandler = m_moduleManager.GetModule<InputHandler>();
+
+
+		//m_window->Shutdown();
+		//m_renderer->Shutdown();
 		TextRenderer::GetInstance().Shutdown();
 
-		m_audioController->Shutdown();
+		//m_audioController->Shutdown();
 	}
 
 	void Engine::Run()
@@ -92,31 +109,44 @@ namespace Hi_Engine
 		assert(m_application && "Failed to launch application");
 		Timer& timer = GetTimer();
 		//Timer timer;
+		
+		auto inputHandler = m_moduleManager.GetModule<InputHandler>().lock();
+		auto renderer = m_moduleManager.GetModule<Renderer>().lock();
+		auto window = m_moduleManager.GetModule<Window>().lock();
 
 		while (m_isRunning)	// Todo, use enum for GameState instead? !GameState::EXIT or call function in Application? ShouldRun()?
 		{
-
  			timer.Update();
 			const float deltaTime = timer.GetDeltaTime();
 
 			Dispatcher::GetInstance().DispatchEvents();
 
 			/* - Process input - */
-			m_window->PollEvents();					
-			m_inputHandler->ProcessInput();
+			if (inputHandler)
+				inputHandler->ProcessInput();
 
 			/* - Update - */
 			m_application->OnUpdate(deltaTime);
 			m_application->OnLateUpdate(deltaTime);
 
+			/* - Clear screen - */
+			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // put in renderer
+
 			/* - Render - */
-			m_window->ClearScreen();
 			m_application->OnDraw();
-			m_renderer->ProcessCommands(); // NEEDED? Or render when event directly? Maybe wont work when multithreading?
-			m_window->SwapBuffers();
+
+			if (renderer)
+				renderer->ProcessCommands();
+
+			if (window)
+				glfwSwapBuffers(window->m_window); // window swap buffers
+
+			if (inputHandler)
+				inputHandler->Reset();
 			
-			m_inputHandler->Reset(); // OR Force user to listen to scroll event??
-			m_window->SetTitle("Fps: " + std::to_string((int)timer.GetAverageFPS())); // TODO; Get Draw calls...
+			if (window)
+				window->SetTitle("Fps: " + std::to_string((int)timer.GetAverageFPS())); // TODO; Get Draw calls...
 		}
 	}
 		
@@ -124,6 +154,14 @@ namespace Hi_Engine
 	{
 		static Timer timer;
 		return timer;
+	}
+
+	void Engine::RegisterModules()
+	{
+		m_moduleManager.RegisterModule<InputHandler>();
+		m_moduleManager.RegisterModule<Renderer>();
+		m_moduleManager.RegisterModule<Window>();
+		m_moduleManager.RegisterModule<AudioController>();
 	}
 
 	bool Engine::CreateWindow() // FIX?!
@@ -140,19 +178,12 @@ namespace Hi_Engine
 		std::string iconPath = std::any_cast<std::string>(values.at("icon_path"));
 		IVector2 windowSize = { std::any_cast<int>(size.at("width")), std::any_cast<int>(size.at("height")) };
 		
-		if (m_window->Init(windowSize, windowName))
+		if (m_moduleManager.GetModule<Window>().lock()->Init(windowSize, windowName))
 		{
-			m_window->SetIcon(iconPath);
+			m_moduleManager.GetModule<Window>().lock()->SetIcon(iconPath);
 			success = true;
 		}
 
 		return success;
 	}
-
-	//void Engine::ConfigureRenderStates()
-	//{
-	//	glEnable(GL_DEPTH_TEST);
-	//	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);			
-	//	glEnable(GL_BLEND);
-	//}
 }

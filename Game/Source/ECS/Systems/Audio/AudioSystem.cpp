@@ -35,7 +35,7 @@ void AudioSystem::Receive(Message& message)
 		if (audioComponent->AudioTriggers.contains(type))
 		{
 			auto& audio = audioComponent->AudioTriggers.at(type);
-			Hi_Engine::ServiceLocator::GetAudioController()->PlaySound(audio);
+			//Hi_Engine::ServiceLocator::GetAudioController().lock()->PlaySound(audio);
 		}
 
 		//Hi_Engine::ServiceLocator::GetAudioController()->PlaySound(audioComponent->Audio);

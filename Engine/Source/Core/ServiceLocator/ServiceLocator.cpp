@@ -4,17 +4,17 @@
 
 namespace Hi_Engine
 {
-	AudioController* ServiceLocator::s_audioController = nullptr;
+	//// std::weak_ptr<AudioController> ServiceLocator::s_audioController = nullptr;
 
-	AudioController* ServiceLocator::GetAudioController()
-	{
-		return s_audioController;
-	}
+	//std::weak_ptr<AudioController> ServiceLocator::GetAudioController()
+	//{
+	//	return s_audioController;
+	//}
 
-	void ServiceLocator::Register(AudioController* controller)
-	{
-		s_audioController = controller;
-	}
+	//void ServiceLocator::Register(std::weak_ptr<AudioController> controller)
+	//{
+	//	s_audioController = controller;
+	//}
 
 
 }

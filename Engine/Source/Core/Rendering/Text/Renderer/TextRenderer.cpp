@@ -3,7 +3,7 @@
 #include "../Data/Structs.h"
 #include "../../Shader/Shader.h"
 #include "../../Texture/Texture2D.h" // TODO; remove---
-#include "../../Font/Font.h"
+#include "../../Text/Font/Font.h"
 #include "Resources/ResourceHolder.hpp"
 #include "../../Text/TextTypes.h"
 

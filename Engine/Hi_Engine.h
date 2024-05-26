@@ -28,9 +28,9 @@
 
 /* - Rendering - */
 #include "Source/Core/Rendering/Camera/Camera.h"
-#include "Source/Core/Rendering/Renderer/TextRenderer/TextRenderer.h"
+#include "Source/Core/Rendering/Text/Renderer/TextRenderer.h"
 #include "Source/Core/Rendering/Material/Material.h"
-#include "Source/Core/Rendering/Font/Font.h"
+#include "Source/Core/Rendering/Text/Font/Font.h"
 #include "Source/Core/Rendering/Shader/Shader.h"
 #include "Source/Core/Rendering/Texture/Texture2D.h"
 #include "Source/Core/Rendering/Texture/Subtexture2D.h"

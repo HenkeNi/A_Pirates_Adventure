@@ -412,7 +412,7 @@ namespace Hi_Engine
 		}
 		return false;
 	}
-
+ 
 	void Renderer::DisplayQuads()
 	{
 		

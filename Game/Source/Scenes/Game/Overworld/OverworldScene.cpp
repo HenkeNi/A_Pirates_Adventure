@@ -39,7 +39,7 @@ void OverworldScene::OnEnter()
 	m_entityManager.GetFactory().LoadBlueprints("../Game/Assets/Json/Blueprints/blueprint_manifest.json");
 
 	auto& sound = Hi_Engine::ResourceHolder<Hi_Engine::AudioSource>::GetInstance().GetResource("ocean_ambience"); // TODO; read from json...
-	Hi_Engine::ServiceLocator::GetAudioController()->PlaySound(sound);
+	//Hi_Engine::ServiceLocator::GetAudioController().lock()->PlaySound(sound);
 
 
 	auto* cursor = m_entityManager.Create("mouse_cursor");
@@ -92,5 +92,5 @@ void OverworldScene::OnEnter()
 void OverworldScene::OnExit()
 {
 	auto& sound = Hi_Engine::ResourceHolder<Hi_Engine::AudioSource>::GetInstance().GetResource("ocean_ambience"); // TODO; read from json...
-	Hi_Engine::ServiceLocator::GetAudioController()->StopSound(sound);
+	//Hi_Engine::ServiceLocator::GetAudioController().lock()->StopSound(sound);
 }

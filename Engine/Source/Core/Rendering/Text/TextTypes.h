@@ -21,4 +21,11 @@ namespace Hi_Engine
 		std::string			Text;
 		eTextAlginment		Alignment;
 	};
+
+	struct Text
+	{
+		glm::vec2	Position;
+		glm::vec4	Color;
+		glm::vec2	TexCoords;
+	};
 }

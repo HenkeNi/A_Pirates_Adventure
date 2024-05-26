@@ -56,18 +56,7 @@ namespace Hi_Engine
 	{
 		return m_size;
 	}
-
-	void Window::PollEvents() const
-	{
-		glfwPollEvents();
-	}
-
-	void Window::ClearScreen() const
-	{
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	}
-
+	
 	void Window::SwapBuffers() const
 	{
 		glfwSwapBuffers(m_window);

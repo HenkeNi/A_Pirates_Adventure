@@ -30,7 +30,6 @@ namespace Hi_Engine
 		glfwSetScrollCallback(window, InputHandler::MouseScrollCallback);
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
-
 		//static GLFWimage image;
 		//image.width *= 10;
 		//image.height *= 10;
@@ -43,6 +42,8 @@ namespace Hi_Engine
 
 	void InputHandler::ProcessInput()
 	{
+		glfwPollEvents();
+
 		// TODO: save previous frame's key status?!
 		InputEvent* inputEvent			= new InputEvent;  // TODO: wrap in a class?!
 		inputEvent->m_keyStates			= s_keyStates;

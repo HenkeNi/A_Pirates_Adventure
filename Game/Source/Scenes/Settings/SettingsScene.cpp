@@ -35,7 +35,7 @@ void SettingsScene::OnEnter()
 
 	// Todo; PlaySound(sound identifier in resourceholder)
 	auto& sound = Hi_Engine::ResourceHolder<Hi_Engine::AudioSource>::GetInstance().GetResource("night_ambience"); // TODO; read from json...
-	Hi_Engine::ServiceLocator::GetAudioController()->PlaySound(sound);
+	//Hi_Engine::ServiceLocator::GetAudioController().lock()->PlaySound(sound);
 }
 
 void SettingsScene::OnExit()
@@ -43,5 +43,5 @@ void SettingsScene::OnExit()
 	m_entityManager.DestroyAll();
 
 	auto& sound = Hi_Engine::ResourceHolder<Hi_Engine::AudioSource>::GetInstance().GetResource("night_ambience");
-	Hi_Engine::ServiceLocator::GetAudioController()->StopSound(sound);
+	//Hi_Engine::ServiceLocator::GetAudioController().lock()->StopSound(sound);
 }

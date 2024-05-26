@@ -1,4 +1,5 @@
 #pragma once
+#include "../Modules/Base/Module.h"
 
 namespace irrklang
 {
@@ -11,7 +12,7 @@ namespace Hi_Engine
 	class Audio;
 	class AudioSource;
 
-	class AudioController // audio manager? No need for a controller? let ikrlang ive in engine?
+	class AudioController : public Module // audio manager? No need for a controller? let ikrlang ive in engine?
 	{
 	public:
 		AudioController();

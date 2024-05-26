@@ -1,4 +1,5 @@
 #pragma once
+#include "../../Modules/Base/Module.h"
 #include "../../../Data/Structs.h"
 #include "../../../Data/Constants.h"
 #include "../../Messaging/Listener/EventListener.h"
@@ -17,7 +18,7 @@ namespace Hi_Engine
 
 	//class EventListener;
 
-	class Renderer : public EventListener
+	class Renderer : public EventListener, public Module
 	{
 	public:
 		Renderer();

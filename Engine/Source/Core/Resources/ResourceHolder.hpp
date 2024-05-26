@@ -3,7 +3,7 @@
 #include "../Rendering/Texture/Texture2D.h"
 #include "../Rendering/Texture/Subtexture2D.h"
 #include "../Audio/AudioSource.h"
-#include "../Rendering/Font/Font.h"
+#include "../Rendering/Text/Font/Font.h"
 #include <../../ThirdParty/rapidjson/document.h>
 #include <../../ThirdParty/stb_image/stb_image.h>
 #include <memory>

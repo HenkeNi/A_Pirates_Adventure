@@ -1,4 +1,5 @@
 #pragma once
+#include "../Modules/Base/Module.h"
 
 struct GLFWwindow;
 
@@ -6,7 +7,7 @@ namespace Hi_Engine
 {
 	class Engine;
 
-	class Window
+	class Window : public Module
 	{
 	public:
 		Window();
@@ -17,8 +18,6 @@ namespace Hi_Engine
 
 		const IVector2& GetSize()									const;
 		bool			IsOpen()									const;
-		void			PollEvents()								const;
-		void			ClearScreen()								const;
 		void			SwapBuffers()								const;
 		void			Close();
 
