@@ -12,19 +12,28 @@ namespace Hi_Engine
 	class Audio;
 	class AudioSource;
 
-	class AudioController : public Module // audio manager? No need for a controller? let ikrlang ive in engine?
+	class AudioController : public Module, public EventListener // audio manager? No need for a controller? let ikrlang ive in engine?
 	{
 	public:
 		AudioController();
+		~AudioController();
 
-		void Init();
-		void Shutdown();
+		bool Init() override;
+		void Shutdown() override;
 
 		void Update();
 
+		void HandleEvent(class PlaySoundEvent& event) override;
+		void HandleEvent(class StopSoundEvent& event) override;
+		
+		void PlaySound(const std::string& name);
+		void PlaySound(const AudioSource& source);
+		void PlaySound(Audio& audio);
+
+		void StopSound(const std::string& name);
+		
 		// PlaySoundEffect()?
 		
-		void PlaySound(Audio& audio);
 		void StopSound(Audio& audio);
 
 
@@ -32,7 +41,6 @@ namespace Hi_Engine
 
 		//void PlaySound(const std::string& path);
 
-		void PlaySound(const AudioSource& source);
 		void StopSound(const AudioSource& source); // Rename stop all sounds of type?
 
 		//void PlaySound(const AudioSource& source, irrklang::ISound* sound);

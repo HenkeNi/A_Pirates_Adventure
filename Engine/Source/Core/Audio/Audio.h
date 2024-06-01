@@ -17,7 +17,7 @@ namespace Hi_Engine
 
 		void Init(AudioSource* source);
 
-		bool Play(irrklang::ISoundEngine* engine);
+		bool Play(irrklang::ISoundEngine* engine); // remove??
 		void Stop();
 		// const AudioSource& GetSource() const;
 

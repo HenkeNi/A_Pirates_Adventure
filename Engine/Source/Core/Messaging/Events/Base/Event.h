@@ -37,7 +37,7 @@ namespace Hi_Engine
 	protected:
 		friend struct	EventCompare;
 
-		ePriority		m_priority;
+		ePriority		m_priority; // priority should be passed when message is sent. not deafult?!
 		bool			m_isHandled;
 	};
 

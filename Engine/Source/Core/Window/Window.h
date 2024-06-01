@@ -13,8 +13,12 @@ namespace Hi_Engine
 		Window();
 		~Window();
 
-		bool			Init(IVector2 size, const std::string& name);
-		void			Shutdown();
+
+
+		//bool			Init(IVector2 size, const std::string& name);
+		bool			Init()									  override;
+		void			Shutdown()								  override;
+		void			Deserialize(const rapidjson::Value& json) override;
 
 		const IVector2& GetSize()									const;
 		bool			IsOpen()									const;

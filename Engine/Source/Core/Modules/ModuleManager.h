@@ -8,8 +8,10 @@ namespace Hi_Engine
 	class ModuleManager
 	{
 	public:
-		void Init();
+		bool Init();
 		void Shutdown();
+		
+		void LoadModules();
 
 		template <typename T, typename... Args>
 		void RegisterModule(Args&&... args);
@@ -17,15 +19,15 @@ namespace Hi_Engine
 		template <typename T>
 		void AddModule(const std::shared_ptr<T>& module);
 
+
 		template <typename T>
-		std::weak_ptr<T> GetModule(); //return weakpointer?
+		std::weak_ptr<T> GetModule();
 
 	private:
 		std::unordered_map<std::type_index, std::shared_ptr<Module>> m_modules;
-
 	};
 
-	#pragma region Method_Definitions
+#pragma region Method_Definitions
 
 	template <typename T, typename... Args>
 	inline void ModuleManager::RegisterModule(Args&&... args)
@@ -55,5 +57,5 @@ namespace Hi_Engine
 		return std::weak_ptr<T>();
 	}
 
-	#pragma endregion Method_Definitions
+#pragma endregion Method_Definitions
 }

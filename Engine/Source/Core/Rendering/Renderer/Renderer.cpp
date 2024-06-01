@@ -7,6 +7,7 @@
 #include "../Camera/Camera.h" // TEMP..
 #include "../Shader/Shader.h"
 #include "glm.hpp"
+#include "Resources/ResourceHolder.hpp"
 
 #define INDICES_PER_QUAD 6
 #define VERTICES_PER_QUAD 4
@@ -98,8 +99,14 @@ namespace Hi_Engine
 		Dispatcher::GetInstance().Unsubscribe(this);
 	}
 
-	void Renderer::Init()
+	bool Renderer::Init()
 	{
+		GLenum error = glewInit();
+		if (error != GLEW_OK)
+		{
+			std::cerr << "GLEW Error: " << glewGetErrorString(error) << std::endl;
+		}
+
 		/* Create vertex array object */
 		glGenVertexArrays(1, &m_quadContext.VAO);
 		glBindVertexArray(m_quadContext.VAO);
@@ -139,6 +146,8 @@ namespace Hi_Engine
 		/* Unbind VBO and VAO */
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
+
+		return true;
 	}
 
 	void Renderer::Shutdown()
@@ -151,6 +160,16 @@ namespace Hi_Engine
 		glDeleteTextures(1, &m_whiteTexture); // MOVE later?
 
 		delete[] m_quadContext.Buffer;
+	}
+
+	void Renderer::Deserialize(const rapidjson::Value& json)
+	{
+		auto renderer = json["renderer"].GetObj();
+
+		std::string shaderResource = renderer["default_shader"].GetString();
+
+		auto* shader = &ResourceHolder<GLSLShader>::GetInstance().GetResource(shaderResource);
+		SetShader(shader);
 	}
 
 	void Renderer::HandleEvent(RenderEvent& renderEvent)

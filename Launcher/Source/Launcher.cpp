@@ -28,13 +28,13 @@ void Launcher::DownloadUpdatesAsync(std::function<void(bool)> callback)
 
 void Launcher::StartGameLoop()
 {
-	auto* engine = new Hi_Engine::Engine{ new Game{} };
+	Game game;
+	Hi_Engine::Engine engine{ game };
 
-	if (engine->Init())
+	if (engine.Init())
 	{
-		engine->Run();
+		engine.Run();
 	}
 
-	engine->Shutdown();
-	delete engine;
+	engine.Shutdown();
 }

@@ -1,5 +1,6 @@
 #include "Pch.h"
 #include "Window.h"
+#include "Input/InputHandler.h"
 #include <GLFW/glfw3.h>
 
 
@@ -20,21 +21,22 @@ namespace Hi_Engine
 		glfwTerminate();
 	}
 
-	bool Window::Init(IVector2 size, const std::string& name)
+	bool Window::Init()
 	{
 		if (!glfwInit())
 			return false;
 
-		m_window = CreateWindow(size, name);
-		
-		if (!m_window)
-			return false;
-
-		m_size = size;
+		m_window = CreateWindow({ 1200, 800 }, "");
 
 		glfwSwapInterval(0); // turns off V-sync
 		glViewport(0, 0, m_size.x, m_size.y);
-		//
+
+		// HERE?
+		glfwSetKeyCallback(m_window, InputHandler::KeyCallback);
+		glfwSetCursorPosCallback(m_window, InputHandler::CursorCallback);
+		glfwSetMouseButtonCallback(m_window, InputHandler::MouseButtonCallback);
+		glfwSetScrollCallback(m_window, InputHandler::MouseScrollCallback);
+		glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
 		return true;
 	}
@@ -47,9 +49,30 @@ namespace Hi_Engine
 		glfwTerminate();
 	}
 
+	void Window::Deserialize(const rapidjson::Value& json)
+	{
+		auto window = json["window"].GetObject();
+
+		std::string name = window["name"].GetString();
+		SetTitle(name);
+
+		std::string iconPath = window["icon_path"].GetString();
+		SetIcon(iconPath);
+
+		m_size.x = window["size"]["width"].GetInt();
+		m_size.y = window["size"]["height"].GetInt();
+		SetSize(m_size);
+	}
+
 	bool Window::IsOpen() const
 	{
-		return !glfwWindowShouldClose(m_window);
+		bool IsOpen = true;
+		if (m_window)
+			IsOpen = !glfwWindowShouldClose(m_window);
+		else
+			IsOpen = false;
+
+		return IsOpen;
 	}
 
 	const IVector2& Window::GetSize() const
@@ -75,6 +98,8 @@ namespace Hi_Engine
 	void Window::SetSize(const IVector2& size)
 	{
 		glfwSetWindowSize(m_window, size.x, size.y);
+		glViewport(0, 0, m_size.x, m_size.y);
+
 		m_size = size;
 	}
 

@@ -8,7 +8,7 @@
 #include "../Utility/Time/Timer.h"
 #include "Rendering/Text/Renderer/TextRenderer.h"
 #include "ServiceLocator/ServiceLocator.h"
-#include "Utility/UtilityFunctions.hpp"
+//#include "Utility/UtilityFunctions.h"
 #include "Rendering/Renderer/Renderer.h"
 #include "Input/InputHandler.h"
 #include "Audio/AudioController.h"
@@ -16,7 +16,12 @@
 
 namespace Hi_Engine
 {
-	Engine::Engine(Application* app)
+	void ErrorCallbackGLFW(int error, const char* description)
+	{
+		std::cerr << "GLFW Error [" << error << "]: " << description << "\n";
+	}
+
+	Engine::Engine(Application& app)
 		: m_application{ app }, m_isRunning{ false }
 	{
 		Dispatcher::GetInstance().Subscribe(this);
@@ -35,44 +40,43 @@ namespace Hi_Engine
 
 	bool Engine::Init()
 	{
-		if (!CreateWindow() || glewInit() != GLEW_OK || !m_application)
+		glfwSetErrorCallback(ErrorCallbackGLFW);
+
+		if (!m_moduleManager.Init())
 			return false;
+
+		GLenum error = glewInit();
+		if (error != GLEW_OK)
+		{
+			std::cerr << "GLEW Error: " << glewGetErrorString(error) << std::endl;
+			return false;
+		}
+
+		LoadResources(); // Do in LoadModules?
+		m_moduleManager.LoadModules();
+
+
+		//if (glewInit() != GLEW_OK)
+		//	return false;
 
 		//ConfigureRenderStates();
 		glEnable(GL_DEPTH_TEST);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_BLEND);
 
-		
-		auto audioController = m_moduleManager.GetModule<AudioController>();
-		auto renderer = m_moduleManager.GetModule<Renderer>();
-		auto window = m_moduleManager.GetModule<Window>();
-		auto inputHandler = m_moduleManager.GetModule<InputHandler>();
-			
-		audioController.lock()->Init();
-		inputHandler.lock()->Init(window.lock()->m_window);
-		renderer.lock()->Init();
+	
 
-
-
-		//m_inputHandler->Init(m_window->m_window);
-
-		//m_window.SetIcon("../Game/Assets/Textures/Icons/pirate_flag_icon.png"); // TODO: read from windows file
 
 		// REMOVE...
 		TextRenderer::GetInstance().Init();
 
-		// TEMP
-		//m_renderer->Init();
-		//m_renderer.SetRenderTarget(&m_window);
 
-		//m_audioController->Init();
-
-		m_application->OnCreate(); 
+		m_application.OnCreate(); 
 
 
-		// Load default resources 
-		renderer.lock()->SetShader(&ResourceHolder<GLSLShader>::GetInstance().GetResource("sprite_batch")); // Rename default_sprite_bact
+		// Load default resources (do in Desrializer)
+		//auto renderer = m_moduleManager.GetModule<Renderer>();
+		//renderer.lock()->SetShader(&ResourceHolder<GLSLShader>::GetInstance().GetResource("sprite_batch")); // Rename default_sprite_bact
 		//m_renderer->SetShader(&ResourceHolder<GLSLShader>::GetInstance().GetResource("sprite_batch")); // Rename default_sprite_bact
 
 		
@@ -84,10 +88,10 @@ namespace Hi_Engine
 
 	void Engine::Shutdown()
 	{
-		if (m_application)
+		//if (m_application)
 		{
-			m_application->OnDestroy();
-			delete m_application;
+			m_application.OnDestroy();
+			//delete m_application;
 		}
 
 		// shutdown module manager
@@ -106,7 +110,7 @@ namespace Hi_Engine
 
 	void Engine::Run()
 	{
-		assert(m_application && "Failed to launch application");
+		//assert(m_application && "Failed to launch application");
 		Timer& timer = GetTimer();
 		//Timer timer;
 		
@@ -126,15 +130,15 @@ namespace Hi_Engine
 				inputHandler->ProcessInput();
 
 			/* - Update - */
-			m_application->OnUpdate(deltaTime);
-			m_application->OnLateUpdate(deltaTime);
+			m_application.OnUpdate(deltaTime);
+			m_application.OnLateUpdate(deltaTime);
 
 			/* - Clear screen - */
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // put in renderer
 
 			/* - Render - */
-			m_application->OnDraw();
+			m_application.OnDraw();
 
 			if (renderer)
 				renderer->ProcessCommands();
@@ -158,32 +162,13 @@ namespace Hi_Engine
 
 	void Engine::RegisterModules()
 	{
+		m_moduleManager.RegisterModule<Window>();
 		m_moduleManager.RegisterModule<InputHandler>();
 		m_moduleManager.RegisterModule<Renderer>();
-		m_moduleManager.RegisterModule<Window>();
 		m_moduleManager.RegisterModule<AudioController>();
 	}
-
-	bool Engine::CreateWindow() // FIX?!
+	void Engine::LoadResources()
 	{
-		bool success = false;
-
-		auto document = ParseDocument("../Engine/Assets/Json/Window/Window.json");
-		auto json = ParseJson(document.GetObj());
-
-		auto values = std::any_cast<std::unordered_map<std::string, std::any>>(json);
-		auto size = std::any_cast<std::unordered_map<std::string, std::any>>(values.at("size"));
-
-		std::string windowName = std::any_cast<std::string>(values.at("name"));
-		std::string iconPath = std::any_cast<std::string>(values.at("icon_path"));
-		IVector2 windowSize = { std::any_cast<int>(size.at("width")), std::any_cast<int>(size.at("height")) };
-		
-		if (m_moduleManager.GetModule<Window>().lock()->Init(windowSize, windowName))
-		{
-			m_moduleManager.GetModule<Window>().lock()->SetIcon(iconPath);
-			success = true;
-		}
-
-		return success;
+		ResourceHolder<GLSLShader>::GetInstance().LoadResources("../Engine/Assets/Json/Resources/Shaders.json");
 	}
 }

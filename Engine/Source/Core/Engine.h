@@ -10,7 +10,7 @@ namespace Hi_Engine
 	class Engine : public EventListener
 	{
 	public:
-		Engine(Application* app);
+		Engine(Application& app);
 		~Engine();
 
 		void HandleEvent(class TerminationEvent& event) override;
@@ -23,10 +23,10 @@ namespace Hi_Engine
 
 	private:
 		void RegisterModules();
-		bool CreateWindow();		
+		void LoadResources();
 
 		ModuleManager m_moduleManager;
-		Application* m_application;
+		Application& m_application;
 		bool m_isRunning;
 	};
 }

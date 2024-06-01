@@ -5,6 +5,7 @@
 #include "../Audio/AudioSource.h"
 #include "../Rendering/Text/Font/Font.h"
 #include <../../ThirdParty/rapidjson/document.h>
+#include <../../ThirdParty/rapidjson/rapidjson.h>
 #include <../../ThirdParty/stb_image/stb_image.h>
 #include <memory>
 #include <string>
@@ -96,7 +97,7 @@ namespace Hi_Engine
 		std::ifstream ifs{ filePath };
 		std::string content{ std::istreambuf_iterator<char>(ifs), std::istreambuf_iterator<char>() };
 
-		rapidjson::Document document;
+		::rapidjson::Document document;
 		document.Parse(content.c_str());
 
 		assert(!document.HasParseError() && "Failed to parse resource!");
@@ -105,13 +106,13 @@ namespace Hi_Engine
 	}
 
 	template <class Resource, typename Identifier>
-	inline void	ResourceHolder<Resource, Identifier>::CreateResources(const rapidjson::Document& document)
+	inline void	ResourceHolder<Resource, Identifier>::CreateResources(const ::rapidjson::Document& document)
 	{
 		assert(false && "ERROR: Resource not handled!");
 	}
 
 	template <>
-	inline void	ResourceHolder<Texture2D, std::string>::CreateResources(const rapidjson::Document& document)
+	inline void	ResourceHolder<Texture2D, std::string>::CreateResources(const ::rapidjson::Document& document)
 	{
 		for (auto& value : document.GetArray())
 		{
@@ -178,7 +179,7 @@ namespace Hi_Engine
 	}
 
 	template <>
-	inline void	ResourceHolder<Subtexture2D, std::string>::CreateResources(const rapidjson::Document& document)
+	inline void	ResourceHolder<Subtexture2D, std::string>::CreateResources(const ::rapidjson::Document& document)
 	{
 		for (auto& value : document.GetArray())
 		{
@@ -200,7 +201,7 @@ namespace Hi_Engine
 	}
 
 	template <>
-	inline void	ResourceHolder<GLSLShader, std::string>::CreateResources(const rapidjson::Document& document)
+	inline void	ResourceHolder<GLSLShader, std::string>::CreateResources(const ::rapidjson::Document& document)
 	{
 		for (auto& value : document.GetArray())
 		{
@@ -226,7 +227,7 @@ namespace Hi_Engine
 	}
 
 	template <>
-	inline void	ResourceHolder<Font, std::string>::CreateResources(const rapidjson::Document& document)
+	inline void	ResourceHolder<Font, std::string>::CreateResources(const ::rapidjson::Document& document)
 	{
 		for (auto& value : document.GetArray())
 		{
@@ -291,7 +292,7 @@ namespace Hi_Engine
 	}
 	
 	template <>
-	inline void ResourceHolder<AudioSource, std::string>::CreateResources(const rapidjson::Document& document)
+	inline void ResourceHolder<AudioSource, std::string>::CreateResources(const ::rapidjson::Document& document)
 	{
 		for (auto& value : document.GetArray())
 		{

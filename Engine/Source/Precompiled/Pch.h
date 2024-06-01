@@ -44,6 +44,7 @@
 #include "../Utility/Math/Matrices/Matrix4x4.hpp"
 #include "../Utility/Math/Range/Range.hpp"
 #include "../Utility/Math/Point/Point.hpp"
+#include "../Utility/Utility/UtilityFunctions.h"
 
 /* - Third Party - 	 ..... TODO; dont put these here... (not glew/glfw stuff) */
 #include <GL/glew.h>

@@ -49,6 +49,7 @@
 #include "Source/Core/Messaging/Listener/EventListener.h"
 #include "Source/Core/Messaging/Events/SystemEvents/SystemEvents.h"
 #include "Source/Core/Messaging/Events/RenderEvents/RenderEvents.h"
+#include "Source/Core/Messaging/Events/Audio/AudioEvents.h"
 
 /* - Data Structures - */
 #include "Source/Utility/DataStructures/Linear/Dynamic/Stack/Stack.hpp"
@@ -66,7 +67,7 @@
 #include "Source/Utility/Math/Mathf.hpp"
 
 /* - Utility - */
-#include "Source/Utility/Utility/UtilityFunctions.hpp"
+#include "Source/Utility/Utility/UtilityFunctions.h"
 #include "Source/Utility/Random/Random.h"
 #include "Source/Utility/Time/Timer.h"
 #include "Source/Utility/Algorithms/PathFinding/AStar.hpp"

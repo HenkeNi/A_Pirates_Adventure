@@ -24,8 +24,9 @@ namespace Hi_Engine
 		Renderer();
 		~Renderer();
 
-		void Init();
-		void Shutdown();
+		bool Init()				override;
+		void Shutdown()			override;
+		void Deserialize(const rapidjson::Value& json) override;
 
 		void HandleEvent(RenderEvent& renderEvent) override;
 		void ProcessCommands();

@@ -1,8 +1,13 @@
 {
+  "window": {
     "name": "A Pirate's Adventure",
     "size": {
       "width": 1400,
       "height": 800
     },
     "icon_path": "../Game/Assets/Textures/Icons/pirate_flag_icon.png"
+  },
+  "renderer": {
+    "default_shader": "sprite_batch"
+  }
 }

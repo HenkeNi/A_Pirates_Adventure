@@ -12,9 +12,9 @@ namespace Hi_Engine
 		InputHandler();
 		~InputHandler();
 
-		void Init(GLFWwindow* window);
+		bool Init() override;
 		void ProcessInput();
-		void Reset();;
+		void Reset();
 
 		static void KeyCallback(GLFWwindow* window, int key, int scanCode, int action, int mods);
 		static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);

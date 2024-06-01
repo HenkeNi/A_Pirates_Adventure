@@ -1,22 +1,39 @@
 #include "Pch.h"
 #include "ModuleManager.h"
 #include "Base/Module.h"
+#include <../ThirdParty/rapidjson/document.h>
+#include <../ThirdParty/rapidjson/rapidjson.h>
 
 namespace Hi_Engine
 {
-    void ModuleManager::Init()
+    bool ModuleManager::Init()
     {
-        for (auto& [type, module] : m_modules) 
+        for (auto& [type, module] : m_modules)
         {
-           // module->Init();
+            if (!module->Init())
+            {
+                return false;
+            }
         }
+
+        return true;
     }
 
     void ModuleManager::Shutdown()
     {
         for (auto& [type, module] : m_modules)
         {
-          //  module->Shutdown();
+            module->Shutdown();
+        }
+    }
+
+    void ModuleManager::LoadModules()
+    {
+        auto document = ParseDocument("../Engine/Assets/Json/Settings/Settings.json");
+        
+        for (auto& [type, module] : m_modules)
+        {
+            module->Deserialize(document.GetObj());
         }
     }
 }

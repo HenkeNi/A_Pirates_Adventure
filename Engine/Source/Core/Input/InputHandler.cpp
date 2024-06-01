@@ -21,14 +21,10 @@ namespace Hi_Engine
 		//glfwDestroyCursor(s_customCursor);
 	}
 
-	void InputHandler::Init(GLFWwindow* window)
+	bool InputHandler::Init()
 	{
 		// Consider handling this in windows class?
-		glfwSetKeyCallback(window, InputHandler::KeyCallback);
-		glfwSetCursorPosCallback(window, InputHandler::CursorCallback);
-		glfwSetMouseButtonCallback(window, InputHandler::MouseButtonCallback);
-		glfwSetScrollCallback(window, InputHandler::MouseScrollCallback);
-		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+
 
 		//static GLFWimage image;
 		//image.width *= 10;
@@ -38,6 +34,8 @@ namespace Hi_Engine
 		//image.pixels = stbi_load("../Game/Assets/Textures/arrow-cursor.png", &image.width, &image.height, 0, 4); // Fix pivot (upper left corner)
 		//if (s_customCursor = glfwCreateCursor(&image, 2, -2.5))
 			//glfwSetCursor(m_window, s_customCursor);
+
+		return true;
 	}
 
 	void InputHandler::ProcessInput()
