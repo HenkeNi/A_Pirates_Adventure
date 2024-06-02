@@ -112,7 +112,7 @@ namespace Hi_Engine
 
 	struct RenderContext
 	{
-		class GLSLShader*		GLSLShader			= nullptr;
+		class GLSLShader*   GLSLShader      = nullptr;
 		Vertex*				Buffer			= nullptr;
 		Vertex*				CurrentVertex	= nullptr;		// unsigned	m_currentBufferIndex;
 		uint16_t			IndexCount		= 0;

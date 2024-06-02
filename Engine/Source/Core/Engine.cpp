@@ -43,32 +43,11 @@ namespace Hi_Engine
 		if (!m_moduleManager.Init())
 			return false;
 
-	/*	GLenum error = glewInit();
-		if (error != GLEW_OK)
-		{
-			std::cerr << "GLEW Error: " << glewGetErrorString(error) << std::endl;
-			return false;
-		}*/
-
 		LoadResources(); // Do in LoadModules?
 		m_moduleManager.LoadModules();
 
-		//ConfigureRenderStates();
-		glEnable(GL_DEPTH_TEST);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glEnable(GL_BLEND);
-
-	
 		m_application.OnCreate(); 
 
-
-		// Load default resources (do in Desrializer)
-		//auto renderer = m_moduleManager.GetModule<Renderer>();
-		//renderer.lock()->SetShader(&ResourceHolder<GLSLShader>::GetInstance().GetResource("sprite_batch")); // Rename default_sprite_bact
-		//m_renderer->SetShader(&ResourceHolder<GLSLShader>::GetInstance().GetResource("sprite_batch")); // Rename default_sprite_bact
-
-		
-		//ServiceLocator::Register(audioController); // FIX!
 		//ServiceLocator::Register(&m_audioController);
 		
 		return (m_isRunning = true);

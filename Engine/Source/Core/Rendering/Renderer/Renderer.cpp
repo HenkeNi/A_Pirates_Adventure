@@ -67,12 +67,9 @@ namespace Hi_Engine
 	{
 		Dispatcher::GetInstance().Subscribe(this);
 
-		m_quadContext.Buffer = new Vertex[Constants::MaxVertexCount];
+		//m_quadContext.Buffer = new Vertex[Constants::MaxVertexCount];
 
-		///* Configure render states */
-		//glEnable(GL_DEPTH_TEST);
-		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		//glEnable(GL_BLEND);
+	
 
 
 
@@ -101,52 +98,17 @@ namespace Hi_Engine
 
 	bool Renderer::Init()
 	{
-		// do in window???
 		GLenum error = glewInit();
 		if (error != GLEW_OK)
 		{
 			std::cerr << "GLEW Error: " << glewGetErrorString(error) << std::endl;
+			return false;
 		}
 
-		/* Create vertex array object */
-		glGenVertexArrays(1, &m_quadContext.VAO);
-		glBindVertexArray(m_quadContext.VAO);
-
-		/* Create vertex buffer object */
-		glGenBuffers(1, &m_quadContext.VBO);
-		glBindBuffer(GL_ARRAY_BUFFER, m_quadContext.VBO);
-		glBufferData(GL_ARRAY_BUFFER, Constants::MaxVertexCount * sizeof(Vertex), nullptr, GL_DYNAMIC_DRAW);
-
-		/* Specify layout of the vertex data */
-
-		/* Position Attribute */
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Position));
-
-		/* Color Attribute */
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Color));
-
-		/* Texture Coord Attribute */
-		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexCoords));
-
-		/* Texture Index */
-		glEnableVertexAttribArray(3);
-		glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexIndex));
-
-		/* Populate indices */
-		uint32_t indices[Constants::MaxIndexCount];
-		GenerateIndices(indices);
-
-		/* Create element buffer object */
-		glCreateBuffers(1, &m_quadContext.EBO);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_quadContext.EBO);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-		/* Unbind VBO and VAO */
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindVertexArray(0);
+		/* Configure render states */
+		glEnable(GL_DEPTH_TEST);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_BLEND);
 
 		return true;
 	}
@@ -166,6 +128,15 @@ namespace Hi_Engine
 	void Renderer::Deserialize(const rapidjson::Value& json)
 	{
 		auto renderer = json["renderer"].GetObj();
+
+		int maxVertexCount = renderer["max_count"]["vertex"].GetInt();
+		m_quadContext.Buffer = new Vertex[maxVertexCount];
+
+		SetupQuadRendering();
+
+
+		
+
 
 		std::string shaderResource = renderer["default_shader"].GetString();
 
@@ -189,48 +160,6 @@ namespace Hi_Engine
 		}
 
 		m_renderSequence.push(renderCommands);
-
-		//for (auto command : commands)
-		//{
-		//	if (command.Type == eRenderCommandType::DrawSprite)
-		//	{
-		//		DrawSprite(command.SpriteRenderData);
-		//	}
-		//	else if (command.Type == eRenderCommandType::SetShader)
-		//	{
-		//		// m_activeShader = command.m_shader;
-		//	}
-		//	else if (command.Type == eRenderCommandType::SetCamera)
-		//	{
-		//		m_camera = command.Camera;
-		//	}
-		//}
-
-
-		//while (!commands.empty())
-		//{
-		//	auto command = commands.front();
-		//	if (command.Type == eRenderCommandType::DrawSprite)
-		//	{
-		//		DrawSprite(command.SpriteRenderData);
-		//	}
-		//	else if (command.Type == eRenderCommandType::SetShader)
-		//	{
-		//		// m_activeShader = command.m_shader;
-		//	}
-		//	else if (command.Type == eRenderCommandType::SetCamera)
-		//	{
-		//		m_camera = command.Camera;
-		//	}
-		//	else if (command.Type == eRenderCommandType::SetProjectionMatrix)
-		//	{
-		//		glm::mat4 viewProjection = m_camera->GetViewProjectionMatrix();
-		//		m_quadContext.GLSLShader->SetMatrix4("uViewProjection", viewProjection);
-		//	}
-
-		//	commands.pop();
-		//}
-
 	}
 
 	void Renderer::ProcessCommands()
@@ -433,6 +362,50 @@ namespace Hi_Engine
 		return false;
 	}
  
+	void Renderer::SetupQuadRendering()
+	{
+		/* Create vertex array object */
+		glGenVertexArrays(1, &m_quadContext.VAO);
+		glBindVertexArray(m_quadContext.VAO);
+
+		/* Create vertex buffer object */
+		glGenBuffers(1, &m_quadContext.VBO);
+		glBindBuffer(GL_ARRAY_BUFFER, m_quadContext.VBO);
+		glBufferData(GL_ARRAY_BUFFER, Constants::MaxVertexCount * sizeof(Vertex), nullptr, GL_DYNAMIC_DRAW);
+
+		/* Specify layout of the vertex data */
+
+		/* Position Attribute */
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Position));
+
+		/* Color Attribute */
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Color));
+
+		/* Texture Coord Attribute */
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexCoords));
+
+		/* Texture Index */
+		glEnableVertexAttribArray(3);
+		glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexIndex));
+
+		/* Populate indices */
+		uint32_t indices[Constants::MaxIndexCount];
+		GenerateIndices(indices);
+
+		/* Create element buffer object */
+		glCreateBuffers(1, &m_quadContext.EBO);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_quadContext.EBO);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+		/* Unbind VBO and VAO */
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindVertexArray(0);
+
+	}
+
 	void Renderer::DisplayQuads()
 	{
 		

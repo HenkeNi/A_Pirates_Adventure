@@ -7,6 +7,7 @@
 #include <../../ThirdParty/rapidjson/document.h>
 #include <../../ThirdParty/rapidjson/rapidjson.h>
 #include <../../ThirdParty/stb_image/stb_image.h>
+#include <../../ThirdParty/FreeType/include/ft2build.h>
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -14,16 +15,14 @@
 #include <iostream>
 
 // #include <irrKlang.h>
-#include <../../ThirdParty/FreeType/include/ft2build.h>
 //#include <ft2build.h>
 #include FT_FREETYPE_H  
-
-// TODO; rename ResourceManager? 
 
 // Todo, use inheritance instead? For loading, etcc..?
 
 namespace Hi_Engine
 {
+	// TODO; rename ResourceManager? 
 	template <class Resource, typename Identifier = std::string>
 	class ResourceHolder
 	{
@@ -33,8 +32,6 @@ namespace Hi_Engine
 
 		static ResourceHolder&	GetInstance();
 		
-
-
 		Resource&				GetResource(const Identifier& identifier);					// return pointer instead
 		const Resource&			GetResource(const Identifier& identifier)		const;
 		bool					HasResource(const Identifier& identifier)		const;

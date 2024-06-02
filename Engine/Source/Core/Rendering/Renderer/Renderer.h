@@ -26,9 +26,10 @@ namespace Hi_Engine
 
 		bool Init()				override;
 		void Shutdown()			override;
+		
 		void Deserialize(const rapidjson::Value& json) override;
-
 		void HandleEvent(RenderEvent& renderEvent) override;
+
 		void ProcessCommands();
 		void Reset();
 
@@ -61,6 +62,8 @@ namespace Hi_Engine
 		// void ProcessCommands();					// ??? ProcessDrawCalls();
 
 	private:
+		void SetupQuadRendering();
+
 		void DisplayQuads();
 		void DisplayText();
 
@@ -80,11 +83,17 @@ namespace Hi_Engine
 		uint32_t	m_whiteTextureSlot = 0;
 
 
+
 		RenderContext	m_quadContext;
 		RenderContext	m_textContext;
 
-		RenderStats		m_stats; 
+		RenderStats		m_stats;
 		// store render commands?
+	};
+
+	struct QuadContext
+	{
+
 	};
 
 
