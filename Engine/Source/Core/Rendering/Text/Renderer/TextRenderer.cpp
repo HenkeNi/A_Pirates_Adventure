@@ -58,10 +58,10 @@ namespace Hi_Engine
 
 	void TextRenderer::Render(const TextRenderData& data, glm::mat4 projection) // pass in projection matrix?
 	{
-        auto& shader = data.GLSLShader;
+        auto[shader, font, scale, color, position, text, alignment] = data;
 
         shader->Activate();
-        shader->SetVector4f("uTextColor", data.Color);
+        shader->SetVector4f("uTextColor", color);
 
         glm::mat4 projectionMatrix = glm::ortho(0.0f, (float)m_windowSize.x, 0.0f, (float)m_windowSize.y);
         shader->SetMatrix4("uProjection", projectionMatrix);
@@ -69,66 +69,63 @@ namespace Hi_Engine
         glActiveTexture(GL_TEXTURE0); // ????????????????????
         glBindVertexArray(m_textContext.VAO);
 
-        auto position = data.Position;
         auto startPosition = position;
         auto endPosition = startPosition;
 
         float textWidth = 0.f;
 
-
-
         position.x = GetTextStartPosition(data);
 
-       
-
-
-        auto scale = data.Scale;
-
-        for (const char& c : data.Text)
+        for (const char& c : text)
         {
-            const auto& ch = data.Font->m_characters[c];
+            const auto& ch = font->m_characters[c];
               
-            //position.x += (ch.m_bearing.x * scale);
-            //position.y -= (ch.Size.y - ch.m_bearing.y) * scale;
-            float xPos = position.x + ch.m_bearing.x * scale;
-            float yPos = position.y - (ch.Size.y - ch.m_bearing.y) * scale;
+            float xPos = 0.f;
+            float yPos = 0.f;
 
-            //float xPos = position.x;
-            //float yPos = position.y;
+            if (c == '\n')
+            {
+                position.y -= (ch.Size.y) * 1.3 * scale;
+                position.x = startPosition.x;
+            }
+            else if (c == ' ')
+            {
+                position.x += (ch.m_advance >> 6) * scale;
+            }
+            else
+            {
+                float xPos = position.x + ch.m_bearing.x * scale;
+                float yPos = position.y - (ch.Size.y - ch.m_bearing.y) * scale;
+                    
+                float w = ch.Size.x * scale;
+                float h = ch.Size.y * scale;
 
-            float w = ch.Size.x * scale;
-            float h = ch.Size.y * scale;
-            
-            FVector4 color = data.Color;
+                // update VBO for each character
+                float vertices[6][8] = 
+                {   
+                    // Position             // Color                                // Texture coords
+                    { xPos,     yPos + h,   color.x, color.y, color.z, color.w,     0.0f, 0.0f },
+                    { xPos,     yPos,       color.x, color.y, color.z, color.w,     0.0f, 1.0f },
+                    { xPos + w, yPos,       color.x, color.y, color.z, color.w,     1.0f, 1.0f },
 
-            // update VBO for each character
-            float vertices[6][8] = 
-            {   
-                // Position             // Color                                // Texture coords
-                { xPos,     yPos + h,   color.x, color.y, color.z, color.w,     0.0f, 0.0f },
-                { xPos,     yPos,       color.x, color.y, color.z, color.w,     0.0f, 1.0f },
-                { xPos + w, yPos,       color.x, color.y, color.z, color.w,     1.0f, 1.0f },
+                    { xPos,     yPos + h,   color.x, color.y, color.z, color.w,     0.0f, 0.0f },
+                    { xPos + w, yPos,       color.x, color.y, color.z, color.w,     1.0f, 1.0f },
+                    { xPos + w, yPos + h,   color.x, color.y, color.z, color.w,     1.0f, 0.0f }
+                };
 
-                { xPos,     yPos + h,   color.x, color.y, color.z, color.w,     0.0f, 0.0f },
-                { xPos + w, yPos,       color.x, color.y, color.z, color.w,     1.0f, 1.0f },
-                { xPos + w, yPos + h,   color.x, color.y, color.z, color.w,     1.0f, 0.0f }
-            };
-            // render glyph texture over quad
+                ResourceHolder<Texture2D>::GetInstance().GetResource(ch.m_textureID).Bind();
 
-            //ch.m_texture.Bind();
-            ResourceHolder<Texture2D>::GetInstance().GetResource(ch.m_textureID).Bind();
-            //glBindTexture(GL_TEXTURE_2D, ch.m_textureID);   // use texture pointer instead..
-           
-            // update content of VBO memory
-            glBindBuffer(GL_ARRAY_BUFFER, m_textContext.VBO);
-            glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); // be sure to use glBufferSubData and not glBufferData
-            glBindBuffer(GL_ARRAY_BUFFER, 0);
+                // update content of VBO memory
+                glBindBuffer(GL_ARRAY_BUFFER, m_textContext.VBO);
+                glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); // be sure to use glBufferSubData and not glBufferData
+                glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-            glDrawArrays(GL_TRIANGLES, 0, 6);
+                glDrawArrays(GL_TRIANGLES, 0, 6);
 
-            //position.x += (ch.m_advance >> 6) * data.Scale; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
-            position.x += (ch.m_advance >> 6);
+                position.x += (ch.m_advance >> 6) * scale;
+            }           
         }
+
         glBindVertexArray(0);
         glBindTexture(GL_TEXTURE_2D, 0);
 	}
