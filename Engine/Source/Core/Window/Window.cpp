@@ -11,8 +11,8 @@ namespace Hi_Engine
 	void WindowCloseCallback(GLFWwindow* window);
 
 
-	Window::Window()
-		: m_window{ nullptr }
+	Window::Window(int initOrder)
+		: Module{ initOrder }, m_window{ nullptr }
 	{
 	}
 

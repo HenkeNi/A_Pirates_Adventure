@@ -12,7 +12,8 @@ namespace Hi_Engine
 	//GLFWcursor*									InputHandler::s_customCursor = nullptr;
 
 
-	InputHandler::InputHandler()
+	InputHandler::InputHandler(int initOrder)
+		: Module{ initOrder }
 	{
 	}
 

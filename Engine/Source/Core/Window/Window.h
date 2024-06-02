@@ -10,16 +10,13 @@ namespace Hi_Engine
 	class Window : public Module
 	{
 	public:
-		Window();
+		Window(int initOrder);
 		~Window();
 
-
-
-		//bool			Init(IVector2 size, const std::string& name);
 		bool			Init()									  override;
 		void			Shutdown()								  override;
 		void			Deserialize(const rapidjson::Value& json) override;
-
+	
 		const IVector2& GetSize()									const;
 		bool			IsOpen()									const;
 		void			SwapBuffers()								const;

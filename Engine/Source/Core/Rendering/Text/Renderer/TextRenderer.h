@@ -1,21 +1,24 @@
 #pragma once
 #include "../../../../Data/Structs.h"
+#include "../../../Modules/Base/Module.h"
 
 namespace Hi_Engine
 {
 	struct TextRenderData;
 	
-	class TextRenderer
+	class TextRenderer : public Module, public EventListener
 	{
 	public:
+		TextRenderer(int initOrder);
 		~TextRenderer();
-		TextRenderer(const TextRenderer&)				= delete;
-		TextRenderer& operator=(const TextRenderer&)	= delete;
+		//TextRenderer(const TextRenderer&)				= delete;
+		//TextRenderer& operator=(const TextRenderer&)	= delete;
 
-		static TextRenderer& GetInstance();
+		//static TextRenderer& GetInstance();
 
-		void Init();
-		void Shutdown();
+		bool Init() override;
+		void Shutdown() override;
+		void HandleEvent(class TextRenderEvent& event);
 
 		// void LoadFont(const std::string& aPath, unsigned aFontSize);	// Register font instead?
 		void Render(const TextRenderData& data, glm::mat4 projection);
@@ -30,7 +33,6 @@ namespace Hi_Engine
 
 
 	private:
-		TextRenderer();
 
 
 		RenderContext	m_textContext;

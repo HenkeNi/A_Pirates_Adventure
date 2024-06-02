@@ -9,7 +9,7 @@ namespace Hi_Engine
 	class InputHandler : public Module
 	{
 	public:
-		InputHandler();
+		InputHandler(int initOrder);
 		~InputHandler();
 
 		bool Init() override;

@@ -10,7 +10,6 @@ namespace Hi_Engine
 	public:
 		bool Init();
 		void Shutdown();
-		
 		void LoadModules();
 
 		template <typename T, typename... Args>
@@ -18,7 +17,6 @@ namespace Hi_Engine
 
 		template <typename T>
 		void AddModule(const std::shared_ptr<T>& module);
-
 
 		template <typename T>
 		std::weak_ptr<T> GetModule();

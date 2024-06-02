@@ -1,5 +1,6 @@
 #pragma once
 #include "../Base/Event.h"
+#include "../../../Rendering/Text/TextTypes.h"
 
 
 namespace Hi_Engine
@@ -13,7 +14,7 @@ namespace Hi_Engine
 		RenderEvent();
 		~RenderEvent();
 
-		void Dispatch(EventListener& listener)			override;
+		void Dispatch(EventListener& listener)			override;		// make private, have firend class?
 		//void Init(const std::vector<RenderCommand>& someCommands);
 		void Init(const std::queue<RenderCommand>& commands);
 		//void AddRenderCommand(const RenderCommand& aCommand);
@@ -26,6 +27,23 @@ namespace Hi_Engine
 		std::queue<RenderCommand> m_renderCommands;
 	};
 
+
+	class TextRenderEvent : public Event<TextRenderEvent>
+	{
+	public:
+		TextRenderEvent();
+		~TextRenderEvent();
+
+		void Dispatch(EventListener& listener)			override;
+		void Init(const TextRenderData& data, const glm::mat4& projection);
+
+		inline const TextRenderData& GetData() const { return m_data; }
+		inline const glm::mat4& GetProjection() const { return m_projection; }
+
+	private:
+		TextRenderData m_data;
+		glm::mat4 m_projection;
+	};
 
 
 

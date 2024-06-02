@@ -62,8 +62,8 @@ namespace Hi_Engine
 		}
 	}
 
-	Renderer::Renderer()
-		// : m_buffer{ new Vertex[Constants::maxVertexCount] }, m_currentVertex{ nullptr }
+	Renderer::Renderer(int initOrder)
+		: Module{ initOrder }	// : m_buffer{ new Vertex[Constants::maxVertexCount] }, m_currentVertex{ nullptr }
 	{
 		Dispatcher::GetInstance().Subscribe(this);
 
@@ -101,6 +101,7 @@ namespace Hi_Engine
 
 	bool Renderer::Init()
 	{
+		// do in window???
 		GLenum error = glewInit();
 		if (error != GLEW_OK)
 		{

@@ -6,25 +6,28 @@
 #include "../../Text/Font/Font.h"
 #include "Resources/ResourceHolder.hpp"
 #include "../../Text/TextTypes.h"
-
+//#include "Messaging/Events/RenderEvents/RenderEvents.h"
 
 namespace Hi_Engine
 {
-    TextRenderer::TextRenderer()
-        : m_windowSize{ 1400, 800 }
-	{}
+    TextRenderer::TextRenderer(int initOrder)
+        : Module{ initOrder }, m_windowSize{ 1400, 800 }
+	{
+        Dispatcher::GetInstance().Subscribe(this);
+    }
 	
 	TextRenderer::~TextRenderer()
 	{
+        Dispatcher::GetInstance().Unsubscribe(this);
 	}
 
-	TextRenderer& TextRenderer::GetInstance()
-	{
-        static TextRenderer instance;
-        return instance;
-	}
+	//TextRenderer& TextRenderer::GetInstance()
+	//{
+ //       static TextRenderer instance;
+ //       return instance;
+	//}
 
-	void TextRenderer::Init()
+	bool TextRenderer::Init()
 	{
         glGenVertexArrays(1, &m_textContext.VAO);
         glBindVertexArray(m_textContext.VAO);
@@ -47,10 +50,17 @@ namespace Hi_Engine
 
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
+
+        return true;
 	}
 
 	void TextRenderer::Shutdown()
 	{}
+
+    void TextRenderer::HandleEvent(TextRenderEvent& event)
+    {
+        Render(event.GetData(), event.GetProjection());
+    }
 
 	void TextRenderer::Render(const TextRenderData& data, glm::mat4 projection) // pass in projection matrix?
 	{

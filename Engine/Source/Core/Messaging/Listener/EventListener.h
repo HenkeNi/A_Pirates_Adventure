@@ -12,6 +12,7 @@ namespace Hi_Engine
 		//virtual void HandleEvent(MouseEvent& anEvent)		{};
 		virtual void HandleEvent(class InputEvent& event)		{};
 		virtual void HandleEvent(class RenderEvent& event)		{};
+		virtual void HandleEvent(class TextRenderEvent& event)	{};
 		virtual void HandleEvent(class BatchRenderEvent& event)	{};
 		virtual void HandleEvent(class PlaySoundEvent& event)	{};
 		virtual void HandleEvent(class StopSoundEvent& event)	{};

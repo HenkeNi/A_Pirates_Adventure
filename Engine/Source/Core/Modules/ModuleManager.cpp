@@ -8,7 +8,15 @@ namespace Hi_Engine
 {
     bool ModuleManager::Init()
     {
-        for (auto& [type, module] : m_modules)
+        using KVP = std::pair<std::type_index, std::shared_ptr<Module>>;
+
+        std::vector<KVP> modules{ m_modules.begin(), m_modules.end() };
+        std::sort(modules.begin(), modules.end(), [](const KVP& m1, const KVP& m2) 
+            { 
+                return m1.second->GetInitOrder() < m2.second->GetInitOrder(); 
+            });
+
+        for (auto& [type, module] : modules)
         {
             if (!module->Init())
             {

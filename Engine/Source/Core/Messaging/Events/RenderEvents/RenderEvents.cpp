@@ -52,6 +52,15 @@ namespace Hi_Engine
 
 
 
+	TextRenderEvent::TextRenderEvent()
+		: Event{ ePriority::Moderate }
+	{
+	}
+
+	TextRenderEvent::~TextRenderEvent()
+	{
+	}
+
 	/*RenderSpriteEvent::RenderSpriteEvent()
 	{
 	}
@@ -78,4 +87,14 @@ namespace Hi_Engine
 	{
 		return m_renderData;
 	}*/
+	void TextRenderEvent::Dispatch(EventListener& listener)
+	{
+		listener.HandleEvent(*this);
+	}
+
+	void TextRenderEvent::Init(const TextRenderData& data, const glm::mat4& projection)
+	{
+		m_data = data;
+		m_projection = projection;
+	}
 }

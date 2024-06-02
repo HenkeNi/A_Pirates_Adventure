@@ -15,7 +15,7 @@ namespace Hi_Engine
 	class AudioController : public Module, public EventListener // audio manager? No need for a controller? let ikrlang ive in engine?
 	{
 	public:
-		AudioController();
+		AudioController(int initOrder);
 		~AudioController();
 
 		bool Init() override;

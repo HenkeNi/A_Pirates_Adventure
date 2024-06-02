@@ -18,10 +18,10 @@ namespace Hi_Engine
 
 	//class EventListener;
 
-	class Renderer : public EventListener, public Module
+	class Renderer : public Module, public EventListener
 	{
 	public:
-		Renderer();
+		Renderer(int initOrder);
 		~Renderer();
 
 		bool Init()				override;
@@ -37,9 +37,6 @@ namespace Hi_Engine
 
 		// TODO; use glGetError()
 
-
-
-
 		//void SetRenderContext(); // proj matrix, shader... 
 		// bool IsContextBound() const; // ????
 
@@ -49,9 +46,7 @@ namespace Hi_Engine
 		void Display();		// 
 		void EndFrame();
 
-
 		// BeginSpriteBatch(Camera, GLSLShader);
-
 
 		//void SetRenderState();
 		//void SetRenderingContext(); // UI, Sprites, etc...
@@ -68,7 +63,6 @@ namespace Hi_Engine
 	private:
 		void DisplayQuads();
 		void DisplayText();
-
 
 		// SceneData m_sceneData;
 

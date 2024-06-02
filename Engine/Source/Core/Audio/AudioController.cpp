@@ -8,8 +8,8 @@
 
 namespace Hi_Engine
 {
-	AudioController::AudioController()
-	// 	: m_soundEngine{ nullptr }
+	AudioController::AudioController(int initOrder)
+		: Module{ initOrder } //, m_soundEngine{ nullptr }
 	{
 		Dispatcher::GetInstance().Subscribe(this);
 	}

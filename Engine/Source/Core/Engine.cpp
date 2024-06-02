@@ -1,18 +1,16 @@
 #include "Pch.h"
 #include "Engine.h"
 #include "Application/Application.h"
-#include <GLFW/glfw3.h> 
-
 #include "Resources/ResourceHolder.hpp"
-//#include "Messaging/Dispatcher/Dispatcher.h"
-#include "../Utility/Time/Timer.h"
 #include "Rendering/Text/Renderer/TextRenderer.h"
 #include "ServiceLocator/ServiceLocator.h"
-//#include "Utility/UtilityFunctions.h"
 #include "Rendering/Renderer/Renderer.h"
-#include "Input/InputHandler.h"
 #include "Audio/AudioController.h"
+#include "Input/InputHandler.h"
 #include "Window/Window.h"
+#include "../Utility/Time/Timer.h"
+#include <GLFW/glfw3.h> 
+
 
 namespace Hi_Engine
 {
@@ -45,19 +43,15 @@ namespace Hi_Engine
 		if (!m_moduleManager.Init())
 			return false;
 
-		GLenum error = glewInit();
+	/*	GLenum error = glewInit();
 		if (error != GLEW_OK)
 		{
 			std::cerr << "GLEW Error: " << glewGetErrorString(error) << std::endl;
 			return false;
-		}
+		}*/
 
 		LoadResources(); // Do in LoadModules?
 		m_moduleManager.LoadModules();
-
-
-		//if (glewInit() != GLEW_OK)
-		//	return false;
 
 		//ConfigureRenderStates();
 		glEnable(GL_DEPTH_TEST);
@@ -65,12 +59,6 @@ namespace Hi_Engine
 		glEnable(GL_BLEND);
 
 	
-
-
-		// REMOVE...
-		TextRenderer::GetInstance().Init();
-
-
 		m_application.OnCreate(); 
 
 
@@ -88,24 +76,8 @@ namespace Hi_Engine
 
 	void Engine::Shutdown()
 	{
-		//if (m_application)
-		{
-			m_application.OnDestroy();
-			//delete m_application;
-		}
-
-		// shutdown module manager
-		m_moduleManager.GetModule<Window>().lock()->Shutdown();
-		m_moduleManager.GetModule<AudioController>().lock()->Shutdown();
-		m_moduleManager.GetModule<Renderer>().lock()->Shutdown();
-		auto inputHandler = m_moduleManager.GetModule<InputHandler>();
-
-
-		//m_window->Shutdown();
-		//m_renderer->Shutdown();
-		TextRenderer::GetInstance().Shutdown();
-
-		//m_audioController->Shutdown();
+		m_application.OnDestroy();
+		m_moduleManager.Shutdown();
 	}
 
 	void Engine::Run()
@@ -144,7 +116,7 @@ namespace Hi_Engine
 				renderer->ProcessCommands();
 
 			if (window)
-				glfwSwapBuffers(window->m_window); // window swap buffers
+				window->SwapBuffers();
 
 			if (inputHandler)
 				inputHandler->Reset();
@@ -162,10 +134,11 @@ namespace Hi_Engine
 
 	void Engine::RegisterModules()
 	{
-		m_moduleManager.RegisterModule<Window>();
-		m_moduleManager.RegisterModule<InputHandler>();
-		m_moduleManager.RegisterModule<Renderer>();
-		m_moduleManager.RegisterModule<AudioController>();
+		m_moduleManager.RegisterModule<Window>(1);
+		m_moduleManager.RegisterModule<Renderer>(2);
+		m_moduleManager.RegisterModule<TextRenderer>(3);
+		m_moduleManager.RegisterModule<InputHandler>(4);
+		m_moduleManager.RegisterModule<AudioController>(5);
 	}
 	void Engine::LoadResources()
 	{

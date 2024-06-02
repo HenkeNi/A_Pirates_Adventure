@@ -1,8 +1,6 @@
 #pragma once
 #include "../Utility/Math/Vectors/Vector.hpp"
 #include "Enumerations.h"
-//#include "../Core/Messaging/Events/Base/Event.h"
-//#include "../Core/Rendering/Texture/Texture2D.h"
 #include <../../ThirdParty/glm/glm.hpp>
 #include <array>
 #include <string>
@@ -23,10 +21,6 @@ namespace Hi_Engine
 		glm::vec2	Scale = { 1.f, 1.f };
 		float		Rotation = 0.f;
 	};
-
-
-
-
 
 	//struct Position
 	//{
@@ -55,7 +49,6 @@ namespace Hi_Engine
 
 #pragma region Camera_Structs
 
-
 	// Remove later? or using for vec4 together with color?
 	struct Rect
 	{
@@ -77,8 +70,6 @@ namespace Hi_Engine
 		float		TexIndex;
 		//GLint		TexIndex;
 	};
-
-
 
 	struct SpriteRenderData
 	{
@@ -125,7 +116,7 @@ namespace Hi_Engine
 		Vertex*				Buffer			= nullptr;
 		Vertex*				CurrentVertex	= nullptr;		// unsigned	m_currentBufferIndex;
 		uint16_t			IndexCount		= 0;
-		unsigned			VAO, VBO, EBO;
+		unsigned			VAO = 0, VBO = 0, EBO = 0;
 	};
 
 	struct RenderStats
