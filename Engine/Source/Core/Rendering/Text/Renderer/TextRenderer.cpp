@@ -21,12 +21,6 @@ namespace Hi_Engine
         Dispatcher::GetInstance().Unsubscribe(this);
 	}
 
-	//TextRenderer& TextRenderer::GetInstance()
-	//{
- //       static TextRenderer instance;
- //       return instance;
-	//}
-
 	bool TextRenderer::Init()
 	{
         glGenVertexArrays(1, &m_textContext.VAO);

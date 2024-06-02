@@ -11,10 +11,6 @@ namespace Hi_Engine
 	public:
 		TextRenderer(int initOrder);
 		~TextRenderer();
-		//TextRenderer(const TextRenderer&)				= delete;
-		//TextRenderer& operator=(const TextRenderer&)	= delete;
-
-		//static TextRenderer& GetInstance();
 
 		bool Init() override;
 		void Shutdown() override;
