@@ -26,7 +26,6 @@ namespace Hi_Engine
 		void Shutdown()			override;
 		
 		void Deserialize(const rapidjson::Value& json) override;
-		void HandleEvent(RenderEvent& renderEvent) override;
 		void HandleEvent(SpriteBatchRequest& renderEvent) override;
 
 		void ProcessCommands();
@@ -44,8 +43,6 @@ namespace Hi_Engine
 		void SetupVertexArray();
 
 		std::queue<SpriteBatch> m_spriteBatches;
-
-		std::queue<std::queue<RenderCommand>> m_renderSequence;
 
 		// store a viewport?
 		

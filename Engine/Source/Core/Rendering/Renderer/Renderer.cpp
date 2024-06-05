@@ -70,9 +70,6 @@ namespace Hi_Engine
 		//m_quadContext.Buffer = new Vertex[Constants::MaxVertexCount];
 
 	
-
-
-
 		// DO this in init? or elsewhere?
 		glGenTextures(1, &m_whiteTexture);
 		glBindTexture(GL_TEXTURE_2D, m_whiteTexture);
@@ -140,21 +137,6 @@ namespace Hi_Engine
 		SetShader(shader);
 	}
 
-	void Renderer::HandleEvent(RenderEvent& renderEvent)
-	{
-		auto commands = renderEvent.GetCommands();
-		 
-		std::queue<RenderCommand> renderCommands;
-
-		while (!commands.empty())
-		{
-			renderCommands.push(commands.front());
-			commands.pop();
-		}
-
-		m_renderSequence.push(renderCommands);
-	}
-
 	void Renderer::HandleEvent(SpriteBatchRequest& renderEvent)
 	{
 		m_spriteBatches.push(renderEvent.GetBatch());
@@ -170,6 +152,8 @@ namespace Hi_Engine
 
 			m_quadContext.GLSLShader->SetMatrix4("uViewProjection", batch.ProjectionMatrix);
 			
+			// Todo; check if shader sent by event, is valid..
+
 			for (const auto& sprite : batch.Sprites)
 			{
 				DrawSprite(sprite);
@@ -178,50 +162,6 @@ namespace Hi_Engine
 			m_spriteBatches.pop();
 			EndFrame();
 		}
-
-
-		//while (!m_renderSequence.empty())
-		//{
-		//	BeginFrame(); // only do if draw sprite??
-
-		//	auto sequence = m_renderSequence.front();
-
-		//	while (!sequence.empty())
-		//	{
-		//		auto command = sequence.front();
-
-		//		// TODO: if batch,,,,,,
-		//		if (command.Type == eRenderCommandType::DrawBatch)
-		//		{
-		//			// pass projection matrix...
-
-		//			// Reset();
-
-		//			// Draw sprites()
-
-		//		}
-		//		else if (command.Type == eRenderCommandType::DrawSprite)
-		//		{
-		//			//BeginFrame();
-		//			//DrawSprite(command.SpriteRenderData);
-		//			//EndFrame();
-		//		}
-		//		else if (command.Type == eRenderCommandType::SetShader)
-		//		{
-		//			// Call display first?
-		//			//SetShader(command.GLSLShader);
-		//		}
-		//		else if (command.Type == eRenderCommandType::SetProjectionMatrix)
-		//		{
-		//			m_quadContext.GLSLShader->SetMatrix4("uViewProjection", command.ProjectionMatrix);
-		//		}
-
-		//		sequence.pop();
-		//	}
-		//	 
-		//	m_renderSequence.pop();
-		//	EndFrame(); 
-		//}
 	}
 
 	void Renderer::BeginFrame()
