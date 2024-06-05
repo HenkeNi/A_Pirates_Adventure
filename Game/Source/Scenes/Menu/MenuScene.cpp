@@ -35,7 +35,9 @@ void MenuScene::OnEnter()
 
 	//auto& sound = Hi_Engine::ResourceHolder<Hi_Engine::AudioSource>::GetInstance().GetResource("theme_song"); // TODO; read from json...
 	//Hi_Engine::ServiceLocator::GetAudioController().lock()->PlaySound(sound);
-	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::PlaySoundEvent>("theme_song");
+	
+	
+	//Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::PlaySoundEvent>("theme_song");
 }
 
 void MenuScene::OnExit()
@@ -45,5 +47,5 @@ void MenuScene::OnExit()
 	//auto& sound = Hi_Engine::ResourceHolder<Hi_Engine::AudioSource>::GetInstance().GetResource("theme_song");
 	//Hi_Engine::ServiceLocator::GetAudioController().lock()->StopSound(sound);
 
-	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::StopSoundEvent>("theme_song");
+	//Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::StopSoundEvent>("theme_song");
 }

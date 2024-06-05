@@ -69,6 +69,8 @@ namespace Hi_Engine
 		auto renderer = m_moduleManager.GetModule<Renderer>().lock();
 		auto window = m_moduleManager.GetModule<Window>().lock();
 
+		auto textRenderer = m_moduleManager.GetModule<TextRenderer>().lock();
+
 		while (m_isRunning)	// Todo, use enum for GameState instead? !GameState::EXIT or call function in Application? ShouldRun()?
 		{
  			timer.Update();
@@ -93,6 +95,8 @@ namespace Hi_Engine
 
 			if (renderer)
 				renderer->ProcessCommands();
+			//if (textRenderer)
+			//	textRenderer->ProcessQueue();
 
 			if (window)
 				window->SwapBuffers();

@@ -7,19 +7,34 @@ namespace Hi_Engine
 {
 	struct RenderCommand;
 	 
-	// RenderSpriteEvent, BatchRenderEvent, BatchSpriteRenderEvent?
+
+	class SpriteBatchRequest : public Event<SpriteBatchRequest>
+	{
+	public:
+		SpriteBatchRequest();
+
+		void Dispatch(EventListener& listener) override;
+		void Init(const SpriteBatch& spriteBatch);
+
+		inline const SpriteBatch& GetBatch() const { return m_spriteBatch; }
+
+	private:
+		SpriteBatch m_spriteBatch;
+	};
+
+
+
+
+	// RenderSpriteEvent, BatchRenderEvent, BatchSpriteRenderEvent? RenderRequestEvent?
 	class RenderEvent : public Event<RenderEvent>
 	{
 	public:
 		RenderEvent();
 		~RenderEvent();
-
+		 
 		void Dispatch(EventListener& listener)			override;		// make private, have firend class?
-		//void Init(const std::vector<RenderCommand>& someCommands);
 		void Init(const std::queue<RenderCommand>& commands);
-		//void AddRenderCommand(const RenderCommand& aCommand);
 
-		//const std::vector<RenderCommand>& GetCommands() const;
 		const std::queue<RenderCommand>& GetCommands() const;
 
 	private:

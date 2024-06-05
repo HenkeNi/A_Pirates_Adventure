@@ -109,7 +109,7 @@ void TimeSystem::UpdateWorldTime(float deltaTime)
 	}
 
 	worldTimeComponent->CurrentDayProgress = worldTimeComponent->TimeSinceDayStart / worldTimeComponent->DayDuration;
-	std::cout << "Day Progression: " << worldTimeComponent->CurrentDayProgress << "\n";
+	//std::cout << "Day Progression: " << worldTimeComponent->CurrentDayProgress << "\n";
 
 	SetTimeOfDay(entity);
 }

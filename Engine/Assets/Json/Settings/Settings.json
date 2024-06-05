@@ -14,5 +14,8 @@
       "vertex": 40000,
       "index": 6000
     }
+  },
+  "text_renderer": {
+    "default_shader": "Text"
   }
 }

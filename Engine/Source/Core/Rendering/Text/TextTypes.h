@@ -27,5 +27,16 @@ namespace Hi_Engine
 		glm::vec2	Position;
 		glm::vec4	Color;
 		glm::vec2	TexCoords;
+		//float		TexIndex;
 	};
+
+
+
+	//struct Character
+	//{
+	//	GLuint TextureID;   // ID handle of the glyph texture
+	//	glm::ivec2 Size;    // Size of glyph
+	//	glm::ivec2 Bearing; // Offset from baseline to left/top of glyph
+	//	GLuint Advance;     // Offset to advance to next glyph
+	//};
 }

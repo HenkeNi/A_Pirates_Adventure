@@ -7,6 +7,22 @@
 
 namespace Hi_Engine
 {
+	SpriteBatchRequest::SpriteBatchRequest()
+		: Event{ ePriority::Moderate }
+	{
+	}
+
+	void SpriteBatchRequest::Dispatch(EventListener& listener)
+	{
+		listener.HandleEvent(*this);
+	}
+
+	void SpriteBatchRequest::Init(const SpriteBatch& spriteBatch)
+	{
+		m_spriteBatch = spriteBatch;
+	}
+
+
 	RenderEvent::RenderEvent()
 		: Event{ ePriority::Moderate }
 	{
@@ -97,4 +113,5 @@ namespace Hi_Engine
 		m_data = data;
 		m_projection = projection;
 	}
+
 }

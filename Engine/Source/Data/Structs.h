@@ -71,9 +71,23 @@ namespace Hi_Engine
 		//GLint		TexIndex;
 	};
 
+	struct Sprite
+	{
+		Transform Transform{};
+		glm::vec4 Color = { 1.f, 1.f, 1.f, 1.f };
+		const class Subtexture2D* Subtexture = nullptr;
+	};
+
+	struct SpriteBatch
+	{
+		std::vector<Sprite> Sprites;
+		glm::mat4 ProjectionMatrix;
+	};
+
+
+
 	struct SpriteRenderData
 	{
-		// const class Material*	Material;
 		const class Subtexture2D*	Subtexture = nullptr;
 		glm::vec4					Color = { 1.f, 1.f, 1.f, 1.f };
 		Transform					Transform{};
@@ -108,8 +122,6 @@ namespace Hi_Engine
 	
 	// Rename TextRenderProperties?
 
-	
-
 	struct RenderContext
 	{
 		class GLSLShader*   GLSLShader      = nullptr;
@@ -127,14 +139,10 @@ namespace Hi_Engine
 
 	struct LineRenderData
 	{
-
 	};
-
 
 	struct RectRenderData
 	{};
-
-
 
 	struct SpriteSheet
 	{
@@ -146,7 +154,6 @@ namespace Hi_Engine
 #pragma region Event_Structs
 	
 
-
 	struct RenderCommand
 	{
 		//SpriteRenderData RenderData;
@@ -156,12 +163,18 @@ namespace Hi_Engine
 		union
 		{
 			//std::vector<SpriteRenderData>	SpriteBatch;
-			SpriteRenderData				SpriteRenderData;
 			//SpriteBatchData					SpriteBatchData;
-			class GLSLShader*					GLSLShader;
-			class Camera*					Camera;
+			//class Camera*					Camera;
+			SpriteRenderData				SpriteRenderData;
+			class GLSLShader*				GLSLShader;
 			glm::mat4						ProjectionMatrix;
 		};
+	};
+
+	struct BatchRendering
+	{
+		class GLSLShader* ShaderOverride;
+		glm::mat4 ProjectionMatrix;
 	};
 
 #pragma endregion Event_Structs

@@ -59,7 +59,7 @@ namespace Hi_Engine
 			(*target)->TexCoords = someTexCoords[i];
 			(*target)->TexIndex = aTexIndex + 0.1f;	// small hack; makes it 1.1 instead of 1.0 (shader error when converting it to an int)
 			++(*target);
-		}
+		}	
 	}
 
 	Renderer::Renderer(int initOrder)
@@ -129,32 +129,25 @@ namespace Hi_Engine
 	{
 		auto renderer = json["renderer"].GetObj();
 
-		int maxVertexCount = renderer["max_count"]["vertex"].GetInt();
-		m_quadContext.Buffer = new Vertex[maxVertexCount];
+		int vertexMaxCount = renderer["max_count"]["vertex"].GetInt();
+		m_quadContext.Buffer = new Vertex[vertexMaxCount];
 
-		SetupQuadRendering();
+		SetupVertexArray();
 
+		std::string res = renderer["default_shader"].GetString();
+		auto* shader = &ResourceHolder<GLSLShader>::GetInstance().GetResource(res);
 
-		
-
-
-		std::string shaderResource = renderer["default_shader"].GetString();
-
-		auto* shader = &ResourceHolder<GLSLShader>::GetInstance().GetResource(shaderResource);
 		SetShader(shader);
 	}
 
 	void Renderer::HandleEvent(RenderEvent& renderEvent)
 	{
-		// TODO; Maybe add to queue => sort first set camera, set shader, then render stuff, lastly text... 
-		
 		auto commands = renderEvent.GetCommands();
-
+		 
 		std::queue<RenderCommand> renderCommands;
 
 		while (!commands.empty())
 		{
-			//m_renderCommands.emplace(commands.front());
 			renderCommands.push(commands.front());
 			commands.pop();
 		}
@@ -162,81 +155,131 @@ namespace Hi_Engine
 		m_renderSequence.push(renderCommands);
 	}
 
-	void Renderer::ProcessCommands()
+	void Renderer::HandleEvent(SpriteBatchRequest& renderEvent)
 	{
-		while (!m_renderSequence.empty())
-		{
-			BeginFrame(); // FIX!
-
-			auto sequence = m_renderSequence.front();
-
-			//while (!m_renderCommands.empty())
-			while (!sequence.empty())
-			{
-				auto command = sequence.front();
-				//auto command = m_renderCommands.front();
-
-				// TODO: if batch,,,,,,
-				if (command.Type == eRenderCommandType::DrawBatch)
-				{
-					// pass projection matrix...
-
-					// Reset();
-
-					// Draw sprites()
-
-				}
-				else if (command.Type == eRenderCommandType::DrawSprite)
-				{
-					DrawSprite(command.SpriteRenderData);
-				}
-				else if (command.Type == eRenderCommandType::SetShader)
-				{
-					// m_activeShader = command.m_shader;
-				}
-				else if (command.Type == eRenderCommandType::SetCamera)
-				{
-					// m_quadContext.GLSLShader->SetMatrix4("uViewProjection", command.Camera->GetProjectionMatrix());
-
-				}
-				else if (command.Type == eRenderCommandType::SetProjectionMatrix)
-				{
-					//glm::mat4 viewProjection = m_camera->GetViewProjectionMatrix();
-					m_quadContext.GLSLShader->SetMatrix4("uViewProjection", command.ProjectionMatrix);
-				}
-
-				//m_renderCommands.pop();
-				sequence.pop();
-			}
-
-			EndFrame();
-			m_renderSequence.pop();
-		}
+		m_spriteBatches.push(renderEvent.GetBatch());
 	}
 
-	void Renderer::Reset()
+	void Renderer::ProcessCommands()
 	{
+		while (!m_spriteBatches.empty())
+		{
+			auto batch = m_spriteBatches.front();
+
+			BeginFrame();
+
+			m_quadContext.GLSLShader->SetMatrix4("uViewProjection", batch.ProjectionMatrix);
+			
+			for (const auto& sprite : batch.Sprites)
+			{
+				DrawSprite(sprite);
+			}
+
+			m_spriteBatches.pop();
+			EndFrame();
+		}
+
+
+		//while (!m_renderSequence.empty())
+		//{
+		//	BeginFrame(); // only do if draw sprite??
+
+		//	auto sequence = m_renderSequence.front();
+
+		//	while (!sequence.empty())
+		//	{
+		//		auto command = sequence.front();
+
+		//		// TODO: if batch,,,,,,
+		//		if (command.Type == eRenderCommandType::DrawBatch)
+		//		{
+		//			// pass projection matrix...
+
+		//			// Reset();
+
+		//			// Draw sprites()
+
+		//		}
+		//		else if (command.Type == eRenderCommandType::DrawSprite)
+		//		{
+		//			//BeginFrame();
+		//			//DrawSprite(command.SpriteRenderData);
+		//			//EndFrame();
+		//		}
+		//		else if (command.Type == eRenderCommandType::SetShader)
+		//		{
+		//			// Call display first?
+		//			//SetShader(command.GLSLShader);
+		//		}
+		//		else if (command.Type == eRenderCommandType::SetProjectionMatrix)
+		//		{
+		//			m_quadContext.GLSLShader->SetMatrix4("uViewProjection", command.ProjectionMatrix);
+		//		}
+
+		//		sequence.pop();
+		//	}
+		//	 
+		//	m_renderSequence.pop();
+		//	EndFrame(); 
+		//}
+	}
+
+	void Renderer::BeginFrame()
+	{
+		/* Set current vertex to point to the first element */
 		m_quadContext.CurrentVertex = m_quadContext.Buffer;
 		m_quadContext.IndexCount = 0;
 		m_textureSlotIndex = 1;
+	}
 
-		// Reset Stats??
+	void Renderer::EndFrame()
+	{
+		Display();
+
+		std::cout << "Total draws: " << m_stats.TotalDraws << ", total quads: " << m_stats.TotalQuads << "\n";
+
+		// Reset stats
 		m_stats.TotalDraws = 0;
 		m_stats.TotalQuads = 0;
 	}
 
-
-	void Renderer::DrawSprite(const SpriteRenderData& data)
+	void Renderer::Display()
 	{
-		unsigned id = data.Subtexture->GetTexture().GetID();
+		/* Pass data to the buffer (VBO) */
+		GLsizeiptr size = (uint8_t*)m_quadContext.CurrentVertex - (uint8_t*)m_quadContext.Buffer;
+		glBindBuffer(GL_ARRAY_BUFFER, m_quadContext.VBO);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, size, m_quadContext.Buffer);
 
+		/* Activate and bind used textures */
+		for (uint32_t i = 0; i < m_textureSlotIndex; ++i)
+		{
+			glActiveTexture(GL_TEXTURE0 + i);
+			glBindTexture(GL_TEXTURE_2D, m_textureSlots[i]);
+		}
+
+		// m_activeShader->SetIntArray("uTextures", m_textureSlots, m_textureSlotIndex);	// NEEDED??
+		m_quadContext.GLSLShader->Activate();
+
+		
+		glBindVertexArray(m_quadContext.VAO);
+		glDrawElements(GL_TRIANGLES, m_quadContext.IndexCount, GL_UNSIGNED_INT, nullptr);
+
+		++m_stats.TotalDraws;
+	}
+
+
+	void Renderer::DrawSprite(const Sprite& sprite)
+	{
+		auto& [transform, color, subtexture ] = sprite;
+
+		unsigned textureId = subtexture->GetTexture().GetID();
 		float textureIndex = 0;
 
 		/* Check if this texture is already bound to a slot */
-		if (!IsTextureBound(id, textureIndex))
+		if (!IsTextureBound(textureId, textureIndex))
 		{
 			textureIndex = (float)m_textureSlotIndex;
-			m_textureSlots[m_textureSlotIndex] = id;
+			m_textureSlots[m_textureSlotIndex] = textureId;
 
 			++m_textureSlotIndex;
 		}
@@ -247,7 +290,7 @@ namespace Hi_Engine
 			BeginFrame();
 		}
 
-		SetupVertices(&m_quadContext.CurrentVertex, data.Transform, data.Color, data.Subtexture->GetTexCoords(), textureIndex);
+		SetupVertices(&m_quadContext.CurrentVertex, transform, color, subtexture->GetTexCoords(), textureIndex);
 
 		m_quadContext.IndexCount += INDICES_PER_QUAD;
 		++m_stats.TotalQuads;
@@ -275,61 +318,6 @@ namespace Hi_Engine
 		++m_stats.TotalQuads;
 	}
 
-
-
-
-	void Renderer::BeginFrame()
-	{
-		/* Set current vertex to point to the first element */
-		m_quadContext.CurrentVertex = m_quadContext.Buffer;
-		m_quadContext.IndexCount = 0;
-		m_textureSlotIndex = 1;
-	}
-
-	void Renderer::Display()
-	{
-		/* Pass data to the buffer (VBO) */
-		GLsizeiptr size = (uint8_t*)m_quadContext.CurrentVertex - (uint8_t*)m_quadContext.Buffer;
-		glBindBuffer(GL_ARRAY_BUFFER, m_quadContext.VBO);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, size, m_quadContext.Buffer);
-
-		/* Activate and bind used textures */
-		for (uint32_t i = 0; i < m_textureSlotIndex; ++i)
-		{
-			glActiveTexture(GL_TEXTURE0 + i);
-			glBindTexture(GL_TEXTURE_2D, m_textureSlots[i]);
-		}
-
-		// m_activeShader->SetIntArray("uTextures", m_textureSlots, m_textureSlotIndex);	// NEEDED??
-		m_quadContext.GLSLShader->Activate();	// Fetch instead from ResourceHolder??
-
-		/* Set view-projection matrix */
-		//glm::mat4 viewProjection = m_camera->GetViewProjectionMatrix();
-		// m_quadContext.GLSLShader->SetMatrix4("uViewProjection", viewProjection);
-		
-		glBindVertexArray(m_quadContext.VAO);
-		glDrawElements(GL_TRIANGLES, m_quadContext.IndexCount, GL_UNSIGNED_INT, nullptr);
-
-		++m_stats.TotalDraws;
-
-		//DisplayQuads();
-		// DisplayText();
-	}
-
-	void Renderer::EndFrame()
-	{
-		Display();
-
-		// Reset stats
-		m_stats.TotalDraws = 0;
-		m_stats.TotalQuads = 0;
-	}
-	
-	void Renderer::SetProjectionMatrix(const glm::mat4& natrix)
-	{
-		m_quadContext.GLSLShader->SetMatrix4("uViewProjection", natrix);
-	}
-
 	void Renderer::SetShader(GLSLShader* shader)
 	{
 		m_quadContext.GLSLShader = shader;
@@ -340,15 +328,8 @@ namespace Hi_Engine
 			samplers[i] = i;
 
 		m_quadContext.GLSLShader->SetIntArray("uTextures", samplers, 32);
-
-		// set view projection here as well??
 	}
 
-	//void Renderer::SetCamera(Camera* aCamera)
-	//{
-	//	m_camera = aCamera;
-	//}
-	
 	bool Renderer::IsTextureBound(unsigned texID, float& outTexIndex)
 	{
 		for (uint32_t i = 1; i < m_textureSlotIndex; ++i)
@@ -362,7 +343,7 @@ namespace Hi_Engine
 		return false;
 	}
  
-	void Renderer::SetupQuadRendering()
+	void Renderer::SetupVertexArray()
 	{
 		/* Create vertex array object */
 		glGenVertexArrays(1, &m_quadContext.VAO);
@@ -403,78 +384,5 @@ namespace Hi_Engine
 		/* Unbind VBO and VAO */
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
-
 	}
-
-	void Renderer::DisplayQuads()
-	{
-		
-	}
-
-	void Renderer::DisplayText()
-	{
-		//auto* shader = m_textContext.GLSLShader;
-
-		//shader->Activate();
-		//shader->SetVector4f("uText Color", { 1.f, 1.f, 1.f, 1.f }); // TODO; fix color...
-
-		//glm::mat4 projection = m_camera->GetProjectionMatrix();
-		//shader->SetMatrix4("uProjection", projection);
-
-		//glActiveTexture(GL_TEXTURE0); // ????????????????????
-		//glBindVertexArray(m_textContext.VAO);
-
-		// iterate through all characters
-		//auto position = someData.m_position;
-		//const auto& characters = someData.m_font->m_characters;
-
-		//// position.x -= (someData.m_text.size() * characters.begin()->second.m_size.x) * 0.5f; // TEST!!  
-
-
-		//for (const char& c : someData.m_text)
-		//{
-		//	const auto& ch = someData.m_font->m_characters[c];
-
-		//	float xpos = position.x + ch.m_bearing.x * someData.m_scale;
-		//	float ypos = position.y - (ch.m_size.y - ch.m_bearing.y) * someData.m_scale;
-
-		//	float w = ch.m_size.x * someData.m_scale;
-		//	float h = ch.m_size.y * someData.m_scale;
-		//	// update VBO for each character
-		//	float vertices[6][4] = {
-		//		{ xpos,     ypos + h,   0.0f, 0.0f },
-		//		{ xpos,     ypos,       0.0f, 1.0f },
-		//		{ xpos + w, ypos,       1.0f, 1.0f },
-
-		//		{ xpos,     ypos + h,   0.0f, 0.0f },
-		//		{ xpos + w, ypos,       1.0f, 1.0f },
-		//		{ xpos + w, ypos + h,   1.0f, 0.0f }
-		//	};
-		//	// render glyph texture over quad
-
-		//	//ch.m_texture.Bind();
-		//	ResourceHolder<Texture2D>::GetInstance().GetResource(ch.m_textureID).Bind();
-
-
-		//	//glBindTexture(GL_TEXTURE_2D, ch.m_textureID);   // use texture pointer instead..
-
-		//	// update content of VBO memory
-		//	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-		//	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); // be sure to use glBufferSubData and not glBufferData
-
-		//	glBindBuffer(GL_ARRAY_BUFFER, 0);
-		//	// render quad
-		//	glDrawArrays(GL_TRIANGLES, 0, 6);
-		//	// now advance cursors for next glyph (note that advance is number of 1/64 pixels)
-		//	position.x += (ch.m_advance >> 6) * someData.m_scale; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
-
-
-
-		//	//  glBindTexture(GL_TEXTURE_2D, 0); // TEST
-
-		//}
-
-		//glBindVertexArray(0);
-		//glBindTexture(GL_TEXTURE_2D, 0);
-	}	
 }

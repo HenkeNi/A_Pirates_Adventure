@@ -20,6 +20,6 @@ struct MapChunkComponent : public Component
 	// static constexpr unsigned SideLength;
 
 	// HERE? or a new component...
-	std::vector<Hi_Engine::SpriteRenderData> RenderData;
+	std::vector<Hi_Engine::Sprite> Sprites;
 	bool IsRenderDataDirty; // ??
 };

@@ -39,7 +39,9 @@ void TextRenderSystem::Draw()
 		renderPosition.x = transformComponent->CurrentPos.x + (transformComponent->Pivot.x * textComponent->Size); // transformComponent->Scale.x);
 		renderPosition.y = transformComponent->CurrentPos.y + (transformComponent->Pivot.y * textComponent->Size); // transformComponent->Scale.y); // TODO: add font size??
 
-		Hi_Engine::TextRenderer::GetInstance().Render({ shader, textComponent->Font, (float)1.f, textComponent->Color, renderPosition, textComponent->Text, textComponent->Alignment }, projection);
+		Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::TextRenderEvent>(Hi_Engine::TextRenderData{ shader, textComponent->Font, (float)1.f, textComponent->Color, renderPosition, textComponent->Text, textComponent->Alignment }, projection);
+
+		//Hi_Engine::TextRenderer::GetInstance().Render({ shader, textComponent->Font, (float)1.f, textComponent->Color, renderPosition, textComponent->Text, textComponent->Alignment }, projection);
 		//Hi_Engine::TextRenderer::GetInstance().Render({ shader, textComponent->Font, (float)textComponent->Size, textComponent->Color, renderPosition, textComponent->Text }, projection);
 	}
 }

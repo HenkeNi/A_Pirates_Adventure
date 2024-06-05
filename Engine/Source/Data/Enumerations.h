@@ -22,7 +22,6 @@ namespace Hi_Engine
 	enum class eRenderCommandType
 	{
 		SetShader,
-		SetCamera,
 		SetProjectionMatrix,
 		DrawSprite,
 		DrawBatch

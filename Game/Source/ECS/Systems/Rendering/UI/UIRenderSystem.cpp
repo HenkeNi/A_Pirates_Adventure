@@ -41,15 +41,9 @@ void UIRenderSystem::RenderHUD()
 		return;
 
 	// TODO; use a simpler GLSLShader for HUD?
+	auto projectionMatrix = camera->GetComponent<CameraComponent>()->Camera.GetProjectionMatrix();
 
-	std::queue<Hi_Engine::RenderCommand> renderCommands;
-
-	// Add projection command (NOT NEEDED?? Use old projection matrix
-	Hi_Engine::RenderCommand projectionCommand{};
-	projectionCommand.Type = Hi_Engine::eRenderCommandType::SetProjectionMatrix;
-	projectionCommand.ProjectionMatrix = camera->GetComponent<CameraComponent>()->Camera.GetProjectionMatrix();
-	// projectionCommand.ProjectionMatrix =
-	renderCommands.push(projectionCommand);
+	std::vector<Hi_Engine::Sprite> sprites;
 
 	for (auto* entity : entities)
 	{
@@ -60,13 +54,11 @@ void UIRenderSystem::RenderHUD()
 		const auto& scale = transform->Scale;
 		const auto& rotation = transform->Rotation;
 
-		Hi_Engine::RenderCommand command{};
-		command.Type = Hi_Engine::eRenderCommandType::DrawSprite;
-		command.SpriteRenderData = { sprite->Subtexture, { 1.f, 1.f, 1.f, 1.f }, Hi_Engine::Transform{{ position.x, position.y, 0.f }, { scale.x, scale.y }, rotation } }; // CHANGE TO Transform
+		glm::vec4 color = { sprite->Color.x, sprite->Color.y, sprite->Color.z, sprite->Color.w };
 
-		renderCommands.push(command);
+		sprites.emplace_back(Hi_Engine::Transform{ { position.x, position.y, 0.f }, { scale.x, scale.y }, rotation }, color, sprite->Subtexture);
 	}
-	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::RenderEvent>(renderCommands);
+	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::SpriteBatchRequest>(Hi_Engine::SpriteBatch{ sprites, projectionMatrix });
 }
 
 void UIRenderSystem::RenderUI()
@@ -75,8 +67,6 @@ void UIRenderSystem::RenderUI()
 
 	if (!camera)
 		return;
-
-
 
 	// Render cursor, buttons, images
 
@@ -94,22 +84,13 @@ void UIRenderSystem::RenderUI()
 			return e1UIComponent->RenderDepth > e2UIComponent->RenderDepth;
 		});
 
-
-
-
-
-
+	auto projectionMatrix = camera->GetComponent<CameraComponent>()->Camera.GetProjectionMatrix();
 
 	// TODO; use a simpler GLSLShader for HUD?
 
 	std::queue<Hi_Engine::RenderCommand> renderCommands;
 
-	// Add projection command (NOT NEEDED?? Use old projection matrix
-	Hi_Engine::RenderCommand projectionCommand{};
-	projectionCommand.Type = Hi_Engine::eRenderCommandType::SetProjectionMatrix;
-	//projectionCommand.ProjectionMatrix = glm::ortho(0.f, 1400.f, 0.f, 800.f, 0.f, 100.f);
-	projectionCommand.ProjectionMatrix = camera->GetComponent<CameraComponent>()->Camera.GetProjectionMatrix();
-	renderCommands.push(projectionCommand);
+	std::vector<Hi_Engine::Sprite> sprites;
 
 	for (auto* entity : entities)
 	{
@@ -119,14 +100,12 @@ void UIRenderSystem::RenderUI()
 		const auto& position = transform->CurrentPos;
 		const auto& scale = transform->Scale;
 		const auto& rotation = transform->Rotation;
+		glm::vec4 color = { sprite->Color.x, sprite->Color.y, sprite->Color.z, sprite->Color.w };
 
-		Hi_Engine::RenderCommand command{};
-		command.Type = Hi_Engine::eRenderCommandType::DrawSprite;
-		command.SpriteRenderData = { sprite->Subtexture, { 1.f, 1.f, 1.f, 1.f }, Hi_Engine::Transform{{ position.x, position.y, 0.f }, { scale.x, scale.y }, rotation } }; // CHANGE TO Transform
-
-		renderCommands.push(command);
+		sprites.emplace_back(Hi_Engine::Transform{ { position.x, position.y, 0.f }, { scale.x, scale.y }, rotation }, color, sprite->Subtexture);
 	}
-	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::RenderEvent>(renderCommands);
+
+	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::SpriteBatchRequest>(Hi_Engine::SpriteBatch{ sprites, projectionMatrix });
 }
 
 void UIRenderSystem::RenderInventory()
@@ -147,31 +126,31 @@ void UIRenderSystem::RenderInventory()
 	//if (inventory && !inventoryComponent->IsOpen)
 	//	return;
 
-	std::queue<Hi_Engine::RenderCommand> renderCommands;
-	Hi_Engine::RenderCommand projectionCommand{};
-	projectionCommand.Type = Hi_Engine::eRenderCommandType::SetProjectionMatrix;
-	//projectionCommand.ProjectionMatrix = glm::ortho(0.f, 1400.f, 0.f, 800.f, 0.f, 100.f);
-	projectionCommand.ProjectionMatrix = camera->GetComponent<CameraComponent>()->Camera.GetProjectionMatrix();
-	renderCommands.push(projectionCommand);
+	//std::queue<Hi_Engine::RenderCommand> renderCommands;
+	//Hi_Engine::RenderCommand projectionCommand{};
+	//projectionCommand.Type = Hi_Engine::eRenderCommandType::SetProjectionMatrix;
+	////projectionCommand.ProjectionMatrix = glm::ortho(0.f, 1400.f, 0.f, 800.f, 0.f, 100.f);
+	//projectionCommand.ProjectionMatrix = camera->GetComponent<CameraComponent>()->Camera.GetProjectionMatrix();
+	//renderCommands.push(projectionCommand);
 
-	glm::vec2 position = { 0.f, 0.f }; // TODO; increment position each frame...
-	glm::vec2 scale = { 1.f, 1.f };
+	//glm::vec2 position = { 0.f, 0.f }; // TODO; increment position each frame...
+	//glm::vec2 scale = { 1.f, 1.f };
 
-	for (int i = 0; i < inventoryComponent->MaxSlots; ++i)
-	{
-		position.x += 1.f * scale.x;
+	//for (int i = 0; i < inventoryComponent->MaxSlots; ++i)
+	//{
+	//	position.x += 1.f * scale.x;
 
-		if (i >= 12) // "new row"
-			position.y += 1.f * scale.y;
+	//	if (i >= 12) // "new row"
+	//		position.y += 1.f * scale.y;
 
-		Hi_Engine::RenderCommand command{};
+	//	Hi_Engine::RenderCommand command{};
 
-		//glm::vec2 scale;
-		auto& texture = Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ "debug", 0, 0 });
-		command.SpriteRenderData = { &texture, { 0.5f, 0.2f, 0.7f, 1.f }, Hi_Engine::Transform{{ position.x, position.y, 0.f }, { scale.x, scale.y }, 0.f } }; // CHANGE TO Transform
+	//	//glm::vec2 scale;
+	//	auto& texture = Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ "debug", 0, 0 });
+	//	command.SpriteRenderData = { &texture, { 0.5f, 0.2f, 0.7f, 1.f }, Hi_Engine::Transform{{ position.x, position.y, 0.f }, { scale.x, scale.y }, 0.f } }; // CHANGE TO Transform
 
-		renderCommands.push(command);
-	}
-	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::RenderEvent>(renderCommands);
+	//	renderCommands.push(command);
+	//}
+	//Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::RenderEvent>(renderCommands);
 
 }

@@ -296,16 +296,16 @@ void MapGenerationSystem::ApplyTextures(Entity* entity) // Rename; texture map c
 		}
 
 		// Check if more optimized (dont have to do every frame?!)
-		Hi_Engine::SpriteRenderData renderData;
-		renderData.Color = GetTileColor(mapChunkComponent->Tiles[i].Type); // { tile.Color.x, tile.Color.y, tile.Color.z, tile.Color.w };
-		renderData.Subtexture = tile.Subtexture;
+		Hi_Engine::Sprite sprite;
+		sprite.Color = GetTileColor(mapChunkComponent->Tiles[i].Type); // { tile.Color.x, tile.Color.y, tile.Color.z, tile.Color.w };
+		sprite.Subtexture = tile.Subtexture;
 		auto currentPosition = transformComponent->CurrentPos;
 
 		glm::vec3 position = { currentPosition.x, currentPosition.y, 0.f };
 		position.x += tile.Coordinates.x * Tile::Size;
 		position.y += tile.Coordinates.y * Tile::Size;
-		renderData.Transform = { position, { 1.01f, 1.01f }, 0.f }; // TEMP Solution with scale at 1.01f
-		mapChunkComponent->RenderData.push_back(renderData);
+		sprite.Transform = { position, { 1.01f, 1.01f }, 0.f }; // TEMP Solution with scale at 1.01f
+		mapChunkComponent->Sprites.push_back(sprite);
 
 	}
 }

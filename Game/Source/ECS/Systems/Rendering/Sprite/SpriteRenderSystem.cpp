@@ -21,16 +21,18 @@ void SpriteRenderSystem::Draw() // TODO; should pass along if bash should be flu
 {
 	if (!m_entityManager)
 		return;
-
-	std::queue<Hi_Engine::RenderCommand> commandQueue;
-
-	auto entities = m_entityManager->FindAll<SpriteComponent, TransformComponent>();
+	
 	auto* camera = m_entityManager->FindFirst<CameraComponent>();
-	Hi_Engine::RenderCommand projectionCommand{};
-	projectionCommand.Type = Hi_Engine::eRenderCommandType::SetProjectionMatrix;
-	projectionCommand.ProjectionMatrix = camera->GetComponent<CameraComponent>()->Camera.GetViewProjectionMatrix();
 
-	commandQueue.push(projectionCommand);
+	if (!camera)
+		return;
+	
+	auto entities = m_entityManager->FindAll<SpriteComponent, TransformComponent>();
+
+	if (entities.empty())
+		return;
+	
+	auto viewProjectionMatrix = camera->GetComponent<CameraComponent>()->Camera.GetViewProjectionMatrix();
 
 	std::sort(entities.begin(), entities.end(), [](const Entity* e1, const Entity* e2) {
 
@@ -56,15 +58,13 @@ void SpriteRenderSystem::Draw() // TODO; should pass along if bash should be flu
 		// TODO: FIX Scale....
 
 		return e1->GetComponent<TransformComponent>()->CurrentPos.y < e2->GetComponent<TransformComponent>()->CurrentPos.y;
-		});
+		}); // also sort after if should render? return when hitting a entity that shouldnt render..
 
-
+	std::vector<Hi_Engine::Sprite> sprites;
 	for (const Entity* entity : entities)
 	{
 		if (entity->HasComponent<HUDComponent>() || entity->HasComponent<UIComponent>()) // TODO: Fix by having better filtering... (look into bitset)
 			continue;
-
-		//auto& material = entity->GetComponent<SpriteComponent>()->m_material;
 
 		auto* spriteComponent = entity->GetComponent<SpriteComponent>();
 
@@ -87,14 +87,8 @@ void SpriteRenderSystem::Draw() // TODO; should pass along if bash should be flu
 
 		glm::vec4 color = { 1.f, 1.f, 1.f, 1.f };
 
-		Hi_Engine::RenderCommand command{};
-		command.Type = Hi_Engine::eRenderCommandType::DrawSprite;
-		command.SpriteRenderData = { subtexture, color, Hi_Engine::Transform{{ renderPosition.x, renderPosition.y, 0.f }, { scale.x, scale.y }, rotation } }; // CHANGE TO Transform
-		//command.SpriteRenderData = { subtexture, { 1.f, 1.f, 1.f, 1.f }, Hi_Engine::Transform{{ position.x, position.y, 0.f }, { scale.x, scale.y }, rotation } }; // CHANGE TO Transform
-
-		commandQueue.push(command);
-		// Hi_Engine::SpriteRenderer::GetInstance().Render(Hi_Engine::SpriteRenderData{ &material, { position.x, position.y, position.z }, { scale.x, scale.y }, rotation });
+		sprites.emplace_back(Hi_Engine::Transform{{ renderPosition.x, renderPosition.y, 0.f }, { scale.x, scale.y }, rotation }, color, subtexture);
 	}
 
-	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::RenderEvent>(commandQueue);
+	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::SpriteBatchRequest>(Hi_Engine::SpriteBatch{ sprites, viewProjectionMatrix });
 }
