@@ -39,16 +39,23 @@ void UIRenderSystem::RenderHUD()
 
 	if (entities.empty())
 		return;
+	
+	auto* cameraComponent = camera->GetComponent<CameraComponent>();
+
+	if (!cameraComponent)
+		return;
 
 	// TODO; use a simpler GLSLShader for HUD?
-	auto projectionMatrix = camera->GetComponent<CameraComponent>()->Camera.GetProjectionMatrix();
-
+	
 	std::vector<Hi_Engine::Sprite> sprites;
 
 	for (auto* entity : entities)
 	{
 		const auto* sprite = entity->GetComponent<SpriteComponent>();
 		const auto* transform = entity->GetComponent<TransformComponent>();
+
+		if (!sprite || !transform)
+			continue;
 
 		const auto& position = transform->CurrentPos;
 		const auto& scale = transform->Scale;
@@ -58,9 +65,14 @@ void UIRenderSystem::RenderHUD()
 
 		sprites.emplace_back(Hi_Engine::Transform{ { position.x, position.y, 0.f }, { scale.x, scale.y }, rotation }, color, sprite->Subtexture);
 	}
+	
+	auto projectionMatrix = cameraComponent->Camera.GetProjectionMatrix();
+
 	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::SpriteBatchRequest>(Hi_Engine::SpriteBatch{ sprites, projectionMatrix });
 }
 
+// Render cursor, buttons, images
+// TODO; use a simpler GLSLShader for HUD?
 void UIRenderSystem::RenderUI()
 {
 	auto* camera = m_entityManager->FindFirst<CameraComponent>();
@@ -68,13 +80,15 @@ void UIRenderSystem::RenderUI()
 	if (!camera)
 		return;
 
-	// Render cursor, buttons, images
-
 	auto entities = m_entityManager->FindAll<UIComponent, SpriteComponent>();
 
 	if (entities.empty())
 		return;
-	
+
+	auto* cameraComponent = camera->GetComponent<CameraComponent>();
+
+	if (!cameraComponent)
+		return;
 
 	std::sort(entities.begin(), entities.end(), [](const Entity* e1, const Entity* e2)
 		{
@@ -84,18 +98,15 @@ void UIRenderSystem::RenderUI()
 			return e1UIComponent->RenderDepth > e2UIComponent->RenderDepth;
 		});
 
-	auto projectionMatrix = camera->GetComponent<CameraComponent>()->Camera.GetProjectionMatrix();
-
-	// TODO; use a simpler GLSLShader for HUD?
-
-	std::queue<Hi_Engine::RenderCommand> renderCommands;
-
 	std::vector<Hi_Engine::Sprite> sprites;
 
 	for (auto* entity : entities)
 	{
 		const auto* sprite = entity->GetComponent<SpriteComponent>();
 		const auto* transform = entity->GetComponent<TransformComponent>();
+
+		if (!sprite || !transform)
+			continue;
 
 		const auto& position = transform->CurrentPos;
 		const auto& scale = transform->Scale;
@@ -104,6 +115,8 @@ void UIRenderSystem::RenderUI()
 
 		sprites.emplace_back(Hi_Engine::Transform{ { position.x, position.y, 0.f }, { scale.x, scale.y }, rotation }, color, sprite->Subtexture);
 	}
+
+	auto projectionMatrix = cameraComponent->Camera.GetProjectionMatrix();
 
 	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::SpriteBatchRequest>(Hi_Engine::SpriteBatch{ sprites, projectionMatrix });
 }

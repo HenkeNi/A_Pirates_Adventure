@@ -35,7 +35,11 @@ void MapRenderSystem::Draw()
 	if (entities.empty())
 		return;
 
-	auto viewProjectionMatrix = camera->GetComponent<CameraComponent>()->Camera.GetViewProjectionMatrix();
+	auto* cameraComponent = camera->GetComponent<CameraComponent>();
+
+	if (!cameraComponent)
+		return;
+
 
 	// Todo; only render relevant map chunks (those in view) -> camera systems job?!
 
@@ -43,9 +47,14 @@ void MapRenderSystem::Draw()
 
 	for (auto entity : entities)
 	{
-		auto currentPosition = entity->GetComponent<TransformComponent>()->CurrentPos;
+		auto* transformComponent = entity->GetComponent<TransformComponent>();
 		auto* mapChunkComponent = entity->GetComponent<MapChunkComponent>();
 
+		if (!transformComponent || !mapChunkComponent)
+			continue;
+
+		const auto& currentPosition = transformComponent->CurrentPos;
+	
 		// TODO:: pass in bounds (componetn)?
 
 		Hi_Engine::Physics::AABB2D<float> bounds;
@@ -57,11 +66,10 @@ void MapRenderSystem::Draw()
 
 		auto color = TimeSystem::CalculateDaylightColor(m_entityManager->FindFirst<WorldTimeComponent>());
 
-		for (const auto sprite : mapChunkComponent->Sprites)
-		{
-			sprites.push_back(sprite);
-		}
+		std::copy(mapChunkComponent->Sprites.begin(), mapChunkComponent->Sprites.end(), std::back_inserter(sprites));
 	}
+
+	auto viewProjectionMatrix = cameraComponent->Camera.GetViewProjectionMatrix();
 
 	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::SpriteBatchRequest>(Hi_Engine::SpriteBatch{ sprites, viewProjectionMatrix }); // Static call to Renderer instead??
 }
