@@ -7,7 +7,7 @@
         "type": "transform",
         "properties": {
           "position": [ 0.0, 0.0 ],
-          "scale": [ 0.25, 0.25 ],
+          "scale": [ 0.5, 0.5 ],
           "pivot": [ 0.0, 0.0 ],
           "rotation": 0.0
         }
@@ -16,7 +16,7 @@
         "type": "sprite",
         "properties": {
           "shader": "sprite_batch",
-          "texture": "log",
+          "texture": "sword_01",
           "coordinates": [ 0, 0 ],
           "color": [ 1.0, 1.0, 1.0, 1.0 ]
         }

@@ -404,6 +404,15 @@
     "height": 256,
     "rows": 4,
     "cols": 3
-
+  },
+  {
+    "id": "sword_01",
+    "path": "../Game/Assets/Textures/scithersword.png",
+    "alpha": true,
+    "filtering": "Linear",
+    "width": 92,
+    "height": 100,
+    "rows": 1,
+    "cols": 1
   }
 ]

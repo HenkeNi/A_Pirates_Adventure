@@ -261,6 +261,16 @@ struct WeaponComponent : public Component // gun component?
 	// enum daamge type (explosive, slashing, blunt
 };
 
+//struct GunComponent : public Component
+//{
+//
+//};
+//
+//struct SwordComponent : public Component
+//{
+//
+//};
+
 struct ProjectileComponent : public Component
 {
 	double Timestamp;
