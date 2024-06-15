@@ -16,5 +16,4 @@ private:
 	std::string GetCurrentState(Entity* entity) const; // ???
 
 	void UpdateSpriteOrientation(struct VelocityComponent* velocityComponent, struct TransformComponent* transformComponent);
-
 };

@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Registration/Registration.h"
 #include "Scenes/Scene.h"
+#include "Entities/EntityManager.h"
 //#include <../Hi_Engine.h>
 
 Game::Game()
@@ -54,11 +55,15 @@ void Game::OnDraw()
 void Game::OnCreate()
 {
 	LoadResources(); // Maybe each scene should load the data they need?
+	m_ecs.Init();
 
-	Registration::RegisterComponents();
+	// put in ECS?
+	Registration::RegisterComponents(m_ecs.GetEntityManager().GetFactory());
 	Registration::RegisterBlueprints();
-	Registration::RegisterSystems(m_systemManager);
-	Registration::RegisterScenes(m_sceneManager, m_systemManager);
+	Registration::RegisterSystems(m_ecs.GetSystemManager());  // ECS register system?
+	Registration::RegisterScenes(m_sceneManager, m_ecs);
+
+	m_ecs.GetSystemManager().Init(&m_ecs.GetEntityManager()); // FIX!!!
 
 	m_sceneManager.Init({ eScene::Game, eScene::Menu, eScene::Title });
 	m_sceneManager.TransitionToScene(eScene::Title);
@@ -66,8 +71,8 @@ void Game::OnCreate()
 
 void Game::OnDestroy()
 {
-	m_systemManager.Clear();
 	m_sceneManager.Clear();
+	m_ecs.Shutdown();
 }
 
 void Game::LoadResources()

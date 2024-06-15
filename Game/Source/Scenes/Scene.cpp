@@ -2,8 +2,8 @@
 #include "Scene.h"
 
 
-Scene::Scene(SharedContext context)
-	: m_sharedContext{ context }
+Scene::Scene(ECS& ecs)
+	: m_ecs{ ecs }
 {
 }
 

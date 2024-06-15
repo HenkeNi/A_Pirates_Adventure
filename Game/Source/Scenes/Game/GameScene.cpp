@@ -4,10 +4,11 @@
 #include "Dungeon/DungeonScene.h"
 #include "Overworld/OverworldScene.h"
 #include "Inventory/InventoryScene.h"
+#include "ECS/ECS.h"
 
 
-GameScene::GameScene(SharedContext context)
-	: Scene{ context }
+GameScene::GameScene(ECS& ecs)
+	: Scene{ ecs }
 {
 }
 
@@ -53,13 +54,13 @@ void GameScene::Draw() const
 	// TODO: should update own systems (in shared context)??
 }
 
-void GameScene::OnCreated()
+void GameScene::OnCreate()
 {
 	// TODO; pass the Game Scene's entitymanager to subscene's?
 
-	m_sceneManager.Register<OverworldScene>(eScene::Overworld, m_sharedContext);
-	m_sceneManager.Register<DungeonScene>(eScene::Dungeon, m_sharedContext);
-	m_sceneManager.Register<InventoryScene>(eScene::Inventory, m_sharedContext);
+	m_sceneManager.Register<OverworldScene>(eScene::Overworld, m_ecs);
+	m_sceneManager.Register<DungeonScene>(eScene::Dungeon, m_ecs);
+	m_sceneManager.Register<InventoryScene>(eScene::Inventory, m_ecs);
 
 	m_sceneManager.Init({ eScene::Overworld });
 }

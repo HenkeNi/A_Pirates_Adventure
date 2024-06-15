@@ -1,6 +1,5 @@
 #pragma once
 #include "Enumerations.h"
-#include "../Scenes/SceneManagerProxy.h"
 #include <any>
 //#include <Hi_Engine.h> // Fix
 #include  <../../../Engine/Source/Utility/Math/Vectors/Vector.hpp>
@@ -12,8 +11,8 @@
 
 struct SharedContext
 {
-	SceneManagerProxy		SceneManager;
-	class SystemManager&	SystemManager;
+	// SceneManagerProxy		SceneManager;
+	//class SystemManager&	SystemManager;
 };
 
 

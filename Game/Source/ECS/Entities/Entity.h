@@ -2,7 +2,7 @@
 
 class Component;
 
-namespace ECS
+namespace
 {
 	using Components = std::unordered_map<std::type_index, Component*>;
 }
@@ -35,7 +35,7 @@ public:
 private:
 	void		OnDestroy();
 
-	ECS::Components	m_components;
+	Components	m_components;
 	unsigned		m_ID;
 };
 

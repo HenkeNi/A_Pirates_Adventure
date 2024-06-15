@@ -1,10 +1,11 @@
 #include "Pch.h"
 #include "LoadingScene.h"
 #include "Systems/SystemManager.h"
+#include "ECS/ECS.h"
 
 
-LoadingScene::LoadingScene(SharedContext context)
-	: Scene{ context }
+LoadingScene::LoadingScene(ECS& ecs)
+	: Scene{ ecs }
 {
 }
 

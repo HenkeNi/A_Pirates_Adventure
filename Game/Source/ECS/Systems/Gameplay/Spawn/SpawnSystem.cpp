@@ -2,6 +2,7 @@
 #include "SpawnSystem.h"
 #include "Entities/EntityManager.h"
 
+
 SpawnSystem::SpawnSystem()
 {
 	PostMaster::GetInstance().Subscribe(eMessage::EntityDestroyed, this);

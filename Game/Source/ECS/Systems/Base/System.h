@@ -1,11 +1,6 @@
 #pragma once
 #include "PostMaster/Subscriber.h"
 
-namespace ECS
-{
-	using Entities = std::vector<class Entity*>;
-}
-
 class EntityManager;
 
 class System : public Subscriber

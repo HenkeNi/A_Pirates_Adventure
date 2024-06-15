@@ -5,7 +5,7 @@
 class SettingsScene : public Scene
 {
 public:
-	SettingsScene(SharedContext context);
+	SettingsScene(ECS& ecs);
 	~SettingsScene();
 
 	void Update(float deltaTime)			  override;

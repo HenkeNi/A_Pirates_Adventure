@@ -1,10 +1,12 @@
 #include "Pch.h"
 #include "SettingsScene.h"
 #include "Systems/SystemManager.h"
+#include "Entities/EntityManager.h"
+#include "ECS/ECS.h"
 
 
-SettingsScene::SettingsScene(SharedContext context)
-	: Scene{ context }
+SettingsScene::SettingsScene(ECS& ecs)
+	: Scene{ ecs }
 {
 }
 
@@ -14,7 +16,7 @@ SettingsScene::~SettingsScene()
 
 void SettingsScene::Update(float deltaTime)
 {
-	m_sharedContext.SystemManager.Update(deltaTime);
+	m_ecs.GetSystemManager().Update(deltaTime);
 }
 
 void SettingsScene::LateUpdate(float deltaTime)
@@ -23,16 +25,11 @@ void SettingsScene::LateUpdate(float deltaTime)
 
 void SettingsScene::Draw() const
 {
-	m_sharedContext.SystemManager.Draw();
+	m_ecs.GetSystemManager().Draw();
 }
 
 void SettingsScene::OnEnter()
 {
-	auto& systemManager = m_sharedContext.SystemManager;
-	systemManager.Init(&m_entityManager);
-
-	m_entityManager.GetFactory().LoadBlueprints("../Game/Assets/Json/Blueprints/blueprint_manifest.json");
-
 	// Todo; PlaySound(sound identifier in resourceholder)
 	auto& sound = Hi_Engine::ResourceHolder<Hi_Engine::AudioSource>::GetInstance().GetResource("night_ambience"); // TODO; read from json...
 	//Hi_Engine::ServiceLocator::GetAudioController().lock()->PlaySound(sound);
@@ -40,7 +37,7 @@ void SettingsScene::OnEnter()
 
 void SettingsScene::OnExit()
 {
-	m_entityManager.DestroyAll();
+	m_ecs.GetEntityManager().DestroyAll();
 
 	auto& sound = Hi_Engine::ResourceHolder<Hi_Engine::AudioSource>::GetInstance().GetResource("night_ambience");
 	//Hi_Engine::ServiceLocator::GetAudioController().lock()->StopSound(sound);

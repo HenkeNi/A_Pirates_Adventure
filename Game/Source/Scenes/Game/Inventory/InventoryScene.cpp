@@ -1,9 +1,12 @@
 #include "Pch.h"
 #include "InventoryScene.h"
 #include "Systems/SystemManager.h"
+#include "ECS/ECS.h"
+#include "Entities/EntityManager.h"
 
-InventoryScene::InventoryScene(SharedContext context)
-	: Scene{ context }
+
+InventoryScene::InventoryScene(ECS& ecs)
+	: Scene{ ecs }
 {
 }
 
@@ -13,7 +16,7 @@ InventoryScene::~InventoryScene()
 
 void InventoryScene::Update(float deltaTime)
 {
-	m_sharedContext.SystemManager.Update(deltaTime);
+	m_ecs.GetSystemManager().Update(deltaTime);
 }
 
 void InventoryScene::LateUpdate(float deltaTime)
@@ -22,26 +25,19 @@ void InventoryScene::LateUpdate(float deltaTime)
 
 void InventoryScene::Draw() const
 {
-	m_sharedContext.SystemManager.Draw();
-}
-
-void InventoryScene::OnCreated()
-{
+	m_ecs.GetSystemManager().Draw();
 }
 
 void InventoryScene::OnEnter()
 {
-	auto& systemManager = m_sharedContext.SystemManager;
-	systemManager.Init(&m_entityManager);
-
-	m_entityManager.GetFactory().LoadBlueprints("../Game/Assets/Json/Blueprints/blueprint_manifest.json");
-
 	for (int row = 0; row < 3; ++row)
 	{
 		for (int col = 0; col < 16; ++col)
 		{
-			auto* box = m_entityManager.Create("inventory_slot");
-			box->GetComponent<TransformComponent>()->CurrentPos = { (float)col * 0.01f, (float)row * 0.01f };
+			auto* box = m_ecs.GetEntityManager().Create("inventory_slot");
+			//box->GetComponent<TransformComponent>()->CurrentPos = { (float)col, (float)row };
+			//box->GetComponent<TransformComponent>()->CurrentPos = { (float) * 0.01f, (float)row * 0.01f };
+			box->GetComponent<TransformComponent>()->CurrentPos = { 0.1f, 0.1f };
 		}
 	}
 	//auto* box = m_entityManager.Create("inventory_slot");
@@ -62,5 +58,5 @@ void InventoryScene::OnEnter()
 
 void InventoryScene::OnExit()
 {
-	m_entityManager.DestroyAll();
+	m_ecs.GetEntityManager().DestroyAll();
 }

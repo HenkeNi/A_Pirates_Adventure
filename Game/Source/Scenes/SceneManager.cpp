@@ -2,7 +2,8 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "../DataTypes/Enumerations.h"
-
+#include "ECS/ECS.h"
+#include "Entities/EntityManager.h"
 
 SceneManager::SceneManager()
 {
@@ -49,7 +50,7 @@ void SceneManager::Receive(Message& message)
 void SceneManager::Init(const std::initializer_list<eScene>& scenes)
 {
 	for (auto& scene : m_registeredScenes)
-		scene.second->OnCreated();
+		scene.second->OnCreate();
 
 	for (const auto scene : scenes)
 		m_stack.Push(scene);
@@ -78,20 +79,20 @@ void SceneManager::Init(const std::initializer_list<eScene>& scenes)
 //	m_registeredScenes[m_sceneStack.Top()]->OnEnter();
 //}
 
-std::shared_ptr<Scene> SceneManager::GetActiveScene()
+std::weak_ptr<Scene> SceneManager::GetActiveScene()
 {
-	if (m_stack.IsEmpty()) // OR Return menu scene??
-		return nullptr;
+	if (!m_stack.IsEmpty()) // OR Return menu scene??
+		return m_registeredScenes[m_stack.Top()];
 
-	return m_registeredScenes[m_stack.Top()];
+	return std::weak_ptr<Scene>();
 }
 
-std::shared_ptr<const Scene> SceneManager::GetActiveScene() const
+std::weak_ptr<const Scene> SceneManager::GetActiveScene() const
 {
-	if (m_stack.IsEmpty())
-		return nullptr;
+	if (!m_stack.IsEmpty())
+		return m_registeredScenes.at(m_stack.Top());
 
-	return m_registeredScenes.at(m_stack.Top());
+	return std::weak_ptr<Scene>();
 }
 
 
@@ -143,7 +144,7 @@ void SceneManager::Clear()
 	for (auto& [type, scene] : m_registeredScenes)
 	{
 		if (scene)
-			scene->OnDestroyed();
+			scene->OnDestroy();
 	}
 
 	m_stack.Clear();
@@ -152,10 +153,14 @@ void SceneManager::Clear()
 void SceneManager::TransitionToScene(eScene type)
 {
 	//m_stack.Push(type);
-	m_registeredScenes[type]->OnEnter();
+	//m_registeredScenes[type]->OnEnter();
 
 	if (m_paths.contains(type))
+	{
 		LoadScene(m_paths[type]);
+	}
+
+	m_registeredScenes[type]->OnEnter();
 }
 
 //void SceneManager::Update(float aDeltaTime)
@@ -201,15 +206,17 @@ void SceneManager::TransitionToScene(eScene type)
 void SceneManager::LoadScene(const std::string& aPath) 
 {
 	// TODO; Load entities in EntityManager, or EntityFactory?
-	auto activeScene = GetActiveScene(); // take as weak pointer?
-	activeScene->m_entityManager.DestroyAll();
+	auto activeScene = GetActiveScene().lock(); // take as weak pointer?
+	auto& entityManager = activeScene->m_ecs.GetEntityManager();
+
+	entityManager.DestroyAll();
 
 	auto document = Hi_Engine::ParseDocument(aPath);
 	for (const auto& jsonEntity : document["entities"].GetArray())
 	{
 		std::string id = jsonEntity["entity_id"].GetString();
 		
-		auto* entity = activeScene->m_entityManager.Create(id);
+		auto* entity = entityManager.Create(id);
 
 		if (!jsonEntity.HasMember("components_data"))
 			continue;
@@ -223,11 +230,19 @@ void SceneManager::LoadScene(const std::string& aPath)
 
 			//activeScene->m_entityManager.GetFactory().
 			//ComponetnFactory::Build()
-			auto* component = activeScene->m_entityManager.GetFactory().GetCompFactory().Build(type, componentData);
+			auto* component = entityManager.GetFactory().GetCompFactory().Build(type, componentData);
 			entity->AddComponent(component);
 		}
 
 		// Send event spawned? Change to initailzied?
 		PostMaster::GetInstance().SendMessage({ eMessage::EntitySpawned, entity });
 	}
+
+	//std::vector<std::string> systems;
+	//for (const auto& system : document["systems"].GetArray())
+	//{
+	//	systems.push_back(system.GetString());
+	//}
+	//
+	//activeScene->m_ecs.RegisterSystems(systems);
 }

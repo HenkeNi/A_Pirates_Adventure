@@ -4,7 +4,7 @@
 #include "../PostMaster/Message.h"
 #include "../PostMaster/PostMaster.h"
 
-EntityFactory EntityManager::s_entityFactory;
+// EntityFactory EntityManager::s_entityFactory;
 
 EntityManager::EntityManager()
 {

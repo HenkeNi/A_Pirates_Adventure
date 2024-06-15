@@ -1,6 +1,6 @@
 #pragma once
-#include "ECS/Systems/SystemManager.h"
 #include "Scenes/SceneManager.h"
+#include "ECS/ECS.h"
 #include <../Source/Core/Application/Application.h>
 
 
@@ -20,6 +20,6 @@ public:
 private:
 	void LoadResources();
 
-	SystemManager	m_systemManager;
-	SceneManager	m_sceneManager;
+	SceneManager m_sceneManager;
+	ECS	m_ecs;
 };

@@ -86,7 +86,18 @@
       ]
     },
     {
-      "entity_id": "inventory_slot"
+      "entity_id": "inventory_slot",
+      "components_data": [
+        {
+          "type": "transform",
+          "properties": {
+            "position": [ -1.0, -1.0 ],
+            "scale": [ 0.25, 0.25 ],
+            "pivot": [ 0.0, 0.0 ],
+            "rotation": 0.0
+          }
+        }
+      ]
     }
   ]
 }

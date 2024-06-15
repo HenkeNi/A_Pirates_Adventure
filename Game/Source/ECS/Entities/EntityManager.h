@@ -3,11 +3,6 @@
 #include "EntityFactory.h"
 
 
-namespace ECS
-{
-	using Entities = std::vector<Entity*>;
-}
-
 class EntityManager
 {
 public:
@@ -26,10 +21,10 @@ public:
 	void Destroy(unsigned id);
 	void DestroyAll();
 
-	static EntityFactory& GetFactory();
+	EntityFactory& GetFactory();
 	 
 private:
-	static EntityFactory	s_entityFactory;
+	EntityFactory	s_entityFactory;
 	std::vector<Entity>		m_entities;			// std::unordered_map<eLayer, std::vector<Entity>> m_layeredEntities;
 };
 

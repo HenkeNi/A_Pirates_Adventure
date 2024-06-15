@@ -5,7 +5,7 @@
 class LoadingScene : public Scene
 {
 public:
-	LoadingScene(SharedContext context);
+	LoadingScene(ECS& ecs);
 	~LoadingScene();
 
 	void Update(float deltaTime)			  override;

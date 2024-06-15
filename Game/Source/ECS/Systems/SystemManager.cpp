@@ -11,6 +11,11 @@ SystemManager::~SystemManager()
 {
 }
 
+void SystemManager::Create(const std::string& system)
+{
+	//m_systemFactory.Build(system);
+}
+
 void SystemManager::Init(class EntityManager* entityManager)
 {
 	for (auto& system : m_systems)

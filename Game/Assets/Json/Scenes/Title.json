@@ -51,7 +51,7 @@
           }
         }
       ]
-    },  
+    },
     {
       "entity_id": "scene_timer",
       "components_data": [
@@ -70,5 +70,12 @@
         }
       ]
     }
+  ],
+  "systems": [
+    "CameraSystem",
+    "TextRenderSystem",
+    "SpriteRenderSystem",
+    "UISystem",
+    "UIRenderSystem"
   ]
 }

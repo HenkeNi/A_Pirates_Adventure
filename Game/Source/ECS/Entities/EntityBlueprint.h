@@ -1,6 +1,8 @@
 #pragma once
 
-namespace ECS
+#include <any> // fix!
+
+namespace
 {
 	using ComponentData = std::unordered_map<std::string, std::any>;
 }
@@ -14,11 +16,11 @@ public:
 	~EntityBlueprint();
 
 	void SetIdentifier(const std::string& identifier);
-	void AddComponentData(const std::string& type, const ECS::ComponentData& data);
+	void AddComponentData(const std::string& type, const ComponentData& data);
 
 private:
 	friend class EntityFactory;
 
 	std::string m_identifier;
-	std::unordered_map<std::string, ECS::ComponentData>	m_componentData;
+	std::unordered_map<std::string, ComponentData>	m_componentData;
 };

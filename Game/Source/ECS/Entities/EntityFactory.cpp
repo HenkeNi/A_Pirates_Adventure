@@ -1,7 +1,7 @@
 #include "Pch.h"
 #include "EntityFactory.h"
 
-ECS::ComponentData ParseComponent(const rapidjson::Value& value);
+ComponentData ParseComponent(const rapidjson::Value& value);
 
 EntityFactory::EntityFactory()
 {
@@ -78,7 +78,7 @@ void EntityFactory::ConstructBlueprint(const rapidjson::Value& value)
 	RegisterBlueprint(blueprintID, blueprint);
 }
 
-Entity EntityFactory::Create(const ECS::EntityType& type)
+Entity EntityFactory::Create(const EntityType& type)
 {
 	auto found = m_blueprints.find(type);
 
@@ -117,10 +117,10 @@ void EntityFactory::RegisterBlueprint(const std::string& id, EntityBlueprint blu
 //	m_componentFactory.RegisterBuilder(type, builder);
 //}
 
-ECS::ComponentData EntityFactory::ParseComponent(const rapidjson::Value& value)
+ComponentData EntityFactory::ParseComponent(const rapidjson::Value& value)
 {
 	assert(value.IsObject() && "ERROR: Parsing Component");
-	ECS::ComponentData data;
+	ComponentData data;
 
 	for (auto& property : value.GetObject())
 	{

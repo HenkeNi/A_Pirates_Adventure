@@ -3,87 +3,124 @@
 #include "Systems/SystemManager.h"
 #include "Systems/Systems.h"
 #include "Scenes/Scenes.h"
+#include "Entities/EntityFactory.h"
 #include "Components/Components.h"
 #include "Components/ComponentBuilder.h"
 
 namespace Registration
 {
-	void RegisterComponents() // takes in an factory?
+	void RegisterComponents(EntityFactory& factory) // takes in an factory?
 	{
-		auto& Factory = EntityManager::GetFactory();
-
 		/* - Core Components - */		
-		Factory.RegisterComponentBuilder<AnimationComponent>("animation");
-		Factory.RegisterComponentBuilder<CameraComponent>("camera");
-		Factory.RegisterComponentBuilder<ColliderComponent>("collider");
-		Factory.RegisterComponentBuilder<CursorComponent>("cursor");
-		Factory.RegisterComponentBuilder<InputComponent>("input");
-		Factory.RegisterComponentBuilder<SpriteComponent>("sprite");
-		Factory.RegisterComponentBuilder<TransformComponent>("transform");
-		Factory.RegisterComponentBuilder<TextComponent>("text");
-		Factory.RegisterComponentBuilder<VelocityComponent>("velocity");
-		Factory.RegisterComponentBuilder<SubEntitiesComponent>("sub_entities");
-		Factory.RegisterComponentBuilder<SceneTransitionComponent>("scene_transition");
-		Factory.RegisterComponentBuilder<PlayerControllerComponent>("player_controller");
-		Factory.RegisterComponentBuilder<AudioComponent>("audio");
+		factory.RegisterComponentBuilder<AnimationComponent>("animation");
+		factory.RegisterComponentBuilder<CameraComponent>("camera");
+		factory.RegisterComponentBuilder<ColliderComponent>("collider");
+		factory.RegisterComponentBuilder<CursorComponent>("cursor");
+		factory.RegisterComponentBuilder<InputComponent>("input");
+		factory.RegisterComponentBuilder<SpriteComponent>("sprite");
+		factory.RegisterComponentBuilder<TransformComponent>("transform");
+		factory.RegisterComponentBuilder<TextComponent>("text");
+		factory.RegisterComponentBuilder<VelocityComponent>("velocity");
+		factory.RegisterComponentBuilder<SubEntitiesComponent>("sub_entities");
+		factory.RegisterComponentBuilder<SceneTransitionComponent>("scene_transition");
+		factory.RegisterComponentBuilder<PlayerControllerComponent>("player_controller");
+		factory.RegisterComponentBuilder<AudioComponent>("audio");
 
 		/* - AI Components - */
-		Factory.RegisterComponentBuilder<BlackboardComponent>("blackboard");
-		Factory.RegisterComponentBuilder<BehaviorTreeComponent>("behavior_tree");
-		Factory.RegisterComponentBuilder<SteeringBehaviorComponent>("steering_behavior");
-		Factory.RegisterComponentBuilder<WanderBehaviorComponent>("wander_behavior");
-		Factory.RegisterComponentBuilder<FlockBehaviorComponent>("flock_behavior");
-		Factory.RegisterComponentBuilder<SeekBehaviorComponent>("seek_behavior");
-		Factory.RegisterComponentBuilder<FleeBehaviorComponent>("flee_behavior");
-		//Factory.RegisterComponentBuilder<StateMachineComponent>("state_machine");
-		Factory.RegisterComponentBuilder<IdleComponent>("idle");
+		factory.RegisterComponentBuilder<BlackboardComponent>("blackboard");
+		factory.RegisterComponentBuilder<BehaviorTreeComponent>("behavior_tree");
+		factory.RegisterComponentBuilder<SteeringBehaviorComponent>("steering_behavior");
+		factory.RegisterComponentBuilder<WanderBehaviorComponent>("wander_behavior");
+		factory.RegisterComponentBuilder<FlockBehaviorComponent>("flock_behavior");
+		factory.RegisterComponentBuilder<SeekBehaviorComponent>("seek_behavior");
+		factory.RegisterComponentBuilder<FleeBehaviorComponent>("flee_behavior");
+		//factory.RegisterComponentBuilder<StateMachineComponent>("state_machine");
+		factory.RegisterComponentBuilder<IdleComponent>("idle");
 
 
 		/* - Gameplay Components - */
-		Factory.RegisterComponentBuilder<AttributesComponent>("attribute");
-		Factory.RegisterComponentBuilder<PersonalityComponent>("personality");
-		Factory.RegisterComponentBuilder<FriendlyComponent>("friendly");
-		Factory.RegisterComponentBuilder<HostileComponent>("hostile");
-		Factory.RegisterComponentBuilder<CrewComponent>("crew");
-		Factory.RegisterComponentBuilder<HealthComponent>("health");
-		Factory.RegisterComponentBuilder<WeaponComponent>("weapon");
-		Factory.RegisterComponentBuilder<ToppleComponent>("topple");
-		Factory.RegisterComponentBuilder<ShakeComponent>("shake");
-		Factory.RegisterComponentBuilder<HarvestableComponent>("harvestable");
-		Factory.RegisterComponentBuilder<EquipmentComponent>("equipment");
-		Factory.RegisterComponentBuilder<EquippableComponent>("equippable");
-		Factory.RegisterComponentBuilder<InventoryComponent>("inventory");
-		Factory.RegisterComponentBuilder<CollectableComponent>("collectable");
-		Factory.RegisterComponentBuilder<SpawnComponent>("spawner");
-		Factory.RegisterComponentBuilder<EnvironmentComponent>("environment");
+		factory.RegisterComponentBuilder<AttributesComponent>("attribute");
+		factory.RegisterComponentBuilder<PersonalityComponent>("personality");
+		factory.RegisterComponentBuilder<FriendlyComponent>("friendly");
+		factory.RegisterComponentBuilder<HostileComponent>("hostile");
+		factory.RegisterComponentBuilder<CrewComponent>("crew");
+		factory.RegisterComponentBuilder<HealthComponent>("health");
+		factory.RegisterComponentBuilder<WeaponComponent>("weapon");
+		factory.RegisterComponentBuilder<ToppleComponent>("topple");
+		factory.RegisterComponentBuilder<ShakeComponent>("shake");
+		factory.RegisterComponentBuilder<HarvestableComponent>("harvestable");
+		factory.RegisterComponentBuilder<EquipmentComponent>("equipment");
+		factory.RegisterComponentBuilder<EquippableComponent>("equippable");
+		factory.RegisterComponentBuilder<InventoryComponent>("inventory");
+		factory.RegisterComponentBuilder<CollectableComponent>("collectable");
+		factory.RegisterComponentBuilder<SpawnComponent>("spawner");
+		factory.RegisterComponentBuilder<EnvironmentComponent>("environment");
 
 
-		Factory.RegisterComponentBuilder<AttackComponent>("attack"); // RENAME!
-		Factory.RegisterComponentBuilder<ProjectileComponent>("projectile");
-		Factory.RegisterComponentBuilder<ResourceComponent>("resource");
-		Factory.RegisterComponentBuilder<CharacterStateComponent>("character_state");
-		Factory.RegisterComponentBuilder<KnockbackComponent>("knockback");
+		factory.RegisterComponentBuilder<AttackComponent>("attack"); // RENAME!
+		factory.RegisterComponentBuilder<ProjectileComponent>("projectile");
+		factory.RegisterComponentBuilder<ResourceComponent>("resource");
+		factory.RegisterComponentBuilder<CharacterStateComponent>("character_state");
+		factory.RegisterComponentBuilder<KnockbackComponent>("knockback");
 
 		/* - UI Components - */
-		Factory.RegisterComponentBuilder<HUDComponent>("hud");
-		Factory.RegisterComponentBuilder<UIComponent>("ui");
-		Factory.RegisterComponentBuilder<ButtonComponent>("button");
-		Factory.RegisterComponentBuilder<MapChunkComponent>("map_chunk");
+		factory.RegisterComponentBuilder<HUDComponent>("hud");
+		factory.RegisterComponentBuilder<UIComponent>("ui");
+		factory.RegisterComponentBuilder<ButtonComponent>("button");
+		factory.RegisterComponentBuilder<MapChunkComponent>("map_chunk");
 
 		/* - Utility Components - */
-		Factory.RegisterComponentBuilder<WorldTimeComponent>("world_time");
-		Factory.RegisterComponentBuilder<TimerComponent>("timer");
-	}
-
-	void RegisterBlueprints()
-	{
-		//ObjectManager::LoadPrototypes("../Bin/Assets/Json/Prototypes/Prototypes_Enemy.json");
-		//ObjectManager::LoadPrototypes("../Bin/Assets/Json/Prototypes/Prototypes_Environment.json");
-		//ObjectManager::LoadPrototypes("../Bin/Assets/Json/Prototypes/Prototypes_UI.json");
+		factory.RegisterComponentBuilder<WorldTimeComponent>("world_time");
+		factory.RegisterComponentBuilder<TimerComponent>("timer");
 	}
 
 	void RegisterSystems(SystemManager& systemManager)
 	{
+		///* - Core Systems - */
+		//systemManager.RegisterSystemBuilder<SystemBuilder>("InputSystem");
+		//systemManager.RegisterSystemBuilder<MovementSystem>("MovementSystem");
+		//systemManager.RegisterSystemBuilder<CameraSystem>("CameraSystem");
+		//systemManager.RegisterSystemBuilder<CollisionSystem>("CollisionSystem");
+		//systemManager.RegisterSystemBuilder<PlayerControllerSystem>("PlayerControllerSystem");
+		//systemManager.RegisterSystemBuilder<SceneTransitionSystem>("SceneTransitionSystem");
+		//systemManager.RegisterSystemBuilder<SpriteAnimationSystem>("SpriteAnimationSystem");
+
+		///* - Gameplay Systems - */
+		//systemManager.RegisterSystemBuilder<CombatSystem>("CombatSystem");
+		//systemManager.RegisterSystemBuilder<EnemySpawnSystem>("EnemySpawnSystem");
+		//systemManager.RegisterSystemBuilder<EquipmentSystem>("EquipmentSystem");
+		//systemManager.RegisterSystemBuilder<InventorySystem>("InventorySystem");
+		//systemManager.RegisterSystemBuilder<MeleeCombatSystem>("MeleeCombatSystem");
+		//systemManager.RegisterSystemBuilder<RangedCombatSystem>("RangedCombatSystem");
+		//systemManager.RegisterSystemBuilder<ShakeSystem>("ShakeSystem");
+		//systemManager.RegisterSystemBuilder<TimeSystem>("TimeSystem");
+		//systemManager.RegisterSystemBuilder<SpawnSystem>("SpawnSystem");
+		//systemManager.RegisterSystemBuilder<StatSystem>("StatSystem");
+
+		///* - Map Systems - */
+		//systemManager.RegisterSystemBuilder<MapGenerationSystem>("MapGenerationSystem");
+		//systemManager.RegisterSystemBuilder<MapDecorationSystem>("MapDecorationSystem");
+
+		///* -  UI Systems - */
+		//systemManager.RegisterSystemBuilder<UISystem>("UISystem");
+		//systemManager.RegisterSystemBuilder<HUDSystem>("HUDSystem");
+
+		///* - AI Systems - */
+		//systemManager.RegisterSystemBuilder<BlackboardSystem>("BlackboardSystem");
+		//systemManager.RegisterSystemBuilder<BehaviorTreeSystem>("BehaviorTreeSystem");
+		//systemManager.RegisterSystemBuilder<SteeringBehaviorSystem>("SteeringBehaviorSystem");
+		//systemManager.RegisterSystemBuilder<StateTransitionSystem>("StateTransitionSystem");
+
+		///* - Audio System - */
+		//systemManager.RegisterSystemBuilder<AudioSystem>("AudioSystem");
+
+		///* - Render Systems - */
+		//systemManager.RegisterSystemBuilder<DebugRenderSystem>("DebugRenderSystem");
+		//systemManager.RegisterSystemBuilder<TextRenderSystem>("TextRenderSystem");
+		//systemManager.RegisterSystemBuilder<UIRenderSystem>("UIRenderSystem");
+		//systemManager.RegisterSystemBuilder<SpriteRenderSystem>("SpriteRenderSystem");
+		//systemManager.RegisterSystemBuilder<MapRenderSystem>("MapRenderSystem");
+
 		/* - Core Systems - */
 		systemManager.Register<InputSystem>();
 		systemManager.Register<MovementSystem>();
@@ -131,16 +168,21 @@ namespace Registration
 		systemManager.Register<MapRenderSystem>();
 	}
 
-	void RegisterScenes(SceneManager& sceneManager, SystemManager& systemManager)
+	void RegisterBlueprints()
+	{
+		//ObjectManager::LoadPrototypes("../Bin/Assets/Json/Prototypes/Prototypes_Enemy.json");
+		//ObjectManager::LoadPrototypes("../Bin/Assets/Json/Prototypes/Prototypes_Environment.json");
+		//ObjectManager::LoadPrototypes("../Bin/Assets/Json/Prototypes/Prototypes_UI.json");
+	}
+
+	void RegisterScenes(SceneManager& sceneManager, ECS& ecs)
 	{
 		// Register game's scene here as well?
-		
-		SceneManagerProxy proxy{ sceneManager };
-
-		sceneManager.Register<GameScene>(eScene::Game,			SharedContext{ proxy, systemManager });
-		sceneManager.Register<LoadingScene>(eScene::Loading,	SharedContext{ proxy, systemManager });
-		sceneManager.Register<MenuScene>(eScene::Menu,			SharedContext{ proxy, systemManager });
-		sceneManager.Register<SettingsScene>(eScene::Settings,	SharedContext{ proxy, systemManager });
-		sceneManager.Register<TitleScene>(eScene::Title,		SharedContext{ proxy, systemManager });
+	
+		sceneManager.Register<GameScene>(eScene::Game, ecs);
+		sceneManager.Register<LoadingScene>(eScene::Loading, ecs);
+		sceneManager.Register<MenuScene>(eScene::Menu, ecs);
+		sceneManager.Register<SettingsScene>(eScene::Settings, ecs);
+		sceneManager.Register<TitleScene>(eScene::Title, ecs);
 	}
 }

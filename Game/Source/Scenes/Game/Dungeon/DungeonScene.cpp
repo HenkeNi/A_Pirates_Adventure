@@ -1,10 +1,11 @@
 #include "Pch.h"
 #include "DungeonScene.h"
 #include "Systems/SystemManager.h"
+#include "ECS/ECS.h"
 
 
-DungeonScene::DungeonScene(SharedContext context)
-	: Scene{ context }
+DungeonScene::DungeonScene(ECS& ecs)
+	: Scene{ ecs }
 {
 }
 
@@ -24,10 +25,6 @@ void DungeonScene::LateUpdate(float deltaTime)
 void DungeonScene::Draw() const
 {
 	// m_map.Draw();
-}
-
-void DungeonScene::OnCreated()
-{
 }
 
 void DungeonScene::OnEnter()

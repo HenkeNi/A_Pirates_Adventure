@@ -6,7 +6,7 @@
 class MenuScene : public Scene
 {
 public:
-	MenuScene(SharedContext context);
+	MenuScene(ECS& ecs);
 	~MenuScene();
 
 	void Update(float deltaTime)			  override;

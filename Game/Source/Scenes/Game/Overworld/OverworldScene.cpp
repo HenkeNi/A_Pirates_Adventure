@@ -1,9 +1,12 @@
 #include "Pch.h"
 #include "OverworldScene.h"
 #include "Systems/SystemManager.h"
+#include "ECS/ECS.h"
+#include "Entities/EntityManager.h"
 
-OverworldScene::OverworldScene(SharedContext context)
-	: Scene{ context }
+
+OverworldScene::OverworldScene(ECS& ecs)
+	: Scene{ ecs }
 {
 }
 
@@ -13,39 +16,30 @@ OverworldScene::~OverworldScene()
 
 void OverworldScene::Update(float deltaTime)
 {
-	m_sharedContext.SystemManager.Update(deltaTime);
+	m_ecs.GetSystemManager().Update(deltaTime);
 }
 
 void OverworldScene::LateUpdate(float deltaTime)
 {
-	m_sharedContext.SystemManager.LateUpdate(deltaTime);
+	m_ecs.GetSystemManager().LateUpdate(deltaTime);
 }
 
 void OverworldScene::Draw() const
 {
-	m_sharedContext.SystemManager.Draw();
-}
-
-void OverworldScene::OnCreated()
-{
+	m_ecs.GetSystemManager().Draw();
 }
 
 void OverworldScene::OnEnter()
 {
-	auto& systemManager = m_sharedContext.SystemManager;
-	systemManager.Init(&m_entityManager);
-
-	// Send event??
-	m_entityManager.GetFactory().LoadBlueprints("../Game/Assets/Json/Blueprints/blueprint_manifest.json");
-
 	auto& sound = Hi_Engine::ResourceHolder<Hi_Engine::AudioSource>::GetInstance().GetResource("ocean_ambience"); // TODO; read from json...
 	//Hi_Engine::ServiceLocator::GetAudioController().lock()->PlaySound(sound);
 
+	auto& entityManager = m_ecs.GetEntityManager();
 
-	auto* cursor = m_entityManager.Create("mouse_cursor");
+	auto* cursor = entityManager.Create("mouse_cursor");
 
 	// Player
-	auto* player = m_entityManager.Create("player");
+	auto* player = entityManager.Create("player");
 	//CU::Vector3<float> position = { (float)Random::InRange(2, 62), 0.42f, (float)Random::InRange(2, 62) };
 	FVector2 position = { 0.f, 0.f }; // { 27.f, 25.f };
 	player->GetComponent<TransformComponent>()->CurrentPos = position;
@@ -53,16 +47,16 @@ void OverworldScene::OnEnter()
 	// player->GetComponent<SpriteComponent>()->Pivot = { -0.5f, -0.5f };
 
 
-	auto* weapon = m_entityManager.Create("rusty_sword");
+	auto* weapon = entityManager.Create("rusty_sword");
 
-	auto* time = m_entityManager.Create("world_time");
+	auto* time = entityManager.Create("world_time");
 
 
-	auto* skeleton = m_entityManager.Create("skeleton");
+	auto* skeleton = entityManager.Create("skeleton");
 
-	auto* crab = m_entityManager.Create("crab");
+	auto* crab = entityManager.Create("crab");
 
-	auto* caveEntrance = m_entityManager.Create("cave_entrance");
+	auto* caveEntrance = entityManager.Create("cave_entrance");
 	caveEntrance->GetComponent<TransformComponent>()->CurrentPos = { 2.f, 2.f };
 
 	//auto healthbar = m_entityManager.Create("Healthbar");
@@ -76,10 +70,10 @@ void OverworldScene::OnEnter()
 	}*/
 
 	// Camera => do in camera system??
-	auto camera = m_entityManager.Create("camera");
+	auto camera = entityManager.Create("camera");
 	camera->GetComponent<TransformComponent>()->CurrentPos = { 0.f, 0.f };
 	camera->GetComponent<CameraComponent>()->TargetOffset = { 0.f, 0.f };
-	camera->GetComponent<CameraComponent>()->TargetID = m_entityManager.FindFirst<PlayerControllerComponent>()->GetID();
+	camera->GetComponent<CameraComponent>()->TargetID = entityManager.FindFirst<PlayerControllerComponent>()->GetID();
 
 	//camera->GetComponent<TransformComponent>()->CurrentPos = { 0.f, 2.f };
 	//camera->GetComponent<TransformComponent>()->CurrentPos = { 0.f, 0.f, 2.f };

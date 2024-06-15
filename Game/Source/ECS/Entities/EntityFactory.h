@@ -1,11 +1,11 @@
 #pragma once
 #include "Entity.h"
 #include "EntityBlueprint.h"
-#include "Components/ComponentBuilder.h"
+#include "../Components/ComponentBuilder.h"
 
 class Component;
 
-namespace ECS
+namespace 
 {
 	using EntityType = std::string;
 	//using ComponentFactory = CU::Factory<ComponentBuilder, Component>;
@@ -18,13 +18,13 @@ public:
 	EntityFactory();
 	~EntityFactory();
 
-	static ECS::ComponentData ParseComponent(const rapidjson::Value& value);
+	static ComponentData ParseComponent(const rapidjson::Value& value);
 
 	void LoadBlueprints(const std::string& path);
 	//void LoadBlueprint(const std::string& aPath);
 	void ConstructBlueprint(const rapidjson::Value& value);
 
-	Entity Create(const ECS::EntityType& type);
+	Entity Create(const EntityType& type);
 	Entity CreateFromBlueprint(const EntityBlueprint& blueprint);
 
 	template <typename T>

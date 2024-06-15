@@ -24,7 +24,7 @@
 #include "AI/BehaviorTree/Service/ServiceNodes.h"
 #include "AI/BehaviorTree/Base/BehaviorTreeNode.h"
 
-namespace ECS
+namespace
 {
 	using ComponentData = std::unordered_map<std::string, std::any>;
 }
@@ -33,12 +33,12 @@ class ComponentInitializer
 {
 public:
 	template <typename T>
-	static void InitializeComponent(T* component, const ECS::ComponentData& data)
+	static void InitializeComponent(T* component, const ComponentData& data)
 	{
 	}
 
 	template <>
-	static void InitializeComponent<AnimationComponent>(AnimationComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<AnimationComponent>(AnimationComponent* component, const ComponentData& data)
 	{
 		// TODO; engine classes Animation2D and Frame?
 
@@ -111,7 +111,7 @@ public:
 	}
 	
 	template <>
-	static void InitializeComponent<AttackComponent>(AttackComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<AttackComponent>(AttackComponent* component, const ComponentData& data)
 	{
 		auto startPos = FVector2{ 0.f, 0.f };
 		auto colliderSize = 0.2f;								// FIX!
@@ -122,7 +122,7 @@ public:
 	}
 
 	template <>
-	static void InitializeComponent<AttributesComponent>(AttributesComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<AttributesComponent>(AttributesComponent* component, const ComponentData& data)
 	{
 		int perception = std::any_cast<int>(data.at("perception"));
 
@@ -130,7 +130,7 @@ public:
 	}
 
 	template <>
-	static void InitializeComponent<AudioComponent>(AudioComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<AudioComponent>(AudioComponent* component, const ComponentData& data)
 	{
 		std::string soundName = std::any_cast<std::string>(data.at("sound_name"));
 
@@ -166,7 +166,7 @@ public:
 
 
 	template <>
-	static void InitializeComponent<BehaviorTreeComponent>(BehaviorTreeComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<BehaviorTreeComponent>(BehaviorTreeComponent* component, const ComponentData& data)
 	{
 		auto* behavior = new SelectorNode;
 
@@ -264,7 +264,7 @@ public:
 	}
 
 	template <>
-	static void InitializeComponent<ButtonComponent>(ButtonComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<ButtonComponent>(ButtonComponent* component, const ComponentData& data)
 	{
 		// std::string identifier = std::any_cast<std::string>(data.at("identifier"));
 
@@ -281,7 +281,7 @@ public:
 	}
 
 	template <>
-	static void InitializeComponent<CameraComponent>(CameraComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<CameraComponent>(CameraComponent* component, const ComponentData& data)
 	{
 		component->ZoomRange = { 0.5f, 1.f };
 
@@ -290,7 +290,7 @@ public:
 	}
 	
 	template <>
-	static void InitializeComponent<CharacterStateComponent>(CharacterStateComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<CharacterStateComponent>(CharacterStateComponent* component, const ComponentData& data)
 	{
 		component->IsIdle = true;
 		component->IsAlive = true;
@@ -301,7 +301,7 @@ public:
 	}
 
 	template <>
-	static void InitializeComponent<ColliderComponent>(ColliderComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<ColliderComponent>(ColliderComponent* component, const ComponentData& data)
 	{
 		FVector2 position = { 0.f, 0.f };
 
@@ -339,7 +339,7 @@ public:
 	}
 
 	template <>
-	static void InitializeComponent<EnvironmentComponent>(EnvironmentComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<EnvironmentComponent>(EnvironmentComponent* component, const ComponentData& data)
 	{
 		auto types = std::any_cast<std::vector<std::any>>(data.at("tiles"));
 		
@@ -359,7 +359,7 @@ public:
 	}
 	
 	template <>
-	static void InitializeComponent<HarvestableComponent>(HarvestableComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<HarvestableComponent>(HarvestableComponent* component, const ComponentData& data)
 	{
 		std::string resourceType = std::any_cast<std::string>(data.at("resource_type"));
 		int yield = std::any_cast<int>(data.at("yield"));
@@ -369,7 +369,7 @@ public:
 	}
 
 	template <>
-	static void InitializeComponent<HealthComponent>(HealthComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<HealthComponent>(HealthComponent* component, const ComponentData& data)
 	{
 		int value = std::any_cast<int>(data.at("value"));
 		component->CurrentValue = value;
@@ -378,14 +378,14 @@ public:
 	}
 
 	template <>
-	static void InitializeComponent<InventoryComponent>(InventoryComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<InventoryComponent>(InventoryComponent* component, const ComponentData& data)
 	{
 		int xx = 20;
 		xx += 20;
 	}
 	
 	template <>
-	static void InitializeComponent<MapChunkComponent>(MapChunkComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<MapChunkComponent>(MapChunkComponent* component, const ComponentData& data)
 	{
 		//int width = std::any_cast<int>(data.at("width"));
 		//int height = std::any_cast<int>(data.at("height"));
@@ -397,7 +397,7 @@ public:
 	}
 
 	template <>
-	static void InitializeComponent<PlayerControllerComponent>(PlayerControllerComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<PlayerControllerComponent>(PlayerControllerComponent* component, const ComponentData& data)
 	{
 		// Temp
 
@@ -422,7 +422,7 @@ public:
 	}
 
 	template <>
-	static void InitializeComponent<SpawnComponent>(SpawnComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<SpawnComponent>(SpawnComponent* component, const ComponentData& data)
 	{
 		std::string spawned	= std::any_cast<std::string>(data.at("spawned"));
 		int amount			= std::any_cast<int>(data.at("amount"));
@@ -436,7 +436,7 @@ public:
 	}
 
 	template <>
-	static void InitializeComponent<SpriteComponent>(SpriteComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<SpriteComponent>(SpriteComponent* component, const ComponentData& data)
 	{
 		auto shader = std::any_cast<std::string>(data.at("shader"));
 		auto texture = std::any_cast<std::string>(data.at("texture"));
@@ -455,7 +455,7 @@ public:
 	}
 
 	template <>
-	static void InitializeComponent<SteeringBehaviorComponent>(SteeringBehaviorComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<SteeringBehaviorComponent>(SteeringBehaviorComponent* component, const ComponentData& data)
 	{
 		std::string behaviorType = std::any_cast<std::string>(data.at("behavior"));
 		std::string layer = std::any_cast<std::string>(data.at("layer"));
@@ -473,7 +473,7 @@ public:
 	}
 
 	template <>
-	static void InitializeComponent<TransformComponent>(TransformComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<TransformComponent>(TransformComponent* component, const ComponentData& data)
 	{
 		//auto position = std::any_cast<std::array<float, 3>>(someData.at("position"));
 		//auto scale = std::any_cast<std::array<float, 3>>(someData.at("scale"));
@@ -492,7 +492,7 @@ public:
 	}
 
 	template <>
-	static void InitializeComponent<TextComponent>(TextComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<TextComponent>(TextComponent* component, const ComponentData& data)
 	{
 		std::string font	= std::any_cast<std::string>(data.at("font"));
 		int size			= std::any_cast<int>(data.at("size"));
@@ -522,7 +522,7 @@ public:
 	}
 
 	template <>
-	static void InitializeComponent<ResourceComponent>(ResourceComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<ResourceComponent>(ResourceComponent* component, const ComponentData& data)
 	{
 		std::string resource = std::any_cast<std::string>(data.at("resource"));
 		//int quantity = std::any_cast<int>(data.at("quantity"));
@@ -532,14 +532,14 @@ public:
 	}
 	
 	template <>
-	static void InitializeComponent<VelocityComponent>(VelocityComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<VelocityComponent>(VelocityComponent* component, const ComponentData& data)
 	{
 		float speed = std::any_cast<float>(data.at("speed"));
 		component->Speed = speed;
 	}
 
 	template <>
-	static void InitializeComponent<WeaponComponent>(WeaponComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<WeaponComponent>(WeaponComponent* component, const ComponentData& data)
 	{
 		int damage = std::any_cast<int>(data.at("damage"));
 		float speed = std::any_cast<float>(data.at("speed"));
@@ -549,7 +549,7 @@ public:
 	}
 	
 	template <>
-	static void InitializeComponent<WorldTimeComponent>(WorldTimeComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<WorldTimeComponent>(WorldTimeComponent* component, const ComponentData& data)
 	{
 		float dayDuration = std::any_cast<float>(data.at("day_duration"));
 
@@ -563,14 +563,14 @@ public:
 	}
 
 	template <>
-	static void InitializeComponent<WanderBehaviorComponent>(WanderBehaviorComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<WanderBehaviorComponent>(WanderBehaviorComponent* component, const ComponentData& data)
 	{
 		// component->Behavior = new WanderBehavior{}; // Don't new....
 		//component->Behavior = new WanderBehavior{}; // Don't new....
 	}
 
 	template <>
-	static void InitializeComponent<PersonalityComponent>(PersonalityComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<PersonalityComponent>(PersonalityComponent* component, const ComponentData& data)
 	{
 		bool isAggressive = std::any_cast<bool>(data.at("IsAggressive"));
 
@@ -578,19 +578,19 @@ public:
 	}
 
 	template <>
-	static void InitializeComponent<FlockBehaviorComponent>(FlockBehaviorComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<FlockBehaviorComponent>(FlockBehaviorComponent* component, const ComponentData& data)
 	{
 		component->Behavior = new FlockBehavior{};	// Make sure to delete...
 	}
 
 	template <>
-	static void InitializeComponent<SeekBehaviorComponent>(SeekBehaviorComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<SeekBehaviorComponent>(SeekBehaviorComponent* component, const ComponentData& data)
 	{
 		// component->m_behavior = new SeekBehavior{}; // Don't new....
 	}
 
 	template <>
-	static void InitializeComponent<FleeBehaviorComponent>(FleeBehaviorComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<FleeBehaviorComponent>(FleeBehaviorComponent* component, const ComponentData& data)
 	{
 		// component->m_behavior = new FleeBehavior{}; // Don't new....
 
@@ -674,17 +674,17 @@ public:
 	//}
 
 	template <>
-	static void InitializeComponent<ShakeComponent>(ShakeComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<ShakeComponent>(ShakeComponent* component, const ComponentData& data)
 	{
 	}
 	
 	template <>
-	static void InitializeComponent<ToppleComponent>(ToppleComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<ToppleComponent>(ToppleComponent* component, const ComponentData& data)
 	{
 	}
 
 	template <>
-	static void InitializeComponent<SceneTransitionComponent>(SceneTransitionComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<SceneTransitionComponent>(SceneTransitionComponent* component, const ComponentData& data)
 	{
 		if (!data.contains("scene"))
 			return;
@@ -706,14 +706,14 @@ public:
 	}
 
 	template <>
-	static void InitializeComponent<TimerComponent>(TimerComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<TimerComponent>(TimerComponent* component, const ComponentData& data)
 	{
 		float duration = std::any_cast<float>(data.at("duration"));
 		component->Duration = duration;
 	}
 
 	template <>
-	static void InitializeComponent<UIComponent>(UIComponent* component, const ECS::ComponentData& data)
+	static void InitializeComponent<UIComponent>(UIComponent* component, const ComponentData& data)
 	{
 		if (data.contains("render_depth"))
 			component->RenderDepth = std::any_cast<int>(data.at("render_depth"));

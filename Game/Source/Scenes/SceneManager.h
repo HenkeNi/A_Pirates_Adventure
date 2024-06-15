@@ -1,6 +1,7 @@
 #pragma once
 //#include <../Hi_Engine.h>
 #include "PostMaster/Subscriber.h"
+#include <../Source/Utility/DataStructures/Linear/Dynamic/Stack/Stack.hpp>
 
 enum class eScene;
 class Scene;
@@ -13,8 +14,6 @@ namespace Utility
 
 class SceneManager : public Subscriber
 {
-private:
-
 public:
 	SceneManager();
 	~SceneManager();
@@ -25,8 +24,8 @@ public:
 	void Register(eScene type, Args&&... args);
 	void Init(const std::initializer_list<eScene>& scenes);
 
-	std::shared_ptr<Scene> GetActiveScene();
-	std::shared_ptr<const Scene> GetActiveScene() const;
+	std::weak_ptr<Scene> GetActiveScene();
+	std::weak_ptr<const Scene> GetActiveScene() const;
 
 	void Push(eScene type);
 	void Pop();

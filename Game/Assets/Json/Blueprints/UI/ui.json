@@ -174,7 +174,6 @@
   },
   {
     "id": "scene_transition_button",
-    "layer": "ui",
     "components": [
       {
         "type": "transform",
@@ -256,6 +255,20 @@
         "type": "ui",
         "properties": {
           "render_depth": 4
+        }
+      }
+    ]
+  },
+  {
+    "id": "grid",
+    "components": [
+      {
+        "type": "transform",
+        "properties": {
+          "position": [ 0.1, 0.1 ],
+          "scale": [ 1.0, 1.0 ],
+          "pivot": [ 0.0, 0.0 ],
+          "rotation": 0.0
         }
       }
     ]
