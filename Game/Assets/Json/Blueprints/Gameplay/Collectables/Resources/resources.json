@@ -4,6 +4,12 @@
     "layer": "resource",
     "components": [
       {
+        "type": "tag",
+        "properties": {
+          "type": "collectable"
+        }
+      },
+      {
         "type": "transform",
         "properties": {
           "position": [ 0.0, 0.0 ],
@@ -15,7 +21,6 @@
       {
         "type": "sprite",
         "properties": {
-          "shader": "sprite_batch",
           "texture": "grass",
           "coordinates": [ 0, 0 ],
           "color": [ 1.0, 1.0, 1.0, 1.0 ]
@@ -46,6 +51,12 @@
     "layer": "resource",
     "components": [
       {
+        "type": "tag",
+        "properties": {
+          "type": "collectable"
+        }
+      },
+      {
         "type": "transform",
         "properties": {
           "position": [ 0.0, 0.0 ],
@@ -57,7 +68,6 @@
       {
         "type": "sprite",
         "properties": {
-          "shader": "sprite_batch",
           "texture": "rock_fragment",
           "coordinates": [ 0, 0 ],
           "color": [ 1.0, 1.0, 1.0, 1.0 ]
@@ -88,6 +98,12 @@
     "layer": "resource",
     "components": [
       {
+        "type": "tag",
+        "properties": {
+          "type": "collectable"
+        }
+      },
+      {
         "type": "transform",
         "properties": {
           "position": [ 0.0, 0.0 ],
@@ -99,7 +115,6 @@
       {
         "type": "sprite",
         "properties": {
-          "shader": "sprite_batch",
           "texture": "log",
           "coordinates": [ 0, 0 ],
           "color": [ 1.0, 1.0, 1.0, 1.0 ]

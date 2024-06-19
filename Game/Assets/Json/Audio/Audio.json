@@ -38,5 +38,25 @@
     "name": "tree_fall",
     "filepath": "../Game/Assets/Sound/593875__igroglaz__tree-fall.mp3",
     "is_looping": false
+  },
+  {
+    "name": "theme_drunken_sailor",
+    "filepath": "../Game/Assets/Sound/516076__breviceps__pirate-band-performs-drunken-sailor.wav",
+    "is_looping": true
+  },
+  {
+    "name": "ambience_ship",
+    "filepath": "../Game/Assets/Sound/93677__cgeffex__pirate-ship-at-bay-wout-seagulls.wav",
+    "is_looping": true
+  },
+  {
+    "name": "theme_happy_tune",
+    "filepath": "../Game/Assets/Sound/385876__alphatone__happy-pirate-accordion.wav",
+    "is_looping": true
+  },
+  {
+    "name": "death",
+    "filepath": "../Game/Assets/Sound/555412__tonsil5__zombie-death-1.wav",
+    "is_looping": false
   }
 ]

@@ -1,8 +1,13 @@
 [
   {
     "id": "grass",
-    "layer": "environment",
     "components": [
+      {
+        "type": "tag",
+        "properties": {
+          "type": "environment"
+        }
+      },
       {
         "type": "transform",
         "properties": {
@@ -15,7 +20,6 @@
       {
         "type": "sprite",
         "properties": {
-          "shader": "sprite_batch",
           "texture": "grass",
           "coordinates": [ 0, 0 ],
           "color": [ 1.0, 1.0, 1.0, 1.0 ]
@@ -52,8 +56,13 @@
   },
   {
     "id": "palm_tree",
-    "layer": "environment",
     "components": [
+      {
+        "type": "tag",
+        "properties": {
+          "type": "environment"
+        }
+      },
       {
         "type": "transform",
         "properties": {
@@ -66,7 +75,6 @@
       {
         "type": "sprite",
         "properties": {
-          "shader": "sprite_batch",
           "texture": "palm",
           "coordinates": [ 0, 0 ],
           "color": [ 1.0, 1.0, 1.0, 1.0 ]
@@ -96,7 +104,7 @@
       {
         "type": "environment",
         "properties": {
-          "tiles": ["sand", "grass"]
+          "tiles": [ "sand", "grass" ]
         }
       },
       {
@@ -118,8 +126,13 @@
   },
   {
     "id": "rock",
-    "layer": "environment",
     "components": [
+      {
+        "type": "tag",
+        "properties": {
+          "type": "environment"
+        }
+      },
       {
         "type": "transform",
         "properties": {
@@ -132,7 +145,6 @@
       {
         "type": "sprite",
         "properties": {
-          "shader": "sprite_batch",
           "texture": "rock",
           "coordinates": [ 0, 0 ],
           "color": [ 1.0, 1.0, 1.0, 1.0 ]
@@ -174,6 +186,41 @@
         "properties": {
           "sound_name": "rock_smash",
           "trigger": "entity_destroyed"
+        }
+      }
+    ]
+  },
+  {
+    "id": "berry_bush",
+    "components": [
+      {
+        "type": "tag",
+        "properties": {
+          "type": "environment"
+        }
+      },
+      {
+        "type": "transform",
+        "properties": {
+          "position": [ 0.0, 0.41 ],
+          "scale": [ 0.8, 0.8 ],
+          "pivot": [ 0.0, 0.0 ],
+          "rotation": 0.0
+        }
+      },
+      {
+        "type": "sprite",
+        "properties": {
+          "texture": "berry_bush_01",
+          "coordinates": [ 0, 0 ],
+          "color": [ 1.0, 1.0, 1.0, 1.0 ]
+        }
+      },
+      {
+        "type": "collider",
+        "properties": {
+          "type": "static",
+          "size": [ 0.25, 0.25 ]
         }
       }
     ]

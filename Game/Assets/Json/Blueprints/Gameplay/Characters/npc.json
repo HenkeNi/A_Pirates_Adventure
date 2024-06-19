@@ -4,6 +4,12 @@
     "layer": "npc",
     "components": [
       {
+        "type": "tag",
+        "properties": {
+          "type": "npc"
+        }
+      },
+      {
         "type": "transform",
         "properties": {
           "position": [ 0.0, 0.3 ],
@@ -21,7 +27,6 @@
       {
         "type": "sprite",
         "properties": {
-          "shader": "sprite_batch",
           "texture": "castaway",
           "coordinates": [ 0, 0 ],
           "color": [ 1.0, 1.0, 1.0, 1.0 ]

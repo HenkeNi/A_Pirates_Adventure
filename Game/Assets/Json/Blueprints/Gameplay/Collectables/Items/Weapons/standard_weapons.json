@@ -4,6 +4,12 @@
     "layer": "player",
     "components": [
       {
+        "type": "tag",
+        "properties": {
+          "type": "collectable"
+        }
+      },
+      {
         "type": "transform",
         "properties": {
           "position": [ 0.0, 0.0 ],
@@ -15,7 +21,6 @@
       {
         "type": "sprite",
         "properties": {
-          "shader": "sprite_batch",
           "texture": "sword_01",
           "coordinates": [ 0, 0 ],
           "color": [ 1.0, 1.0, 1.0, 1.0 ]

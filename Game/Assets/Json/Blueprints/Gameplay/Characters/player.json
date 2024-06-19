@@ -3,6 +3,12 @@
   "layer": "player",
   "components": [
     {
+      "type": "tag",
+      "properties": {
+        "type": "player"
+      }
+    },
+    {
       "type": "transform",
       "properties": {
         "position": [ 0.0, 0.0 ],
@@ -14,7 +20,6 @@
     {
       "type": "sprite",
       "properties": {
-        "shader": "sprite_batch",
         "texture": "pirate_idle",
         "coordinates": [ 0, 0 ],
         "color": [ 1.0, 1.0, 1.0, 1.0 ]
@@ -23,13 +28,13 @@
     {
       "type": "velocity",
       "properties": {
-        "speed": 1.0
+        "speed": 20.0
       }
     },
     {
       "type": "input",
       "properties": {}
-    },
+    },  
     {
       "type": "player_controller",
       "properties": {

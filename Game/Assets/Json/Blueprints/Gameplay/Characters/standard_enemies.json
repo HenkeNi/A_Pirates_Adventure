@@ -4,6 +4,12 @@
     "layer": "enemy",
     "components": [
       {
+        "type": "tag",
+        "properties": {
+          "type": "enemy"
+        }
+      },
+      {
         "type": "transform",
         "properties": {
           "position": [ 0.0, 0.3 ],
@@ -28,7 +34,6 @@
       {
         "type": "sprite",
         "properties": {
-          "shader": "sprite_batch",
           "texture": "skeleton",
           "coordinates": [ 0, 0 ],
           "color": [ 1.0, 1.0, 1.0, 1.0 ]
@@ -71,6 +76,13 @@
         "properties": {
           "IsAggressive": true
         }
+      },
+      {
+        "type": "audio",
+        "properties": {
+          "sound_name": "death",
+          "trigger": "entity_destroyed"
+        }
       }
     ]
   },
@@ -78,6 +90,12 @@
     "id": "spider",
     "layer": "enemy",
     "components": [
+      {
+        "type": "tag",
+        "properties": {
+          "type": "enemy"
+        }
+      },
       {
         "type": "transform",
         "properties": {
@@ -90,7 +108,6 @@
       {
         "type": "sprite",
         "properties": {
-          "shader": "sprite_batch",
           "texture": "crab",
           "coordinates": [ 0, 0 ],
           "color": [ 1.0, 1.0, 1.0, 1.0 ]
