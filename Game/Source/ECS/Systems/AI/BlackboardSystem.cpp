@@ -17,8 +17,7 @@ void BlackboardSystem::Receive(Message& message)
 
 void BlackboardSystem::Update(float deltaTime)
 {
-	if (!m_entityManager)
-		return;
+	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
 
 	SetPlayerPosition();
 	

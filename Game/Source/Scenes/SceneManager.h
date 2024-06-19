@@ -1,12 +1,12 @@
 #pragma once
-//#include <../Hi_Engine.h>
 #include "PostMaster/Subscriber.h"
 #include <../Source/Utility/DataStructures/Linear/Dynamic/Stack/Stack.hpp>
+
 
 enum class eScene;
 class Scene;
 
-// REMOVE empty namespace?
+// REMOVE namespace?
 namespace Utility
 {
 	using Scenes = std::unordered_map<eScene, std::shared_ptr<Scene>>;
@@ -33,11 +33,6 @@ public:
 	void Clear();
 
 	void TransitionToScene(eScene type);
-
-	// Scene& GetActiveScene();
-	// void LoadScene();
-	// LoadScene("MainMenu"	);
-	// void UnloadScene()
 
 private:
 	void LoadScene(const std::string& aPath);

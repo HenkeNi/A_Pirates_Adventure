@@ -7,7 +7,6 @@
 #include "Components/Gameplay/GameplayComponents.h"
 #include "Constants.h"
 
-unsigned GetResourceSpawnChance(const std::string& resource); // FIX!
 
 struct ResourceSpawnSettings
 {
@@ -27,10 +26,7 @@ MapDecorationSystem::~MapDecorationSystem()
 
 void MapDecorationSystem::Receive(Message& message)
 {
-
-	// map chunk generated
-
-	auto mapChunk = std::any_cast<Entity*>(message.GetData());
+	auto* mapChunk = std::any_cast<Entity*>(message.GetData());
 
 	GenerateResources(mapChunk);
 	// PopulateWithFoilage(mapChunk);
@@ -46,44 +42,48 @@ void MapDecorationSystem::GenerateResources(Entity* entity)
 	auto* mapChunkComponent = entity->GetComponent<MapChunkComponent>();
 	auto* transformComponent = entity->GetComponent<TransformComponent>();
 
-	auto position = transformComponent->CurrentPos;
-
 	for (const auto& tile : mapChunkComponent->Tiles)
 	{
-		Entity* entity = nullptr;
+		Entity* resource = nullptr;
 
-		// Check if enviroenment component contains tile??? how to store for each enico
-
-		float random = Hi_Engine::GenerateRandomInteger<unsigned>(0, 100);
 
 		if (tile.Type == eTile::Grass)
 		{
-			if (random < GetResourceSpawnChance("Grass"))
+			static std::array<std::string, 3> types{
+				"empty",
+				"grass",
+				"berry_bush"
+			};
+
+			int index = Hi_Engine::GetWeightedRandomIndex({ 0.7f, 0.2f, 0.1f });
+			std::string type = types[index];
+			if (type != "empty")
 			{
-				entity = m_entityManager->Create("grass");
-			}
-			else if (random < GetResourceSpawnChance("PalmTree"))
-			{
-				entity = m_entityManager->Create("palm_tree");
+				resource = m_entityManager->Create(type);
 			}
 		}
 		else if (tile.Type == eTile::Sand)
 		{
-			if (random < GetResourceSpawnChance("PalmTree"))
-			{
-				entity = m_entityManager->Create("palm_tree");
+			static std::array<std::string, 3> types{
+				"empty",
+				"palm_tree",
+				"rock"
+			};
 
-			}
-			else if (random < GetResourceSpawnChance("Rock"))
+			int index = Hi_Engine::GetWeightedRandomIndex({ 0.65f, 0.25f, 0.1f });
+			std::string type = types[index];
+			if (type != "empty")
 			{
-				entity = m_entityManager->Create("rock");
+				resource = m_entityManager->Create(type);
 			}
 		}
 
-		if (entity)
+		if (resource)
 		{
-			entity->GetComponent<TransformComponent>()->CurrentPos = { position.x + (tile.Coordinates.x * Tile::Size), position.y + (tile.Coordinates.y * Tile::Size) };;
-			PostMaster::GetInstance().SendMessage({ eMessage::EntitySpawned, entity });
+			auto position = transformComponent->CurrentPos;
+			
+			resource->GetComponent<TransformComponent>()->CurrentPos = { position.x + (tile.Coordinates.x * Tile::Size), position.y + (tile.Coordinates.y * Tile::Size) };;
+			PostMaster::GetInstance().SendMessage({ eMessage::EntitySpawned, resource });
 		}
 
 	}
@@ -140,20 +140,10 @@ void MapDecorationSystem::PopulateWithFoilage(const Entity* mapChunk)
 	//generateFoilage("PalmTree", 2, mapChunk);
 	generateFoilage("Grass", 7, mapChunk);
 	generateFoilage("Rock", 1, mapChunk);
+	generateFoilage("BerryBush", 3, mapChunk);
 
 	//static int count = 0;
 
 	//if ((count++) % 5 == 0)
 	//	generateFoilage("SkeletonSpawner", 1, mapChunk);
-}
-
-unsigned GetResourceSpawnChance(const std::string& resource)
-{
-	const std::unordered_map<std::string, unsigned> resourceSpawnChance = {
-		{ "PalmTree", 20 },
-		{ "Rock", 5 },
-		{ "Grass", 30 }
-	};
-
-	return resourceSpawnChance.at(resource);
 }

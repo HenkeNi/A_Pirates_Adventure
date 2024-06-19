@@ -20,8 +20,7 @@ void BehaviorTreeSystem::Receive(Message& message)
 
 void BehaviorTreeSystem::Update(float deltaTime)
 {
-	if (!m_entityManager)
-		return;
+	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
 
 	auto entities = m_entityManager->FindAll<BehaviorTreeComponent>();
 

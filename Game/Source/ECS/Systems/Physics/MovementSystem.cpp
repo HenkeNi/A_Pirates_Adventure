@@ -20,8 +20,7 @@ void MovementSystem::Receive(Message& message)
 
 void MovementSystem::Update(float deltaTime)
 {
-	if (!m_entityManager)
-		return;
+	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
 
 	auto entities = m_entityManager->FindAll<TransformComponent, VelocityComponent>();
 
@@ -38,8 +37,7 @@ void MovementSystem::Update(float deltaTime)
 		transformComponent->PreviousPos = transformComponent->CurrentPos;
 		transformComponent->CurrentPos += velocityComponent->Speed * velocityComponent->Velocity * deltaTime;
 
-		// TODO; decrease velocity... (maybe not for all? => bullets shouldnt decrease?) decrease property?
-		if (velocityComponent->ShouldSlowDown) // TODO: FIX! temp solution
+		if (!velocityComponent->IsVelocityConstant)
 			velocityComponent->Velocity = { 0.f, 0.f, };
 
 		if (HasMoved(entity))

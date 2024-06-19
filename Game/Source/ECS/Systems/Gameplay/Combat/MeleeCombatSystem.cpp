@@ -16,6 +16,6 @@ void MeleeCombatSystem::Receive(Message& message)
 
 void MeleeCombatSystem::Update(float deltaTime)
 {
-	if (!m_entityManager)
-		return;
+	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
+
 }

@@ -1,10 +1,23 @@
 #pragma once
-//#include <Utility/Math/Vectors/Vector3.hpp>
-//#include <../Engine/Source/Utility/Math/Vectors/Vector3.hpp> // ?
+#include "../Base/Component.h"
 #include <../Hi_Engine.h>
 
-#include "../Base/Component.h"
 
+struct TagComponent : public Component
+{
+	enum class eEntityType
+	{
+		Player,
+		Enemy,
+		NPC,
+		UI,
+		Collectable,
+		Environment,
+		Camera
+	};
+
+	eEntityType type;
+};
 
 
 // ############# Physics Components ############# //
@@ -17,15 +30,11 @@ struct TransformComponent : public Component
 	float    Rotation		= 0.f;
 };
 
-struct VelocityComponent : public Component // Physics componetn instad?
+struct VelocityComponent : public Component
 {
 	FVector2 Velocity;
-	FVector2 Acceleration;
-	//float DeaccelerationRate; TODO; implement instead of bool check? or put in physics? mass, etc?
-
-	float	MaxVelocity;
-	float	Speed;
-	bool	ShouldSlowDown = true;
+	float	 Speed = 1.f;
+	bool	 IsVelocityConstant = false;
 };
 
 // Rename BoxColliderComponent (or RectangleComponent)
@@ -33,7 +42,7 @@ struct ColliderComponent : public Component
 {
 	Hi_Engine::Physics::AABB2D<float>	Collider;
 	Offset								Offset;
-	//CU::Vector2<float>				Offset;
+	//FVector2				Offset;
 	eColliderType						Type;
 	//eCollisionLayer					Layer;
 
@@ -57,22 +66,10 @@ struct CircleColliderComponent : public Component
 // ############# Rendering Components ############# //
 struct SpriteComponent : public Component
 {
-	Hi_Engine::Subtexture2D* Subtexture = nullptr;
-	FVector4 Color = { 1.f, 1.f, 1.f, 1.f };
-	// CU::Vector4<float> DefaultColor = { 1.f, 1.f, 1.f, 1.f };
-	FVector4 CurrentColor = { 1.f, 1.f, 1.f, 1.f };
-
-	// TINT????
-
-	// Hi_Engine::Material m_material;	// Store strings instead?? keys..
-
-	// Store temporary color, or alterantive color? or fix by having a component?
-
-	// CU::Vector2<float> Pivot; //  = { 0.5f, 0.5f };// use a matrix instead? default: identify matrix? rename Origin?
-	bool ShouldRender;
-	// int m_textureID; ?
-	// int m_shaderID; ?
-	// width, hight??
+	FVector4					DefaultColor = { 1.f, 1.f, 1.f, 1.f };
+	FVector4					CurrentColor = { 1.f, 1.f, 1.f, 1.f };
+	Hi_Engine::Subtexture2D*	Subtexture	 = nullptr; // Store as int (id) instead?
+	bool						ShouldRender = true;
 };
 
 struct AnimationComponent : public Component
@@ -94,27 +91,23 @@ struct AnimationComponent : public Component
 
 struct TextComponent : public Component
 {
-	class Hi_Engine::Font* Font;
-	std::string				Text;
-	unsigned				Size = 32;
-	//Hi_Engine::GLSLShader*	GLSLShader;
-	//Hi_Engine::Font*	Font;
-	// float				m_scale; use transform instead..
-	FVector4		Color;
+	std::string				  Text;
+	FVector4				  Color;
+	unsigned				  Size = 32;
 	Hi_Engine::eTextAlginment Alignment;
+	class Hi_Engine::Font*    Font = nullptr;
 };
 
 struct CameraComponent : public Component
 {
-	Hi_Engine::Camera			Camera;
+	Hi_Engine::Camera Camera;
  	FVector2					TargetOffset;
+	Hi_Engine::Physics::AABB2D<float> Frustum;
 	Hi_Engine::Range<float>	ZoomRange;
-	//class Entity*		m_target = nullptr;
+
 	unsigned			TargetID = 0;
 
 	bool ShouldCull = true;
-
-	Hi_Engine::Physics::AABB2D<float> Frustum;
 };
 
 // NEEDED??
@@ -192,9 +185,10 @@ struct SceneTransitionComponent : public Component
 // ############# Audio Components ############# //
 struct AudioComponent : public Component
 {
-	std::unordered_map<eMessage, Hi_Engine::Audio> AudioTriggers; // TODO; store sounds when doing something "bad", like trying to mine with an axe -> "AttackFailed" as key?
+	std::unordered_map<eMessage, std::string> SoundTriggers; 
+	
+	// std::string AudioName; // REmove?
 
-	Hi_Engine::Audio Audio;				// Store array of sounds? with key that determines when it should play
 	bool IsLooping = false;
 	bool ShouldPlay = false;
 };

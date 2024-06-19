@@ -57,8 +57,8 @@ void InventorySystem::Receive(Message& message)
   
 void InventorySystem::Update(float deltaTime)
 {
-	if (!m_entityManager)
-		return;
+	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
+
 
 	// Clean up collected items
 	std::vector<unsigned> collectedEntityIDs;

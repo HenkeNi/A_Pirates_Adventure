@@ -27,8 +27,7 @@ void EnemySpawnSystem::Update(float deltaTime)
 {
 	return;
 
-	if (!m_entityManager) // Dont check?
-		return;
+	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
 
 	// Make a generic spawner system??
 	auto spawners = m_entityManager->FindAll<SpawnComponent>();

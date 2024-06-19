@@ -20,8 +20,7 @@ CombatSystem::~CombatSystem()
 
 void CombatSystem::Receive(Message& message)	// Listen to collisions from physics
 {
-	if (!m_entityManager)
-		return;
+	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
 
 	if (message.GetMessageType() == eMessage::AttackAnimationFinished)
 	{

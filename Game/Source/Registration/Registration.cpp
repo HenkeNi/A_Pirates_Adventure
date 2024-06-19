@@ -12,6 +12,7 @@ namespace Registration
 	void RegisterComponents(EntityFactory& factory) // takes in an factory?
 	{
 		/* - Core Components - */		
+		factory.RegisterComponentBuilder<TagComponent>("tag");
 		factory.RegisterComponentBuilder<AnimationComponent>("animation");
 		factory.RegisterComponentBuilder<CameraComponent>("camera");
 		factory.RegisterComponentBuilder<ColliderComponent>("collider");

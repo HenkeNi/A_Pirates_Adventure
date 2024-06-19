@@ -4,51 +4,26 @@
 #include "Entities/Entity.h"
 #include "Components/Utility/UtilityComponents.h"
 
+
 TimeSystem::TimeSystem()
 {
 }
 
 TimeSystem::~TimeSystem()
 {
-	//PostMaster::GetInstance().Unsubscribe(eMessage::EntityCreated, this);
 }
 
 void TimeSystem::Receive(Message& message)	
 {
-	/*auto* entity = std::any_cast<Entity*>(message.GetData());
-
-	if (!entity->HasComponent<TimerComponent>())
-		return;
-
-	auto* timer = m_entityManager->Find(entity->GetID());
-
-	auto* timerComponent = timer->GetComponent<TimerComponent>();
-
-	timerComponent->IsActive = true;
-	timerComponent->Timestamp = Hi_Engine::Engine::GetTimer().GetTotalTime();*/
 }
 
 void TimeSystem::Update(float deltaTime) 
 {
-	if (!m_entityManager)
-		return;
+	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
 
 	UpdateWorldTime(deltaTime);
 	UpdateTimers(deltaTime);
 }
-
-//float TimeSystem::CalculateDayProgression(Entity* entity)
-//{
-//	if (entity)
-//	{
-//		if (auto* worldTimeComponent = entity->GetComponent<WorldTimeComponent>())
-//		{
-//			float progression = worldTimeComponent->TimeSinceDayStart / worldTimeComponent->DayDuration;
-//			return progression;
-//		}
-//	}
-//	return 0.f;
-//}
 
 FVector4 TimeSystem::CalculateDaylightColor(Entity* worldTimeEntity)
 {
@@ -73,25 +48,6 @@ FVector4 TimeSystem::CalculateDaylightColor(Entity* worldTimeEntity)
 	return FVector4();
 }
 
-
-
-//float TimeSystem::GetAverageDeltaTime(float deltaTime) const
-//{
-//	static float averageDeltaTime = 0.f;
-//	static float totalTime = 0.f;
-//	static int numFrames = 0;
-//
-//	++numFrames;
-//	if ((totalTime += deltaTime) > 10.f) // FIX magic number (number of frames to average)
-//	{
-//		averageDeltaTime = totalTime / numFrames;
-//		totalTime = 0.f;
-//		numFrames = 0;
-//	}
-//
-//	return averageDeltaTime;
-//}
-
 void TimeSystem::UpdateWorldTime(float deltaTime)
 {
 	auto* entity = m_entityManager->FindFirst<WorldTimeComponent>();
@@ -101,15 +57,16 @@ void TimeSystem::UpdateWorldTime(float deltaTime)
 
 	auto* worldTimeComponent = entity->GetComponent<WorldTimeComponent>();
 
-	worldTimeComponent->TimeSinceDayStart += deltaTime;
-	if (worldTimeComponent->TimeSinceDayStart >= worldTimeComponent->DayDuration)
+	float& elapsedTime = worldTimeComponent->ElapsedTimeSinceDayStart;
+
+	elapsedTime += deltaTime;
+	if (elapsedTime >= worldTimeComponent->DayDuration)
 	{
-		worldTimeComponent->TimeSinceDayStart = 0.f;
+		elapsedTime = 0.f;
 		++worldTimeComponent->Day;
 	}
 
-	worldTimeComponent->CurrentDayProgress = worldTimeComponent->TimeSinceDayStart / worldTimeComponent->DayDuration;
-	//std::cout << "Day Progression: " << worldTimeComponent->CurrentDayProgress << "\n";
+	worldTimeComponent->CurrentDayProgress = worldTimeComponent->ElapsedTimeSinceDayStart / worldTimeComponent->DayDuration;
 
 	SetTimeOfDay(entity);
 }
@@ -123,15 +80,14 @@ void TimeSystem::SetTimeOfDay(Entity* worldTimeEntity)
 
 	eTimeOfDay timeOfDay = worldTimeComponent->TimeOfDay;
 
-	auto found = std::find_if(worldTimeComponent->TimeOfDayDurations.begin(), worldTimeComponent->TimeOfDayDurations.end(),
+	auto found = std::find_if(worldTimeComponent->TimeOfDayRanges.begin(), worldTimeComponent->TimeOfDayRanges.end(),
 		[&](const std::pair<eTimeOfDay, Hi_Engine::Range<float>>& dayDuration)
 		{
-			const Hi_Engine::Range<float>& range = dayDuration.second;
-			return worldTimeComponent->CurrentDayProgress >=  range.Min && worldTimeComponent->CurrentDayProgress <= range.Max;
+			return worldTimeComponent->CurrentDayProgress >= dayDuration.second.Min && worldTimeComponent->CurrentDayProgress <= dayDuration.second.Max;
 			//return Hi_Engine::Math::RangeContains(worldTimeComponent->CurrentDayProgress, range);
 		});
 
-	if (found != worldTimeComponent->TimeOfDayDurations.end())
+	if (found != worldTimeComponent->TimeOfDayRanges.end())
 	{
 		worldTimeComponent->TimeOfDay = found->first;
 		if (worldTimeComponent->TimeOfDay != timeOfDay)
@@ -140,8 +96,6 @@ void TimeSystem::SetTimeOfDay(Entity* worldTimeEntity)
 		}
 	}
 }
-
-
 
 void TimeSystem::UpdateTimers(float deltaTime)
 {
@@ -161,15 +115,5 @@ void TimeSystem::UpdateTimers(float deltaTime)
 			timerComponent->IsActive = false;
 
 		}
-
-
-		////double totalTime = Hi_Engine::Engine::GetTimer().GetTotalTime();
-
-		//// Make static function in TimeSystem???
-		//if (timerComponent->Timestamp + timerComponent->Duration > totalTime)
-		//{
-		//	PostMaster::GetInstance().SendMessage({ eMessage::TimerFinished, entity });
-		//	timerComponent->IsActive = false;
-		//}
 	}
 }

@@ -1,30 +1,18 @@
 #pragma once
 #include "../Base/Component.h"
-//#include "DataTypes/Enumerations.h"
 #include "Enumerations.h"
 
 
  
 struct WorldTimeComponent : public Component
-{
-	eTimeOfDay TimeOfDay; // needed?? 
-	std::unordered_map<eTimeOfDay, Hi_Engine::Range<float>> TimeOfDayDurations; // renmae ratio?
-
-	unsigned Day = 0;
-
-	float DayDuration = 20.f;			// rename Total duration?
-	float TimeSinceDayStart = 0.f;
-
+{	
+	std::unordered_map<eTimeOfDay, Hi_Engine::Range<float>> TimeOfDayRanges;
+	eTimeOfDay TimeOfDay;
+	float DayDuration = 20.f;
+	float ElapsedTimeSinceDayStart = 0.f;
 	float CurrentDayProgress = 0.f;
-	
-	
-	// static const int DayDurationInRealWorldMinues = 2; // FIX!
-	// bool shouldSkipDay?
+	unsigned Day = 0;
 };
-
-
-
-
 
 struct TimerComponent : public Component
 {

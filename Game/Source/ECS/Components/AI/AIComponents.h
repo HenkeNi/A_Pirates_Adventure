@@ -6,8 +6,8 @@
 struct BlackboardComponent : public Component
 {
 	inline static FVector2 PlayerPosition; // Todo; use std::any instead? store player ID AND vector of crew IDs??
-	inline static std::vector<Entity*> Friendly; // store ids instead??
-	inline static std::vector<Entity*> Hostile; // todo, have DeathSystem or garbage system that cleans up dead entities at the end of frame?
+	inline static std::vector<class Entity*> Friendly; // store ids instead??
+	inline static std::vector<class Entity*> Hostile; // todo, have DeathSystem or garbage system that cleans up dead entities at the end of frame?
 	
 	std::vector<FVector2> PointOfInterests; // TargetWaypoint?
 	//bool IsMovingToPOI = false; // replace with destination component instead?

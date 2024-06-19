@@ -25,7 +25,7 @@ void RangedCombatSystem::Receive(Message& message)
 
 		auto* velocityComponent = projectile->GetComponent<VelocityComponent>();
 		velocityComponent->Velocity = data.Directin;
-		velocityComponent->ShouldSlowDown = false; // Do otherway?
+		velocityComponent->IsVelocityConstant = true;
 		velocityComponent->Speed = data.Speed;
 
 		auto* projectileComponent = projectile->GetComponent<ProjectileComponent>();
@@ -35,9 +35,7 @@ void RangedCombatSystem::Receive(Message& message)
 
 void RangedCombatSystem::Update(float deltaTime)
 {
-	if (!m_entityManager)
-		return;
-
+	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
 
 	auto projectiles = m_entityManager->FindAll<ProjectileComponent>();
 

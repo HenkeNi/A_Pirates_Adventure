@@ -19,13 +19,12 @@ void UIRenderSystem::Receive(Message& message)
 
 void UIRenderSystem::Draw()
 {
-	if (!m_entityManager)
-		return;
+	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
 
 	// TODO; Don't have HUDComponent?? Just UIComponent?
 	RenderHUD();
 	RenderUI();
-	RenderInventory();
+	//RenderInventory();
 }
 
 void UIRenderSystem::RenderHUD()
@@ -47,7 +46,8 @@ void UIRenderSystem::RenderHUD()
 
 	// TODO; use a simpler GLSLShader for HUD?
 	
-	std::vector<Hi_Engine::Sprite> sprites;
+	Hi_Engine::SpriteBatch spriteBatch;
+	spriteBatch.Sprites.reserve(entities.size());
 
 	for (auto* entity : entities)
 	{
@@ -61,14 +61,14 @@ void UIRenderSystem::RenderHUD()
 		const auto& scale = transform->Scale;
 		const auto& rotation = transform->Rotation;
 
-		glm::vec4 color = { sprite->Color.x, sprite->Color.y, sprite->Color.z, sprite->Color.w };
+		glm::vec4 color = { sprite->CurrentColor.x, sprite->CurrentColor.y, sprite->CurrentColor.z, sprite->CurrentColor.w };
 
-		sprites.emplace_back(Hi_Engine::Transform{ { position.x, position.y, 0.f }, { scale.x, scale.y }, rotation }, color, sprite->Subtexture);
+		spriteBatch.Sprites.emplace_back(Hi_Engine::Transform{ { position.x, position.y, 0.f }, { scale.x, scale.y }, rotation }, color, sprite->Subtexture);
 	}
 	
-	auto projectionMatrix = cameraComponent->Camera.GetProjectionMatrix();
+	spriteBatch.ProjectionMatrix = cameraComponent->Camera.GetProjectionMatrix();
 
-	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::SpriteBatchRequest>(Hi_Engine::SpriteBatch{ sprites, projectionMatrix });
+	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::SpriteBatchRequest>(spriteBatch);
 }
 
 // Render cursor, buttons, images
@@ -98,7 +98,8 @@ void UIRenderSystem::RenderUI()
 			return e1UIComponent->RenderDepth > e2UIComponent->RenderDepth;
 		});
 
-	std::vector<Hi_Engine::Sprite> sprites;
+	Hi_Engine::SpriteBatch spriteBatch;
+	spriteBatch.Sprites.reserve(entities.size());
 
 	for (auto* entity : entities)
 	{
@@ -111,14 +112,14 @@ void UIRenderSystem::RenderUI()
 		const auto& position = transform->CurrentPos;
 		const auto& scale = transform->Scale;
 		const auto& rotation = transform->Rotation;
-		glm::vec4 color = { sprite->Color.x, sprite->Color.y, sprite->Color.z, sprite->Color.w };
+		glm::vec4 color = { sprite->CurrentColor.x, sprite->CurrentColor.y, sprite->CurrentColor.z, sprite->CurrentColor.w };
 
-		sprites.emplace_back(Hi_Engine::Transform{ { position.x, position.y, 0.f }, { scale.x, scale.y }, rotation }, color, sprite->Subtexture);
+		spriteBatch.Sprites.emplace_back(Hi_Engine::Transform{ { position.x, position.y, 0.f }, { scale.x, scale.y }, rotation }, color, sprite->Subtexture);
 	}
 
-	auto projectionMatrix = cameraComponent->Camera.GetProjectionMatrix();
+	spriteBatch.ProjectionMatrix = cameraComponent->Camera.GetProjectionMatrix();
 
-	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::SpriteBatchRequest>(Hi_Engine::SpriteBatch{ sprites, projectionMatrix });
+	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::SpriteBatchRequest>(spriteBatch);
 }
 
 void UIRenderSystem::RenderInventory()

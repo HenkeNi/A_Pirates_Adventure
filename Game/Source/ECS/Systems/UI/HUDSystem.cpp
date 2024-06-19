@@ -50,6 +50,8 @@ void HUDSystem::Receive(Message& message)
 
 void HUDSystem::Update(float deltaTime)
 {
+	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
+
 	// if aiming...  (do with event instead)?
 	auto* player = m_entityManager->FindFirst<PlayerControllerComponent>();
 	if (!player)

@@ -24,8 +24,7 @@ void StatSystem::Receive(Message& message)
 
 	// TODO; listen for item equiped, unequiped, etc..?
 
-	if (!m_entityManager)
-		return;
+	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
 
 	//auto msg = aMsg;
 

@@ -26,16 +26,14 @@ void InputSystem::Receive(Message& message)
 
 void InputSystem::Update(float deltaTime)
 {
-	if (!m_entityManager)
-		return;
+	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
 
 	using InputHandler = Hi_Engine::InputHandler;
 
-	auto entities = m_entityManager->FindAll<InputComponent>();
-	
 	auto mousePos	  = InputHandler::GetMousePosition();
 	float mouseScroll = InputHandler::GetScrollOffset();
 
+	auto entities = m_entityManager->FindAll<InputComponent>();
 	for (auto entity : entities)
 	{
 		auto* inputComponent = entity->GetComponent<InputComponent>();

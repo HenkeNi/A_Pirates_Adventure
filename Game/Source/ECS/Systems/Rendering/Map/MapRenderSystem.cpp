@@ -22,8 +22,8 @@ void MapRenderSystem::Receive(Message& message)
 
 void MapRenderSystem::Draw()
 {
-	if (!m_entityManager)
-		return;
+	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
+
 
 	auto* camera = m_entityManager->FindFirst<CameraComponent>();
 
@@ -40,38 +40,27 @@ void MapRenderSystem::Draw()
 	if (!cameraComponent)
 		return;
 
-
 	// Todo; only render relevant map chunks (those in view) -> camera systems job?!
 
-	std::vector<Hi_Engine::Sprite> sprites;
+	Hi_Engine::SpriteBatch spriteBatch;
+	spriteBatch.Sprites.reserve(entities.size());
 
-	for (auto entity : entities)
+	for (auto* entity : entities)
 	{
-		auto* transformComponent = entity->GetComponent<TransformComponent>();
 		auto* mapChunkComponent = entity->GetComponent<MapChunkComponent>();
-
-		if (!transformComponent || !mapChunkComponent)
+		if (!mapChunkComponent)
 			continue;
 
-		const auto& currentPosition = transformComponent->CurrentPos;
-	
-		// TODO:: pass in bounds (componetn)?
-
-		Hi_Engine::Physics::AABB2D<float> bounds;
-		bounds.Init({ currentPosition.x, currentPosition.y }, { currentPosition.x + (10 * Tile::Size), currentPosition.y + (10 * Tile::Size) });
-		//bounds.Init({ currentPosition.x, currentPosition.y }, { currentPosition.x + (mapChunk->Width * Tile::Size), currentPosition.y + (mapChunk->Height * Tile::Size) });
-
-		if (!CameraSystem::IsInView(camera, bounds))
+		if (!CameraSystem::IsInView(camera, mapChunkComponent->Bounds))
 			continue;
 
-		auto color = TimeSystem::CalculateDaylightColor(m_entityManager->FindFirst<WorldTimeComponent>());
-
-		std::copy(mapChunkComponent->Sprites.begin(), mapChunkComponent->Sprites.end(), std::back_inserter(sprites));
+		//auto color = TimeSystem::CalculateDaylightColor(m_entityManager->FindFirst<WorldTimeComponent>());
+		
+		std::copy(mapChunkComponent->Sprites.begin(), mapChunkComponent->Sprites.end(), std::back_inserter(spriteBatch.Sprites));
 	}
 
-	auto viewProjectionMatrix = cameraComponent->Camera.GetViewProjectionMatrix();
-
-	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::SpriteBatchRequest>(Hi_Engine::SpriteBatch{ sprites, viewProjectionMatrix }); // Static call to Renderer instead??
+	spriteBatch.ProjectionMatrix = cameraComponent->Camera.GetViewProjectionMatrix();
+	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::SpriteBatchRequest>(spriteBatch); // Static call to Renderer instead??
 }
 
 FVector4 MapRenderSystem::CalculateDaylightColor() const

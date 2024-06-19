@@ -300,8 +300,7 @@ void CollisionSystem::Receive(Message& message)
 
 void CollisionSystem::LateUpdate(float deltaTime)
 {
-	if (!m_entityManager)
-		return;
+	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
 
 	auto entities = m_entityManager->FindAll<ColliderComponent, TransformComponent>();
 

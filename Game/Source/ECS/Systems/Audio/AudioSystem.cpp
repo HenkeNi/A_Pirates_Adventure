@@ -32,17 +32,14 @@ void AudioSystem::Receive(Message& message)
 
 	if (auto* audioComponent = entity->GetComponent<AudioComponent>())
 	{
-		if (audioComponent->AudioTriggers.contains(type))
+		if (audioComponent->SoundTriggers.contains(type))
 		{
-			auto& audio = audioComponent->AudioTriggers.at(type);
-			//Hi_Engine::ServiceLocator::GetAudioController().lock()->PlaySound(audio);
-		}
+			// Todo; fetch Audio and pass the audio file instead..
 
-		//Hi_Engine::ServiceLocator::GetAudioController()->PlaySound(audioComponent->Audio);
-		
-		//if (audioComponent->ShouldPlay)
-		//{
-		//}
+			const auto& audioName = audioComponent->SoundTriggers.at(type);
+
+			Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::PlaySoundEvent>(audioName);
+		}
 	}
 }
 

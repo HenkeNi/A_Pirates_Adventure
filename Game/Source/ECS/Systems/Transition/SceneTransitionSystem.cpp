@@ -39,6 +39,8 @@ void SceneTransitionSystem::Receive(Message& message) // Psas trigger?? check if
 
 void SceneTransitionSystem::Update(float deltaTime)
 {
+	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
+
 	auto entities = m_entityManager->FindAll<SceneTransitionComponent>();
 	for (const auto& entity : entities)
 	{

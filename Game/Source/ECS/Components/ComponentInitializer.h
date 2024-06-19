@@ -4,7 +4,6 @@
 #include <../Hi_Engine.h> //?
 
 #include "../Entities/EntityBlueprint.h" // DON'T?
-
 #include "../Commands/Move/MoveCommand.h"
 #include "../Commands/Attack/AttackCommand.h"
 #include "../Commands/Sprint/SprintCommand.h"
@@ -15,7 +14,6 @@
 
 #include "../AI/SteeringBehaviors/Flock/FlockBehavior.h"
 // #include "../AI/SteeringBehaviors/Wander/WanderBehavior.h"
-
 
 #include "AI/BehaviorTree/Action/ActionNodes.h"
 #include "AI/BehaviorTree/Composite/CompositeNodes.h"
@@ -132,38 +130,24 @@ public:
 	template <>
 	static void InitializeComponent<AudioComponent>(AudioComponent* component, const ComponentData& data)
 	{
-		std::string soundName = std::any_cast<std::string>(data.at("sound_name"));
+		static const std::unordered_map<std::string, eMessage> soundEventsMapping = {
+			{ "item_used", eMessage::ItemUsed },
+			{ "item_collected",	eMessage::ItemCollected },
+			{ "entity_destroyed", eMessage::EntityDestroyed },
+			{ "button_activated", eMessage::ButtonActivated }
+		};
 
+		std::string name = std::any_cast<std::string>(data.at("sound_name"));
 		std::string trigger = std::any_cast<std::string>(data.at("trigger"));
 
-		eMessage triggerType;
+		auto it = soundEventsMapping.find(trigger);
 
-		if (trigger == "item_used")
+		if (it != soundEventsMapping.end())
 		{
-			triggerType = eMessage::ItemUsed;
-		} 
-		else if (trigger == "item_collected")
-		{
-			triggerType = eMessage::ItemCollected;
-		}
-		else if (trigger == "entity_destroyed")
-		{
-			triggerType = eMessage::EntityDestroyed;
-		}
-		else if (trigger == "button_activated")
-		{
-			triggerType = eMessage::ButtonActivated;
-		}
-
-		auto* audioSource = &Hi_Engine::ResourceHolder<Hi_Engine::AudioSource>::GetInstance().GetResource(soundName);
-
-		Hi_Engine::Audio audio;
-		audio.Init(audioSource);
-		component->AudioTriggers.insert({ triggerType, audio });
-
-		//component->Audio.Init(audioSource);
+			eMessage triggerType = it->second;
+			component->SoundTriggers.insert({ triggerType, name });
+		}		
 	}
-
 
 	template <>
 	static void InitializeComponent<BehaviorTreeComponent>(BehaviorTreeComponent* component, const ComponentData& data)
@@ -438,20 +422,12 @@ public:
 	template <>
 	static void InitializeComponent<SpriteComponent>(SpriteComponent* component, const ComponentData& data)
 	{
-		auto shader = std::any_cast<std::string>(data.at("shader"));
-		auto texture = std::any_cast<std::string>(data.at("texture"));
-		//auto color = std::any_cast<std::array<float, 4>>(data.at("color"));
-		auto color = std::any_cast<std::vector<std::any>>(data.at("color"));
+		auto texture     = std::any_cast<std::string>(data.at("texture"));
+		auto color       = std::any_cast<std::vector<std::any>>(data.at("color"));
 		auto coordinates = std::any_cast<std::vector<std::any>>(data.at("coordinates"));
 
 		component->Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ texture, std::any_cast<int>(coordinates[0]), std::any_cast<int>(coordinates[1]) });
-		component->Color = { std::any_cast<float>(color[0]), std::any_cast<float>(color[1]), std::any_cast<float>(color[2]), std::any_cast<float>(color[3]) };
-		//aComponent->m_material = {
-		//	&Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource(texture),
-		//	&Hi_Engine::ResourceHolder<Hi_Engine::GLSLShader>::GetInstance().GetResource(shader)
-		//};
-
-		// aComponent->m_material.SetColor({ color[0], color[1], color[2], color[3] });
+		component->DefaultColor = component->CurrentColor = { std::any_cast<float>(color[0]), std::any_cast<float>(color[1]), std::any_cast<float>(color[2]), std::any_cast<float>(color[3]) };
 	}
 
 	template <>
@@ -494,11 +470,16 @@ public:
 	template <>
 	static void InitializeComponent<TextComponent>(TextComponent* component, const ComponentData& data)
 	{
+		static const std::unordered_map<std::string, Hi_Engine::eTextAlginment> textAlignmentsMapping = {
+			{ "center", Hi_Engine::eTextAlginment::Align_Center },
+			{ "left",   Hi_Engine::eTextAlginment::Align_Left   },
+			{ "right",  Hi_Engine::eTextAlginment::Align_Right  },
+		};
+
+		std::string text    = std::any_cast<std::string>(data.at("text"));
 		std::string font	= std::any_cast<std::string>(data.at("font"));
+		auto color			= std::any_cast<std::vector<std::any>>(data.at("color"));
 		int size			= std::any_cast<int>(data.at("size"));
-		//auto color			= std::any_cast<std::array<float, 4>>(data.at("color"));
-		auto color = std::any_cast<std::vector<std::any>>(data.at("color"));
-		std::string text = std::any_cast<std::string>(data.at("text"));
 
 		std::string alignment = std::any_cast<std::string>(data.at("alignment"));
 		
@@ -507,18 +488,9 @@ public:
 		component->Size = size;
 		component->Text = text;
 
-		if (alignment == "center")
-		{
-			component->Alignment = Hi_Engine::eTextAlginment::Align_Center;
-		}
-		else if (alignment == "left")
-		{
-			component->Alignment = Hi_Engine::eTextAlginment::Align_Left;
-		}
-		else if (alignment == "right")
-		{ 
-			component->Alignment = Hi_Engine::eTextAlginment::Align_Right;
-		}
+		auto it = textAlignmentsMapping.find(alignment);
+
+		component->Alignment = (it != textAlignmentsMapping.end()) ? it->second : Hi_Engine::eTextAlginment::Align_Left;
 	}
 
 	template <>
@@ -554,10 +526,10 @@ public:
 		float dayDuration = std::any_cast<float>(data.at("day_duration"));
 
 		// TOOD; fix
-		component->TimeOfDayDurations.insert(std::make_pair(eTimeOfDay::Dawn,	Hi_Engine::Range{ 0.f, 0.1f }));
-		component->TimeOfDayDurations.insert(std::make_pair(eTimeOfDay::Day,	Hi_Engine::Range{ 1.01f, 0.6f }));
-		component->TimeOfDayDurations.insert(std::make_pair(eTimeOfDay::Dusk,	Hi_Engine::Range{ 0.61f, 0.8f }));
-		component->TimeOfDayDurations.insert(std::make_pair(eTimeOfDay::Night,  Hi_Engine::Range{ 0.81f, 1.0f }));
+		component->TimeOfDayRanges.insert(std::make_pair(eTimeOfDay::Dawn,	Hi_Engine::Range{ 0.f, 0.1f }));
+		component->TimeOfDayRanges.insert(std::make_pair(eTimeOfDay::Day,	Hi_Engine::Range{ 0.11f, 0.6f }));
+		component->TimeOfDayRanges.insert(std::make_pair(eTimeOfDay::Dusk,	Hi_Engine::Range{ 0.61f, 0.8f }));
+		component->TimeOfDayRanges.insert(std::make_pair(eTimeOfDay::Night,  Hi_Engine::Range{ 0.81f, 1.0f }));
 
 		component->DayDuration = dayDuration;
 	}
@@ -679,6 +651,25 @@ public:
 	}
 	
 	template <>
+	static void InitializeComponent<TagComponent>(TagComponent* component, const ComponentData& data)
+	{
+		static const std::unordered_map<std::string, TagComponent::eEntityType> TagMap = {
+			{ "player", TagComponent::eEntityType::Player },
+			{ "enemy", TagComponent::eEntityType::Enemy },
+			{ "npc", TagComponent::eEntityType::NPC },
+			{ "ui", TagComponent::eEntityType::UI },
+			{ "camera", TagComponent::eEntityType::Camera },
+			{ "environment", TagComponent::eEntityType::Environment },
+			{ "collectable", TagComponent::eEntityType::Collectable }
+		};
+
+		std::string tagType = std::any_cast<std::string>(data.at("type"));
+
+
+		component->type = TagMap.at(tagType);
+	}
+
+	template <>
 	static void InitializeComponent<ToppleComponent>(ToppleComponent* component, const ComponentData& data)
 	{
 	}
@@ -686,23 +677,23 @@ public:
 	template <>
 	static void InitializeComponent<SceneTransitionComponent>(SceneTransitionComponent* component, const ComponentData& data)
 	{
+		static const std::unordered_map<std::string, eScene> sceneTransitionsMapping = {
+			{ "game",		eScene::Game },
+			{ "menu",		eScene::Menu },
+			{ "title",		eScene::Title },
+			{ "settings",	eScene::Settings },
+			{ "inventory",	eScene::Inventory },
+		};
+
 		if (!data.contains("scene"))
 			return;
 
 		std::string scene = std::any_cast<std::string>(data.at("scene"));
 
 		component->ShouldPush = !std::any_cast<bool>(data.at("should_remove"));
+		auto it = sceneTransitionsMapping.find(scene);
 
-		if (scene == "game")
-			component->SceneType = eScene::Game;
-		else if (scene == "menu")
-			component->SceneType = eScene::Menu;
-		else if (scene == "title")
-			component->SceneType = eScene::Title;
-		else if (scene == "settings")
-			component->SceneType = eScene::Settings;
-		else if (scene == "inventory")
-			component->SceneType = eScene::Inventory;
+		component->SceneType = (it != sceneTransitionsMapping.end()) ? it->second : eScene::Menu;
 	}
 
 	template <>

@@ -18,8 +18,8 @@ void TextRenderSystem::Receive(Message& message)
 
 void TextRenderSystem::Draw()
 {
-	if (!m_entityManager)
-		return;
+	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
+
 
 	// DO in initilaizcomponent instead
 	auto* shader = &Hi_Engine::ResourceHolder<Hi_Engine::GLSLShader>::GetInstance().GetResource("Text"); // FIX!! set in Renderer before...
@@ -40,8 +40,5 @@ void TextRenderSystem::Draw()
 		renderPosition.y = transformComponent->CurrentPos.y + (transformComponent->Pivot.y * textComponent->Size); // transformComponent->Scale.y); // TODO: add font size??
 
 		Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::TextRenderEvent>(Hi_Engine::TextRenderData{ shader, textComponent->Font, (float)1.f, textComponent->Color, renderPosition, textComponent->Text, textComponent->Alignment }, projection);
-
-		//Hi_Engine::TextRenderer::GetInstance().Render({ shader, textComponent->Font, (float)1.f, textComponent->Color, renderPosition, textComponent->Text, textComponent->Alignment }, projection);
-		//Hi_Engine::TextRenderer::GetInstance().Render({ shader, textComponent->Font, (float)textComponent->Size, textComponent->Color, renderPosition, textComponent->Text }, projection);
 	}
 }

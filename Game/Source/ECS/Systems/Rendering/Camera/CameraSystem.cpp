@@ -29,8 +29,7 @@ void CameraSystem::Receive(Message& message)
 
 void CameraSystem::Update(float deltaTime)
 {
-	if (!m_entityManager)
-		return;
+	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
 
 	// Do every frame? or just at the beginning of new Scene?
 

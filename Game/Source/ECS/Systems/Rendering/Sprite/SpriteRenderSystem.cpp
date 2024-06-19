@@ -19,8 +19,8 @@ void SpriteRenderSystem::Receive(Message& message)
 
 void SpriteRenderSystem::Draw() // TODO; should pass along if bash should be flushed in render command?
 {
-	if (!m_entityManager)
-		return;
+	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
+
 	
 	auto* camera = m_entityManager->FindFirst<CameraComponent>();
 
@@ -63,13 +63,16 @@ void SpriteRenderSystem::Draw() // TODO; should pass along if bash should be flu
 		return e1->GetComponent<TransformComponent>()->CurrentPos.y < e2->GetComponent<TransformComponent>()->CurrentPos.y;
 		}); // also sort by "bShouldRender"? return when hitting a entity that shouldnt render..
 
-	std::vector<Hi_Engine::Sprite> sprites;
+
+	Hi_Engine::SpriteBatch spriteBatch;
+	spriteBatch.Sprites.reserve(entities.size());
+
 	for (const Entity* entity : entities)
 	{
 		if (!entity)
 			continue;
 
-		// TODO: Fix by having better filtering... (look into bitset)
+		// TODO: Fix by having better filtering... (look into bitset) or check TagComponent
 		if (entity->HasComponent<HUDComponent>() || entity->HasComponent<UIComponent>()) 
 			continue;
 
@@ -80,12 +83,10 @@ void SpriteRenderSystem::Draw() // TODO; should pass along if bash should be flu
 			continue;
 
 		if (!spriteComponent->ShouldRender)
-		{
 			continue;
-		}
 
 		const auto& subtexture = spriteComponent->Subtexture;
-		const auto& color = spriteComponent->Color;
+		const auto& color = spriteComponent->CurrentColor;
 
 		glm::vec4 spriteColor = { color.x, color.y, color.z, color.w };
 
@@ -98,10 +99,10 @@ void SpriteRenderSystem::Draw() // TODO; should pass along if bash should be flu
 		position.x = currentPosition.x + (pivot.x * scale.x);
 		position.y = currentPosition.y + (pivot.y * scale.y);
 
-		sprites.emplace_back(Hi_Engine::Transform{{ position.x, position.y, 0.f }, { scale.x, scale.y }, rotation }, spriteColor, subtexture);
+		spriteBatch.Sprites.emplace_back(Hi_Engine::Transform{{ position.x, position.y, 0.f }, { scale.x, scale.y }, rotation }, spriteColor, subtexture);
 	}
 
-	auto viewProjectionMatrix = cameraComponent->Camera.GetViewProjectionMatrix();
+	spriteBatch.ProjectionMatrix = cameraComponent->Camera.GetViewProjectionMatrix();
 
-	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::SpriteBatchRequest>(Hi_Engine::SpriteBatch{ sprites, viewProjectionMatrix });
+	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::SpriteBatchRequest>(spriteBatch);
 }
