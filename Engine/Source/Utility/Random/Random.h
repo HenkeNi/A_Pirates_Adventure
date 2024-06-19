@@ -4,13 +4,16 @@
 
 namespace Hi_Engine
 {
+	static std::random_device rd;
+	static std::mt19937 gen(rd());
+
 	template <typename T>
 	T GenerateRandomInteger(T min, T max)
 	{
 		//static_assert(std::is_integral_v<T> && "T must be an integer type");
 
-		static std::random_device rd;
-		static std::mt19937 gen(rd());
+		//static std::random_device rd;
+		//static std::mt19937 gen(rd());
 
 		std::uniform_int_distribution<T> dis(min, max);
 		return dis(gen);
@@ -22,8 +25,8 @@ namespace Hi_Engine
 	{
 		//static_assert(std::is_floating_point<T> && "T must be a floating-point type")
 
-		static std::random_device rd;
-		static std::mt19937 gen(rd());
+		//static std::random_device rd;
+		//static std::mt19937 gen(rd());
 
 		std::uniform_real_distribution<T> dis(min, max);
 		return dis(gen);
@@ -40,4 +43,6 @@ namespace Hi_Engine
 
 		return Vector2<T>{ x, y };
 	}
+
+	int GetWeightedRandomIndex(const std::vector<double>& weights);
 }
