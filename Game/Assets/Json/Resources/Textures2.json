@@ -414,5 +414,15 @@
     "height": 100,
     "rows": 1,
     "cols": 1
+  },
+  {
+    "id": "berry_bush_01",
+    "path": "../Game/Assets/Textures/Environment/berry_bush.png",
+    "alpha": true,
+    "filtering": "Linear",
+    "width": 125,
+    "height": 140,
+    "rows": 1,
+    "cols": 1
   }
 ]

@@ -15,7 +15,6 @@
       {
         "type": "sprite",
         "properties": {
-          "shader": "sprite_batch",
           "texture": "castaway",
           "coordinates": [ 0, 0 ],
           "color": [ 1.0, 1.0, 1.0, 1.0 ]
@@ -43,7 +42,6 @@
       {
         "type": "sprite",
         "properties": {
-          "shader": "sprite_batch",
           "texture": "heart",
           "coordinates": [ 0, 0 ],
           "color": [ 1.0, 1.0, 1.0, 1.0 ]

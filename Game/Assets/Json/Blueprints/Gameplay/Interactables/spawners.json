@@ -15,7 +15,6 @@
       {
         "type": "sprite",
         "properties": {
-          "shader": "sprite_batch",
           "texture": "skeleton_pile",
           "coordinates": [ 0, 0 ],
           "color": [ 1.0, 1.0, 1.0, 1.0 ]
