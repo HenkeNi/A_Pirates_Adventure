@@ -109,8 +109,8 @@ namespace Hi_Engine::Math
 		return (degrees * (PI / 180));
 	}
 
-	inline bool IsNearlyEqual(float value1, float value2, float epsilon = 0.0001f) // not checked...
+	inline bool IsNearlyEqual(float value1, float value2, float epsilon = 0.0001f)
 	{
-		return std::abs(value1 - value2) < epsilon * std::abs(value1);
+		return fabs(value1 - value2) < epsilon;
 	}
 }
