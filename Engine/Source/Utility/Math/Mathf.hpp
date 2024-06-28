@@ -71,6 +71,14 @@ namespace Hi_Engine::Math
 		value2 = temp;
 	}
 
+	// ################## Swap ################## //
+	template <typename T>
+	T Rerange(T value, const Range<T>& oldRange, const Range<T>& newRange) // Todo; rename MapToNewRange?
+	{
+		T newValue = newRange.Min + ((value - oldRange.Min) / (oldRange.Max - oldRange.Min)) * (newRange.Max - newRange.Min);
+		return newValue;
+	}
+
 	// ################## Convert to radians ################## //
 	template <typename T>
 	constexpr T ConvertToRadians(T degrees)
