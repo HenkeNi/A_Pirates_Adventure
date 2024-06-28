@@ -17,6 +17,7 @@ namespace Hi_Engine
 		virtual void HandleEvent(class BatchRenderEvent& event)		{};
 		virtual void HandleEvent(class PlaySoundEvent& event)		{};
 		virtual void HandleEvent(class StopSoundEvent& event)		{};
+		virtual void HandleEvent(class SetVolumeEvent& event)		{};
 		//virtual void HandleEvent(RenderSpriteEvent& event)		{};
 	};
 }

@@ -44,4 +44,25 @@ namespace Hi_Engine
 	{
 		return m_soundName;
 	}
+
+
+	SetVolumeEvent::SetVolumeEvent()
+		: Event{ ePriority::Moderate }, m_volume{ 1.f }
+	{
+	}
+
+	void SetVolumeEvent::Dispatch(EventListener& listener)
+	{
+		listener.HandleEvent(*this);
+	}
+
+	void SetVolumeEvent::Init(float volume)
+	{
+		m_volume = volume;
+	}
+
+	float SetVolumeEvent::GetVolume() const
+	{
+		return m_volume;
+	}
 }

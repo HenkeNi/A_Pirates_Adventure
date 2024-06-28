@@ -31,6 +31,21 @@ namespace Hi_Engine
 	private:
 		std::string m_soundName;
 	};
+
+
+	class SetVolumeEvent : public Event<SetVolumeEvent>
+	{
+	public:
+		SetVolumeEvent();
+
+		void Dispatch(EventListener& listener) override;
+		void Init(float volume);
+		
+		float GetVolume() const;
+
+	private:
+		float m_volume;
+	};
 }
 
 
