@@ -25,7 +25,7 @@ struct TransformComponent : public Component
 {
 	FVector2 CurrentPos		= { 0.f, 0.f };
 	FVector2 PreviousPos	= { 0.f, 0.f };
-	FVector2 Scale			= { 1.f, 1.f };
+	FVector2 Scale			= { 1.f, 1.f }; // rename size?
 	FVector2 Pivot			= { 0.f, 0.f }; // Rename origin?
 	float    Rotation		= 0.f;
 };

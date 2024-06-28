@@ -176,7 +176,7 @@ namespace Hi_Engine
 	{
 		Display();
 
-		std::cout << "Total draws: " << m_stats.TotalDraws << ", total quads: " << m_stats.TotalQuads << "\n";
+		// std::cout << "Total draws: " << m_stats.TotalDraws << ", total quads: " << m_stats.TotalQuads << "\n";
 
 		// Reset stats
 		m_stats.TotalDraws = 0;

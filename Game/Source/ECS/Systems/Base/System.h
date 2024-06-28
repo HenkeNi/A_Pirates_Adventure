@@ -16,6 +16,6 @@ public:
 	virtual void Draw()							{};
 
 protected:
-	EntityManager*	 m_entityManager;
+	EntityManager*	 m_entityManager; // Todo; store reference to ECS instead? have GetSystem function in system manager?
 	unsigned		 m_priority;
 };

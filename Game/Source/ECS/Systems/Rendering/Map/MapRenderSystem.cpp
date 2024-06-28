@@ -24,19 +24,15 @@ void MapRenderSystem::Draw()
 {
 	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
 
-
 	auto* camera = m_entityManager->FindFirst<CameraComponent>();
-
 	if (!camera)
 		return;
 
 	auto entities = m_entityManager->FindAll<MapChunkComponent>();
-
 	if (entities.empty())
 		return;
 
 	auto* cameraComponent = camera->GetComponent<CameraComponent>();
-
 	if (!cameraComponent)
 		return;
 

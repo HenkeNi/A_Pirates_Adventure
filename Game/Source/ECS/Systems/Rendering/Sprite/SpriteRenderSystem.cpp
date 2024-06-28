@@ -21,19 +21,15 @@ void SpriteRenderSystem::Draw() // TODO; should pass along if bash should be flu
 {
 	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
 
-	
 	auto* camera = m_entityManager->FindFirst<CameraComponent>();
-
 	if (!camera)
 		return;
 	
 	auto entities = m_entityManager->FindAll<SpriteComponent, TransformComponent>();
-
 	if (entities.empty())
 		return;
 	
 	auto* cameraComponent = camera->GetComponent<CameraComponent>();
-
 	if (!cameraComponent)
 		return;
 
@@ -63,15 +59,11 @@ void SpriteRenderSystem::Draw() // TODO; should pass along if bash should be flu
 		return e1->GetComponent<TransformComponent>()->CurrentPos.y < e2->GetComponent<TransformComponent>()->CurrentPos.y;
 		}); // also sort by "bShouldRender"? return when hitting a entity that shouldnt render..
 
-
 	Hi_Engine::SpriteBatch spriteBatch;
 	spriteBatch.Sprites.reserve(entities.size());
 
 	for (const Entity* entity : entities)
 	{
-		if (!entity)
-			continue;
-
 		// TODO: Fix by having better filtering... (look into bitset) or check TagComponent
 		if (entity->HasComponent<HUDComponent>() || entity->HasComponent<UIComponent>()) 
 			continue;
@@ -90,14 +82,11 @@ void SpriteRenderSystem::Draw() // TODO; should pass along if bash should be flu
 
 		glm::vec4 spriteColor = { color.x, color.y, color.z, color.w };
 
-		const auto& currentPosition = transformComponent->CurrentPos;
-		const auto& rotation = transformComponent->Rotation;
-		const auto& scale = transformComponent->Scale;
-		const auto& pivot = transformComponent->Pivot;
+		const auto& [currPos, prevPos, scale, pivot, rotation] = *transformComponent;
 
 		glm::vec3 position;
-		position.x = currentPosition.x + (pivot.x * scale.x);
-		position.y = currentPosition.y + (pivot.y * scale.y);
+		position.x = currPos.x + (pivot.x * scale.x);
+		position.y = currPos.y + (pivot.y * scale.y);
 
 		spriteBatch.Sprites.emplace_back(Hi_Engine::Transform{{ position.x, position.y, 0.f }, { scale.x, scale.y }, rotation }, spriteColor, subtexture);
 	}

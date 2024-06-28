@@ -17,7 +17,7 @@ namespace Hi_Engine
 
 	struct Transform
 	{
-		glm::vec3	Position = { 0.f, 0.f, 0.f };
+		glm::vec3	Position = { 0.f, 0.f, 0.f }; // change to FVector2?
 		glm::vec2	Scale = { 1.f, 1.f };
 		float		Rotation = 0.f;
 	};

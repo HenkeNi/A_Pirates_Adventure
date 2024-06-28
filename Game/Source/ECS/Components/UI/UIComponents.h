@@ -23,6 +23,13 @@ struct CursorComponent : public Component
 {
 };
 
+struct GridComponent : public Component
+{
+	// FVector2 CellSize;
+	IVector2 Dimensions; // grid class? or use inventory.. 
+	std::string CellType;
+	float SpaceBetweenCells = 0.f;
+};
 
 /* ######################### HUD ######################### */
 struct HUDComponent : public Component
@@ -50,9 +57,5 @@ struct CrosshairComponent : public Component
 
 
 /* ######################### Inventory ######################### */
-struct GridComponent : public Component
-{
-	FVector2 Grid; // grid class? or use inventory..
-};
 
 // TODO; sprite renderer fetches 
