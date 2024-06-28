@@ -61,6 +61,11 @@ namespace Hi_Engine
 		StopSound(event.GetSoundName());
 	}
 
+	void AudioController::HandleEvent(SetVolumeEvent& event)
+	{
+		m_soundEngine->setSoundVolume(event.GetVolume());
+	}
+
 	void AudioController::PlaySound(const std::string& name)
 	{
 		auto& sound = ResourceHolder<AudioSource>::GetInstance().GetResource(name);

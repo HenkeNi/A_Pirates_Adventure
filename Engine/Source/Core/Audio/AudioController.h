@@ -25,6 +25,7 @@ namespace Hi_Engine
 
 		void HandleEvent(class PlaySoundEvent& event) override;
 		void HandleEvent(class StopSoundEvent& event) override;
+		void HandleEvent(class SetVolumeEvent& event) override;
 		
 		void PlaySound(const std::string& name);
 		void PlaySound(const AudioSource& source);
