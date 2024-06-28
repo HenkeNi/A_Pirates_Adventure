@@ -17,6 +17,7 @@ namespace Hi_Engine
 		void			Shutdown()								  override;
 		void			Deserialize(const rapidjson::Value& json) override;
 	
+		GLFWwindow*		GetWindow();
 		const IVector2& GetSize()									const;
 		bool			IsOpen()									const;
 		void			SwapBuffers()								const;

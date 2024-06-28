@@ -75,6 +75,11 @@ namespace Hi_Engine
 		return IsOpen;
 	}
 
+	GLFWwindow* Window::GetWindow()
+	{
+		return m_window;
+	}
+
 	const IVector2& Window::GetSize() const
 	{
 		return m_size;
