@@ -71,6 +71,7 @@
 #include "Source/Utility/Random/Random.h"
 #include "Source/Utility/Time/Timer.h"
 #include "Source/Utility/Algorithms/PathFinding/AStar.hpp"
+#include "Source/Utility/Noise/NoiseGenerator.h"
 
 /* - Data (Expose???) - */
 #include "Source/Data/Enumerations.h"
