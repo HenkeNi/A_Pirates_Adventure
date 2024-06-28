@@ -421,7 +421,7 @@ bool CollisionSystem::CanCollide(Entity* first, Entity* second)
 
 void CollisionSystem::AlignCollider(Entity* entity)
 {
-	if (!entity)
+	if (!entity || entity->HasComponent<UIComponent>() || entity->HasComponent<HUDComponent>())
 		return;
 
 	auto* colliderComponent = entity->GetComponent<ColliderComponent>();

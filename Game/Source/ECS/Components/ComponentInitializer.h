@@ -250,6 +250,21 @@ public:
 	template <>
 	static void InitializeComponent<ButtonComponent>(ButtonComponent* component, const ComponentData& data)
 	{
+		static const std::unordered_map<std::string, std::function<void()>> actionMappings =
+		{
+			{ "mute",[]() { Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::SetVolumeEvent>(0.f); }}
+		};
+
+		if (!data.contains("action"))
+			return;
+
+		std::string action = std::any_cast<std::string>(data.at("action"));
+		if (actionMappings.contains(action))
+		{
+			component->OnClick = actionMappings.at(action);
+		}
+
+
 		// std::string identifier = std::any_cast<std::string>(data.at("identifier"));
 
 		// TODO; improve! use SceneTransition component instead?
@@ -339,9 +354,19 @@ public:
 				//component->AcceptableTileTypes.push_back(eTile::Sand);
 			}
 		}
-
 	}
 	
+	template <>
+	static void InitializeComponent<GridComponent>(GridComponent* component, const ComponentData& data)
+	{
+		auto dimensions = std::any_cast<std::vector<std::any>>(data.at("dimensions"));
+		component->Dimensions.x = std::any_cast<int>(dimensions[0]);
+		component->Dimensions.y = std::any_cast<int>(dimensions[1]);
+
+		float spaceBetweenCells = std::any_cast<float>(data.at("space_between_cells"));
+		component->SpaceBetweenCells = spaceBetweenCells;
+	}
+
 	template <>
 	static void InitializeComponent<HarvestableComponent>(HarvestableComponent* component, const ComponentData& data)
 	{

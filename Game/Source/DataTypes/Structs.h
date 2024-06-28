@@ -43,8 +43,9 @@ struct Tile
 	FVector2						Position;			// store chunk coordiante instead?
 	UVector2						Coordinates;			// Use only one!!
 	eTile							Type;
-	bool							IsCollidable;
-	static constexpr float Size = 1.f;
+	bool							IsTraversable;
+	static constexpr float Size = 64.f;
+	//static constexpr float Size = 32.f;
 };
 
 // Put in Engine?? => wrap a texture instead?? => specify coordiantes and stuff...

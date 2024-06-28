@@ -111,10 +111,12 @@ namespace Hi_Engine
 	template <>
 	inline void	ResourceHolder<Texture2D, std::string>::CreateResources(const ::rapidjson::Document& document)
 	{
-		for (auto& value : document.GetArray())
+		std::string baseDirectory = document["base_directory"].GetString();
+
+		for (auto& value : document["textures"].GetArray())
 		{
 			std::string id = value["id"].GetString();
-			std::string path = value["path"].GetString();
+			std::string path = baseDirectory + value["path"].GetString();
 			std::string filtering = value["filtering"].GetString();
 			bool alpha = value["alpha"].GetBool();
 

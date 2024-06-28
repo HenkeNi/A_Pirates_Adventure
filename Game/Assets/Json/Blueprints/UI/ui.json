@@ -6,8 +6,9 @@
       {
         "type": "transform",
         "properties": {
-          "position": [ 0.0, 0.3 ],
-          "scale": [ 0.35, 0.35 ],
+          "position": [ 0.0, 0.0 ],
+          "size": [20.0, 20.0],
+          "scale": [ 20.0, 20.0 ],
           "pivot": [ 0.0, 0.0 ],
           "rotation": 0.0
         }
@@ -34,7 +35,6 @@
   },
   {
     "id": "image",
-    "layer": "ui",
     "components": [
       {
         "type": "transform",
@@ -69,7 +69,7 @@
         "type": "transform",
         "properties": {
           "position": [ 0.0, 0.0 ],
-          "scale": [ 10.0, 10.0 ],
+          "scale": [ 1.0, 1.0 ],
           "pivot": [ 0.0, 0.0 ],
           "rotation": 0.0
         }
@@ -151,7 +151,9 @@
       },
       {
         "type": "button",
-        "properties": {}
+        "properties": {
+          "action": ""
+        }
       },
       {
         "type": "ui",
@@ -263,6 +265,45 @@
           "scale": [ 1.0, 1.0 ],
           "pivot": [ 0.0, 0.0 ],
           "rotation": 0.0
+        }
+      },
+      {
+        "type": "grid",
+        "properties": {}
+      }
+    ]
+  },
+  {
+    "id": "inventory_bar",
+    "components": [
+      {
+        "type": "transform",
+        "properties": {
+          "position": [ 0.0, -2.0 ],
+          "scale": [ 5.0, 0.75 ],
+          "pivot": [ 0.0, 0.0 ],
+          "rotation": 0.0
+        }
+      },
+      {
+        "type": "sprite",
+        "properties": {
+          "texture": "inventory",
+          "coordinates": [ 0, 0 ],
+          "color": [ 1.0, 1.0, 1.0, 1.0 ]
+        }
+      },
+      {
+        "type": "ui",
+        "properties": {
+          "render_depth": 2
+        }
+      },
+      {
+        "type": "grid",
+        "properties": {
+          "dimensions": [ 1, 10 ],
+          "space_between_cells": 5.0
         }
       }
     ]

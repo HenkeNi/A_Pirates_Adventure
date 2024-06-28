@@ -12,7 +12,7 @@
       "type": "transform",
       "properties": {
         "position": [ 0.0, 0.0 ],
-        "scale": [ 1.0, 1.0 ],
+        "scale": [ 128.0, 128.0 ],
         "pivot": [ 0.0, 0.0 ],
         "rotation": 0.0
       }
@@ -28,7 +28,7 @@
     {
       "type": "velocity",
       "properties": {
-        "speed": 20.0
+        "speed": 2000.0
       }
     },
     {

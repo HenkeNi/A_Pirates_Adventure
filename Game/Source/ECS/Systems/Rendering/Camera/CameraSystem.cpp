@@ -34,7 +34,6 @@ void CameraSystem::Update(float deltaTime)
 	// Do every frame? or just at the beginning of new Scene?
 
 	auto* camera = m_entityManager->FindFirst<CameraComponent>();
-
 	if (!camera)
 		return;
 
@@ -61,20 +60,26 @@ void CameraSystem::Update(float deltaTime)
 	//command.Type = Hi_Engine::eRenderCommandType::SetCamera;
 	//command.Camera = &cameraComponent->Camera;
 
-	std::queue<Hi_Engine::RenderCommand> commandQueue;
+	//std::queue<Hi_Engine::RenderCommand> commandQueue;
 	// commandQueue.push(command);
 
-	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::RenderEvent>(commandQueue);
+	//Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::RenderEvent>(commandQueue);
 
 	if (auto* inputEntity = m_entityManager->FindFirst<InputComponent>())
 		cameraComponent->Camera.AdjustZoom(inputEntity->GetComponent<InputComponent>()->MouseScroll * 0.1f); // 0.5f == zoom distance
 
-	// Do in movement system? Follow component
+	//// Do in movement system? Follow component
 	auto* target = m_entityManager->Find(cameraComponent->TargetID);
-	//auto target = cameraComponent->m_target;
+	////auto target = cameraComponent->m_target;
 	if (target)
 	{
 		auto targetPosition = target->GetComponent<TransformComponent>()->CurrentPos;
+		
+		static const float windowWidth = 1400.f;
+		static const float windowHeight = 800.f;
+	//	targetPosition.x -= windowWidth * 0.5f;
+	//	targetPosition.y -= windowHeight * 0.5f;
+		// targetPosition.x -= 20.f;
 		//auto newPosition = targetPosition + cameraComponent->TargetOffset;
 		FVector2 newPosition = { targetPosition.x + cameraComponent->TargetOffset.x, targetPosition.y + cameraComponent->TargetOffset.y };
 
@@ -85,8 +90,8 @@ void CameraSystem::Update(float deltaTime)
 
 
 	// TODO: update frustum 
-	float halfWidth = 3.f; // 1400.f * 0.5f;
-	float halfHeight = 2.f; //  800.f * 0.5f;
+	float halfWidth = 700.f; // 1400.f * 0.5f;
+	float halfHeight = 400.f; //  800.f * 0.5f;
 
 	float minX = transformComponent->CurrentPos.x - halfWidth;
 	float maxX = transformComponent->CurrentPos.x + halfWidth;
@@ -101,7 +106,8 @@ bool CameraSystem::IsInView(Entity* camera, const Hi_Engine::Physics::AABB2D<flo
 {
 	auto* cameraComponent = camera->GetComponent<CameraComponent>();
 
-	return Hi_Engine::Physics::Intersects(bounds, cameraComponent->Frustum);
+	bool intersects = Hi_Engine::Physics::Intersects(bounds, cameraComponent->Frustum);
+	return intersects;
 }
 
 void CameraSystem::CullEntities()

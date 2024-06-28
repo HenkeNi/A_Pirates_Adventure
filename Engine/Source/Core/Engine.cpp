@@ -8,8 +8,11 @@
 #include "Audio/AudioController.h"
 #include "Input/InputHandler.h"
 #include "Window/Window.h"
+#include "Editor/Editor.h"
 #include "../Utility/Time/Timer.h"
 #include <GLFW/glfw3.h> 
+#include "ServiceLocator/ServiceLocator.h" /// ?
+#include "Noise/NoiseGenerator.h"
 
 
 namespace Hi_Engine
@@ -46,9 +49,9 @@ namespace Hi_Engine
 		LoadResources(); // Do in LoadModules?
 		m_moduleManager.LoadModules();
 
-		m_application.OnCreate(); 
+		NoiseGenerator::Init();
 
-		//ServiceLocator::Register(&m_audioController);
+		m_application.OnCreate(); 
 		
 		return (m_isRunning = true);
 	}
@@ -57,6 +60,10 @@ namespace Hi_Engine
 	{
 		m_application.OnDestroy();
 		m_moduleManager.Shutdown();
+
+		ImGui_ImplOpenGL3_Shutdown();
+		ImGui_ImplGlfw_Shutdown();
+		ImGui::DestroyContext();
 	}
 
 	void Engine::Run()
@@ -68,6 +75,7 @@ namespace Hi_Engine
 		auto inputHandler = m_moduleManager.GetModule<InputHandler>().lock();
 		auto renderer = m_moduleManager.GetModule<Renderer>().lock();
 		auto window = m_moduleManager.GetModule<Window>().lock();
+		auto editor = m_moduleManager.GetModule<Editor>().lock();
 
 		auto textRenderer = m_moduleManager.GetModule<TextRenderer>().lock();
 
@@ -93,10 +101,16 @@ namespace Hi_Engine
 			/* - Render - */
 			m_application.OnDraw();
 
+			if (editor)
+				editor->NewFrame();
+
 			if (renderer)
 				renderer->ProcessCommands();
 			//if (textRenderer)
 			//	textRenderer->ProcessQueue();
+
+			if (editor)
+				editor->Render();
 
 			if (window)
 				window->SwapBuffers();
@@ -104,8 +118,10 @@ namespace Hi_Engine
 			if (inputHandler)
 				inputHandler->Reset();
 			
+#ifdef DEBUG
 			if (window)
 				window->SetTitle("Fps: " + std::to_string((int)timer.GetAverageFPS())); // TODO; Get Draw calls...
+#endif 
 		}
 	}
 		
@@ -122,7 +138,15 @@ namespace Hi_Engine
 		m_moduleManager.RegisterModule<TextRenderer>(3);
 		m_moduleManager.RegisterModule<InputHandler>(4);
 		m_moduleManager.RegisterModule<AudioController>(5);
+
+#ifdef DEBUG
+
+		m_moduleManager.RegisterModule<Editor>(6);
+#endif
+
+		ServiceLocator::Register(m_moduleManager.GetModule<Window>());
 	}
+
 	void Engine::LoadResources()
 	{
 		ResourceHolder<GLSLShader>::GetInstance().LoadResources("../Engine/Assets/Json/Resources/Shaders.json");

@@ -56,7 +56,7 @@ struct TileSettings
 
 IVector2 ConvertWorldPositionToMapChunkCoordinates(const FVector2& worldPosition)
 {
-	float chunkSize = Constants::MapChunkLength * Tile::Size;
+	static float chunkSize = Constants::MapChunkLength * Tile::Size;
 
 	IVector2 coordinates;
 	coordinates.x = (int)std::floor(worldPosition.x / chunkSize);
@@ -76,21 +76,21 @@ struct TerrainSettings
 
 eTile GetTileType(float noise)
 {
-	int noiseValue = (int)(noise * 10);
+	//int noiseValue = (int)(noise * 10);
 
 	// std::cout << noise << "\n";
 
-	static const std::unordered_map<eTile, int> tileHeightValues = {
-	{ eTile::Grass,			4 },
-	{ eTile::Sand,			2 },
-	{ eTile::ShallowWater,	0 },
-	{ eTile::Water,			-1 },
-	{ eTile::DeepWater,		-3 },
+	static const std::unordered_map<eTile, float> tileHeightValues = {
+	{ eTile::Grass,			0.4 },
+	{ eTile::Sand,			0.2 },
+	{ eTile::ShallowWater,	0.0 },
+	{ eTile::Water,			-1.0 },
+	{ eTile::DeepWater,		-3.0 },
 	};
 
 	for (const auto& [type, value] : tileHeightValues)
 	{
-		if (noiseValue >= value)
+		if (noise >= value)
 		{
 			return type;
 		}
@@ -152,7 +152,10 @@ glm::vec4 GetTileColor(eTile type)
 
 MapGenerationSystem::MapGenerationSystem()
 {
-	PostMaster::GetInstance().Subscribe(eMessage::GameStarted, this); // NewGameCreated instead?	
+	PostMaster::GetInstance().Subscribe(eMessage::GameStarted, this); // NewGameCreated instead?
+
+	Hi_Engine::NoiseGenerator::SetFrequency(0.06f);
+	Hi_Engine::NoiseGenerator::SetNoiseType(3);
 }
 
 MapGenerationSystem::~MapGenerationSystem()
@@ -177,14 +180,29 @@ void MapGenerationSystem::Update(float deltaTime)
 {
 	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
 
-	auto* player = m_entityManager->FindFirst<PlayerControllerComponent>();
+	// Todo; use camera bounds instead??
+	auto* camera = m_entityManager->FindFirst<CameraComponent>();
+	if (!camera)
+		return;
 
+	//auto* transformComponent = camera->GetComponent<TransformComponent>();
+	//auto* cameraComponent = camera->GetComponent<CameraComponent>();
+
+	//static const FVector2 windowSize = { 1400.f, 800.f };
+	//
+	//float xPosition = transformComponent->CurrentPos.x - (cameraComponent->TargetOffset.x * windowSize.x);
+	//float yPosition = transformComponent->CurrentPos.y - (cameraComponent->TargetOffset.y * windowSize.y);
+
+	//auto coordinates = ConvertWorldPositionToMapChunkCoordinates({ xPosition, yPosition });	// Todo, check all 4 corners of player (Get hitboxCollider)
+
+
+	auto* player = m_entityManager->FindFirst<PlayerControllerComponent>();
 	if (!player)
 		return;
 
 	auto* playerTransformComponent = player->GetComponent<TransformComponent>();
-
 	auto coordinates = ConvertWorldPositionToMapChunkCoordinates(playerTransformComponent->CurrentPos);	// Todo, check all 4 corners of player (Get hitboxCollider)
+	
 
 	auto mapChunks = m_entityManager->FindAll<MapChunkComponent>();
 	for (const auto& mapChunk : mapChunks)
@@ -205,9 +223,9 @@ void MapGenerationSystem::Update(float deltaTime)
 void MapGenerationSystem::GenerateMapChunk(int xCoord, int yCoord)
 {
 	// MOVE ELSEWHERE? static in a function (GetNoise)? put class in Engine??
-	static FastNoiseLite fastNoise;
-	fastNoise.SetNoiseType(FastNoiseLite::NoiseType_Perlin);
-	fastNoise.SetFrequency(0.06f);
+	//static FastNoiseLite fastNoise;
+	//fastNoise.SetNoiseType(FastNoiseLite::NoiseType_Perlin);
+	//fastNoise.SetFrequency(0.06f);
 
 	// Generate numbers first??
 
@@ -218,24 +236,23 @@ void MapGenerationSystem::GenerateMapChunk(int xCoord, int yCoord)
 
 	mapChunkComponent->Coordinates = { xCoord, yCoord };
 
-	float xPos = xCoord * (Constants::MapChunkLength * Tile::Size);
-	float yPos = yCoord * (Constants::MapChunkLength * Tile::Size);
-	transformComponent->CurrentPos = { xPos, yPos };
+	auto& currentPosition = transformComponent->CurrentPos;
+	currentPosition.x = xCoord * (Constants::MapChunkLength * Tile::Size);
+	currentPosition.y = yCoord * (Constants::MapChunkLength * Tile::Size);
 
-	int counter = 0;
 	for (int i = 0; i < Constants::MapChunkSize; ++i)
 	{
 		int x, y;
 		MapUtils::GetCoordinates(i, Constants::MapChunkLength, x, y);
 
-		float noise = fastNoise.GetNoise((float)xPos + (float)x, (float)yPos + float(y));
+		float noise = Hi_Engine::NoiseGenerator::GetNoise((float)currentPosition.x + ((float)x / 10), (float)currentPosition.y + (float(y)) / 10);
+		//float noise = fastNoise.GetNoise((float)currentPosition.x + ((float)x / 10), (float)currentPosition.y + (float(y)) / 10);
+		std::cout << noise << "\n";
 
-		Tile tile;
+		Tile& tile = mapChunkComponent->Tiles[i];
 		tile.Coordinates = { (unsigned)x, (unsigned)y };
-		tile.IsCollidable = false; // FIX!
+		tile.IsTraversable = false; // FIX!
 		tile.Type = GetTileType(noise);
-
-		mapChunkComponent->Tiles[counter++] = tile;
 	}
 
 	ApplyTextures(entity);
@@ -296,6 +313,7 @@ void MapGenerationSystem::ApplyTextures(Entity* entity) // Rename; texture map c
 
 		// Check if more optimized (dont have to do every frame?!)
 		
+
 		auto& sprite = mapChunkComponent->Sprites[i];
 		sprite.Color = GetTileColor(mapChunkComponent->Tiles[i].Type); // { tile.Color.x, tile.Color.y, tile.Color.z, tile.Color.w };
 		sprite.Subtexture = tile.Subtexture;
@@ -304,7 +322,7 @@ void MapGenerationSystem::ApplyTextures(Entity* entity) // Rename; texture map c
 		glm::vec3 position = { currentPosition.x, currentPosition.y, 0.f };
 		position.x += tile.Coordinates.x * Tile::Size;
 		position.y += tile.Coordinates.y * Tile::Size;
-		sprite.Transform = { position, { 1.01f, 1.01f }, 0.f }; // TEMP Solution with scale at 1.01f
+		sprite.Transform = { position, { Tile::Size + 0.01f, Tile::Size + 0.01f }, 0.f }; // TEMP Solution with scale at 1.01f
 
 	
 		mapChunkComponent->Bounds.Init({ currentPosition.x, currentPosition.y }, { currentPosition.x + (10 * Tile::Size), currentPosition.y + (10 * Tile::Size) });

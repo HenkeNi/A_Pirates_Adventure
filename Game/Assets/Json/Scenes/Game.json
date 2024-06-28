@@ -1,0 +1,27 @@
+{
+  "entities": [
+    {
+      "entity_id": "camera",
+      "components_data": [
+        {
+          "type": "camera",
+          "properties": {
+            "position": [ 0.0, 0.0 ],
+            "scale": [ 1.0, 1.0 ],
+            "pivot": [ 0.0, 0.0 ],
+            "rotation": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "entity_id": "mouse_cursor"
+    },
+    {
+      "entity_id": "world_time"
+    },
+    {
+      "entity_id": "inventory_bar"
+    }
+  ]
+}

@@ -5,26 +5,61 @@
 
 UISystem::UISystem()
 {
-	PostMaster::GetInstance().Subscribe(eMessage::EntityCreated, this);
+	//PostMaster::GetInstance().Subscribe(eMessage::EntityCreated, this);
+	PostMaster::GetInstance().Subscribe(eMessage::EntitySpawned, this);
 }
 
 UISystem::~UISystem()
 {
-	PostMaster::GetInstance().Unsubscribe(eMessage::EntityCreated, this);
+	//PostMaster::GetInstance().Unsubscribe(eMessage::EntityCreated, this);
+	PostMaster::GetInstance().Unsubscribe(eMessage::EntitySpawned, this);
 }
 
 void UISystem::Receive(Message& message)
 {
-	if (message.GetMessageType() != eMessage::EntityCreated)
+	if (message.GetMessageType() != eMessage::EntitySpawned) // listen to screen size changed...
 		return;
 
 	if (auto* entity = std::any_cast<Entity*>(message.GetData()))
 	{
+		if (auto* colliderComponent = entity->GetComponent<ColliderComponent>())
+		{
+
+			auto* transformComponent = entity->GetComponent<TransformComponent>();
+
+			auto pos =  transformComponent->CurrentPos;
+			const auto& pivot = transformComponent->Pivot;
+			auto scale = transformComponent->Scale;
+			scale.x = Hi_Engine::Math::Rerange<float>(scale.x, { 0.f, 1400.f },  {0.f, 1.f });
+			scale.y = Hi_Engine::Math::Rerange<float>(scale.y, { 0.f, 800.f },    { 0.f, 1.f });
+
+			//float newXPos = Hi_Engine::Math::Rerange<float>(pos.x, { 0.f, 1400.f }, { 0.f, 1.f });
+			//float newYPos = Hi_Engine::Math::Rerange<float>(pos.y, { 0.f, 800.f }, { 0.f, 1.f });
+
+			//float scaleX = scale.x / 1400.f;
+			//float scaleY = scale.y / 800.f;
+
+			FVector2 offset;
+			offset.x = scale.x * pivot.x;
+			offset.y = scale.y * pivot.y;
+
+
+			//colliderComponent->Collider.Init({ pos.x - offset.x, pos.y }, { pos.x + offset.x, pos.y + 100.f});
+			
+			//colliderComponent->Collider.Init({ pos.x - offset.x, pos.y - offset.y }, { pos.x + offset.x, pos.y + offset.y});
+			
+			
+			colliderComponent->Collider.Init({ pos.x - scale.x * 0.5f, pos.y - scale.x * 0.5f }, { pos.x + scale.x * 0.5f, pos.y + scale.y * 0.5f }); // COrrect??
+			//colliderComponent->Collider.Init({ pos.x, pos.y }, { pos.x + scale.x, pos.y + scale.y});
+			
+		}
 		if (!entity->HasComponent<ButtonComponent>())
 			return;
 
 		// AssignCallback(entity);
 	}
+
+	
 }
 
 void UISystem::Update(float deltaTime)
@@ -48,6 +83,9 @@ void UISystem::OnButtonActivated(Entity* button)
 
 	buttonComponent->IsPressed = true; // TODO; make sure to add timstamp and reset?
 
+	if (buttonComponent->OnClick) // or just send evnet??
+		buttonComponent->OnClick();
+
 	PostMaster::GetInstance().SendMessage({ eMessage::ButtonActivated, button });
 
 	//if (buttonComponent->OnClick)
@@ -64,7 +102,6 @@ void UISystem::UpdateCursor()
 	// LISTEN For mouse triggering instead?
 
 	auto* cursor = m_entityManager->FindFirst<CursorComponent>();
-
 	if (!cursor)
 		return;
 
@@ -84,28 +121,32 @@ void UISystem::UpdateCursor()
 		mousePosition = Hi_Engine::InputHandler::GetMousePosition();
 	}
 
+	
 
+	
 
-	float old_valueX = (float)mousePosition.x;
-	float old_minX = 0;
-	float old_maxX = 1400;
-	float new_minX = -4.5f; // Min x position screen?!
-	float new_maxX = 4.5f;	// max x position screen)!
+	float windowWidth = 1400.f;
+	float newXValue = Hi_Engine::Math::Rerange<float>(mousePosition.x, { 0.f, windowWidth }, { 0.f, 1.f });
 
-	float new_valueX = ((old_valueX - old_minX) / (old_maxX - old_minX)) * (new_maxX - new_minX) + new_minX;
+	float windowHeight = 800.f;
+	float newYValue = Hi_Engine::Math::Rerange<float>(mousePosition.y, { 0.f, windowHeight }, { 1.f, 0.f });
 
-	float old_valueY = (float)mousePosition.y;
-	float old_minY = 800;
-	float old_maxY = 0;
-	float new_minY = -2.5f; // Min y position screen?!
-	float new_maxY = 2.5f; // max y position screen)!
+	//float new_valueX = ((mousePosition.x - windowMinWidth) / (windowMaxWidth - windowMinWidth)) * (newMaxWidth - newMinWidth) + newMinWidth;
+	//float windowMinHeight = 0.f;
+	//float windowMaxHeight = 800.f;
+	//float old_valueY = mousePosition.y;
+	//float old_minY = 800;
+	//float old_maxY = 0;
+	//float new_minY = 0.f; // Min y position screen?!
+	//float new_maxY = 1.f; // max y position screen)!
 
-	float new_valueY = ((old_valueY - old_minY) / (old_maxY - old_minY)) * (new_maxY - new_minY) + new_minY;
+	//float new_valueY = ((old_valueY - old_minY) / (old_maxY - old_minY)) * (new_maxY - new_minY) + new_minY;
 
 
 	auto* transformComponent = cursor->GetComponent<TransformComponent>();
-	transformComponent->CurrentPos.x = new_valueX; // Hi_Engine::InputHandler::GetMousePosition().x;
-	transformComponent->CurrentPos.y = new_valueY;// 0.f; //  Hi_Engine::InputHandler::GetMousePosition().y;
+	transformComponent->CurrentPos = { newXValue, newYValue };
+
+	//std::cout << "Mouse x: " << newXValue << ", mouse y: " << newYValue << "\n";
 
 	auto entities = m_entityManager->FindAll<ButtonComponent>();
 
@@ -117,7 +158,7 @@ void UISystem::UpdateCursor()
 		if (!buttonComponent || !colliderComponent)
 			continue;
 
-		bool isInside = colliderComponent->Collider.IsInside({ new_valueX, new_valueY });
+		bool isInside = colliderComponent->Collider.IsInside({ newXValue, newYValue });
 
 		if (isInside)
 		{

@@ -10,8 +10,8 @@
           "type": "transform",
           "properties": {
             "position": [ 0.0, 0.0 ],
-            "scale": [ 10.0, 8.0 ],
-            "pivot": [ 0.0, 0.0 ],
+            "scale": [ 1400.0, 800.0 ],
+            "pivot": [ 0.5, 0.5 ],
             "rotation": 0.0
           }
         },
@@ -33,7 +33,7 @@
           "type": "transform",
           "properties": {
             "position": [ 700.0, 650.0 ],
-            "scale": [ 2.0, 2.0 ],
+            "scale": [ 3.0, 3.0 ],
             "pivot": [ 0.5, 0.0 ],
             "rotation": 0.0
           }
@@ -56,9 +56,9 @@
         {
           "type": "transform",
           "properties": {
-            "position": [ -2.0, -2.0 ],
-            "scale": [ 1.0, 1.0 ],
-            "pivot": [ 220.0, 220.0 ],
+            "position": [ 0.5, 0.5 ],
+            "scale": [ 250.0, 250.0 ],
+            "pivot": [ 0.0, 0.0 ],
             "rotation": 0.0
           }
         },
@@ -86,16 +86,15 @@
         {
           "type": "transform",
           "properties": {
-            "position": [ 0.0, -2.0 ],
-            "scale": [ 1.0, 1.0 ],
-            "pivot": [ 220.0, 220.0 ],
+            "position": [ 0.9, 1.0 ],
+            "scale": [ 80.0, 80.0 ],
+            "pivot": [ -0.5, -0.5 ],
             "rotation": 0.0
           }
         },
         {
           "type": "sprite",
           "properties": {
-            "shader": "sprite_batch",
             "texture": "settings_icon",
             "coordinates": [ 0, 0 ],
             "color": [ 1.0, 1.0, 1.0, 1.0 ]
@@ -116,16 +115,15 @@
         {
           "type": "transform",
           "properties": {
-            "position": [ 3.75, 2.0 ],
-            "scale": [ 0.5, 0.5 ],
-            "pivot": [ 0.5, 0.5 ],
+            "position": [ 1.0, 1.0 ],
+            "scale": [ 80.0, 80.0 ],
+            "pivot": [ -0.5, -0.5 ],
             "rotation": 0.0
           }
         },
         {
           "type": "sprite",
           "properties": {
-            "shader": "sprite_batch",
             "texture": "quit_icon",
             "coordinates": [ 0, 0 ],
             "color": [ 1.0, 1.0, 1.0, 1.0 ]
@@ -133,9 +131,36 @@
         }
       ]
     },
-
     {
       "entity_id": "mouse_cursor"
+    },
+    {
+      "entity_id": "button",
+      "components_data": [
+        {
+          "type": "transform",
+          "properties": {
+            "position": [ 0.0, 1.0 ],
+            "scale": [ 80.0, 80.0 ],
+            "pivot": [ 0.5, -0.5 ],
+            "rotation": 0.0
+          }
+        },
+        {
+          "type": "sprite",
+          "properties": {
+            "texture": "sound_off",
+            "coordinates": [ 0, 0 ],
+            "color": [ 1.0, 1.0, 1.0, 1.0 ]
+          }
+        },
+        {
+          "type": "button",
+          "properties": {
+            "action": "mute"
+          }
+        }
+      ]
     }
   ]
 }

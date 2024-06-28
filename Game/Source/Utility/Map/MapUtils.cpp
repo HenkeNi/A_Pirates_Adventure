@@ -97,7 +97,7 @@ eTile MapUtils::GetTileTypeInDirection(const Entity* mapChunk, int index, eDirec
 
 	auto tiles = mapChunkComponent->Tiles;
 
-	unsigned chunkSize = Constants::MapChunkLength;
+	int chunkSize = (int)Constants::MapChunkLength;
 
 	int row = index / chunkSize;
 	int col = index % chunkSize;

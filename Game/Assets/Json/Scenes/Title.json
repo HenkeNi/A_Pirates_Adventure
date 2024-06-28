@@ -15,12 +15,20 @@
       ]
     },
     {
-      "entity_id": "background",
+      "entity_id": "image",
       "components_data": [
+        {
+          "type": "transform",
+          "properties": {
+            "position": [ 0.0, 0.0 ],
+            "scale": [ 1400.0, 800.0 ],
+            "pivot": [ 0.5, 0.5 ],
+            "rotation": 0.0
+          }
+        },
         {
           "type": "sprite",
           "properties": {
-            "shader": "sprite_batch",
             "texture": "title_image",
             "coordinates": [ 0, 0 ],
             "color": [ 1.0, 1.0, 1.0, 1.0 ]

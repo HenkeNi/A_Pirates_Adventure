@@ -4,8 +4,6 @@
 
 namespace Hi_Engine
 {
-	//// std::weak_ptr<AudioController> ServiceLocator::s_audioController = nullptr;
-
 	//std::weak_ptr<AudioController> ServiceLocator::GetAudioController()
 	//{
 	//	return s_audioController;
@@ -16,5 +14,15 @@ namespace Hi_Engine
 	//	s_audioController = controller;
 	//}
 
+
+	void ServiceLocator::Register(std::weak_ptr<Window> window)
+	{
+		s_window = window;
+	}
+
+	std::weak_ptr<Window> ServiceLocator::GetWindow()
+	{
+		return s_window;
+	}
 
 }

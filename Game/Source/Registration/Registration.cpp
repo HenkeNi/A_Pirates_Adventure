@@ -57,7 +57,6 @@ namespace Registration
 		factory.RegisterComponentBuilder<SpawnComponent>("spawner");
 		factory.RegisterComponentBuilder<EnvironmentComponent>("environment");
 
-
 		factory.RegisterComponentBuilder<AttackComponent>("attack"); // RENAME!
 		factory.RegisterComponentBuilder<ProjectileComponent>("projectile");
 		factory.RegisterComponentBuilder<ResourceComponent>("resource");
@@ -69,6 +68,7 @@ namespace Registration
 		factory.RegisterComponentBuilder<UIComponent>("ui");
 		factory.RegisterComponentBuilder<ButtonComponent>("button");
 		factory.RegisterComponentBuilder<MapChunkComponent>("map_chunk");
+		factory.RegisterComponentBuilder<GridComponent>("grid");
 
 		/* - Utility Components - */
 		factory.RegisterComponentBuilder<WorldTimeComponent>("world_time");

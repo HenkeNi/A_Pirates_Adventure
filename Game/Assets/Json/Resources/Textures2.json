@@ -1,428 +1,461 @@
-[
-  {
-    "id": "sky",
-    "path": "../Game/Assets/Textures/Backgrounds/sky.png",
-    "alpha": false,
-    "filtering": "Linear",
-    "width": 2560,
-    "height": 1440,
-    "rows": 1,
-    "cols": 1
-  },
-  {
-    "id": "ground_tiles",
-    "path": "../Game/Assets/Textures/ground_tiles.png",
-    "alpha": true,
-    "filtering": "Nearest",
-    "width": 128,
-    "height": 32,
-    "rows": 1,
-    "cols": 4
-  },
-  {
-    "id": "title_screen",
-    "path": "../Game/Assets/Textures/Backgrounds/title_screen.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 1365,
-    "height": 768,
-    "rows": 1,
-    "cols": 1
-  },
-  {
-    "id": "island_tileset",
-    "path": "../Game/Assets/Textures/Tiles/island_tileset.png",
-    "alpha": true,
-    "filtering": "Nearest",
-    "width": 2048,
-    "height": 768,
-    "rows": 6,
-    "cols": 16
-  },
-  {
-    "id": "pirate_idle",
-    "path": "../Game/Assets/Textures/Characters/Player/pirate_idle.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 10850,
-    "height": 1293,
-    "rows": 1,
-    "cols": 7
-  },
-  {
-    "id": "pirate_walk",
-    "path": "../Game/Assets/Textures/Characters/Player//pirate_walk.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 10850,
-    "height": 1293,
-    "rows": 1,
-    "cols": 7
-  },
-  {
-    "id": "pirate_run",
-    "path": "../Game/Assets/Textures/Characters/Player//pirate_run.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 10850,
-    "height": 1293,
-    "rows": 1,
-    "cols": 7
-  },
-  {
-    "id": "pirate_hurt",
-    "path": "../Game/Assets/Textures/Characters/Player//pirate_hurt.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 10850,
-    "height": 1293,
-    "rows": 1,
-    "cols": 7
-  },
-  {
-    "id": "pirate_attack",
-    "path": "../Game/Assets/Textures/Characters/Player//pirate_attack.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 10850,
-    "height": 1293,
-    "rows": 1,
-    "cols": 7
-  },
-  {
-    "id": "pirate_die",
-    "path": "../Game/Assets/Textures/Characters/Player//pirate_die.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 10850,
-    "height": 1293,
-    "rows": 1,
-    "cols": 7
-  },
+{
+  "base_directory": "../Game/Assets/Textures/",
+  "textures": [
+    {
+      "id": "sky",
+      "path": "Backgrounds/sky.png",
+      "alpha": false,
+      "filtering": "Linear",
+      "width": 2560,
+      "height": 1440,
+      "rows": 1,
+      "cols": 1
+    },
+    {
+      "id": "ground_tiles",
+      "path": "ground_tiles.png",
+      "alpha": true,
+      "filtering": "Nearest",
+      "width": 128,
+      "height": 32,
+      "rows": 1,
+      "cols": 4
+    },
+    {
+      "id": "title_screen",
+      "path": "Backgrounds/title_screen.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 1365,
+      "height": 768,
+      "rows": 1,
+      "cols": 1
+    },
+    {
+      "id": "island_tileset",
+      "path": "Tiles/island_tileset.png",
+      "alpha": true,
+      "filtering": "Nearest",
+      "width": 2048,
+      "height": 768,
+      "rows": 6,
+      "cols": 16
+    },
+    {
+      "id": "pirate_idle",
+      "path": "Characters/Player/pirate_idle.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 10850,
+      "height": 1293,
+      "rows": 1,
+      "cols": 7
+    },
+    {
+      "id": "pirate_walk",
+      "path": "Characters/Player//pirate_walk.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 10850,
+      "height": 1293,
+      "rows": 1,
+      "cols": 7
+    },
+    {
+      "id": "pirate_run",
+      "path": "Characters/Player//pirate_run.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 10850,
+      "height": 1293,
+      "rows": 1,
+      "cols": 7
+    },
+    {
+      "id": "pirate_hurt",
+      "path": "Characters/Player//pirate_hurt.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 10850,
+      "height": 1293,
+      "rows": 1,
+      "cols": 7
+    },
+    {
+      "id": "pirate_attack",
+      "path": "Characters/Player//pirate_attack.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 10850,
+      "height": 1293,
+      "rows": 1,
+      "cols": 7
+    },
+    {
+      "id": "pirate_die",
+      "path": "Characters/Player//pirate_die.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 10850,
+      "height": 1293,
+      "rows": 1,
+      "cols": 7
+    },
 
 
-  {
-    "id": "castaway",
-    "path": "../Game/Assets/Textures/castaway.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 240,
-    "height": 160,
-    "rows": 1,
-    "cols": 1
-  },
-  {
-    "id": "cocunut",
-    "path": "../Game/Assets/Textures/cocunut.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 32,
-    "height": 32,
-    "rows": 1,
-    "cols": 1
+    {
+      "id": "castaway",
+      "path": "castaway.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 240,
+      "height": 160,
+      "rows": 1,
+      "cols": 1
+    },
+    {
+      "id": "cocunut",
+      "path": "cocunut.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 32,
+      "height": 32,
+      "rows": 1,
+      "cols": 1
 
-  },
-  {
-    "id": "crab",
-    "path": "../Game/Assets/Textures/crab.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 2000,
-    "height": 1581,
-    "rows": 1,
-    "cols": 1
+    },
+    {
+      "id": "crab",
+      "path": "crab.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 2000,
+      "height": 1581,
+      "rows": 1,
+      "cols": 1
 
-  },
-  {
-    "id": "fish",
-    "path": "../Game/Assets/Textures/fish.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 3729,
-    "height": 3267,
-    "rows": 1,
-    "cols": 1
+    },
+    {
+      "id": "fish",
+      "path": "fish.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 3729,
+      "height": 3267,
+      "rows": 1,
+      "cols": 1
 
-  },
+    },
 
-  {
-    "id": "grass",
-    "path": "../Game/Assets/Textures/Environment/grass.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 512,
-    "height": 512,
-    "rows": 1,
-    "cols": 1
+    {
+      "id": "grass",
+      "path": "Environment/grass.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 512,
+      "height": 512,
+      "rows": 1,
+      "cols": 1
 
-  },
-  {
-    "id": "hut",
-    "path": "../Game/Assets/Textures/hut.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 100,
-    "height": 100,
-    "rows": 1,
-    "cols": 1
+    },
+    {
+      "id": "hut",
+      "path": "hut.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 100,
+      "height": 100,
+      "rows": 1,
+      "cols": 1
 
-  },
-  {
-    "id": "log",
-    "path": "../Game/Assets/Textures/log.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 100,
-    "height": 100,
-    "rows": 1,
-    "cols": 1
+    },
+    {
+      "id": "log",
+      "path": "log.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 100,
+      "height": 100,
+      "rows": 1,
+      "cols": 1
 
-  },
-  {
-    "id": "palm",
-    "path": "../Game/Assets/Textures/Environment/palm.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 6117,
-    "height": 8000,
-    "rows": 1,
-    "cols": 1
+    },
+    {
+      "id": "palm",
+      "path": "Environment/palm.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 6117,
+      "height": 8000,
+      "rows": 1,
+      "cols": 1
 
-  },
-  {
-    "id": "pirate",
-    "path": "../Game/Assets/Textures/pirate.png",
-    "alpha": false,
-    "filtering": "Linear",
-    "width": 920,
-    "height": 845,
-    "rows": 1,
-    "cols": 1
+    },
+    {
+      "id": "pirate",
+      "path": "pirate.png",
+      "alpha": false,
+      "filtering": "Linear",
+      "width": 920,
+      "height": 845,
+      "rows": 1,
+      "cols": 1
 
-  },
-  {
-    "id": "raft",
-    "path": "../Game/Assets/Textures/raft.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 100,
-    "height": 100,
-    "rows": 1,
-    "cols": 1
+    },
+    {
+      "id": "raft",
+      "path": "raft.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 100,
+      "height": 100,
+      "rows": 1,
+      "cols": 1
 
-  },
-  {
-    "id": "rock",
-    "path": "../Game/Assets/Textures/Environment/rock.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 641,
-    "height": 423,
-    "rows": 1,
-    "cols": 1
+    },
+    {
+      "id": "rock",
+      "path": "Environment/rock.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 641,
+      "height": 423,
+      "rows": 1,
+      "cols": 1
 
-  },
-  {
-    "id": "rock_fragment",
-    "path": "../Game/Assets/Textures/rock_fragment.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 100,
-    "height": 100,
-    "rows": 1,
-    "cols": 1
+    },
+    {
+      "id": "rock_fragment",
+      "path": "rock_fragment.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 100,
+      "height": 100,
+      "rows": 1,
+      "cols": 1
 
-  },
-  {
-    "id": "skeleton",
-    "path": "../Game/Assets/Textures/skeleton.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 600,
-    "height": 500,
-    "rows": 1,
-    "cols": 1
+    },
+    {
+      "id": "skeleton",
+      "path": "skeleton.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 600,
+      "height": 500,
+      "rows": 1,
+      "cols": 1
 
-  },
-  {
-    "id": "skeleton_pile",
-    "path": "../Game/Assets/Textures/skeleton_pile.png",
-    "alpha": false,
-    "filtering": "Linear",
-    "width": 100,
-    "height": 100,
-    "rows": 1,
-    "cols": 1
+    },
+    {
+      "id": "skeleton_pile",
+      "path": "skeleton_pile.png",
+      "alpha": false,
+      "filtering": "Linear",
+      "width": 100,
+      "height": 100,
+      "rows": 1,
+      "cols": 1
 
-  },
-  {
-    "id": "heart",
-    "path": "../Game/Assets/Textures/HUD/heart.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 32,
-    "height": 32,
-    "rows": 1,
-    "cols": 1
-  },
-  {
-    "id": "debug",
-    "path": "../Game/Assets/Textures/debug.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 500,
-    "height": 500,
-    "rows": 1,
-    "cols": 1
-  },
-  {
-    "id": "crosshair",
-    "path": "../Game/Assets/Textures/Icons/crosshair.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 512,
-    "height": 512,
-    "rows": 1,
-    "cols": 1
-  },
-  {
-    "id": "cannonball",
-    "path": "../Game/Assets/Textures/thumbnail_rock.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 920,
-    "height": 600,
-    "rows": 1,
-    "cols": 1
-  },
-  {
-    "id": "mouse_icon",
-    "path": "../Game/Assets/Textures/Icons/arrow-cursor.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 32,
-    "height": 32,
-    "rows": 1,
-    "cols": 1
-  },
-  {
-    "id": "play_button",
-    "path": "../Game/Assets/Textures/Icons/play-button.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 512,
-    "height": 512,
-    "rows": 1,
-    "cols": 1
-  },
-  {
-    "id": "quit_icon",
-    "path": "../Game/Assets/Textures/Icons/power-button.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 512,
-    "height": 512,
-    "rows": 1,
-    "cols": 1
-  },
-  {
-    "id": "title_image",
-    "path": "../Game/Assets/Textures/Backgrounds/title_background.jpeg",
-    "alpha": false,
-    "filtering": "Linear",
-    "width": 1024,
-    "height": 1024,
-    "rows": 1,
-    "cols": 1
-  },
-  {
-    "id": "main_image",
-    "path": "../Game/Assets/Textures/Backgrounds/main_background.jpeg",
-    "alpha": false,
-    "filtering": "Linear",
-    "width": 1024,
-    "height": 1024,
-    "rows": 1,
-    "cols": 1
-  },
-  {
-    "id": "settings_image",
-    "path": "../Game/Assets/Textures/Backgrounds/settings_screen.jpeg",
-    "alpha": false,
-    "filtering": "Linear",
-    "width": 1024,
-    "height": 1024,
-    "rows": 1,
-    "cols": 1
-  },
-  {
-    "id": "parrot_icon",
-    "path": "../Game/Assets/Textures/parrot_icon.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 256,
-    "height": 256,
-    "rows": 1,
-    "cols": 1
-  },
-  {
-    "id": "settings_icon",
-    "path": "../Game/Assets/Textures/Icons/cog.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 512,
-    "height": 512,
-    "rows": 1,
-    "cols": 1
-  },
-  {
-    "id": "previous_icon",
-    "path": "../Game/Assets/Textures/Icons/previous-button.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 512,
-    "height": 512,
-    "rows": 1,
-    "cols": 1
-  },
-  {
-    "id": "square",
-    "path": "../Game/Assets/Textures/square.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 512,
-    "height": 512,
-    "rows": 1,
-    "cols": 1
-  },
-  {
-    "id": "pirate_01",
-    "path": "../Game/Assets/Textures/Characters/captain-m-001-light.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 144,
-    "height": 256,
-    "rows": 4,
-    "cols": 3
-  },
-  {
-    "id": "sword_01",
-    "path": "../Game/Assets/Textures/scithersword.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 92,
-    "height": 100,
-    "rows": 1,
-    "cols": 1
-  },
-  {
-    "id": "berry_bush_01",
-    "path": "../Game/Assets/Textures/Environment/berry_bush.png",
-    "alpha": true,
-    "filtering": "Linear",
-    "width": 125,
-    "height": 140,
-    "rows": 1,
-    "cols": 1
-  }
-]
+    },
+    {
+      "id": "heart",
+      "path": "HUD/heart.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 32,
+      "height": 32,
+      "rows": 1,
+      "cols": 1
+    },
+    {
+      "id": "debug",
+      "path": "debug.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 500,
+      "height": 500,
+      "rows": 1,
+      "cols": 1
+    },
+    {
+      "id": "crosshair",
+      "path": "Icons/crosshair.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 512,
+      "height": 512,
+      "rows": 1,
+      "cols": 1
+    },
+    {
+      "id": "cannonball",
+      "path": "thumbnail_rock.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 920,
+      "height": 600,
+      "rows": 1,
+      "cols": 1
+    },
+    {
+      "id": "mouse_icon",
+      "path": "Icons/arrow-cursor.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 32,
+      "height": 32,
+      "rows": 1,
+      "cols": 1
+    },
+    {
+      "id": "play_button",
+      "path": "Icons/play-button.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 512,
+      "height": 512,
+      "rows": 1,
+      "cols": 1
+    },
+    {
+      "id": "quit_icon",
+      "path": "Icons/power-button.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 512,
+      "height": 512,
+      "rows": 1,
+      "cols": 1
+    },
+    {
+      "id": "title_image",
+      "path": "Backgrounds/title_background.jpeg",
+      "alpha": false,
+      "filtering": "Linear",
+      "width": 1024,
+      "height": 1024,
+      "rows": 1,
+      "cols": 1
+    },
+    {
+      "id": "main_image",
+      "path": "Backgrounds/main_background.jpeg",
+      "alpha": false,
+      "filtering": "Linear",
+      "width": 1024,
+      "height": 1024,
+      "rows": 1,
+      "cols": 1
+    },
+    {
+      "id": "settings_image",
+      "path": "Backgrounds/settings_screen.jpeg",
+      "alpha": false,
+      "filtering": "Linear",
+      "width": 1024,
+      "height": 1024,
+      "rows": 1,
+      "cols": 1
+    },
+    {
+      "id": "parrot_icon",
+      "path": "parrot_icon.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 256,
+      "height": 256,
+      "rows": 1,
+      "cols": 1
+    },
+    {
+      "id": "settings_icon",
+      "path": "Icons/cog.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 512,
+      "height": 512,
+      "rows": 1,
+      "cols": 1
+    },
+    {
+      "id": "previous_icon",
+      "path": "Icons/previous-button.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 512,
+      "height": 512,
+      "rows": 1,
+      "cols": 1
+    },
+    {
+      "id": "square",
+      "path": "square.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 512,
+      "height": 512,
+      "rows": 1,
+      "cols": 1
+    },
+    {
+      "id": "pirate_01",
+      "path": "Characters/captain-m-001-light.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 144,
+      "height": 256,
+      "rows": 4,
+      "cols": 3
+    },
+    {
+      "id": "sword_01",
+      "path": "scithersword.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 92,
+      "height": 100,
+      "rows": 1,
+      "cols": 1
+    },
+    {
+      "id": "berry_bush_01",
+      "path": "Environment/berry_bush.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 125,
+      "height": 140,
+      "rows": 1,
+      "cols": 1
+    },
+    {
+      "id": "sound_on",
+      "path": "Icons/sound-on.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 512,
+      "height": 512,
+      "rows": 1,
+      "cols": 1
+    },
+    {
+      "id": "sound_off",
+      "path": "Icons/sound-off.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 512,
+      "height": 512,
+      "rows": 1,
+      "cols": 1
+    },
+    {
+      "id": "inventory",
+      "path": "HUD/inventory.png",
+      "alpha": true,
+      "filtering": "Linear",
+      "width": 800,
+      "height": 512,
+      "rows": 1,
+      "cols": 1
+    }
+  ]
+}

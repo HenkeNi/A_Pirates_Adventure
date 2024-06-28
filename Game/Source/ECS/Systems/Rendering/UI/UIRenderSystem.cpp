@@ -21,26 +21,26 @@ void UIRenderSystem::Draw()
 {
 	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
 
+	RenderGrid();
+
 	// TODO; Don't have HUDComponent?? Just UIComponent?
 	RenderHUD();
 	RenderUI();
+	
 	//RenderInventory();
 }
 
 void UIRenderSystem::RenderHUD()
 {
 	auto* camera = m_entityManager->FindFirst<CameraComponent>();
-
 	if (!camera)
 		return;
 
 	auto entities = m_entityManager->FindAll<HUDComponent>();
-
 	if (entities.empty())
 		return;
 	
 	auto* cameraComponent = camera->GetComponent<CameraComponent>();
-
 	if (!cameraComponent)
 		return;
 
@@ -51,19 +51,19 @@ void UIRenderSystem::RenderHUD()
 
 	for (auto* entity : entities)
 	{
-		const auto* sprite = entity->GetComponent<SpriteComponent>();
-		const auto* transform = entity->GetComponent<TransformComponent>();
+		const auto* spriteComponent = entity->GetComponent<SpriteComponent>();
+		const auto* transformComponent = entity->GetComponent<TransformComponent>();
 
-		if (!sprite || !transform)
+		if (!spriteComponent || !transformComponent)
 			continue;
 
-		const auto& position = transform->CurrentPos;
-		const auto& scale = transform->Scale;
-		const auto& rotation = transform->Rotation;
+		const auto& position = transformComponent->CurrentPos;
+		const auto& scale = transformComponent->Scale;
+		const auto& rotation = transformComponent->Rotation;
 
-		glm::vec4 color = { sprite->CurrentColor.x, sprite->CurrentColor.y, sprite->CurrentColor.z, sprite->CurrentColor.w };
+		glm::vec4 color = { spriteComponent->CurrentColor.x, spriteComponent->CurrentColor.y, spriteComponent->CurrentColor.z, spriteComponent->CurrentColor.w };
 
-		spriteBatch.Sprites.emplace_back(Hi_Engine::Transform{ { position.x, position.y, 0.f }, { scale.x, scale.y }, rotation }, color, sprite->Subtexture);
+		spriteBatch.Sprites.emplace_back(Hi_Engine::Transform{ { position.x, position.y, 0.f }, { scale.x, scale.y }, rotation }, color, spriteComponent->Subtexture);
 	}
 	
 	spriteBatch.ProjectionMatrix = cameraComponent->Camera.GetProjectionMatrix();
@@ -76,17 +76,14 @@ void UIRenderSystem::RenderHUD()
 void UIRenderSystem::RenderUI()
 {
 	auto* camera = m_entityManager->FindFirst<CameraComponent>();
-
 	if (!camera)
 		return;
 
 	auto entities = m_entityManager->FindAll<UIComponent, SpriteComponent>();
-
 	if (entities.empty())
 		return;
 
 	auto* cameraComponent = camera->GetComponent<CameraComponent>();
-
 	if (!cameraComponent)
 		return;
 
@@ -101,20 +98,27 @@ void UIRenderSystem::RenderUI()
 	Hi_Engine::SpriteBatch spriteBatch;
 	spriteBatch.Sprites.reserve(entities.size());
 
+	static float windowWidth = 1400.f; // Todo; Pull from window
+	static float windowHeight = 800.f;
+
 	for (auto* entity : entities)
 	{
-		const auto* sprite = entity->GetComponent<SpriteComponent>();
-		const auto* transform = entity->GetComponent<TransformComponent>();
+		const auto* spriteComponent = entity->GetComponent<SpriteComponent>();
+		const auto* transformComponent = entity->GetComponent<TransformComponent>();
 
-		if (!sprite || !transform)
+		if (!spriteComponent || !transformComponent)
 			continue;
 
-		const auto& position = transform->CurrentPos;
-		const auto& scale = transform->Scale;
-		const auto& rotation = transform->Rotation;
-		glm::vec4 color = { sprite->CurrentColor.x, sprite->CurrentColor.y, sprite->CurrentColor.z, sprite->CurrentColor.w };
+		const auto& [currPos, prevPos, scale, pivot, rotation] = *transformComponent;
+		const auto& [r, g, b, a] = spriteComponent->CurrentColor;
 
-		spriteBatch.Sprites.emplace_back(Hi_Engine::Transform{ { position.x, position.y, 0.f }, { scale.x, scale.y }, rotation }, color, sprite->Subtexture);
+		float xPosition = currPos.x * windowWidth;
+		xPosition += (scale.x * pivot.x);
+
+		float yPosition = currPos.y * windowHeight;
+		yPosition += (scale.y * pivot.y);
+
+		spriteBatch.Sprites.emplace_back(Hi_Engine::Transform{ { xPosition, yPosition, 0.f }, { scale.x, scale.y }, rotation }, glm::vec4{ r, g, b, a }, spriteComponent->Subtexture);
 	}
 
 	spriteBatch.ProjectionMatrix = cameraComponent->Camera.GetProjectionMatrix();
@@ -167,4 +171,54 @@ void UIRenderSystem::RenderInventory()
 	//}
 	//Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::RenderEvent>(renderCommands);
 
+}
+
+void UIRenderSystem::RenderGrid() // Do in debug system?
+{
+	if (auto* grid = m_entityManager->FindFirst<GridComponent>())
+	{
+		auto* texture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ "debug", 0, 0 });
+
+		auto* gridComponent = grid->GetComponent<GridComponent>();
+		auto* transformComponent = grid->GetComponent<TransformComponent>();
+	
+		const auto& position = transformComponent->CurrentPos;
+		const auto& scale = transformComponent->Scale;
+		const auto& dimensions = gridComponent->Dimensions;
+
+		float spaceBetweenCells = gridComponent->SpaceBetweenCells;
+		spaceBetweenCells = 0.55f;
+
+		float width = dimensions.y / scale.x;
+		width *= 0.25f;
+
+		float height = scale.y * 0.5f;
+
+		Hi_Engine::SpriteBatch spriteBatch;
+
+		float xStartPosition = position.x - scale.x;
+
+		for (int row = 0; row < dimensions.x; ++row)
+		{
+			for (int col = 0; col < dimensions.y; ++col)
+			{
+				//float xPosition = position.x + (col * width);
+				float xPosition = xStartPosition * 0.5f + (col * (width + col > 0 ? spaceBetweenCells : 0));
+
+				spriteBatch.Sprites.emplace_back(Hi_Engine::Transform{ { xPosition, position.y, 0.f }, { width, height }, 0.f }, glm::vec4{ 1.f, 1.f, 1.f, 1.f }, texture);
+			}
+		}
+
+		auto* camera = m_entityManager->FindFirst<CameraComponent>();
+		auto* cameraComponent = camera->GetComponent<CameraComponent>();
+		spriteBatch.ProjectionMatrix = cameraComponent->Camera.GetProjectionMatrix();
+
+		Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::SpriteBatchRequest>(spriteBatch);
+	}
+}
+
+FVector2 UIRenderSystem::ConvertToScreenCoordinates(const FVector2& normalizedPosition, const FVector2& screenSize) const
+{
+	FVector2 coordinates = { normalizedPosition.x * screenSize.x, normalizedPosition.y * screenSize.y };
+	return coordinates;
 }

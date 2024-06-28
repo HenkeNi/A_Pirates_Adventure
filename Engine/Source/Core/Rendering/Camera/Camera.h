@@ -10,9 +10,10 @@ namespace Hi_Engine
 	{
 	public:
 		Camera();
-		//Camera(const Rect& rect);
+		Camera(const Rect& rect);
 		
 		void Init(const FVector2& position);	// Parse from json...? CameraData?
+		void SetOrthoProjection(const Rect& rect);
 		void SetPosition(const FVector2& position);
 		void SetZoomRange(const Range<float>& range);
 
