@@ -54,7 +54,7 @@ void GameScene::Draw() const
 	// TODO: should update own systems (in shared context)??
 }
 
-void GameScene::OnCreate()
+void GameScene::OnCreated()
 {
 	// TODO; pass the Game Scene's entitymanager to subscene's?
 

@@ -31,60 +31,32 @@ void OverworldScene::Draw() const
 
 void OverworldScene::OnEnter()
 {
-	auto& sound = Hi_Engine::ResourceHolder<Hi_Engine::AudioSource>::GetInstance().GetResource("ocean_ambience"); // TODO; read from json...
-	//Hi_Engine::ServiceLocator::GetAudioController().lock()->PlaySound(sound);
+	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::PlaySoundEvent>("ocean_ambience");
 
 	auto& entityManager = m_ecs.GetEntityManager();
 
-	auto* cursor = entityManager.Create("mouse_cursor");
-
-	// Player
 	auto* player = entityManager.Create("player");
-	//CU::Vector3<float> position = { (float)Random::InRange(2, 62), 0.42f, (float)Random::InRange(2, 62) };
-	FVector2 position = { 0.f, 0.f }; // { 27.f, 25.f };
-	player->GetComponent<TransformComponent>()->CurrentPos = position;
-
 	// player->GetComponent<SpriteComponent>()->Pivot = { -0.5f, -0.5f };
 
+	// auto* cursor = entityManager.Create("mouse_cursor");
+	// auto* time = entityManager.Create("world_time");
 
 	auto* weapon = entityManager.Create("rusty_sword");
-
-	auto* time = entityManager.Create("world_time");
-
-
 	auto* skeleton = entityManager.Create("skeleton");
-
 	auto* crab = entityManager.Create("crab");
 
-	auto* caveEntrance = entityManager.Create("cave_entrance");
-	caveEntrance->GetComponent<TransformComponent>()->CurrentPos = { 2.f, 2.f };
-
-	//auto healthbar = m_entityManager.Create("Healthbar");
-	//healthbar->GetComponent<TransformComponent>()->CurrentPos = { 2.f, 2.f };
-
-	/*for (int i = 0; i < 10; ++i)
-	{
-		float x = 0.1 * i;
-		auto* fish = m_entityManager.Create("Fish");
-		fish->GetComponent<TransformComponent>()->CurrentPos = { 10.f + x, 12.f };
-	}*/
 
 	// Camera => do in camera system??
-	auto camera = entityManager.Create("camera");
+	auto* camera = entityManager.FindFirst<CameraComponent>();
 	camera->GetComponent<TransformComponent>()->CurrentPos = { 0.f, 0.f };
-	camera->GetComponent<CameraComponent>()->TargetOffset = { 0.f, 0.f };
+	camera->GetComponent<CameraComponent>()->TargetOffset = { 0.f, 0.f }; // each scene has own camera? different projection matrixes?
+	camera->GetComponent<CameraComponent>()->TargetOffset = { -700.f, -400.f }; // each scene has own camera? different projection matrixes?
 	camera->GetComponent<CameraComponent>()->TargetID = entityManager.FindFirst<PlayerControllerComponent>()->GetID();
-
-	//camera->GetComponent<TransformComponent>()->CurrentPos = { 0.f, 2.f };
-	//camera->GetComponent<TransformComponent>()->CurrentPos = { 0.f, 0.f, 2.f };
-	//camera->GetComponent<CameraComponent>()->TargetOffset = { 0.f, 3.f, 4.f };
-	//camera->GetComponent<CameraComponent>()->m_target = *m_entityManager.FindAll<PlayerControllerComponent>().begin();
 
 	PostMaster::GetInstance().SendMessage({ eMessage::GameStarted, true }); 	// FIX
 }
 
 void OverworldScene::OnExit()
 {
-	auto& sound = Hi_Engine::ResourceHolder<Hi_Engine::AudioSource>::GetInstance().GetResource("ocean_ambience"); // TODO; read from json...
-	//Hi_Engine::ServiceLocator::GetAudioController().lock()->StopSound(sound);
+	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::StopSoundEvent>("ocean_ambience");
 }

@@ -14,8 +14,8 @@ public:
 	virtual void Draw()						const	= 0;
 	virtual bool IsTransparent()			const;
 
-	virtual void OnCreate()					   {};
-	virtual void OnDestroy()				   {};
+	virtual void OnCreated()				   {};
+	virtual void OnDestroyed()				   {};
 	virtual void OnEnter()					   {};
 	virtual void OnExit()					   {};
 

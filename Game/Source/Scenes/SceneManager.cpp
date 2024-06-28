@@ -50,7 +50,7 @@ void SceneManager::Receive(Message& message)
 void SceneManager::Init(const std::initializer_list<eScene>& scenes)
 {
 	for (auto& scene : m_registeredScenes)
-		scene.second->OnCreate();
+		scene.second->OnCreated();
 
 	for (const auto scene : scenes)
 		m_stack.Push(scene);
@@ -59,6 +59,7 @@ void SceneManager::Init(const std::initializer_list<eScene>& scenes)
 	m_paths.insert({ eScene::Settings, "../Game/Assets/Json/Scenes/Settings.json" });
 	m_paths.insert({ eScene::Menu, "../Game/Assets/Json/Scenes/MainMenu.json" });
 	m_paths.insert({ eScene::Title, "../Game/Assets/Json/Scenes/Title.json" });
+	m_paths.insert({ eScene::Game, "../Game/Assets/Json/Scenes/Game.json" });
 }
 
 
@@ -144,7 +145,7 @@ void SceneManager::Clear()
 	for (auto& [type, scene] : m_registeredScenes)
 	{
 		if (scene)
-			scene->OnDestroy();
+			scene->OnDestroyed();
 	}
 
 	m_stack.Clear();
@@ -209,7 +210,7 @@ void SceneManager::LoadScene(const std::string& aPath)
 	auto activeScene = GetActiveScene().lock(); // take as weak pointer?
 	auto& entityManager = activeScene->m_ecs.GetEntityManager();
 
-	entityManager.DestroyAll();
+	// entityManager.DestroyAll(); 
 
 	auto document = Hi_Engine::ParseDocument(aPath);
 	for (const auto& jsonEntity : document["entities"].GetArray())

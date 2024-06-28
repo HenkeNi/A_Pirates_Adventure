@@ -15,7 +15,7 @@ public:
 	void LateUpdate(float deltaTime)		  override;
 	void Draw()							const override;
 
-	void OnCreate()							  override;
+	void OnCreated()						  override;
 	void OnEnter()							  override;
 	void OnExit()							  override;
 
