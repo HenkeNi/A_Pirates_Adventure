@@ -6,6 +6,15 @@
 
 namespace Hi_Engine
 {
+    ModuleManager::ModuleManager()
+    {
+        m_modules.reserve(10);
+    }
+
+    ModuleManager::~ModuleManager()
+    {
+    }
+
     bool ModuleManager::Init()
     {
         using KVP = std::pair<std::type_index, std::shared_ptr<Module>>;

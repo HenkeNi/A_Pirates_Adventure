@@ -8,6 +8,9 @@ namespace Hi_Engine
 	class ModuleManager
 	{
 	public:
+		ModuleManager();
+		~ModuleManager();
+
 		bool Init();
 		void Shutdown();
 		void LoadModules();
@@ -17,6 +20,9 @@ namespace Hi_Engine
 
 		template <typename T>
 		void AddModule(const std::shared_ptr<T>& module);
+
+		template <typename T>
+		void RemoveModule();
 
 		template <typename T>
 		std::weak_ptr<T> GetModule();
@@ -39,6 +45,13 @@ namespace Hi_Engine
 	{
 		auto typeIndex = std::type_index(typeid(T));
 		m_modules.insert(std::make_pair(typeIndex, module));
+	}
+
+	template<typename T>
+	inline void ModuleManager::RemoveModule()
+	{
+		auto typeIndex = std::type_index(typeid(T));
+		m_modules.erase(typeIndex);
 	}
 
 	template<typename T>
