@@ -41,6 +41,9 @@
 #include "Source/Core/Audio/AudioSource.h"
 #include "Source/Core/Audio/AudioController.h"
 
+/* - ImGui - */
+#include "Source/Core/ImGui/ImGuiManager.h"
+
 /* - Resources - */
 #include "Source/Core/Resources/ResourceHolder.hpp"
 
@@ -49,6 +52,7 @@
 #include "Source/Core/Messaging/Listener/EventListener.h"
 #include "Source/Core/Messaging/Events/SystemEvents/SystemEvents.h"
 #include "Source/Core/Messaging/Events/RenderEvents/RenderEvents.h"
+#include "Source/Core/Messaging/Events/Debug/DebugEvents.h"
 #include "Source/Core/Messaging/Events/Audio/AudioEvents.h"
 
 /* - Data Structures - */

@@ -8,7 +8,7 @@
 #include "Audio/AudioController.h"
 #include "Input/InputHandler.h"
 #include "Window/Window.h"
-#include "Editor/Editor.h"
+#include "ImGui/ImGuiManager.h"
 #include "../Utility/Time/Timer.h"
 #include <GLFW/glfw3.h> 
 #include "ServiceLocator/ServiceLocator.h" /// ?
@@ -75,7 +75,7 @@ namespace Hi_Engine
 		auto inputHandler = m_moduleManager.GetModule<InputHandler>().lock();
 		auto renderer = m_moduleManager.GetModule<Renderer>().lock();
 		auto window = m_moduleManager.GetModule<Window>().lock();
-		auto editor = m_moduleManager.GetModule<Editor>().lock();
+		auto editor = m_moduleManager.GetModule<ImGuiManager>().lock();
 
 		auto textRenderer = m_moduleManager.GetModule<TextRenderer>().lock();
 
@@ -102,7 +102,7 @@ namespace Hi_Engine
 			m_application.OnDraw();
 
 			if (editor)
-				editor->NewFrame();
+				editor->BeginFrame();
 
 			if (renderer)
 				renderer->ProcessCommands();
@@ -140,8 +140,7 @@ namespace Hi_Engine
 		m_moduleManager.RegisterModule<AudioController>(5);
 
 #ifdef DEBUG
-
-		m_moduleManager.RegisterModule<Editor>(6);
+		m_moduleManager.RegisterModule<ImGuiManager>(6);
 #endif
 
 		ServiceLocator::Register(m_moduleManager.GetModule<Window>());

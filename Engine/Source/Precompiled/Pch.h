@@ -37,6 +37,7 @@
 #include "Messaging/Listener/EventListener.h"
 #include "Messaging/Events/RenderEvents/RenderEvents.h"
 #include "Messaging/Events/SystemEvents/SystemEvents.h"
+#include "Messaging/Events/Debug/DebugEvents.h"
 
 /* - Math - */
 #include "../Utility/Math/Vectors/Vector.hpp"
