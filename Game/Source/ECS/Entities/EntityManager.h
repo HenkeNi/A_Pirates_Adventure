@@ -21,6 +21,9 @@ public:
 	void Destroy(unsigned id);
 	void DestroyAll();
 
+	template <typename... Components>
+	void DestroySelected();
+
 	EntityFactory& GetFactory();
 	 
 private:
@@ -53,6 +56,18 @@ Entity* EntityManager::FindFirst()
 	}
 
 	return nullptr;
+}
+
+template <typename... Components>
+void EntityManager::DestroySelected()
+{
+	auto end = std::remove_if(m_entities.begin(), m_entities.end(),
+		[&](const Entity& entity)
+		{
+			return entity.HasComponents<Components...>();
+		});
+	
+	m_entities.erase(end, m_entities.end());
 }
 
 #pragma endregion Method_Definitions
