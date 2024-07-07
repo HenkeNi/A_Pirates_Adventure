@@ -13,4 +13,5 @@ public:
 
 private:
 	float m_sprintSpeed; // HERE?
+	//float m_sprintSpeedMultiplier; // HERE?
 };

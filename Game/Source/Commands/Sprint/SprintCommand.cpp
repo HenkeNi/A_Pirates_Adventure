@@ -5,7 +5,7 @@
 
 
 SprintCommand::SprintCommand()
-	: m_sprintSpeed{ 3.f }
+	: m_sprintSpeed{ 300.f }
 {
 }
 
@@ -16,7 +16,7 @@ void SprintCommand::Execute(Entity* entity)
 	
 	if (auto* velocityComponent = entity->GetComponent<VelocityComponent>())
 	{
-		velocityComponent->Speed = m_sprintSpeed;
+		velocityComponent->Speed = m_sprintSpeed; // modify velocity insetad?
 	}
 }
 
@@ -35,6 +35,6 @@ void SprintCommand::Undo(Entity* entity)
 
 	if (auto* velocityComponent = entity->GetComponent<VelocityComponent>())
 	{
-		velocityComponent->Speed = 1.f;
+		velocityComponent->Speed = 200.f;
 	}
 }
