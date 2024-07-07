@@ -13,7 +13,7 @@
 #include <GLFW/glfw3.h> 
 #include "ServiceLocator/ServiceLocator.h" /// ?
 #include "Noise/NoiseGenerator.h"
-
+#include "Rendering/Shader/Shader.h"
 
 namespace Hi_Engine
 {

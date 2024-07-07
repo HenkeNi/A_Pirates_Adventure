@@ -45,6 +45,10 @@ namespace Hi_Engine
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
 
+        // Initialize (and load) the FreeType library
+        if (FT_Init_FreeType(&ft))
+            assert(false && "ERROR: Could not init FreeType Library");
+
         return true;
 	}
 

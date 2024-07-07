@@ -1,5 +1,6 @@
 #pragma once
-#include <../../../ThirdParty/rapidjson/document.h> //FIX! dont include later...
+//#include <../../../ThirdParty/rapidjson/document.h> //FIX! dont include later...
+#include "Dependencies/rapidjson/document.h"
 
 
 namespace Hi_Engine

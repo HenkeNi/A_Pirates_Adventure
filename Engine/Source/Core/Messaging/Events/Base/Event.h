@@ -30,8 +30,8 @@ namespace Hi_Engine
 		void*			operator new (size_t size);
 		void			operator delete(void* pointer);
 
-		ePriority		GetPriority()						const override;
-		bool			IsHandled()							const override;
+		ePriority		GetPriority()						const override;	// mark final?
+		bool			IsHandled()							const override; // mark final?
 		void			HandleEvent();
 
 	protected:

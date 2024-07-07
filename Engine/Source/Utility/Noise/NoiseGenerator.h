@@ -1,6 +1,5 @@
 #pragma once
 
-
 class FastNoiseLite;
 
 namespace Hi_Engine

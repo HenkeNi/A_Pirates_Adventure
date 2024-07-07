@@ -1,7 +1,11 @@
 #pragma once
 // #include "Data/Structs.h"
 #include "../../../../Data/Structs.h"
-#include <../../../ThirdParty/GLEW/include/GL/glew.h> // use typedef for GLchar?
+//#include <../../../ThirdParty/GLEW/include/GL/glew.h> // use typedef for GLchar?
+// #include <Dependencies/GLEW/include/GL/glew.h>
+//#include <Dependencies/GLEW/include/GL/glew.h>
+
+typedef char GLchar;
 
 namespace Hi_Engine
 {
@@ -20,11 +24,14 @@ namespace Hi_Engine
 	class Font
 	{
 	public:
+		void Init(const rapidjson::Value& value);
 		void AddCharacter(const char key, const Character& character);
+		inline const std::string& GetName() const { return m_name; }
 
 	private:
 		friend class TextRenderer;
 
 		std::unordered_map<GLchar, Character> m_characters;	// replace with just char?
+		std::string m_name;
 	};
 }

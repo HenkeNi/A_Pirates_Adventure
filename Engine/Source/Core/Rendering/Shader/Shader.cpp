@@ -15,13 +15,31 @@ namespace Hi_Engine
         glDeleteProgram(m_id);
     }
 
+    void GLSLShader::Init(const rapidjson::Value& value)
+    {
+        m_name = value["name"].GetString();
+        std::string path = value["filepath"].GetString();
+        
+        std::string vertex, fragment;
+
+        std::ifstream vertexStream{ path + m_name + ".vertex.glsl" };
+        vertex = { std::istreambuf_iterator<char>(vertexStream), std::istreambuf_iterator<char>() };
+
+        std::ifstream fragmentStream{ path + m_name + ".fragment.glsl" };
+        fragment = { std::istreambuf_iterator<char>(fragmentStream), std::istreambuf_iterator<char>() };
+
+        // TODO: Geometryshader
+
+        Create(vertex.c_str(), fragment.c_str(), nullptr);
+    }
+
     const GLSLShader& GLSLShader::Activate() const
     {
         glUseProgram(m_id);
         return *this;
     }
 
-    void GLSLShader::Init(const char* vSource, const char* fSource, const char* gSource)
+    void GLSLShader::Create(const char* vSource, const char* fSource, const char* gSource)
     {
         /* Create Vertex GLSLShader */
         unsigned vertexShader = CreateShader(GL_VERTEX_SHADER, vSource);

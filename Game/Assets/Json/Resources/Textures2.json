@@ -1,19 +1,17 @@
-{
-  "base_directory": "../Game/Assets/Textures/",
-  "textures": [
-    {
-      "id": "sky",
-      "path": "Backgrounds/sky.png",
-      "alpha": false,
-      "filtering": "Linear",
-      "width": 2560,
-      "height": 1440,
-      "rows": 1,
-      "cols": 1
-    },
+ [
+   {
+     "id": "sky",
+     "path": "Backgrounds/sky.png",
+     "alpha": false,
+     "filtering": "Linear",
+     "width": 2560,
+     "height": 1440,
+     "rows": 1,
+     "cols": 1
+   },
     {
       "id": "ground_tiles",
-      "path": "ground_tiles.png",
+      "path": "Tiles/ground_tiles.png",
       "alpha": true,
       "filtering": "Nearest",
       "width": 128,
@@ -53,7 +51,7 @@
     },
     {
       "id": "pirate_walk",
-      "path": "Characters/Player//pirate_walk.png",
+      "path": "Characters/Player/pirate_walk.png",
       "alpha": true,
       "filtering": "Linear",
       "width": 10850,
@@ -63,7 +61,7 @@
     },
     {
       "id": "pirate_run",
-      "path": "Characters/Player//pirate_run.png",
+      "path": "Characters/Player/pirate_run.png",
       "alpha": true,
       "filtering": "Linear",
       "width": 10850,
@@ -73,7 +71,7 @@
     },
     {
       "id": "pirate_hurt",
-      "path": "Characters/Player//pirate_hurt.png",
+      "path": "Characters/Player/pirate_hurt.png",
       "alpha": true,
       "filtering": "Linear",
       "width": 10850,
@@ -83,7 +81,7 @@
     },
     {
       "id": "pirate_attack",
-      "path": "Characters/Player//pirate_attack.png",
+      "path": "Characters/Player/pirate_attack.png",
       "alpha": true,
       "filtering": "Linear",
       "width": 10850,
@@ -93,7 +91,7 @@
     },
     {
       "id": "pirate_die",
-      "path": "Characters/Player//pirate_die.png",
+      "path": "Characters/Player/pirate_die.png",
       "alpha": true,
       "filtering": "Linear",
       "width": 10850,
@@ -287,26 +285,26 @@
       "rows": 1,
       "cols": 1
     },
-    {
-      "id": "cannonball",
-      "path": "thumbnail_rock.png",
-      "alpha": true,
-      "filtering": "Linear",
-      "width": 920,
-      "height": 600,
-      "rows": 1,
-      "cols": 1
-    },
-    {
-      "id": "mouse_icon",
-      "path": "Icons/arrow-cursor.png",
-      "alpha": true,
-      "filtering": "Linear",
-      "width": 32,
-      "height": 32,
-      "rows": 1,
-      "cols": 1
-    },
+  {
+    "id": "cannonball",
+    "path": "Items/cannon-ball.png",
+    "alpha": true,
+    "filtering": "Linear",
+    "width": 920,
+    "height": 600,
+    "rows": 1,
+    "cols": 1
+  },
+  { 
+    "id": "mouse_icon",
+    "path": "Icons/arrow-cursor.png",
+    "alpha": true,
+    "filtering": "Linear",
+    "width": 32,
+    "height": 32,
+    "rows": 1,
+    "cols": 1
+  },
     {
       "id": "play_button",
       "path": "Icons/play-button.png",
@@ -457,5 +455,4 @@
       "rows": 1,
       "cols": 1
     }
-  ]
-}
+ ]

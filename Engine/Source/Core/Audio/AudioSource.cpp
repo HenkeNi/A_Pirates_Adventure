@@ -15,6 +15,17 @@ namespace Hi_Engine
 		// m_source->
 	}
 
+	void AudioSource::Init(const rapidjson::Value& value)
+	{
+		std::string name = value["name"].GetString();
+		std::string path = value["filepath"].GetString();
+		bool isLooping = value["is_looping"].GetBool();
+
+		SetSource(path);
+		m_isLooping = isLooping;
+		m_name = name;
+	}
+
 	void AudioSource::SetSource(const std::string& path)
 	{
 		auto* engine = AudioController::GetEngine();
@@ -28,7 +39,4 @@ namespace Hi_Engine
 	{
 		m_isLooping = isLooping;
 	}
-
-
-
 }

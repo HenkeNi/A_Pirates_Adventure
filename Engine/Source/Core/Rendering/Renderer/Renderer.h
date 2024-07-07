@@ -4,7 +4,9 @@
 #include "../../../Data/Constants.h"
 #include "../../Messaging/Listener/EventListener.h"
 #include <queue>
-#include <../../../ThirdParty/GLEW/include/GL/glew.h> //FIX! dont include later...
+//#include <../../../ThirdParty/GLEW/include/GL/glew.h> //FIX! dont include later...
+// #include <Dependencies/GLEW/include/GL/glew.h>
+#include "Dependencies/GLEW/include/GL/glew.h"
 
 namespace Hi_Engine
 {

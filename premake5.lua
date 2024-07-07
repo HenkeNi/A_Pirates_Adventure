@@ -22,18 +22,26 @@ project "Engine"
 	pchheader "Pch.h"
 	pchsource "Engine/Source/Precompiled/Pch.cpp"
 	
-	files { "%{prj.name}/Hi_Engine.h", "%{prj.name}/Source/**.h", "%{prj.name}/Source/**.hpp", "%{prj.name}/Source/**.cpp" }
+	files 
+	{ 
+		"%{prj.name}/Hi_Engine.h", 
+		"%{prj.name}/Source/**.h", 
+		"%{prj.name}/Source/**.hpp", 
+		"%{prj.name}/Source/**.cpp",
+		"%{prj.name}/Dependencies/**h",
+		"%{prj.name}/Dependencies/**cpp"
+	}
 
 	-- Include directories are relative to root folder (solution directory)  (Creates a table)
 	IncludeDir = {}
-	IncludeDir["GLFW"]		 = "ThirdParty/GLFW/include"
-	IncludeDir["GLEW"]		 = "ThirdParty/GLEW/include"
-	IncludeDir["rapidjson"]  = "ThirdParty/rapidjson"
-	IncludeDir["stb_image"]  = "ThirdParty/stb_image"
-	IncludeDir["FreeType"]   = "ThirdParty/FreeType/include"
-	IncludeDir["FastNoise"]  = "ThirdParty/FastNoise"
+	IncludeDir["GLFW"]		 = "%{prj.name}/Dependencies/GLFW/include"
+	IncludeDir["GLEW"]		 = "%{prj.name}/Dependencies/GLEW/include"
+	IncludeDir["rapidjson"]  = "%{prj.name}/Dependencies/rapidjson"
+	IncludeDir["stb_image"]  = "%{prj.name}/Dependencies/stb_image"
+	IncludeDir["FreeType"]   = "%{prj.name}/Dependencies/FreeType/include"
+	IncludeDir["FastNoise"]  = "%{prj.name}/Dependencies/FastNoise"
 	IncludeDir["glm"]		 = "ThirdParty/glm"
-	IncludeDir["irrKlang"]	 = "ThirdParty/irrKlang/include"
+	IncludeDir["irrKlang"]	 = "%{prj.name}/Dependencies/irrKlang/include"
 
 	-- (C++/Preprocessor -> Preprocessor Definitions)
 	defines { "GLEW_STATIC" }
@@ -50,6 +58,8 @@ project "Engine"
 		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.irrKlang}",
 		"%{prj.name}/",
+		"%{prj.name}/Dependencies/ImGui",
+		"%{prj.name}/Dependencies/GLEW",
 		"%{prj.name}/Source/",
 		"%{prj.name}/Source/Core",
 		"%{prj.name}/Source/Data",
@@ -59,9 +69,9 @@ project "Engine"
 	
 	libdirs
 	{
-        "ThirdParty/GLFW/lib-vc2022/",
-        "ThirdParty/GLEW/lib/Release/x64/",
-		"ThirdParty/irrKlang/lib/"
+        "%{prj.name}/Dependencies/GLFW/lib-vc2022/",
+        "%{prj.name}/Dependencies/GLEW/lib/Release/x64/",
+		"%{prj.name}/Dependencies/irrKlang/lib/"
 	}
 
 	-- (Linker/Input -> Additional Dependencies)
@@ -74,6 +84,9 @@ project "Engine"
 		"irrKlang"
 	}
 
+	filter "files:Engine/Dependencies/**.cpp"
+		flags { "NoPCH" }
+
 	filter "system:windows"
 		systemversion "latest"
 		links
@@ -85,19 +98,21 @@ project "Engine"
 		}
 
 	filter "configurations:Debug"
-		runtime "Debug"
+        defines { "DEBUG" }
 		symbols "on"
+		runtime "Debug"
 		libdirs 
 		{ 
-			"ThirdParty/FreeType/lib/Debug", 
+			"%{prj.name}/Dependencies/FreeType/lib/Debug", 
 		}
 
 	filter "configurations:Release"
-		runtime "Release"
+        defines { "NDEBUG" }
 		optimize "on"
+		runtime "Release"
 		libdirs 
 		{ 
-			"ThirdParty/FreeType/lib/Release",
+			"%{prj.name}/Dependencies/FreeType/lib/Release",
 		}
 
 
@@ -117,8 +132,6 @@ project "Game"
 
 	includedirs
 	{
-		"ThirdParty/FreeType/include",
-		"ThirdParty/FastNoise/",
 		"ThirdParty/glm",
 		"Engine/Hi_Engine.h",
 		"%{prj.name}/Source",
@@ -143,12 +156,14 @@ project "Game"
 		systemversion "latest"
 	
 	filter "configurations:Debug"
-		defines "Debug"
+        defines { "DEBUG" }
 		symbols "on"
+		runtime "Debug"
 
 	filter "configurations:Release"
-		defines "Release"
+        defines { "NDEBUG" }
 		optimize "on"
+		runtime "Release"
 
 
 -- Launcher Project
@@ -171,7 +186,6 @@ project "Launcher"
 
 	includedirs
 	{
-		"ThirdParty/FreeType/include",
 		"Engine/Source",
 		"Game/Source",
 		"%{prj.name}/Source/Precompiled"
@@ -185,17 +199,17 @@ project "Launcher"
 
 	postbuildcommands
 	{
-		"{COPY} ../ThirdParty/irrKlang/lib/irrKlang.dll %{cfg.targetdir}",
-		"{COPY} ../ThirdParty/irrKlang/lib/ikpMP3.dll %{cfg.targetdir}"
+		"{COPY} ../Engine/Dependencies/irrKlang/lib/irrKlang.dll %{cfg.targetdir}",
+		"{COPY} ../Engine/Dependencies/irrKlang/lib/ikpMP3.dll %{cfg.targetdir}"
 	}
 
 	filter "system:windows"
 		systemversion "latest"
 	
 	filter "configurations:Debug"
-		defines "Debug"
+        defines { "DEBUG" }
 		symbols "on"
 
 	filter "configurations:Release"
-		defines "Release"
+        defines { "NDEBUG" }
 		optimize "on"

@@ -1,8 +1,10 @@
 #pragma once
 
 //#include <rapidjson.h> // ????
-#include <../../../ThirdParty/rapidjson/document.h> //FIX! dont include later...
+//#include <../../../ThirdParty/rapidjson/document.h> //FIX! dont include later...
 //#define PI 3.14159265358979323846 
+#include "Dependencies/rapidjson/document.h"
+#include <any>
 
 //namespace rapidjson {
 //	template <typename Encoding, typename Allocator, typename StackAllocator>

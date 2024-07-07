@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include <string>
 
 namespace Hi_Engine::Constants
 {
@@ -9,5 +10,6 @@ namespace Hi_Engine::Constants
 
 	constexpr uint32_t MaxTextureSlots = 32;		// Or max textures?
 
+	inline const std::string TextureDirectory{ "../Game/Assets/Textures/" };
 	//constexpr double PI = 3.14159;
 }	

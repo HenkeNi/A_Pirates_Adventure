@@ -2,6 +2,8 @@
 #include "../../../../Data/Structs.h"
 #include "../../../Modules/Base/Module.h"
 
+typedef struct FT_LibraryRec_* FT_Library;
+
 namespace Hi_Engine
 {
 	struct TextRenderData;
@@ -27,6 +29,8 @@ namespace Hi_Engine
 
 		float GetTextStartPosition(const TextRenderData& data);
 
+
+		inline static FT_Library ft;  // TEMP... (maybe load fonts from here? or have module for FreeType??
 
 	private:
 
