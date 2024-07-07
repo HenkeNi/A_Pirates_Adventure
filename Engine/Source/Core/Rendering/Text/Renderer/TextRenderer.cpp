@@ -4,7 +4,7 @@
 #include "../../Shader/Shader.h"
 #include "../../Texture/Texture2D.h" // TODO; remove---
 #include "../../Text/Font/Font.h"
-#include "Resources/ResourceHolder.hpp"
+#include "Resources/ResourceHolder.h"
 #include "../../Text/TextTypes.h"
 //#include "Messaging/Events/RenderEvents/RenderEvents.h"
 

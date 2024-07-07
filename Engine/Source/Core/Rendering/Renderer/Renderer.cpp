@@ -7,7 +7,7 @@
 #include "../Camera/Camera.h" // TEMP..
 #include "../Shader/Shader.h"
 #include "glm.hpp"
-#include "Resources/ResourceHolder.hpp"
+#include "Resources/ResourceHolder.h"
 
 #define INDICES_PER_QUAD 6
 #define VERTICES_PER_QUAD 4

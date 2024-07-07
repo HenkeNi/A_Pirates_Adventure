@@ -1,7 +1,7 @@
 #include "Pch.h"
 #include "Engine.h"
 #include "Application/Application.h"
-#include "Resources/ResourceHolder.hpp"
+#include "Resources/ResourceHolder.h"
 #include "Rendering/Text/Renderer/TextRenderer.h"
 #include "ServiceLocator/ServiceLocator.h"
 #include "Rendering/Renderer/Renderer.h"
@@ -10,10 +10,11 @@
 #include "Window/Window.h"
 #include "ImGui/ImGuiManager.h"
 #include "../Utility/Time/Timer.h"
-#include <GLFW/glfw3.h> 
 #include "ServiceLocator/ServiceLocator.h" /// ?
 #include "Noise/NoiseGenerator.h"
 #include "Rendering/Shader/Shader.h"
+#include <GLFW/glfw3.h> 
+
 
 namespace Hi_Engine
 {

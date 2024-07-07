@@ -1,7 +1,7 @@
 #include "Pch.h"
 #include "Subtexture2D.h"
 #include "Texture2D.h"
-#include "../../Resources/ResourceHolder.hpp"
+#include "../../Resources/ResourceHolder.h"
 #include "Dependencies/stb_image/stb_image.h"
 
 namespace Hi_Engine

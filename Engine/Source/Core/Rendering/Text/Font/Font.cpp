@@ -1,7 +1,7 @@
 #include "Pch.h"
 #include "Font.h"
 #include <Rendering/Texture/Texture2D.h>
-#include "../../../Resources/ResourceHolder.hpp"
+#include "../../../Resources/ResourceHolder.h"
 #include "Dependencies/FreeType/include/ft2build.h"
 #include "Rendering/Text/Renderer/TextRenderer.h"
 

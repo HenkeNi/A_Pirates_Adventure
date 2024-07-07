@@ -45,7 +45,7 @@
 #include "Source/Core/ImGui/ImGuiManager.h"
 
 /* - Resources - */
-#include "Source/Core/Resources/ResourceHolder.hpp"
+#include "Source/Core/Resources/ResourceHolder.h"
 
 /* - Messaging - */
 #include "Source/Core/Messaging/Dispatcher/Dispatcher.h"
