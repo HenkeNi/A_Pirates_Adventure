@@ -1,14 +1,9 @@
 #pragma once
 #include "Dependencies/rapidjson/document.h"
-#include <memory>
-#include <string>
-#include <unordered_map>
-#include <fstream>
-#include <iostream>
+
 
 namespace Hi_Engine
 {
-	// TODO; rename ResourceManager? 
 	template <class Resource, typename Identifier = std::string>
 	class ResourceHolder
 	{
