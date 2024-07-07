@@ -5,24 +5,24 @@ namespace irrklang
 	class ISoundSource;
 }
 
-class AudioController;
-
 namespace Hi_Engine
 {
-	class AudioSource // derive from SOundSource?
+	class AudioController;
+	
+	class AudioSource
 	{
 	public:
 		AudioSource(irrklang::ISoundSource* source = nullptr);
 		~AudioSource();
 
 		void Init(const rapidjson::Value& value);
-		//void SetSource(irrklang::ISoundSource* source);
-		void SetSource(const std::string& path);
+		void SetSource(irrklang::ISoundSource* source);
 		void SetIsLooping(bool isLooping);
 
 		inline const std::string& GetName() const { return m_name; }
-		inline irrklang::ISoundSource* GetSource() { return m_source; }
 		inline const irrklang::ISoundSource* GetSource() const { return m_source; }
+		inline irrklang::ISoundSource* GetSource() { return m_source; }
+		inline bool GetIsLooping() const { return m_isLooping; }
 
 	private:
 		friend class AudioController;

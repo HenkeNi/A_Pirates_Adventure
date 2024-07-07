@@ -12,7 +12,7 @@ namespace Hi_Engine
 	class Audio;
 	class AudioSource;
 
-	class AudioController : public Module, public EventListener // audio manager? No need for a controller? let ikrlang ive in engine?
+	class AudioController : public Module, public EventListener
 	{
 	public:
 		AudioController(int initOrder);
@@ -20,32 +20,14 @@ namespace Hi_Engine
 
 		bool Init() override;
 		void Shutdown() override;
-
 		void Update();
 
 		void HandleEvent(class PlaySoundEvent& event) override;
 		void HandleEvent(class StopSoundEvent& event) override;
 		void HandleEvent(class SetVolumeEvent& event) override;
 		
-		void PlaySound(const std::string& name);
-		void PlaySound(const AudioSource& source);
-		void PlaySound(Audio& audio);
-
-		void StopSound(const std::string& name);
-		
-		// PlaySoundEffect()?
-		
-		void StopSound(Audio& audio);
-
-
-
-
-		//void PlaySound(const std::string& path);
-
-		void StopSound(const AudioSource& source); // Rename stop all sounds of type?
-
-		//void PlaySound(const AudioSource& source, irrklang::ISound* sound);
-
+		void PlaySound(AudioSource& source);
+		void StopSound(AudioSource& source);
 
 		static inline irrklang::ISoundEngine* GetEngine() { return m_soundEngine; }
 

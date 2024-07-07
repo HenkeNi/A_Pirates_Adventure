@@ -36,9 +36,11 @@ void AudioSystem::Receive(Message& message)
 		{
 			// Todo; fetch Audio and pass the audio file instead..
 
-			const auto& audioName = audioComponent->SoundTriggers.at(type);
+			//const auto& audioName = audioComponent->SoundTriggers.at(type);
 
-			Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::PlaySoundEvent>(audioName);
+			//auto& audio = Hi_Engine::ResourceHolder<Hi_Engine::AudioSource>::GetInstance().GetResource(audioName);
+
+			//Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::PlaySoundEvent>(audio);
 		}
 	}
 }

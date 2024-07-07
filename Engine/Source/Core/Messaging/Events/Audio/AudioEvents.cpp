@@ -14,15 +14,16 @@ namespace Hi_Engine
 		listener.HandleEvent(*this);
 	}
 	
-	void PlaySoundEvent::Init(const std::string& sound)
+	//void PlaySoundEvent::Init(const std::string& sound)
+	void PlaySoundEvent::Init(AudioSource* source)
 	{
-		m_soundName = sound;
+		m_source = source;
 	}
 
-	const std::string PlaySoundEvent::GetSoundName() const
-	{
-		return m_soundName;
-	}
+	//const std::string PlaySoundEvent::GetSoundName() const
+	//{
+	//	return m_soundName;
+	//}
 
 
 	StopSoundEvent::StopSoundEvent()
@@ -34,8 +35,13 @@ namespace Hi_Engine
 	{
 		listener.HandleEvent(*this);
 	}
+
+	void StopSoundEvent::Init(AudioSource* source)
+	{
+		m_source = source;
+	}
 	
-	void StopSoundEvent::Init(const std::string& sound)
+	/*void StopSoundEvent::Init(const std::string& sound)
 	{
 		m_soundName = sound;
 	}
@@ -43,7 +49,7 @@ namespace Hi_Engine
 	const std::string StopSoundEvent::GetSoundName() const
 	{
 		return m_soundName;
-	}
+	}*/
 
 
 	SetVolumeEvent::SetVolumeEvent()

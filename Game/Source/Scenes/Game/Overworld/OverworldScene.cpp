@@ -31,7 +31,9 @@ void OverworldScene::Draw() const
 
 void OverworldScene::OnEnter()
 {
-	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::PlaySoundEvent>("ocean_ambience");
+	auto* audio = &Hi_Engine::ResourceHolder<Hi_Engine::AudioSource>::GetInstance().GetResource("ocean_ambience");
+	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::PlaySoundEvent>(audio);
+	//Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::PlaySoundEvent>("ocean_ambience");
 
 	auto& entityManager = m_ecs.GetEntityManager();
 
@@ -58,5 +60,8 @@ void OverworldScene::OnEnter()
 
 void OverworldScene::OnExit()
 {
-	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::StopSoundEvent>("ocean_ambience");
+	auto* audio = &Hi_Engine::ResourceHolder<Hi_Engine::AudioSource>::GetInstance().GetResource("ocean_ambience");
+
+	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::StopSoundEvent>(audio);
+	//Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::StopSoundEvent>("ocean_ambience");
 }

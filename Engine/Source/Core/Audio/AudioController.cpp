@@ -2,7 +2,7 @@
 #include "AudioController.h"
 #include "AudioSource.h"
 #include "Audio.h"
-#include "Resources/ResourceHolder.hpp"
+#include "Resources/ResourceHolder.h"
 #include "../Messaging/Events/Audio/AudioEvents.h"
 #include <irrKlang.h>
 
@@ -24,18 +24,11 @@ namespace Hi_Engine
 		m_soundEngine = irrklang::createIrrKlangDevice();
 		if (!m_soundEngine)
 		{
-			std::cout << "Failed to boot up ISoundEngine!\n";
+			std::cerr << "Failed to boot up ISoundEngine!\n";
 			return false;
 		}
 
 		return true;
-
-		//m_activeSounds.insert(std::make_pair(1, m_soundEngine->play2D("../Game/Assets/Sound/test.mp3", true)));
-		//auto* sound = m_soundEngine->addSoundSourceFromFile("	../Game/Assets/Sound/test.mp3");
-		//m_soundEngine->play2D(sound);
-
-		//auto* sound = m_soundEngine->addSoundSourceFromFile("../Game/Assets/Sound/bloodpixelhero_adventure-theme-5.wav");
-		//m_soundEngine->play2D(sound);
 	}
 
 	void AudioController::Shutdown()
@@ -53,12 +46,20 @@ namespace Hi_Engine
 
 	void AudioController::HandleEvent(PlaySoundEvent& event)
 	{
-		PlaySound(event.GetSoundName());
+		if (auto* source = event.GetSource())
+		{
+			PlaySound(*source);
+		}
+
+		//PlaySound(event.GetAudio());
 	}
 
 	void AudioController::HandleEvent(StopSoundEvent& event)
 	{
-		StopSound(event.GetSoundName());
+		if (auto* source = event.GetSource())
+		{
+			StopSound(*source);
+		}
 	}
 
 	void AudioController::HandleEvent(SetVolumeEvent& event)
@@ -66,7 +67,7 @@ namespace Hi_Engine
 		m_soundEngine->setSoundVolume(event.GetVolume());
 	}
 
-	void AudioController::PlaySound(const std::string& name)
+	/*void AudioController::PlaySound(const std::string& name)
 	{
 		auto& sound = ResourceHolder<AudioSource>::GetInstance().GetResource(name);
 		m_soundEngine->play2D(sound.m_source, sound.m_isLooping);
@@ -76,29 +77,41 @@ namespace Hi_Engine
 	{
 		auto& sound = ResourceHolder<AudioSource>::GetInstance().GetResource(name);
 		m_soundEngine->stopAllSoundsOfSoundSource(sound.m_source);
-	}
+	}*/
 
-	void AudioController::PlaySound(Audio& audio)
+	void AudioController::PlaySound(AudioSource& source)
 	{
-		audio.Play(m_soundEngine); // DonT? Instead just get / set the data in audio?
+		//if (auto* audioSource = audio.GetSource())
+		if (auto* audioSource = source.m_source)
+		{
+			auto* sound = m_soundEngine->play2D(audioSource, false);
+			//auto* sound = m_soundEngine->play2D(audioSource, audio.IsLooping());
+			//audio.SetSound(sound);
+		}
+
+		//audio.Play(m_soundEngine); // DonT? Instead just get / set the data in audio?
 
 		// add to array of current sounds??
 	}
 
-	void AudioController::StopSound(Audio& audio)
-	{
-		audio.Stop();
-	}
-
-	void AudioController::PlaySound(const AudioSource& source)
-	{
-		m_soundEngine->play2D(source.m_source, source.m_isLooping);
-	}
-
-	void AudioController::StopSound(const AudioSource& source)
+	void AudioController::StopSound(AudioSource& source)
 	{
 		m_soundEngine->stopAllSoundsOfSoundSource(source.m_source);
+		// audio.m_sound->stop();
+		//audio.GetSound()->stop();
+
+		//audio.Stop();
 	}
+
+	//void AudioController::PlaySound(const AudioSource& source)
+	//{
+	//	m_soundEngine->play2D(source.m_source, source.m_isLooping);
+	//}
+
+	//void AudioController::StopSound(const AudioSource& source)
+	//{
+	//	m_soundEngine->stopAllSoundsOfSoundSource(source.m_source);
+	//}
 
 
 

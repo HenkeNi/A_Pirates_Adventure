@@ -3,18 +3,25 @@
 
 namespace Hi_Engine
 {
+	class AudioSource;
+
 	class PlaySoundEvent : public Event<PlaySoundEvent>
 	{
 	public:
 		PlaySoundEvent();
 
 		void Dispatch(EventListener& listener) override;
-		void Init(const std::string& sound);
+		void Init(AudioSource* source);
+		//void Init(const std::string& sound);
 	
-		const std::string GetSoundName() const;
+		inline const AudioSource* GetSource() const { return m_source; }
+		inline AudioSource* GetSource() { return m_source; }
+		//const std::string GetSoundName() const;
 		
 	private:
-		std::string m_soundName;
+		AudioSource* m_source;
+		bool m_isLooping;
+		//std::string m_soundName;
 	};
 
 
@@ -24,12 +31,18 @@ namespace Hi_Engine
 		StopSoundEvent();
 
 		void Dispatch(EventListener& listener) override;
-		void Init(const std::string& sound);
+		//void Init(const std::string& sound);
+		void Init(AudioSource* audio);
 		
-		const std::string GetSoundName() const;
+		inline const AudioSource* GetSource() const { return m_source; }
+		inline AudioSource* GetSource() { return m_source; }
+
+		//const std::string GetSoundName() const;
 
 	private:
-		std::string m_soundName;
+		AudioSource* m_source;
+
+		//std::string m_soundName;
 	};
 
 

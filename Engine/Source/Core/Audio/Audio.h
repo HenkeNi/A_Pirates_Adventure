@@ -3,12 +3,13 @@
 namespace irrklang
 {
 	class ISound;
-	class ISoundEngine;
+	//class ISoundEngine;
 }
 
 namespace Hi_Engine
 {
 	class AudioSource;
+	class AudioController;
 
 	class Audio
 	{
@@ -17,11 +18,17 @@ namespace Hi_Engine
 
 		void Init(AudioSource* source);
 
-		bool Play(irrklang::ISoundEngine* engine); // remove??
-		void Stop();
-		// const AudioSource& GetSource() const;
+		void SetVolume(float volume);
+		void SetIsLooping(bool isLooping);
+		void SetSound(irrklang::ISound* sound);
 
+		//inline AudioSource* GetSource() { return m_source; }
+		// inline irrklang::ISound* GetSound() { return m_sound; }
+		bool IsLooping() const;
+		
 	private:
+		friend class AudioController;
+
 		AudioSource*		m_source;
 		irrklang::ISound*	m_sound;
 	};

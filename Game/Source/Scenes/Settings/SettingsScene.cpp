@@ -31,12 +31,12 @@ void SettingsScene::Draw() const
 void SettingsScene::OnEnter()
 {
 	// TODO; read from json...?
-	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::PlaySoundEvent>("night_ambience");
+	//Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::PlaySoundEvent>("night_ambience");
 }
 
 void SettingsScene::OnExit()
 {
 	m_ecs.GetEntityManager().DestroyAll();
 
-	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::StopSoundEvent>("night_ambience");
+	//Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::StopSoundEvent>("night_ambience");
 }

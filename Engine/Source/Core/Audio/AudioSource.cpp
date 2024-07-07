@@ -12,27 +12,28 @@ namespace Hi_Engine
 
 	AudioSource::~AudioSource()
 	{
-		// m_source->
 	}
 
 	void AudioSource::Init(const rapidjson::Value& value)
 	{
-		std::string name = value["name"].GetString();
+		m_name = value["name"].GetString();
+		m_isLooping = value["is_looping"].GetBool();
+		
 		std::string path = value["filepath"].GetString();
-		bool isLooping = value["is_looping"].GetBool();
 
-		SetSource(path);
-		m_isLooping = isLooping;
-		m_name = name;
+		auto* engine = AudioController::GetEngine();
+
+		m_source = engine->addSoundSourceFromFile(path.c_str());
+		if (!m_source)
+		{
+			std::cerr << "ERROR: loading audio " << m_name << "\n";
+			return;
+		}
 	}
 
-	void AudioSource::SetSource(const std::string& path)
+	void AudioSource::SetSource(irrklang::ISoundSource* source)
 	{
-		auto* engine = AudioController::GetEngine();
-		m_source = engine->addSoundSourceFromFile(path.c_str());
-
-		if (!m_source)
-			std::cout << "ERROR loading audio";
+		m_source = source;
 	}
 
 	void AudioSource::SetIsLooping(bool isLooping)
