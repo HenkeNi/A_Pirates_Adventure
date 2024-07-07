@@ -35,6 +35,11 @@ void MovementSystem::Update(float deltaTime)
 		auto* velocityComponent = entity->GetComponent<VelocityComponent>();
 
 		transformComponent->PreviousPos = transformComponent->CurrentPos;
+
+		auto& velocity = velocityComponent->Velocity;
+		if (!Hi_Engine::Math::IsNearlyEqual(velocity.x, 0.f) && !Hi_Engine::Math::IsNearlyEqual(velocity.y, 0.f))
+			velocityComponent->Velocity.Normalize();
+
 		transformComponent->CurrentPos += velocityComponent->Speed * velocityComponent->Velocity * deltaTime;
 
 		if (!velocityComponent->IsVelocityConstant)
