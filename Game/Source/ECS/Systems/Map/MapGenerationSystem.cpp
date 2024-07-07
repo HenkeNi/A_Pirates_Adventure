@@ -7,7 +7,7 @@
 #include "Components/AI/AIComponents.h"
 #include "Components/Core/CoreComponents.h"
 #include "Components/Map/MapComponents.h"
-#include <FastNoiseLite.h>
+// #include <FastNoiseLite.h>
 
 
 
@@ -154,8 +154,17 @@ MapGenerationSystem::MapGenerationSystem()
 {
 	PostMaster::GetInstance().Subscribe(eMessage::GameStarted, this); // NewGameCreated instead?
 
+
+	//Hi_Engine::NoiseGenerator::SetFrequency(0.01f);
 	Hi_Engine::NoiseGenerator::SetFrequency(0.06f);
 	Hi_Engine::NoiseGenerator::SetNoiseType(3);
+
+#ifdef DEBUG
+
+	SetupMapEditor();
+
+#endif // DEBUG
+
 }
 
 MapGenerationSystem::~MapGenerationSystem()
@@ -167,11 +176,12 @@ void MapGenerationSystem::Receive(Message& message)
 {
 	// Generate x amount of areas...
 
-	for (int y = 0; y < 3; ++y)
+	//for (int y = 0; y < 3; ++y)
 	{
-		for (int x = 0; x < 3; ++x)
+	//	for (int x = 0; x < 3; ++x)
 		{
-			GenerateMapChunk(x, y);
+			GenerateMapChunk(0, 0);
+			//GenerateMapChunk(x, y);
 		}
 	}
 }
@@ -222,13 +232,6 @@ void MapGenerationSystem::Update(float deltaTime)
 
 void MapGenerationSystem::GenerateMapChunk(int xCoord, int yCoord)
 {
-	// MOVE ELSEWHERE? static in a function (GetNoise)? put class in Engine??
-	//static FastNoiseLite fastNoise;
-	//fastNoise.SetNoiseType(FastNoiseLite::NoiseType_Perlin);
-	//fastNoise.SetFrequency(0.06f);
-
-	// Generate numbers first??
-
 	auto* entity = m_entityManager->Create("map_chunk");
 
 	auto* mapChunkComponent = entity->GetComponent<MapChunkComponent>();
@@ -245,14 +248,19 @@ void MapGenerationSystem::GenerateMapChunk(int xCoord, int yCoord)
 		int x, y;
 		MapUtils::GetCoordinates(i, Constants::MapChunkLength, x, y);
 
-		float noise = Hi_Engine::NoiseGenerator::GetNoise((float)currentPosition.x + ((float)x / 10), (float)currentPosition.y + (float(y)) / 10);
-		//float noise = fastNoise.GetNoise((float)currentPosition.x + ((float)x / 10), (float)currentPosition.y + (float(y)) / 10);
-		std::cout << noise << "\n";
+		float noiseX = ((float)currentPosition.x / Tile::Size) + (float)x;
+		float noiseY = ((float)currentPosition.y / Tile::Size) + (float)y;
+
+		float noise = Hi_Engine::NoiseGenerator::GetNoise(noiseX, noiseY);
 
 		Tile& tile = mapChunkComponent->Tiles[i];
 		tile.Coordinates = { (unsigned)x, (unsigned)y };
 		tile.IsTraversable = false; // FIX!
 		tile.Type = GetTileType(noise);
+
+		// tile.Color = { 1.f, noise, 1.f, 1.f };
+
+		// float roundedValue = std::round(noise * 100.f) / 100.f;
 	}
 
 	ApplyTextures(entity);
@@ -327,4 +335,20 @@ void MapGenerationSystem::ApplyTextures(Entity* entity) // Rename; texture map c
 	
 		mapChunkComponent->Bounds.Init({ currentPosition.x, currentPosition.y }, { currentPosition.x + (10 * Tile::Size), currentPosition.y + (10 * Tile::Size) });
 	}
+}
+
+void MapGenerationSystem::SetupMapEditor()
+{
+	Hi_Engine::ImGuiWindow imGuiWindow;
+	imGuiWindow.Title = "Perlin Noise";
+	imGuiWindow.Size = { 200.f, 200.f };
+	imGuiWindow.Position = { 1400.f - imGuiWindow.Size.x, 200.f };
+	imGuiWindow.Buttons.emplace_back([&]() { m_entityManager->DestroySelected<MapChunkComponent>(); }, "Clear Map");
+
+	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::CreateImGuiWindowRequest>(imGuiWindow);
+}
+
+void MapGenerationSystem::RegenerateMap()
+{
+
 }

@@ -17,7 +17,9 @@ private:
 
 	// ApplyTileSettings?
 	void ApplyTextures(class Entity* entity); // RetileMapChunk - do in separate system?	TextureMappingSystem? -> creates holes. etc when digging?!
+	void SetupMapEditor();
 
+	void RegenerateMap();
 
 	// Maybe?
 };
