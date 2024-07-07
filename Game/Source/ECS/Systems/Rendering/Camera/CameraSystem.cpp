@@ -89,17 +89,22 @@ void CameraSystem::Update(float deltaTime)
 
 
 
-	// TODO: update frustum 
-	float halfWidth = 700.f; // 1400.f * 0.5f;
-	float halfHeight = 400.f; //  800.f * 0.5f;
+	// Update frustum 	
+	auto window = Hi_Engine::ServiceLocator::GetWindow();
+	if (auto win = window.lock())
+	{
+		const auto& winSize = win->GetSize();
 
-	float minX = transformComponent->CurrentPos.x - halfWidth;
-	float maxX = transformComponent->CurrentPos.x + halfWidth;
-	
-	float minY = transformComponent->CurrentPos.y - halfHeight;
-	float maxY = transformComponent->CurrentPos.y + halfHeight;
+		const auto& currentPos = transformComponent->CurrentPos;
 
-	cameraComponent->Frustum.Init({ minX,  minY }, { maxX, maxY });
+		float minX = currentPos.x;
+		float minY = currentPos.y;
+
+		float maxX = minX + winSize.x;
+		float maxY = minY + winSize.y;
+		
+		cameraComponent->Frustum.Init({ minX,  minY }, { maxX, maxY });
+	}
 }
 
 bool CameraSystem::IsInView(Entity* camera, const Hi_Engine::Physics::AABB2D<float>& bounds)
