@@ -16,4 +16,5 @@ public:
 private:
 	void SetupHUDElements(); // maybe should be done dynamically (at runtime) rather than at game start?
 	void UpdateHealthDisplay(Entity* entity);
+	void UpdateInventoryBar();
 };

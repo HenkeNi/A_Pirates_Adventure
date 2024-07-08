@@ -432,7 +432,7 @@ void CollisionSystem::AlignCollider(Entity* entity)
 		// TODO: include offset
 		
 		auto& collider = colliderComponent->Collider;
-		const auto position = transformComponent->CurrentPos;
+		const auto& position = transformComponent->CurrentPos;
 
 		float halfWidth = collider.GetWidth() * 0.5f;
 		float halfHeight = collider.GetHeight() * 0.5f;

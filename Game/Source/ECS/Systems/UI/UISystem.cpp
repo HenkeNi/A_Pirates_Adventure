@@ -22,6 +22,9 @@ void UISystem::Receive(Message& message)
 
 	if (auto* entity = std::any_cast<Entity*>(message.GetData()))
 	{
+		if (!entity->HasComponent<HUDComponent>() && !entity->HasComponent<UIComponent>())
+			return;
+
 		if (auto* colliderComponent = entity->GetComponent<ColliderComponent>())
 		{
 

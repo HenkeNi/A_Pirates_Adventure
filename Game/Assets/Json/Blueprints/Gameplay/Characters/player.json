@@ -151,7 +151,7 @@
       "type": "collider",
       "properties": {
         "type": "dynamic",
-        "size": [ 0.25, 0.25 ]
+        "size": [ 25.0, 25.0 ]
       }
     },
     {

@@ -28,7 +28,7 @@
         "type": "collider",
         "properties": {
           "type": "dynamic",
-          "size": [ 0.5, 0.5 ]
+          "size": [ 25.0, 25.0 ]
         }
       },
       {

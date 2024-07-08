@@ -302,16 +302,14 @@ public:
 	template <>
 	static void InitializeComponent<ColliderComponent>(ColliderComponent* component, const ComponentData& data)
 	{
-		FVector2 position = { 0.f, 0.f };
-
 		auto size = std::any_cast<std::vector<std::any>>(data.at("size"));
+		float width = std::any_cast<float>(size[0]);
+		float height = std::any_cast<float>(size[1]);
 
-		//auto halfSize = std::any_cast<float>(someData.at("half_size"));
-		// float halfSize = 0.5f;
-		float xSize = std::any_cast<float>(size[0]);
-		float ySize = std::any_cast<float>(size[1]);
+		float halfWidth = width * 0.5f;
+		float halfHeight = height * 0.5f;
 
-		component->Collider.Init({ position.x - xSize, position.y - ySize }, { position.x + xSize, position.y + ySize });
+		component->Collider.Init({ -halfWidth, -halfHeight }, { halfWidth, halfHeight });
 
 		std::string type = std::any_cast<std::string>(data.at("type"));
 		if (type == "trigger")

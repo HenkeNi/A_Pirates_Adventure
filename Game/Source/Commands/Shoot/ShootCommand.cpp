@@ -21,7 +21,7 @@ void ShootCommand::Execute(Entity* entity)
 	auto* inputComponent = entity->GetComponent<InputComponent>();
 
 	// TODO; convert mouse to inworld position => store mouse pls in woorld coord on player?
-	//MousePosToWorldCoords(mousePosition.x, mousePosition.y, 1400, 800, );
+	// MousePosToWorldCoords(mousePosition.x, mousePosition.y, 1400, 800, );
 
 	auto mousePosition = inputComponent->MouseWorldPosition;
 
@@ -29,7 +29,7 @@ void ShootCommand::Execute(Entity* entity)
 	data.Position = transformComponent->CurrentPos; // include offset?
 	data.Directin = { (float)mousePosition.x - data.Position.x, (float)mousePosition.y - data.Position.y };
 	data.Directin.Normalize();
-	data.Speed = 4.f;
+	data.Speed = 400.f; // todo, send actual projectile data?
 
 	PostMaster::GetInstance().SendMessage({ eMessage::EntityFired, data });
 }

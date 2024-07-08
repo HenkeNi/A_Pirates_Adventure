@@ -52,5 +52,40 @@
         "properties": {}
       }
     ]
+  },
+  {
+    "id": "inventory_bar",
+    "components": [
+      {
+        "type": "transform",
+        "properties": {
+          "position": [ 0.5, 0.0 ],
+          "scale": [ 500.0, 75.0 ],
+          "pivot": [ 0.0, 0.5 ],
+          "rotation": 0.0
+        }
+      },
+      {
+        "type": "sprite",
+        "properties": {
+          "texture": "inventory",
+          "coordinates": [ 0, 0 ],
+          "color": [ 1.0, 1.0, 1.0, 1.0 ]
+        }
+      },
+      {
+        "type": "ui",
+        "properties": {
+          "render_depth": 2
+        }
+      },
+      {
+        "type": "grid",
+        "properties": {
+          "dimensions": [ 1, 10 ],
+          "space_between_cells": 5.0
+        }
+      }
+    ]
   }
 ]

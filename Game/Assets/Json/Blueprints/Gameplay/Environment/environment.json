@@ -29,7 +29,7 @@
         "type": "collider",
         "properties": {
           "type": "static",
-          "size": [ 0.25, 0.25 ]
+          "size": [ 25.0, 25.0 ]
         }
       },
       {
@@ -84,7 +84,7 @@
         "type": "collider",
         "properties": {
           "type": "static",
-          "size": [ 0.25, 0.25 ]
+          "size": [ 25.0, 25.0 ]
         }
       },
       {
@@ -154,7 +154,7 @@
         "type": "collider",
         "properties": {
           "type": "static",
-          "size": [ 0.25, 0.25 ]
+          "size": [ 25.0, 25.0 ]
         }
       },
       {
@@ -220,7 +220,7 @@
         "type": "collider",
         "properties": {
           "type": "static",
-          "size": [ 0.25, 0.25 ]
+          "size": [ 25.0, 25.0 ]
         }
       }
     ]

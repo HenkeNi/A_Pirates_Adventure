@@ -77,6 +77,7 @@ void HUDSystem::SetupHUDElements()
 
 	auto* player = m_entityManager->FindFirst<PlayerControllerComponent>();
 	UpdateHealthDisplay(player);
+	UpdateInventoryBar();
 }
 
 void HUDSystem::UpdateHealthDisplay(Entity* entity)
@@ -106,4 +107,19 @@ void HUDSystem::UpdateHealthDisplay(Entity* entity)
 
 		transform->CurrentPos = { xOffset + (i * transform->Scale.x), yOffset };		
 	}
+}
+
+void HUDSystem::UpdateInventoryBar()
+{
+	auto* inventoryBar = m_entityManager->FindFirst<GridComponent>(); // Fix!
+
+	auto window = Hi_Engine::ServiceLocator::GetWindow();
+	if (auto win = window.lock())
+	{
+		//auto* transformComponent = inventoryBar->GetComponent<TransformComponent>();
+		//transformComponent->CurrentPos.x = 0.5f;
+		//transformComponent->CurrentPos.x = win->GetSize().x * 0.5f;
+		//transformComponent->CurrentPos.y = 50.f;
+	}
+
 }

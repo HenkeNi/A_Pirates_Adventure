@@ -13,7 +13,7 @@
         "type": "transform",
         "properties": {
           "position": [ 0.0, 0.0 ],
-          "scale": [ 64.0, 64.0 ],
+          "scale": [ 24.0, 24.0 ],
           "pivot": [ 0.0, 0.0 ],
           "rotation": 0.0
         }
@@ -30,7 +30,7 @@
         "type": "collider",
         "properties": {
           "type": "static",
-          "size": [ 0.25, 0.25 ]
+          "size": [ 25.0, 25.0 ]
         }
       },
       {
@@ -60,7 +60,7 @@
         "type": "transform",
         "properties": {
           "position": [ 0.0, 0.0 ],
-          "scale": [ 64.0, 64.0 ],
+          "scale": [ 24.0, 24.0 ],
           "pivot": [ 0.0, 0.0 ],
           "rotation": 0.0
         }
@@ -77,7 +77,7 @@
         "type": "collider",
         "properties": {
           "type": "static",
-          "size": [ 0.25, 0.25 ]
+          "size": [ 25.0, 25.0 ]
         }
       },
       {
@@ -107,7 +107,7 @@
         "type": "transform",
         "properties": {
           "position": [ 0.0, 0.0 ],
-          "scale": [ 64.0, 64.0 ],
+          "scale": [ 24.0, 24.0 ],
           "pivot": [ 0.0, 0.0 ],
           "rotation": 0.0
         }
@@ -124,7 +124,7 @@
         "type": "collider",
         "properties": {
           "type": "static",
-          "size": [ 0.25, 0.25 ]
+          "size": [ 25.0, 25.0 ]
         }
       },
       {
