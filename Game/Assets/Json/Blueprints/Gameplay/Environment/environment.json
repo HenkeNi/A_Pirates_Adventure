@@ -12,7 +12,7 @@
         "type": "transform",
         "properties": {
           "position": [ 0.0, 0.41 ],
-          "scale": [ 0.8, 0.8 ],
+          "scale": [ 64.0, 64.0 ],
           "pivot": [ 0.0, 0.0 ],
           "rotation": 0.0
         }
@@ -67,7 +67,7 @@
         "type": "transform",
         "properties": {
           "position": [ 0.0, 1.2 ],
-          "scale": [ 1.4, 2.4 ],
+          "scale": [ 64.0, 128.0 ],
           "pivot": [ 0.0, 0.5 ],
           "rotation": 0.0
         }
@@ -137,7 +137,7 @@
         "type": "transform",
         "properties": {
           "position": [ 0.0, 0.1 ],
-          "scale": [ 0.5, 0.5 ],
+          "scale": [ 64.0, 64.0 ],
           "pivot": [ 0.0, 0.0 ],
           "rotation": -20.0
         }
@@ -203,7 +203,7 @@
         "type": "transform",
         "properties": {
           "position": [ 0.0, 0.41 ],
-          "scale": [ 0.8, 0.8 ],
+          "scale": [ 64.0, 64.0 ],
           "pivot": [ 0.0, 0.0 ],
           "rotation": 0.0
         }
