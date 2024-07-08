@@ -83,20 +83,27 @@ void HUDSystem::UpdateHealthDisplay(Entity* entity)
 {
 	auto* healthComponent = entity->GetComponent<HealthComponent>(); // OR stats component (check health)
 
+	if (!healthComponent)
+		return;
+
 	// TODO; Get entities with Hudcomponent (that are hearts), set if should be rendered based on players health...
 
-	float heartScale = 0.5f; // FIX!
-	float windSize = 800.f;
+	IVector2 windowSize{ 1400, 800 };
 
-
+	auto window = Hi_Engine::ServiceLocator::GetWindow();
+	if (auto win = window.lock())
+	{
+		windowSize = win->GetSize();
+	}
 
 	for (int i = 0; i < healthComponent->CurrentValue; ++i)
 	{
 		auto* heart = m_entityManager->Create("heart_container");
 
 		auto* transform = heart->GetComponent<TransformComponent>();
-		transform->CurrentPos = { -4.f + heartScale * i, 2.f }; // TODO; FIX! probably generates them backwards...
-		//transform->CurrentPos = { -2.f + -1.f * heartScale * i, 2.f }; // TODO; FIX! probably generates them backwards...
-	}
+		float xOffset = transform->Scale.x;
+		float yOffset = windowSize.y - transform->Scale.y;
 
+		transform->CurrentPos = { xOffset + (i * transform->Scale.x), yOffset };		
+	}
 }
