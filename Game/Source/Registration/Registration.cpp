@@ -162,7 +162,12 @@ namespace Registration
 		systemManager.Register<AudioSystem>();
 
 		/* - Render Systems - */
+#ifdef DEBUG
+
 		systemManager.Register<DebugRenderSystem>();
+
+#endif // DEBUG
+
 		systemManager.Register<TextRenderSystem>();
 		systemManager.Register<UIRenderSystem>();
 		systemManager.Register<SpriteRenderSystem>();
