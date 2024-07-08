@@ -102,8 +102,8 @@ namespace Hi_Engine
 		/* Set Texture Wrap and Filter Modes */
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, format != GL_RGB ? GL_CLAMP_TO_EDGE : GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, format != GL_RGB ? GL_CLAMP_TO_EDGE : GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 		/* Unbind Texture */
 		glBindTexture(GL_TEXTURE_2D, 0);
