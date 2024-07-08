@@ -45,8 +45,8 @@ void SpawnSystem::Spawn(Entity* spawner)
 		{
 			auto* entity = m_entityManager->Create(spawnComponent->Spawned);
 
-			float xOffset = Hi_Engine::GenerateRandomFloatingPoint(-0.5f, 0.5f);
-			float yOffset = Hi_Engine::GenerateRandomFloatingPoint(-0.5f, 0.5f);
+			float xOffset = Hi_Engine::GenerateRandomFloatingPoint(-30.f, 30.f);
+			float yOffset = Hi_Engine::GenerateRandomFloatingPoint(-30.f, 30.f);
 
 			transformComponent = entity->GetComponent<TransformComponent>();
 			transformComponent->CurrentPos = { position.x + xOffset, position.y + yOffset };
