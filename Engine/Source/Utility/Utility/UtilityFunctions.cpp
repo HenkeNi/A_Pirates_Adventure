@@ -63,4 +63,22 @@ namespace Hi_Engine
 
 		return nullptr;
 	}
+
+	bool IsBuildDebug()
+	{
+#ifdef DEBUG
+
+		return true;
+
+#endif // DEBUG
+
+#ifdef NDEBUG
+
+		return false;
+
+#endif // NDEBUG
+
+		return false;
+	}
+
 }

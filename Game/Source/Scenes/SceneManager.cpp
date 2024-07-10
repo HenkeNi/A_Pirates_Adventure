@@ -150,7 +150,18 @@ void SceneManager::LoadScene(eScene type)
 
 	for (const auto& system : document["systems"].GetArray())
 	{
-		systemManager.Create(system.GetString());
+		bool isAvailable = false;
+
+		if (Hi_Engine::IsBuildDebug())
+		{
+			if (system["debug"].GetBool())
+				systemManager.Create(system["type"].GetString());
+		}
+		else
+		{
+			if (system["release"].GetBool())
+				systemManager.Create(system["type"].GetString());
+		}
 	}
 
 	systemManager.Init(&entityManager); // FIX!

@@ -86,11 +86,35 @@
     }
   ],
   "systems": [
-    "CameraSystem",
-    "TextRenderSystem",
-    "SpriteRenderSystem",
-    "UISystem",
-    "UIRenderSystem",
-    "SceneTransitionSystem"
+    {
+      "type": "CameraSystem",
+      "debug": true,
+      "release": true
+    },
+    {
+      "type": "TextRenderSystem",
+      "debug": true,
+      "release": true
+    },
+    {
+      "type": "SpriteRenderSystem",
+      "debug": true,
+      "release": true
+    },
+    {
+      "type": "UISystem",
+      "debug": true,
+      "release": true
+    },
+    {
+      "type": "UIRenderSystem",
+      "debug": true,
+      "release": true
+    },
+    {
+      "type": "SceneTransitionSystem",
+      "debug": true,
+      "release": true
+    }
   ]
 }

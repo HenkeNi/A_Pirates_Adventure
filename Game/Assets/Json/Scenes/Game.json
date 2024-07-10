@@ -25,41 +25,145 @@
     }
   ],
   "systems": [
-    "InputSystem",
-    "MovementSystem",
-    "CameraSystem",
-    "CollisionSystem",
-    "PlayerControllerSystem",
-
-    "CombatSystem",
-    "EquipmentSystem",
-    "InventorySystem",
-    "ShakeSystem",
-    "TimeSystem",
-    "SpawnSystem",
-    "StatSystem",
-    
-    "SpriteAnimationSystem",
-    
-    "MapGenerationSystem",
-    "MapDecorationSystem",
-    
-    "UISystem",
-    "HUDSystem",
-    
-    "BlackboardSystem",
-    "BehaviorTreeSystem",
-    "SteeringBehaviorSystem",
-    "StateTransitionSystem",
-    
-    "AudioSystem",
-    
-    "DebugRenderSystem",
-    "TextRenderSystem",
-    "UIRenderSystem",
-    "SpriteRenderSystem",
-    "MapRenderSystem",
-    
-    "SceneTransitionSystem"
+    {
+      "type": "InputSystem",
+      "debug": true,
+      "release": true
+    },
+    {
+      "type": "MovementSystem",
+      "debug": true,
+      "release": true
+    },
+    {
+      "type": "CameraSystem",
+      "debug": true,
+      "release": true
+    },
+    {
+      "type": "CollisionSystem",
+      "debug": true,
+      "release": true
+    },
+    {
+      "type": "PlayerControllerSystem",
+      "debug": true,
+      "release": true
+    },
+    {
+      "type": "CombatSystem",
+      "debug": true,
+      "release": true
+    },
+    {
+      "type": "EquipmentSystem",
+      "debug": true,
+      "release": true
+    },
+    {
+      "type": "InventorySystem",
+      "debug": true,
+      "release": true
+    },
+    {
+      "type": "ShakeSystem",
+      "debug": true,
+      "release": true
+    },
+    {
+      "type": "TimeSystem",
+      "debug": true,
+      "release": true
+    },
+    {
+      "type": "SpawnSystem",
+      "debug": true,
+      "release": true
+    },
+    {
+      "type": "StatSystem",
+      "debug": true,
+      "release": true
+    },
+    {
+      "type": "SpriteAnimationSystem",
+      "debug": true,
+      "release": true
+    },
+    {
+      "type": "MapGenerationSystem",
+      "debug": true,
+      "release": true
+    },
+    {
+      "type": "MapDecorationSystem",
+      "debug": true,
+      "release": true
+    },
+    {
+      "type": "UISystem",
+      "debug": true,
+      "release": true
+    },
+    {
+      "type": "HUDSystem",
+      "debug": true,
+      "release": true
+    },
+    {
+      "type": "BlackboardSystem",
+      "debug": true,
+      "release": true
+    },
+    {
+      "type": "BehaviorTreeSystem",
+      "debug": true,
+      "release": true
+    },
+    {
+      "type": "SteeringBehaviorSystem",
+      "debug": true,
+      "release": true
+    },
+    {
+      "type": "StateTransitionSystem",
+      "debug": true,
+      "release": true
+    },
+    {
+      "type": "AudioSystem",
+      "debug": true,
+      "release": true
+    },
+    {
+      "type": "DebugRenderSystem",
+      "debug": true,
+      "release": false
+    },
+    {
+      "type": "TextRenderSystem",
+      "debug": true,
+      "release": true
+    },
+    {
+      "type": "UIRenderSystem",
+      "debug": true,
+      "release": true
+    },
+    {
+      "type": "SpriteRenderSystem",
+      "debug": true,
+      "release": true
+    },
+    {
+      "type": "MapRenderSystem",
+      "debug": true,
+      "release": true
+    },
+    {
+      "type": "SceneTransitionSystem",
+      "debug": true,
+      "release": true
+    }
   ]
 }
