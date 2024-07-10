@@ -74,8 +74,7 @@
         {
           "type": "scene_transition",
           "properties": {
-            "scene": "menu",
-            "should_remove": true
+            "scene": "game"
           }
         }
       ]
@@ -103,8 +102,7 @@
         {
           "type": "scene_transition",
           "properties": {
-            "scene": "settings",
-            "should_remove": false
+            "scene": "settings"
           }
         }
       ]

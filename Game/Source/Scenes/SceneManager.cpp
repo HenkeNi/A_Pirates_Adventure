@@ -9,143 +9,57 @@
 #include "Systems/SystemManager.h"
 #include "../DataTypes/Enumerations.h"
 
+static std::unordered_map<eScene, std::string> scenePaths
+{
+	{ eScene::Inventory,	"../Game/Assets/Json/Scenes/Inventory.json"	},
+	{ eScene::Settings,		"../Game/Assets/Json/Scenes/Settings.json"	},
+	{ eScene::Menu,			"../Game/Assets/Json/Scenes/MainMenu.json"	},
+	{ eScene::Title,		"../Game/Assets/Json/Scenes/Title.json"		},
+	{ eScene::Game,			"../Game/Assets/Json/Scenes/Game.json"		}
+};
 
 SceneManager::SceneManager()
 {
 	PostMaster::GetInstance().Subscribe(eMessage::TransitionToScene, this);
-	PostMaster::GetInstance().Subscribe(eMessage::RemoveScene, this);
 }
 
 SceneManager::~SceneManager()
 {
 	PostMaster::GetInstance().Unsubscribe(eMessage::TransitionToScene, this);
-	PostMaster::GetInstance().Unsubscribe(eMessage::RemoveScene, this);
-	Clear();
 }
 
 void SceneManager::Receive(Message& message)
 {
 	auto sceneType = std::any_cast<eScene>(message.GetData());
-	
+
 	if (!m_registeredScenes.contains(sceneType))
 		return;
 
-	
+	auto sceneItr = std::find_if(m_activeScenes.begin(), m_activeScenes.end(), 
+		[&](const eScene& scene) 
+		{ 
+			return scene == sceneType; 
+		});
 
-	eMessage messageType = message.GetMessageType();
-
-	if (messageType == eMessage::TransitionToScene)
+	if (sceneItr == m_activeScenes.end())
 	{
-		// Todo, only call exit if pop:ing?! (so no exit on game when adding pause..
-
-		Push(sceneType); 
+		Push(sceneType);
 	}
-
-	// ERROR occurs because two  SceneManagers!!
-	else if (messageType == eMessage::RemoveScene) // TODO, same event? contain data for type (pop, push, etc)?
+	else 
 	{
-		if (sceneType == m_stack.Top())
-		{
-			message.HandleMessage();
+		/* if not current scene */
+		if (*sceneItr != m_activeScenes.back())
 			Pop();
-		}
 	}
 }
 
 void SceneManager::Init(const std::initializer_list<eScene>& scenes)
 {
-	for (auto& scene : m_registeredScenes)
-		scene.second->OnCreated();
-
 	for (const auto scene : scenes)
-		m_stack.Push(scene);
-
-	m_paths.insert({ eScene::Inventory, "../Game/Assets/Json/Scenes/Inventory.json" });
-	m_paths.insert({ eScene::Settings, "../Game/Assets/Json/Scenes/Settings.json" });
-	m_paths.insert({ eScene::Menu, "../Game/Assets/Json/Scenes/MainMenu.json" });
-	m_paths.insert({ eScene::Title, "../Game/Assets/Json/Scenes/Title.json" });
-	m_paths.insert({ eScene::Game, "../Game/Assets/Json/Scenes/Game.json" });
+		m_activeScenes.push_back(scene);
 }
 
-
-//void SceneManager::Init(int aSceneSet)
-//{
-//	for (int i = 1; i < (int)eScene::Count; i <<= 1)
-//	{
-//		auto type = static_cast<eScene>(i);
-//
-//		//if (aSceneSet & (int)type)
-//		if ((aSceneSet & i) == i)
-//			m_sceneStack.Push(type);
-//	}
-//
-//	//m_sceneStack.Push(eScene::Title);
-//
-//	LoadScenes();
-//	m_registeredScenes[m_sceneStack.Top()]->OnEnter();
-//}
-
-std::weak_ptr<Scene> SceneManager::GetActiveScene()
-{
-	if (!m_stack.IsEmpty()) // OR Return menu scene??
-		return m_registeredScenes[m_stack.Top()];
-
-	return std::weak_ptr<Scene>();
-}
-
-std::weak_ptr<const Scene> SceneManager::GetActiveScene() const
-{
-	if (!m_stack.IsEmpty())
-		return m_registeredScenes.at(m_stack.Top());
-
-	return std::weak_ptr<Scene>();
-}
-
-
-
-void SceneManager::Push(eScene type)
-{
-	if (!m_stack.IsEmpty())
-	{
-		m_registeredScenes[m_stack.Top()]->OnExit();
-	}
-
-	m_stack.Push(type);
-	
-	TransitionToScene(m_stack.Top());
-	//m_registeredScenes[m_stack.Top()]->OnEnter();
-}
-
-void SceneManager::Pop()
-{
-	if (!m_stack.IsEmpty())
-	{
-		m_registeredScenes[m_stack.Top()]->OnExit();
-		m_stack.Pop();
-
-		if (m_stack.IsEmpty())
-			int x = 10;
-
-		TransitionToScene(m_stack.Top());
-		//m_registeredScenes[m_stack.Top()]->OnEnter();
-	}
-}
-
-void SceneManager::SwapTo(eScene type)
-{
-	if (!m_stack.IsEmpty())
-	{
-		m_registeredScenes[m_stack.Top()]->OnExit();
-		m_stack.Pop();
-	}
-
-	m_stack.Push(type);
-	
-	TransitionToScene(type);
-	//m_registeredScenes[m_stack.Top()]->OnEnter();
-}
-
-void SceneManager::Clear()
+void SceneManager::Shutdown()
 {
 	for (auto& [type, scene] : m_registeredScenes)
 	{
@@ -153,86 +67,93 @@ void SceneManager::Clear()
 			scene->OnDestroyed();
 	}
 
-	m_stack.Clear();
+	m_activeScenes.clear();
+}
+
+std::weak_ptr<const Scene> SceneManager::GetActiveScene() const
+{
+	if (!m_activeScenes.empty())
+		return m_registeredScenes.at(m_activeScenes.back());
+
+	return std::weak_ptr<Scene>();
+}
+
+std::weak_ptr<Scene> SceneManager::GetActiveScene()
+{
+	if (!m_activeScenes.empty())
+		return m_registeredScenes.at(m_activeScenes.back());
+
+	return std::weak_ptr<Scene>();
 }
 
 void SceneManager::TransitionToScene(eScene type)
 {
-	//m_stack.Push(type);
-	//m_registeredScenes[type]->OnEnter();
-
-
-
-	if (m_paths.contains(type))
+	if (scenePaths.contains(type))
 	{
-		LoadScene(m_paths[type]);
+		LoadScene(type);
 	}
 
 	m_registeredScenes[type]->OnEnter();
 }
 
-//void SceneManager::Update(float aDeltaTime)
-//{
-//	if (!IsEmpty()) 
-//	{  
-//		m_registeredScenes[m_sceneStack.Top()]->Update(aDeltaTime);
-//	}
-//}
-//
-//void SceneManager::LateUpdate(float aDeltaTime)
-//{
-//	if (!IsEmpty()) 
-//	{
-//		m_registeredScenes[m_sceneStack.Top()]->LateUpdate(aDeltaTime);
-//	}
-//}
-
-//void SceneManager::Draw() const
-//{
-//	if (!IsEmpty()) 
-//	{ 
-//		const auto iterator = m_registeredScenes.find(m_sceneStack.Top());
-//		if (iterator != m_registeredScenes.end())
-//		{
-//			// TODO;
-//			// Always render the game scene if the scene is transparent?? or render all scenes in the stack...
-//			if (iterator->second->IsTransparent() && m_sceneStack.Top() != eScene::Game)
-//			{
-//				auto gameSceneItr = m_registeredScenes.find(eScene::Game);
-//				if (gameSceneItr != m_registeredScenes.end())
-//				{
-//					gameSceneItr->second->Draw();
-//				}
-//			}
-//
-//			iterator->second->Draw();
-//		}
-//	}
-//}
-
-
-void SceneManager::LoadScene(const std::string& aPath) 
+void SceneManager::Push(eScene type)
 {
-	// TODO; Load entities in EntityManager, or EntityFactory?
-	auto activeScene = GetActiveScene().lock(); // take as weak pointer?
+	if (!m_activeScenes.empty())
+	{
+		m_registeredScenes[m_activeScenes.back()]->OnExit();
+	}
+
+	m_activeScenes.push_back(type);
+	TransitionToScene(m_activeScenes.back());	
+}
+
+void SceneManager::Pop()
+{
+	if (!m_activeScenes.empty()) 
+	{
+		m_registeredScenes[m_activeScenes.back()]->OnExit();
+		m_activeScenes.pop_back();
+
+		TransitionToScene(m_activeScenes.back());
+	}
+}
+
+void SceneManager::SwapTo(eScene type)
+{
+	if (!m_activeScenes.empty())
+	{
+		m_registeredScenes[m_activeScenes.back()]->OnExit();
+		m_activeScenes.pop_back();
+	}
+
+	m_activeScenes.push_back(type);
 	
-	// Move some of this stuff to ECS???
+	TransitionToScene(type);
+}
+
+void SceneManager::LoadScene(eScene type)
+{
+	auto activeScene = GetActiveScene().lock();
+	if (!activeScene)
+		return;
+
+	// TODO; Move some of this stuff to ECS???
 	auto& entityManager = activeScene->m_ecs.GetEntityManager();
 	auto& entityFactory = activeScene->m_ecs.GetEntityFactory();
 	auto& systemManager = activeScene->m_ecs.GetSystemManager();
 	
-	//systemManager.Clear(); // ??
+	systemManager.Clear();
 	// entityManager.DestroyAll(); 
 
-	auto document = Hi_Engine::ParseDocument(aPath);
+	const auto& path = scenePaths.at(type);
+	auto document = Hi_Engine::ParseDocument(path);
 
 	for (const auto& system : document["systems"].GetArray())
 	{
 		systemManager.Create(system.GetString());
-		//systemManager.Init(&entityManager);
 	}
 
-	systemManager.Init(&entityManager); // FIX!!!
+	systemManager.Init(&entityManager); // FIX!
 
 	for (const auto& jsonEntity : document["entities"].GetArray())
 	{
@@ -257,15 +178,4 @@ void SceneManager::LoadScene(const std::string& aPath)
 		// Send event spawned? Change to initailzied?
 		PostMaster::GetInstance().SendMessage({ eMessage::EntitySpawned, entity });
 	}
-
-
-
-
-	//std::vector<std::string> systems;
-	//for (const auto& system : document["systems"].GetArray())
-	//{
-	//	systems.push_back(system.GetString());
-	//}
-	//
-	//activeScene->m_ecs.RegisterSystems(systems);
 }

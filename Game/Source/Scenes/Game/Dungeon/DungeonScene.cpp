@@ -15,7 +15,6 @@ DungeonScene::~DungeonScene()
 
 void DungeonScene::Update(float deltaTime)
 {
-	std::cout << "Updating dungeon\n";
 }
 
 void DungeonScene::LateUpdate(float deltaTime)
@@ -24,7 +23,6 @@ void DungeonScene::LateUpdate(float deltaTime)
 
 void DungeonScene::Draw() const
 {
-	// m_map.Draw();
 }
 
 void DungeonScene::OnEnter()

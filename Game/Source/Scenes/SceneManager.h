@@ -1,12 +1,10 @@
 #pragma once
 #include "PostMaster/Subscriber.h"
-#include <../Source/Utility/DataStructures/Linear/Dynamic/Stack/Stack.hpp>
-
+#include "Scene.h"
 
 enum class eScene;
 class Scene;
 
-// REMOVE namespace?
 namespace Utility
 {
 	using Scenes = std::unordered_map<eScene, std::shared_ptr<Scene>>;
@@ -23,25 +21,21 @@ public:
 	template <typename T, typename... Args>
 	void Register(eScene type, Args&&... args);
 	void Init(const std::initializer_list<eScene>& scenes);
+	void Shutdown();
 
-	std::weak_ptr<Scene> GetActiveScene();
 	std::weak_ptr<const Scene> GetActiveScene() const;
+	std::weak_ptr<Scene> GetActiveScene();
 
+	void TransitionToScene(eScene type);
 	void Push(eScene type);
 	void Pop();
 	void SwapTo(eScene type);
-	void Clear();
-
-	void TransitionToScene(eScene type);
 
 private:
-	void LoadScene(const std::string& aPath);
+	void LoadScene(eScene type);
 
-	Utility::Scenes				m_registeredScenes; // m_registeredScenes
-	Hi_Engine::Stack<eScene>	m_stack;
-	//std::vector<eScene> m_currentScenes;
-
-	std::unordered_map<eScene, std::string> m_paths; // Function in scene?
+	Utility::Scenes m_registeredScenes;
+	std::vector<eScene> m_activeScenes;
 };
 
 #pragma region Method_Definitions
@@ -50,6 +44,7 @@ template <typename T, typename... Args>
 void SceneManager::Register(eScene type, Args&&... args)
 {
 	m_registeredScenes.insert({ type, std::make_shared<T>(std::forward<Args>(args)...) });
+	m_registeredScenes[type]->OnCreated();
 }
 
 #pragma endregion Method_Definitions

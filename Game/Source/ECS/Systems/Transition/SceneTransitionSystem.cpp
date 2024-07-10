@@ -47,11 +47,11 @@ void SceneTransitionSystem::Update(float deltaTime)
 		auto* sceneTransitionComponent = entity->GetComponent<SceneTransitionComponent>();
 		if (sceneTransitionComponent->ShouldTransition)
 		{
-			if (sceneTransitionComponent->ShouldPush)
-				PostMaster::GetInstance().SendMessage({ eMessage::TransitionToScene, sceneTransitionComponent->SceneType });
+			PostMaster::GetInstance().SendMessage({ eMessage::TransitionToScene, sceneTransitionComponent->SceneType });
+			/*if (sceneTransitionComponent->ShouldPush)
 			else
 				PostMaster::GetInstance().SendMessage({ eMessage::RemoveScene, sceneTransitionComponent->SceneType });
-		
+			*/
 			break;
 		}
 	}

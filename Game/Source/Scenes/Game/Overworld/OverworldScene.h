@@ -14,6 +14,4 @@ public:
 
 	void OnEnter()							  override;
 	void OnExit()							  override;
-
-private:
 };

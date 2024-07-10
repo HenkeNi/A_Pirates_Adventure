@@ -56,7 +56,7 @@ void Game::OnCreate()
 
 void Game::OnDestroy()
 {
-	m_sceneManager.Clear();
+	m_sceneManager.Shutdown();
 	m_ecs.Shutdown();
 }
 

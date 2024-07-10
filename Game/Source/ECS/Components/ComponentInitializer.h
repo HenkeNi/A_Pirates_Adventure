@@ -703,10 +703,10 @@ public:
 
 		std::string scene = std::any_cast<std::string>(data.at("scene"));
 
-		component->ShouldPush = !std::any_cast<bool>(data.at("should_remove"));
+		//component->ShouldPush = !std::any_cast<bool>(data.at("should_remove"));
 		auto it = sceneTransitionsMapping.find(scene);
 
-		component->SceneType = (it != sceneTransitionsMapping.end()) ? it->second : eScene::Menu;
+		component->SceneType = it->second;
 	}
 
 	template <>

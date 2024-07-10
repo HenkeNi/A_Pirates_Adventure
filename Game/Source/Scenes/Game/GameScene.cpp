@@ -16,11 +16,6 @@ GameScene::~GameScene()
 {
 }
 
-//void GameScene::Register(MutableScene aScene, eScene aType)
-//{
-//	m_sceneManager.Register(std::move(aScene), aType);
-//}
-
 void GameScene::Update(float deltaTime)
 {
 	std::weak_ptr<Scene> activeScene = m_sceneManager.GetActiveScene();

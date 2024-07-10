@@ -53,7 +53,7 @@ enum class eMessage
 	ItemUsed,
 
 	TransitionToScene,
-	RemoveScene,
+	// RemoveScene,
 	// MapChunkCreated,
 	//MapChunkDestroyed
 

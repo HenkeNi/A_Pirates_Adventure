@@ -9,8 +9,6 @@ public:
 	GameScene(ECS& ecs);
 	~GameScene();
 
-	//void Register(MutableScene aScene, eScene aType);
-
 	void Update(float deltaTime)			  override;
 	void LateUpdate(float deltaTime)		  override;
 	void Draw()							const override;

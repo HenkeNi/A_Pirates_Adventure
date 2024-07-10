@@ -79,8 +79,7 @@
         {
           "type": "scene_transition",
           "properties": {
-            "scene": "settings",
-            "should_remove": true
+            "scene": "menu"
           }
         }
       ]
