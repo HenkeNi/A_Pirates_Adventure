@@ -1,5 +1,6 @@
 #include "Pch.h"
 #include "ComponentInitializer.h"
+#include "Components.h"
 #include "Commands/Commands.h"
 #include "BehaviorTree/BehaviorTreeNodes.h"
 
