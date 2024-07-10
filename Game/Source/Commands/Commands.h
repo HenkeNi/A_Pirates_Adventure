@@ -1,0 +1,9 @@
+#pragma once
+#include "Aim/AimCommand.h"
+#include "Attack/AttackCommand.h"
+#include "Inventory/CloseInventoryCommand.h"
+#include "Inventory/OpenInventoryCommand.h"
+#include "Move/MoveCommand.h"
+#include "Pause/PauseCommand.h"
+#include "Shoot/ShootCommand.h"
+#include "Sprint/SprintCommand.h"

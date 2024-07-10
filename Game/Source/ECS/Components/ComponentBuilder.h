@@ -23,7 +23,7 @@ public:
 	Component* Build(const ComponentData& data) override
 	{
 		T* component = Hi_Engine::MemoryPool<T>::GetInstance().GetResource();
-		ComponentInitializer::InitializeComponent(component, data);	// HERE??? try to pass in data instead?
+		ComponentInitializer::InitializeComponent(component, data);	// maybe elsewhere?
 
 		return component;
 	}
