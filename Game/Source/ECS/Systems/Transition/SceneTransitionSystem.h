@@ -1,7 +1,7 @@
 #pragma once
 #include "../Base/System.h"
 
-class SceneTransitionSystem : public System
+class SceneTransitionSystem : public System, public Subscriber
 {
 public:
 	SceneTransitionSystem();

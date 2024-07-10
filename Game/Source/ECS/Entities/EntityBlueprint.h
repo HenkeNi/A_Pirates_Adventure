@@ -1,7 +1,5 @@
 #pragma once
 
-#include <any> // fix!
-
 namespace
 {
 	using ComponentData = std::unordered_map<std::string, std::any>;

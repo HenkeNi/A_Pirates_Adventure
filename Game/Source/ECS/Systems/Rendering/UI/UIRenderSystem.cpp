@@ -2,6 +2,8 @@
 #include "UIRenderSystem.h"
 #include "Entities/EntityManager.h"
 #include "Components/UI/UIComponents.h"
+#include "Components/Core/CoreComponents.h"
+#include "Components/Gameplay/GameplayComponents.h"
 #include "../../../../../../ThirdParty/glm/ext/matrix_clip_space.hpp"
 
 
@@ -13,18 +15,17 @@ UIRenderSystem::~UIRenderSystem()
 {
 }
 
-void UIRenderSystem::Receive(Message& message)
-{
-}
-
 void UIRenderSystem::Draw()
 {
 	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
 
+
+	// TODO Create a single sprite batch?
 	RenderGrid();
 
 	// TODO; Don't have HUDComponent?? Just UIComponent?
 	RenderHUD();
+	//RenderGrid();
 	RenderUI();
 	
 	//RenderInventory();
@@ -183,16 +184,28 @@ void UIRenderSystem::RenderGrid() // Do in debug system?
 		auto* transformComponent = grid->GetComponent<TransformComponent>();
 	
 		const auto& position = transformComponent->CurrentPos;
-		const auto& scale = transformComponent->Scale;
+
+		auto window = Hi_Engine::ServiceLocator::GetWindow();
+		auto win = window.lock();
+
+
+		auto scale = transformComponent->Scale;
+		scale.x /= win->GetSize().x;
+		scale.y /= win->GetSize().y;
+
 		const auto& dimensions = gridComponent->Dimensions;
 
 		float spaceBetweenCells = gridComponent->SpaceBetweenCells;
 		spaceBetweenCells = 0.55f;
 
 		float width = dimensions.y / scale.x;
-		width *= 0.25f;
+		width /= win->GetSize().x;
+		//width *= 0.25f;
 
 		float height = scale.y * 0.5f;
+
+		width = 0.1f;
+		height = 0.1f;
 
 		Hi_Engine::SpriteBatch spriteBatch;
 

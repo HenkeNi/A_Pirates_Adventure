@@ -6,6 +6,7 @@
 #include "../Utility/Map/MapUtils.h"
 #include "Components/AI/AIComponents.h"
 #include "Components/Map/MapComponents.h"
+#include "Components/UI/UIComponents.h"
 //#include <../Engine/Source/Utility/Math/Mathf.hpp>
 
 

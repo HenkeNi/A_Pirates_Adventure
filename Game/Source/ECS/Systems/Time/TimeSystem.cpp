@@ -13,10 +13,6 @@ TimeSystem::~TimeSystem()
 {
 }
 
-void TimeSystem::Receive(Message& message)	
-{
-}
-
 void TimeSystem::Update(float deltaTime) 
 {
 	assert(m_entityManager && "ERROR: EntityManager is nullptr!");

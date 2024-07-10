@@ -12,10 +12,6 @@ TextRenderSystem::~TextRenderSystem()
 {
 }
 
-void TextRenderSystem::Receive(Message& message)
-{
-}
-
 void TextRenderSystem::Draw()
 {
 	assert(m_entityManager && "ERROR: EntityManager is nullptr!");

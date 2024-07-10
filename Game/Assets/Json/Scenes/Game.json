@@ -23,5 +23,43 @@
     {
       "entity_id": "inventory_bar"
     }
+  ],
+  "systems": [
+    "InputSystem",
+    "MovementSystem",
+    "CameraSystem",
+    "CollisionSystem",
+    "PlayerControllerSystem",
+
+    "CombatSystem",
+    "EquipmentSystem",
+    "InventorySystem",
+    "ShakeSystem",
+    "TimeSystem",
+    "SpawnSystem",
+    "StatSystem",
+    
+    "SpriteAnimationSystem",
+    
+    "MapGenerationSystem",
+    "MapDecorationSystem",
+    
+    "UISystem",
+    "HUDSystem",
+    
+    "BlackboardSystem",
+    "BehaviorTreeSystem",
+    "SteeringBehaviorSystem",
+    "StateTransitionSystem",
+    
+    "AudioSystem",
+    
+    "DebugRenderSystem",
+    "TextRenderSystem",
+    "UIRenderSystem",
+    "SpriteRenderSystem",
+    "MapRenderSystem",
+    
+    "SceneTransitionSystem"
   ]
 }

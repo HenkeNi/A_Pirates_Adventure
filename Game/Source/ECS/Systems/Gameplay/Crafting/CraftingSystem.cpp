@@ -10,10 +10,6 @@ CraftingSystem::~CraftingSystem()
 {
 }
 
-void CraftingSystem::Receive(Message& message)	
-{
-}
-
 void CraftingSystem::Update(float deltaTime) 
 {
 }

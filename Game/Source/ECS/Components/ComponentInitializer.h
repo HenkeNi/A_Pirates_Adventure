@@ -3,7 +3,7 @@
 
 #include <../Hi_Engine.h> //?
 
-#include "../Entities/EntityBlueprint.h" // DON'T?
+// #include "../Entities/EntityBlueprint.h" // DON'T?
 #include "../Commands/Move/MoveCommand.h"
 #include "../Commands/Attack/AttackCommand.h"
 #include "../Commands/Sprint/SprintCommand.h"
@@ -30,6 +30,8 @@ namespace
 class ComponentInitializer
 {
 public:
+	// maybe templated not needed??
+
 	template <typename T>
 	static void InitializeComponent(T* component, const ComponentData& data)
 	{
@@ -591,6 +593,7 @@ public:
 
 	}
 
+#pragma region StateMachine
 	//template <>
 	//static void InitializeComponent<StateMachineComponent>(StateMachineComponent* component, const ECS::ComponentData& data)
 	//{
@@ -624,13 +627,6 @@ public:
 	//		{ }
 	//	}
 
-	//	// Temp
-	//	component->ActiveState = component->States[0];
-
-
-	//	// std::unorederd_map? string key ? 
-
-
 	//	// TEmp
 	//	// add durtaion condition
 	//	Transition idleToWalk;
@@ -657,16 +653,10 @@ public:
 	//	// TODO; connect the states
 	//	// set start time in condition	
 
-
-	//	
 	//	// add duration condition to idle state.... and duration condition to walk state...
-
-
-
-	//	// unoredred map? string, state?
-	//	// c
-
 	//}
+
+#pragma endregion StateMachine
 
 	template <>
 	static void InitializeComponent<ShakeComponent>(ShakeComponent* component, const ComponentData& data)

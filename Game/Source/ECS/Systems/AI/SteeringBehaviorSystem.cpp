@@ -1,7 +1,7 @@
 #include "Pch.h"
 #include "SteeringBehaviorSystem.h"
 #include "Entities/EntityManager.h"
-
+#include "Components/Core/CoreComponents.h"
 #include "Components/AI/AIComponents.h"
 
 #include "../AI/SteeringBehaviors/Flock/FlockBehavior.h"
@@ -12,10 +12,6 @@ SteeringBehaviorSystem::SteeringBehaviorSystem()
 }
 
 SteeringBehaviorSystem::~SteeringBehaviorSystem()
-{
-}
-
-void SteeringBehaviorSystem::Receive(Message& message)
 {
 }
 

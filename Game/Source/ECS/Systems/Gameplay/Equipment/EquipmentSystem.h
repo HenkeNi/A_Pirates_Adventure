@@ -2,7 +2,7 @@
 #include "../../Base/System.h"
 
 // Combine inventory and equipment?
-class EquipmentSystem : public System
+class EquipmentSystem : public System, public Subscriber
 {
 public:
 	EquipmentSystem();

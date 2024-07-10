@@ -2,7 +2,7 @@
 #include "../../Base/System.h"
 
 // Rename ProjectileSystem?
-class RangedCombatSystem : public System
+class RangedCombatSystem : public System, public Subscriber
 {
 public:
 	RangedCombatSystem();

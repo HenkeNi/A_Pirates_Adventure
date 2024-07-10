@@ -36,6 +36,7 @@ void MenuScene::OnEnter()
 void MenuScene::OnExit()
 {
 	m_ecs.GetEntityManager().DestroyAll();
+	m_ecs.GetSystemManager().Clear();
 
 	//Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::StopSoundEvent>("theme_drunken_sailor");
 }

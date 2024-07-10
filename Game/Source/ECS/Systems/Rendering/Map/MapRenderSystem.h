@@ -9,7 +9,6 @@ public:
 	MapRenderSystem();
 	~MapRenderSystem();
 
-	void Receive(Message& message)	override;
 	void Draw()						override;
 
 private:

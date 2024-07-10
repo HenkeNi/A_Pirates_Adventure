@@ -2,7 +2,7 @@
 #include "../Base/System.h"
 
 
-class AudioSystem : public System
+class AudioSystem : public System, public Subscriber
 {
 public:
 	AudioSystem();

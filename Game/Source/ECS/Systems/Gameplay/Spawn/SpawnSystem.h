@@ -5,7 +5,7 @@
 
 // or separate ENemySpawnSystem, form LootDropSystem, and ResourceDropSystem?
 
-class SpawnSystem : public System
+class SpawnSystem : public System, public Subscriber
 {
 public:
 	SpawnSystem();

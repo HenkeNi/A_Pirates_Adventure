@@ -10,8 +10,6 @@ public:
 	~BehaviorTreeSystem();
 	
 	// Init function for setting up AI??
-
-	void Receive(Message& message)	override;
 	void Update(float deltaTime)	override;
 
 private:

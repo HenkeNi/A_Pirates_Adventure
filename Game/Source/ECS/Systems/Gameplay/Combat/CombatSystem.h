@@ -3,7 +3,7 @@
 
 class Entity;
 
-class CombatSystem : public System
+class CombatSystem : public System, public Subscriber
 {
 public:
 	CombatSystem();

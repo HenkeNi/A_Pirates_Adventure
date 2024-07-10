@@ -3,7 +3,7 @@
 
 class Entity;
 // Rename? Foilage Decroratiom, ResourcePoplation?
-class MapDecorationSystem : public System
+class MapDecorationSystem : public System, public Subscriber
 {
 public:
 	MapDecorationSystem();

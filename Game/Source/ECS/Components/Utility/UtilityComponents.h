@@ -30,6 +30,7 @@ struct TimerComponent : public Component
 struct SpawnComponent : public Component
 {
 	std::string Spawned;
+	float		SpawnRadius = 30.f;
 	float		Interval = 2.f;	// Todo; Give small individual delay..
 	float		ElapsedTime = 0.f;
 	int			Amount = 10;

@@ -19,10 +19,6 @@ EnemySpawnSystem::~EnemySpawnSystem()
 {
 }
 
-void EnemySpawnSystem::Receive(Message& message)
-{
-}
-
 void EnemySpawnSystem::Update(float deltaTime)
 {
 	return;

@@ -8,7 +8,6 @@ public:
 	MeleeCombatSystem();
 	~MeleeCombatSystem();
 
-	void Receive(Message& message)	override;
 	void Update(float deltaTime)	override;
 
 private:

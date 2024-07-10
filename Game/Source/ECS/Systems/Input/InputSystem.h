@@ -9,6 +9,5 @@ public:
 	~InputSystem();
 
 	void HandleEvent(Hi_Engine::InputEvent& inputEvent)	override;
-	void Receive(Message& message)						override;
 	void Update(float DeltaTime)						override;
 };

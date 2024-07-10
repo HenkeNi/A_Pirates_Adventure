@@ -22,6 +22,8 @@ enum class eMessage
 	EntitySpawned,
 	EntitiesCollided,
 
+	// EntityCollected,
+
 	EntityDestroyed,
 	EntityDied,				// just destroyed?
 	EntityAttacked,				// rename AttackEvent? AttackBegan? AttackEnded?

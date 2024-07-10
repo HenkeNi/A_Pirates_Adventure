@@ -162,5 +162,13 @@
         }
       ]
     }
+  ],
+  "systems": [
+    "CameraSystem",
+    "TextRenderSystem",
+    "SpriteRenderSystem",
+    "UISystem",
+    "UIRenderSystem",
+    "SceneTransitionSystem"
   ]
 }

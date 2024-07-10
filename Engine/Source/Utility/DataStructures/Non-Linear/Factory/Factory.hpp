@@ -7,7 +7,7 @@
 namespace Hi_Engine
 {
 	//template <typename Builder, typename Created, typename Identifier = std::string>
-	template <typename BuilderType, typename ReturnType, typename Identifier = std::string>
+	template <typename BuilderType, typename ReturnType, typename Identifier = std::string> // change to const char*??
 	class Factory
 	{
 	public:
@@ -25,7 +25,7 @@ namespace Hi_Engine
 		void		Clear();
 
 	private:
-		std::unordered_map<Identifier, BuilderType*> m_builders;
+		std::unordered_map<Identifier, BuilderType*> m_builders; // DEkete!!
 	};
 
 #pragma region Constructors

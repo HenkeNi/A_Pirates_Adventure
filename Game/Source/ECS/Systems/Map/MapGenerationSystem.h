@@ -2,7 +2,7 @@
 #include "../Base/System.h"
 
 
-class MapGenerationSystem : public System
+class MapGenerationSystem : public System, public Subscriber
 {
 public:
 	MapGenerationSystem();

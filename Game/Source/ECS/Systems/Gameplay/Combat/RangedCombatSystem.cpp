@@ -1,6 +1,9 @@
 #include "Pch.h"
 #include "RangedCombatSystem.h"
 #include "Entities/EntityManager.h"
+#include "Components/Core/CoreComponents.h"
+#include "Components/Gameplay/GameplayComponents.h"
+
 
 RangedCombatSystem::RangedCombatSystem()
 {

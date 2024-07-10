@@ -7,7 +7,6 @@ public:
 	UIRenderSystem();
 	~UIRenderSystem();
 
-	void Receive(Message& message)	override;
 	void Draw()						override;
 
 private:

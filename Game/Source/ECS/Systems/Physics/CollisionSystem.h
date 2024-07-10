@@ -3,7 +3,7 @@
 
 class Entity;
 
-class CollisionSystem : public System
+class CollisionSystem : public System, public Subscriber
 {
 public:
 	CollisionSystem();

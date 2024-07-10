@@ -1,6 +1,9 @@
 #include "Pch.h"
 #include "SpawnSystem.h"
 #include "Entities/EntityManager.h"
+#include "Components/Core/CoreComponents.h"
+#include "Components/Utility/UtilityComponents.h"
+#include "Components/Gameplay/GameplayComponents.h"
 
 
 SpawnSystem::SpawnSystem()
@@ -41,12 +44,14 @@ void SpawnSystem::Spawn(Entity* spawner)
 
 	if (auto* spawnComponent = spawner->GetComponent<SpawnComponent>())
 	{
+		float spawnRadius = spawnComponent->SpawnRadius;
+
 		for (int i = 0; i < spawnComponent->Amount; ++i)
 		{
 			auto* entity = m_entityManager->Create(spawnComponent->Spawned);
 
-			float xOffset = Hi_Engine::GenerateRandomFloatingPoint(-30.f, 30.f);
-			float yOffset = Hi_Engine::GenerateRandomFloatingPoint(-30.f, 30.f);
+			float xOffset = Hi_Engine::GenerateRandomFloatingPoint(-spawnRadius, spawnRadius);
+			float yOffset = Hi_Engine::GenerateRandomFloatingPoint(-spawnRadius, spawnRadius);
 
 			transformComponent = entity->GetComponent<TransformComponent>();
 			transformComponent->CurrentPos = { position.x + xOffset, position.y + yOffset };

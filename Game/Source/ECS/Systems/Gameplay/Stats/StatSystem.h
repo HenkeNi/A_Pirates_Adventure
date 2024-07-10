@@ -6,7 +6,7 @@
 
 // Remmake to HealthSystem => listens to attacks, decreases health (fetches armor, and attributes)... 
 
-class StatSystem : public System
+class StatSystem : public System, public Subscriber
 {
 public:
 	StatSystem();

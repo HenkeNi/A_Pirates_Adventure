@@ -2,7 +2,7 @@
 #include "../Base/System.h"
 
 
-class HUDSystem : public System
+class HUDSystem : public System, public Subscriber
 {
 public:
 	HUDSystem();

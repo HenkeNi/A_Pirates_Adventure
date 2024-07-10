@@ -3,7 +3,7 @@
 
 
 // Handles gathering of resources
-class InventorySystem : public System
+class InventorySystem : public System, public Subscriber
 {
 public:
 	InventorySystem();

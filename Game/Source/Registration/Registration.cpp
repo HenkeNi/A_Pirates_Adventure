@@ -77,101 +77,104 @@ namespace Registration
 
 	void RegisterSystems(SystemManager& systemManager)
 	{
-		///* - Core Systems - */
-		//systemManager.RegisterSystemBuilder<SystemBuilder>("InputSystem");
-		//systemManager.RegisterSystemBuilder<MovementSystem>("MovementSystem");
-		//systemManager.RegisterSystemBuilder<CameraSystem>("CameraSystem");
-		//systemManager.RegisterSystemBuilder<CollisionSystem>("CollisionSystem");
-		//systemManager.RegisterSystemBuilder<PlayerControllerSystem>("PlayerControllerSystem");
-		//systemManager.RegisterSystemBuilder<SceneTransitionSystem>("SceneTransitionSystem");
-		//systemManager.RegisterSystemBuilder<SpriteAnimationSystem>("SpriteAnimationSystem");
-
-		///* - Gameplay Systems - */
-		//systemManager.RegisterSystemBuilder<CombatSystem>("CombatSystem");
-		//systemManager.RegisterSystemBuilder<EnemySpawnSystem>("EnemySpawnSystem");
-		//systemManager.RegisterSystemBuilder<EquipmentSystem>("EquipmentSystem");
-		//systemManager.RegisterSystemBuilder<InventorySystem>("InventorySystem");
-		//systemManager.RegisterSystemBuilder<MeleeCombatSystem>("MeleeCombatSystem");
-		//systemManager.RegisterSystemBuilder<RangedCombatSystem>("RangedCombatSystem");
-		//systemManager.RegisterSystemBuilder<ShakeSystem>("ShakeSystem");
-		//systemManager.RegisterSystemBuilder<TimeSystem>("TimeSystem");
-		//systemManager.RegisterSystemBuilder<SpawnSystem>("SpawnSystem");
-		//systemManager.RegisterSystemBuilder<StatSystem>("StatSystem");
-
-		///* - Map Systems - */
-		//systemManager.RegisterSystemBuilder<MapGenerationSystem>("MapGenerationSystem");
-		//systemManager.RegisterSystemBuilder<MapDecorationSystem>("MapDecorationSystem");
-
-		///* -  UI Systems - */
-		//systemManager.RegisterSystemBuilder<UISystem>("UISystem");
-		//systemManager.RegisterSystemBuilder<HUDSystem>("HUDSystem");
-
-		///* - AI Systems - */
-		//systemManager.RegisterSystemBuilder<BlackboardSystem>("BlackboardSystem");
-		//systemManager.RegisterSystemBuilder<BehaviorTreeSystem>("BehaviorTreeSystem");
-		//systemManager.RegisterSystemBuilder<SteeringBehaviorSystem>("SteeringBehaviorSystem");
-		//systemManager.RegisterSystemBuilder<StateTransitionSystem>("StateTransitionSystem");
-
-		///* - Audio System - */
-		//systemManager.RegisterSystemBuilder<AudioSystem>("AudioSystem");
-
-		///* - Render Systems - */
-		//systemManager.RegisterSystemBuilder<DebugRenderSystem>("DebugRenderSystem");
-		//systemManager.RegisterSystemBuilder<TextRenderSystem>("TextRenderSystem");
-		//systemManager.RegisterSystemBuilder<UIRenderSystem>("UIRenderSystem");
-		//systemManager.RegisterSystemBuilder<SpriteRenderSystem>("SpriteRenderSystem");
-		//systemManager.RegisterSystemBuilder<MapRenderSystem>("MapRenderSystem");
-
 		/* - Core Systems - */
-		systemManager.Register<InputSystem>();
-		systemManager.Register<MovementSystem>();
-		systemManager.Register<CameraSystem>();
-		systemManager.Register<CollisionSystem>();
-		systemManager.Register<PlayerControllerSystem>();
-		systemManager.Register<SceneTransitionSystem>();
+		systemManager.Register<InputSystem>("InputSystem");
+		systemManager.Register<MovementSystem>("MovementSystem");
+		systemManager.Register<CameraSystem>("CameraSystem");
+		systemManager.Register<CollisionSystem>("CollisionSystem");
+		systemManager.Register<PlayerControllerSystem>("PlayerControllerSystem");
+		systemManager.Register<SceneTransitionSystem>("SceneTransitionSystem");
+		systemManager.Register<SpriteAnimationSystem>("SpriteAnimationSystem");
 
 		/* - Gameplay Systems - */
-		systemManager.Register<CombatSystem>();
-		systemManager.Register<EnemySpawnSystem>();
-		systemManager.Register<EquipmentSystem>();
-		systemManager.Register<InventorySystem>();
-		systemManager.Register<MeleeCombatSystem>();
-		systemManager.Register<RangedCombatSystem>();
-		systemManager.Register<ShakeSystem>();
-		systemManager.Register<TimeSystem>();
-		systemManager.Register<SpawnSystem>();
-		systemManager.Register<StatSystem>();
-
-		systemManager.Register<SpriteAnimationSystem>();
+		systemManager.Register<CombatSystem>("CombatSystem");
+		systemManager.Register<EnemySpawnSystem>("EnemySpawnSystem");
+		systemManager.Register<EquipmentSystem>("EquipmentSystem");
+		systemManager.Register<InventorySystem>("InventorySystem");
+		systemManager.Register<MeleeCombatSystem>("MeleeCombatSystem");
+		systemManager.Register<RangedCombatSystem>("RangedCombatSystem");
+		systemManager.Register<ShakeSystem>("ShakeSystem");
+		systemManager.Register<TimeSystem>("TimeSystem");
+		systemManager.Register<SpawnSystem>("SpawnSystem");
+		systemManager.Register<StatSystem>("StatSystem");
 
 		/* - Map Systems - */
-		systemManager.Register<MapGenerationSystem>();
-		systemManager.Register<MapDecorationSystem>();
+		systemManager.Register<MapGenerationSystem>("MapGenerationSystem");
+		systemManager.Register<MapDecorationSystem>("MapDecorationSystem");
 
 		/* -  UI Systems - */
-		systemManager.Register<UISystem>();
-		systemManager.Register<HUDSystem>();
+		systemManager.Register<UISystem>("UISystem");
+		systemManager.Register<HUDSystem>("HUDSystem");
 
 		/* - AI Systems - */
-		systemManager.Register<BlackboardSystem>();
-		systemManager.Register<BehaviorTreeSystem>();
-		systemManager.Register<SteeringBehaviorSystem>();
-		systemManager.Register<StateTransitionSystem>();
+		systemManager.Register<BlackboardSystem>("BlackboardSystem");
+		systemManager.Register<BehaviorTreeSystem>("BehaviorTreeSystem");
+		systemManager.Register<SteeringBehaviorSystem>("SteeringBehaviorSystem");
+		systemManager.Register<StateTransitionSystem>("StateTransitionSystem");
 
 		/* - Audio System - */
-		systemManager.Register<AudioSystem>();
+		systemManager.Register<AudioSystem>("AudioSystem");
 
 		/* - Render Systems - */
-#ifdef DEBUG
+		systemManager.Register<DebugRenderSystem>("DebugRenderSystem");
+		systemManager.Register<TextRenderSystem>("TextRenderSystem");
+		systemManager.Register<UIRenderSystem>("UIRenderSystem");
+		systemManager.Register<SpriteRenderSystem>("SpriteRenderSystem");
+		systemManager.Register<MapRenderSystem>("MapRenderSystem");
 
-		systemManager.Register<DebugRenderSystem>();
 
-#endif // DEBUG
 
-		systemManager.Register<TextRenderSystem>();
-		systemManager.Register<UIRenderSystem>();
-		systemManager.Register<SpriteRenderSystem>();
-		systemManager.Register<MapRenderSystem>();
+
+//		/* - Core Systems - */
+//		systemManager.Register<InputSystem>();
+//		systemManager.Register<MovementSystem>();
+//		systemManager.Register<CameraSystem>();
+//		systemManager.Register<CollisionSystem>();
+//		systemManager.Register<PlayerControllerSystem>();
+//		systemManager.Register<SceneTransitionSystem>();
+//
+//		/* - Gameplay Systems - */
+//		systemManager.Register<CombatSystem>();
+//		systemManager.Register<EnemySpawnSystem>();
+//		systemManager.Register<EquipmentSystem>();
+//		systemManager.Register<InventorySystem>();
+//		systemManager.Register<MeleeCombatSystem>();
+//		systemManager.Register<RangedCombatSystem>();
+//		systemManager.Register<ShakeSystem>();
+//		systemManager.Register<TimeSystem>();
+//		systemManager.Register<SpawnSystem>();
+//		systemManager.Register<StatSystem>();
+//
+//		systemManager.Register<SpriteAnimationSystem>();
+//
+//		/* - Map Systems - */
+//		systemManager.Register<MapGenerationSystem>();
+//		systemManager.Register<MapDecorationSystem>();
+//
+//		/* -  UI Systems - */
+//		systemManager.Register<UISystem>();
+//		systemManager.Register<HUDSystem>();
+//
+//		/* - AI Systems - */
+//		systemManager.Register<BlackboardSystem>();
+//		systemManager.Register<BehaviorTreeSystem>();
+//		systemManager.Register<SteeringBehaviorSystem>();
+//		systemManager.Register<StateTransitionSystem>();
+//
+//		/* - Audio System - */
+//		systemManager.Register<AudioSystem>();
+//
+//		/* - Render Systems - */
+//#ifdef DEBUG
+//
+//		systemManager.Register<DebugRenderSystem>();
+//
+//#endif // DEBUG
+//
+//		systemManager.Register<TextRenderSystem>();
+//		systemManager.Register<UIRenderSystem>();
+//		systemManager.Register<SpriteRenderSystem>();
+//		systemManager.Register<MapRenderSystem>();
 	}
 
 	void RegisterBlueprints()

@@ -1,12 +1,15 @@
 #include "Pch.h"
 #include "EntityManager.h"
+#include "EntityFactory.h"
 #include "Entity.h"
+
 #include "../PostMaster/Message.h"
 #include "../PostMaster/PostMaster.h"
 
 // EntityFactory EntityManager::s_entityFactory;
 
-EntityManager::EntityManager()
+EntityManager::EntityManager(EntityFactory& factory)
+	: m_entityFactory{ factory }
 {
 	m_entities.reserve(512);
 }
@@ -17,7 +20,7 @@ EntityManager::~EntityManager()
 
 Entity* EntityManager::Create(const std::string& type)
 {
-	auto entity = s_entityFactory.Create(type);
+	auto entity = m_entityFactory.Create(type);
 
 	m_entities.push_back(std::move(entity));
 
@@ -51,9 +54,4 @@ void EntityManager::Destroy(unsigned id)
 void EntityManager::DestroyAll()
 {
 	m_entities.clear();
-}
-
-EntityFactory& EntityManager::GetFactory()
-{
-	return s_entityFactory;
 }

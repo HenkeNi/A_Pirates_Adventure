@@ -39,7 +39,10 @@ void EquipmentSystem::Receive(Message& message)
 	
 	// TODO: make sure dont send event each fraem!
 	if (EquipItem(player, equippable))
+	{
 		message.HandleMessage(); // rename MarkAsHandled(); ??
+		PostMaster::GetInstance().SendMessage({ eMessage::ItemCollected, equippable });
+	}
 
 	// sword, etc should have a pickup component?!
 	// if item was equiped...  or colliding with item (an not such slot is taken)

@@ -14,10 +14,6 @@ BehaviorTreeSystem::~BehaviorTreeSystem()
 	ClearBehaviorTreeNodes();
 }
 
-void BehaviorTreeSystem::Receive(Message& message)
-{
-}
-
 void BehaviorTreeSystem::Update(float deltaTime)
 {
 	assert(m_entityManager && "ERROR: EntityManager is nullptr!");

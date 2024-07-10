@@ -134,6 +134,7 @@ project "Game"
 	{
 		"ThirdParty/glm",
 		"Engine/Hi_Engine.h",
+		"Engine/Source/Core/",
 		"%{prj.name}/Source",
 		"%{prj.name}/Source/AI",
 		"%{prj.name}/Source/Commands",
@@ -187,6 +188,7 @@ project "Launcher"
 	includedirs
 	{
 		"Engine/Source",
+		"Engine/Source/Core/",
 		"Game/Source",
 		"%{prj.name}/Source/Precompiled"
 	}

@@ -1,12 +1,12 @@
 #pragma once
 #include "Entity.h"
-#include "EntityFactory.h"
 
+class EntityFactory;
 
 class EntityManager
 {
 public:
-	EntityManager();
+	EntityManager(EntityFactory& factory);
 	~EntityManager();
 
 	Entity* Create(const std::string& type);
@@ -23,12 +23,10 @@ public:
 
 	template <typename... Components>
 	void DestroySelected();
-
-	EntityFactory& GetFactory();
 	 
 private:
-	EntityFactory	s_entityFactory;
-	std::vector<Entity>		m_entities;			// std::unordered_map<eLayer, std::vector<Entity>> m_layeredEntities;
+	EntityFactory& m_entityFactory; // be able to swap out factories?
+	std::vector<Entity> m_entities;			// std::unordered_map<eLayer, std::vector<Entity>> m_layeredEntities;
 };
 
 #pragma region Method_Definitions

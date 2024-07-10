@@ -1,9 +1,14 @@
 #include "Pch.h"
 #include "SceneManager.h"
+#include "Registration/Registration.h"
 #include "Scene.h"
-#include "../DataTypes/Enumerations.h"
+
 #include "ECS/ECS.h"
 #include "Entities/EntityManager.h"
+#include "Entities/EntityFactory.h"
+#include "Systems/SystemManager.h"
+#include "../DataTypes/Enumerations.h"
+
 
 SceneManager::SceneManager()
 {
@@ -156,6 +161,8 @@ void SceneManager::TransitionToScene(eScene type)
 	//m_stack.Push(type);
 	//m_registeredScenes[type]->OnEnter();
 
+
+
 	if (m_paths.contains(type))
 	{
 		LoadScene(m_paths[type]);
@@ -208,11 +215,25 @@ void SceneManager::LoadScene(const std::string& aPath)
 {
 	// TODO; Load entities in EntityManager, or EntityFactory?
 	auto activeScene = GetActiveScene().lock(); // take as weak pointer?
+	
+	// Move some of this stuff to ECS???
 	auto& entityManager = activeScene->m_ecs.GetEntityManager();
-
+	auto& entityFactory = activeScene->m_ecs.GetEntityFactory();
+	auto& systemManager = activeScene->m_ecs.GetSystemManager();
+	
+	//systemManager.Clear(); // ??
 	// entityManager.DestroyAll(); 
 
 	auto document = Hi_Engine::ParseDocument(aPath);
+
+	for (const auto& system : document["systems"].GetArray())
+	{
+		systemManager.Create(system.GetString());
+		//systemManager.Init(&entityManager);
+	}
+
+	systemManager.Init(&entityManager); // FIX!!!
+
 	for (const auto& jsonEntity : document["entities"].GetArray())
 	{
 		std::string id = jsonEntity["entity_id"].GetString();
@@ -227,17 +248,18 @@ void SceneManager::LoadScene(const std::string& aPath)
 			std::string type = component["type"].GetString();
 			const rapidjson::Value& properties = component["properties"];
 
-			auto componentData = EntityFactory::ParseComponent(properties);
+			auto componentData = EntityFactory::ParseComponent(properties); // dont static?
 
-			//activeScene->m_entityManager.GetFactory().
-			//ComponetnFactory::Build()
-			auto* component = entityManager.GetFactory().GetCompFactory().Build(type, componentData);
+			auto* component = entityFactory.GetCompFactory().Build(type, componentData);
 			entity->AddComponent(component);
 		}
 
 		// Send event spawned? Change to initailzied?
 		PostMaster::GetInstance().SendMessage({ eMessage::EntitySpawned, entity });
 	}
+
+
+
 
 	//std::vector<std::string> systems;
 	//for (const auto& system : document["systems"].GetArray())

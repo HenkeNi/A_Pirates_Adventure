@@ -1,6 +1,8 @@
 #include "Pch.h"
 #include "UISystem.h"
 #include "Entities/EntityManager.h"
+#include "Components/UI/UIComponents.h"
+#include "Components/Core/CoreComponents.h"
 
 
 UISystem::UISystem()

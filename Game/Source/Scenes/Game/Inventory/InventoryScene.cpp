@@ -3,6 +3,7 @@
 #include "Systems/SystemManager.h"
 #include "ECS/ECS.h"
 #include "Entities/EntityManager.h"
+#include "Components/Core/CoreComponents.h"
 
 
 InventoryScene::InventoryScene(ECS& ecs)

@@ -28,7 +28,7 @@ struct GridComponent : public Component
 	// FVector2 CellSize;
 	IVector2 Dimensions; // grid class? or use inventory.. 
 	std::string CellType;
-	float SpaceBetweenCells = 0.f;
+	float SpaceBetweenCells = 0.f; // make FVector2?
 };
 
 /* ######################### HUD ######################### */

@@ -1,7 +1,7 @@
 #pragma once
 #include "../Base/System.h"
 
-class UISystem : public System
+class UISystem : public System, public Subscriber
 {
 public:
 	UISystem();

@@ -3,6 +3,8 @@
 #include "Systems/SystemManager.h"
 #include "ECS/ECS.h"
 #include "Entities/EntityManager.h"
+#include "Components/Core/CoreComponents.h"
+#include "Components/Gameplay/GameplayComponents.h"
 
 
 OverworldScene::OverworldScene(ECS& ecs)

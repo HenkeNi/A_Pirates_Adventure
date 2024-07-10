@@ -2,16 +2,15 @@
 #include "BlackboardSystem.h"
 #include "Entities/EntityManager.h"
 #include "Components/AI/AIComponents.h"
+#include "Components/Core/CoreComponents.h"
+#include "Components/Gameplay/GameplayComponents.h"
+
 
 BlackboardSystem::BlackboardSystem()
 {
 }
 
 BlackboardSystem::~BlackboardSystem()
-{
-}
-
-void BlackboardSystem::Receive(Message& message)
 {
 }
 

@@ -2,6 +2,7 @@
 #include "SpriteRenderSystem.h"
 #include "Entities/EntityManager.h"
 #include "Components/Core/CoreComponents.h"
+#include "Components/UI/UIComponents.h"
 
 
 SpriteRenderSystem::SpriteRenderSystem()
@@ -10,10 +11,6 @@ SpriteRenderSystem::SpriteRenderSystem()
 }
 
 SpriteRenderSystem::~SpriteRenderSystem()
-{
-}
-
-void SpriteRenderSystem::Receive(Message& message)
 {
 }
 

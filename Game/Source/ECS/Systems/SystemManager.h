@@ -1,16 +1,23 @@
 #pragma once
-#include "Base/System.h"
 #include "Systems/SystemBuilder.h"
-//#include <../Source/Utility/DataStructures/Linear/Dynamic/Stack/Stack.hpp>
+//#include <../Hi_Engine.h> //?
+#include <../../Engine/Source/Utility/DataStructures/Non-Linear/Factory/Factory.hpp>
 
-//namespace ECS
-namespace
+class System;
+
+namespace // ECS
 {
-	using Systems = std::vector<std::unique_ptr<System>>;
-	// using SystemFactory = CU::Factory<SystemBuilder, System> m_systemFactory;
+	//using Systems = std::vector<std::unique_ptr<System>>;
 }
 
+//namespace Hi_Engine
+//{
+//	template <typename BuilderType, typename ReturnType>
+//	class Factory<BuilderType, ReturnType>;
+//}
+
 class EntityManager;
+class SystemBuilder;
 
 class SystemManager // TODO: listen for scene transition (fetch entity manager)?
 {
@@ -19,14 +26,10 @@ public:
 	~SystemManager();
 
 	template <typename T>
-	void Register();
+	void Register(const std::string& type);
+	void Create(const std::string& identifier);
 
-	template <typename T>
-	void RegisterSystemBuilder(const std::string& type);
-
-	void Create(const std::string& system);
-
-	void Init(EntityManager* entityManager);
+	void Init(EntityManager* entityManager); // ECS instead?
 	void Update(float deltaTime);
 	void LateUpdate(float deltaTime);
 	void Draw()	const;
@@ -34,20 +37,12 @@ public:
 	void Clear();
 
 private:
-	Systems m_systems; // Separate between registed systems and active systems??
-	//Hi_Engine::Factory<SystemBuilder, System> m_systemFactory;
-	// SystemFactory	m_systemFactory; -> scene decides what systems to add (OnEnter) => clears on Exit?
-
+	Hi_Engine::Factory<SystemBuilder, System> m_factory;
+	std::vector<System*> m_systems;	// Set?
 };
 
-template<typename T>
-inline void SystemManager::Register()
+template <typename T>
+inline void SystemManager::Register(const std::string& type)
 {
-	m_systems.emplace_back(std::make_unique<T>());
-}
-
-template<typename T>
-inline void SystemManager::RegisterSystemBuilder(const std::string& type)
-{
-	//m_systemFactory.RegisterBuilder(type, new ConcreteSystemBuilder<T>{});
+	m_factory.RegisterBuilder(type, new ConcreteSystemBuilder<T>{});
 }

@@ -3,6 +3,7 @@
 #include "Entities/EntityManager.h"
 #include "Components/Map/MapComponents.h"
 #include "Components/Core/CoreComponents.h"
+#include "Components/Utility/UtilityComponents.h"
 #include "Systems/Rendering/Camera/CameraSystem.h"
 #include "Systems/Time/TimeSystem.h"
 #include "DataTypes/Enumerations.h"
@@ -13,10 +14,6 @@ MapRenderSystem::MapRenderSystem()
 }
 
 MapRenderSystem::~MapRenderSystem()
-{
-}
-
-void MapRenderSystem::Receive(Message& message)
 {
 }
 

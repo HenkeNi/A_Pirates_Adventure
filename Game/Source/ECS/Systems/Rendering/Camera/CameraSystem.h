@@ -4,7 +4,7 @@
 class Entity;
 
 /* TODO; make sure to update after movement... */
-class CameraSystem : public System
+class CameraSystem : public System, public Subscriber
 {
 public:
 	CameraSystem();

@@ -20,10 +20,6 @@ void InputSystem::HandleEvent(Hi_Engine::InputEvent& inputEvent)
 	// auto keyState = anEvent.GetKeyState(Hi_Engine::eKey::Key_W);
 }
 
-void InputSystem::Receive(Message& message)
-{
-}
-
 void InputSystem::Update(float deltaTime)
 {
 	assert(m_entityManager && "ERROR: EntityManager is nullptr!");

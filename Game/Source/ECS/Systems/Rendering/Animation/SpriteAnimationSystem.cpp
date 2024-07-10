@@ -12,10 +12,6 @@ SpriteAnimationSystem::~SpriteAnimationSystem()
 {
 }
 
-void SpriteAnimationSystem::Receive(Message& message)
-{
-}
-
 void SpriteAnimationSystem::Update(float deltaTime) 
 {
 	assert(m_entityManager && "ERROR: EntityManager is nullptr!");

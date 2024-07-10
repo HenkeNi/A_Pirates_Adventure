@@ -9,7 +9,6 @@ public:
 	TimeSystem();
 	~TimeSystem();
 
-	void Receive(Message& message)	override;
 	void Update(float deltaTime)	override;
 
 	static FVector4 CalculateDaylightColor(Entity* worldTimeEntity); // filter system instead?

@@ -8,6 +8,5 @@ public:
 	TextRenderSystem();
 	~TextRenderSystem();
 
-	void Receive(Message& message)	override;
-	void Draw()						override;
+	void Draw() override;
 };

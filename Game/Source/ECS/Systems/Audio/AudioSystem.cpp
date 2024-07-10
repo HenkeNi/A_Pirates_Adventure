@@ -1,6 +1,7 @@
 #include "Pch.h"
 #include "AudioSystem.h"
 #include "Entities/EntityManager.h"
+#include "Components/Core/CoreComponents.h"
 
 
 AudioSystem::AudioSystem()

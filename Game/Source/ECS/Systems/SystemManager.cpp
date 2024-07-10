@@ -1,5 +1,6 @@
 #include "Pch.h"
 #include "SystemManager.h"
+#include "Base/System.h"
 
 
 SystemManager::SystemManager()
@@ -11,9 +12,10 @@ SystemManager::~SystemManager()
 {
 }
 
-void SystemManager::Create(const std::string& system)
+void SystemManager::Create(const std::string& identifier)
 {
-	//m_systemFactory.Build(system);
+ 	if (auto* system = m_factory.Build(identifier))
+		m_systems.push_back(system);
 }
 
 void SystemManager::Init(class EntityManager* entityManager)
@@ -25,7 +27,7 @@ void SystemManager::Init(class EntityManager* entityManager)
 void SystemManager::Update(float deltaTime)
 {
 	for (auto& system : m_systems)
-		system->Update(deltaTime);
+		system->Update(deltaTime); // return false if should break loop?
 }
 
 void SystemManager::LateUpdate(float deltaTime)
@@ -36,8 +38,8 @@ void SystemManager::LateUpdate(float deltaTime)
 
 void SystemManager::Draw() const
 {
-		for (auto& system : m_systems)
-			system->Draw();
+	for (auto& system : m_systems)
+		system->Draw();
 }
 
 //void SystemManager::Register(std::unique_ptr<System> system)
@@ -49,5 +51,10 @@ void SystemManager::Draw() const
 
 void SystemManager::Clear()
 {
+	for (auto& system : m_systems)
+	{
+		delete system;
+	}
+
 	m_systems.clear();
 }

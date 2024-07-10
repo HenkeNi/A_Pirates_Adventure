@@ -195,7 +195,8 @@ void MapGenerationSystem::Update(float deltaTime)
 	if (!camera)
 		return;
 
-	//auto* transformComponent = camera->GetComponent<TransformComponent>();
+	auto* transformComponent = camera->GetComponent<TransformComponent>();
+	const auto& currentPosition = transformComponent->CurrentPos;
 	//auto* cameraComponent = camera->GetComponent<CameraComponent>();
 
 	//static const FVector2 windowSize = { 1400.f, 800.f };
@@ -205,27 +206,74 @@ void MapGenerationSystem::Update(float deltaTime)
 
 	//auto coordinates = ConvertWorldPositionToMapChunkCoordinates({ xPosition, yPosition });	// Todo, check all 4 corners of player (Get hitboxCollider)
 
+	IVector2 windowSize = { 1400, 800 };
 
-	auto* player = m_entityManager->FindFirst<PlayerControllerComponent>();
-	if (!player)
-		return;
+	auto window = Hi_Engine::ServiceLocator::GetWindow();
+	if (auto wnd = window.lock())
+	{
+		const auto& windowSize = wnd->GetSize();
+	}
 
-	auto* playerTransformComponent = player->GetComponent<TransformComponent>();
-	auto coordinates = ConvertWorldPositionToMapChunkCoordinates(playerTransformComponent->CurrentPos);	// Todo, check all 4 corners of player (Get hitboxCollider)
+	FVector2 topLeft = { currentPosition.x, currentPosition.y + windowSize.y };
+	FVector2 topRight = { currentPosition.x + windowSize.x, currentPosition.y + windowSize.y };
+	FVector2 bottomLeft = { currentPosition.x, currentPosition.y };
+	FVector2 bottomRight = { currentPosition.x + windowSize.x, currentPosition.y };
+
+	std::vector<IVector2> coordinates;
+	coordinates.push_back(ConvertWorldPositionToMapChunkCoordinates(topLeft));
+	coordinates.push_back(ConvertWorldPositionToMapChunkCoordinates(topRight));
+	coordinates.push_back(ConvertWorldPositionToMapChunkCoordinates(bottomLeft));
+	coordinates.push_back(ConvertWorldPositionToMapChunkCoordinates(bottomRight));
+
+	int minX = std::min(coordinates[0].x, coordinates[1].x);
+	int maxX = std::max(coordinates[0].x, coordinates[1].x);
+
+	// check if right order
+	int minY = std::min(coordinates[0].y, coordinates[2].y);
+	int maxY = std::max(coordinates[0].y, coordinates[2].y);
+
+	for (int x = minX; x <= maxX; ++x)
+	{
+		for (int y = minY; y <= maxY; ++y)
+		{
+			coordinates.push_back({ x, y });
+		}
+	}
+
 	
+	//auto* playerTransformComponent = player->GetComponent<TransformComponent>();
+	//auto coordinates = ConvertWorldPositionToMapChunkCoordinates(playerTransformComponent->CurrentPos);	// Todo, check all 4 corners of player (Get hitboxCollider)
+	
+	std::vector<IVector2> mapCoordinates;
+
+	// store in a map settings component?
 
 	auto mapChunks = m_entityManager->FindAll<MapChunkComponent>();
 	for (const auto& mapChunk : mapChunks)
 	{
 		auto* mapChunkComponent = mapChunk->GetComponent<MapChunkComponent>();
-		if (mapChunkComponent->Coordinates == coordinates)
-		{
-			// Chunk already exist
-			return;
-		}
+		mapCoordinates.push_back(mapChunkComponent->Coordinates);
 	}
 
-	GenerateMapChunk(coordinates.x, coordinates.y);
+	for (const auto& coord : coordinates)
+	{
+		auto found = std::find_if(mapCoordinates.begin(), mapCoordinates.end(), [&](const IVector2& mapCoord) { return mapCoord == coord; });
+
+		if (found == mapCoordinates.end())
+			GenerateMapChunk(coord.x, coord.y);
+	}
+
+		//if (mapChunkComponent->Coordinates == coordinates)
+
+
+	//	auto found = std::find_if(coordinates.begin(), coordinates.end() [&](const IVector2& coordinates) { return coordinates == mapChunkComponent->Coordinates; });
+	//	if (found != coordinates.end())
+	//	{
+	//		// Chunk already exist
+	//		continue;
+	//	}
+
+	//GenerateMapChunk(coordinates.x, coordinates.y);
 
 	// TODO; remove/unload chunks?
 }

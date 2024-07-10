@@ -28,9 +28,14 @@ void TitleScene::Draw() const
 
 void TitleScene::OnEnter()
 {
+	// Todo; read from json...
+	// auto& systemManager = m_ecs.GetSystemManager();
+	// systemManager.Create("")
+
 }
 
 void TitleScene::OnExit() 
 {
 	m_ecs.GetEntityManager().DestroyAll();
+	m_ecs.GetSystemManager().Clear();    // dont clear systems here?
 }

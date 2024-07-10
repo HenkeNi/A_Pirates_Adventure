@@ -1,21 +1,24 @@
 #include "Pch.h"
 #include "HUDSystem.h"
 #include "Entities/EntityManager.h"
+#include "Components/Core/CoreComponents.h"
 #include "Components/Gameplay/GameplayComponents.h"
 #include "Components/AI/AIComponents.h"
-#include "Components/Core/CoreComponents.h"
+#include "Components/UI/UIComponents.h"
 
 
 HUDSystem::HUDSystem()
 {
 	PostMaster::GetInstance().Subscribe(eMessage::GameStarted, this);
 	PostMaster::GetInstance().Subscribe(eMessage::EntityAttacked, this);
+	PostMaster::GetInstance().Subscribe(eMessage::ItemCollected, this);
 }
 
 HUDSystem::~HUDSystem()
 {
 	PostMaster::GetInstance().Unsubscribe(eMessage::GameStarted, this);
 	PostMaster::GetInstance().Unsubscribe(eMessage::EntityAttacked, this);
+	PostMaster::GetInstance().Unsubscribe(eMessage::ItemCollected, this);
 }
 
 void HUDSystem::Receive(Message& message)
@@ -35,6 +38,11 @@ void HUDSystem::Receive(Message& message)
 		}
 	}
 
+	if (message.GetMessageType() == eMessage::ItemCollected)
+	{
+		auto* inventory = m_entityManager->FindFirst<InventoryComponent>();
+
+	}
 
 	// Get player's health?
 
@@ -116,6 +124,8 @@ void HUDSystem::UpdateInventoryBar()
 	auto window = Hi_Engine::ServiceLocator::GetWindow();
 	if (auto win = window.lock())
 	{
+
+
 		//auto* transformComponent = inventoryBar->GetComponent<TransformComponent>();
 		//transformComponent->CurrentPos.x = 0.5f;
 		//transformComponent->CurrentPos.x = win->GetSize().x * 0.5f;

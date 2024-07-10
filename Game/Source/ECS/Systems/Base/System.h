@@ -3,7 +3,7 @@
 
 class EntityManager;
 
-class System : public Subscriber
+class System
 {
 public:
 	System(unsigned priority = 0);

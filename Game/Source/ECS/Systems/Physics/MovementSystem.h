@@ -3,7 +3,7 @@
 
 class Entity;
 
-class MovementSystem : public System
+class MovementSystem : public System, public Subscriber
 {
 public:
 	MovementSystem();

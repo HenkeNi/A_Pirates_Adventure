@@ -47,7 +47,7 @@
           "type": "text",
           "properties": {
             "font": "Basic",
-            "size": 64  ,
+            "size": 64,
             "color": [ 0.95, 0.42, 0.1, 1.0 ],
             "text": "Settings",
             "alignment": "center"
@@ -85,5 +85,13 @@
         }
       ]
     }
+  ],
+  "systems": [
+    "CameraSystem",
+    "TextRenderSystem",
+    "SpriteRenderSystem",
+    "UISystem",
+    "UIRenderSystem",
+    "SceneTransitionSystem"
   ]
 }

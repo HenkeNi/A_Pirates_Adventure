@@ -3,7 +3,7 @@
 
 class Entity;
 
-class PlayerControllerSystem : public System
+class PlayerControllerSystem : public System, public Subscriber
 {
 public:
 	PlayerControllerSystem();
