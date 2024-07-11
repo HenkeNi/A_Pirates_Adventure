@@ -21,7 +21,6 @@ public:
 	static ComponentData ParseComponent(const rapidjson::Value& value); //  dont static?
 
 	void LoadBlueprints(const std::string& path);
-	//void LoadBlueprint(const std::string& aPath);
 	void ConstructBlueprint(const rapidjson::Value& value);
 
 	Entity Create(const EntityType& type);
@@ -31,16 +30,11 @@ public:
 	void RegisterComponentBuilder(const std::string& type);
 	void RegisterBlueprint(const std::string& id, EntityBlueprint blueprint);
 
-	// void RegisterComponentBuilder(const std::string& type, ComponentBuilder* builder);
-
-	// Function to modify/initialize component?
-
 	// TEST
 	inline Hi_Engine::Factory<ComponentBuilder, Component>& GetCompFactory() { return m_componentFactory; }
 
 private:
-	//ECS::ComponentFactory								m_componentFactory;
-	Hi_Engine::Factory<ComponentBuilder, Component>			m_componentFactory;
+	Hi_Engine::Factory<ComponentBuilder, Component>     m_componentFactory;
 	std::unordered_map<std::string, EntityBlueprint>	m_blueprints;		
 };
 

@@ -55,7 +55,7 @@ struct ColliderComponent : public Component
 	//CollisionData						CollisionData; // have as pointer?
 	// bool								IsColliding;
 
-	bool								IsActive; // ?? or just remove component?
+	bool								IsActive = true; // ?? or just remove component?
 };
 
 struct CircleColliderComponent : public Component

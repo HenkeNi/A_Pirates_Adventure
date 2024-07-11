@@ -44,18 +44,21 @@ bool Entity::AddComponent(Component* component)
 		m_components.insert_or_assign(key, component);
 
 		return true;
-		//if (m_components.find(key) == m_components.end())
-		//{
-		//	//m_components.insert({ key, component });
-		//	return true;
-		//}
 	}
+
 	return false;
 }
 
 void Entity::OnDestroy()
 {
 	// TODO: remove components...
+	
+	//MemoryPool<Derived>::GetInstance().ReturnResource(static_cast<Derived*>(pointer));
+
+	for (const auto& [type, component] : m_components)
+	{
+		//Hi_Engine::MemoryPool<Entity>::GetInstance().ReturnResource()
+	}
 }
 
 unsigned GenerateID()

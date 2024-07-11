@@ -1,7 +1,6 @@
 #include "Pch.h"
 #include "EntityFactory.h"
 
-ComponentData ParseComponent(const rapidjson::Value& value);
 
 EntityFactory::EntityFactory()
 {
@@ -25,42 +24,13 @@ void EntityFactory::LoadBlueprints(const std::string& path)
 			{
 				ConstructBlueprint(blueprint);
 			}
-
 		}
 		else if (document.IsObject())
 		{
 			ConstructBlueprint(document);
 		}
-
-		//for (auto& blueprintType : category.value.GetArray())
-		//{
-		//	for (const auto& blueprint : document.GetArray())
-		//	{
-		//		auto obj = blueprint.GetObject();
-		//		// LoadBlueprint(blueprint.GetObject());
-		//	}
-		//}
 	}
 }
-
-//void EntityFactory::LoadBlueprint(const std::string& aPath)
-// {
-//	EntityBlueprint blueprint;
-//
-//	auto document = ParseDocument(aPath);
-//	for (auto& component : document["components"].GetArray())
-//	{
-//		const rapidjson::Value& properties = component["properties"];
-//		assert(properties.IsObject() && "Failed to load component properties for blueprint");
-//
-//		blueprint.AddComponentData(component["type"].GetString(), ParseComponent(properties));
-//	}
-//
-//	std::string blueprintID = document["id"].GetString();
-//	RegisterBlueprint(blueprintID, blueprint);
-//
-//	// TODO. store type ("type: "transform") in COmponent base?
-//}
 
 void EntityFactory::ConstructBlueprint(const rapidjson::Value& value)
 {
@@ -111,11 +81,6 @@ void EntityFactory::RegisterBlueprint(const std::string& id, EntityBlueprint blu
 {
 	m_blueprints.insert_or_assign(id, std::move(blueprint)); // no need to move?
 }
-
-//void EntityFactory::RegisterComponentBuilder(const std::string& type, ComponentBuilder* builder)
-//{
-//	m_componentFactory.RegisterBuilder(type, builder);
-//}
 
 ComponentData EntityFactory::ParseComponent(const rapidjson::Value& value)
 {

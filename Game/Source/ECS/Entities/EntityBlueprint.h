@@ -21,4 +21,6 @@ private:
 
 	std::string m_identifier;
 	std::unordered_map<std::string, ComponentData>	m_componentData;
+
+	// std::unordered_map<std::type_index, Component*> m_componentData;
 };

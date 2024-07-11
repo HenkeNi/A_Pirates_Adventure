@@ -36,7 +36,7 @@ private:
 	void		OnDestroy();
 
 	Components	m_components;
-	unsigned		m_ID;
+	unsigned    m_ID;
 };
 
 #pragma region Method_Definitions
@@ -53,7 +53,6 @@ T* Entity::GetComponent()
 	auto it = m_components.find(std::type_index(typeid(T)));
 	if (it != m_components.end())
 	{
-		//return std::dynamic_pointer_cast<T>(component->second);
 		return dynamic_cast<T*>(it->second);
 	}
 	return nullptr;
@@ -65,7 +64,6 @@ const T* Entity::GetComponent() const
 	auto it = m_components.find(std::type_index(typeid(T)));
 	if (it != m_components.end())
 	{
-		//return std::dynamic_pointer_cast<T>(component->second);
 		return dynamic_cast<T*>(it->second);
 	}
 	return nullptr;
