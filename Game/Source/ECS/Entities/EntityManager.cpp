@@ -6,12 +6,11 @@
 #include "../PostMaster/Message.h"
 #include "../PostMaster/PostMaster.h"
 
-// EntityFactory EntityManager::s_entityFactory;
 
 EntityManager::EntityManager(EntityFactory& factory)
 	: m_entityFactory{ factory }
 {
-	m_entities.reserve(512);
+	m_entities.reserve(2500);
 }
 
 EntityManager::~EntityManager()
