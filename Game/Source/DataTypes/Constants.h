@@ -7,4 +7,6 @@ namespace Constants
 
 	constexpr unsigned MapChunkLength = 10;
 	constexpr unsigned MapChunkSize = MapChunkLength * MapChunkLength;
+
+	constexpr std::size_t MaxEntities = 5000;
 }
