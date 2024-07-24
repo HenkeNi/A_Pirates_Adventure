@@ -16,16 +16,12 @@ MenuScene::~MenuScene()
 
 void MenuScene::Update(float deltaTime)
 {
-	m_ecs.GetSystemManager().Update(deltaTime);
-}
-
-void MenuScene::LateUpdate(float deltaTime)
-{
+	m_ecs.Update(deltaTime);
 }
 
 void MenuScene::Draw() const
 {
-	m_ecs.GetSystemManager().Draw();
+	m_ecs.Draw();
 }
 
 void MenuScene::OnEnter()
@@ -35,8 +31,8 @@ void MenuScene::OnEnter()
 
 void MenuScene::OnExit()
 {
-	m_ecs.GetEntityManager().DestroyAll();
-	m_ecs.GetSystemManager().Clear();
+	//m_ecs.GetEntityManager().DestroyAll();
+	// m_ecs.Clear();
 
 	//Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::StopSoundEvent>("theme_drunken_sailor");
 }

@@ -1,60 +1,62 @@
 #include "Pch.h"
 #include "MapUtils.h"
-#include "Entities/Entity.h"
+//#include "Entities/Entity.h"
 #include "Components/Core/CoreComponents.h"
 #include "Components/Map/MapComponents.h"
 #include "Constants.h"
 //#include "../../Data/Structs.h"
+#include "ECSTypes.h"
 
-
-Entity* MapUtils::GetMapChunkAtPosition(const std::vector<Entity*>& mapChunks, const FVector2& position)
+Entity MapUtils::GetMapChunkAtPosition(const std::vector<Entity>& mapChunks, const FVector2& position)
 {
-	for (const auto& mapChunk : mapChunks)
-	{
-		auto transformComponent = mapChunk->GetComponent<TransformComponent>();
-		auto mapChunkComponent  = mapChunk->GetComponent<MapChunkComponent>();
+	//for (const auto& mapChunk : mapChunks)
+	//{
+	//	auto transformComponent = mapChunk->GetComponent<TransformComponent>();
+	//	auto mapChunkComponent  = mapChunk->GetComponent<MapChunkComponent>();
 
-		auto minXPosition = transformComponent->CurrentPos.x;
-		auto minYPosition = transformComponent->CurrentPos.y;
+	//	auto minXPosition = transformComponent->CurrentPos.x;
+	//	auto minYPosition = transformComponent->CurrentPos.y;
 
-		auto maxXPosition = minXPosition + Constants::MapChunkSize;
-		//auto maxXPosition = minXPosition + mapChunkComponent->Width;
-		auto maxYPosition = minYPosition + Constants::MapChunkSize;
-		//auto maxYPosition = minYPosition + mapChunkComponent->Height;
+	//	auto maxXPosition = minXPosition + Constants::MapChunkSize;
+	//	//auto maxXPosition = minXPosition + mapChunkComponent->Width;
+	//	auto maxYPosition = minYPosition + Constants::MapChunkSize;
+	//	//auto maxYPosition = minYPosition + mapChunkComponent->Height;
 
-		if (position.x < minXPosition || position.x > maxXPosition ||
-			position.y < minYPosition || position.y > maxYPosition)
-			continue;
+	//	if (position.x < minXPosition || position.x > maxXPosition ||
+	//		position.y < minYPosition || position.y > maxYPosition)
+	//		continue;
 
 
-		return mapChunk;
-	}
+	//	return mapChunk;
+	//}
 
-	return nullptr;
+	return -1;
 }
 
-Tile* MapUtils::GetTileAtWorldPosition(Entity* mapChunk, const FVector2& worldPosition)
+Tile* MapUtils::GetTileAtWorldPosition(Entity mapChunk, const FVector2& worldPosition)
 {
-	static float tileSize = 1.f;
+	//static float tileSize = 1.f;
 
-	auto mapChunkTransform = mapChunk->GetComponent<TransformComponent>();
-	auto mapChunkComponent = mapChunk->GetComponent<MapChunkComponent>();
+	//auto mapChunkTransform = mapChunk->GetComponent<TransformComponent>();
+	//auto mapChunkComponent = mapChunk->GetComponent<MapChunkComponent>();
 
-	// calculate local position
-	const FVector2 localPosition = worldPosition - FVector2{ mapChunkTransform->CurrentPos.x, mapChunkTransform->CurrentPos.y };
+	//// calculate local position
+	//const FVector2 localPosition = worldPosition - FVector2{ mapChunkTransform->CurrentPos.x, mapChunkTransform->CurrentPos.y };
 
-	//std::cout << "Locla: " << localPosition.x << ", " << localPosition.y << '\n';
+	////std::cout << "Locla: " << localPosition.x << ", " << localPosition.y << '\n';
 
-	int tileRow = (int)localPosition.y / tileSize;
-	int tileCol = (int)localPosition.x / tileSize;
+	//int tileRow = (int)localPosition.y / tileSize;
+	//int tileCol = (int)localPosition.x / tileSize;
 
-	//std::cout << tileRow << ", col: " << tileCol << '\n';
+	////std::cout << tileRow << ", col: " << tileCol << '\n';
 
-	int tileIndex = tileRow * 10 + tileCol;
+	//int tileIndex = tileRow * 10 + tileCol;
 
-	// std::cout << "Index: " << tileIndex << '\n';
+	//// std::cout << "Index: " << tileIndex << '\n';
 
-	return &mapChunkComponent->Tiles.at(tileIndex);
+	//return &mapChunkComponent->Tiles.at(tileIndex);
+
+	return nullptr;
 
 	//Tile* tile = nullptr;
 
@@ -81,7 +83,7 @@ Tile* MapUtils::GetTileAtWorldPosition(Entity* mapChunk, const FVector2& worldPo
 		return &mapChunkComponent->m_tiles[aPosition.y * width * aPosition.x];
 	}*/
 
-	return nullptr;
+	//return nullptr;
 	//return tile;
 }
 
@@ -91,11 +93,10 @@ void MapUtils::GetCoordinates(int index, int width, int& outX, int& outY)
 	outY = index / width;
 }
 
-eTile MapUtils::GetTileTypeInDirection(const Entity* mapChunk, int index, eDirection direction)
+eTile MapUtils::GetTileTypeInDirection(const std::vector<Tile>& tiles, int index, eDirection direction)
 {
-	auto* mapChunkComponent = mapChunk->GetComponent<MapChunkComponent>();
+	// TODO; make work without Tilechunks
 
-	auto tiles = mapChunkComponent->Tiles;
 
 	int chunkSize = (int)Constants::MapChunkLength;
 
@@ -130,11 +131,9 @@ eTile MapUtils::GetTileTypeInDirection(const Entity* mapChunk, int index, eDirec
 	return eTile::Void;
 }
 
-int MapUtils::IsTileTypeInDirection(Entity* mapChunk, int index, eDirectionalValue direction, eTile type)
+int MapUtils::IsTileTypeInDirection(const std::vector<Tile>& tiles, int index, eDirectionalValue direction, eTile type)
 {
-	auto* mapChunkComponent = mapChunk->GetComponent<MapChunkComponent>();
-
-	auto tiles = mapChunkComponent->Tiles;
+	// TODO; make work without Tilechunks
 
 	unsigned chunkSize = Constants::MapChunkLength;
 

@@ -1,7 +1,8 @@
 #pragma once
-#include "PostMaster/Subscriber.h"
+#include "ECSTypes.h"
+//#include "PostMaster/Subscriber.h"
 
-class EntityManager;
+class ECS;
 
 class System
 {
@@ -9,13 +10,15 @@ public:
 	System(unsigned priority = 0);
 	virtual ~System() = default;
 
-	void Init(EntityManager* entityManager);
+	void Init(ECS* ecs);
+	virtual void SetSignature() = 0;
 
 	virtual void Update(float deltaTime)		{};
 	virtual	void LateUpdate(float deltaTime)	{};
 	virtual void Draw()							{};
 
 protected:
-	EntityManager*	 m_entityManager; // Todo; store reference to ECS instead? have GetSystem function in system manager?
-	unsigned		 m_priority;
+	ECS*		m_ecs;
+	Signatures	m_signatures;
+	unsigned	m_priority;
 };

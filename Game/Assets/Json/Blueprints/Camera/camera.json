@@ -1,14 +1,14 @@
 {
-  "id": "camera",
+  "id": "Camera",
   "components": [
     {
-      "type": "tag",
+      "type": "Tag",
       "properties": {
-        "type": "camera"
+        "type": "Camera"
       }
     },
     {
-      "type": "transform",
+      "type": "Transform",
       "properties": {
         "position": [ 0.0, 0.0 ],
         "scale": [ 1.0, 1.0 ],
@@ -17,7 +17,7 @@
       }
     },
     {
-      "type": "camera",
+      "type": "Camera",
       "properties": {}
     }
   ]

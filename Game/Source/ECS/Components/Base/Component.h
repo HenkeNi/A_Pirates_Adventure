@@ -9,6 +9,9 @@ public:
 	virtual ~Component() {};
 };	
 
+
+//using ComponentType = std::uint8_t;
+
 // TODO: remove?
 //template <typename T>
 //inline void RegisterComponent(const std::string& aName) 

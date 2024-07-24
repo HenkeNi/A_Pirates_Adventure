@@ -12,5 +12,5 @@ public:
 	void Update(float deltaTime)	override;
 
 private:
-	bool EquipItem(class Entity* owner, class Entity* item);
+	bool EquipItem(Entity owner, Entity item);
 };

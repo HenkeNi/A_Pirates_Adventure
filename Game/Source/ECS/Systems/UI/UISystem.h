@@ -1,6 +1,7 @@
 #pragma once
 #include "../Base/System.h"
 
+
 class UISystem : public System, public Subscriber
 {
 public:
@@ -13,7 +14,7 @@ public:
 	static glm::vec2 ScreenToWorldCoordinates(const glm::vec2& position);
 
 private:
-	void OnButtonActivated(Entity* button);
+	void OnButtonActivated(Entity button);
 	//void AssignCallback(Entity* button);
 	void UpdateCursor();
 };

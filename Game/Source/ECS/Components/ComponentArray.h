@@ -1,48 +1,53 @@
 #pragma once
-#include "Constants.h"
+#include "ECSTypes.h"
+//#include "Entities/Entity.h"
 
-using Entity = int; // Include Entity.h instead?
 using Index = std::size_t;
+//using Component = void*;
 
-class Component;
 
 class IComponentArray
 {
 public:
 	virtual ~IComponentArray() = default;
 
-	virtual void			 AddComponent(Entity entity, Component* component)	= 0;
-	virtual Component*		 RemoveComponent(Entity entity)						= 0;
+	virtual void AddComponent(Entity entity, void* component) = 0;
+	virtual void* RemoveComponent(Entity entity) = 0;
 
-	virtual const Component* GetComponent(Entity entity)				  const = 0;
-	virtual Component*		 GetComponent(Entity entity)						= 0;
+	virtual std::vector<const void*> GetComponents() const = 0;
+	virtual std::vector<void*>	GetComponents()	= 0;
+
+	virtual const void* GetComponent(Entity entity) const = 0;
+	virtual void* GetComponent(Entity entity) = 0;
 };
 
 template <typename T>
 class ComponentArray : public IComponentArray
 {
 public:
-
-	void	 AddComponent(Entity entity, T* component)	override;
-	T*		 RemoveComponent(Entity entity)				override;
+	void AddComponent(Entity entity, void* component) override;
+	void* RemoveComponent(Entity entity) override;
 	
-	const T* GetComponent(Entity entity)		  const override;
-	T*		 GetComponent(Entity entity)				override;
+	std::vector<const void*> GetComponents() const override;
+	std::vector<void*>	GetComponents() override;
 
-	bool	 HasComponent(Entity entity)				   const;
+	const void* GetComponent(Entity entity) const override;
+	void* GetComponent(Entity entity) override;
+
+	bool HasComponent(Entity entity) const;
 
 private:
 	std::unordered_map<Entity, Index> m_entityToIndexMap;
 	std::unordered_map<Index, Entity> m_indexToEntityMap;
 
-	std::array<T*, Constants::MaxEntities> m_components;
+	std::array<T*, MaxEntities> m_components; // store components both for reading and for writing?! (multi threading)
 	std::size_t m_currentSize;
 };
 
 #pragma region Method_Definitions
 
 template<typename T>
-inline void ComponentArray<T>::AddComponent(Entity entity, T* component)
+inline void ComponentArray<T>::AddComponent(Entity entity, void* component)
 {
 	assert(!HasComponent(entity) && "ERROR: entity already exist");
 
@@ -51,12 +56,12 @@ inline void ComponentArray<T>::AddComponent(Entity entity, T* component)
 	m_entityToIndexMap.insert_or_assign(entity, index);
 	m_indexToEntityMap.insert_or_assign(index, entity);
 
-	m_components[index] = component;
+	m_components[index] = static_cast<T*>(component);
 	++m_currentSize;
 }
 
 template<typename T>
-inline T* ComponentArray<T>::RemoveComponent(Entity entity)
+inline void* ComponentArray<T>::RemoveComponent(Entity entity)
 {
 	assert(HasComponent(entity) && "ERROR: entity doesn't exist");
 
@@ -87,7 +92,33 @@ inline T* ComponentArray<T>::RemoveComponent(Entity entity)
 }
 
 template<typename T>
-inline const T* ComponentArray<T>::GetComponent(Entity entity) const
+inline std::vector<const void*> ComponentArray<T>::GetComponents() const
+{
+	std::vector<const void*> components;
+
+	for (int i = 0; i < m_currentSize; ++i)
+	{
+		components.push_back(m_components[i]);
+	}
+
+	return components;
+}
+
+template<typename T>
+inline std::vector<void*> ComponentArray<T>::GetComponents()
+{
+	std::vector<void*> components;
+
+	for (int i = 0; i < m_currentSize; ++i)
+	{
+		components.push_back(m_components[i]);
+	}
+
+	return components;
+}
+
+template<typename T>
+inline const void* ComponentArray<T>::GetComponent(Entity entity) const
 {
 	assert(HasComponent(entity) && "ERROR: failed to retrieve component for entity");
 
@@ -98,7 +129,7 @@ inline const T* ComponentArray<T>::GetComponent(Entity entity) const
 }
 
 template<typename T>
-inline T* ComponentArray<T>::GetComponent(Entity entity)
+inline void* ComponentArray<T>::GetComponent(Entity entity)
 {
 	assert(HasComponent(entity) && "ERROR: failed to retrieve component for entity");
 

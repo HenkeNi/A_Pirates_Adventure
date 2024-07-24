@@ -1,16 +1,15 @@
 [
   {
-    "id": "fiber_resource",
-    "layer": "resource",
+    "id": "FiberResource",
     "components": [
       {
-        "type": "tag",
+        "type": "Tag",
         "properties": {
-          "type": "collectable"
+          "type": "Collectable"
         }
       },
       {
-        "type": "transform",
+        "type": "Transform",
         "properties": {
           "position": [ 0.0, 0.0 ],
           "scale": [ 24.0, 24.0 ],
@@ -19,7 +18,7 @@
         }
       },
       {
-        "type": "sprite",
+        "type": "Sprite",
         "properties": {
           "texture": "grass",
           "coordinates": [ 0, 0 ],
@@ -27,18 +26,18 @@
         }
       },
       {
-        "type": "collider",
+        "type": "Collider",
         "properties": {
-          "type": "static",
+          "type": "Static",
           "size": [ 25.0, 25.0 ]
         }
       },
       {
-        "type": "collectable",
+        "type": "Collectable",
         "properties": {}
       },
       {
-        "type": "audio",
+        "type": "Audio",
         "properties": {
           "sound_name": "pickup",
           "trigger": "item_collected"
@@ -47,17 +46,16 @@
     ]
   },
   {
-    "id": "stone_resource",
-    "layer": "resource",
+    "id": "StoneResource",
     "components": [
       {
-        "type": "tag",
+        "type": "Tag",
         "properties": {
-          "type": "collectable"
+          "type": "Collectable"
         }
       },
       {
-        "type": "transform",
+        "type": "Transform",
         "properties": {
           "position": [ 0.0, 0.0 ],
           "scale": [ 24.0, 24.0 ],
@@ -66,7 +64,7 @@
         }
       },
       {
-        "type": "sprite",
+        "type": "Sprite",
         "properties": {
           "texture": "rock_fragment",
           "coordinates": [ 0, 0 ],
@@ -74,18 +72,18 @@
         }
       },
       {
-        "type": "collider",
+        "type": "Collider",
         "properties": {
-          "type": "static",
+          "type": "Static",
           "size": [ 25.0, 25.0 ]
         }
       },
       {
-        "type": "collectable",
+        "type": "Collectable",
         "properties": {}
       },
       {
-        "type": "audio",
+        "type": "Audio",
         "properties": {
           "sound_name": "pickup",
           "trigger": "item_collected"
@@ -94,17 +92,16 @@
     ]
   },
   {
-    "id": "wood_resource",
-    "layer": "resource",
+    "id": "WoodResource",
     "components": [
       {
-        "type": "tag",
+        "type": "Tag",
         "properties": {
-          "type": "collectable"
+          "type": "Collectable"
         }
       },
       {
-        "type": "transform",
+        "type": "Transform",
         "properties": {
           "position": [ 0.0, 0.0 ],
           "scale": [ 24.0, 24.0 ],
@@ -113,7 +110,7 @@
         }
       },
       {
-        "type": "sprite",
+        "type": "Sprite",
         "properties": {
           "texture": "log",
           "coordinates": [ 0, 0 ],
@@ -121,18 +118,18 @@
         }
       },
       {
-        "type": "collider",
+        "type": "Collider",
         "properties": {
-          "type": "static",
+          "type": "Static",
           "size": [ 25.0, 25.0 ]
         }
       },
       {
-        "type": "collectable",
+        "type": "Collectable",
         "properties": {}
       },
       {
-        "type": "audio",
+        "type": "Audio",
         "properties": {
           "sound_name": "pickup",
           "trigger": "item_collected"

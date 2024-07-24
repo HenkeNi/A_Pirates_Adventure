@@ -1,17 +1,18 @@
 #pragma once
 
-class EntityFactory;
+//class EntityFactory;
 class ECS;
-class SystemManager;
+//class SystemManager;
 class SceneManager;
 
 namespace Registration
 {
-	void RegisterComponents(EntityFactory& factory);
+	//void RegisterComponents(EntityFactory& factory);
+	void RegisterComponents(ECS& ecs);
 
-	void RegisterSystems(SystemManager& systemManager);
+	void RegisterSystems(ECS& ecs);
 
-	void RegisterBlueprints();
+	void RegisterBlueprints(ECS& ecs);
 
 	void RegisterScenes(SceneManager& sceneManager, ECS& ecs);	
 }

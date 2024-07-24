@@ -1,8 +1,8 @@
 #include "Pch.h"
 #include "TextRenderSystem.h"
-#include "Entities/EntityManager.h"
+//#include "Entities/EntityManager.h"
 #include "Components/Core/CoreComponents.h"
-
+#include "ECS.h"
 
 TextRenderSystem::TextRenderSystem()
 {
@@ -14,15 +14,22 @@ TextRenderSystem::~TextRenderSystem()
 
 void TextRenderSystem::Draw()
 {
-	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
+	assert(m_ecs && "[TextRenderSystem - ERROR]: ECS is nullptr!");
 
 
 	// DO in initilaizcomponent instead
 	auto* shader = &Hi_Engine::ResourceHolder<Hi_Engine::GLSLShader>::GetInstance().GetResource("Text"); // FIX!! set in Renderer before...
 
+
+
+
 	auto* camera = m_entityManager->FindFirst<CameraComponent>();
 	const auto& projection = camera->GetComponent<CameraComponent>()->Camera.GetProjectionMatrix();
 
+	auto entities = m_ecs->FindEntities(m_signature);
+	
+	
+	
 	auto entities = m_entityManager->FindAll<TextComponent, TransformComponent>();
 	for (const auto& entity : entities)
 	{

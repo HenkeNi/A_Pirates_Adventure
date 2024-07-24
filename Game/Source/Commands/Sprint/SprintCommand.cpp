@@ -9,18 +9,18 @@ SprintCommand::SprintCommand()
 {
 }
 
-void SprintCommand::Execute(Entity* entity)
+void SprintCommand::Execute(Entity entity)
 {
 	if (!entity)
 		return;
 	
-	if (auto* velocityComponent = entity->GetComponent<VelocityComponent>())
-	{
-		velocityComponent->Speed = m_sprintSpeed; // modify velocity insetad?
-	}
+	//if (auto* velocityComponent = entity->GetComponent<VelocityComponent>())
+	//{
+	//	velocityComponent->Speed = m_sprintSpeed; // modify velocity insetad?
+	//}
 }
 
-bool SprintCommand::CanPerform(Entity* entity) const
+bool SprintCommand::CanPerform(Entity entity) const
 {
 	if (!entity)
 		return false;
@@ -28,13 +28,13 @@ bool SprintCommand::CanPerform(Entity* entity) const
 	return true;
 }
 
-void SprintCommand::Undo(Entity* entity)
+void SprintCommand::Undo(Entity entity)
 {
 	if (!entity)
 		return;
 
-	if (auto* velocityComponent = entity->GetComponent<VelocityComponent>())
+	/*if (auto* velocityComponent = entity->GetComponent<VelocityComponent>())
 	{
 		velocityComponent->Speed = 200.f;
-	}
+	}*/
 }

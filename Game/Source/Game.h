@@ -1,8 +1,8 @@
 #pragma once
 #include "Scenes/SceneManager.h"
-#include "ECS/ECS.h"
 #include <Application/Application.h>
 
+class ECS;
 
 class Game : public Hi_Engine::Application
 {
@@ -21,5 +21,5 @@ private:
 	void LoadResources();
 
 	SceneManager m_sceneManager;
-	ECS	m_ecs;
+	std::unique_ptr<ECS> m_ecs;
 };

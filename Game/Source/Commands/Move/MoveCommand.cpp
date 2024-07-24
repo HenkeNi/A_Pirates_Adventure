@@ -14,27 +14,29 @@ MoveCommand::MoveCommand(const FVector2& direction)
 {
 }
 
-void MoveCommand::Execute(Entity* entity)			
+void MoveCommand::Execute(Entity entity)			
 {
 	if (!entity)
 		return;
 
-	if (auto* velocityComponent = entity->GetComponent<VelocityComponent>())
-	{
-		velocityComponent->Velocity.x = m_direction.x == 0.f ? velocityComponent->Velocity.x : m_direction.x;
-		velocityComponent->Velocity.y = m_direction.y == 0.f ? velocityComponent->Velocity.y : m_direction.y;
-	}
+	//if (auto* velocityComponent = entity->GetComponent<VelocityComponent>())
+	//{
+	//	velocityComponent->Velocity.x = m_direction.x == 0.f ? velocityComponent->Velocity.x : m_direction.x;
+	//	velocityComponent->Velocity.y = m_direction.y == 0.f ? velocityComponent->Velocity.y : m_direction.y;
+	//	//velocityComponent->Acceleration.x = (m_direction.x == 0.f) ? velocityComponent->Acceleration.x : m_direction.x;
+	//	//velocityComponent->Acceleration.y = (m_direction.y == 0.f) ? velocityComponent->Acceleration.y : m_direction.y;
+	//}
 }
 
-bool MoveCommand::CanPerform(Entity* entity) const
+bool MoveCommand::CanPerform(Entity entity) const
 {
 	if (!entity)
 		return false;
 
-	if (auto* characterStateComponent = entity->GetComponent<CharacterStateComponent>())
-	{
+	//if (auto* characterStateComponent = entity->GetComponent<CharacterStateComponent>())
+	//{
 
-	}
+	//}
 
 	return true;
 }

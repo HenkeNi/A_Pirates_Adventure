@@ -4,6 +4,10 @@
 #include "Components/Core/CoreComponents.h"
 #include "Components/UI/UIComponents.h"
 
+#include "Components/ComponentManager.h"
+
+
+#include "ECS/ECS.h"
 
 SpriteRenderSystem::SpriteRenderSystem()
 	: System{ 0 }
@@ -16,7 +20,15 @@ SpriteRenderSystem::~SpriteRenderSystem()
 
 void SpriteRenderSystem::Draw() // TODO; should pass along if bash should be flushed in render command?
 {
-	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
+	assert(m_ecs && "ERROR: ECS is nullptr!");
+
+
+	auto sprites = m_ecs->FindEntities(m_signatures.at("Sprite"));
+
+	// m_ecs->GetComponent(); // function for getting Component?? in ECS...
+
+
+
 
 	auto* camera = m_entityManager->FindFirst<CameraComponent>();
 	if (!camera)

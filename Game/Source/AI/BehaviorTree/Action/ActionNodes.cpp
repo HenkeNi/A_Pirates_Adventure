@@ -6,7 +6,7 @@
 
 #pragma region IdleNode
 
-eBTNodeStatus IdleNode::Execute(Entity* entity)
+eBTNodeStatus IdleNode::Execute(Entity entity)
 {
 	if (entity)
 	{
@@ -18,7 +18,7 @@ eBTNodeStatus IdleNode::Execute(Entity* entity)
 	return eBTNodeStatus::Invalid;
 }
 
-void IdleNode::StopMovement(Entity* entity)
+void IdleNode::StopMovement(Entity entity)
 {
 	// Break slowely? (return running if not fully stopped)
 	

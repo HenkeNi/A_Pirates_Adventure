@@ -1,7 +1,6 @@
 #pragma once
 #include "../Base/System.h"
 
-class Entity;
 // Rename? Foilage Decroratiom, ResourcePoplation?
 class MapDecorationSystem : public System, public Subscriber
 {
@@ -13,6 +12,6 @@ public:
 	void Update(float deltaTime)	override;
 
 private:
-	void GenerateResources(Entity* entity);
-	void PopulateWithFoilage(const Entity* mapChunk); // PopulateWithFoilage, Decorate?
+	void GenerateResources(Entity entity);
+	void PopulateWithFoilage(Entity mapChunk); // PopulateWithFoilage, Decorate?
 };

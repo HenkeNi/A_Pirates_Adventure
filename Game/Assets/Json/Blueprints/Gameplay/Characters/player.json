@@ -1,15 +1,14 @@
 {
-  "id": "player",
-  "layer": "player",
+  "id": "Player",
   "components": [
     {
-      "type": "tag",
+      "type": "Tag",
       "properties": {
-        "type": "player"
+        "type": "Player"
       }
     },
     {
-      "type": "transform",
+      "type": "Transform",
       "properties": {
         "position": [ 0.0, 0.0 ],
         "scale": [ 64.0, 64.0 ],
@@ -18,7 +17,7 @@
       }
     },
     {
-      "type": "sprite",
+      "type": "Sprite",
       "properties": {
         "texture": "pirate_idle",
         "coordinates": [ 0, 0 ],
@@ -26,136 +25,63 @@
       }
     },
     {
-      "type": "velocity",
+      "type": "Velocity",
       "properties": {
         "speed": 200.0
       }
     },
     {
-      "type": "input",
+      "type": "Input",
       "properties": {}
     },  
     {
-      "type": "player_controller",
+      "type": "PlayerController",
       "properties": {
         "commands": [
           {
-            "type": "move_command",
-            "input": "up",
+            "type": "MoveCommand",
+            "input": "Up",
             "direction": [ 0.0, -1.0 ]
           },
           {
-            "type": "move_command",
-            "input": "down",
+            "type": "MoveCommand",
+            "input": "Down",
             "direction": [ 0.0, -1.0 ]
           }
         ]
       }
     },
     {
-      "type": "character_state",
+      "type": "CharacterState",
       "properties": {}
     },
     {
-      "type": "friendly",
+      "type": "Friendly",
       "properties": {}
     },
     {
-      "type": "animation",
-      "properties": {
-        "active": "idle",
-        "sprite_sheet": "pirate_01",
-        "animations_": {
-          "idle": {
-            "frames": [
-              {
-                "row": 0,
-                "col": 0,
-                "duration": 10.0
-              }
-            ]
-          },
-          "walk": {
-            "frames": [
-              {
-                "row": 0,
-                "col": 0,
-                "duration": 10.0
-              }
-            ]
-          }
-        },
-        "animations": [
-          {
-            "identifier": "idle",
-            "texture": "pirate_01",
-            "subtexture_coordinates": [
-              [ 2, 1 ]
-            ],
-            "frame_duration": 0.2,
-            "is_looping": true,
-            "is_playing": true
-          },
-          {
-            "identifier": "walk",
-            "texture": "pirate_01",
-            "subtexture_coordinates": [
-              [ 2, 1 ],
-              [ 2, 0 ],
-              [ 2, 1 ],
-              [ 2, 2 ]
-            ],
-            "frame_duration": 0.15,
-            "is_looping": true,
-            "is_playing": false
-          },
-          {
-            "identifier": "attack",
-            "texture": "pirate_01",
-            "subtexture_coordinates": [
-              [ 2, 1 ]
-            ],
-            "frame_duration": 0.05,
-            "is_looping": false,
-            "is_playing": false
-          },
-          {
-            "identifier": "run",
-            "texture": "pirate_01",
-            "subtexture_coordinates": [
-              [ 2, 0 ],
-              [ 2, 2 ]
-            ],
-            "frame_duration": 0.1,
-            "is_looping": true,
-            "is_playing": false
-          }
-        ]
-      }
-    },
-    {
-      "type": "equipment",
+      "type": "Equipment",
       "properties": {}
     },
     {
-      "type": "inventory",
+      "type": "Inventory",
       "properties": {}
     },
     {
-      "type": "health",
+      "type": "Health",
       "properties": {
         "value": 5
       }
     },
     {
-      "type": "collider",
+      "type": "Collider",
       "properties": {
-        "type": "dynamic",
+        "type": "Dynamic",
         "size": [ 25.0, 25.0 ]
       }
     },
     {
-      "type": "sub_entities",
+      "type": "SubEntities",
       "properties": {}
     }
 

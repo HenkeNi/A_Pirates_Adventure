@@ -34,87 +34,89 @@ const FVector2 FlockBehavior::GetSteeringForce(const FVector2& position, const F
 	return {};
 }
 
-void FlockBehavior::SetFlockMembers(const std::vector<Entity*>& entities)
-{	
-	// TODO; avoid setting self...
-
-	m_flockMembers = entities;
-}
-
-void FlockBehavior::SetOwner(Entity* entity)
-{
-	m_owner = entity;
-}
+//void FlockBehavior::SetFlockMembers(const std::vector<Entity>& entities)
+//{	
+//	// TODO; avoid setting self...
+//
+//	//m_flockMembers = entities;
+//}
+//
+//void FlockBehavior::SetOwner(Entity entity)
+//{
+//	//m_owner = entity;
+//}
 
 FVector2 FlockBehavior::CalculateSeparationForce() const
 {
-	FVector2 separationForce;
-	float separationDistance = 2.f;
-	int neighbours = 0;
+	//FVector2 separationForce;
+	//float separationDistance = 2.f;
+	//int neighbours = 0;
 
-	for (auto* member : m_flockMembers)
-	{
-		if (!member || member->GetID() == m_owner->GetID())
-			continue;
+	//for (auto* member : m_flockMembers)
+	//{
+	//	if (!member || member->GetID() == m_owner->GetID())
+	//		continue;
 
-		auto ownerTransformComponent = m_owner->GetComponent<TransformComponent>();
-		auto otherTransformComponent = member->GetComponent<TransformComponent>();
+	//	auto ownerTransformComponent = m_owner->GetComponent<TransformComponent>();
+	//	auto otherTransformComponent = member->GetComponent<TransformComponent>();
 
-		auto ownPosition = ownerTransformComponent->CurrentPos;
-		auto otherPosition = otherTransformComponent->CurrentPos;
+	//	auto ownPosition = ownerTransformComponent->CurrentPos;
+	//	auto otherPosition = otherTransformComponent->CurrentPos;
 
 
-		auto distance = ownPosition.DistanceTo(otherPosition);
-		if (distance < separationDistance && distance > 0)
-		{
-			auto pushForce = ownPosition - otherPosition;
-			separationForce += pushForce / m_radius;
+	//	auto distance = ownPosition.DistanceTo(otherPosition);
+	//	if (distance < separationDistance && distance > 0)
+	//	{
+	//		auto pushForce = ownPosition - otherPosition;
+	//		separationForce += pushForce / m_radius;
 
-			++neighbours;
-		}
-	}
+	//		++neighbours;
+	//	}
+	//}
 
-	if (neighbours == 0)
-		return { 0.f, 0.f };
+	//if (neighbours == 0)
+	//	return { 0.f, 0.f };
 
-	separationForce = separationForce / (float)neighbours;
-	separationForce *= m_maxForce;
+	//separationForce = separationForce / (float)neighbours;
+	//separationForce *= m_maxForce;
 
-	return separationForce.GetNormalized();
+	//return separationForce.GetNormalized();
 	// CU::Vector3<float> separationForce = { 0.f, 0.f, 0.f };
 
 
-	// return {};
+	return {};
 }
 
 FVector2 FlockBehavior::CalculateCohesionForce() const
 {
-	auto centerOfMass = m_owner->GetComponent<TransformComponent>()->CurrentPos;
-	int neighbours = 0;
+	//auto centerOfMass = m_owner->GetComponent<TransformComponent>()->CurrentPos;
+	//int neighbours = 0;
 
-	for (auto* member : m_flockMembers)
-	{
-		if (!member || member->GetID() == m_owner->GetID())
-			continue;
+	//for (auto* member : m_flockMembers)
+	//{
+	//	if (!member || member->GetID() == m_owner->GetID())
+	//		continue;
 
-		auto otherTransformComponent = member->GetComponent<TransformComponent>();
-		auto otherVelocityComponent = member->GetComponent<VelocityComponent>();
+	//	auto otherTransformComponent = member->GetComponent<TransformComponent>();
+	//	auto otherVelocityComponent = member->GetComponent<VelocityComponent>();
 
-		auto otherPosition = otherTransformComponent->CurrentPos;
-		auto otherVelocity = otherVelocityComponent->Velocity;
-		//auto ownPosition = m_owner->GetComponent<TransformComponent>()->m_currentPos;
-		// auto distance = ownPosition.DistanceTo(otherPosition);
+	//	auto otherPosition = otherTransformComponent->CurrentPos;
+	//	auto otherVelocity = otherVelocityComponent->Velocity;
+	//	//auto ownPosition = m_owner->GetComponent<TransformComponent>()->m_currentPos;
+	//	// auto distance = ownPosition.DistanceTo(otherPosition);
 
-		centerOfMass += otherPosition + otherVelocity;
-		++neighbours;
-	}
+	//	centerOfMass += otherPosition + otherVelocity;
+	//	++neighbours;
+	//}
 
 
-	if (neighbours == 0)
-		return { 0.f, 0.f };
+	//if (neighbours == 0)
+	//	return { 0.f, 0.f };
 
-	centerOfMass = { centerOfMass.x / neighbours, centerOfMass.y / neighbours };
-	return centerOfMass.GetNormalized();
+	//centerOfMass = { centerOfMass.x / neighbours, centerOfMass.y / neighbours };
+	//return centerOfMass.GetNormalized();
+
+	return FVector2{};
 }
 
 FVector2 FlockBehavior::CalculateAlignmentForce() const
@@ -122,7 +124,7 @@ FVector2 FlockBehavior::CalculateAlignmentForce() const
 	FVector2 alignmentForce;
 	int neighbours = 0;
 
-	for (auto* member : m_flockMembers)
+	/*for (auto* member : m_flockMembers)
 	{
 		if (!member || member->GetID() == m_owner->GetID())
 			continue;
@@ -140,7 +142,7 @@ FVector2 FlockBehavior::CalculateAlignmentForce() const
 
 			++neighbours;
 		}
-	}
+	}*/
 		
 	if (neighbours == 0)
 		return { 0.f, 0.f };

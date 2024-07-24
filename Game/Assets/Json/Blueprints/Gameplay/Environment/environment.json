@@ -1,15 +1,15 @@
 [
   {
-    "id": "grass",
+    "id": "Grass",
     "components": [
       {
-        "type": "tag",
+        "type": "Tag",
         "properties": {
-          "type": "environment"
+          "type": "Environment"
         }
       },
       {
-        "type": "transform",
+        "type": "Transform",
         "properties": {
           "position": [ 0.0, 0.41 ],
           "scale": [ 64.0, 64.0 ],
@@ -18,7 +18,7 @@
         }
       },
       {
-        "type": "sprite",
+        "type": "Sprite",
         "properties": {
           "texture": "grass",
           "coordinates": [ 0, 0 ],
@@ -26,28 +26,28 @@
         }
       },
       {
-        "type": "collider",
+        "type": "Collider",
         "properties": {
-          "type": "static",
+          "type": "Static",
           "size": [ 25.0, 25.0 ]
         }
       },
       {
-        "type": "health",
+        "type": "Health",
         "properties": {
           "value": 50
         }
       },
       {
-        "type": "spawner",
+        "type": "Spawner",
         "properties": {
-          "spawned": "fiber_resource",
+          "spawned": "FiberResource",
           "amount": 5,
           "interval": 0.0
         }
       },
       {
-        "type": "environment",
+        "type": "Environment",
         "properties": {
           "tiles": [ "grass" ]
         }
@@ -55,16 +55,16 @@
     ]
   },
   {
-    "id": "palm_tree",
+    "id": "PalmTree",
     "components": [
       {
-        "type": "tag",
+        "type": "Tag",
         "properties": {
-          "type": "environment"
+          "type": "Environment"
         }
       },
       {
-        "type": "transform",
+        "type": "Transform",
         "properties": {
           "position": [ 0.0, 1.2 ],
           "scale": [ 64.0, 128.0 ],
@@ -73,7 +73,7 @@
         }
       },
       {
-        "type": "sprite",
+        "type": "Sprite",
         "properties": {
           "texture": "palm",
           "coordinates": [ 0, 0 ],
@@ -81,42 +81,42 @@
         }
       },
       {
-        "type": "collider",
+        "type": "Collider",
         "properties": {
-          "type": "static",
+          "type": "Static",
           "size": [ 25.0, 25.0 ]
         }
       },
       {
-        "type": "health",
+        "type": "Health",
         "properties": {
           "value": 100
         }
       },
       {
-        "type": "spawner",
+        "type": "Spawner",
         "properties": {
-          "spawned": "wood_resource",
+          "spawned": "WoodResource",
           "amount": 5,
           "interval": 0.0
         }
       },
       {
-        "type": "environment",
+        "type": "Environment",
         "properties": {
           "tiles": [ "sand", "grass" ]
         }
       },
       {
-        "type": "topple",
+        "type": "Topple",
         "properties": {}
       },
       {
-        "type": "shake",
+        "type": "Shake",
         "properties": {}
       },
       {
-        "type": "audio",
+        "type": "Audio",
         "properties": {
           "sound_name": "tree_fall",
           "trigger": "entity_destroyed"
@@ -125,16 +125,16 @@
     ]
   },
   {
-    "id": "rock",
+    "id": "Rock",
     "components": [
       {
-        "type": "tag",
+        "type": "Tag",
         "properties": {
-          "type": "environment"
+          "type": "Environment"
         }
       },
       {
-        "type": "transform",
+        "type": "Transform",
         "properties": {
           "position": [ 0.0, 0.1 ],
           "scale": [ 64.0, 64.0 ],
@@ -143,7 +143,7 @@
         }
       },
       {
-        "type": "sprite",
+        "type": "Sprite",
         "properties": {
           "texture": "rock",
           "coordinates": [ 0, 0 ],
@@ -151,20 +151,20 @@
         }
       },
       {
-        "type": "collider",
+        "type": "Collider",
         "properties": {
-          "type": "static",
+          "type": "Static",
           "size": [ 25.0, 25.0 ]
         }
       },
       {
-        "type": "health",
+        "type": "Health",
         "properties": {
           "value": 50
         }
       },
       {
-        "type": "spawner",
+        "type": "Spawner",
         "properties": {
           "spawned": "stone_resource",
           "amount": 5,
@@ -172,17 +172,17 @@
         }
       },
       {
-        "type": "environment",
+        "type": "Environment",
         "properties": {
           "tiles": [ "sand", "grass" ]
         }
       },
       {
-        "type": "shake",
+        "type": "Shake",
         "properties": {}
       },
       {
-        "type": "audio",
+        "type": "Audio",
         "properties": {
           "sound_name": "rock_smash",
           "trigger": "entity_destroyed"
@@ -191,16 +191,16 @@
     ]
   },
   {
-    "id": "berry_bush",
+    "id": "BerryBush",
     "components": [
       {
-        "type": "tag",
+        "type": "Tag",
         "properties": {
-          "type": "environment"
+          "type": "Environment"
         }
       },
       {
-        "type": "transform",
+        "type": "Transform",
         "properties": {
           "position": [ 0.0, 0.41 ],
           "scale": [ 64.0, 64.0 ],
@@ -209,7 +209,7 @@
         }
       },
       {
-        "type": "sprite",
+        "type": "Sprite",
         "properties": {
           "texture": "berry_bush_01",
           "coordinates": [ 0, 0 ],
@@ -217,9 +217,9 @@
         }
       },
       {
-        "type": "collider",
+        "type": "Collider",
         "properties": {
-          "type": "static",
+          "type": "Static",
           "size": [ 25.0, 25.0 ]
         }
       }

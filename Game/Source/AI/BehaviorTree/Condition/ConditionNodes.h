@@ -9,36 +9,36 @@
 class IsIdleNode : public BehaviorTreeNode
 {
 public:
-	eBTNodeStatus Execute(class Entity* entity)	override;
+	eBTNodeStatus Execute(Entity entity)	override;
 };
 
 class IsDestinationSetNode : public BehaviorTreeNode
 {
 public:
-	eBTNodeStatus Execute(class Entity* entity)	override;
+	eBTNodeStatus Execute(Entity entity)	override;
 };
 
 class IsDestinationReachedNode : public BehaviorTreeNode
 {
 public:
-	eBTNodeStatus Execute(class Entity* entity)	override;
+	eBTNodeStatus Execute(Entity entity)	override;
 };
 
 class IsTargetSetNode : public BehaviorTreeNode
 {
 public:
-	eBTNodeStatus Execute(class Entity* entity)	override;
+	eBTNodeStatus Execute(Entity entity)	override;
 };
 
 class IsTargetReachedNode : public BehaviorTreeNode // assure is valid! blackboard system, or some system handles it..
 {
 public:
-	eBTNodeStatus Execute(class Entity* entity)	override;
+	eBTNodeStatus Execute(Entity entity)	override;
 };
 
 class IsTargetInSightNode : public BehaviorTreeNode
 {
 public:
-	eBTNodeStatus Execute(class Entity* entity)	override;
+	eBTNodeStatus Execute(Entity entity)	override;
 
 };

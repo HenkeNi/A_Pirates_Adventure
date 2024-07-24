@@ -1,10 +1,9 @@
 [
   {
-    "id": "raft",
-    "layer": "ship",
+    "id": "Raft",
     "components": [
       {
-        "type": "transform",
+        "type": "Transform",
         "properties": {
           "position": [ 0.0, 0.0 ],
           "scale": [ 1.0, 1.0 ],
@@ -13,7 +12,7 @@
         }
       },
       {
-        "type": "sprite",
+        "type": "Sprite",
         "properties": {
           "texture": "raft",
           "coordinates": [ 0, 0 ],

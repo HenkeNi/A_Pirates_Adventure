@@ -1,16 +1,16 @@
 [
   {
-    "id": "skeleton",
-    "layer": "enemy",
+    "id": "Skeleton",
+    "layer": "Enemy",
     "components": [
       {
-        "type": "tag",
+        "type": "Tag",
         "properties": {
-          "type": "enemy"
+          "type": "Enemy"
         }
       },
       {
-        "type": "transform",
+        "type": "Transform",
         "properties": {
           "position": [ 0.0, 0.3 ],
           "scale": [ 64.0, 64.0 ],
@@ -19,20 +19,20 @@
         }
       },
       {
-        "type": "velocity",
+        "type": "Velocity",
         "properties": {
           "speed": 1.0
         }
       },
       {
-        "type": "collider",
+        "type": "Collider",
         "properties": {
-          "type": "dynamic",
+          "type": "Dynamic",
           "size": [ 25.0, 25.0 ]
         }
       },
       {
-        "type": "sprite",
+        "type": "Sprite",
         "properties": {
           "texture": "skeleton",
           "coordinates": [ 0, 0 ],
@@ -40,45 +40,45 @@
         }
       },
       {
-        "type": "character_state",
+        "type": "CharacterState",
         "properties": {}
       },
       {
-        "type": "hostile",
+        "type": "Hostile",
         "properties": {}
       },
       {
-        "type": "health",
+        "type": "Health",
         "properties": {
           "value": 50000
         }
       },
       {
-        "type": "knockback",
+        "type": "Knockback",
         "properties": {}
       },
       {
-        "type": "blackboard",
+        "type": "Blackboard",
         "properties": {}
       },
       {
-        "type": "behavior_tree",
+        "type": "BehaviorTree",
         "properties": {}
       },
       {
-        "type": "attribute",
+        "type": "Attribute",
         "properties": {
           "perception": 6
         }
       },
       {
-        "type": "personality",
+        "type": "Personality",
         "properties": {
           "IsAggressive": true
         }
       },
       {
-        "type": "audio",
+        "type": "Audio",
         "properties": {
           "sound_name": "death",
           "trigger": "entity_destroyed"
@@ -87,17 +87,16 @@
     ]
   },
   {
-    "id": "spider",
-    "layer": "enemy",
+    "id": "Spider",
     "components": [
       {
-        "type": "tag",
+        "type": "Tag",
         "properties": {
-          "type": "enemy"
+          "type": "Enemy"
         }
       },
       {
-        "type": "transform",
+        "type": "Transform",
         "properties": {
           "position": [ 0.0, 0.0 ],
           "scale": [ 1.0, 1.0 ],
@@ -106,7 +105,7 @@
         }
       },
       {
-        "type": "sprite",
+        "type": "Sprite",
         "properties": {
           "texture": "crab",
           "coordinates": [ 0, 0 ],
@@ -114,7 +113,7 @@
         }
       },
       {
-        "type": "behavior_tree",
+        "type": "BehaviorTree",
         "properties": {}
       }
     ]

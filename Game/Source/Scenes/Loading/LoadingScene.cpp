@@ -17,10 +17,6 @@ void LoadingScene::Update(float deltaTime)
 {
 }
 
-void LoadingScene::LateUpdate(float deltaTime)
-{
-}
-
 void LoadingScene::Draw() const
 {
 }

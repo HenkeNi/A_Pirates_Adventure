@@ -8,7 +8,5 @@ public:
 	CraftingSystem();
 	~CraftingSystem();
 
-	void Update(float deltaTime)	override;
-
-private:
+	void Update(float deltaTime) override;
 };

@@ -2,10 +2,11 @@
 #include "Game.h"
 #include "Scenes/Scene.h"
 #include "Registration/Registration.h"
+#include "ECS/ECS.h"
 
 
 Game::Game()
-	: m_sceneManager{}, m_ecs{}
+	: m_sceneManager{}, m_ecs{ std::make_unique<ECS>() }
 {
 }
 
@@ -46,9 +47,14 @@ void Game::OnDraw()
 void Game::OnCreate()
 {
 	LoadResources(); // Maybe each scene should load the data they need?
-	m_ecs.Init();
+	m_ecs->Init();
 	
-	Registration::RegisterScenes(m_sceneManager, m_ecs);
+	Registration::RegisterComponents(*m_ecs);
+	Registration::RegisterBlueprints(*m_ecs);
+	Registration::RegisterSystems(*m_ecs);
+	Registration::RegisterScenes(m_sceneManager, *m_ecs);
+
+	m_ecs->LoadBlueprints();
 
 	m_sceneManager.Init({ eScene::Game, eScene::Menu, eScene::Title });
 	m_sceneManager.TransitionToScene(eScene::Title);
@@ -57,7 +63,7 @@ void Game::OnCreate()
 void Game::OnDestroy()
 {
 	m_sceneManager.Shutdown();
-	m_ecs.Shutdown();
+	m_ecs->Shutdown();
 }
 
 void Game::LoadResources()

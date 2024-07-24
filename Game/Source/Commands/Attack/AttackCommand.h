@@ -6,8 +6,8 @@ class AttackCommand : public Command
 public:
 	AttackCommand();
 
-	void Execute(Entity* entity)			override;
-	bool CanPerform(Entity* entity) const override;
+	void Execute(Entity entity)			override;
+	bool CanPerform(Entity entity) const override;
 
 private:
 	// Cooldown struct?

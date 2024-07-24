@@ -1,7 +1,6 @@
 #pragma once
 #include "../Base/SteeringBehavior.h"
-
-class Entity;
+#include "Entities/Entity.h"
 
 class FlockBehavior : public SteeringBehavior
 {
@@ -15,8 +14,8 @@ public:
 
 
 	// Fix both...
-	void SetFlockMembers(const std::vector<Entity*>& entities);
-	void SetOwner(Entity* entity);
+	//void SetFlockMembers(const std::vector<Entity>& entities);
+	//void SetOwner(Entity entity);
 
 private:
 	FVector2 CalculateSeparationForce() const;
@@ -24,8 +23,8 @@ private:
 	FVector2 CalculateAlignmentForce() const; // Rename ComputeAlignment or CalculateAlignment
 
 
-	std::vector<Entity*> m_flockMembers;
-	Entity*				 m_owner;
+	//std::vector<Entity> m_flockMembers;
+	//Entity				 m_owner;
 	
 	float m_minSeparationDistance;
 

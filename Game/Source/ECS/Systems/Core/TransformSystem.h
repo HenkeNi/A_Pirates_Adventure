@@ -7,8 +7,5 @@ public:
 	TransformSystem();
 	~TransformSystem();
 
-	void Update(float deltaTime)	override;
-
-private:
-
+	void Update(float deltaTime) override;
 };

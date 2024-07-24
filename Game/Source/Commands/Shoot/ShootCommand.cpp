@@ -8,7 +8,7 @@ ShootCommand::ShootCommand()
 {
 }
 
-void ShootCommand::Execute(Entity* entity)
+void ShootCommand::Execute(Entity entity)
 {
 	double currentTime = Hi_Engine::Engine::GetTimer().GetTotalTime();
 
@@ -17,24 +17,24 @@ void ShootCommand::Execute(Entity* entity)
 
 	m_timestamp = currentTime;
 
-	auto* transformComponent = entity->GetComponent<TransformComponent>();
-	auto* inputComponent = entity->GetComponent<InputComponent>();
+	//auto* transformComponent = entity->GetComponent<TransformComponent>();
+	//auto* inputComponent = entity->GetComponent<InputComponent>();
 
-	// TODO; convert mouse to inworld position => store mouse pls in woorld coord on player?
-	// MousePosToWorldCoords(mousePosition.x, mousePosition.y, 1400, 800, );
+	//// TODO; convert mouse to inworld position => store mouse pls in woorld coord on player?
+	//// MousePosToWorldCoords(mousePosition.x, mousePosition.y, 1400, 800, );
 
-	auto mousePosition = inputComponent->MouseWorldPosition;
+	//auto mousePosition = inputComponent->MouseWorldPosition;
 
-	ProjectileData data;
-	data.Position = transformComponent->CurrentPos; // include offset?
-	data.Directin = { (float)mousePosition.x - data.Position.x, (float)mousePosition.y - data.Position.y };
-	data.Directin.Normalize();
-	data.Speed = 400.f; // todo, send actual projectile data?
+	//ProjectileData data;
+	//data.Position = transformComponent->CurrentPos; // include offset?
+	//data.Directin = { (float)mousePosition.x - data.Position.x, (float)mousePosition.y - data.Position.y };
+	//data.Directin.Normalize();
+	//data.Speed = 400.f; // todo, send actual projectile data?
 
-	PostMaster::GetInstance().SendMessage({ eMessage::EntityFired, data });
+	//PostMaster::GetInstance().SendMessage({ eMessage::EntityFired, data });
 }
 
-bool ShootCommand::CanPerform(Entity* entity) const
+bool ShootCommand::CanPerform(Entity entity) const
 {
 	return false;
 }

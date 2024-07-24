@@ -1,16 +1,15 @@
 [
   {
-    "id": "rusty_sword",
-    "layer": "player",
+    "id": "RustySword",
     "components": [
       {
-        "type": "tag",
+        "type": "Tag",
         "properties": {
-          "type": "collectable"
+          "type": "Collectable"
         }
       },
       {
-        "type": "transform",
+        "type": "Transform",
         "properties": {
           "position": [ 0.0, 0.0 ],
           "scale": [ 64.0, 64.0 ],
@@ -19,7 +18,7 @@
         }
       },
       {
-        "type": "sprite",
+        "type": "Sprite",
         "properties": {
           "texture": "sword_01",
           "coordinates": [ 0, 0 ],
@@ -27,34 +26,31 @@
         }
       },
       {
-        "type": "collider",
+        "type": "Collider",
         "properties": {
-          "type": "dynamic",
+          "type": "Dynamic",
           "size": [ 25.0, 25.0 ],
-          "offset": {
-            "xOffset": 10.0,
-            "yOffset": 10.0,
-            "isDirectionallyBound": true
-          }
+          "offset": [ 10.0, 10.0 ],
+          "isOffsetDirectionallyBound": true
         }
       },
       {
-        "type": "weapon",
+        "type": "Weapon",
         "properties": {
           "damage": 10,
           "speed": 2.0
         }
       },
       {
-        "type": "equippable",
+        "type": "Equippable",
         "properties": {}
       },
       {
-        "type": "collectable",
+        "type": "Collectable",
         "properties": {}
       },
       {
-        "type": "audio",
+        "type": "Audio",
         "properties": {
           "sound_name": "pickaxe",
           "trigger": "item_used"

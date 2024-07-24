@@ -1,16 +1,15 @@
 [
   {
-    "id": "crab",
-    "layer": "animal",
+    "id": "Crab",
     "components": [
       {
-        "type": "tag",
+        "type": "Tag",
         "properties": {
-          "type": "npc"
+          "type": "NPC"
         }
       },
       {
-        "type": "transform",
+        "type": "Transform",
         "properties": {
           "position": [ 0.0, 0.2 ],
           "scale": [ 0.5, 0.5 ],
@@ -19,13 +18,13 @@
         }
       },
       {
-        "type": "velocity",
+        "type": "Velocity",
         "properties": {
           "speed": 0.25
         }
       },
       {
-        "type": "sprite",
+        "type": "Sprite",
         "properties": {
           "texture": "crab",
           "coordinates": [ 0, 0 ],
@@ -33,14 +32,14 @@
         }
       },
       {
-        "type": "steering_behavior",
+        "type": "SteeringBehavior",
         "properties": {
           "behavior": "wander_behavior",
           "layer": "animal"
         }
       },
       {
-        "type": "wander_behavior",
+        "type": "WanderBehavior",
         "properties": {
         }
       }
@@ -48,16 +47,15 @@
   },
   {
     "id": "fish",
-    "layer": "animal",
     "components": [
       {
-        "type": "tag",
+        "type": "Tag",
         "properties": {
-          "type": "npc"
+          "type": "NPC"
         }
       },
       {
-        "type": "transform",
+        "type": "Transform",
         "properties": {
           "position": [ 0.0, 0.3 ],
           "scale": [ 0.5, 0.5 ],
@@ -66,13 +64,13 @@
         }
       },
       {
-        "type": "velocity",
+        "type": "Velocity",
         "properties": {
           "speed": 1.0
         }
       },
       {
-        "type": "sprite",
+        "type": "Sprite",
         "properties": {
           "texture": "fish",
           "coordinates": [ 0, 0 ],
@@ -80,14 +78,14 @@
         }
       },
       {
-        "type": "steering_behavior",
+        "type": "SteeringBehavior",
         "properties": {
           "behavior": "flock_behavior",
           "layer": "fish"
         }
       },
       {
-        "type": "flock_behavior",
+        "type": "FlockBehavior",
         "properties": {}
       }
     ]

@@ -1,8 +1,10 @@
 #include "Pch.h"
 #include "CameraSystem.h"
-#include "Entities/EntityManager.h"
+#include "ECS.h"
+//#include "Entities/Entity.h"
 #include "Components/Core/CoreComponents.h"
-
+//#include "Entities/EntityManager.h"
+#include "ECSTypes.h"
 
 CameraSystem::CameraSystem()
 	: System{ 1 }
@@ -19,28 +21,52 @@ void CameraSystem::Receive(Message& message)
 {
 	if (message.GetMessageType() == eMessage::GameStarted)
 	{
-		auto* entity = m_entityManager->FindFirst<CameraComponent>();
-		auto* camera = entity->GetComponent<CameraComponent>();
+		auto entity = m_ecs->FindEntity(m_signatures["Camera"]);
 
-		auto range = camera->ZoomRange;
-		camera->Camera.SetZoomRange(camera->ZoomRange);
+		if (!entity)
+			return;
+
+		Entity camera = entity.value();
+
+		auto* cameraComponent = m_ecs->GetComponent<CameraComponent>(camera);
+
+		//auto* entity = m_entityManager->FindFirst<CameraComponent>();
+		//auto* camera = entity->GetComponent<CameraComponent>();
+
+		auto zoomRange = cameraComponent->ZoomRange;
+		cameraComponent->Camera.SetZoomRange(zoomRange);
 	}
 }
 
 void CameraSystem::Update(float deltaTime)
 {
-	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
+	assert(m_ecs && "[Camera System - ERROR]: ECS is nullptr!");
 
 	// Do every frame? or just at the beginning of new Scene?
 
-	auto* camera = m_entityManager->FindFirst<CameraComponent>();
-	if (!camera)
+	auto entity = m_ecs->FindEntity(m_signatures["Camera"]);
+
+	if (!entity)
 		return;
+
+	Entity camera = entity.value();
+
+	auto* cameraComponent = m_ecs->GetComponent<CameraComponent>(camera);
+	if (!cameraComponent)
+		return;
+
+	auto* transformComponent = m_ecs->GetComponent<TransformComponent>(camera);
+	if (!transformComponent)
+		return;
+
+	//auto* camera = m_entityManager->FindFirst<CameraComponent>();
+	//if (!camera)
+	//	return;
 
 	// loop through all cameras... see if active..?
 
-	auto* transformComponent = camera->GetComponent<TransformComponent>();
-	auto* cameraComponent = camera->GetComponent<CameraComponent>();
+	//auto* transformComponent = camera->GetComponent<TransformComponent>();
+	//auto* cameraComponent = camera->GetComponent<CameraComponent>();
 	
 
 	// TODO; cull entities (mark is should be rendered or not))?
@@ -65,27 +91,31 @@ void CameraSystem::Update(float deltaTime)
 
 	//Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::RenderEvent>(commandQueue);
 
-	if (auto* inputEntity = m_entityManager->FindFirst<InputComponent>())
-		cameraComponent->Camera.AdjustZoom(inputEntity->GetComponent<InputComponent>()->MouseScroll * 0.1f); // 0.5f == zoom distance
+
+
+	//if (auto* inputEntity = m_entityManager->FindFirst<InputComponent>())
+	//	cameraComponent->Camera.AdjustZoom(inputEntity->GetComponent<InputComponent>()->MouseScroll * 0.1f); // 0.5f == zoom distance
+
+
+
 
 	//// Do in movement system? Follow component
-	auto* target = m_entityManager->Find(cameraComponent->TargetID);
-	////auto target = cameraComponent->m_target;
-	if (target)
-	{
-		auto targetPosition = target->GetComponent<TransformComponent>()->CurrentPos;
-		
-		static const float windowWidth = 1400.f;
-		static const float windowHeight = 800.f;
-	//	targetPosition.x -= windowWidth * 0.5f;
-	//	targetPosition.y -= windowHeight * 0.5f;
-		// targetPosition.x -= 20.f;
-		//auto newPosition = targetPosition + cameraComponent->TargetOffset;
-		FVector2 newPosition = { targetPosition.x + cameraComponent->TargetOffset.x, targetPosition.y + cameraComponent->TargetOffset.y };
+	//auto target = cameraComponent->Target;
+	//if (target)
+	//{
+	//	auto targetPosition = target->GetComponent<TransformComponent>()->CurrentPos;
+	//	
+	//	static const float windowWidth = 1400.f;
+	//	static const float windowHeight = 800.f;
+	////	targetPosition.x -= windowWidth * 0.5f;
+	////	targetPosition.y -= windowHeight * 0.5f;
+	//	// targetPosition.x -= 20.f;
+	//	//auto newPosition = targetPosition + cameraComponent->TargetOffset;
+	//	FVector2 newPosition = { targetPosition.x + cameraComponent->TargetOffset.x, targetPosition.y + cameraComponent->TargetOffset.y };
 
-		cameraComponent->Camera.SetPosition(newPosition);
-		camera->GetComponent<TransformComponent>()->CurrentPos = { newPosition.x, newPosition.y };
-	}
+	//	cameraComponent->Camera.SetPosition(newPosition);
+	//	camera->GetComponent<TransformComponent>()->CurrentPos = { newPosition.x, newPosition.y };
+	//}
 
 
 
@@ -107,34 +137,64 @@ void CameraSystem::Update(float deltaTime)
 	}
 }
 
-bool CameraSystem::IsInView(Entity* camera, const Hi_Engine::Physics::AABB2D<float>& bounds)
-{
-	auto* cameraComponent = camera->GetComponent<CameraComponent>();
+//bool CameraSystem::IsInView(Entity* camera, const Hi_Engine::Physics::AABB2D<float>& bounds)
+//{
+//	auto* cameraComponent = camera->GetComponent<CameraComponent>();
+//
+//	bool intersects = Hi_Engine::Physics::Intersects(bounds, cameraComponent->Frustum);
+//	return intersects;
+//}
 
-	bool intersects = Hi_Engine::Physics::Intersects(bounds, cameraComponent->Frustum);
-	return intersects;
+void CameraSystem::SetSignature()
+{
+	assert(m_ecs && "[CameraSystem - ERROR]: ECS is nullptr!");
+
+	m_signatures.insert({ "Camera", m_ecs->GetSignature<CameraComponent>() });
+
+	//// do in ECS???
+	//auto componentTypes = m_ecs->GetComponentTypes<CameraComponent, TransformComponent>();
+
+	//Signature signature;
+	//for (const auto type : componentTypes)
+	//{
+	//	signature.set(type);
+	//}
+
+	//m_signatures.insert({ "Camera", signature });
+
+
+	//AddSignature<CameraComponent>("Camera");
+
+	//Signature camera;
+
+	//auto cameraType = m_ecs->GetComponentType<CameraComponent>();
+	//camera.set(cameraType);
+
 }
 
 void CameraSystem::CullEntities()
 {
-	auto* camera = m_entityManager->FindFirst<CameraComponent>();
-	auto entities = m_entityManager->FindAll<SpriteComponent>();
 
-	for (auto* entity : entities)
-	{
-		// If in view (function)
-		auto* transformComponent = entity->GetComponent<TransformComponent>();
-		auto currentPosition = transformComponent->CurrentPos;
+	//m_ecs
 
-		auto* spriteComponent = entity->GetComponent<SpriteComponent>();
-		spriteComponent->ShouldRender = camera->GetComponent<CameraComponent>()->Frustum.IsInside(currentPosition);
-	}
+	//auto* camera = m_entityManager->FindFirst<CameraComponent>();
+	//auto entities = m_entityManager->FindAll<SpriteComponent>();
+
+	//for (auto* entity : entities)
+	//{
+	//	// If in view (function)
+	//	auto* transformComponent = entity->GetComponent<TransformComponent>();
+	//	auto currentPosition = transformComponent->CurrentPos;
+
+	//	auto* spriteComponent = entity->GetComponent<SpriteComponent>();
+	//	spriteComponent->ShouldRender = camera->GetComponent<CameraComponent>()->Frustum.IsInside(currentPosition);
+	//}
 }
 
-bool CameraSystem::IsVisible(Entity* entity) const
-{
-	// Check if bounding volume is inside fustrum...
-
-
-	return false;
-}
+//bool CameraSystem::IsVisible(Entity* entity) const
+//{
+//	// Check if bounding volume is inside fustrum...
+//
+//
+//	return false;
+//}

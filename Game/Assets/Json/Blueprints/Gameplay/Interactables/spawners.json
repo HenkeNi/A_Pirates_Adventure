@@ -1,10 +1,9 @@
 [
   {
-    "id": "skeleton_spawner",
-    "layer": "environment",
+    "id": "SkeletonSpawner",
     "components": [
       {
-        "type": "transform",
+        "type": "Transform",
         "properties": {
           "position": [ 0.0, 0.2 ],
           "scale": [ 0.5, 0.5 ],
@@ -13,7 +12,7 @@
         }
       },
       {
-        "type": "sprite",
+        "type": "Sprite",
         "properties": {
           "texture": "skeleton_pile",
           "coordinates": [ 0, 0 ],
@@ -21,15 +20,15 @@
         }
       },
       {
-        "type": "health",
+        "type": "Health",
         "properties": {
           "value": 100
         }
       },
       {
-        "type": "spawner",
+        "type": "Spawner",
         "properties": {
-          "spawned": "skeleton",
+          "spawned": "Skeleton",
           "amount": 5,
           "interval": 2.0
         }

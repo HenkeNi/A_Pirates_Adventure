@@ -1,85 +1,109 @@
 #pragma once
-
-// Fix!
-namespace
-{
-	using ComponentData = std::unordered_map<std::string, std::any>;
-}
+#include "Components.h"
 
 class ComponentInitializer
 {
 public:
-	static void InitializeComponent(class Component* component, const ComponentData& data);
+	//static void InitializeComponent(class Component* component, const ComponentData& data);
+	//template <typename T>
+	/*static void Init(void* component, const ComponentProperties& properties)
+	{
+		InitializeComponent(component, properties);
+	}*/
 
-	static void InitializeComponent(class AnimationComponent* component, const ComponentData& data);
+	
+	// static void InitializeComponent(void* component, const ComponentProperties& properties) {};
 
-	static void InitializeComponent(class AttackComponent* component, const ComponentData& data);
+	template <typename T>
+	inline static void InitializeComponent(T* component, const ComponentProperties& properties)
+	{	
+		int x = 20;
+		x += 20;
+	}
 
-	static void InitializeComponent(class AttributesComponent* component, const ComponentData& data);
+	template <>
+	inline static void InitializeComponent(TransformComponent* component, const ComponentProperties& properties)
+	{
+		int x = 20;
+		x += 20;
+	}
 
-	static void InitializeComponent(class AudioComponent* component, const ComponentData& data);
+	template <>
+	inline static void InitializeComponent(UIComponent* component, const ComponentProperties& properties)
+	{
+	}
 
-	static void InitializeComponent(class BehaviorTreeComponent* component, const ComponentData& data);
 
-	static void InitializeComponent(class ButtonComponent* component, const ComponentData& data);
 
-	static void InitializeComponent(class CameraComponent* component, const ComponentData& data);
+	//static void InitializeComponent(struct AnimationComponent* component, const ComponentProperties& properties);
 
-	static void InitializeComponent(class CharacterStateComponent* component, const ComponentData& data);
+	//static void InitializeComponent(struct AttackComponent* component, const ComponentProperties& properties);
 
-	static void InitializeComponent(class ColliderComponent* component, const ComponentData& data);
+	//static void InitializeComponent(struct AttributesComponent* component, const ComponentProperties& properties);
 
-	static void InitializeComponent(class EnvironmentComponent* component, const ComponentData& data);
+	//static void InitializeComponent(struct AudioComponent* component, const ComponentProperties& properties);
 
-	static void InitializeComponent(class GridComponent* component, const ComponentData& data);
+	//static void InitializeComponent(struct BehaviorTreeComponent* component, const ComponentProperties& properties);
 
-	static void InitializeComponent(class HarvestableComponent* component, const ComponentData& data);
+	//static void InitializeComponent(struct ButtonComponent* component, const ComponentProperties& properties);
 
-	static void InitializeComponent(class HealthComponent* component, const ComponentData& data);
+	//static void InitializeComponent(struct CameraComponent* component, const ComponentProperties& properties);
 
-	static void InitializeComponent(class InventoryComponent* component, const ComponentData& data);
+	//static void InitializeComponent(struct CharacterStateComponent* component, const ComponentProperties& properties);
 
-	static void InitializeComponent(class MapChunkComponent* component, const ComponentData& data);
+	//static void InitializeComponent(struct ColliderComponent* component, const ComponentProperties& properties);
 
-	static void InitializeComponent(class PlayerControllerComponent* component, const ComponentData& data);
+	//static void InitializeComponent(struct EnvironmentComponent* component, const ComponentProperties& properties);
 
-	static void InitializeComponent(class SpawnComponent* component, const ComponentData& data);
+	//static void InitializeComponent(struct GridComponent* component, const ComponentProperties& properties);
 
-	static void InitializeComponent(class SpriteComponent* component, const ComponentData& data);
+	//static void InitializeComponent(struct HarvestableComponent* component, const ComponentProperties& properties);
 
-	static void InitializeComponent(class SteeringBehaviorComponent* component, const ComponentData& data);
+	//static void InitializeComponent(struct HealthComponent* component, const ComponentProperties& properties);
 
-	static void InitializeComponent(class TransformComponent* component, const ComponentData& data);
+	//static void InitializeComponent(struct InventoryComponent* component, const ComponentProperties& properties);
 
-	static void InitializeComponent(class TextComponent* component, const ComponentData& data);
+	//static void InitializeComponent(struct MapChunkComponent* component, const ComponentProperties& properties);
 
-	static void InitializeComponent(class ResourceComponent* component, const ComponentData& data);
+	//static void InitializeComponent(struct PlayerControllerComponent* component, const ComponentProperties& properties);
 
-	static void InitializeComponent(class VelocityComponent* component, const ComponentData& data);
+	//static void InitializeComponent(struct SpawnComponent* component, const ComponentProperties& properties);
 
-	static void InitializeComponent(class WeaponComponent* component, const ComponentData& data);
+	//static void InitializeComponent(struct SpriteComponent* component, const ComponentProperties& properties);
 
-	static void InitializeComponent(class WorldTimeComponent* component, const ComponentData& data);
+	//static void InitializeComponent(struct SteeringBehaviorComponent* component, const ComponentProperties& properties);
 
-	static void InitializeComponent(class WanderBehaviorComponent* component, const ComponentData& data);
+	//static void InitializeComponent(struct TransformComponent* component, const ComponentProperties& properties);
 
-	static void InitializeComponent(class PersonalityComponent* component, const ComponentData& data);
+	//static void InitializeComponent(struct TextComponent* component, const ComponentProperties& properties);
 
-	static void InitializeComponent(class FlockBehaviorComponent* component, const ComponentData& data);
+	//static void InitializeComponent(struct ResourceComponent* component, const ComponentProperties& properties);
 
-	static void InitializeComponent(class SeekBehaviorComponent* component, const ComponentData& data);
+	//static void InitializeComponent(struct VelocityComponent* component, const ComponentProperties& properties);
 
-	static void InitializeComponent(class FleeBehaviorComponent* component, const ComponentData& data);
+	//static void InitializeComponent(struct WeaponComponent* component, const ComponentProperties& properties);
 
-	static void InitializeComponent(class ShakeComponent* component, const ComponentData& data);
+	//static void InitializeComponent(struct WorldTimeComponent* component, const ComponentProperties& properties);
 
-	static void InitializeComponent(class TagComponent* component, const ComponentData& data);
+	//static void InitializeComponent(struct WanderBehaviorComponent* component, const ComponentProperties& properties);
 
-	static void InitializeComponent(class ToppleComponent* component, const ComponentData& data);
+	//static void InitializeComponent(struct PersonalityComponent* component, const ComponentProperties& properties);
 
-	static void InitializeComponent(class SceneTransitionComponent* component, const ComponentData& data);
+	//static void InitializeComponent(struct FlockBehaviorComponent* component, const ComponentProperties& properties);
 
-	static void InitializeComponent(class TimerComponent* component, const ComponentData& data);
+	//static void InitializeComponent(struct SeekBehaviorComponent* component, const ComponentProperties& properties);
 
-	static void InitializeComponent(class UIComponent* component, const ComponentData& data);
+	//static void InitializeComponent(struct FleeBehaviorComponent* component, const ComponentProperties& properties);
+
+	//static void InitializeComponent(struct ShakeComponent* component, const ComponentProperties& properties);
+
+	//static void InitializeComponent(struct TagComponent* component, const ComponentProperties& properties);
+
+	//static void InitializeComponent(struct ToppleComponent* component, const ComponentProperties& properties);
+
+	//static void InitializeComponent(struct SceneTransitionComponent* component, const ComponentProperties& properties);
+
+	//static void InitializeComponent(struct TimerComponent* component, const ComponentProperties& properties);
+
+	//static void InitializeComponent(struct UIComponent* component, const ComponentProperties& properties);
 };

@@ -12,8 +12,8 @@ public:
 	void Receive(Message& message)	override;
 	void Update(float deltaTime)	override;
 
-	static bool CanPickup(Entity* entity);
+	static bool CanPickup(Entity entity);
 
 private:
-	bool CollectItem(class Entity* owner, class Entity* item);
+	bool CollectItem(Entity owner, Entity item);
 };

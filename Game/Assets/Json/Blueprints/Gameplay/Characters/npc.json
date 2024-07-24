@@ -1,16 +1,15 @@
 [
   {
-    "id": "castaway",
-    "layer": "npc",
+    "id": "Castaway",
     "components": [
       {
-        "type": "tag",
+        "type": "Tag",
         "properties": {
-          "type": "npc"
+          "type": "NPC"
         }
       },
       {
-        "type": "transform",
+        "type": "Transform",
         "properties": {
           "position": [ 0.0, 0.3 ],
           "scale": [ 4.5, 4.5 ],
@@ -19,13 +18,13 @@
         }
       },
       {
-        "type": "velocity",
+        "type": "Velocity",
         "properties": {
           "speed": 1.0
         }
       },
       {
-        "type": "sprite",
+        "type": "Sprite",
         "properties": {
           "texture": "castaway",
           "coordinates": [ 0, 0 ],
@@ -33,7 +32,7 @@
         }
       },
       {
-        "type": "behavior_tree",
+        "type": "BehaviorTree",
         "properties": {}
       }
     ]

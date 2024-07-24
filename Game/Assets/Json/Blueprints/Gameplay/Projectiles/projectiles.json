@@ -1,10 +1,9 @@
 [
   {
-    "id": "bullet",
-    "layer": "projectile",
+    "id": "Bullet",
     "components": [
       {
-        "type": "transform",
+        "type": "Transform",
         "properties": {
           "position": [ 0.0, 0.0 ],
           "scale": [ 16.0, 16.0 ],
@@ -13,13 +12,13 @@
         }
       },
       {
-        "type": "velocity",
+        "type": "Velocity",
         "properties": {
           "speed": 100.0
         }
       },
       {
-        "type": "sprite",
+        "type": "Sprite",
         "properties": {
           "texture": "cocunut",
           "coordinates": [ 0, 0 ],
@@ -27,13 +26,13 @@
         }
       },
       {
-        "type": "projectile",
+        "type": "Projectile",
         "properties": {}
       },
       {
-        "type": "collider",
+        "type": "Collider",
         "properties": {
-          "type": "dynamic",
+          "type": "Dynamic",
           "size": [ 12.5, 12.5 ]
         }
       }

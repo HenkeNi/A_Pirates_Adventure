@@ -1,27 +1,21 @@
 #include "Pch.h"
 #include "SystemManager.h"
 #include "Base/System.h"
-
+#include "ECSTypes.h"
 
 SystemManager::SystemManager()
 {
-	m_systems.reserve(64);
+	m_systems.reserve(MaxSystems);
 }
 
 SystemManager::~SystemManager()
 {
 }
 
-void SystemManager::Create(const std::string& identifier)
+void SystemManager::AddSystem(System* system)
 {
- 	if (auto* system = m_factory.Build(identifier))
-		m_systems.push_back(system);
-}
-
-void SystemManager::Init(class EntityManager* entityManager)
-{
-	for (auto& system : m_systems)
-		system->Init(entityManager);
+	assert(m_systems.size() < MaxSystems && "[SystemManager - ERROR]: Too many systems!");
+	m_systems.push_back(system);
 }
 
 void SystemManager::Update(float deltaTime)
@@ -42,19 +36,10 @@ void SystemManager::Draw() const
 		system->Draw();
 }
 
-//void SystemManager::Register(std::unique_ptr<System> system)
-//{
-//	m_systems.push_back(std::move(system));
-//
-//	// TODO; sort systems?? or use heap?
-//}
-
 void SystemManager::Clear()
 {
 	for (auto& system : m_systems)
-	{
 		delete system;
-	}
 
 	m_systems.clear();
 }

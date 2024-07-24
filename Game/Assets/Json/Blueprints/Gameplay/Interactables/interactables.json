@@ -1,9 +1,9 @@
 [
   {
-    "id": "cave_entrance",
+    "id": "CaveEntrance",
     "components": [
       {
-        "type": "transform",
+        "type": "Transform",
         "properties": {
           "position": [ 0.0, 0.0 ],
           "scale": [ 1.0, 1.0 ],
@@ -12,7 +12,7 @@
         }
       },
       {
-        "type": "sprite",
+        "type": "Sprite",
         "properties": {
           "texture": "hut",
           "coordinates": [ 0, 0 ],
@@ -20,13 +20,13 @@
         }
       },
       {
-        "type": "scene_transition",
+        "type": "SceneTransition",
         "properties": {}
       },
       {
-        "type": "collider",
+        "type": "Collider",
         "properties": {
-          "type": "trigger",
+          "type": "Trigger",
           "size": [ 0.5, 0.5 ]
         }
       }

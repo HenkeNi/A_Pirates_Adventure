@@ -1,7 +1,6 @@
 #pragma once
 #include "../Base/System.h"
 
-class Entity;
 
 class CollisionSystem : public System, public Subscriber
 {
@@ -12,27 +11,27 @@ public:
 	void Receive(Message& message)		override;
 	void LateUpdate(float deltaTime)	override;
 
-	static bool CanCollide(Entity* first, Entity* second);
+	static bool CanCollide(Entity first, Entity second);
 
 private:
-	void AlignCollider(Entity* entity);
-	void AlignDynamicColliders(std::vector<Entity*>& entities);
+	void AlignCollider(Entity entity);
+	void AlignDynamicColliders(std::vector<Entity>& entities);
 
-	void ResetColliders(std::vector<Entity*>& entities);
-	void HandleEntityCollisions(std::vector<Entity*>& entities); // rename EntityVsEntity collisions?
+	void ResetColliders(std::vector<Entity>& entities);
+	void HandleEntityCollisions(std::vector<Entity>& entities); // rename EntityVsEntity collisions?
 
 	//void UpdateDynamicColliders();
 	// void AdjustColliderPosition(Entity* entity);
 
-	void HandleMapCollisions(std::vector<Entity*>& entities);
+	void HandleMapCollisions(std::vector<Entity>& entities);
 
 
 	// TODO; have a collision grid that gets updated when objects are placed in the world...
 
 	// void HandleObjectCollisions(Entity* entity, float aDeltaTime);
-	void HandleTileCollisions(Entity* entity, float deltaTime);
-	void CheckMapCollisions(Entity* entity);
-	void ResolveCollision(Entity* entity, struct Tile* tile);
+	void HandleTileCollisions(Entity entity, float deltaTime);
+	void CheckMapCollisions(Entity entity);
+	void ResolveCollision(Entity entity, struct Tile* tile);
 
 	// Check collisions
 	// Handle Collision / Resolve Collisions

@@ -1,10 +1,10 @@
 {
   "entities": [
     {
-      "entity_id": "camera",
+      "entity_id": "Camera",
       "components_data": [
         {
-          "type": "camera",
+          "type": "Camera",
           "properties": {
             "position": [ 0.0, 0.0 ],
             "scale": [ 1.0, 1.0 ],
@@ -15,13 +15,13 @@
       ]
     },
     {
-      "entity_id": "mouse_cursor"
+      "entity_id": "MouseCursor"
     },
     {
-      "entity_id": "world_time"
+      "entity_id": "WorldTime"
     },
     {
-      "entity_id": "inventory_bar"
+      "entity_id": "InventoryBar"
     }
   ],
   "systems": [

@@ -1,7 +1,8 @@
 #pragma once
 #include "../Base/Component.h"
 #include <../Hi_Engine.h>
-
+//#include "Entities/Entity.h"
+#include "ECSTypes.h"
 
 struct TagComponent : public Component
 {
@@ -47,7 +48,7 @@ struct ColliderComponent : public Component
 	//eCollisionLayer					Layer;
 
 	// replace with collision data?! normal, entity colliding with, etc..
-	std::vector<class Entity*>				CollidingEntities;
+	std::vector<Entity>				CollidingEntities;
 
 	// Store collision normal..
 
@@ -105,7 +106,8 @@ struct CameraComponent : public Component
 	Hi_Engine::Physics::AABB2D<float> Frustum;
 	Hi_Engine::Range<float>	ZoomRange;
 
-	unsigned			TargetID = 0;
+	//Entity			Target = 0;
+	int 			Target = 0;
 
 	bool ShouldCull = true;
 };
@@ -211,5 +213,7 @@ struct DestinationComponent : public Component
 struct TargetComponent : public Component
 {
 	unsigned TargetID;
-	class Entity* Target; // use instead?? make sure some system sets it to nullptr if entity is killed! -> maybe wont work?
+	int Target;
+	//Entity Target;
+	//class Entity* Target; // use instead?? make sure some system sets it to nullptr if entity is killed! -> maybe wont work?
 };

@@ -17,16 +17,12 @@ InventoryScene::~InventoryScene()
 
 void InventoryScene::Update(float deltaTime)
 {
-	m_ecs.GetSystemManager().Update(deltaTime);
-}
-
-void InventoryScene::LateUpdate(float deltaTime)
-{
+	m_ecs.Update(deltaTime);
 }
 
 void InventoryScene::Draw() const
 {
-	m_ecs.GetSystemManager().Draw();
+	m_ecs.Draw();
 }
 
 void InventoryScene::OnEnter()
@@ -35,10 +31,10 @@ void InventoryScene::OnEnter()
 	{
 		for (int col = 0; col < 16; ++col)
 		{
-			auto* box = m_ecs.GetEntityManager().Create("inventory_slot");
+			//auto* box = m_ecs.GetEntityManager().Create("inventory_slot");
 			//box->GetComponent<TransformComponent>()->CurrentPos = { (float)col, (float)row };
 			//box->GetComponent<TransformComponent>()->CurrentPos = { (float) * 0.01f, (float)row * 0.01f };
-			box->GetComponent<TransformComponent>()->CurrentPos = { 0.1f, 0.1f };
+			//box->GetComponent<TransformComponent>()->CurrentPos = { 0.1f, 0.1f };
 		}
 	}
 	//auto* box = m_entityManager.Create("inventory_slot");
@@ -59,5 +55,5 @@ void InventoryScene::OnEnter()
 
 void InventoryScene::OnExit()
 {
-	m_ecs.GetEntityManager().DestroyAll();
+	//m_ecs.GetEntityManager().DestroyAll();
 }

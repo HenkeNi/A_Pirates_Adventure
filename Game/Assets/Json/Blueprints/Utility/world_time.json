@@ -1,10 +1,9 @@
 [
   {
-    "id": "world_time",
-    "layer": "none",
+    "id": "WorldTime",
     "components": [
       {
-        "type": "world_time",
+        "type": "WorldTime",
         "properties": {
           "day_duration": 30.0
         }
@@ -12,17 +11,16 @@
     ]
   },
   {
-    "id": "scene_timer",
-    "layer": "none",
+    "id": "SceneTimer",
     "components": [
       {
-        "type": "timer",
+        "type": "Timer",
         "properties": {
           "duration": 10.0
         }
       },
       {
-        "type": "scene_transition",
+        "type": "SceneTransition",
         "properties": {
           "scene": "menu",
           "should_remove": false

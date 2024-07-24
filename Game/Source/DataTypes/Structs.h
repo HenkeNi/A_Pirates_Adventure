@@ -6,6 +6,8 @@
 #include  <../../../Engine/Source/Core/Rendering/Material/Material.h>
 #include  <../../../Engine/Source/Core/Rendering/Texture/Subtexture2D.h>
 
+#include "ECSTypes.h"
+
 /// using namespace Hi_Engine::Math;
 // Todo; change naming convention to sceneManager, rather thna m_sceneManager;
 
@@ -18,7 +20,7 @@ struct SharedContext
 
 struct CollisionData // Data used for resolving/handling collisions
 {
-	std::vector<class Entity*> CollidingEntities;
+	std::vector<Entity> CollidingEntities;
 
 	//bool IsColliding = false;
 	//class Entity* CollidingEntity = nullptr; // Store array of entities colliding with? Or array of colllision data  in component?
@@ -143,7 +145,7 @@ struct KeyStatus
 
 struct StateData
 {
-	class Entity* Owner;
+	Entity Owner;
 	float ElapsedTime;
 };
 

@@ -137,56 +137,28 @@ void SceneManager::LoadScene(eScene type)
 	if (!activeScene)
 		return;
 
-	// TODO; Move some of this stuff to ECS???
-	auto& entityManager = activeScene->m_ecs.GetEntityManager();
-	auto& entityFactory = activeScene->m_ecs.GetEntityFactory();
-	auto& systemManager = activeScene->m_ecs.GetSystemManager();
-	
-	systemManager.Clear();
-	// entityManager.DestroyAll(); 
+	// TODO; scene loader class?
+
+	auto& ecs = activeScene->m_ecs;
+	ecs.ClearSystems();
 
 	const auto& path = scenePaths.at(type);
 	auto document = Hi_Engine::ParseDocument(path);
 
 	for (const auto& system : document["systems"].GetArray())
 	{
-		bool isAvailable = false;
+		bool isSystemAvailable = Hi_Engine::IsBuildDebug() ? system["debug"].GetBool() : system["release"].GetBool();
 
-		if (Hi_Engine::IsBuildDebug())
-		{
-			if (system["debug"].GetBool())
-				systemManager.Create(system["type"].GetString());
-		}
-		else
-		{
-			if (system["release"].GetBool())
-				systemManager.Create(system["type"].GetString());
-		}
+		if (isSystemAvailable)
+			ecs.CreateSystem(system["type"].GetString());			
 	}
-
-	systemManager.Init(&entityManager); // FIX!
 
 	for (const auto& jsonEntity : document["entities"].GetArray())
 	{
-		std::string id = jsonEntity["entity_id"].GetString();
+		const char* id = jsonEntity["entity_id"].GetString();
 		
-		auto* entity = entityManager.Create(id);
+		Entity entity = jsonEntity.HasMember("components_data") ? ecs.CreateEntity(id, jsonEntity) : ecs.CreateEntity(id);
 
-		if (!jsonEntity.HasMember("components_data"))
-			continue;
-
-		for (const auto& component : jsonEntity["components_data"].GetArray())
-		{
-			std::string type = component["type"].GetString();
-			const rapidjson::Value& properties = component["properties"];
-
-			auto componentData = EntityFactory::ParseComponent(properties); // dont static?
-
-			auto* component = entityFactory.GetCompFactory().Build(type, componentData);
-			entity->AddComponent(component);
-		}
-
-		// Send event spawned? Change to initailzied?
 		PostMaster::GetInstance().SendMessage({ eMessage::EntitySpawned, entity });
 	}
 }

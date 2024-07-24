@@ -1,59 +1,136 @@
 #include "Pch.h"
 #include "ECS.h"
-#include "Entities/EntityManager.h"
-#include "Entities/EntityFactory.h"
-#include "Systems/SystemManager.h"
-#include "Registration/Registration.h"
 
+
+ECS::ECS()
+	: m_systemFactory{ *this }, m_entityFactory{ *this }
+{
+	// LoadBlueprints();
+}
 
 void ECS::Init()
 {
-	m_systemManager = new SystemManager;
-	m_entityFactory = new EntityFactory;
-	m_entityManager = new EntityManager{ *m_entityFactory };
-
-	m_entityFactory->LoadBlueprints("../Game/Assets/Json/Blueprints/blueprint_manifest.json");
-
-	Registration::RegisterComponents(*m_entityFactory);
-	Registration::RegisterBlueprints();
-	Registration::RegisterSystems(*m_systemManager); 
-
-	m_systemManager->Init(m_entityManager); // FIX!!!
 }
 
-void ECS::Shutdown()
+void ECS::Shutdown() 
 {
-	m_systemManager->Clear();
-	m_entityManager->DestroyAll();
-
-	delete m_systemManager;
-	delete m_entityManager;
+	m_systemManager.Clear();
+	DestroyAllEntities();
 }
 
-#include "Systems/Systems.h"
-
-void ECS::AddSystems(const std::vector<std::string>& systems)
+void ECS::Update(float deltaTime)
 {
-	// TODO: improve... (SystemBuilders??)
+	m_systemManager.Update(deltaTime); // todo; fetch "UpdateSystem" instead??
+}
 
-	for (const std::string& system : systems)
+void ECS::LateUpdate(float deltaTime)
+{
+	m_systemManager.LateUpdate(deltaTime);
+}
+
+void ECS::Draw()
+{
+	m_systemManager.Draw();
+}
+
+void ECS::CreateSystems(std::vector<const char*> systems)
+{
+	for (const auto& type : systems)
 	{
-		m_systemManager->Create(system);
-
-
-		//if (system == "CameraSystem")
-		//	m_systemManager.Register<CameraSystem>(); // or pass in m_entityManager?
-		//if (system == "TextRenderSystem")
-		//	m_systemManager.Register<TextRenderSystem>();
-		//if (system == "SpriteRenderSystem")
-		//	m_systemManager.Register<SpriteRenderSystem>();
-		//if (system == "UISystem")
-		//	m_systemManager.Register<UISystem>();
-		//if (system == "UIRenderSystem")
-		//	m_systemManager.Register<UIRenderSystem>();
+		auto* system = m_systemFactory.Create(type);
+		m_systemManager.AddSystem(system);
 	}
+}
 
-	m_systemManager->Init(m_entityManager); // Pass in systems...
+void ECS::CreateSystem(const char* type)
+{
+	if (auto* system = m_systemFactory.Create(type))
+		m_systemManager.AddSystem(system);
+}
+
+void ECS::ClearSystems()
+{
+	m_systemManager.Clear();
+}
+
+Entity ECS::CreateEntity(const char* type)
+{
+	Entity entity = m_entityFactory.Create(type);
+
+	// TODO; update signature (event?)
+
+	return entity;
+}
+
+Entity ECS::CreateEntity(const char* type, const rapidjson::Value& value)
+{
+	Entity entity = m_entityFactory.Create(type, value);
+
+	// TODO; update signature (event?)
+
+	return Entity();
+}
+
+Entity ECS::CreateEmptyEntity()
+{
+	Entity entity = m_entityManager.Create();
+	return entity;
+}
+
+void ECS::DestroyAllEntities()
+{
+	std::cout << "Destroy all entities not implemented!";
+}
+
+std::vector<Entity> ECS::FindEntities(const Signature& signature)
+{
+	auto entities = m_entityManager.GetEntities(signature);
+	return entities;
+}
+
+std::optional<Entity> ECS::FindEntity(const Signature& signature)
+{
+	std::optional<Entity> entity = m_entityManager.GetEntity(signature);
+	return entity;
+}
+
+void ECS::LoadBlueprints()
+{
+	const char* path = "../Game/Assets/Json/Blueprints/blueprint_manifest.json";
+
+	auto document = Hi_Engine::ParseDocument(path);
+
+	for (auto& path : document["blueprints"].GetArray())
+	{
+		std::string blueprintPath = path.GetString();
+		m_entityFactory.LoadBlueprint(blueprintPath);
+	}
+}
+
+void ECS::Serialize()
+{
+}
+
+void ECS::Deserialize()
+{
+}
+
+void ECS::AddComponent(Entity entity, const char* component)
+{
+	auto itr = m_componentRegistry.find(component);
+	assert(itr != m_componentRegistry.end() && "[ECS - ERROR]: Couldn't find component type in ComponentRegistry!");
+
+	itr->second.AddComponent(entity);
+}
+
+void ECS::InitializeComponent(Entity entity, const char* component, const ComponentProperties& properties)
+{
+	auto itr = m_componentRegistry.find(component);
+	assert(itr != m_componentRegistry.end() && "[ECS - ERROR]: Couldn't find component type in ComponentRegistry!");
+
+	itr->second.InitializeComponent(entity, properties);
+	
+	// m_componentManager.InitializeComponent(type, component, properties); // Dont store in componetn manager??
 }
 
 // void ECS::LoadSystems(const std::string& path)

@@ -1,10 +1,10 @@
 {
   "entities": [
     {
-      "entity_id": "camera",
+      "entity_id": "Camera",
       "components_data": [
         {
-          "type": "camera",
+          "type": "Camera",
           "properties": {
             "position": [ 0.0, 0.0 ],
             "scale": [ 1.0, 1.0 ],
@@ -15,10 +15,10 @@
       ]
     },
     {
-      "entity_id": "image",
+      "entity_id": "Image",
       "components_data": [
         {
-          "type": "transform",
+          "type": "Transform",
           "properties": {
             "position": [ 0.0, 0.0 ],
             "scale": [ 1400.0, 800.0 ],
@@ -27,7 +27,7 @@
           }
         },
         {
-          "type": "sprite",
+          "type": "Sprite",
           "properties": {
             "texture": "title_image",
             "coordinates": [ 0, 0 ],
@@ -37,10 +37,10 @@
       ]
     },
     {
-      "entity_id": "title_text",
+      "entity_id": "TitleText",
       "components_data": [
         {
-          "type": "transform",
+          "type": "Transform",
           "properties": {
             "position": [ 700.0, 600.0 ],
             "scale": [ 1.0, 1.0 ],
@@ -49,7 +49,7 @@
           }
         },
         {
-          "type": "text",
+          "type": "Text",
           "properties": {
             "font": "Basic",
             "size": 5,
@@ -61,16 +61,16 @@
       ]
     },
     {
-      "entity_id": "scene_timer",
+      "entity_id": "SceneTimer",
       "components_data": [
         {
-          "type": "timer",
+          "type": "Timer",
           "properties": {
             "duration": 1.0
           }
         },
         {
-          "type": "scene_transition",
+          "type": "SceneTransition",
           "properties": {
             "scene": "menu"
           }

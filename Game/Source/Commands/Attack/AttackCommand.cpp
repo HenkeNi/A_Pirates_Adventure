@@ -9,15 +9,15 @@ AttackCommand::AttackCommand()
 {
 }
 
-void AttackCommand::Execute(Entity* entity)
+void AttackCommand::Execute(Entity entity)
 {
 	if (!entity)
 		return;
 
-	if (auto* characterStateComponent = entity->GetComponent<CharacterStateComponent>())
+	/*if (auto* characterStateComponent = entity->GetComponent<CharacterStateComponent>())
 	{
 		characterStateComponent->IsAttacking = true;
-	}
+	}*/
 
 	//// get equipped weapon instead..
 	//if (auto* equipmentComponent = entity->GetComponent<EquipmentComponent>())
@@ -35,25 +35,25 @@ void AttackCommand::Execute(Entity* entity)
 }
 
 // Not called...
-bool AttackCommand::CanPerform(Entity* entity) const
+bool AttackCommand::CanPerform(Entity entity) const
 {
 	if (!entity)
 		return false;
 
-	if (auto* equipmentComponent = entity->GetComponent<EquipmentComponent>())
-	{
-		auto equipment = equipmentComponent->EquippedItemIDs;
-		int weaponID = equipment[(int)eEquipmentSlot::Melee];
+	//if (auto* equipmentComponent = entity->GetComponent<EquipmentComponent>())
+	//{
+	//	auto equipment = equipmentComponent->EquippedItemIDs;
+	//	int weaponID = equipment[(int)eEquipmentSlot::Melee];
 
-		if (weaponID == -1)
-			return false;
-	}
+	//	if (weaponID == -1)
+	//		return false;
+	//}
 
-	if (auto* characterStateComponent = entity->GetComponent<CharacterStateComponent>())
-	{
-		if (characterStateComponent->IsAttacking)
-			return false;
-	}
+	//if (auto* characterStateComponent = entity->GetComponent<CharacterStateComponent>())
+	//{
+	//	if (characterStateComponent->IsAttacking)
+	//		return false;
+	//}
 
 	return true;
 }

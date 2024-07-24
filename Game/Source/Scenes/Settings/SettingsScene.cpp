@@ -16,16 +16,12 @@ SettingsScene::~SettingsScene()
 
 void SettingsScene::Update(float deltaTime)
 {
-	m_ecs.GetSystemManager().Update(deltaTime);
-}
-
-void SettingsScene::LateUpdate(float deltaTime)
-{
+	m_ecs.Update(deltaTime);
 }
 
 void SettingsScene::Draw() const
 {
-	m_ecs.GetSystemManager().Draw();
+	m_ecs.Draw();
 }
 
 void SettingsScene::OnEnter()
@@ -36,7 +32,7 @@ void SettingsScene::OnEnter()
 
 void SettingsScene::OnExit()
 {
-	m_ecs.GetEntityManager().DestroyAll();
+	//m_ecs.GetEntityManager().DestroyAll();
 
 	//Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::StopSoundEvent>("night_ambience");
 }

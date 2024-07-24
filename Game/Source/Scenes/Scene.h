@@ -10,7 +10,7 @@ public:
 	virtual ~Scene() = default;
 
 	virtual void Update(float deltaTime)			= 0;
-	virtual void LateUpdate(float deltaTime)		= 0;	
+	virtual void LateUpdate(float deltaTime)		 {};
 	virtual void Draw()						const	= 0;
 	virtual bool IsTransparent()			const;
 

@@ -15,5 +15,5 @@ public:
 	void Update(float deltaTime)	override;
 
 private:
-	void Spawn(Entity* spawner);
+	void Spawn(Entity spawner);
 };

@@ -1,8 +1,10 @@
 #include "Pch.h"
 #include "EntityFactory.h"
+#include "ECS.h"
 
 
-EntityFactory::EntityFactory()
+EntityFactory::EntityFactory(ECS& ecs)
+	: m_ecs{ ecs }
 {
 }
 
@@ -10,72 +12,80 @@ EntityFactory::~EntityFactory()
 {
 }
 	
-void EntityFactory::LoadBlueprints(const std::string& path)
+void EntityFactory::LoadBlueprint(const std::string& path)
 {
 	auto document = Hi_Engine::ParseDocument(path);
 
-	for (auto& blueprintPath : document["blueprints"].GetArray())
-	{	
-		auto document = Hi_Engine::ParseDocument(blueprintPath.GetString());
-
-		if (document.IsArray())
+	if (document.IsArray())
+	{
+		for (const auto& blueprint : document.GetArray())
 		{
-			for (const auto& blueprint : document.GetArray())
-			{
-				ConstructBlueprint(blueprint);
-			}
+			ConstructBlueprint(blueprint);
 		}
-		else if (document.IsObject())
-		{
-			ConstructBlueprint(document);
-		}
+	}
+	else if (document.IsObject())
+	{
+		ConstructBlueprint(document);
 	}
 }
 
 void EntityFactory::ConstructBlueprint(const rapidjson::Value& value)
 {
 	EntityBlueprint blueprint;
-
-	for (auto& component : value["components"].GetArray())
-	{
-		const rapidjson::Value& properties = component["properties"];
-		assert(properties.IsObject() && "Failed to load component properties for blueprint");
-
-		blueprint.AddComponentData(component["type"].GetString(), ParseComponent(properties));
-	}
+	blueprint.Init(value);
 
 	std::string blueprintID = value["id"].GetString();
 	RegisterBlueprint(blueprintID, blueprint);
 }
 
-Entity EntityFactory::Create(const EntityType& type)
+Entity EntityFactory::Create(const char* name)
 {
-	auto found = m_blueprints.find(type);
+	Entity entity = m_ecs.CreateEmptyEntity();
 
-	assert(found != m_blueprints.end() && "ERROR: Failed to create entity - Couldn't find blueprint!");
-	Entity entity;
+	auto blueprint = m_blueprints.find(name);
 
-	for (const auto& [type, data] : found->second.m_componentData)
+	assert(blueprint != m_blueprints.end() && "Blueprint not found");
+
+	const auto& componentProperties = blueprint->second.GetComponentProperties();
+	for (const auto& [component, properties] : componentProperties)
 	{
-		auto* component = m_componentFactory.Build(type, data);
-		entity.AddComponent(component);
+		m_ecs.AddComponent(entity, component.c_str()); // fix string!
+		m_ecs.InitializeComponent(entity, component.c_str(), properties);
+		//ComponentInitializer::InitializeComponent<T>(void*, properties);
 	}
 
 	return entity;
 }
 
-Entity EntityFactory::CreateFromBlueprint(const EntityBlueprint& blueprint)
+Entity EntityFactory::Create(const char* name, const rapidjson::Value& value)
 {
-	Entity entity;
+	Entity entity = m_ecs.CreateEmptyEntity();
+
+	auto blueprint = m_blueprints.find(name);
+
+	assert(blueprint != m_blueprints.end() && "Blueprint not found");
+
 	
-	for (const auto& [type, data] : blueprint.m_componentData)
+	for (const auto& component : value["components_data"].GetArray())
 	{
-		auto* component = m_componentFactory.Build(type, data);
-		entity.AddComponent(component);
+
 	}
 
 	return entity;
 }
+
+//Entity EntityFactory::CreateFromBlueprint(const EntityBlueprint& blueprint)
+//{
+//	Entity entity;
+//	
+//	/*for (const auto& [type, data] : blueprint.m_componentData)
+//	{
+//		auto* component = m_componentFactory.Build(type, data);
+//		entity.AddComponent(component);
+//	}*/
+//
+//	return entity;
+//}
 
 void EntityFactory::RegisterBlueprint(const std::string& id, EntityBlueprint blueprint)
 {

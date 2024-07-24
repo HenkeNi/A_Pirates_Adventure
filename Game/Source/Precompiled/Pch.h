@@ -7,6 +7,7 @@
 #include <bitset>
 #include <cassert>
 #include <cmath>
+#include <cstdint>
 #include <fstream>
 #include <functional>
 #include <iostream>

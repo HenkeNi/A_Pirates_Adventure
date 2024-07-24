@@ -1,10 +1,9 @@
 [
   {
-    "id": "healthbar",
-    "layer": "hud",
+    "id": "Healthbar",
     "components": [
       {
-        "type": "transform",
+        "type": "Transform",
         "properties": {
           "position": [ 0.0, 0.3 ],
           "scale": [ 1.0, 1.0 ],
@@ -13,7 +12,7 @@
         }
       },
       {
-        "type": "sprite",
+        "type": "Sprite",
         "properties": {
           "texture": "castaway",
           "coordinates": [ 0, 0 ],
@@ -21,17 +20,16 @@
         }
       },
       {
-        "type": "hud",
+        "type": "HUD",
         "properties": {}
       }
     ]
   },
   {
-    "id": "heart_container",
-    "layer": "hud",
+    "id": "HeartContainer",
     "components": [
       {
-        "type": "transform",
+        "type": "Transform",
         "properties": {
           "position": [ 0.0, 0.0 ],
           "scale": [ 50.0, 50.0 ],
@@ -40,7 +38,7 @@
         }
       },
       {
-        "type": "sprite",
+        "type": "Sprite",
         "properties": {
           "texture": "heart",
           "coordinates": [ 0, 0 ],
@@ -48,16 +46,16 @@
         }
       },
       {
-        "type": "hud",
+        "type": "HUD",
         "properties": {}
       }
     ]
   },
   {
-    "id": "inventory_bar",
+    "id": "InventoryBar",
     "components": [
       {
-        "type": "transform",
+        "type": "Transform",
         "properties": {
           "position": [ 0.5, 0.0 ],
           "scale": [ 500.0, 75.0 ],
@@ -66,7 +64,7 @@
         }
       },
       {
-        "type": "sprite",
+        "type": "Sprite",
         "properties": {
           "texture": "inventory",
           "coordinates": [ 0, 0 ],
@@ -74,13 +72,13 @@
         }
       },
       {
-        "type": "ui",
+        "type": "UI",
         "properties": {
           "render_depth": 2
         }
       },
       {
-        "type": "grid",
+        "type": "Grid",
         "properties": {
           "dimensions": [ 1, 10 ],
           "space_between_cells": 5.0

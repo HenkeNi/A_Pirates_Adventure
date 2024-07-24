@@ -8,6 +8,6 @@ class BehaviorTreeNode
 public:
 	virtual ~BehaviorTreeNode() = default;
 
-	virtual eBTNodeStatus	Execute(class Entity* entity)	= 0;
+	virtual eBTNodeStatus	Execute(Entity entity)	= 0;
 	virtual void			OnDestroy()						 {};
 };

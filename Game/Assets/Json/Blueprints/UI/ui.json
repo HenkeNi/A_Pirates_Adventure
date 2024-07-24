@@ -1,10 +1,9 @@
 [
   {
-    "id": "mouse_cursor",
-    "layer": "ui",
+    "id": "MouseCursor",
     "components": [
       {
-        "type": "transform",
+        "type": "Transform",
         "properties": {
           "position": [ 0.0, 0.0 ],
           "size": [20.0, 20.0],
@@ -14,7 +13,7 @@
         }
       },
       {
-        "type": "sprite",
+        "type": "Sprite",
         "properties": {
           "texture": "mouse_icon",
           "coordinates": [ 0, 0 ],
@@ -22,22 +21,22 @@
         }
       },
       {
-        "type": "ui",
+        "type": "UI",
         "properties": {
           "render_depth": 5
         }
       },
       {
-        "type": "cursor",
+        "type": "Cursor",
         "properties": {}
       }
     ]
   },
   {
-    "id": "image",
+    "id": "Image",
     "components": [
       {
-        "type": "transform",
+        "type": "Transform",
         "properties": {
           "position": [ 0.0, 0.0 ],
           "scale": [ 1.0, 1.0 ],
@@ -46,7 +45,7 @@
         }
       },
       {
-        "type": "sprite",
+        "type": "Sprite",
         "properties": {
           "texture": "title_image",
           "coordinates": [ 0, 0 ],
@@ -54,7 +53,7 @@
         }
       },
       {
-        "type": "ui",
+        "type": "UI",
         "properties": {
           "render_depth": 2
         }
@@ -62,11 +61,10 @@
     ]
   },
   {
-    "id": "background",
-    "layer": "ui",
+    "id": "Background",
     "components": [
       {
-        "type": "transform",
+        "type": "Transform",
         "properties": {
           "position": [ 0.0, 0.0 ],
           "scale": [ 1.0, 1.0 ],
@@ -75,7 +73,7 @@
         }
       },
       {
-        "type": "sprite",
+        "type": "Sprite",
         "properties": {
           "texture": "title_image",
           "coordinates": [ 0, 0 ],
@@ -83,7 +81,7 @@
         }
       },
       {
-        "type": "ui",
+        "type": "UI",
         "properties": {
           "render_depth": 1
         }
@@ -91,11 +89,10 @@
     ]
   },
   {
-    "id": "title_text",
-    "layer": "ui",
+    "id": "TitleText",
     "components": [
       {
-        "type": "transform",
+        "type": "Transform",
         "properties": {
           "position": [ 0.0, 0.0 ],
           "scale": [ 1.0, 1.0 ],
@@ -104,7 +101,7 @@
         }
       },
       {
-        "type": "text",
+        "type": "Text",
         "properties": {
           "font": "Basic",
           "size": 4,
@@ -114,7 +111,7 @@
         }
       },
       {
-        "type": "ui",
+        "type": "UI",
         "properties": {
           "render_depth": 5
         }
@@ -122,11 +119,10 @@
     ]
   },
   {
-    "id": "button",
-    "layer": "ui",
+    "id": "Button",
     "components": [
       {
-        "type": "transform",
+        "type": "Transform",
         "properties": {
           "position": [ 0.1, 0.1 ],
           "scale": [ 2.0, 2.0 ],
@@ -135,7 +131,7 @@
         }
       },
       {
-        "type": "sprite",
+        "type": "Sprite",
         "properties": {
           "texture": "play_button",
           "coordinates": [ 0, 0 ],
@@ -143,26 +139,26 @@
         }
       },
       {
-        "type": "collider",
+        "type": "Collider",
         "properties": {
-          "type": "static",
+          "type": "Static",
           "size": [ 0.5, 0.5 ]
         }
       },
       {
-        "type": "button",
+        "type": "Button",
         "properties": {
           "action": ""
         }
       },
       {
-        "type": "ui",
+        "type": "UI",
         "properties": {
           "render_depth": 4
         }
       },
       {
-        "type": "audio",
+        "type": "Audio",
         "properties": {
           "sound_name": "button_click",
           "trigger": "button_activated"
@@ -171,10 +167,10 @@
     ]
   },
   {
-    "id": "scene_transition_button",
+    "id": "SceneTransitionButton",
     "components": [
       {
-        "type": "transform",
+        "type": "Transform",
         "properties": {
           "position": [ 0.1, 0.1 ],
           "scale": [ 2.0, 2.0 ],
@@ -183,7 +179,7 @@
         }
       },
       {
-        "type": "sprite",
+        "type": "Sprite",
         "properties": {
           "texture": "play_button",
           "coordinates": [ 0, 0 ],
@@ -191,28 +187,28 @@
         }
       },
       {
-        "type": "collider",
+        "type": "Collider",
         "properties": {
-          "type": "static",
+          "type": "Static",
           "size": [ 0.5, 0.5 ]
         }
       },
       {
-        "type": "button",
+        "type": "Button",
         "properties": {}
       },
       {
-        "type": "scene_transition",
+        "type": "SceneTransition",
         "properties": {}
       },
       {
-        "type": "ui",
+        "type": "UI",
         "properties": {
           "render_depth": 4
         }
       },
       {
-        "type": "audio",
+        "type": "Audio",
         "properties": {
           "sound_name": "button_click",
           "trigger": "button_activated"
@@ -221,10 +217,10 @@
     ]
   },
   {
-    "id": "inventory_slot",
+    "id": "InventorySlot",
     "components": [
       {
-        "type": "transform",
+        "type": "Transform",
         "properties": {
           "position": [ 0.1, 0.1 ],
           "scale": [ 1.0, 1.0 ],
@@ -233,7 +229,7 @@
         }
       },
       {
-        "type": "sprite",
+        "type": "Sprite",
         "properties": {
           "texture": "square",
           "coordinates": [ 0, 0 ],
@@ -241,14 +237,14 @@
         }
       },
       {
-        "type": "collider",
+        "type": "Collider",
         "properties": {
-          "type": "static",
+          "type": "Static",
           "size": [ 0.5, 0.5 ]
         }
       },
       {
-        "type": "ui",
+        "type": "UI",
         "properties": {
           "render_depth": 4
         }
@@ -256,10 +252,10 @@
     ]
   },
   {
-    "id": "grid",
+    "id": "Grid",
     "components": [
       {
-        "type": "transform",
+        "type": "Transform",
         "properties": {
           "position": [ 0.1, 0.1 ],
           "scale": [ 1.0, 1.0 ],
@@ -268,7 +264,7 @@
         }
       },
       {
-        "type": "grid",
+        "type": "Grid",
         "properties": {}
       }
     ]

@@ -1,12 +1,14 @@
 #include "Pch.h"
 #include "System.h"
 
+
 System::System(unsigned priority)
-	: m_priority{ priority }, m_entityManager{ nullptr }
+	: m_priority{ priority }, m_ecs{ nullptr }
 {
 }
 
-void System::Init(EntityManager* entityManager)
+void System::Init(ECS* ecs)
 {
-	m_entityManager = entityManager;
+	m_ecs = ecs;
+	SetSignature();
 }
