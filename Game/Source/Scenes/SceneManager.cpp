@@ -157,7 +157,30 @@ void SceneManager::LoadScene(eScene type)
 	{
 		const char* id = jsonEntity["entity_id"].GetString();
 		
-		Entity entity = jsonEntity.HasMember("components_data") ? ecs.CreateEntity(id, jsonEntity) : ecs.CreateEntity(id);
+		//Entity entity = jsonEntity.HasMember("components_data") ? ecs.CreateEntity(id, jsonEntity) : ecs.CreateEntity(id);
+		Entity entity = ecs.CreateEntity(id);
+
+		if (!jsonEntity.HasMember("components_data"))
+			continue;
+
+		for (const auto& component : jsonEntity["components_data"].GetArray())
+		{
+			ComponentProperties componentProperties;
+			
+			for (const auto& [key, value] : component["properties"].GetObj())
+			{
+				Property property = EntityBlueprint::ParseProperty(value);
+				componentProperties.insert({ key.GetString(), property });
+			}
+			ecs.InitializeComponent(entity, component["type"].GetString(), componentProperties);
+		}
+
+
+		// t0d0l f9x
+		// 
+		// parse json (move function out of bleurptin? => get ComponentProperties
+		// 
+		// Pass to ECS for setting data in component...	
 
 		PostMaster::GetInstance().SendMessage({ eMessage::EntitySpawned, entity });
 	}

@@ -84,7 +84,7 @@ namespace Registration
 		ecs.RegisterSystem<CameraSystem>("CameraSystem");
 		//systemManager.Register<CollisionSystem>("CollisionSystem");
 		//systemManager.Register<PlayerControllerSystem>("PlayerControllerSystem");
-		//systemManager.Register<SceneTransitionSystem>("SceneTransitionSystem");
+		ecs.RegisterSystem<SceneTransitionSystem>("SceneTransitionSystem");				// put last?
 		//systemManager.Register<SpriteAnimationSystem>("SpriteAnimationSystem");
 
 		///* - Gameplay Systems - */
@@ -95,7 +95,7 @@ namespace Registration
 		//systemManager.Register<MeleeCombatSystem>("MeleeCombatSystem");
 		//systemManager.Register<RangedCombatSystem>("RangedCombatSystem");
 		//systemManager.Register<ShakeSystem>("ShakeSystem");
-		//systemManager.Register<TimeSystem>("TimeSystem");
+		ecs.RegisterSystem<TimeSystem>("TimeSystem");
 		//systemManager.Register<SpawnSystem>("SpawnSystem");
 		//systemManager.Register<StatSystem>("StatSystem");
 
@@ -118,7 +118,7 @@ namespace Registration
 
 		///* - Render Systems - */
 		//systemManager.Register<DebugRenderSystem>("DebugRenderSystem");
-		//systemManager.Register<TextRenderSystem>("TextRenderSystem");
+		ecs.RegisterSystem<TextRenderSystem>("TextRenderSystem");
 		ecs.RegisterSystem<UIRenderSystem>("UIRenderSystem");
 		//systemManager.Register<SpriteRenderSystem>("SpriteRenderSystem");
 		//systemManager.Register<MapRenderSystem>("MapRenderSystem");

@@ -1,11 +1,14 @@
 #include "Pch.h"
 #include "SceneTransitionSystem.h"
+#include "ECS.h"
+
 #include "Entities/Entity.h"
 #include "Entities/EntityManager.h"
 #include "Components/Core/CoreComponents.h"
 
 SceneTransitionSystem::SceneTransitionSystem()
 {
+	// Todo, fix tihs... ?
 	PostMaster::GetInstance().Subscribe(eMessage::TriggerActivated, this); // add ability to subscribe to multiple events!
 	PostMaster::GetInstance().Subscribe(eMessage::ButtonActivated, this);
 	PostMaster::GetInstance().Subscribe(eMessage::TimerFinished, this);
@@ -20,12 +23,12 @@ SceneTransitionSystem::~SceneTransitionSystem()
 
 void SceneTransitionSystem::Receive(Message& message) // Psas trigger?? check if have scen transition componennt
 {
-	auto* entity = std::any_cast<Entity*>(message.GetData());
+	auto entity = std::any_cast<Entity>(message.GetData());
 
-	if (!entity || !entity->HasComponent<SceneTransitionComponent>())
+	auto* sceneTransitionComponent = m_ecs->GetComponent<SceneTransitionComponent>(entity);
+
+	if (!sceneTransitionComponent)
 		return;
-
-	auto* sceneTransitionComponent = entity->GetComponent<SceneTransitionComponent>();
 
 	sceneTransitionComponent->ShouldTransition = true;
 
@@ -39,12 +42,12 @@ void SceneTransitionSystem::Receive(Message& message) // Psas trigger?? check if
 
 void SceneTransitionSystem::Update(float deltaTime)
 {
-	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
+	assert(m_ecs && "ERROR: EntityManager is nullptr!");
 
-	auto entities = m_entityManager->FindAll<SceneTransitionComponent>();
+	auto entities = m_ecs->FindEntities(m_signatures["SceneTransitioners"]);
 	for (const auto& entity : entities)
 	{
-		auto* sceneTransitionComponent = entity->GetComponent<SceneTransitionComponent>();
+		auto* sceneTransitionComponent = m_ecs->GetComponent<SceneTransitionComponent>(entity);
 		if (sceneTransitionComponent->ShouldTransition)
 		{
 			PostMaster::GetInstance().SendMessage({ eMessage::TransitionToScene, sceneTransitionComponent->SceneType });
@@ -52,8 +55,15 @@ void SceneTransitionSystem::Update(float deltaTime)
 			else
 				PostMaster::GetInstance().SendMessage({ eMessage::RemoveScene, sceneTransitionComponent->SceneType });
 			*/
+			sceneTransitionComponent->ShouldTransition = false; // FIX!! why is this needed??
+
 			break;
 		}
 	}
 
+}
+
+void SceneTransitionSystem::SetSignature()
+{
+	m_signatures.insert({ "SceneTransitioners", m_ecs->GetSignature<SceneTransitionComponent>() });
 }

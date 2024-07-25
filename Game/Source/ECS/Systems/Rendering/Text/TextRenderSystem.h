@@ -9,4 +9,5 @@ public:
 	~TextRenderSystem();
 
 	void Draw() override;
+	void SetSignature() override;
 };

@@ -1,11 +1,12 @@
 #include "Pch.h"
 #include "UIRenderSystem.h"
 #include "ECS/ECS.h"
-#include "Entities/EntityManager.h"
 #include "Components/UI/UIComponents.h"
 #include "Components/Core/CoreComponents.h"
 #include "Components/Gameplay/GameplayComponents.h"
+
 #include "../../../../../../ThirdParty/glm/ext/matrix_clip_space.hpp"
+//#include "Entities/EntityManager.h"
 
 
 UIRenderSystem::UIRenderSystem()
@@ -77,64 +78,39 @@ void UIRenderSystem::SetSignature()
 	assert(m_ecs && "[UIRenderSystem - ERROR]: ECS is nullptr!");
 
 	m_signatures.insert({ "Camera", m_ecs->GetSignature<CameraComponent>() });
-	m_signatures.insert({ "UI", m_ecs->GetSignature<UIComponent>() });
-
-	//Signature camera;
-
-	//auto cameraType = m_ecs->GetComponentManager().GetComponentType<CameraComponent>();
-	//camera.set(cameraType);
-
-	//m_signatures.insert({ "Camera", camera });
-
-
-
-	//Signature ui;
-	//auto uiType = m_ecs->GetComponentManager().GetComponentType<UIComponent>();
-	//ui.set(uiType);
-	//m_signatures.insert({ "UI", ui });
+	m_signatures.insert({ "UI", m_ecs->GetSignature<UIComponent, SpriteComponent>() });
 }
 
 // Render cursor, buttons, images
 // TODO; use a simpler GLSLShader for HUD?
 void UIRenderSystem::RenderUI()
 {
-
-	//auto* camera = m_entityManager->FindFirst<CameraComponent>();
-	//if (!camera)
-	//	return;
+	auto camera = m_ecs->FindEntity(m_signatures["Camera"]);
+	if (!camera.has_value())
+		return;
 
 	auto entities = m_ecs->FindEntities(m_signatures["UI"]);
-	//auto entities = m_entityManager->FindAll<UIComponent, SpriteComponent>();
-	//if (entities.empty())
-	//	return;
-
-	//auto* cameraComponent = camera->GetComponent<CameraComponent>();
-	//if (!cameraComponent)
-	//	return;
-
-
-	//auto uiComponents = m_ecs->GetComponents<UIComponent>(entities);
+	if (entities.empty())
+		return;
 
 	std::sort(entities.begin(), entities.end(), [&](Entity e1, Entity e2)
 		{
-			auto u1 = m_ecs->GetComponent<UIComponent>(e1);
-			auto u2 = m_ecs->GetComponent<UIComponent>(e2);
+			const auto* u1 = m_ecs->GetComponent<UIComponent>(e1);
+			const auto* u2 = m_ecs->GetComponent<UIComponent>(e2);
 
 			return u1->RenderDepth > u2->RenderDepth;
 		});
 
 
-	//std::sort(entities.begin(), entities.end(), [](const Entity* e1, const Entity* e2)
-	//	{
-	//		auto e1UIComponent = e1->GetComponent<UIComponent>();
-	//		auto e2UIComponent = e2->GetComponent<UIComponent>();
-
-	//		return e1UIComponent->RenderDepth > e2UIComponent->RenderDepth;
-	//	});
-
 	Hi_Engine::SpriteBatch spriteBatch;
 	spriteBatch.Sprites.reserve(entities.size());
 
+	const auto* cameraComponent = m_ecs->GetComponent<CameraComponent>(camera.value());
+	spriteBatch.ProjectionMatrix = cameraComponent->Camera.GetProjectionMatrix();
+
+
+
+	//Hi_Engine::ServiceLocator::GetWindow()
 	static float windowWidth = 1400.f; // Todo; Pull from window
 	static float windowHeight = 800.f;
 
@@ -142,9 +118,6 @@ void UIRenderSystem::RenderUI()
 	{
 		const auto* spriteComponent = m_ecs->GetComponent<SpriteComponent>(entity);
 		const auto* transformComponent = m_ecs->GetComponent<TransformComponent>(entity);
-
-		// const auto* spriteComponent = entity->GetComponent<SpriteComponent>();
-		// const auto* transformComponent = entity->GetComponent<TransformComponent>();
 
 		if (!spriteComponent || !transformComponent)
 			continue;
@@ -160,18 +133,6 @@ void UIRenderSystem::RenderUI()
 
 		spriteBatch.Sprites.emplace_back(Hi_Engine::Transform{ { xPosition, yPosition, 0.f }, { scale.x, scale.y }, rotation }, glm::vec4{ r, g, b, a }, spriteComponent->Subtexture);
 	}
-
-	auto entity = m_ecs->FindEntity(m_signatures["Camera"]);
-
-	if (!entity)
-		return;
-
-	Entity camera = entity.value();
-
-	//Entity camera = m_ecs->FindEntity(m_signatures["Camera"]);
-	const auto* cameraComponent = m_ecs->GetComponent<CameraComponent>(camera);
-
-	spriteBatch.ProjectionMatrix = cameraComponent->Camera.GetProjectionMatrix();
 
 	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::SpriteBatchRequest>(spriteBatch);
 }
