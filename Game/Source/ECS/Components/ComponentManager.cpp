@@ -7,18 +7,17 @@ ComponentManager::ComponentManager()
 {
 }
 
-//void ComponentManager::AddComponent(Entity entity, std::string name)
-//{
-//	assert(m_componentRegistry.contains(name) && "[ComponentManager - ERROR]: Couldn't find component type!");
-//
-//	auto itr = m_componentRegistry.find(name);
-//	if (itr != m_componentRegistry.end())
-//	{
-//		itr->second(entity);
-//	}
-//}
-
-//void ComponentManager::InitializeComponent(std::string type, void* component, const ComponentProperties& properties)
-//{
-//	m_componentInitializers[type](component, properties);
-//}
+void ComponentManager::RemoveAllComponents(Entity entity)
+{
+	for (auto& [type, componentArray] : m_componentArrays)
+	{
+		if (void* removed = componentArray->RemoveComponent(entity))
+		{
+			auto itr = m_componentPools.find(type);
+			if (itr != m_componentPools.end())
+			{
+				itr->second->ReturnResource(removed);
+			}
+		}
+	}
+}

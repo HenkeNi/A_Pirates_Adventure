@@ -18,10 +18,11 @@ using Entity = int;
 using ComponentType = std::uint8_t;
 using ComponentTypes = std::unordered_map<std::type_index, ComponentType>;
 
-using Property = std::variant<int, float, double, std::string, FVector2, FVector3, FVector4, IVector2, IVector3, IVector4>;
+using Property = std::variant<bool, int, float, double, std::string, FVector2, FVector3, FVector4, IVector2, IVector3, IVector4>;
 using ComponentProperties = std::unordered_map<std::string, Property>;
 
 using ComponentArrays = std::unordered_map<std::type_index, std::unique_ptr<class IComponentArray>>;
+using ComponentPools = std::unordered_map<std::type_index, std::unique_ptr<class IComponentPool>>;
 
 struct ComponentRegistryEntry
 {

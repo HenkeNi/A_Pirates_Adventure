@@ -34,6 +34,9 @@ public:
 
 	inline const std::unordered_map<std::string, ComponentProperties>& GetComponentProperties() const { return m_componentProperties; }
 
+	static Property ParseProperty(const rapidjson::Value& value); // FIX! put elsewhere??
+
+
 private:
 	friend class EntityFactory;
 

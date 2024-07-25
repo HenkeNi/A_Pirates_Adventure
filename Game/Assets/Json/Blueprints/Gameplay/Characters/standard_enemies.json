@@ -74,7 +74,7 @@
       {
         "type": "Personality",
         "properties": {
-          "IsAggressive": true
+          "is_aggressive": true
         }
       },
       {

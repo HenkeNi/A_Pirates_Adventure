@@ -6,6 +6,7 @@
 #include "Systems/SystemManager.h"
 #include "Systems/SystemFactory.h"
 #include "ECSTypes.h"
+#include "Components/ComponentInitializer.h"
 
 
 
@@ -37,11 +38,16 @@ public:
 
 	Entity CreateEntity(const char* type);
 
-	Entity CreateEntity(const char* type, const rapidjson::Value& value);
+	// Entity CreateEntity(const char* type, const rapidjson::Value& value);
 
 	Entity CreateEmptyEntity();
 
 	void DestroyAllEntities();
+
+	void DestroyEntity(Entity entity);
+
+
+	// Add FindEntities template<typename Component> as well?
 
 	std::vector<Entity> FindEntities(const Signature& signature);
 
@@ -65,10 +71,10 @@ public:
 
 	
 	template <typename... T>
-	void AddComponent(Entity entity);
+	void AddComponent(Entity entity); 
 
 	template <typename T>
-	inline void Add(Entity entity)
+	inline void Add(Entity entity) // used??
 	{
 		m_componentManager.AddComponent<T>(entity);
 		
@@ -140,8 +146,8 @@ inline void ECS::RegisterComponent(const char* name)
 	entry.AddComponent = [this](Entity entity) { AddComponent<T>(entity); };
 	entry.InitializeComponent = [this](Entity entity, const ComponentProperties& properties) 
 		{
-			auto* component = m_componentManager.GetComponent<T>(entity);
-			ComponentInitializer::InitializeComponent<T>(component, properties); 
+			if (auto* component = m_componentManager.GetComponent<T>(entity))
+				ComponentInitializer::InitializeComponent<T>(component, properties); 
 		};
 	
 	m_componentRegistry.insert({ name, entry });

@@ -62,14 +62,14 @@ Entity ECS::CreateEntity(const char* type)
 	return entity;
 }
 
-Entity ECS::CreateEntity(const char* type, const rapidjson::Value& value)
-{
-	Entity entity = m_entityFactory.Create(type, value);
-
-	// TODO; update signature (event?)
-
-	return Entity();
-}
+//Entity ECS::CreateEntity(const char* type, const rapidjson::Value& value)
+//{
+//	Entity entity = m_entityFactory.Create(type, value);
+//
+//	// TODO; update signature (event?)
+//
+//	return Entity();
+//}
 
 Entity ECS::CreateEmptyEntity()
 {
@@ -79,7 +79,20 @@ Entity ECS::CreateEmptyEntity()
 
 void ECS::DestroyAllEntities()
 {
-	std::cout << "Destroy all entities not implemented!";
+	auto entities = m_entityManager.GetActiveEntities();
+
+	for (Entity entity : entities)
+	{
+		m_componentManager.RemoveAllComponents(entity);
+	}
+
+	m_entityManager.DestroyAll();
+}
+
+void ECS::DestroyEntity(Entity entity)
+{
+	m_componentManager.RemoveAllComponents(entity);
+	m_entityManager.Destroy(entity);
 }
 
 std::vector<Entity> ECS::FindEntities(const Signature& signature)

@@ -31,7 +31,7 @@
           "type": "Dynamic",
           "size": [ 25.0, 25.0 ],
           "offset": [ 10.0, 10.0 ],
-          "isOffsetDirectionallyBound": true
+          "is_offset_directionally_bound": true
         }
       },
       {

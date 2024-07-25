@@ -21,7 +21,7 @@ public:
 	EntityFactory(ECS& ecs);
 	~EntityFactory();
 
-	static ComponentData ParseComponent(const rapidjson::Value& value); //  dont static?
+	// static ComponentProperties ParseComponent(const rapidjson::Value& value); //  dont static?
 
 	void LoadBlueprint(const std::string& path);
 	void ConstructBlueprint(const rapidjson::Value& value);

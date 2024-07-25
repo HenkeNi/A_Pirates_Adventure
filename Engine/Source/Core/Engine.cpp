@@ -107,6 +107,7 @@ namespace Hi_Engine
 
 			if (renderer)
 				renderer->ProcessCommands();
+			
 			//if (textRenderer)
 			//	textRenderer->ProcessQueue();
 

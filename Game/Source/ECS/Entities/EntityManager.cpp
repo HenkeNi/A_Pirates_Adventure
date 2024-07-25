@@ -35,7 +35,20 @@ void EntityManager::Destroy(Entity entity)
 	assert(entity < MaxEntities && "[EntityManager - ERROR]: Entity out of range.");
 
 	m_available.push(entity);
+	m_signatures[entity].reset();
+	
 	m_active.erase(std::remove(m_active.begin(), m_active.end(), entity));
+}
+
+void EntityManager::DestroyAll()
+{
+	for (Entity entity : m_active)
+	{
+		m_available.push(entity);
+		m_signatures[entity].reset();
+	}
+
+	m_active.clear();
 }
 
 std::vector<Entity> EntityManager::GetEntities(const Signature& signature) const

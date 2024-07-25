@@ -50,7 +50,9 @@ Entity EntityFactory::Create(const char* name)
 	for (const auto& [component, properties] : componentProperties)
 	{
 		m_ecs.AddComponent(entity, component.c_str()); // fix string!
-		m_ecs.InitializeComponent(entity, component.c_str(), properties);
+
+		if (!properties.empty()) // Todo, also put checks in ComponentInitailizer!
+			m_ecs.InitializeComponent(entity, component.c_str(), properties);
 		//ComponentInitializer::InitializeComponent<T>(void*, properties);
 	}
 
@@ -92,16 +94,16 @@ void EntityFactory::RegisterBlueprint(const std::string& id, EntityBlueprint blu
 	m_blueprints.insert_or_assign(id, std::move(blueprint)); // no need to move?
 }
 
-ComponentData EntityFactory::ParseComponent(const rapidjson::Value& value)
-{
-	assert(value.IsObject() && "ERROR: Parsing Component");
-	ComponentData data;
-
-	for (auto& property : value.GetObject())
-	{
-		const std::string key = property.name.GetString();
-		data.insert_or_assign(key, Hi_Engine::ParseJson(property.value));
-	}
-
-	return data;
-}
+//ComponentProperties EntityFactory::ParseComponent(const rapidjson::Value& value)
+//{
+//	assert(value.IsObject() && "ERROR: Parsing Component");
+//	ComponentData data;
+//
+//	for (auto& property : value.GetObject())
+//	{
+//		const std::string key = property.name.GetString();
+//		data.insert_or_assign(key, Hi_Engine::ParseJson(property.value));
+//	}
+//
+//	return data;
+//}

@@ -10,6 +10,9 @@ public:
 
 	Entity Create();
 	void Destroy(Entity entity);
+	void DestroyAll();
+
+	inline const std::vector<Entity>& GetActiveEntities() const { return m_active; }
 
 	std::vector<Entity> GetEntities(const Signature& signature) const;
 	std::optional<Entity> GetEntity(const Signature& signature) const;

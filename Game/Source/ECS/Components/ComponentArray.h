@@ -1,10 +1,8 @@
 #pragma once
 #include "ECSTypes.h"
-//#include "Entities/Entity.h"
 
 using Index = std::size_t;
 //using Component = void*;
-
 
 class IComponentArray
 {
@@ -63,7 +61,8 @@ inline void ComponentArray<T>::AddComponent(Entity entity, void* component)
 template<typename T>
 inline void* ComponentArray<T>::RemoveComponent(Entity entity)
 {
-	assert(HasComponent(entity) && "ERROR: entity doesn't exist");
+	if (!HasComponent(entity))
+		return nullptr;
 
 	std::size_t lastIndex = m_currentSize - 1;
 	std::size_t indexToRemove = m_entityToIndexMap[entity];

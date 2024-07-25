@@ -349,11 +349,7 @@
 //	//// TODO; set health stat?!
 //}
 //
-//void ComponentInitializer::InitializeComponent(InventoryComponent* component, const ComponentProperties& properties)
-//{
-//
-//}
-//
+
 //void ComponentInitializer::InitializeComponent(MapChunkComponent* component, const ComponentProperties& properties)
 //{
 //	//int width = std::any_cast<int>(data.at("width"));
@@ -509,11 +505,7 @@
 //	//component->DayDuration = dayDuration;
 //}
 //
-//void ComponentInitializer::InitializeComponent(WanderBehaviorComponent* component, const ComponentProperties& properties)
-//{
-//
-//}
-//
+
 //void ComponentInitializer::InitializeComponent(PersonalityComponent* component, const ComponentProperties& properties)
 //{
 //	/*bool isAggressive = std::any_cast<bool>(data.at("IsAggressive"));
@@ -526,20 +518,7 @@
 //	// component->Behavior = new FlockBehavior{};	// Make sure to delete...
 //}
 //
-//void ComponentInitializer::InitializeComponent(SeekBehaviorComponent* component, const ComponentProperties& properties)
-//{
-//
-//}
-//
-//void ComponentInitializer::InitializeComponent(FleeBehaviorComponent* component, const ComponentProperties& properties)
-//{
-//
-//}
-//
-//void ComponentInitializer::InitializeComponent(ShakeComponent* component, const ComponentProperties& properties)
-//{
-//
-//}
+
 //
 //void ComponentInitializer::InitializeComponent(TagComponent* component, const ComponentProperties& properties)
 //{
@@ -558,12 +537,12 @@
 //
 //	component->type = TagMap.at(tagType);*/
 //}
-//
-//void ComponentInitializer::InitializeComponent(ToppleComponent* component, const ComponentProperties& properties)
-//{
-//
-//}
-//
+
+
+
+
+
+
 //void ComponentInitializer::InitializeComponent(SceneTransitionComponent* component, const ComponentProperties& properties)
 //{
 //	//static const std::unordered_map<std::string, eScene> sceneTransitionsMapping = {
@@ -584,13 +563,16 @@
 //
 //	//component->SceneType = it->second;
 //}
-//
+
+
+
+
+
 //void ComponentInitializer::InitializeComponent(TimerComponent* component, const ComponentProperties& properties)
 //{
 //	/*float duration = std::any_cast<float>(data.at("duration"));
 //	component->Duration = duration;*/
 //}
-//
 //void ComponentInitializer::InitializeComponent(UIComponent* component, const ComponentProperties& properties)
 //{
 //	/*if (data.contains("render_depth"))
