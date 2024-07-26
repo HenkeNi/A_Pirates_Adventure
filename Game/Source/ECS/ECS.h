@@ -53,6 +53,9 @@ public:
 
 	std::optional<Entity> FindEntity(const Signature& signature); // return optional?
 
+	//template <typename... T>
+	//std::vector<Entity> FindEntities(); -> implement!!!
+
 	//template <typename Component>
 	//Entity FindEntity();
 

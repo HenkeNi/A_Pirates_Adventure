@@ -16,6 +16,7 @@ void TextRenderSystem::Draw()
 {
 	assert(m_ecs && "[TextRenderSystem - ERROR]: ECS is nullptr!");
 
+	return;
 
 	// DO in initilaizcomponent instead
 	auto* shader = &Hi_Engine::ResourceHolder<Hi_Engine::GLSLShader>::GetInstance().GetResource("Text"); // FIX!! set in Renderer before...

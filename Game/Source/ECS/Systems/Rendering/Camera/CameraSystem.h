@@ -18,7 +18,7 @@ public:
 	// static std::vector<Entity*> GetEntitiesInView(std::vector<Entity*> someEntities);
 	// static bool IsEntityInView() const;
 
-	//static bool IsInView(Entity* camera, const Hi_Engine::Physics::AABB2D<float>& bounds); // Rename: Is visible?
+	//static bool IsInView(Entity camera, const Hi_Engine::Physics::AABB2D<float>& bounds); // Rename: Is visible?
 
 private:
 

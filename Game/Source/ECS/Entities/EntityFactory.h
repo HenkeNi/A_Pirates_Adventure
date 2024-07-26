@@ -1,7 +1,6 @@
 #pragma once
 #//include "Entity.h"
 #include "EntityBlueprint.h"
-#include "../Components/ComponentBuilder.h"
 #include "ECSTypes.h"
 
 class Component;

@@ -7,7 +7,7 @@
 #include "Systems/Rendering/Camera/CameraSystem.h"
 #include "Systems/Time/TimeSystem.h"
 #include "DataTypes/Enumerations.h"
-
+#include "ECS/ECS.h"
 
 MapRenderSystem::MapRenderSystem()
 {
@@ -19,17 +19,17 @@ MapRenderSystem::~MapRenderSystem()
 
 void MapRenderSystem::Draw()
 {
-	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
+	assert(m_ecs && "ERROR: EntityManager is nullptr!");
 
-	auto* camera = m_entityManager->FindFirst<CameraComponent>();
-	if (!camera)
+	auto camera = m_ecs->FindEntity(m_signatures["Camera"]);
+	if (!camera.has_value())
 		return;
 
-	auto entities = m_entityManager->FindAll<MapChunkComponent>();
+	auto entities = m_ecs->FindEntities(m_signatures["MapChunks"]);
 	if (entities.empty())
 		return;
 
-	auto* cameraComponent = camera->GetComponent<CameraComponent>();
+	auto* cameraComponent = m_ecs->GetComponent<CameraComponent>(camera.value());
 	if (!cameraComponent)
 		return;
 
@@ -38,14 +38,15 @@ void MapRenderSystem::Draw()
 	Hi_Engine::SpriteBatch spriteBatch;
 	spriteBatch.Sprites.reserve(entities.size());
 
-	for (auto* entity : entities)
+	for (Entity entity : entities)
 	{
-		auto* mapChunkComponent = entity->GetComponent<MapChunkComponent>();
+		auto* mapChunkComponent = m_ecs->GetComponent<MapChunkComponent>(entity);
 		if (!mapChunkComponent)
 			continue;
 
-		if (!CameraSystem::IsInView(camera, mapChunkComponent->Bounds))
-			continue;
+		// TODO; have Camera system set this in some component!!!
+		//if (!CameraSystem::IsInView(camera, mapChunkComponent->Bounds))
+		//	continue;
 
 		//auto color = TimeSystem::CalculateDaylightColor(m_entityManager->FindFirst<WorldTimeComponent>());
 		
@@ -54,6 +55,13 @@ void MapRenderSystem::Draw()
 
 	spriteBatch.ProjectionMatrix = cameraComponent->Camera.GetViewProjectionMatrix();
 	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::SpriteBatchRequest>(spriteBatch); // Static call to Renderer instead??
+}
+
+void MapRenderSystem::SetSignature()
+{
+	m_signatures.insert({ "Camera", m_ecs->GetSignature<CameraComponent>() });
+	m_signatures.insert({ "MapChunks", m_ecs->GetSignature<MapChunkComponent>() });
+	m_signatures.insert({ "WorldTime", m_ecs->GetSignature<WorldTimeComponent>() });
 }
 
 FVector4 MapRenderSystem::CalculateDaylightColor() const
@@ -68,9 +76,11 @@ FVector4 MapRenderSystem::CalculateDaylightColor() const
 	
 	FVector4 color{};
 
-	if (auto* worldTime = m_entityManager->FindFirst<WorldTimeComponent>())
+	auto worldTime = m_ecs->FindEntity(m_signatures.at("WorldTime"));
+
+	if (worldTime.has_value())
 	{
-		auto* worldTimeComponent = worldTime->GetComponent<WorldTimeComponent>();
+		const auto* worldTimeComponent = m_ecs->GetComponent<WorldTimeComponent>(worldTime.value());
 		float progress = worldTimeComponent->CurrentDayProgress;
 		
 		//color = Hi_Engine::Lerp(daylights.at(eTimeOfDay::Day), daylights.at(eTimeOfDay::Night), progress);

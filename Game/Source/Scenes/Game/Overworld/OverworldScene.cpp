@@ -39,16 +39,16 @@ void OverworldScene::OnEnter()
 
 	//auto& entityManager = m_ecs.GetEntityManager();
 
-	m_ecs.CreateEntity("player");
+	m_ecs.CreateEntity("Player");
 	
 	// player->GetComponent<SpriteComponent>()->Pivot = { -0.5f, -0.5f };
 
 	// auto* cursor = entityManager.Create("mouse_cursor");
 	// auto* time = entityManager.Create("world_time");
 
-	m_ecs.CreateEntity("rusty_sword");
-	m_ecs.CreateEntity("skeleton");
-	m_ecs.CreateEntity("crab");
+	m_ecs.CreateEntity("RustySword");
+	//m_ecs.CreateEntity("skeleton");
+	//m_ecs.CreateEntity("crab");
 
 
 	// Camera => do in camera system?? store data in camera component/json... target Signature?

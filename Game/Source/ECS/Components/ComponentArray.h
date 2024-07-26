@@ -130,10 +130,13 @@ inline const void* ComponentArray<T>::GetComponent(Entity entity) const
 template<typename T>
 inline void* ComponentArray<T>::GetComponent(Entity entity)
 {
-	assert(HasComponent(entity) && "ERROR: failed to retrieve component for entity");
+	T* component = nullptr;
 
-	std::size_t index = m_entityToIndexMap.at(entity);
-	T* component = m_components[index];
+	if (HasComponent(entity))
+	{
+		std::size_t index = m_entityToIndexMap.at(entity);
+		component = m_components[index];
+	}
 
 	return component;
 }

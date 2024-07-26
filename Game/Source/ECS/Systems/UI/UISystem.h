@@ -10,6 +10,7 @@ public:
 
 	void Receive(Message& message)	override;
 	void Update(float deltaTime)	override;
+	void SetSignature()				override;
 
 	static glm::vec2 ScreenToWorldCoordinates(const glm::vec2& position);
 

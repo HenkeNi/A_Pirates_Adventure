@@ -10,6 +10,7 @@ public:
 	~MapRenderSystem();
 
 	void Draw()						override;
+	void SetSignature()				override;
 
 private:
 	// void DrawMapChunk(MapChunkComponent* mapChunk, const FVector2& position);

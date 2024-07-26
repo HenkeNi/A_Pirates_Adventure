@@ -58,7 +58,7 @@ namespace Hi_Engine
 
 
 		RenderContext	m_quadContext;
-		RenderContext	m_textContext;
+		//RenderContext	m_textContext;
 		RenderStats		m_stats;
 	};
 }

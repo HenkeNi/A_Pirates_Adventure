@@ -6,7 +6,7 @@
 #include "Scenes/Scenes.h"
 //#include "Entities/EntityFactory.h"
 #include "Components/Components.h"
-#include "Components/ComponentBuilder.h"
+
 
 namespace Registration
 {
@@ -100,11 +100,11 @@ namespace Registration
 		//systemManager.Register<StatSystem>("StatSystem");
 
 		///* - Map Systems - */
-		//systemManager.Register<MapGenerationSystem>("MapGenerationSystem");
+		ecs.RegisterSystem<MapGenerationSystem>("MapGenerationSystem");
 		//systemManager.Register<MapDecorationSystem>("MapDecorationSystem");
 
 		///* -  UI Systems - */
-		//systemManager.Register<UISystem>("UISystem");
+		ecs.RegisterSystem<UISystem>("UISystem");
 		//systemManager.Register<HUDSystem>("HUDSystem");
 
 		///* - AI Systems - */
@@ -121,7 +121,7 @@ namespace Registration
 		ecs.RegisterSystem<TextRenderSystem>("TextRenderSystem");
 		ecs.RegisterSystem<UIRenderSystem>("UIRenderSystem");
 		//systemManager.Register<SpriteRenderSystem>("SpriteRenderSystem");
-		//systemManager.Register<MapRenderSystem>("MapRenderSystem");
+		ecs.RegisterSystem<MapRenderSystem>("MapRenderSystem");
 
 
 

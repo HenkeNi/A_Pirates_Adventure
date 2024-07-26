@@ -9,6 +9,7 @@
 #include "Components/Map/MapComponents.h"
 // #include <FastNoiseLite.h>
 
+#include "ECS.h"
 
 
 
@@ -188,14 +189,14 @@ void MapGenerationSystem::Receive(Message& message)
 
 void MapGenerationSystem::Update(float deltaTime)
 {
-	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
+	assert(m_ecs && "ERROR: EntityManager is nullptr!");
 
 	// Todo; use camera bounds instead??
-	auto* camera = m_entityManager->FindFirst<CameraComponent>();
-	if (!camera)
+	auto camera = m_ecs->FindEntity(m_signatures["Camera"]);
+	if (!camera.has_value())
 		return;
 
-	auto* transformComponent = camera->GetComponent<TransformComponent>();
+	auto* transformComponent = m_ecs->GetComponent<TransformComponent>(camera.value());
 	const auto& currentPosition = transformComponent->CurrentPos;
 	//auto* cameraComponent = camera->GetComponent<CameraComponent>();
 
@@ -248,10 +249,10 @@ void MapGenerationSystem::Update(float deltaTime)
 
 	// store in a map settings component?
 
-	auto mapChunks = m_entityManager->FindAll<MapChunkComponent>();
-	for (const auto& mapChunk : mapChunks)
+	auto mapChunks = m_ecs->FindEntities(m_signatures["MapChunks"]);
+	for (auto mapChunk : mapChunks)
 	{
-		auto* mapChunkComponent = mapChunk->GetComponent<MapChunkComponent>();
+		auto* mapChunkComponent = m_ecs->GetComponent<MapChunkComponent>(mapChunk);
 		mapCoordinates.push_back(mapChunkComponent->Coordinates);
 	}
 
@@ -278,12 +279,18 @@ void MapGenerationSystem::Update(float deltaTime)
 	// TODO; remove/unload chunks?
 }
 
+void MapGenerationSystem::SetSignature()
+{
+	m_signatures.insert({ "Camera", m_ecs->GetSignature<CameraComponent>() });
+	m_signatures.insert({ "MapChunks", m_ecs->GetSignature<MapChunkComponent>() });
+}
+
 void MapGenerationSystem::GenerateMapChunk(int xCoord, int yCoord)
 {
-	auto* entity = m_entityManager->Create("map_chunk");
+	Entity entity = m_ecs->CreateEntity("MapChunk");
 
-	auto* mapChunkComponent = entity->GetComponent<MapChunkComponent>();
-	auto* transformComponent = entity->GetComponent<TransformComponent>(); // Do it need a transform compoentn?
+	auto* mapChunkComponent = m_ecs->GetComponent<MapChunkComponent>(entity);
+	auto* transformComponent = m_ecs->GetComponent<TransformComponent>(entity); // Do it need a transform compoentn?
 
 	mapChunkComponent->Coordinates = { xCoord, yCoord };
 
@@ -320,12 +327,12 @@ void MapGenerationSystem::UnloadMapChunk()
 	// TODO; need to save world state in map chunk (placed objects, etc).. (store changes done by the player)
 }
 
-void MapGenerationSystem::ApplyTextures(Entity* entity) // Rename; texture map chunk?
+void MapGenerationSystem::ApplyTextures(Entity entity) // Rename; texture map chunk?
 {
 	static const std::array<eDirectionalValue, 4> directionalValues = { eDirectionalValue::North, eDirectionalValue::West, eDirectionalValue::East, eDirectionalValue::South };
 
-	auto* transformComponent = entity->GetComponent<TransformComponent>();
-	auto* mapChunkComponent = entity->GetComponent<MapChunkComponent>();
+	auto* transformComponent = m_ecs->GetComponent<TransformComponent>(entity);
+	auto* mapChunkComponent = m_ecs->GetComponent<MapChunkComponent>(entity);
 
 	for (int i = 0; i < mapChunkComponent->Tiles.size(); ++i)
 	{
@@ -338,7 +345,12 @@ void MapGenerationSystem::ApplyTextures(Entity* entity) // Rename; texture map c
 
 			for (const auto& directionalValue : directionalValues)
 			{
-				bool isEmptySpace = MapUtils::IsTileTypeInDirection(entity, i, directionalValue, eTile::ShallowWater);
+				// FIX this!!!!!!
+				std::vector<Tile> tiles; 
+				for (const auto& tile : mapChunkComponent->Tiles)
+					tiles.push_back(tile);
+
+				bool isEmptySpace = MapUtils::IsTileTypeInDirection(tiles, i, directionalValue, eTile::ShallowWater);
 				
 				if (isEmptySpace)	
 					continue;
@@ -391,7 +403,7 @@ void MapGenerationSystem::SetupMapEditor()
 	imGuiWindow.Title = "Perlin Noise";
 	imGuiWindow.Size = { 200.f, 200.f };
 	imGuiWindow.Position = { 1400.f - imGuiWindow.Size.x, 200.f };
-	imGuiWindow.Buttons.emplace_back([&]() { m_entityManager->DestroySelected<MapChunkComponent>(); }, "Clear Map");
+	// imGuiWindow.Buttons.emplace_back([&]() { m_entityManager->DestroySelected<MapChunkComponent>(); }, "Clear Map");
 
 	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::CreateImGuiWindowRequest>(imGuiWindow);
 }
