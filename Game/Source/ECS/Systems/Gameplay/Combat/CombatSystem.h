@@ -1,6 +1,7 @@
 #pragma once
 #include "../../Base/System.h"
 
+
 class CombatSystem : public System, public Subscriber
 {
 public:
@@ -9,6 +10,7 @@ public:
 
 	void		Receive(Message& message)						 override;
 	void		Update(float deltaTime)							 override;
+	void	SetSignature() override;
 
 	static std::vector<Entity> GetAdversaries(Entity entity); // GetHostileEntities
 

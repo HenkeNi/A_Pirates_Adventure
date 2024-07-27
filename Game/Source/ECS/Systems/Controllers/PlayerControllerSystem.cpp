@@ -1,5 +1,6 @@
 #include "Pch.h"
 #include "PlayerControllerSystem.h"
+#include "ECS.h"
 #include "Entities/EntityManager.h"
 #include "Components/Core/CoreComponents.h"
 #include "Components/Gameplay/GameplayComponents.h"
@@ -22,39 +23,36 @@ PlayerControllerSystem::~PlayerControllerSystem()
 
 void PlayerControllerSystem::Receive(Message& message)
 {
-	auto* entity = std::any_cast<Entity*>(message.GetData());
+	auto entity = std::any_cast<Entity>(message.GetData());
 
-	if (!entity)
-		return;
-
-	if (entity->HasComponents<PlayerControllerComponent, CharacterStateComponent>())
+	if (auto* characterStateComponent = m_ecs->GetComponent<CharacterStateComponent>(entity))
 	{
-		auto* characterStateComponent = entity->GetComponent<CharacterStateComponent>();
 		characterStateComponent->IsAttacking = false;
 	}
-
 }
 
 void PlayerControllerSystem::Update(float deltaTime)
 {
-	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
+	assert(m_ecs && "ERROR: ECS is nullptr!");
 
-	auto entities = m_entityManager->FindAll<PlayerControllerComponent, CharacterStateComponent, InputComponent>();
+	auto entities = m_ecs->FindEntities(m_signatures["Player"]);
 
-	for (auto* entity : entities)
+	for (auto entity : entities)
 	{
 		ProcessCommands(entity);
 		UpdatePlayerState(entity);		
 	}
 }
 
-void PlayerControllerSystem::ProcessCommands(Entity* entity)
+void PlayerControllerSystem::SetSignature()
 {
-	if (!entity)
-		return;
+	m_signatures.insert({ "Player", m_ecs->GetSignature<PlayerControllerComponent, CharacterStateComponent, InputComponent>() });
+}
 
-	auto* playerControllerComponent = entity->GetComponent<PlayerControllerComponent>();
-	auto* inputComponent			= entity->GetComponent<InputComponent>();
+void PlayerControllerSystem::ProcessCommands(Entity entity)
+{
+	auto* playerControllerComponent = m_ecs->GetComponent<PlayerControllerComponent>(entity);
+	auto* inputComponent			= m_ecs->GetComponent<InputComponent>(entity);
 
 	if (!playerControllerComponent || !inputComponent)
 		return;
@@ -65,17 +63,17 @@ void PlayerControllerSystem::ProcessCommands(Entity* entity)
 		bool isKeyActive = inputComponent->InputStates[key]; // NOTE: this will add the releveant keys to the map.. (maybe use .find, or .at and initialize keys when creating the component?
 		//bool canPerform = command->CanPerform(entity);
 
-		isKeyActive ? command->Execute(entity) : command->Undo(entity);
+		isKeyActive ? command->Execute(entity, *m_ecs) : command->Undo(entity, *m_ecs);
 	}
 }
 
 void PlayerControllerSystem::CleanUpCommands()
 {
-	auto playerControllers = m_entityManager->FindAll<PlayerControllerComponent>();
+	auto playerControllers = m_ecs->FindEntities(m_signatures["Player"]);
 
-	for (auto& playerController : playerControllers)
+	for (auto playerController : playerControllers)
 	{
-		auto* playerControllerComponent = playerController->GetComponent<PlayerControllerComponent>();
+		auto* playerControllerComponent = m_ecs->GetComponent<PlayerControllerComponent>(playerController);
 
 		for (auto& [key, command] : playerControllerComponent->InputMapping)
 		{
@@ -84,13 +82,10 @@ void PlayerControllerSystem::CleanUpCommands()
 	}
 }
 
-void PlayerControllerSystem::UpdatePlayerState(Entity* entity) // dO in commands?
+void PlayerControllerSystem::UpdatePlayerState(Entity entity) // dO in commands?
 {
-	if (!entity)
-		return;
-
-	auto* characterStateComponent	= entity->GetComponent<CharacterStateComponent>();
-	auto* velocityComponent			= entity->GetComponent<VelocityComponent>();
+	auto* characterStateComponent	= m_ecs->GetComponent<CharacterStateComponent>(entity);
+	auto* velocityComponent			= m_ecs->GetComponent<VelocityComponent>(entity);
 
 	if (!characterStateComponent || !velocityComponent)
 		return;

@@ -10,6 +10,7 @@ public:
 
 	void Receive(Message& message)	override;
 	void Update(float deltaTime)	override;
+	void SetSignature()				override;
 
 private:
 	void GenerateResources(Entity entity);

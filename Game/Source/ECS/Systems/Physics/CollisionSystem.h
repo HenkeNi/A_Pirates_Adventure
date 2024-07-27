@@ -10,8 +10,9 @@ public:
 
 	void Receive(Message& message)		override;
 	void LateUpdate(float deltaTime)	override;
+	void SetSignature() override;
 
-	static bool CanCollide(Entity first, Entity second);
+	bool CanCollide(Entity first, Entity second);
 
 private:
 	void AlignCollider(Entity entity);
@@ -35,10 +36,6 @@ private:
 
 	// Check collisions
 	// Handle Collision / Resolve Collisions
-
-
-// OR maybe colliders are just small structs (min/max) and free floating functions... DOWNSIDE=> visually debugging collider is less accurate..
-
-
+	// OR maybe colliders are just small structs (min/max) and free floating functions... DOWNSIDE=> visually debugging collider is less accurate..
 	// float SweptAABB(Entity* entity);
 };

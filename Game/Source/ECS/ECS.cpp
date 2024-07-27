@@ -21,6 +21,8 @@ void ECS::Shutdown()
 void ECS::Update(float deltaTime)
 {
 	m_systemManager.Update(deltaTime); // todo; fetch "UpdateSystem" instead??
+
+	std::cout << "Entity amount: " << m_entityManager.GetActiveEntities().size() << "\n";
 }
 
 void ECS::LateUpdate(float deltaTime)
@@ -56,7 +58,7 @@ void ECS::ClearSystems()
 Entity ECS::CreateEntity(const char* type)
 {
 	Entity entity = m_entityFactory.Create(type);
-
+	PostMaster::GetInstance().SendMessage({ eMessage::EntityCreated, entity });
 	// TODO; update signature (event?)
 
 	return entity;

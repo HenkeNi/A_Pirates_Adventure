@@ -11,6 +11,8 @@ public:
 	void Receive(Message& message)	override;
 	void Update(float deltaTime)	override;
 
+	void SetSignature() override;
+
 	// Static function for getting player position? or just use blackboard?
 
 private:

@@ -143,7 +143,7 @@ struct BoundingVolume : public Component // Or BOundingBox?
 // Rename ChildEntitiesComponent? ChildListComponent
 struct SubEntitiesComponent : public Component
 {
-	std::vector<unsigned> IDs;
+	std::vector<unsigned> IDs; // change to ENtity?
 };
 
 

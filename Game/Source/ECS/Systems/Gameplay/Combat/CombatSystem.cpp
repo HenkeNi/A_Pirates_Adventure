@@ -4,6 +4,7 @@
 #include "Components/Core/CoreComponents.h"
 #include "Components/Gameplay/GameplayComponents.h"
 #include "Systems/Physics/MovementSystem.h"
+#include "ECS.h"
 
 
 CombatSystem::CombatSystem()
@@ -20,11 +21,11 @@ CombatSystem::~CombatSystem()
 
 void CombatSystem::Receive(Message& message)	// Listen to collisions from physics
 {
-	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
+	assert(m_ecs && "ERROR: EntityManager is nullptr!");
 
 	if (message.GetMessageType() == eMessage::AttackAnimationFinished)
 	{
-		auto* entity = std::any_cast<Entity*>(message.GetData());
+		auto entity = std::any_cast<Entity>(message.GetData());
 		PerformAttack(entity);
 		// call ApplyKnockback here instead?
 	}
@@ -37,28 +38,16 @@ void CombatSystem::Receive(Message& message)	// Listen to collisions from physic
 		PerformAttack(entity);
 	}*/
 
-
-	
-	
-
+		
 	// No need to check if having weapon equipped?
 
 
 	// TODO; static function in Equipment system to get certain equipments?
-
 	
-
 
 	// Check if collider with attack is colliding someting with health?
 
-
-
-
 	// activate collider =>
-
-
-
-
 
 	// Listen for animation finished => activate collider
 
@@ -112,25 +101,25 @@ void CombatSystem::Receive(Message& message)	// Listen to collisions from physic
 
 void CombatSystem::Update(float deltaTime)
 {
-	if (!m_entityManager)
+	if (!m_ecs)
 		return;
 
-	auto entities = m_entityManager->FindAll<HealthComponent>();
+	auto entities = m_ecs->FindEntities(m_signatures["Health"]);
 
-	std::vector<unsigned> entitiesToRemove;
+	std::vector<Entity> entitiesToRemove;
 
-	for (auto* entity : entities)
+	for (auto entity : entities)
 	{
-		auto* healthComponent = entity->GetComponent<HealthComponent>();
+		auto* healthComponent = m_ecs->GetComponent<HealthComponent>(entity);
 		if (healthComponent->CurrentValue == 0)
 		{
 			PostMaster::GetInstance().SendMessage(Message{ eMessage::EntityDied, entity });
-			entitiesToRemove.push_back(entity->GetID());
+			entitiesToRemove.push_back(entity);
 		}
 	}
 
 	for (auto entity : entitiesToRemove)
-		m_entityManager->Destroy(entity);
+		m_ecs->DestroyEntity(entity);
 
 	//std::vector<Entity*> entitiesToRemove;
 
@@ -176,9 +165,14 @@ void CombatSystem::Update(float deltaTime)
 	//}
 }
 
-std::vector<Entity*> CombatSystem::GetAdversaries(const Entity* entity)
+void CombatSystem::SetSignature()
 {
-	std::vector<Entity*> adversaries; 
+	m_signatures.insert({ "Health", m_ecs->GetSignature<HealthComponent>() });
+}
+
+std::vector<Entity> CombatSystem::GetAdversaries(const Entity entity)
+{
+	std::vector<Entity> adversaries; 
 
 	if (entity)
 	{
@@ -188,52 +182,47 @@ std::vector<Entity*> CombatSystem::GetAdversaries(const Entity* entity)
 	return adversaries;
 }
 
-void CombatSystem::PerformAttack(Entity* entity)
+void CombatSystem::PerformAttack(Entity entity)
 {
-	auto* equipmentComponent = entity->GetComponent<EquipmentComponent>(); // why?
+	auto* equipmentComponent = m_ecs->GetComponent<EquipmentComponent>(entity);
 	if (!equipmentComponent)
 		return;
 
 	int weaponID = equipmentComponent->EquippedItemIDs[(int)eEquipmentSlot::Melee];
+	if (weaponID < 0)
+		return;
 
-	if (auto* weapon = m_entityManager->Find(weaponID))
+	auto* colliderComponent = m_ecs->GetComponent<ColliderComponent>(weaponID);
+	auto* weaponComponent = m_ecs->GetComponent<WeaponComponent>(weaponID);
+	int damageOutput = weaponComponent->DamageDealt;
+
+	PostMaster::GetInstance().SendMessage({ eMessage::ItemUsed, weaponID }); // Send weapon swung instead??
+
+	for (const auto& target : colliderComponent->CollidingEntities)
 	{
-		auto* colliderComponent = weapon->GetComponent<ColliderComponent>();
-		auto* weaponComponent = weapon->GetComponent<WeaponComponent>();
-		int damageOutput = weaponComponent->DamageDealt;
+		if (target == entity || !IsTargetable(target))
+			continue;
 
-		PostMaster::GetInstance().SendMessage({ eMessage::ItemUsed, weapon }); // Send weapon swung instead??
+		// TODO: calculate damage output
 
-		for (const auto& target : colliderComponent->CollidingEntities)
+		if (m_ecs->GetComponent<KnockbackComponent>(target)/* && !MovementSystem::IsKnockbacked(target)*/)
 		{
-			if (target->GetID() == entity->GetID() || !IsTargetable(target))
-				continue;
-
-			// TODO: calculate damage output
-
-			if (target->HasComponent<KnockbackComponent>() && !MovementSystem::IsKnockbacked(target))
-			{
-				ApplyKnockback(entity, target);
-			}
+			ApplyKnockback(entity, target);
+		}
 
 			// HERE??
-			PostMaster::GetInstance().SendMessage({ eMessage::EntityAttacked, target });
+		PostMaster::GetInstance().SendMessage({ eMessage::EntityAttacked, target });
 
-			auto* healthComponent = target->GetComponent<HealthComponent>();
-			healthComponent->CurrentValue = Hi_Engine::Math::Clamp(healthComponent->CurrentValue - damageOutput, 0, healthComponent->MaxHealth);
+		auto* healthComponent = m_ecs->GetComponent<HealthComponent>(target);
+		healthComponent->CurrentValue = Hi_Engine::Math::Clamp(healthComponent->CurrentValue - damageOutput, 0, healthComponent->MaxHealth);
 
 			// store entities to remoev in entity manager?
-		}
 	}
-
 }
 
-bool CombatSystem::IsTargetable(Entity* entity) const
+bool CombatSystem::IsTargetable(Entity entity) const
 {
-	if (!entity)
-		return false;
-
-	if (auto* healthComponent = entity->GetComponent<HealthComponent>())
+	if (auto* healthComponent = m_ecs->GetComponent<HealthComponent>(entity))
 	{
 		return !healthComponent->IsInvincible;
 	}
@@ -241,7 +230,7 @@ bool CombatSystem::IsTargetable(Entity* entity) const
 	return false;
 }
 
-unsigned CombatSystem::GetDamageOutput(Entity* entity) const
+unsigned CombatSystem::GetDamageOutput(Entity entity) const
 { 
 	// get attack component
 	// 
@@ -256,9 +245,9 @@ unsigned CombatSystem::GetDamageOutput(Entity* entity) const
 //	return targets;
 //}
 
-bool CombatSystem::ApplyDamageOutput(Entity* entity, unsigned damage)
+bool CombatSystem::ApplyDamageOutput(Entity entity, unsigned damage)
 {
-	auto* healthComponent = entity->GetComponent<HealthComponent>();
+	auto* healthComponent = m_ecs->GetComponent<HealthComponent>(entity);
 	// Get stats, like defence, etc
 
 	healthComponent->CurrentValue -= damage;
@@ -269,17 +258,18 @@ bool CombatSystem::ApplyDamageOutput(Entity* entity, unsigned damage)
 	return healthComponent->CurrentValue <= 0;
 }
 
-void CombatSystem::ApplyKnockback(Entity* source, Entity* target)
+void CombatSystem::ApplyKnockback(Entity source, Entity target)
 {
-	auto* knockbackComponent = target->GetComponent<KnockbackComponent>();
+	auto* knockbackComponent = m_ecs->GetComponent<KnockbackComponent>(target);
 	
-	if (MovementSystem::IsKnockbacked(target))
-		return;
+	// FIX!
+	//if (MovementSystem::IsKnockbacked(target))
+	//	return;
 
-	auto* transformComponent = source->GetComponent<TransformComponent>();
+	auto* transformComponent = m_ecs->GetComponent<TransformComponent>(source);
 	auto sourcePosition = transformComponent->CurrentPos;
 
-	transformComponent = target->GetComponent<TransformComponent>();
+	transformComponent = m_ecs->GetComponent<TransformComponent>(target);
 	auto targetPosition = transformComponent->CurrentPos;
 
 

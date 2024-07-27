@@ -48,3 +48,4 @@
 #include "Rendering/Debug/DebugRenderSystem.h"
 #include "Rendering/Map/MapRenderSystem.h"
 #include "Rendering/UI/UIRenderSystem.h"
+#include "Rendering/RenderSystem.h"

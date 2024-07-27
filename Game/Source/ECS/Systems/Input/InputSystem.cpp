@@ -2,6 +2,7 @@
 #include "InputSystem.h"
 #include "Entities/EntityManager.h"
 #include "Components/Core/CoreComponents.h"
+#include "ECS.h"
 
 FVector2 ConvertMousePositionToWorldPosition(const FVector2& mousePos, int windowWidth, int windowHeight, const glm::mat4& viewProjectionMatrix);
 
@@ -22,17 +23,23 @@ void InputSystem::HandleEvent(Hi_Engine::InputEvent& inputEvent)
 
 void InputSystem::Update(float deltaTime)
 {
-	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
+	assert(m_ecs && "ERROR: ecs is nullptr!");
 
 	using InputHandler = Hi_Engine::InputHandler;
 
 	auto mousePos	  = InputHandler::GetMousePosition();
 	float mouseScroll = InputHandler::GetScrollOffset();
 
-	auto entities = m_entityManager->FindAll<InputComponent>();
+	auto camera = m_ecs->FindEntity(m_signatures["Camera"]);
+	if (!camera.has_value())
+		return;
+
+	auto* cameraComponent = m_ecs->GetComponent<CameraComponent>(camera.value());
+
+	auto entities = m_ecs->FindEntities(m_signatures["Input"]);
 	for (auto entity : entities)
 	{
-		auto* inputComponent = entity->GetComponent<InputComponent>();
+		auto* inputComponent = m_ecs->GetComponent<InputComponent>(entity);
 
 		for (auto& [key, state] : inputComponent->InputStates)
 		{
@@ -42,10 +49,14 @@ void InputSystem::Update(float deltaTime)
 		inputComponent->MousePosition = { mousePos.x, mousePos.y };
 		inputComponent->MouseScroll = mouseScroll;
 
-		auto* camera = m_entityManager->FindFirst<CameraComponent>();
-		auto* cameraComponent = camera->GetComponent<CameraComponent>();
 		inputComponent->MouseWorldPosition = ConvertMousePositionToWorldPosition(mousePos, 1400, 800, cameraComponent->Camera.GetViewProjectionMatrix());
 	}
+}
+
+void InputSystem::SetSignature()
+{
+	m_signatures.insert({ "Input", m_ecs->GetSignature<InputComponent>() });
+	m_signatures.insert({ "Camera", m_ecs->GetSignature<CameraComponent>() });
 }
 
 FVector2 ConvertMousePositionToWorldPosition(const FVector2& mousePos, int windowWidth, int windowHeight, const glm::mat4& viewProjectionMatrix)

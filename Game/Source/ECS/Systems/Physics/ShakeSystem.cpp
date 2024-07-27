@@ -4,6 +4,8 @@
 #include "Entities/EntityManager.h"
 #include "Components/Core/CoreComponents.h"
 #include "Components/Gameplay/GameplayComponents.h"
+#include "ECS.h"
+
 
 ShakeSystem::ShakeSystem()
 {
@@ -19,14 +21,13 @@ void ShakeSystem::Receive(Message& message)
 {
 	if (message.GetMessageType() == eMessage::EntityAttacked)
 	{
-
-		if (auto* entity = std::any_cast<Entity*>(message.GetData()))
+		if (auto entity = std::any_cast<Entity>(message.GetData()))
 		{
-			if (auto* shake = entity->GetComponent<ShakeComponent>())
+			if (auto* shakeComponent = m_ecs->GetComponent<ShakeComponent>(entity))
 			{
-				shake->m_isShaking = true;
+				shakeComponent->m_isShaking = true;
 
-				shake->m_elapsedTime = 0.f;
+				shakeComponent->m_elapsedTime = 0.f;
 			}
 		}
 	}
@@ -34,30 +35,36 @@ void ShakeSystem::Receive(Message& message)
 
 void ShakeSystem::Update(float deltaTime)
 {
-	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
+	assert(m_ecs && "ERROR: EntityManager is nullptr!");
 
-	auto entities = m_entityManager->FindAll<ShakeComponent>();
+	auto entities = m_ecs->FindEntities(m_signatures["Shake"]);
 
-	for (auto* entity : entities)
+	for (auto entity : entities)
 	{
-		auto* shake = entity->GetComponent<ShakeComponent>();
-		if (!shake->m_isShaking)
+		auto* shakeComponent = m_ecs->GetComponent<ShakeComponent>(entity);
+
+		if (!shakeComponent->m_isShaking)
 			continue;
 
-		auto* transform = entity->GetComponent<TransformComponent>();
+		auto* transformeComponent = m_ecs->GetComponent<TransformComponent>(entity);
 
-		if (shake->m_elapsedTime < shake->m_duration)
+		if (shakeComponent->m_elapsedTime < shakeComponent->m_duration)
 		{
-			shake->m_elapsedTime += deltaTime;
+			shakeComponent->m_elapsedTime += deltaTime;
 
 			static float speed = 50.f;
 			static float amount = 1.f;
-			transform->Rotation += std::sin((float)Hi_Engine::Engine::GetTimer().GetTotalTime() * speed) * amount;
+			transformeComponent->Rotation += std::sin((float)Hi_Engine::Engine::GetTimer().GetTotalTime() * speed) * amount;
 		}
 		else
 		{
-			shake->m_isShaking = false;
-			transform->Rotation = 0.f;
+			shakeComponent->m_isShaking = false;
+			transformeComponent->Rotation = 0.f;
 		}
 	}
+}
+
+void ShakeSystem::SetSignature()
+{
+	m_signatures.insert({ "Shake", m_ecs->GetSignature<ShakeComponent>() });
 }

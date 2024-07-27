@@ -12,7 +12,7 @@
       "properties": {
         "position": [ 0.0, 0.0 ],
         "scale": [ 64.0, 64.0 ],
-        "pivot": [ 0.0, 0.0 ],
+        "pivot": [ 0.0, 0.5 ],
         "rotation": 0.0
       }
     },

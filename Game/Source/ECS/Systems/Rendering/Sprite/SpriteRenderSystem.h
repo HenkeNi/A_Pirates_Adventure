@@ -9,4 +9,5 @@ public:
 	~SpriteRenderSystem();
 
 	void Draw() override;
+	void SetSignature() override;
 };

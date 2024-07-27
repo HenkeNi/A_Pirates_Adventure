@@ -4,7 +4,7 @@
 #include "Entities/EntityManager.h"
 #include "Components/Core/CoreComponents.h"
 #include "Components/Gameplay/GameplayComponents.h"
-
+#include "ECS.h"
 
 MovementSystem::MovementSystem()
 {
@@ -21,20 +21,21 @@ void MovementSystem::Receive(Message& message)
 
 void MovementSystem::Update(float deltaTime)
 {
-	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
+	assert(m_ecs && "ERROR: EntityManager is nullptr!");
 
-	auto entities = m_entityManager->FindAll<TransformComponent, VelocityComponent>();
+	auto entities = m_ecs->FindEntities(m_signatures["Movement"]);
 
-	for (auto* entity : entities)
+	for (auto entity : entities)
 	{
-		if (entity->HasComponent<KnockbackComponent>())
+		auto* velocityComponent = m_ecs->GetComponent<VelocityComponent>(entity);
+
+		if (auto* knockbackComponent = m_ecs->GetComponent<KnockbackComponent>(entity))
 		{
-			ApplyKnockback(entity);
+			ApplyKnockback(velocityComponent, knockbackComponent);
 		}
 
-		auto* transformComponent = entity->GetComponent<TransformComponent>();
-		auto* velocityComponent = entity->GetComponent<VelocityComponent>();
 
+		auto* transformComponent = m_ecs->GetComponent<TransformComponent>(entity);
 		transformComponent->PreviousPos = transformComponent->CurrentPos;
 
 		auto& velocity = velocityComponent->Velocity;
@@ -46,57 +47,69 @@ void MovementSystem::Update(float deltaTime)
 		if (!velocityComponent->IsVelocityConstant)
 			velocityComponent->Velocity = { 0.f, 0.f, };
 
-		if (HasMoved(entity))
+		//if (HasMoved(entity))
+		if (transformComponent->CurrentPos != transformComponent->PreviousPos)
 			MoveSubEntities	(entity);
 	}
 }
 
-bool MovementSystem::HasMoved(const Entity* entity)
+void MovementSystem::SetSignature()
 {
-	auto transform = entity->GetComponent<TransformComponent>();
-	return transform->CurrentPos != transform->PreviousPos;
+	m_signatures.insert({ "Camera", m_ecs->GetSignature<CameraComponent>() });
+	m_signatures.insert({ "Movement", m_ecs->GetSignature<TransformComponent, VelocityComponent>() });
+
 }
 
-bool MovementSystem::IsKnockbacked(Entity* entity)
-{
-	if (auto* knockbackComponent = entity->GetComponent<KnockbackComponent>())
-	{
-		double currentTime = Hi_Engine::Engine::GetTimer().GetTotalTime();
-		double knockbackEndTime = knockbackComponent->Timestamp + knockbackComponent->Duration;
 
-		return knockbackEndTime > currentTime;
-	}
+//bool MovementSystem::HasMoved(const Entity* entity)
+//{
+//	auto transform = entity->GetComponent<TransformComponent>();
+//	return transform->CurrentPos != transform->PreviousPos;
+//}
 
-	return false;
-}
+//bool MovementSystem::IsKnockbacked(Entity entity)
+//{
+//	if (auto* knockbackComponent = entity->GetComponent<KnockbackComponent>())
+//	{
+//		double currentTime = Hi_Engine::Engine::GetTimer().GetTotalTime();
+//		double knockbackEndTime = knockbackComponent->Timestamp + knockbackComponent->Duration;
+//
+//		return knockbackEndTime > currentTime;
+//	}
+//
+//	return false;
+//}
 
-void MovementSystem::MoveSubEntities(Entity* entity)
+void MovementSystem::MoveSubEntities(Entity entity)
 {
 	// HERE? or in Transform System?
-	if (auto* childComponent = entity->GetComponent<SubEntitiesComponent>())
+	if (auto* childComponent = m_ecs->GetComponent<SubEntitiesComponent>(entity)) // Change?
 	{
-		auto* transformComponent = entity->GetComponent<TransformComponent>();
+		auto* transformComponent = m_ecs->GetComponent<TransformComponent>(entity); // pass in?
 
 		for (unsigned entityID : childComponent->IDs)
 		{
-			if (auto* child = m_entityManager->Find(entityID))
-			{
-				auto* childTransformComponent = child->GetComponent<TransformComponent>();
+			auto* childTransformComponent = m_ecs->GetComponent<TransformComponent>(entityID);
 
-				childTransformComponent->PreviousPos = childTransformComponent->CurrentPos;
-				childTransformComponent->CurrentPos = transformComponent->CurrentPos;
-			}
+			childTransformComponent->PreviousPos = childTransformComponent->CurrentPos;
+			childTransformComponent->CurrentPos = transformComponent->CurrentPos;
 		}
 	}
 }
 
-void MovementSystem::ApplyKnockback(Entity* entity)
-{
-	if (!IsKnockbacked(entity))
-		return;
+//void MovementSystem::ApplyKnockback(Entity* entity)
+//{
+//
+//}
 
-	auto* knockbackComponent = entity->GetComponent<KnockbackComponent>();
-	auto* velocityComponent = entity->GetComponent<VelocityComponent>();
+void MovementSystem::ApplyKnockback(VelocityComponent* velocityComponent, KnockbackComponent* knockbackComponent)
+{
+	double currentTime = Hi_Engine::Engine::GetTimer().GetTotalTime();
+	double knockbackEndTime = knockbackComponent->Timestamp + knockbackComponent->Duration;
+
+	if (knockbackEndTime > currentTime)
+		return;
+	
 
 	velocityComponent->Velocity = knockbackComponent->Direction;
 	velocityComponent->Speed = knockbackComponent->Power;					// TOOD: fix side effect where movement speed is increased after knockback

@@ -2,6 +2,7 @@
 #include "AudioSystem.h"
 #include "Entities/EntityManager.h"
 #include "Components/Core/CoreComponents.h"
+#include "ECS.h"
 
 
 AudioSystem::AudioSystem()
@@ -26,26 +27,27 @@ AudioSystem::~AudioSystem()
 void AudioSystem::Receive(Message& message)
 {
 	auto type = message.GetMessageType();
-	auto* entity = std::any_cast<Entity*>(message.GetData());
+	auto entity = std::any_cast<Entity>(message.GetData());
 
-	if (!entity)
-		return;
-
-	if (auto* audioComponent = entity->GetComponent<AudioComponent>())
+	if (auto* audioComponent = m_ecs->GetComponent<AudioComponent>(entity))
 	{
 		if (audioComponent->SoundTriggers.contains(type))
 		{
 			// Todo; fetch Audio and pass the audio file instead..
 
-			//const auto& audioName = audioComponent->SoundTriggers.at(type);
+			const auto& audioName = audioComponent->SoundTriggers.at(type);
 
-			//auto& audio = Hi_Engine::ResourceHolder<Hi_Engine::AudioSource>::GetInstance().GetResource(audioName);
-
-			//Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::PlaySoundEvent>(audio);
+			auto& audio = Hi_Engine::ResourceHolder<Hi_Engine::AudioSource>::GetInstance().GetResource(audioName);
+			Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::PlaySoundEvent>(&audio);
 		}
 	}
 }
 
 void AudioSystem::Update(float deltaTime)
 {
+}
+
+void AudioSystem::SetSignature()
+{
+	//m_signatures.insert({ "Audios", m_ecs->GetSignature<AudioComponent>() });
 }

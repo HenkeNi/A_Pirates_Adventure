@@ -79,29 +79,29 @@ namespace Registration
 	void RegisterSystems(ECS& ecs)
 	{
 		/* - Core Systems - */
-		//systemManager.Register<InputSystem>("InputSystem");
-		//systemManager.Register<MovementSystem>("MovementSystem");
+		ecs.RegisterSystem<InputSystem>("InputSystem");
+		ecs.RegisterSystem<MovementSystem>("MovementSystem");
 		ecs.RegisterSystem<CameraSystem>("CameraSystem");
-		//systemManager.Register<CollisionSystem>("CollisionSystem");
-		//systemManager.Register<PlayerControllerSystem>("PlayerControllerSystem");
+		ecs.RegisterSystem<CollisionSystem>("CollisionSystem");
+		ecs.RegisterSystem<PlayerControllerSystem>("PlayerControllerSystem");
 		ecs.RegisterSystem<SceneTransitionSystem>("SceneTransitionSystem");				// put last?
 		//systemManager.Register<SpriteAnimationSystem>("SpriteAnimationSystem");
 
-		///* - Gameplay Systems - */
-		//systemManager.Register<CombatSystem>("CombatSystem");
+		/* - Gameplay Systems - */
+		ecs.RegisterSystem<CombatSystem>("CombatSystem");
 		//systemManager.Register<EnemySpawnSystem>("EnemySpawnSystem");
-		//systemManager.Register<EquipmentSystem>("EquipmentSystem");
+		ecs.RegisterSystem<EquipmentSystem>("EquipmentSystem");
 		//systemManager.Register<InventorySystem>("InventorySystem");
 		//systemManager.Register<MeleeCombatSystem>("MeleeCombatSystem");
 		//systemManager.Register<RangedCombatSystem>("RangedCombatSystem");
-		//systemManager.Register<ShakeSystem>("ShakeSystem");
+		ecs.RegisterSystem<ShakeSystem>("ShakeSystem");
 		ecs.RegisterSystem<TimeSystem>("TimeSystem");
 		//systemManager.Register<SpawnSystem>("SpawnSystem");
 		//systemManager.Register<StatSystem>("StatSystem");
 
 		///* - Map Systems - */
 		ecs.RegisterSystem<MapGenerationSystem>("MapGenerationSystem");
-		//systemManager.Register<MapDecorationSystem>("MapDecorationSystem");
+		ecs.RegisterSystem<MapDecorationSystem>("MapDecorationSystem");
 
 		///* -  UI Systems - */
 		ecs.RegisterSystem<UISystem>("UISystem");
@@ -114,68 +114,15 @@ namespace Registration
 		//systemManager.Register<StateTransitionSystem>("StateTransitionSystem");
 
 		///* - Audio System - */
-		//systemManager.Register<AudioSystem>("AudioSystem");
+		ecs.RegisterSystem<AudioSystem>("AudioSystem");
 
 		///* - Render Systems - */
 		//systemManager.Register<DebugRenderSystem>("DebugRenderSystem");
-		ecs.RegisterSystem<TextRenderSystem>("TextRenderSystem");
-		ecs.RegisterSystem<UIRenderSystem>("UIRenderSystem");
-		//systemManager.Register<SpriteRenderSystem>("SpriteRenderSystem");
-		ecs.RegisterSystem<MapRenderSystem>("MapRenderSystem");
-
-
-
-
-//		/* - Core Systems - */
-//		systemManager.Register<InputSystem>();
-//		systemManager.Register<MovementSystem>();
-//		systemManager.Register<CameraSystem>();
-//		systemManager.Register<CollisionSystem>();
-//		systemManager.Register<PlayerControllerSystem>();
-//		systemManager.Register<SceneTransitionSystem>();
-//
-//		/* - Gameplay Systems - */
-//		systemManager.Register<CombatSystem>();
-//		systemManager.Register<EnemySpawnSystem>();
-//		systemManager.Register<EquipmentSystem>();
-//		systemManager.Register<InventorySystem>();
-//		systemManager.Register<MeleeCombatSystem>();
-//		systemManager.Register<RangedCombatSystem>();
-//		systemManager.Register<ShakeSystem>();
-//		systemManager.Register<TimeSystem>();
-//		systemManager.Register<SpawnSystem>();
-//		systemManager.Register<StatSystem>();
-//
-//		systemManager.Register<SpriteAnimationSystem>();
-//
-//		/* - Map Systems - */
-//		systemManager.Register<MapGenerationSystem>();
-//		systemManager.Register<MapDecorationSystem>();
-//
-//		/* -  UI Systems - */
-//		systemManager.Register<UISystem>();
-//		systemManager.Register<HUDSystem>();
-//
-//		/* - AI Systems - */
-//		systemManager.Register<BlackboardSystem>();
-//		systemManager.Register<BehaviorTreeSystem>();
-//		systemManager.Register<SteeringBehaviorSystem>();
-//		systemManager.Register<StateTransitionSystem>();
-//
-//		/* - Audio System - */
-//		systemManager.Register<AudioSystem>();
-//
-//		/* - Render Systems - */
-//#ifdef DEBUG
-//
-//		systemManager.Register<DebugRenderSystem>();
-//
-//#endif // DEBUG
-//
-//		systemManager.Register<TextRenderSystem>();
-//		systemManager.Register<UIRenderSystem>();
-//		systemManager.Register<SpriteRenderSystem>();
-//		systemManager.Register<MapRenderSystem>();
+		//ecs.RegisterSystem<TextRenderSystem>("TextRenderSystem");
+		//ecs.RegisterSystem<UIRenderSystem>("UIRenderSystem");
+		//ecs.RegisterSystem<SpriteRenderSystem>("SpriteRenderSystem");
+		//ecs.RegisterSystem<MapRenderSystem>("MapRenderSystem");
+		ecs.RegisterSystem<RenderSystem>("RenderSystem");
 	}
 
 	void RegisterBlueprints(ECS& ecs)

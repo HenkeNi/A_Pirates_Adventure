@@ -1,13 +1,10 @@
 #include "Pch.h"
 #include "SpriteRenderSystem.h"
-#include "Entities/EntityManager.h"
 #include "Components/Core/CoreComponents.h"
 #include "Components/UI/UIComponents.h"
-
-#include "Components/ComponentManager.h"
-
-
+// #include "Components/ComponentManager.h"
 #include "ECS/ECS.h"
+
 
 SpriteRenderSystem::SpriteRenderSystem()
 	: System{ 0 }
@@ -22,69 +19,59 @@ void SpriteRenderSystem::Draw() // TODO; should pass along if bash should be flu
 {
 	assert(m_ecs && "ERROR: ECS is nullptr!");
 
-
-	auto sprites = m_ecs->FindEntities(m_signatures.at("Sprite"));
-
-	// m_ecs->GetComponent(); // function for getting Component?? in ECS...
-
-
-
-
-	auto* camera = m_entityManager->FindFirst<CameraComponent>();
-	if (!camera)
+	auto camera = m_ecs->FindEntity(m_signatures.at("Camera"));
+	if (!camera.has_value())
 		return;
 	
-	auto entities = m_entityManager->FindAll<SpriteComponent, TransformComponent>();
-	if (entities.empty())
+	auto sprites = m_ecs->FindEntities(m_signatures.at("Sprites"));
+	if (sprites.empty())
 		return;
 	
-	auto* cameraComponent = camera->GetComponent<CameraComponent>();
-	if (!cameraComponent)
-		return;
+	std::vector<Entity> renderableSprites;
+	
+	std::copy_if(sprites.begin(), sprites.end(), std::back_inserter(renderableSprites), [&](Entity entity)
+		{
+			auto* spriteComponent = m_ecs->GetComponent<SpriteComponent>(entity);
+			return spriteComponent->ShouldRender;
+		});
+	
 
-	std::sort(entities.begin(), entities.end(), [](const Entity* e1, const Entity* e2) {
+	std::sort(renderableSprites.begin(), renderableSprites.end(), [&](Entity lhs, Entity rhs)
+		{
+			auto lhsTransform = m_ecs->GetComponent<TransformComponent>(lhs);
+			auto rhsTransform = m_ecs->GetComponent<TransformComponent>(rhs);
 
-		auto transform1 = e1->GetComponent<TransformComponent>();
-		auto sprite1 = e1->GetComponent<SpriteComponent>();
+			auto lhsSprite = m_ecs->GetComponent<SpriteComponent>(lhs);
+			auto rhsSprite = m_ecs->GetComponent<SpriteComponent>(rhs);
 
-		auto transform2 = e2->GetComponent<TransformComponent>();
-		auto sprite2 = e2->GetComponent<SpriteComponent>();
+			return lhsTransform->CurrentPos.y < rhsTransform->CurrentPos.y;
+			
+			//float lhsPositionY = lhsTransform->CurrentPos.y;
+			//lhsPositionY - lhsTransform->Scale.y * lhsTransform->Pivot.y;
 
-		// auto pos1 = transform1->CurrentPos.y -
+			//float rhsPositionY = rhsTransform->CurrentPos.y;
+			//rhsPositionY - rhsTransform->Scale.y * rhsTransform->Pivot.y;
 
-		//float yPos = transform1->CurrentPos.y;
-		//float textureSize = sprite1->Subtexture->GetSize().y;
-		//float pivot = sprite1->Pivot.y;
-		//yPos += sprite1->Subtexture->GetSize().y * sprite1->Pivot.y;
-
-
-		//return (transform1->CurrentPos.y + (sprite1->Subtexture->GetSize().y * (1.0f - sprite1->Pivot.y))) < (transform2->CurrentPos.y + (sprite2->Subtexture->GetSize().y * sprite2->Pivot.y));
-
-		//return (transform1->CurrentPos.y - sprite1->Subtexture->GetSize().y) < (transform2->CurrentPos.y - sprite2->Subtexture->GetSize().y);
-		//return (transform1->CurrentPos.y - (sprite1->Subtexture->GetSize().y * sprite1->Pivot.y)) < (transform2->CurrentPos.y - (sprite2->Subtexture->GetSize().y * sprite2->Pivot.y));
-
-		// TODO: FIX Scale....
-
-		return e1->GetComponent<TransformComponent>()->CurrentPos.y < e2->GetComponent<TransformComponent>()->CurrentPos.y;
+			//return lhsPositionY < rhsPositionY;			
 		}); // also sort by "bShouldRender"? return when hitting a entity that shouldnt render..
 
 	Hi_Engine::SpriteBatch spriteBatch;
-	spriteBatch.Sprites.reserve(entities.size());
+	spriteBatch.Sprites.reserve(renderableSprites.size());
 
-	for (const Entity* entity : entities)
+	for (Entity sprite : renderableSprites)
 	{
-		// TODO: Fix by having better filtering... (look into bitset) or check TagComponent
-		if (entity->HasComponent<HUDComponent>() || entity->HasComponent<UIComponent>()) 
+		// TODO: Fix by having better filtering... check TagComponent
+		if (m_ecs->GetComponent<HUDComponent>(sprite) || m_ecs->GetComponent<UIComponent>(sprite))
 			continue;
 
-		const auto* spriteComponent = entity->GetComponent<SpriteComponent>();
-		const auto* transformComponent = entity->GetComponent<TransformComponent>();
+		const auto* spriteComponent = m_ecs->GetComponent<SpriteComponent>(sprite);
+		const auto* transformComponent = m_ecs->GetComponent<TransformComponent>(sprite);
 
-		if (!spriteComponent || !transformComponent)
+		if (!spriteComponent || !transformComponent) // needed??
 			continue;
 
-		if (!spriteComponent->ShouldRender)
-			continue;
+	//	if (!spriteComponent->ShouldRender)
+		//	continue;
 
 		const auto& subtexture = spriteComponent->Subtexture;
 		const auto& color = spriteComponent->CurrentColor;
@@ -100,7 +87,19 @@ void SpriteRenderSystem::Draw() // TODO; should pass along if bash should be flu
 		spriteBatch.Sprites.emplace_back(Hi_Engine::Transform{{ position.x, position.y, 0.f }, { scale.x, scale.y }, rotation }, spriteColor, subtexture);
 	}
 
+
+
+	auto* cameraComponent = m_ecs->GetComponent<CameraComponent>(camera.value());
+	if (!cameraComponent)
+		return;
+
 	spriteBatch.ProjectionMatrix = cameraComponent->Camera.GetViewProjectionMatrix();
 
 	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::SpriteBatchRequest>(spriteBatch);
+}
+
+void SpriteRenderSystem::SetSignature()
+{
+	m_signatures.insert({ "Camera", m_ecs->GetSignature<CameraComponent>() });
+	m_signatures.insert({ "Sprites", m_ecs->GetSignature<SpriteComponent, TransformComponent>() });
 }

@@ -3,6 +3,7 @@
 #include "Entities/Entity.h"
 #include "Components/Core/CoreComponents.h"
 #include "Components/Gameplay/GameplayComponents.h"
+#include "ECS.h"
 
 
 EquipmentSystem::EquipmentSystem()
@@ -20,28 +21,47 @@ void EquipmentSystem::Receive(Message& message)
 	if (message.GetMessageType() != eMessage::EntitiesCollided) // TODO: called each frame!
 		return;
 
-	auto entities = std::any_cast<std::vector<Entity*>>(message.GetData()); // Dont pass colliding entities?
+	auto entities = std::any_cast<std::vector<Entity>>(message.GetData()); // Dont pass colliding entities?
 	
-	Entity* player = nullptr;
-	Entity* equippable = nullptr;
+	EquipmentComponent* equipmentComponent = nullptr;
+	EquippableComponent* equippableComponent = nullptr;
 	
+	Entity item = -1;
+	Entity owner = -1;
+
 	// assure entities are an equippable item and an actor with equipment
 	for (auto& entity : entities)
 	{
-		if (entity->HasComponent<EquipmentComponent>())
-			player = entity;
-		else if (entity->HasComponent<EquippableComponent>())
-			equippable = entity;
+		if (auto* component = m_ecs->GetComponent<EquipmentComponent>(entity))
+		{
+			equipmentComponent ;
+			owner = entity;
+		}
+		else if (auto* component = m_ecs->GetComponent<EquippableComponent>(entity))
+		{
+			item = entity;
+			equippableComponent = component;
+		}
 	}
 
-	if (!player || !equippable)
+	if (!equipmentComponent || !equippableComponent || equippableComponent->IsEquipped)
 		return;
 	
 	// TODO: make sure dont send event each fraem!
-	if (EquipItem(player, equippable))
+	//if (EquipItem(player, equippable))
 	{
+		equippableComponent->IsEquipped = true;
+		// remove equippable compoentn??
+
+		equipmentComponent->EquippedItemIDs[(int)eEquipmentSlot::Melee] = item;
+
+		auto* subEntitiesComponent = m_ecs->GetComponent<SubEntitiesComponent>(owner);
+		subEntitiesComponent->IDs.push_back(item);
+
+		m_ecs->RemoveComponent<CollectableComponent>(item);
+
 		message.HandleMessage(); // rename MarkAsHandled(); ??
-		PostMaster::GetInstance().SendMessage({ eMessage::ItemCollected, equippable });
+		PostMaster::GetInstance().SendMessage({ eMessage::ItemCollected, item });
 	}
 
 	// sword, etc should have a pickup component?!
@@ -52,26 +72,30 @@ void EquipmentSystem::Update(float deltaTime)
 {
 }
 
-bool EquipmentSystem::EquipItem(class Entity* owner, class Entity* item)
+void EquipmentSystem::SetSignature()
 {
-	if (!owner || !item)
-		return false;
+}
 
-	auto* equippableComponent = item->GetComponent<EquippableComponent>();
-	if (equippableComponent->IsEquipped)
-		return false;
+bool EquipmentSystem::EquipItem(Entity owner, Entity item)
+{
+	//if (!owner || !item)
+	//	return false;
 
-	equippableComponent->IsEquipped = true;
-	// remove equippable compoentn??
+	//auto* equippableComponent = item->GetComponent<EquippableComponent>();
+	//if (equippableComponent->IsEquipped)
+	//	return false;
 
-	auto* equipmentComponent = owner->GetComponent<EquipmentComponent>();
-	equipmentComponent->EquippedItemIDs[(int)eEquipmentSlot::Melee] = item->GetID();
-	
-	
-	auto childEntities = owner->GetComponent<SubEntitiesComponent>();
-	childEntities->IDs.push_back(item->GetID());
+	//equippableComponent->IsEquipped = true;
+	//// remove equippable compoentn??
 
-	item->RemoveComponent<CollectableComponent>(); // Maybe?
+	//auto* equipmentComponent = owner->GetComponent<EquipmentComponent>();
+	//equipmentComponent->EquippedItemIDs[(int)eEquipmentSlot::Melee] = item->GetID();
+	//
+	//
+	//auto childEntities = owner->GetComponent<SubEntitiesComponent>();
+	//childEntities->IDs.push_back(item->GetID());
+
+	//item->RemoveComponent<CollectableComponent>(); // Maybe?
 
 	return true;
 

@@ -7,6 +7,7 @@
 #include "Components/AI/AIComponents.h"
 #include "Components/Map/MapComponents.h"
 #include "Components/UI/UIComponents.h"
+#include "ECS/ECS.h"
 //#include <../Engine/Source/Utility/Math/Mathf.hpp>
 
 
@@ -26,7 +27,7 @@ void CollisionSystem::Receive(Message& message)
 	if (message.GetMessageType() != eMessage::EntitySpawned)
 		return;
 
-	auto* entity = std::any_cast<Entity*>(message.GetData());
+	auto entity = std::any_cast<Entity>(message.GetData());
 	AlignCollider(entity);
 }
 
@@ -301,9 +302,9 @@ void CollisionSystem::Receive(Message& message)
 
 void CollisionSystem::LateUpdate(float deltaTime)
 {
-	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
+	assert(m_ecs && "ERROR: EntityManager is nullptr!");
 
-	auto entities = m_entityManager->FindAll<ColliderComponent, TransformComponent>();
+	auto entities = m_ecs->FindEntities(m_signatures["Colliders"]);
 
 	ResetColliders(entities);
 	AlignDynamicColliders(entities);
@@ -352,10 +353,15 @@ void CollisionSystem::LateUpdate(float deltaTime)
 	//}
 }
 
-bool CollisionSystem::CanCollide(Entity* first, Entity* second)
+void CollisionSystem::SetSignature()
 {
-	auto* collider1 = first->GetComponent<ColliderComponent>();
-	auto* collider2 = second->GetComponent<ColliderComponent>();
+	m_signatures.insert({ "Colliders", m_ecs->GetSignature<ColliderComponent, TransformComponent>() });
+}
+
+bool CollisionSystem::CanCollide(Entity first, Entity second)
+{
+	const auto* collider1 = m_ecs->GetComponent<ColliderComponent>(first);
+	const auto* collider2 = m_ecs->GetComponent<ColliderComponent>(second);
 
 	if (collider1->Type == eColliderType::Dynamic || collider2->Type == eColliderType::Dynamic)
 		return true;
@@ -420,13 +426,13 @@ bool CollisionSystem::CanCollide(Entity* first, Entity* second)
 //	}
 //}
 
-void CollisionSystem::AlignCollider(Entity* entity)
+void CollisionSystem::AlignCollider(Entity entity)
 {
-	if (!entity || entity->HasComponent<UIComponent>() || entity->HasComponent<HUDComponent>())
+	if (m_ecs->GetComponent<UIComponent>(entity) || m_ecs->GetComponent<HUDComponent>(entity))
 		return;
 
-	auto* colliderComponent = entity->GetComponent<ColliderComponent>();
-	auto* transformComponent = entity->GetComponent<TransformComponent>();
+	auto* colliderComponent = m_ecs->GetComponent<ColliderComponent>(entity);
+	auto* transformComponent = m_ecs->GetComponent<TransformComponent>(entity);
 
 	if (colliderComponent && transformComponent)
 	{
@@ -442,12 +448,12 @@ void CollisionSystem::AlignCollider(Entity* entity)
 	}
 }
 
-void CollisionSystem::AlignDynamicColliders(std::vector<Entity*>& entities)
+void CollisionSystem::AlignDynamicColliders(std::vector<Entity>& entities)
 {
 	for (auto& entity : entities)
 	{
-		auto* transformComponent = entity->GetComponent<TransformComponent>();
-		auto* colliderComponent = entity->GetComponent<ColliderComponent>();
+		auto* transformComponent = m_ecs->GetComponent<TransformComponent>(entity);
+		auto* colliderComponent  = m_ecs->GetComponent<ColliderComponent>(entity);
 
 		assert(transformComponent && colliderComponent);
 
@@ -470,29 +476,29 @@ void CollisionSystem::AlignDynamicColliders(std::vector<Entity*>& entities)
 	}
 }
 
-void CollisionSystem::ResetColliders(std::vector<Entity*>& entities)
+void CollisionSystem::ResetColliders(std::vector<Entity>& entities)
 {
-	for (auto* entity : entities)
+	for (auto entity : entities)
 	{
-		auto* colliderComponent = entity->GetComponent<ColliderComponent>();
+		auto* colliderComponent = m_ecs->GetComponent<ColliderComponent>(entity);
 		colliderComponent->CollidingEntities.clear();
 	}
 }
 
-void CollisionSystem::HandleEntityCollisions(std::vector<Entity*>& entities)
+void CollisionSystem::HandleEntityCollisions(std::vector<Entity>& entities)
 {
 	for (int i = 0; i < entities.size(); ++i)
 	{
-		auto* source = entities[i];
-		auto* sourceColliderComponent = source->GetComponent<ColliderComponent>();
+		Entity source = entities[i];
+		auto* sourceColliderComponent = m_ecs->GetComponent<ColliderComponent>(source);
 
 		if (!sourceColliderComponent->IsActive || sourceColliderComponent->Type != eColliderType::Dynamic)
 			continue;
 
 		for (int j = i + 1; j < entities.size(); ++j)
 		{
-			auto* target = entities[j];
-			auto* targetColliderComponent = entities[j]->GetComponent<ColliderComponent>();
+			Entity target = entities[j];
+			auto* targetColliderComponent = m_ecs->GetComponent<ColliderComponent>(target);
 
 			if (!targetColliderComponent->IsActive)
 				continue;
@@ -501,6 +507,8 @@ void CollisionSystem::HandleEntityCollisions(std::vector<Entity*>& entities)
 			{
 				if (Hi_Engine::Physics::Intersects(sourceColliderComponent->Collider, targetColliderComponent->Collider)) // Make intersects more generic? no need for aabb class?
 				{
+					std::cout << "Intersects\n";
+
 					sourceColliderComponent->CollidingEntities.push_back(target);
 					targetColliderComponent->CollidingEntities.push_back(source);
 
@@ -511,7 +519,7 @@ void CollisionSystem::HandleEntityCollisions(std::vector<Entity*>& entities)
 					}
 					//else if (targetColliderComponent->Type == eColliderType::Dynamic)
 					{
-						PostMaster::GetInstance().SendMessage({ eMessage::EntitiesCollided, std::vector<Entity*> { source, target } }); // Pass in colliders?
+						PostMaster::GetInstance().SendMessage({ eMessage::EntitiesCollided, std::vector<Entity> { source, target } }); // Pass in colliders?
 					}
 
 				}
@@ -521,7 +529,7 @@ void CollisionSystem::HandleEntityCollisions(std::vector<Entity*>& entities)
 
 }
 
-void CollisionSystem::HandleMapCollisions(std::vector<Entity*>& entities)
+void CollisionSystem::HandleMapCollisions(std::vector<Entity>& entities)
 {
 	for (auto& entity : entities)
 	{
@@ -547,7 +555,7 @@ void CollisionSystem::HandleMapCollisions(std::vector<Entity*>& entities)
 //}
 
 
-void CollisionSystem::CheckMapCollisions(Entity* entity)
+void CollisionSystem::CheckMapCollisions(Entity entity)
 {
 	//// auto entityPosition = entity->GetComponent<TransformComponent>()->m_currentPos;
 	//
@@ -625,11 +633,11 @@ void CollisionSystem::CheckMapCollisions(Entity* entity)
 
 }
 
-void CollisionSystem::ResolveCollision(Entity* entity, Tile* tile)
+void CollisionSystem::ResolveCollision(Entity entity, Tile* tile)
 {
 	// Move first x, then y-axis? each step check collisions...
 	
-	auto transformComponent = entity->GetComponent<TransformComponent>();
+	auto transformComponent = m_ecs->GetComponent<TransformComponent>(entity);
 	transformComponent->CurrentPos = transformComponent->PreviousPos;
 
 	//auto velocityComponent = entity->GetComponent<VelocityComponent>();
@@ -663,88 +671,88 @@ void CollisionSystem::ResolveCollision(Entity* entity, Tile* tile)
 //	return 0.f;
 //}
 
-void CollisionSystem::HandleTileCollisions(Entity* entity, float deltaTime)
+void CollisionSystem::HandleTileCollisions(Entity entity, float deltaTime)
 {
-	if (!entity)
-		return;
+	//if (!entity)
+	//	return;
 
-	auto* transformComponent = entity->GetComponent<TransformComponent>();
-	auto* velocityComponent = entity->GetComponent<VelocityComponent>();
-	auto* colliderComponent = entity->GetComponent<ColliderComponent>();
+	//auto* transformComponent = m_ecs->GetComponent<TransformComponent>(entity);
+	//auto* velocityComponent  = m_ecs->GetComponent<VelocityComponent>(entity);
+	//auto* colliderComponent  = m_ecs->GetComponent<ColliderComponent>(entity);
 
-	auto& collider = colliderComponent->Collider;
+	//auto& collider = colliderComponent->Collider;
 
-	// Scaled bounds
-	auto center = collider.GetCenter();
-	auto scaledSize = collider.GetSize() * 2.f;
+	//// Scaled bounds
+	//auto center = collider.GetCenter();
+	//auto scaledSize = collider.GetSize() * 2.f;
 
-	Hi_Engine::Physics::AABB2D<float> collisionsBounds{ center - scaledSize, center + scaledSize };
-
-
-	// Get the mapchunks around the player (4 corners of the hitbox)
-	std::vector<Entity*> mapChunks;
-
-	auto* chunk = MapUtils::GetMapChunkAtPosition(m_entityManager->FindAll<MapChunkComponent>(), collider.GetCenter());
+	//Hi_Engine::Physics::AABB2D<float> collisionsBounds{ center - scaledSize, center + scaledSize };
 
 
+	//// Get the mapchunks around the player (4 corners of the hitbox)
+	//std::vector<Entity*> mapChunks;
 
-	auto* mapChunk = MapUtils::GetMapChunkAtPosition(m_entityManager->FindAll<MapChunkComponent>(), collider.GetCenter());
-
-	if (!mapChunk)
-		return;
-
-	auto* mapChunkComponent = mapChunk->GetComponent<MapChunkComponent>();
-	const auto& mapChunkPosition = mapChunk->GetComponent<TransformComponent>()->CurrentPos;
-	//const auto& tiles = mapChunkComponent->Tiles;
-	auto& tiles = mapChunkComponent->Tiles;
+	//auto* chunk = MapUtils::GetMapChunkAtPosition(m_entityManager->FindAll<MapChunkComponent>(), collider.GetCenter());
 
 
-	//std::vector<std::pair<int, float>> z; // index and contact time?!
-	std::vector<std::pair<int, Hi_Engine::HitResult<float>>> results;
 
-	// Calculate order of the collision checks
-	for (int i = 0; i < tiles.size(); ++i)
-	{
-		if (tiles[i].Type == eTile::Sand)
-			continue;
+	//auto* mapChunk = MapUtils::GetMapChunkAtPosition(m_entityManager->FindAll<MapChunkComponent>(), collider.GetCenter());
 
-		tiles[i].Color = { 0.4f, 0.4f, 0.4f, 1.f };
+	//if (!mapChunk)
+	//	return;
 
-		static float size = 1.f; // FIX!
-
-		glm::vec3 position = { mapChunkPosition.x, mapChunkPosition.y, mapChunkPosition.y };
-		position.x += tiles[i].Coordinates.x * size;
-		position.z += tiles[i].Coordinates.y * size;
-
-		Hi_Engine::Physics::AABB2D<float> tileBounds({ position.x, position.z }, { position.x + size, position.y + size });
+	//auto* mapChunkComponent = mapChunk->GetComponent<MapChunkComponent>();
+	//const auto& mapChunkPosition = mapChunk->GetComponent<TransformComponent>()->CurrentPos;
+	////const auto& tiles = mapChunkComponent->Tiles;
+	//auto& tiles = mapChunkComponent->Tiles;
 
 
-		// Draw map AABB...
+	////std::vector<std::pair<int, float>> z; // index and contact time?!
+	//std::vector<std::pair<int, Hi_Engine::HitResult<float>>> results;
+
+	//// Calculate order of the collision checks
+	//for (int i = 0; i < tiles.size(); ++i)
+	//{
+	//	if (tiles[i].Type == eTile::Sand)
+	//		continue;
+
+	//	tiles[i].Color = { 0.4f, 0.4f, 0.4f, 1.f };
+
+	//	static float size = 1.f; // FIX!
+
+	//	glm::vec3 position = { mapChunkPosition.x, mapChunkPosition.y, mapChunkPosition.y };
+	//	position.x += tiles[i].Coordinates.x * size;
+	//	position.z += tiles[i].Coordinates.y * size;
+
+	//	Hi_Engine::Physics::AABB2D<float> tileBounds({ position.x, position.z }, { position.x + size, position.y + size });
 
 
-		Hi_Engine::HitResult<float> result = Hi_Engine::Physics::Intersects(collider, { velocityComponent->Velocity.x, velocityComponent->Velocity.y }, tileBounds, deltaTime);
-
-		// std::cout << result.IsColliding << "\n";
-
-		if (result.IsColliding)
-		{
-			results.push_back({ i, result });
-		}
-	}
-
-	//continue;
-	// sort the result (deal with closes collisions first)
-	std::sort(results.begin(), results.end(), [](const std::pair<int, Hi_Engine::HitResult<float>>& a, const std::pair<int, Hi_Engine::HitResult<float>>& b)
-	{
-		return a.second.ContactTime < b.second.ContactTime;
-	});
+	//	// Draw map AABB...
 
 
-	for (const auto& result : results)
-	{
-		FVector2 vec = FVector2(std::abs(velocityComponent->Velocity.x), std::abs(velocityComponent->Velocity.y)) * (1 - result.second.ContactTime);
-		velocityComponent->Velocity.x += result.second.ContactNormal.x * vec.x;
-		velocityComponent->Velocity.y += result.second.ContactNormal.y * vec.y;
-	}
+	//	Hi_Engine::HitResult<float> result = Hi_Engine::Physics::Intersects(collider, { velocityComponent->Velocity.x, velocityComponent->Velocity.y }, tileBounds, deltaTime);
+
+	//	// std::cout << result.IsColliding << "\n";
+
+	//	if (result.IsColliding)
+	//	{
+	//		results.push_back({ i, result });
+	//	}
+	//}
+
+	////continue;
+	//// sort the result (deal with closes collisions first)
+	//std::sort(results.begin(), results.end(), [](const std::pair<int, Hi_Engine::HitResult<float>>& a, const std::pair<int, Hi_Engine::HitResult<float>>& b)
+	//{
+	//	return a.second.ContactTime < b.second.ContactTime;
+	//});
+
+
+	//for (const auto& result : results)
+	//{
+	//	FVector2 vec = FVector2(std::abs(velocityComponent->Velocity.x), std::abs(velocityComponent->Velocity.y)) * (1 - result.second.ContactTime);
+	//	velocityComponent->Velocity.x += result.second.ContactNormal.x * vec.x;
+	//	velocityComponent->Velocity.y += result.second.ContactNormal.y * vec.y;
+	//}
 
 }

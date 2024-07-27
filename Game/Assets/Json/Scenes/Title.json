@@ -85,6 +85,11 @@
       "release": true
     },
     {
+      "type": "RenderSystem",
+      "debug": true,
+      "release": true
+    },
+    {
       "type": "TextRenderSystem",
       "debug": true,
       "release": true

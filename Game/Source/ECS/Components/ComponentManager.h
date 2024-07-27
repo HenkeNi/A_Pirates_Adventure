@@ -95,7 +95,7 @@ inline T* ComponentManager::AddComponent(Entity entity)
 template<typename T>
 inline void ComponentManager::RemoveComponent(Entity entity)
 {
-	if (auto* componentArray = FindComponentArray())
+	if (auto* componentArray = FindComponentArray<T>())
 	{
 		if (void* removed = componentArray->RemoveComponent(entity))
 		{

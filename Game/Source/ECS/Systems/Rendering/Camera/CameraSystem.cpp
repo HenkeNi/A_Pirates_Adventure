@@ -21,20 +21,30 @@ void CameraSystem::Receive(Message& message)
 {
 	if (message.GetMessageType() == eMessage::GameStarted)
 	{
-		auto entity = m_ecs->FindEntity(m_signatures["Camera"]);
+		auto camera = m_ecs->FindEntity(m_signatures["Camera"]);
 
-		if (!entity)
+		if (!camera.has_value())
 			return;
 
-		Entity camera = entity.value();
+		auto* cameraComponent = m_ecs->GetComponent<CameraComponent>(camera.value());
 
-		auto* cameraComponent = m_ecs->GetComponent<CameraComponent>(camera);
-
-		//auto* entity = m_entityManager->FindFirst<CameraComponent>();
-		//auto* camera = entity->GetComponent<CameraComponent>();
-
+		// do in initalizsr??
 		auto zoomRange = cameraComponent->ZoomRange;
 		cameraComponent->Camera.SetZoomRange(zoomRange);
+		
+		auto player = m_ecs->FindEntity(m_signatures.at("Player"));
+		if (player.has_value())
+		{
+			cameraComponent->Target = player.value();
+
+			auto* playerTransformComponent = m_ecs->GetComponent<TransformComponent>(player.value());
+			auto* cameraTransformComponent = m_ecs->GetComponent<TransformComponent>(camera.value());
+
+			cameraTransformComponent->CurrentPos = playerTransformComponent->CurrentPos;
+	
+			auto windowSize = Hi_Engine::ServiceLocator::GetWindow().lock()->GetSize();
+			cameraComponent->TargetOffset = { -windowSize.x * 0.5f, -windowSize.y * 0.5f };
+		}
 	}
 }
 
@@ -59,15 +69,7 @@ void CameraSystem::Update(float deltaTime)
 	if (!transformComponent)
 		return;
 
-	//auto* camera = m_entityManager->FindFirst<CameraComponent>();
-	//if (!camera)
-	//	return;
-
 	// loop through all cameras... see if active..?
-
-	//auto* transformComponent = camera->GetComponent<TransformComponent>();
-	//auto* cameraComponent = camera->GetComponent<CameraComponent>();
-	
 
 	// TODO; cull entities (mark is should be rendered or not))?
 
@@ -99,23 +101,23 @@ void CameraSystem::Update(float deltaTime)
 
 
 
-	//// Do in movement system? Follow component
-	//auto target = cameraComponent->Target;
-	//if (target)
-	//{
-	//	auto targetPosition = target->GetComponent<TransformComponent>()->CurrentPos;
-	//	
-	//	static const float windowWidth = 1400.f;
-	//	static const float windowHeight = 800.f;
-	////	targetPosition.x -= windowWidth * 0.5f;
-	////	targetPosition.y -= windowHeight * 0.5f;
-	//	// targetPosition.x -= 20.f;
-	//	//auto newPosition = targetPosition + cameraComponent->TargetOffset;
-	//	FVector2 newPosition = { targetPosition.x + cameraComponent->TargetOffset.x, targetPosition.y + cameraComponent->TargetOffset.y };
+	// Do in movement system? Follow component
+	auto target = cameraComponent->Target;
+	if (target)
+	{
+		auto targetPosition = m_ecs->GetComponent<TransformComponent>(target)->CurrentPos;
+		
+		static const float windowWidth = 1400.f;
+		static const float windowHeight = 800.f;
+	//	targetPosition.x -= windowWidth * 0.5f;
+	//	targetPosition.y -= windowHeight * 0.5f;
+		// targetPosition.x -= 20.f;
+		//auto newPosition = targetPosition + cameraComponent->TargetOffset;
+		FVector2 newPosition = { targetPosition.x + cameraComponent->TargetOffset.x, targetPosition.y + cameraComponent->TargetOffset.y };
 
-	//	cameraComponent->Camera.SetPosition(newPosition);
-	//	camera->GetComponent<TransformComponent>()->CurrentPos = { newPosition.x, newPosition.y };
-	//}
+		cameraComponent->Camera.SetPosition(newPosition);
+		transformComponent->CurrentPos = { newPosition.x, newPosition.y };
+	}
 
 
 
@@ -150,6 +152,7 @@ void CameraSystem::SetSignature()
 	assert(m_ecs && "[CameraSystem - ERROR]: ECS is nullptr!");
 
 	m_signatures.insert({ "Camera", m_ecs->GetSignature<CameraComponent>() });
+	m_signatures.insert({ "Player", m_ecs->GetSignature<PlayerControllerComponent>() }); // camera controller component instead??? or something.. not all scens camrea should follow 
 
 	//// do in ECS???
 	//auto componentTypes = m_ecs->GetComponentTypes<CameraComponent, TransformComponent>();

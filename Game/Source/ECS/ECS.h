@@ -94,6 +94,9 @@ public:
 
 	void AddComponent(Entity entity, const char* component);
 
+	template <typename T>
+	void RemoveComponent(Entity entity);
+
 	// TODO; have function tha tdoes both??
 	void InitializeComponent(Entity entity, const char* component, const ComponentProperties& properties);
 
@@ -182,6 +185,12 @@ inline void ECS::AddComponent(Entity entity)
 //
 //	m_entityManager.SetSignature(entity, signature);
 //}
+
+template<typename T>
+inline void ECS::RemoveComponent(Entity entity)
+{
+	m_componentManager.RemoveComponent<T>(entity);
+}
 
 template <typename T>
 inline T* ECS::GetComponent(Entity entity)

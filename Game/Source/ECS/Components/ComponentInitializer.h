@@ -1,5 +1,6 @@
 #pragma once
 #include "Components.h"
+#include "Commands/Commands.h"
 
 class ComponentInitializer
 {
@@ -95,11 +96,11 @@ public:
 		component->Collider.Init({ -halfWidth, -halfHeight }, { halfWidth, halfHeight });
 
 		std::string type = std::get<std::string>(properties.at("type"));
-		if (type == "trigger")
+		if (type == "Trigger")
 		{
 			component->Type = eColliderType::Trigger;
 		}
-		else if (type == "dynamic")
+		else if (type == "Dynamic")
 		{
 			component->Type = eColliderType::Dynamic;
 		}
@@ -164,17 +165,17 @@ public:
 		// Temp (use builder/factory? or system) or map of commands?
 
 		// TODO; make sure to delete...
-		// component->InputMapping.insert({ Hi_Engine::eKey::Key_W, new MoveCommand{ { 0.f,   1.f } } });
-		// component->InputMapping.insert({ Hi_Engine::eKey::Key_S, new MoveCommand{ { 0.f,	-1.f } } });
-		// component->InputMapping.insert({ Hi_Engine::eKey::Key_A, new MoveCommand{ { -1.f,	 0.f } } });
-		// component->InputMapping.insert({ Hi_Engine::eKey::Key_D, new MoveCommand{ { 1.f,  0.f } } });
-		// 
-		// component->InputMapping.insert({ Hi_Engine::eKey::Key_Space, new AttackCommand });
-		// component->InputMapping.insert({ Hi_Engine::eKey::Key_LShift, new SprintCommand });
-		// component->InputMapping.insert({ Hi_Engine::eKey::Key_Escape, new PauseCommand });
-		// component->InputMapping.insert({ Hi_Engine::eKey::Key_I, new OpenInventoryCommand });
-		// component->InputMapping.insert({ Hi_Engine::eKey::Key_1, new AimCommand }); // CHANGE To mouse button
-		// component->InputMapping.insert({ Hi_Engine::eKey::Key_2, new ShootCommand });
+		component->InputMapping.insert({ Hi_Engine::eKey::Key_W, new MoveCommand{ { 0.f,   1.f } } });
+		component->InputMapping.insert({ Hi_Engine::eKey::Key_S, new MoveCommand{ { 0.f,	-1.f } } });
+		component->InputMapping.insert({ Hi_Engine::eKey::Key_A, new MoveCommand{ { -1.f,	 0.f } } });
+		component->InputMapping.insert({ Hi_Engine::eKey::Key_D, new MoveCommand{ { 1.f,  0.f } } });
+		
+		component->InputMapping.insert({ Hi_Engine::eKey::Key_Space, new AttackCommand });
+		component->InputMapping.insert({ Hi_Engine::eKey::Key_LShift, new SprintCommand });
+		component->InputMapping.insert({ Hi_Engine::eKey::Key_Escape, new PauseCommand });
+		component->InputMapping.insert({ Hi_Engine::eKey::Key_I, new OpenInventoryCommand });
+		component->InputMapping.insert({ Hi_Engine::eKey::Key_1, new AimCommand }); // CHANGE To mouse button
+		component->InputMapping.insert({ Hi_Engine::eKey::Key_2, new ShootCommand });
 	}
 
 	template <>

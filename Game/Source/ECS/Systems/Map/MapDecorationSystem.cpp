@@ -6,7 +6,7 @@
 #include "Components/Core/CoreComponents.h"
 #include "Components/Gameplay/GameplayComponents.h"
 #include "Constants.h"
-
+#include "ECS.h"
 
 struct ResourceSpawnSettings
 {
@@ -26,7 +26,7 @@ MapDecorationSystem::~MapDecorationSystem()
 
 void MapDecorationSystem::Receive(Message& message)
 {
-	auto* mapChunk = std::any_cast<Entity*>(message.GetData());
+	auto mapChunk = std::any_cast<Entity>(message.GetData());
 
 	GenerateResources(mapChunk);
 	// PopulateWithFoilage(mapChunk);
@@ -36,67 +36,75 @@ void MapDecorationSystem::Update(float deltaTime)
 {
 }
 
-// TODO; redo...
-void MapDecorationSystem::GenerateResources(Entity* entity)
+void MapDecorationSystem::SetSignature()
 {
-	auto* mapChunkComponent = entity->GetComponent<MapChunkComponent>();
-	auto* transformComponent = entity->GetComponent<TransformComponent>();
+}
 
-	for (const auto& tile : mapChunkComponent->Tiles)
+// TODO; redo...
+void MapDecorationSystem::GenerateResources(Entity entity)
+{
+	auto* mapChunkComponent = m_ecs->GetComponent<MapChunkComponent>(entity);
+	auto* transformComponent = m_ecs->GetComponent<TransformComponent>(entity);
+
+
+	for (const auto& tile : mapChunkComponent->Tiles) // FIX this !!! 
 	{
-		Entity* resource = nullptr;
+		Entity spawnedResource;
 
+		bool hasSpawned = false;
 
 		if (tile.Type == eTile::Grass)
 		{
 			static std::array<std::string, 3> types{
-				"empty",
-				"grass",
-				"berry_bush"
+				"Empty",
+				"Grass",
+				"BerryBush"
 			};
 
 			int index = Hi_Engine::GetWeightedRandomIndex({ 0.7f, 0.2f, 0.1f });
 			std::string type = types[index];
-			if (type != "empty")
+			if (type != "Empty")
 			{
-				resource = m_entityManager->Create(type);
+				spawnedResource = m_ecs->CreateEntity(type.c_str());
+				hasSpawned = true;
 			}
 		}
 		else if (tile.Type == eTile::Sand)
 		{
 			static std::array<std::string, 3> types{
-				"empty",
-				"palm_tree",
-				"rock"
+				"Empty",
+				"PalmTree",
+				"Rock"
 			};
 
 			int index = Hi_Engine::GetWeightedRandomIndex({ 0.65f, 0.25f, 0.1f });
 			std::string type = types[index];
-			if (type != "empty")
+			if (type != "Empty")
 			{
-				resource = m_entityManager->Create(type);
+				spawnedResource = m_ecs->CreateEntity(type.c_str());
+				hasSpawned = true;
 			}
 		}
 
-		if (resource)
+		if (hasSpawned)
 		{
 			auto position = transformComponent->CurrentPos;
 			
-			resource->GetComponent<TransformComponent>()->CurrentPos = { position.x + (tile.Coordinates.x * Tile::Size), position.y + (tile.Coordinates.y * Tile::Size) };;
-			PostMaster::GetInstance().SendMessage({ eMessage::EntitySpawned, resource });
+			m_ecs->GetComponent<TransformComponent>(spawnedResource)->CurrentPos = { position.x + (tile.Coordinates.x * Tile::Size), position.y + (tile.Coordinates.y * Tile::Size) };;
+			PostMaster::GetInstance().SendMessage({ eMessage::EntitySpawned, spawnedResource });
 		}
 
 	}
 }
 
-void MapDecorationSystem::PopulateWithFoilage(const Entity* mapChunk)
+void MapDecorationSystem::PopulateWithFoilage(Entity mapChunk)
 {
-	auto generateFoilage = [&](const std::string& type, unsigned amount, const Entity* mapChunk)
+	auto generateFoilage = [&](const std::string& type, unsigned amount, Entity mapChunk)
 		{
 			static const float tileSize = 1.f;
 
-			auto* mapChunkComponent = mapChunk->GetComponent<MapChunkComponent>();
-			auto* mapTransformComponent = mapChunk->GetComponent<TransformComponent>();
+			auto* mapChunkComponent = m_ecs->GetComponent<MapChunkComponent>(mapChunk);
+			auto* mapTransformComponent = m_ecs->GetComponent<TransformComponent>(mapChunk);
 
 			auto chunkPosition = mapTransformComponent->CurrentPos;
 			auto endPosition = FVector2{ chunkPosition.x + Constants::MapChunkLength * tileSize, chunkPosition.y + Constants::MapChunkLength * tileSize };
@@ -104,8 +112,8 @@ void MapDecorationSystem::PopulateWithFoilage(const Entity* mapChunk)
 
 			for (unsigned i = 0; i < amount; ++i)
 			{
-				auto* entity = m_entityManager->Create(type);
-				auto* transform = entity->GetComponent<TransformComponent>();
+				Entity entity = m_ecs->CreateEntity(type.c_str());
+				auto* transform = m_ecs->GetComponent<TransformComponent>(entity);
 
 				//auto sizet = entity->GetComponent<SpriteComponent>()->Subtexture->GetSize(); // TEMP..
 
