@@ -1,7 +1,6 @@
 #pragma once
 #include "../Base/Component.h"
 #include <../Hi_Engine.h>
-//#include "Entities/Entity.h"
 #include "ECSTypes.h"
 
 struct TagComponent : public Component

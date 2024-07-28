@@ -1,9 +1,6 @@
 #include "Pch.h"
 #include "InventoryScene.h"
-#include "Systems/SystemManager.h"
 #include "ECS/ECS.h"
-#include "Entities/EntityManager.h"
-#include "Components/Core/CoreComponents.h"
 
 
 InventoryScene::InventoryScene(ECS& ecs)
@@ -37,9 +34,9 @@ void InventoryScene::OnEnter()
 			//box->GetComponent<TransformComponent>()->CurrentPos = { 0.1f, 0.1f };
 		}
 	}
+
 	//auto* box = m_entityManager.Create("inventory_slot");
 	//box->GetComponent<TransformComponent>()->CurrentPos = { 20.f, 20.f };
-
 
 	//auto* box1 = m_entityManager.Create("inventory_slot");
 	//box1->GetComponent<TransformComponent>()->CurrentPos = { 120.f, 120.f };
@@ -55,5 +52,5 @@ void InventoryScene::OnEnter()
 
 void InventoryScene::OnExit()
 {
-	//m_ecs.GetEntityManager().DestroyAll();
+	m_ecs.DestroyAllEntities();
 }

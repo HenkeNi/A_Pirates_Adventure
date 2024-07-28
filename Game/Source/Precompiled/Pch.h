@@ -36,8 +36,3 @@
 #include "../DataTypes/Constants.h"
 #include "../DataTypes/Enumerations.h"
 #include "../DataTypes/Structs.h"
-
-/* Third Party */
-//#include <document.h>
-//#include <stb_image.h>  
-//#include <FastNoiseLite.h>

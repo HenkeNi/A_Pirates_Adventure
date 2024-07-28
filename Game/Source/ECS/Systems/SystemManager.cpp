@@ -3,6 +3,7 @@
 #include "Base/System.h"
 #include "ECSTypes.h"
 
+
 SystemManager::SystemManager()
 {
 	m_systems.reserve(MaxSystems);

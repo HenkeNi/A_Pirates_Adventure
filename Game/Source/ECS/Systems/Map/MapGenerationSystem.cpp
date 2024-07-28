@@ -1,16 +1,11 @@
 #include "Pch.h"
 #include "MapGenerationSystem.h"
-#include "Entities/EntityManager.h"
-//#include "../Data/Constants.h"
+
 #include "Constants.h"
 #include "../Utility/Map/MapUtils.h"
-#include "Components/AI/AIComponents.h"
 #include "Components/Core/CoreComponents.h"
 #include "Components/Map/MapComponents.h"
-// #include <FastNoiseLite.h>
-
 #include "ECS.h"
-
 
 
 std::unordered_map<eTimeOfDay, FVector4> GetTileColors(eTile type)

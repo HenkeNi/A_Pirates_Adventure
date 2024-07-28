@@ -1,5 +1,6 @@
 #include "Pch.h"
 #include "OpenInventoryCommand.h"
+#include "SceneTypes.h"
 
 OpenInventoryCommand::OpenInventoryCommand()
 {

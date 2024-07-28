@@ -10,6 +10,5 @@ public:
 
 	void HandleEvent(Hi_Engine::InputEvent& inputEvent)	override;
 	void Update(float DeltaTime)						override;
-
-	void SetSignature() override;
+	void SetSignature()									override;
 };

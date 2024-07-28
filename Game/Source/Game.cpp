@@ -50,7 +50,6 @@ void Game::OnCreate()
 	m_ecs->Init();
 	
 	Registration::RegisterComponents(*m_ecs);
-	Registration::RegisterBlueprints(*m_ecs);
 	Registration::RegisterSystems(*m_ecs);
 	Registration::RegisterScenes(m_sceneManager, *m_ecs);
 

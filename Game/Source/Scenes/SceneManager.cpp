@@ -1,13 +1,8 @@
 #include "Pch.h"
 #include "SceneManager.h"
-#include "Registration/Registration.h"
 #include "Scene.h"
-
+#include "SceneTypes.h"
 #include "ECS/ECS.h"
-#include "Entities/EntityManager.h"
-#include "Entities/EntityFactory.h"
-#include "Systems/SystemManager.h"
-#include "../DataTypes/Enumerations.h"
 
 static std::unordered_map<eScene, std::string> scenePaths
 {
@@ -157,7 +152,6 @@ void SceneManager::LoadScene(eScene type)
 	{
 		const char* id = jsonEntity["entity_id"].GetString();
 		
-		//Entity entity = jsonEntity.HasMember("components_data") ? ecs.CreateEntity(id, jsonEntity) : ecs.CreateEntity(id);
 		Entity entity = ecs.CreateEntity(id);
 
 		if (!jsonEntity.HasMember("components_data"))
@@ -175,13 +169,6 @@ void SceneManager::LoadScene(eScene type)
 			ecs.InitializeComponent(entity, component["type"].GetString(), componentProperties);
 		}
 
-
-		// t0d0l f9x
-		// 
-		// parse json (move function out of bleurptin? => get ComponentProperties
-		// 
-		// Pass to ECS for setting data in component...	
-
-		PostMaster::GetInstance().SendMessage({ eMessage::EntitySpawned, entity });
+		PostMaster::GetInstance().SendMessage({ eMessage::EntitySpawned, entity }); // FIX!?
 	}
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include "Components.h"
 #include "Commands/Commands.h"
+#include "SceneTypes.h"
 
 class ComponentInitializer
 {

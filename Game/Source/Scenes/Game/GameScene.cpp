@@ -1,10 +1,9 @@
 #include "Pch.h"
 #include "GameScene.h"
-#include "Systems/SystemManager.h"
+#include "SceneTypes.h"
 #include "Dungeon/DungeonScene.h"
 #include "Overworld/OverworldScene.h"
 #include "Inventory/InventoryScene.h"
-#include "ECS/ECS.h"
 
 
 GameScene::GameScene(ECS& ecs)
@@ -23,8 +22,6 @@ void GameScene::Update(float deltaTime)
 	{
 		scene->Update(deltaTime);
 	}
-
-	// TODO: should update own systems (in shared context)??
 }
 
 void GameScene::LateUpdate(float deltaTime)
@@ -34,8 +31,6 @@ void GameScene::LateUpdate(float deltaTime)
 	{
 		scene->LateUpdate(deltaTime);
 	}
-
-	// TODO: should update own systems (in shared context)??
 }
 
 void GameScene::Draw() const
@@ -45,8 +40,6 @@ void GameScene::Draw() const
 	{
 		scene->Draw();
 	}
-
-	// TODO: should update own systems (in shared context)??
 }
 
 void GameScene::OnCreated()

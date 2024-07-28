@@ -1,6 +1,5 @@
 #pragma once
 #include "../Base/SteeringBehavior.h"
-#include "Entities/Entity.h"
 
 class FlockBehavior : public SteeringBehavior
 {

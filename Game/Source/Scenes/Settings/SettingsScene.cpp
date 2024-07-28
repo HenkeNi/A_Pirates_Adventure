@@ -1,7 +1,5 @@
 #include "Pch.h"
 #include "SettingsScene.h"
-#include "Systems/SystemManager.h"
-#include "Entities/EntityManager.h"
 #include "ECS/ECS.h"
 
 
@@ -32,7 +30,7 @@ void SettingsScene::OnEnter()
 
 void SettingsScene::OnExit()
 {
-	//m_ecs.GetEntityManager().DestroyAll();
+	m_ecs.DestroyAllEntities();
 
 	//Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::StopSoundEvent>("night_ambience");
 }

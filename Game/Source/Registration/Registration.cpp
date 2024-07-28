@@ -85,19 +85,19 @@ namespace Registration
 		ecs.RegisterSystem<CollisionSystem>("CollisionSystem");
 		ecs.RegisterSystem<PlayerControllerSystem>("PlayerControllerSystem");
 		ecs.RegisterSystem<SceneTransitionSystem>("SceneTransitionSystem");				// put last?
-		//systemManager.Register<SpriteAnimationSystem>("SpriteAnimationSystem");
+		//ecs.RegisterSystem<SpriteAnimationSystem>("SpriteAnimationSystem");
 
 		/* - Gameplay Systems - */
 		ecs.RegisterSystem<CombatSystem>("CombatSystem");
-		//systemManager.Register<EnemySpawnSystem>("EnemySpawnSystem");
+		//ecs.RegisterSystem<EnemySpawnSystem>("EnemySpawnSystem");
 		ecs.RegisterSystem<EquipmentSystem>("EquipmentSystem");
-		//systemManager.Register<InventorySystem>("InventorySystem");
-		//systemManager.Register<MeleeCombatSystem>("MeleeCombatSystem");
-		//systemManager.Register<RangedCombatSystem>("RangedCombatSystem");
+		//ecs.RegisterSystem<InventorySystem>("InventorySystem");
+		//ecs.RegisterSystem<MeleeCombatSystem>("MeleeCombatSystem");
+		//ecs.RegisterSystem<RangedCombatSystem>("RangedCombatSystem");
 		ecs.RegisterSystem<ShakeSystem>("ShakeSystem");
 		ecs.RegisterSystem<TimeSystem>("TimeSystem");
-		//systemManager.Register<SpawnSystem>("SpawnSystem");
-		//systemManager.Register<StatSystem>("StatSystem");
+		//ecs.RegisterSystem<SpawnSystem>("SpawnSystem");
+		//ecs.RegisterSystem<StatSystem>("StatSystem");
 
 		///* - Map Systems - */
 		ecs.RegisterSystem<MapGenerationSystem>("MapGenerationSystem");
@@ -105,34 +105,24 @@ namespace Registration
 
 		///* -  UI Systems - */
 		ecs.RegisterSystem<UISystem>("UISystem");
-		//systemManager.Register<HUDSystem>("HUDSystem");
+		ecs.RegisterSystem<HUDSystem>("HUDSystem");
 
 		///* - AI Systems - */
-		//systemManager.Register<BlackboardSystem>("BlackboardSystem");
-		//systemManager.Register<BehaviorTreeSystem>("BehaviorTreeSystem");
-		//systemManager.Register<SteeringBehaviorSystem>("SteeringBehaviorSystem");
-		//systemManager.Register<StateTransitionSystem>("StateTransitionSystem");
+		//ecs.RegisterSystem<BlackboardSystem>("BlackboardSystem");
+		//ecs.RegisterSystem<BehaviorTreeSystem>("BehaviorTreeSystem");
+		//ecs.RegisterSystem<SteeringBehaviorSystem>("SteeringBehaviorSystem");
+		//ecs.RegisterSystem<StateTransitionSystem>("StateTransitionSystem");
 
 		///* - Audio System - */
 		ecs.RegisterSystem<AudioSystem>("AudioSystem");
 
-		///* - Render Systems - */
-		//systemManager.Register<DebugRenderSystem>("DebugRenderSystem");
+		/* - Render Systems - */
+		//ecs.RegisterSystem<DebugRenderSystem>("DebugRenderSystem");
 		//ecs.RegisterSystem<TextRenderSystem>("TextRenderSystem");
 		//ecs.RegisterSystem<UIRenderSystem>("UIRenderSystem");
 		//ecs.RegisterSystem<SpriteRenderSystem>("SpriteRenderSystem");
 		//ecs.RegisterSystem<MapRenderSystem>("MapRenderSystem");
 		ecs.RegisterSystem<RenderSystem>("RenderSystem");
-	}
-
-	void RegisterBlueprints(ECS& ecs)
-	{
-		// ecs.GetEntityFactory().LoadBlueprints("../Game/Assets/Json/Blueprints/blueprint_manifest.json");
-
-
-		//ObjectManager::LoadPrototypes("../Bin/Assets/Json/Prototypes/Prototypes_Enemy.json");
-		//ObjectManager::LoadPrototypes("../Bin/Assets/Json/Prototypes/Prototypes_Environment.json");
-		//ObjectManager::LoadPrototypes("../Bin/Assets/Json/Prototypes/Prototypes_UI.json");
 	}
 
 	void RegisterScenes(SceneManager& sceneManager, ECS& ecs)

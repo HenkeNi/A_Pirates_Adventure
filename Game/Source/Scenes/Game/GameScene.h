@@ -18,5 +18,5 @@ public:
 	void OnExit()							  override;
 
 private:
-	SceneManager	m_sceneManager;	// will contain WorldScene and IndoorScene... (amongst others)...
+	SceneManager m_sceneManager;
 };

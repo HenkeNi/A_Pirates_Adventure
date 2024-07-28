@@ -1,6 +1,5 @@
 #include "Pch.h"
 #include "CollisionSystem.h"
-#include "Entities/Entity.h"
 #include "Entities/EntityManager.h"
 #include "Components/Core/CoreComponents.h"
 #include "../Utility/Map/MapUtils.h"

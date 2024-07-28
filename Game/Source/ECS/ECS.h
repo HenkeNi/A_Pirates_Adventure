@@ -1,5 +1,4 @@
 #pragma once
-//#include "Entities/Entity.h"
 #include "Entities/EntityManager.h"
 #include "Entities/EntityFactory.h"
 #include "Components/ComponentManager.h"

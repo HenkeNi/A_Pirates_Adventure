@@ -1,5 +1,4 @@
 #pragma once
-//#include "Entities/Entity.h"
 #include "ECSTypes.h"
 
 class ECS;

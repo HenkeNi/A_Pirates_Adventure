@@ -1,6 +1,5 @@
 #include "Pch.h"
 #include "MapDecorationSystem.h"
-#include "Entities/Entity.h"
 #include "Entities/EntityManager.h"
 #include "Components/Map/MapComponents.h"
 #include "Components/Core/CoreComponents.h"

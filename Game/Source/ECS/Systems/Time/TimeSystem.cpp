@@ -5,7 +5,6 @@
 
 //#include "Entities/EntityManager.h"
 
-//#include "Entities/Entity.h"
 
 TimeSystem::TimeSystem()
 {

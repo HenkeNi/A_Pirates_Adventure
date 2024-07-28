@@ -86,14 +86,21 @@ void RenderSystem::RenderSprites(Entity camera)
 	std::vector<Entity> uiElements;
 	uiElements.reserve(entities.size());
 
+	std::vector<Entity> hudElements;
+	hudElements.reserve(entities.size());
+
 	for (auto entity : entities)
 	{
 		auto* spriteComponent = m_ecs->GetComponent<SpriteComponent>(entity);
 		if (!spriteComponent->ShouldRender)
 			continue;
 
-		bool isUIElement = m_ecs->GetComponent<HUDComponent>(entity) || m_ecs->GetComponent<UIComponent>(entity);
-		isUIElement ? uiElements.push_back(entity) : sprites.push_back(entity);
+		if (m_ecs->GetComponent<HUDComponent>(entity))
+			hudElements.push_back(entity);
+		else if (m_ecs->GetComponent<UIComponent>(entity))
+			uiElements.push_back(entity);
+		else
+			sprites.push_back(entity);
 	}
 
 	auto* cameraComponent = m_ecs->GetComponent<CameraComponent>(camera);
@@ -110,6 +117,8 @@ void RenderSystem::RenderSprites(Entity camera)
 
 			return u1->RenderDepth > u2->RenderDepth;
 		});
+
+	uiElements.insert(uiElements.end(), hudElements.begin(), hudElements.end());
 
 	Hi_Engine::SpriteBatch uiElementBatch;
 	uiElementBatch.Sprites.reserve(uiElements.size());

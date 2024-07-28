@@ -1,6 +1,5 @@
 #include "Pch.h"
 #include "ShakeSystem.h"
-#include "Entities/Entity.h"
 #include "Entities/EntityManager.h"
 #include "Components/Core/CoreComponents.h"
 #include "Components/Gameplay/GameplayComponents.h"

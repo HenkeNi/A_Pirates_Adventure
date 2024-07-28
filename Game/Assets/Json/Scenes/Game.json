@@ -21,6 +21,12 @@
       "entity_id": "WorldTime"
     },
     {
+      "entity_id": "Player"
+    },
+    {
+      "entity_id": "RustySword"
+    },
+    {
       "entity_id": "InventoryBar"
     }
   ],

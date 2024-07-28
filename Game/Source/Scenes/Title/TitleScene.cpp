@@ -1,13 +1,6 @@
 #include "Pch.h"
 #include "TitleScene.h"
 #include "ECS/ECS.h"
-#include "Entities/EntityManager.h"
-#include "Systems/SystemManager.h"
-
-
-
-#include <Components/Core/CoreComponents.h>
-#include <Components/UI/UIComponents.h>
 
 
 TitleScene::TitleScene(ECS& ecs)

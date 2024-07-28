@@ -2,8 +2,6 @@
 #include "SceneTransitionSystem.h"
 #include "ECS.h"
 
-#include "Entities/Entity.h"
-#include "Entities/EntityManager.h"
 #include "Components/Core/CoreComponents.h"
 
 SceneTransitionSystem::SceneTransitionSystem()
