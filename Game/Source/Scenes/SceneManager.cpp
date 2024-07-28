@@ -10,7 +10,7 @@ static std::unordered_map<eScene, std::string> scenePaths
 	{ eScene::Settings,		"../Game/Assets/Json/Scenes/Settings.json"	},
 	{ eScene::Menu,			"../Game/Assets/Json/Scenes/MainMenu.json"	},
 	{ eScene::Title,		"../Game/Assets/Json/Scenes/Title.json"		},
-	{ eScene::Game,			"../Game/Assets/Json/Scenes/Game.json"		}
+	{ eScene::Overworld,	"../Game/Assets/Json/Scenes/Overworld.json"	}
 };
 
 SceneManager::SceneManager()
@@ -134,18 +134,26 @@ void SceneManager::LoadScene(eScene type)
 
 	// TODO; scene loader class?
 
-	auto& ecs = activeScene->m_ecs;
-	ecs.ClearSystems();
+	activeScene->m_systems.clear();
 
-	const auto& path = scenePaths.at(type);
-	auto document = Hi_Engine::ParseDocument(path);
+	auto& ecs = activeScene->m_ecs;
+	ecs.DestroySystems();
+
+	auto foundPath = scenePaths.find(type);
+	if (foundPath == scenePaths.end())
+		return;
+
+	auto document = Hi_Engine::ParseDocument(foundPath->second);
 
 	for (const auto& system : document["systems"].GetArray())
 	{
 		bool isSystemAvailable = Hi_Engine::IsBuildDebug() ? system["debug"].GetBool() : system["release"].GetBool();
 
 		if (isSystemAvailable)
-			ecs.CreateSystem(system["type"].GetString());			
+		{
+			auto* created = ecs.CreateSystem(system["type"].GetString());			
+			activeScene->m_systems.push_back(created);
+		}
 	}
 
 	for (const auto& jsonEntity : document["entities"].GetArray())

@@ -1,8 +1,8 @@
 #include "Pch.h"
 #include "SceneTransitionSystem.h"
 #include "ECS.h"
-
 #include "Components/Core/CoreComponents.h"
+
 
 SceneTransitionSystem::SceneTransitionSystem()
 {
@@ -24,18 +24,10 @@ void SceneTransitionSystem::Receive(Message& message) // Psas trigger?? check if
 	auto entity = std::any_cast<Entity>(message.GetData());
 
 	auto* sceneTransitionComponent = m_ecs->GetComponent<SceneTransitionComponent>(entity);
-
 	if (!sceneTransitionComponent)
 		return;
 
 	sceneTransitionComponent->ShouldTransition = true;
-
-	/*if (sceneTransitionComponent->ShouldPush)
-		PostMaster::GetInstance().SendMessage({ eMessage::TransitionToScene, sceneTransitionComponent->SceneType });
-	else
-		PostMaster::GetInstance().SendMessage({ eMessage::RemoveScene, sceneTransitionComponent->SceneType });*/
-
-	// If behind current scene pop, else push/swap?!
 }
 
 void SceneTransitionSystem::Update(float deltaTime)

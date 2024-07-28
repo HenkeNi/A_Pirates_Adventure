@@ -106,22 +106,12 @@
       "release": true
     },
     {
-      "type": "TextRenderSystem",
-      "debug": true,
-      "release": true
-    },
-    {
-      "type": "SpriteRenderSystem",
+      "type": "RenderSystem",
       "debug": true,
       "release": true
     },
     {
       "type": "UISystem",
-      "debug": true,
-      "release": true
-    },
-    {
-      "type": "UIRenderSystem",
       "debug": true,
       "release": true
     },

@@ -18,35 +18,51 @@ public:
 	void Init();
 	void Shutdown(); // remove?
 
-	void Update(float deltaTime);
-	void LateUpdate(float deltaTime);
-	void Draw();
-
 	template <typename T>
 	void RegisterSystem(const char* type);
 
 	template <typename T>
 	void RegisterComponent(const char* name);
 
-	void CreateSystems(std::vector<const char*> systems);
+	template <typename... T>
+	void AddComponent(Entity entity);
 
-	void CreateSystem(const char* type);
+	void AddComponent(Entity entity, const char* component);
+	
+	template <typename... T>
+	bool HasComponent(Entity entity) const; // implement! should scene fetch systemsin cares about? signature?
 
-	void ClearSystems();
+	template <typename T>
+	void RemoveComponent(Entity entity);
 
+	template <typename T>
+	T* GetComponent(Entity entity);
+
+	template <typename T>
+	std::vector<T*> GetAllComponents(); // maybe? TODO; const versions?
+
+	template <typename T>
+	std::vector<T*> GetComponents(const std::vector<Entity>& entities);
+
+	template <typename... Components>
+	Signature GetSignature();
+
+
+	System* CreateSystem(const char* type);
 
 	Entity CreateEntity(const char* type);
 
+
+
 	// Entity CreateEntity(const char* type, const rapidjson::Value& value);
 
-	Entity CreateEmptyEntity();
+	Entity CreateEmptyEntity(); // REMOVE?
 
 	void DestroyAllEntities();
 
 	void DestroyEntity(Entity entity);
 
-
-	// Add FindEntities template<typename Component> as well?
+	void DestroySystems();
 
 	std::vector<Entity> FindEntities(const Signature& signature);
 
@@ -57,7 +73,6 @@ public:
 
 	//template <typename Component>
 	//Entity FindEntity();
-
 
 	// GetSystem?
 
@@ -72,29 +87,26 @@ public:
 	void Deserialize();
 
 	
-	template <typename... T>
-	void AddComponent(Entity entity); 
+	
 
-	template <typename T>
-	inline void Add(Entity entity) // used??
-	{
-		m_componentManager.AddComponent<T>(entity);
-		
-		ComponentType componentType = m_componentManager.GetComponentTypes<T>();
-			
-		Signature signature = m_entityManager.GetSignature(entity);
-		signature.set(componentType);
-		
-		m_entityManager.SetSignature(entity, signature);
-	}
+	//template <typename T>
+	//inline void Add(Entity entity) // used??
+	//{
+	//	m_componentManager.AddComponent<T>(entity);
+	//	
+	//	ComponentType componentType = m_componentManager.GetComponentTypes<T>();
+	//		
+	//	Signature signature = m_entityManager.GetSignature(entity);
+	//	signature.set(componentType);
+	//	
+	//	m_entityManager.SetSignature(entity, signature);
+	//}
 
 	//template <typename T>
 	//void AddComponent(Entity entity);
 
-	void AddComponent(Entity entity, const char* component);
 
-	template <typename T>
-	void RemoveComponent(Entity entity);
+	
 
 	// TODO; have function tha tdoes both??
 	void InitializeComponent(Entity entity, const char* component, const ComponentProperties& properties);
@@ -102,18 +114,7 @@ public:
 
 
 
-	template <typename T>
-	T* GetComponent(Entity entity);
-
-	template <typename T> 
-	std::vector<T*> GetAllComponents(); // maybe? TODO; const versions?
 	
-	template <typename T> 
-	std::vector<T*> GetComponents(const std::vector<Entity>& entities);
-
-	template <typename... Components>
-	Signature GetSignature();
-
 	//template <typename... Components>
 	//std::vector<ComponentType> GetComponentTypes() const; // put in ComponentManager???
 
@@ -185,6 +186,16 @@ inline void ECS::AddComponent(Entity entity)
 //	m_entityManager.SetSignature(entity, signature);
 //}
 
+template<typename ...T>
+inline bool ECS::HasComponent(Entity entity) const
+{
+	// auto signature = m_entityManager.GetSignature(entity);
+
+	// signature.
+
+	return false;
+}
+
 template<typename T>
 inline void ECS::RemoveComponent(Entity entity)
 {
@@ -240,12 +251,6 @@ inline Signature ECS::GetSignature()
 	Signature signature;
 
 	((signature.set(m_componentManager.GetComponentType<Components>())), ...);
-
-	//auto componentTypes = m_componentManager.GetComponentTypes<CameraComponent, TransformComponent>(); // fix!
-	//for (const auto type : componentTypes)
-	//{
-	//	signature.set(type);
-	//}
 
 	return signature;
 }

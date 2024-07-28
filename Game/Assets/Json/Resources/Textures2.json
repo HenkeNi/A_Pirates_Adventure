@@ -211,17 +211,17 @@
       "cols": 1
 
     },
-    {
-      "id": "rock",
-      "path": "Environment/rock.png",
-      "alpha": true,
-      "filtering": "Linear",
-      "width": 641,
-      "height": 423,
-      "rows": 1,
-      "cols": 1
+  {
+    "id": "rock",
+    "path": "Environment/thumbnail_rock.png",
+    "alpha": true,
+    "filtering": "Linear",
+    "width": 641,
+    "height": 423,
+    "rows": 1,
+    "cols": 1
 
-    },
+  },
     {
       "id": "rock_fragment",
       "path": "rock_fragment.png",

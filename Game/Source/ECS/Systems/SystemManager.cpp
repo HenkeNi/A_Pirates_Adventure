@@ -19,23 +19,23 @@ void SystemManager::AddSystem(System* system)
 	m_systems.push_back(system);
 }
 
-void SystemManager::Update(float deltaTime)
-{
-	for (auto& system : m_systems)
-		system->Update(deltaTime); // return false if should break loop?
-}
-
-void SystemManager::LateUpdate(float deltaTime)
-{
-	for (auto& system : m_systems)
-		system->LateUpdate(deltaTime);
-}
-
-void SystemManager::Draw() const
-{
-	for (auto& system : m_systems)
-		system->Draw();
-}
+//void SystemManager::Update(float deltaTime)
+//{
+//	for (auto& system : m_systems)
+//		system->Update(deltaTime); // return false if should break loop?
+//}
+//
+//void SystemManager::LateUpdate(float deltaTime)
+//{
+//	for (auto& system : m_systems)
+//		system->LateUpdate(deltaTime);
+//}
+//
+//void SystemManager::Draw() const
+//{
+//	for (auto& system : m_systems)
+//		system->Draw();
+//}
 
 void SystemManager::Clear()
 {

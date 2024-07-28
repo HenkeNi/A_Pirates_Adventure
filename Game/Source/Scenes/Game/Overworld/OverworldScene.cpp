@@ -18,17 +18,32 @@ OverworldScene::~OverworldScene()
 
 void OverworldScene::Update(float deltaTime)
 {
-	m_ecs.Update(deltaTime);
+	for (auto& system : m_systems)
+	{
+		if (system)
+			system->Update(deltaTime);
+	}
+	//m_ecs.Update(deltaTime);
 }
 
 void OverworldScene::LateUpdate(float deltaTime)
 {
-	m_ecs.LateUpdate(deltaTime);
+	for (auto& system : m_systems)
+	{
+		if (system)
+			system->LateUpdate(deltaTime);
+	}
+	//m_ecs.LateUpdate(deltaTime);
 }
 
 void OverworldScene::Draw() const
 {
-	m_ecs.Draw();
+	for (auto& system : m_systems)
+	{
+		if (system)
+			system->Draw();
+	}
+	//m_ecs.Draw();
 }
 
 void OverworldScene::OnEnter()

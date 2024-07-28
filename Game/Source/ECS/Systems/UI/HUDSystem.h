@@ -12,8 +12,6 @@ public:
 	void Update(float deltaTime)	override;
 	void SetSignature()				override;
 
-	// Handle rendering as well?
-
 private:
 	void SetupHUDElements(); // maybe should be done dynamically (at runtime) rather than at game start?
 	void UpdateHealthDisplay(Entity entity);

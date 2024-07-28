@@ -4,6 +4,7 @@
 #include "Components/Core/CoreComponents.h"
 #include "Components/Utility/UtilityComponents.h"
 #include "Components/Gameplay/GameplayComponents.h"
+#include "ECS.h"
 
 
 SpawnSystem::SpawnSystem()
@@ -24,7 +25,7 @@ void SpawnSystem::Receive(Message& message)
 {
 	if (message.GetMessageType() == eMessage::EntityDestroyed)
 	{
-		auto* entity = std::any_cast<Entity*>(message.GetData());
+		auto entity = std::any_cast<Entity>(message.GetData());
 		Spawn(entity);
 	}
 }
@@ -34,31 +35,32 @@ void SpawnSystem::Update(float deltaTime)
 	// get entieis with spawn components... (check what should be spawned )
 }
 
-void SpawnSystem::Spawn(Entity* spawner)
+void SpawnSystem::SetSignature()
 {
-	if (!spawner)
-		return;
+}
 
-	auto* transformComponent = spawner->GetComponent<TransformComponent>();
+void SpawnSystem::Spawn(Entity spawner)
+{
+	auto* transformComponent = m_ecs->GetComponent<TransformComponent>(spawner);
 	auto position = transformComponent->CurrentPos;
 
-	if (auto* spawnComponent = spawner->GetComponent<SpawnComponent>())
+	if (auto* spawnComponent = m_ecs->GetComponent<SpawnComponent>(spawner))
 	{
 		float spawnRadius = spawnComponent->SpawnRadius;
 
 		for (int i = 0; i < spawnComponent->Amount; ++i)
 		{
-			auto* entity = m_entityManager->Create(spawnComponent->Spawned);
+			auto entity = m_ecs->CreateEntity(spawnComponent->Spawned.c_str());
 
 			float xOffset = Hi_Engine::GenerateRandomFloatingPoint(-spawnRadius, spawnRadius);
 			float yOffset = Hi_Engine::GenerateRandomFloatingPoint(-spawnRadius, spawnRadius);
 
-			transformComponent = entity->GetComponent<TransformComponent>();
+			transformComponent = m_ecs->GetComponent<TransformComponent>(entity);
 			transformComponent->CurrentPos = { position.x + xOffset, position.y + yOffset };
 
 			// Add an velocity component? rather than set position, use new position to calc velocity?!
 
-			auto* collectableComponent = entity->GetComponent<CollectableComponent>();
+			auto* collectableComponent = m_ecs->GetComponent<CollectableComponent>(entity);
 			collectableComponent->SpawnTimestamp = Hi_Engine::Engine::GetTimer().GetTotalTime();
 			collectableComponent->PickupDelay = 0.5f;
 

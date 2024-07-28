@@ -8,9 +8,9 @@ public:
 	CombatSystem();
 	~CombatSystem();
 
-	void		Receive(Message& message)						 override;
-	void		Update(float deltaTime)							 override;
-	void	SetSignature() override;
+	void Receive(Message& message)	override;
+	void Update(float deltaTime)	override;
+	void SetSignature()				override;
 
 	static std::vector<Entity> GetAdversaries(Entity entity); // GetHostileEntities
 

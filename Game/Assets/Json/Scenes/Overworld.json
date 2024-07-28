@@ -147,31 +147,6 @@
       "release": true
     },
     {
-      "type": "DebugRenderSystem",
-      "debug": true,
-      "release": false
-    },
-    {
-      "type": "TextRenderSystem",
-      "debug": true,
-      "release": true
-    },
-    {
-      "type": "UIRenderSystem",
-      "debug": true,
-      "release": true
-    },
-    {
-      "type": "SpriteRenderSystem",
-      "debug": true,
-      "release": true
-    },
-    {
-      "type": "MapRenderSystem",
-      "debug": true,
-      "release": true
-    },
-    {
       "type": "SceneTransitionSystem",
       "debug": true,
       "release": true

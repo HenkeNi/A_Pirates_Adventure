@@ -12,8 +12,6 @@ public:
 	void Update(float deltaTime)	override;
 	void SetSignature()				override;
 
-	static glm::vec2 ScreenToWorldCoordinates(const glm::vec2& position);
-
 private:
 	void OnButtonActivated(Entity button);
 	//void AssignCallback(Entity* button);

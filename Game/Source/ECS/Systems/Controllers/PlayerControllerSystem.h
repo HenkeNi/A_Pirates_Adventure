@@ -13,8 +13,6 @@ public:
 
 	void SetSignature() override;
 
-	// Static function for getting player position? or just use blackboard?
-
 private:
 	void ProcessCommands(Entity entity);
 	void CleanUpCommands();

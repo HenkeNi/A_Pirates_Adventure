@@ -16,12 +16,18 @@ MenuScene::~MenuScene()
 
 void MenuScene::Update(float deltaTime)
 {
-	m_ecs.Update(deltaTime);
+	for (auto& system : m_systems)
+	{
+		system->Update(deltaTime);
+	}
 }
 
 void MenuScene::Draw() const
 {
-	m_ecs.Draw();
+	for (auto& system : m_systems)
+	{
+		system->Draw();
+	}
 }
 
 void MenuScene::OnEnter()

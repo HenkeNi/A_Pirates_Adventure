@@ -14,12 +14,20 @@ TitleScene::~TitleScene()
 
 void TitleScene::Update(float deltaTime)
 {
-	m_ecs.Update(deltaTime);
+	//m_ecs.Update(deltaTime);
+	for (auto& system : m_systems)
+	{
+		system->Update(deltaTime);
+	}
 }
 
 void TitleScene::Draw() const 
 {
-	m_ecs.Draw();
+	//m_ecs.Draw();
+	for (auto& system : m_systems)
+	{
+		system->Draw();
+	}
 }
 
 void TitleScene::OnEnter()

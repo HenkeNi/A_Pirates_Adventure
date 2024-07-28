@@ -18,41 +18,15 @@ void ECS::Shutdown()
 	DestroyAllEntities();
 }
 
-void ECS::Update(float deltaTime)
-{
-	m_systemManager.Update(deltaTime); // todo; fetch "UpdateSystem" instead??
-
-	std::cout << "Entity amount: " << m_entityManager.GetActiveEntities().size() << "\n";
-}
-
-void ECS::LateUpdate(float deltaTime)
-{
-	m_systemManager.LateUpdate(deltaTime);
-}
-
-void ECS::Draw()
-{
-	m_systemManager.Draw();
-}
-
-void ECS::CreateSystems(std::vector<const char*> systems)
-{
-	for (const auto& type : systems)
-	{
-		auto* system = m_systemFactory.Create(type);
-		m_systemManager.AddSystem(system);
-	}
-}
-
-void ECS::CreateSystem(const char* type)
+System* ECS::CreateSystem(const char* type)
 {
 	if (auto* system = m_systemFactory.Create(type))
+	{
 		m_systemManager.AddSystem(system);
-}
+		return system;
+	}
 
-void ECS::ClearSystems()
-{
-	m_systemManager.Clear();
+	return nullptr;
 }
 
 Entity ECS::CreateEntity(const char* type)
@@ -96,6 +70,12 @@ void ECS::DestroyEntity(Entity entity)
 	m_componentManager.RemoveAllComponents(entity);
 	m_entityManager.Destroy(entity);
 }
+
+void ECS::DestroySystems()
+{
+	m_systemManager.Clear();
+}
+
 
 std::vector<Entity> ECS::FindEntities(const Signature& signature)
 {

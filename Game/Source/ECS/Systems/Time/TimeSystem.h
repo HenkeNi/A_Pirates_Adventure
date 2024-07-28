@@ -11,11 +11,7 @@ public:
 	void Update(float deltaTime)	override;
 	void SetSignature() override;
 
-	//static FVector4 CalculateDaylightColor(Entity worldTimeEntity); // filter system instead?
-
 private:
 	void UpdateWorldTime(float deltaTime);
-	// void SetTimeOfDay(Entity worldTimeEntity);
-
 	void UpdateTimers(float deltaTime);
 };

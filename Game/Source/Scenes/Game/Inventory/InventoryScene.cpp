@@ -14,12 +14,23 @@ InventoryScene::~InventoryScene()
 
 void InventoryScene::Update(float deltaTime)
 {
-	m_ecs.Update(deltaTime);
+	for (auto& system : m_systems)
+	{
+		if (system)
+			system->Update(deltaTime);
+	}
+
+	//m_ecs.Update(deltaTime);
 }
 
 void InventoryScene::Draw() const
 {
-	m_ecs.Draw();
+	for (auto& system : m_systems)
+	{
+		if (system)
+			system->Draw();
+	}
+	//m_ecs.Draw();
 }
 
 void InventoryScene::OnEnter()

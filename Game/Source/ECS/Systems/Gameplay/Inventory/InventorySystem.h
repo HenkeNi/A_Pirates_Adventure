@@ -11,9 +11,9 @@ public:
 
 	void Receive(Message& message)	override;
 	void Update(float deltaTime)	override;
-
-	static bool CanPickup(Entity entity);
+	void SetSignature() override;
 
 private:
+	bool CanPickup(Entity entity);
 	bool CollectItem(Entity owner, Entity item);
 };

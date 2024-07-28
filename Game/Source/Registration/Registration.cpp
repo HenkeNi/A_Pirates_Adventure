@@ -39,7 +39,6 @@ namespace Registration
 		// ecs.RegisterComponent<StateMachineComponent>("state_machine");
 		ecs.RegisterComponent<IdleComponent>("Idle");
 
-
 		/* - Gameplay Components - */
 		ecs.RegisterComponent<AttributesComponent>("Attribute");
 		ecs.RegisterComponent<PersonalityComponent>("Personality");
@@ -58,7 +57,7 @@ namespace Registration
 		ecs.RegisterComponent<SpawnComponent>("Spawner");
 		ecs.RegisterComponent<EnvironmentComponent>("Environment");
 
-		ecs.RegisterComponent<AttackComponent>("Attack"); // RENAME!
+		ecs.RegisterComponent<AttackComponent>("Attack");
 		ecs.RegisterComponent<ProjectileComponent>("Projectile");
 		ecs.RegisterComponent<ResourceComponent>("Resource");
 		ecs.RegisterComponent<CharacterStateComponent>("CharacterState");
@@ -84,19 +83,19 @@ namespace Registration
 		ecs.RegisterSystem<CameraSystem>("CameraSystem");
 		ecs.RegisterSystem<CollisionSystem>("CollisionSystem");
 		ecs.RegisterSystem<PlayerControllerSystem>("PlayerControllerSystem");
-		ecs.RegisterSystem<SceneTransitionSystem>("SceneTransitionSystem");				// put last?
+		ecs.RegisterSystem<SceneTransitionSystem>("SceneTransitionSystem");
 		//ecs.RegisterSystem<SpriteAnimationSystem>("SpriteAnimationSystem");
 
 		/* - Gameplay Systems - */
 		ecs.RegisterSystem<CombatSystem>("CombatSystem");
 		//ecs.RegisterSystem<EnemySpawnSystem>("EnemySpawnSystem");
 		ecs.RegisterSystem<EquipmentSystem>("EquipmentSystem");
-		//ecs.RegisterSystem<InventorySystem>("InventorySystem");
+		ecs.RegisterSystem<InventorySystem>("InventorySystem");
 		//ecs.RegisterSystem<MeleeCombatSystem>("MeleeCombatSystem");
 		//ecs.RegisterSystem<RangedCombatSystem>("RangedCombatSystem");
 		ecs.RegisterSystem<ShakeSystem>("ShakeSystem");
 		ecs.RegisterSystem<TimeSystem>("TimeSystem");
-		//ecs.RegisterSystem<SpawnSystem>("SpawnSystem");
+		ecs.RegisterSystem<SpawnSystem>("SpawnSystem");
 		//ecs.RegisterSystem<StatSystem>("StatSystem");
 
 		///* - Map Systems - */

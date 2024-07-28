@@ -50,16 +50,18 @@ void GameScene::OnCreated()
 	m_sceneManager.Register<DungeonScene>(eScene::Dungeon, m_ecs);
 	m_sceneManager.Register<InventoryScene>(eScene::Inventory, m_ecs);
 
-	m_sceneManager.Init({ eScene::Overworld });
+	// m_sceneManager.Init({ eScene::Overworld });
 }
 
 void GameScene::OnEnter()
 {
-	std::weak_ptr<Scene> activeScene = m_sceneManager.GetActiveScene();
+	PostMaster::GetInstance().SendMessage({ eMessage::TransitionToScene, eScene::Overworld });
+
+	/*std::weak_ptr<Scene> activeScene = m_sceneManager.GetActiveScene();
 	if (auto scene = activeScene.lock())
 	{
 		scene->OnEnter();
-	}
+	}*/
 }
 
 void GameScene::OnExit()
