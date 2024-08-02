@@ -3,6 +3,9 @@
 #include "../Modules/Base/Module.h"
 
 struct GLFWwindow;
+struct GLFWcursor;
+
+// TODO; add cursor struct; contains images and pointer to cursor?
 
 namespace Hi_Engine
 {
@@ -34,6 +37,6 @@ namespace Hi_Engine
 		static std::unordered_map<eMouseBtn, eInputState> s_mouseButtonStates;
 		static FVector2 s_mousePosition;
 		static float s_scrollOffset;
-		// static GLFWcursor*	s_customCursor;
+		static GLFWcursor*	s_customCursor;
 	};
 }

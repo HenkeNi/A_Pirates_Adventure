@@ -46,14 +46,14 @@ void Game::OnDraw()
 
 void Game::OnCreate()
 {
-	LoadResources(); // Maybe each scene should load the data they need?
+	LoadResources();
 	m_ecs->Init();
 	
 	Registration::RegisterComponents(*m_ecs);
 	Registration::RegisterSystems(*m_ecs);
 	Registration::RegisterScenes(m_sceneManager, *m_ecs);
 
-	m_ecs->LoadBlueprints();
+	// m_ecs->LoadBlueprints();
 
 	m_sceneManager.Init({ eScene::Game, eScene::Menu, eScene::Title });
 	m_sceneManager.TransitionToScene(eScene::Title);

@@ -5,13 +5,12 @@
 enum class eMessage
 {
 	EntityCreated,
-	EntitySpawned,
 	EntitiesCollided,
 
 	// EntityCollected,
 
 	EntityDestroyed,
-	EntityDied,				// just destroyed?
+	//EntityDied,				// just destroyed?
 	EntityAttacked,				// rename AttackEvent? AttackBegan? AttackEnded?
 
 
@@ -20,6 +19,10 @@ enum class eMessage
 	EntityIdle,		// REMOVE?
 
 	EntityFired,
+
+	EntityEnteredAim,
+	EntityExitedAim,
+
 
 	//AttackFinished,
 	AnimationComplete,

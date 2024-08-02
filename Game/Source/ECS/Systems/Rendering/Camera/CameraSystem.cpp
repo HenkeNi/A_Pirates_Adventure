@@ -2,7 +2,6 @@
 #include "CameraSystem.h"
 #include "ECS.h"
 #include "Components/Core/CoreComponents.h"
-//#include "Entities/EntityManager.h"
 #include "ECSTypes.h"
 
 CameraSystem::CameraSystem()

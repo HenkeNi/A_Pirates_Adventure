@@ -12,9 +12,6 @@ using Signatures = std::unordered_map<std::string, Signature>;
 
 using Entity = int;
 
-
-
-
 using ComponentType = std::uint8_t;
 using ComponentTypes = std::unordered_map<std::type_index, ComponentType>;
 
@@ -31,11 +28,3 @@ struct ComponentRegistryEntry
 };
 
 using ComponentRegistry = std::unordered_map<std::string, ComponentRegistryEntry>;
-//using ComponentRegistry = std::unordered_map<std::string, std::function<void(Entity)>>;
-
-
-
-
-//template <typename T>
-//using ComponentInitializerFunc = std::function<void(T*, const ComponentProperties&)>;
-// using ComponentInitializerFunc = std::function<void(void*, const ComponentProperties&)>;

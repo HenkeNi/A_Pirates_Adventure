@@ -150,6 +150,10 @@ namespace Hi_Engine
 	void FrameBufferSizeCallback(GLFWwindow* window, int width, int height)
 	{
 		glViewport(0, 0, width, height);	// Todo; send event?
+
+		WindowEvent* event = new WindowEvent;
+		event->Init(eWindowEvent::Resize, { (unsigned)width, (unsigned)height });
+		Dispatcher::GetInstance().SendEventInstantly(event);
 	}
 
 	void WindowFocusCallback(GLFWwindow* window, int focused)

@@ -1,6 +1,5 @@
 #include "Pch.h"
 #include "UISystem.h"
-#include "Entities/EntityManager.h"
 #include "Components/UI/UIComponents.h"
 #include "Components/Core/CoreComponents.h"
 #include "ECS/ECS.h"
@@ -8,66 +7,23 @@
 
 UISystem::UISystem()
 {
-	//PostMaster::GetInstance().Subscribe(eMessage::EntityCreated, this);
-	PostMaster::GetInstance().Subscribe(eMessage::EntitySpawned, this);
+	PostMaster::GetInstance().Subscribe(eMessage::EntityCreated, this);
 }
 
 UISystem::~UISystem()
 {
-	//PostMaster::GetInstance().Unsubscribe(eMessage::EntityCreated, this);
-	PostMaster::GetInstance().Unsubscribe(eMessage::EntitySpawned, this);
+	PostMaster::GetInstance().Unsubscribe(eMessage::EntityCreated, this);
 }
 
 void UISystem::Receive(Message& message)
 {
-	// Todo; listen to screen size changed...
+	// TODO; listen to screen size changed...
+	// TODO; change mouse icon instead
 
-	if (message.GetMessageType() != eMessage::EntitySpawned)
-		return;
-
-	Entity entity = std::any_cast<Entity>(message.GetData());
-
-	// TODO: check signature instead? ECS HasComponent functioin, check signature?
-
-	auto* hudComponent = m_ecs->GetComponent<HUDComponent>(entity);
-	auto* uiComponent  = m_ecs->GetComponent<UIComponent>(entity);
-
-	if (!hudComponent && !uiComponent)
-			return;
-
-	if (auto* colliderComponent = m_ecs->GetComponent<ColliderComponent>(entity))
+	if (message.GetMessageType() == eMessage::EntityCreated)
 	{
-		auto* transformComponent = m_ecs->GetComponent<TransformComponent>(entity);
-
-		const auto& [currentPos, previousPos, scale, pivot, rotation] = *transformComponent;
-
-		FVector2 size;
-		size.x = Hi_Engine::Math::Rerange<float>(scale.x, { 0.f, 1400.f },  {0.f, 1.f });
-		size.y = Hi_Engine::Math::Rerange<float>(scale.y, { 0.f, 800.f },    { 0.f, 1.f });
-
-		//float newXPos = Hi_Engine::Math::Rerange<float>(pos.x, { 0.f, 1400.f }, { 0.f, 1.f });
-		//float newYPos = Hi_Engine::Math::Rerange<float>(pos.y, { 0.f, 800.f }, { 0.f, 1.f });
-
-		//float scaleX = scale.x / 1400.f;
-		//float scaleY = scale.y / 800.f;
-
-		FVector2 offset;
-		offset.x = scale.x * pivot.x;
-		offset.y = scale.y * pivot.y;
-
-
-		//colliderComponent->Collider.Init({ pos.x - offset.x, pos.y }, { pos.x + offset.x, pos.y + 100.f});		
-		//colliderComponent->Collider.Init({ pos.x - offset.x, pos.y - offset.y }, { pos.x + offset.x, pos.y + offset.y});
-			
-		colliderComponent->Collider.Init({ currentPos.x - scale.x * 0.5f, currentPos.y - scale.x * 0.5f }, { currentPos.x + scale.x * 0.5f, currentPos.y + scale.y * 0.5f }); // COrrect??
-			//colliderComponent->Collider.Init({ pos.x, pos.y }, { pos.x + scale.x, pos.y + scale.y});
-			
+		UpdateCollider(std::any_cast<Entity>(message.GetData()));
 	}
-
-		//if (!entity->HasComponent<ButtonComponent>())
-			//return;
-
-		// AssignCallback(entity);
 }
 
 void UISystem::Update(float deltaTime)
@@ -97,9 +53,30 @@ void UISystem::OnButtonActivated(Entity button)
 			buttonComponent->OnClick();
 
 		PostMaster::GetInstance().SendMessage({ eMessage::ButtonActivated, button });
+	}
+}
 
-		//if (buttonComponent->OnClick)
-		//	buttonComponent->OnClick();
+void UISystem::UpdateCollider(Entity entity)
+{
+	if (!m_ecs->HasComponent<UIComponent>(entity) && !m_ecs->HasComponent<HUDComponent>(entity))
+		return;
+
+	if (auto* colliderComponent = m_ecs->GetComponent<ColliderComponent>(entity))
+	{
+		const IVector2 windowSize = Hi_Engine::ServiceLocator::GetWindow().lock()->GetSize();
+			
+		const auto& [currentPos, previousPos, scale, pivot, rotation] = *m_ecs->GetComponent<TransformComponent>(entity);
+
+		FVector2 size;
+		size.x = Hi_Engine::Math::Rerange<float>(scale.x, { 0.f, (float)windowSize.x }, { 0.f, 1.f });
+		size.y = Hi_Engine::Math::Rerange<float>(scale.y, { 0.f, (float)windowSize.y }, { 0.f, 1.f });
+
+
+		FVector2 offset;
+		offset.x = scale.x * pivot.x;
+		offset.y = scale.y * pivot.y;
+
+		colliderComponent->Collider.Init({ currentPos.x - size.x * 0.5f, currentPos.y - size.x * 0.5f }, { currentPos.x + size.x * 0.5f, currentPos.y + size.y * 0.5f }); // COrrect??
 	}
 }
 
@@ -123,9 +100,7 @@ void UISystem::UpdateCursor()
 	if (input.has_value())
 	{
 		auto* inputComponent = m_ecs->GetComponent<InputComponent>(input.value());
-
-		mousePosition = { inputComponent->MousePosition.x, inputComponent->MousePosition.y };
-		// mousePosition = inputComponent->MouseWorldPosition;
+		mousePosition = inputComponent->MousePosition;
 	}
 	else
 	{
@@ -133,12 +108,10 @@ void UISystem::UpdateCursor()
 	}
 
 	
-	// FIX!
-	float windowWidth = 1400.f;
-	float newXValue = Hi_Engine::Math::Rerange<float>(mousePosition.x, { 0.f, windowWidth }, { 0.f, 1.f });
+	const IVector2 windowSize = Hi_Engine::ServiceLocator::GetWindow().lock()->GetSize();
 
-	float windowHeight = 800.f;
-	float newYValue = Hi_Engine::Math::Rerange<float>(mousePosition.y, { 0.f, windowHeight }, { 1.f, 0.f });
+	float newXValue = Hi_Engine::Math::Rerange<float>(mousePosition.x, { 0.f, (float)windowSize.x }, { 0.f, 1.f });
+	float newYValue = Hi_Engine::Math::Rerange<float>(mousePosition.y, { 0.f, (float)windowSize.y }, { 1.f, 0.f });
 
 	auto* transformComponent = m_ecs->GetComponent<TransformComponent>(cursor.value());
 	transformComponent->CurrentPos = { newXValue, newYValue };

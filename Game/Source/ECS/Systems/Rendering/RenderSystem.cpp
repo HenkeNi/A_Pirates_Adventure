@@ -22,8 +22,9 @@ void RenderSystem::Draw()
 
 #ifdef DEBUG
 
-	RenderDebug(camera);
-
+	RenderScreenSpaceColliders(camera); // FIX!
+	RenderDebugColliders(camera);
+	
 #endif // DEBUG
 
 	RenderSprites(camera);
@@ -214,7 +215,7 @@ void RenderSystem::RenderText(Entity camera)
 	}
 }
 
-void RenderSystem::RenderDebug(Entity camera)
+void RenderSystem::RenderDebugColliders(Entity camera)
 {
 	auto entities = m_ecs->FindEntities(m_signatures["Debug"]);
 	if (entities.empty())
@@ -223,12 +224,14 @@ void RenderSystem::RenderDebug(Entity camera)
 	Hi_Engine::SpriteBatch spriteBatch;
 	spriteBatch.Sprites.reserve(entities.size());
 
+
 	// draw triggers and colliders in different colors. 
 	auto* texture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ "debug", 0, 0 });
 
 	for (auto entity : entities)
 	{
 		// TODO; signature that entity should contain!?
+
 		if (m_ecs->GetComponent<UIComponent>(entity) || m_ecs->GetComponent<HUDComponent>(entity))
 			continue;
 
@@ -238,11 +241,66 @@ void RenderSystem::RenderDebug(Entity camera)
 		const auto& scale = collider->Collider.GetSize();
 
 		glm::vec4 color = { 1.f, 1.f, 1.f, 1.f };
-
+		
 		spriteBatch.Sprites.emplace_back(Hi_Engine::Transform{ { position.x, position.y, 0.f }, { scale.x, scale.y }, 0.f }, color, texture);
 	}
 
-	spriteBatch.ProjectionMatrix = m_ecs->GetComponent<CameraComponent>(camera)->Camera.GetViewProjectionMatrix();
+	auto* cameraComponent = m_ecs->GetComponent<CameraComponent>(camera);
+
+	spriteBatch.ProjectionMatrix = cameraComponent->Camera.GetViewProjectionMatrix();
+	
+	// uiBatch.ProjectionMatrix = cameraComponent->Camera.GetProjectionMatrix();
+	// RENDER FUSTRUM
+	//auto* cameraComponent = camera->GetComponent<CameraComponent>();
+	//const auto& position = cameraComponent->Frustum.GetCenter();
+	//const auto& scale = cameraComponent->Frustum.GetSize();
+	//
+	//auto* texture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource("debug_00");
+
+	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::SpriteBatchRequest>(spriteBatch);
+}
+
+void RenderSystem::RenderScreenSpaceColliders(Entity camera)
+{
+	auto entities = m_ecs->FindEntities(m_signatures["Debug"]);
+	if (entities.empty())
+		return;
+
+	Hi_Engine::SpriteBatch spriteBatch;
+	spriteBatch.Sprites.reserve(entities.size());
+
+	auto* texture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ "debug", 0, 0 });
+
+	for (auto entity : entities)
+	{
+		//if (!entity->HasComponent<UIComponent>() || !entity->HasComponent<HUDComponent>())
+		if (!m_ecs->HasComponent<UIComponent>(entity))
+			continue;
+
+		auto* colliderComponent = m_ecs->GetComponent<ColliderComponent>(entity);
+
+		const auto& position = colliderComponent->Collider.GetCenter();
+		const auto& scale = colliderComponent->Collider.GetSize();
+
+		//const auto& [currPos, prevPos, scale, pivot, rotation] = *transformComponent;
+		//const auto& [r, g, b, a] = spriteComponent->CurrentColor;
+
+		static const float windowWidth = 1400.f;
+		float xPosition = position.x * windowWidth;
+		//xPosition += (scale.x * pivot.x);
+
+		static const float windowHeight = 800.f;
+		float yPosition = position.y * windowHeight;
+
+		//yPosition += (scale.y * pivot.y);
+
+		glm::vec4 color = { 0.4f, 0.2f, 0.6f, 1.f };
+
+		//spriteBatch.Sprites.emplace_back(Hi_Engine::Transform{ { xPosition, yPosition, 0.f }, { scale.x * windowWidth, scale.y * windowHeight }, 0.f }, color, texture);
+		spriteBatch.Sprites.emplace_back(Hi_Engine::Transform{ { xPosition, yPosition, 0.f }, { scale.x, scale.y }, 0.f }, color, texture);
+	}
+
+	spriteBatch.ProjectionMatrix = m_ecs->GetComponent<CameraComponent>(camera)->Camera.GetProjectionMatrix();
 
 	// RENDER FUSTRUM
 	//auto* cameraComponent = camera->GetComponent<CameraComponent>();

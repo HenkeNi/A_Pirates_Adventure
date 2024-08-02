@@ -14,6 +14,8 @@ public:
 
 private:
 	void OnButtonActivated(Entity button);
-	//void AssignCallback(Entity* button);
+	void UpdateCollider(Entity entity);
+
+	// void AssignCallback(Entity* button);
 	void UpdateCursor();
 };

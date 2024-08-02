@@ -26,8 +26,8 @@ namespace Hi_Engine
 		void HandleEvent(class StopSoundEvent& event) override;
 		void HandleEvent(class SetVolumeEvent& event) override;
 		
-		void PlaySound(AudioSource& source);
-		void StopSound(AudioSource& source);
+		void PlaySound(const char* sound);
+		void StopSound(const char* sound);
 
 		static inline irrklang::ISoundEngine* GetEngine() { return m_soundEngine; }
 

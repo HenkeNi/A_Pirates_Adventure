@@ -1,6 +1,5 @@
 #include "Pch.h"
 #include "CombatSystem.h"
-#include "Entities/EntityManager.h"
 #include "Components/Core/CoreComponents.h"
 #include "Components/Gameplay/GameplayComponents.h"
 #include "Systems/Physics/MovementSystem.h"
@@ -11,11 +10,13 @@ CombatSystem::CombatSystem()
 {
 	PostMaster::GetInstance().Subscribe(eMessage::AttackAnimationFinished, this);
 	//PostMaster::GetInstance().Subscribe(eMessage::EnemyAttacked, this);
+	PostMaster::GetInstance().Subscribe(eMessage::EntityAttacked, this);
 }
 
 CombatSystem::~CombatSystem()
 {
 	PostMaster::GetInstance().Unsubscribe(eMessage::AttackAnimationFinished, this);
+	PostMaster::GetInstance().Unsubscribe(eMessage::EntityAttacked, this);
 	//PostMaster::GetInstance().Unsubscribe(eMessage::EnemyAttacked, this);
 }
 
@@ -23,7 +24,7 @@ void CombatSystem::Receive(Message& message)	// Listen to collisions from physic
 {
 	assert(m_ecs && "ERROR: EntityManager is nullptr!");
 
-	if (message.GetMessageType() == eMessage::AttackAnimationFinished)
+	//if (message.GetMessageType() == eMessage::AttackAnimationFinished)
 	{
 		auto entity = std::any_cast<Entity>(message.GetData());
 		PerformAttack(entity);
@@ -104,6 +105,8 @@ void CombatSystem::Update(float deltaTime)
 	if (!m_ecs)
 		return;
 
+	UpdateAttackCooldowns(deltaTime);
+
 	auto entities = m_ecs->FindEntities(m_signatures["Health"]);
 
 	std::vector<Entity> entitiesToRemove;
@@ -113,13 +116,16 @@ void CombatSystem::Update(float deltaTime)
 		auto* healthComponent = m_ecs->GetComponent<HealthComponent>(entity);
 		if (healthComponent->CurrentValue == 0)
 		{
-			PostMaster::GetInstance().SendMessage(Message{ eMessage::EntityDied, entity });
+			//PostMaster::GetInstance().SendMessage(Message{ eMessage::EntityDied, entity });
 			entitiesToRemove.push_back(entity);
 		}
 	}
 
 	for (auto entity : entitiesToRemove)
+	{
+		PostMaster::GetInstance().SendMessage(Message{ eMessage::EntityDestroyed, entity });
 		m_ecs->DestroyEntity(entity);
+	}
 
 	//std::vector<Entity*> entitiesToRemove;
 
@@ -168,6 +174,7 @@ void CombatSystem::Update(float deltaTime)
 void CombatSystem::SetSignature()
 {
 	m_signatures.insert({ "Health", m_ecs->GetSignature<HealthComponent>() });
+	m_signatures.insert({ "Cooldowns", m_ecs->GetSignature<AttackCooldownComponent>() });
 }
 
 std::vector<Entity> CombatSystem::GetAdversaries(const Entity entity)
@@ -182,7 +189,7 @@ std::vector<Entity> CombatSystem::GetAdversaries(const Entity entity)
 	return adversaries;
 }
 
-void CombatSystem::PerformAttack(Entity entity)
+void CombatSystem::PerformAttack(Entity entity) // pass weapon and target??
 {
 	auto* equipmentComponent = m_ecs->GetComponent<EquipmentComponent>(entity);
 	if (!equipmentComponent)
@@ -191,6 +198,15 @@ void CombatSystem::PerformAttack(Entity entity)
 	int weaponID = equipmentComponent->EquippedItemIDs[(int)eEquipmentSlot::Melee];
 	if (weaponID < 0)
 		return;
+
+	auto* attackCooldownComponent = m_ecs->GetComponent<AttackCooldownComponent>(weaponID);
+	if (attackCooldownComponent)
+	{
+		if (attackCooldownComponent->Remaining > 0.f)
+		{
+			return;
+		}
+	}
 
 	auto* colliderComponent = m_ecs->GetComponent<ColliderComponent>(weaponID);
 	auto* weaponComponent = m_ecs->GetComponent<WeaponComponent>(weaponID);
@@ -217,6 +233,11 @@ void CombatSystem::PerformAttack(Entity entity)
 		healthComponent->CurrentValue = Hi_Engine::Math::Clamp(healthComponent->CurrentValue - damageOutput, 0, healthComponent->MaxHealth);
 
 			// store entities to remoev in entity manager?
+	}
+
+	if (attackCooldownComponent)
+	{
+		attackCooldownComponent->Remaining = attackCooldownComponent->Duration;
 	}
 }
 
@@ -281,4 +302,21 @@ void CombatSystem::ApplyKnockback(Entity source, Entity target)
 	knockbackComponent->Duration = 0.25f;
 
 	// TODO; update character state
+}
+
+void CombatSystem::UpdateAttackCooldowns(float deltaTime)
+{
+	auto entities = m_ecs->FindEntities(m_signatures["Cooldowns"]);
+
+	for (auto entity : entities)
+	{
+		if (auto* cooldownComponent = m_ecs->GetComponent<AttackCooldownComponent>(entity))
+		{
+			float& remaining = cooldownComponent->Remaining;
+			if (remaining > 0.f)
+			{
+				remaining = Hi_Engine::Math::Max(remaining -= deltaTime, 0.f);
+			}
+		}
+	}
 }

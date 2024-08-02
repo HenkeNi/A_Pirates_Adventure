@@ -31,6 +31,7 @@ void AttackCommand::Execute(Entity entity, ECS& ecs)
 		// attackComponent->IsEnabled = true;
 	}
 
+	PostMaster::GetInstance().SendMessage({ eMessage::EntityAttacked, entity }); // only send if no attack animation?
 	// send event?
 }
 

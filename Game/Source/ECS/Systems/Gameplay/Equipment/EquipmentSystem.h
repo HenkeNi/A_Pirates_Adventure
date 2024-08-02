@@ -9,7 +9,6 @@ public:
 	~EquipmentSystem();
 
 	void Receive(Message& message)	override;
-	void Update(float deltaTime)	override;
 	void SetSignature() override;
 
 private:

@@ -150,8 +150,6 @@ MapGenerationSystem::MapGenerationSystem()
 {
 	PostMaster::GetInstance().Subscribe(eMessage::GameStarted, this); // NewGameCreated instead?
 
-
-	//Hi_Engine::NoiseGenerator::SetFrequency(0.01f);
 	Hi_Engine::NoiseGenerator::SetFrequency(0.06f);
 	Hi_Engine::NoiseGenerator::SetNoiseType(3);
 

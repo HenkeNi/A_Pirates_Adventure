@@ -9,11 +9,12 @@ public:
 	~HUDSystem();
 
 	void Receive(Message& message)	override;
-	void Update(float deltaTime)	override;
 	void SetSignature()				override;
 
 private:
 	void SetupHUDElements(); // maybe should be done dynamically (at runtime) rather than at game start?
+	void UpdateCursorTexture(Entity entity, bool isAiming);
+
 	void UpdateHealthDisplay(Entity entity);
 	void UpdateInventoryBar();
 };

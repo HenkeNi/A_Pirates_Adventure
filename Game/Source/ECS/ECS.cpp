@@ -10,30 +10,37 @@ ECS::ECS()
 
 void ECS::Init()
 {
+	m_entityFactory.LoadBlueprints();
 }
 
 void ECS::Shutdown() 
 {
-	m_systemManager.Clear();
+	m_systemManager.RemoveAllSystem();
 	DestroyAllEntities();
 }
 
-System* ECS::CreateSystem(const char* type)
+std::weak_ptr<System> ECS::GetSystem(const char* system)
 {
-	if (auto* system = m_systemFactory.Create(type))
-	{
-		m_systemManager.AddSystem(system);
-		return system;
-	}
-
-	return nullptr;
+	return m_systemManager.GetSystem(system);
 }
 
-Entity ECS::CreateEntity(const char* type)
+//System* ECS::CreateSystem(const char* type)
+//{
+//	if (auto* system = m_systemFactory.Create(type))
+//	{
+//		m_systemManager.AddSystem(system);
+//		return system;
+//	}
+//
+//	return nullptr;
+//}
+
+Entity ECS::CreateEntity(const char* type, bool notify)
 {
 	Entity entity = m_entityFactory.Create(type);
-	PostMaster::GetInstance().SendMessage({ eMessage::EntityCreated, entity });
-	// TODO; update signature (event?)
+
+	if (notify)
+		PostMaster::GetInstance().SendMessage({ eMessage::EntityCreated, entity });
 
 	return entity;
 }
@@ -71,10 +78,10 @@ void ECS::DestroyEntity(Entity entity)
 	m_entityManager.Destroy(entity);
 }
 
-void ECS::DestroySystems()
-{
-	m_systemManager.Clear();
-}
+//void ECS::DestroySystems()
+//{
+//	//m_systemManager.Clear();
+//}
 
 
 std::vector<Entity> ECS::FindEntities(const Signature& signature)
@@ -89,18 +96,18 @@ std::optional<Entity> ECS::FindEntity(const Signature& signature)
 	return entity;
 }
 
-void ECS::LoadBlueprints()
-{
-	const char* path = "../Game/Assets/Json/Blueprints/blueprint_manifest.json";
-
-	auto document = Hi_Engine::ParseDocument(path);
-
-	for (auto& path : document["blueprints"].GetArray())
-	{
-		std::string blueprintPath = path.GetString();
-		m_entityFactory.LoadBlueprint(blueprintPath);
-	}
-}
+//void ECS::LoadBlueprints()
+//{
+//	const char* path = "../Game/Assets/Json/Blueprints/blueprint_manifest.json";
+//
+//	auto document = Hi_Engine::ParseDocument(path);
+//
+//	for (auto& path : document["blueprints"].GetArray())
+//	{
+//		std::string blueprintPath = path.GetString();
+//		m_entityFactory.LoadBlueprint(blueprintPath);
+//	}
+//}
 
 void ECS::Serialize()
 {

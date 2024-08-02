@@ -7,8 +7,6 @@
 #include "ECSTypes.h"
 #include "Components/ComponentInitializer.h"
 
-
-
 // class ECS_Engine
 class ECS
 {
@@ -47,12 +45,12 @@ public:
 	template <typename... Components>
 	Signature GetSignature();
 
+	template <typename T>
+	std::weak_ptr<System> GetSystem();
 
-	System* CreateSystem(const char* type);
+	std::weak_ptr<System> GetSystem(const char* system);
 
-	Entity CreateEntity(const char* type);
-
-
+	Entity CreateEntity(const char* type, bool notify = true); // bool defered spawn?
 
 	// Entity CreateEntity(const char* type, const rapidjson::Value& value);
 
@@ -61,8 +59,6 @@ public:
 	void DestroyAllEntities();
 
 	void DestroyEntity(Entity entity);
-
-	void DestroySystems();
 
 	std::vector<Entity> FindEntities(const Signature& signature);
 
@@ -74,10 +70,9 @@ public:
 	//template <typename Component>
 	//Entity FindEntity();
 
-	// GetSystem?
 
 	// HERE???
-	void LoadBlueprints();
+	//void LoadBlueprints();
 
 	//template <typename... Components>
 	//void SetSignature(class System* system);
@@ -86,43 +81,9 @@ public:
 
 	void Deserialize();
 
-	
-	
-
-	//template <typename T>
-	//inline void Add(Entity entity) // used??
-	//{
-	//	m_componentManager.AddComponent<T>(entity);
-	//	
-	//	ComponentType componentType = m_componentManager.GetComponentTypes<T>();
-	//		
-	//	Signature signature = m_entityManager.GetSignature(entity);
-	//	signature.set(componentType);
-	//	
-	//	m_entityManager.SetSignature(entity, signature);
-	//}
-
-	//template <typename T>
-	//void AddComponent(Entity entity);
-
-
-	
 
 	// TODO; have function tha tdoes both??
 	void InitializeComponent(Entity entity, const char* component, const ComponentProperties& properties);
-
-
-
-
-	
-	//template <typename... Components>
-	//std::vector<ComponentType> GetComponentTypes() const; // put in ComponentManager???
-
-	//template <typename Component>
-	//ComponentType GetComponentType() const; // put in COmponentMangaer???
-
-	//template <typename... Component>
-	//void AddSignature()
 
 private:
 	EntityManager m_entityManager;
@@ -132,7 +93,7 @@ private:
 	ComponentRegistry m_componentRegistry;
 
 	SystemManager m_systemManager;
-	SystemFactory m_systemFactory;
+	SystemFactory m_systemFactory; // Remove? 
 };
 
 #pragma region Method_Definitions
@@ -140,7 +101,11 @@ private:
 template<typename T>
 inline void ECS::RegisterSystem(const char* type)
 {
-	m_systemFactory.Register<T>(type);
+	m_systemManager.RegisterSystem<T>(type);
+	auto system = m_systemManager.GetSystem<T>().lock();
+	system->Init(this);
+
+	//m_systemFactory.Register<T>(type);
 }
 
 template<typename T>
@@ -169,37 +134,29 @@ inline void ECS::AddComponent(Entity entity)
 	((signature.set(m_componentManager.GetComponentType<T>())), ...);
 
 	m_entityManager.SetSignature(entity, signature);
-
-	//(AddComponent<T>(entity), ...);
 }
-
-//template <typename T>
-//inline void ECS::AddComponent(Entity entity)
-//{
-//	m_componentManager.AddComponent<T>(entity);
-//
-//	ComponentType componentType = m_componentManager.GetComponentTypes<T>();
-//	
-//	Signature signature = m_entityManager.GetSignature(entity);
-//	signature.set(componentType);
-//
-//	m_entityManager.SetSignature(entity, signature);
-//}
 
 template<typename ...T>
 inline bool ECS::HasComponent(Entity entity) const
 {
-	// auto signature = m_entityManager.GetSignature(entity);
+	Signature entitySignature = m_entityManager.GetSignature(entity);
 
-	// signature.
+	Signature componentSignature;
 
-	return false;
+	((componentSignature.set(m_componentManager.GetComponentType<T>())), ...);
+
+	return (entitySignature & componentSignature) == componentSignature;
 }
 
 template<typename T>
 inline void ECS::RemoveComponent(Entity entity)
 {
 	m_componentManager.RemoveComponent<T>(entity);
+
+	Signature signature = m_entityManager.GetSignature(entity);
+	signature.set(m_componentManager.GetComponentType<T>(), false);
+
+	m_entityManager.SetSignature(entity, signature);
 }
 
 template <typename T>
@@ -253,6 +210,12 @@ inline Signature ECS::GetSignature()
 	((signature.set(m_componentManager.GetComponentType<Components>())), ...);
 
 	return signature;
+}
+
+template<typename T>
+inline std::weak_ptr<System> ECS::GetSystem()
+{
+	return m_systemManager.GetSystem<T>();
 }
 
 //template<typename ...Components>

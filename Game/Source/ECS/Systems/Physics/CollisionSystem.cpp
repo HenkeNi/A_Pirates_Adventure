@@ -1,6 +1,5 @@
 #include "Pch.h"
 #include "CollisionSystem.h"
-#include "Entities/EntityManager.h"
 #include "Components/Core/CoreComponents.h"
 #include "../Utility/Map/MapUtils.h"
 #include "Components/AI/AIComponents.h"
@@ -13,17 +12,17 @@
 CollisionSystem::CollisionSystem()
 	: System{ 1 }
 {
-	PostMaster::GetInstance().Subscribe(eMessage::EntitySpawned, this); // Listen to entity initialized
+	PostMaster::GetInstance().Subscribe(eMessage::EntityCreated, this); // Listen to entity initialized
 }
 
 CollisionSystem::~CollisionSystem()
 {
-	PostMaster::GetInstance().Unsubscribe(eMessage::EntitySpawned, this);
+	PostMaster::GetInstance().Unsubscribe(eMessage::EntityCreated, this);
 }
 
 void CollisionSystem::Receive(Message& message)
 {
-	if (message.GetMessageType() != eMessage::EntitySpawned)
+	if (message.GetMessageType() != eMessage::EntityCreated)
 		return;
 
 	auto entity = std::any_cast<Entity>(message.GetData());
@@ -491,7 +490,7 @@ void CollisionSystem::HandleEntityCollisions(std::vector<Entity>& entities)
 		Entity source = entities[i];
 		auto* sourceColliderComponent = m_ecs->GetComponent<ColliderComponent>(source);
 
-		if (!sourceColliderComponent->IsActive || sourceColliderComponent->Type != eColliderType::Dynamic)
+		if (!sourceColliderComponent || !sourceColliderComponent->IsActive || sourceColliderComponent->Type != eColliderType::Dynamic)
 			continue;
 
 		for (int j = i + 1; j < entities.size(); ++j)
@@ -499,15 +498,13 @@ void CollisionSystem::HandleEntityCollisions(std::vector<Entity>& entities)
 			Entity target = entities[j];
 			auto* targetColliderComponent = m_ecs->GetComponent<ColliderComponent>(target);
 
-			if (!targetColliderComponent->IsActive)
+			if (!targetColliderComponent || !targetColliderComponent->IsActive)
 				continue;
 
 			if (CanCollide(source, target))
 			{
 				if (Hi_Engine::Physics::Intersects(sourceColliderComponent->Collider, targetColliderComponent->Collider)) // Make intersects more generic? no need for aabb class?
 				{
-					std::cout << "Intersects\n";
-
 					sourceColliderComponent->CollidingEntities.push_back(target);
 					targetColliderComponent->CollidingEntities.push_back(source);
 

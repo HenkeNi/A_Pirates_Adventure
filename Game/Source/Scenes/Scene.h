@@ -23,6 +23,6 @@ protected:
 	friend class SceneManager;
 
 	//SharedContext m_sharedContext;
-	std::vector<class System*> m_systems;
+	std::vector<std::weak_ptr<class System>> m_systems;
 	ECS& m_ecs;
 };

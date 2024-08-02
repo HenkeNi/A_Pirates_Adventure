@@ -58,6 +58,7 @@ namespace Registration
 		ecs.RegisterComponent<EnvironmentComponent>("Environment");
 
 		ecs.RegisterComponent<AttackComponent>("Attack");
+		ecs.RegisterComponent<AttackCooldownComponent>("AttackCooldown");
 		ecs.RegisterComponent<ProjectileComponent>("Projectile");
 		ecs.RegisterComponent<ResourceComponent>("Resource");
 		ecs.RegisterComponent<CharacterStateComponent>("CharacterState");

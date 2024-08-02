@@ -166,7 +166,7 @@
       {
         "type": "Spawner",
         "properties": {
-          "spawned": "stone_resource",
+          "spawned": "StoneResource",
           "amount": 5,
           "interval": 0.0
         }

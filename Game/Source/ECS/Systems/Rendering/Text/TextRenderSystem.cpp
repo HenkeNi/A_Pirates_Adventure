@@ -3,7 +3,7 @@
 #include "Components/Core/CoreComponents.h"
 #include "ECS.h"
 
-//#include "Entities/EntityManager.h"
+
 TextRenderSystem::TextRenderSystem()
 {
 }

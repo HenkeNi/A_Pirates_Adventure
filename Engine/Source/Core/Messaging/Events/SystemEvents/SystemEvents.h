@@ -2,7 +2,7 @@
 #include "../Base/Event.h"
 #include "../../../../Data/Enumerations.h"
 #include "../../../Input/InputTypes.h"
-//#include "Enum"
+
 
 namespace Hi_Engine
 {
@@ -36,7 +36,7 @@ namespace Hi_Engine
 	public:
 		WindowEvent();			// Overload new operatp`?? placement new?? 
 
-		void			Init(eWindowEvent type);
+		void			Init(eWindowEvent type, const UVector2& size);
 		void			Dispatch(EventListener& listener)	override;	// Put in base class?
 
 		eWindowEvent	GetEventType()						   const;

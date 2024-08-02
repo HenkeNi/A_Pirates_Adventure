@@ -14,23 +14,24 @@ InventoryScene::~InventoryScene()
 
 void InventoryScene::Update(float deltaTime)
 {
-	for (auto& system : m_systems)
+	for (auto& systemWeak : m_systems)
 	{
-		if (system)
+		if (auto system = systemWeak.lock())
+		{
 			system->Update(deltaTime);
+		}
 	}
-
-	//m_ecs.Update(deltaTime);
 }
 
 void InventoryScene::Draw() const
 {
-	for (auto& system : m_systems)
+	for (auto& systemWeak : m_systems)
 	{
-		if (system)
+		if (auto system = systemWeak.lock())
+		{
 			system->Draw();
+		}
 	}
-	//m_ecs.Draw();
 }
 
 void InventoryScene::OnEnter()

@@ -5,7 +5,7 @@
 namespace Hi_Engine
 {
 	PlaySoundEvent::PlaySoundEvent()
-		: Event{ ePriority::Moderate }
+		: Event{ ePriority::Moderate }, m_soundName{ "" }, m_isLooping{ false }
 	{
 	}
 
@@ -13,21 +13,16 @@ namespace Hi_Engine
 	{
 		listener.HandleEvent(*this);
 	}
-	
-	//void PlaySoundEvent::Init(const std::string& sound)
-	void PlaySoundEvent::Init(AudioSource* source)
-	{
-		m_source = source;
-	}
 
-	//const std::string PlaySoundEvent::GetSoundName() const
-	//{
-	//	return m_soundName;
-	//}
+	void PlaySoundEvent::Init(const char* name)
+	{
+		m_soundName = name;
+	}
+	
 
 
 	StopSoundEvent::StopSoundEvent()
-		: Event{ ePriority::Moderate }
+		: Event{ ePriority::Moderate }, m_soundName{ "" }
 	{
 	}
 
@@ -36,20 +31,11 @@ namespace Hi_Engine
 		listener.HandleEvent(*this);
 	}
 
-	void StopSoundEvent::Init(AudioSource* source)
+	void StopSoundEvent::Init(const char* name)
 	{
-		m_source = source;
-	}
-	
-	/*void StopSoundEvent::Init(const std::string& sound)
-	{
-		m_soundName = sound;
-	}
+		m_soundName = name;
 
-	const std::string StopSoundEvent::GetSoundName() const
-	{
-		return m_soundName;
-	}*/
+	}
 
 
 	SetVolumeEvent::SetVolumeEvent()

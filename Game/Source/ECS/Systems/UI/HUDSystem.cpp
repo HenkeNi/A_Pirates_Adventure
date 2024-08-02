@@ -1,6 +1,5 @@
 #include "Pch.h"
 #include "HUDSystem.h"
-#include "Entities/EntityManager.h"
 #include "Components/Core/CoreComponents.h"
 #include "Components/Gameplay/GameplayComponents.h"
 #include "Components/AI/AIComponents.h"
@@ -11,72 +10,42 @@
 HUDSystem::HUDSystem()
 {
 	PostMaster::GetInstance().Subscribe(eMessage::GameStarted, this);
-	PostMaster::GetInstance().Subscribe(eMessage::EntityAttacked, this);
 	PostMaster::GetInstance().Subscribe(eMessage::ItemCollected, this);
+	PostMaster::GetInstance().Subscribe(eMessage::EntityEnteredAim, this);
+	PostMaster::GetInstance().Subscribe(eMessage::EntityExitedAim, this);
 }
 
 HUDSystem::~HUDSystem()
 {
 	PostMaster::GetInstance().Unsubscribe(eMessage::GameStarted, this);
-	PostMaster::GetInstance().Unsubscribe(eMessage::EntityAttacked, this);
 	PostMaster::GetInstance().Unsubscribe(eMessage::ItemCollected, this);
+	PostMaster::GetInstance().Unsubscribe(eMessage::EntityEnteredAim, this);
+	PostMaster::GetInstance().Unsubscribe(eMessage::EntityExitedAim, this);
+
 }
 
 void HUDSystem::Receive(Message& message)
 {
-	if (message.GetMessageType() == eMessage::GameStarted)
+	assert(m_ecs && "[HUDSysten - ERROR]: ECS is not initialized!");
+
+	switch (message.GetMessageType())
 	{
+	case eMessage::GameStarted:
 		SetupHUDElements();
+		break;
+	case eMessage::ItemCollected:
+		UpdateInventoryBar();
+		break;
+	case eMessage::EntityAttacked:
+		UpdateHealthDisplay(std::any_cast<Entity>(message.GetData()));
+		break;
+	case eMessage::EntityEnteredAim:
+		UpdateCursorTexture(std::any_cast<Entity>(message.GetData()), true);
+		break;
+	case eMessage::EntityExitedAim:
+		UpdateCursorTexture(std::any_cast<Entity>(message.GetData()), false);
+		break;
 	}
-
-	if (message.GetMessageType() == eMessage::EntityAttacked)
-	{
-		auto entity = std::any_cast<Entity>(message.GetData());
-		if (m_ecs->GetComponent<PlayerControllerComponent>(entity))
-		{
-			UpdateHealthDisplay(entity);
-
-		}
-	}
-
-	if (message.GetMessageType() == eMessage::ItemCollected)
-	{
-		// auto* inventory = m_entityManager->FindFirst<InventoryComponent>();
-
-	}
-
-	// Get player's health?
-
-	// player hit event?
-
-	// listen for entity attacked...
-
-	// update size of Healthbar...
-
-	// TODO DO IN SOME OTHER SYSTME?
-	// TODO: Send event instead!!!
-}
-
-void HUDSystem::Update(float deltaTime)
-{
-	assert(m_ecs && "ERROR: EntityManager is nullptr!");
-
-	// if aiming...  (do with event instead)?
-	auto player = m_ecs->FindEntity(m_signatures["Player"]);
-	if (!player.has_value())
-		return;
-
-	auto cursor = m_ecs->FindEntity(m_signatures["Cursor"]);
-	if (!cursor.has_value())
-		return;
-
-	// press 1 to test...
-	auto* characterStateComponent = m_ecs->GetComponent<CharacterStateComponent>(player.value());
-	auto* spriteComponent = m_ecs->GetComponent<SpriteComponent>(cursor.value());
-
-	std::string texture = characterStateComponent->IsAiming ? "crosshair" : "mouse_icon";
-
-	spriteComponent->Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ texture, 0, 0 });
 }
 
 void HUDSystem::SetSignature()
@@ -87,9 +56,6 @@ void HUDSystem::SetSignature()
 
 void HUDSystem::SetupHUDElements()
 {
-	if (!m_ecs)
-		return;
-
 	auto player = m_ecs->FindEntity(m_signatures["Player"]);
 	if (!player.has_value())
 		return;	
@@ -98,33 +64,51 @@ void HUDSystem::SetupHUDElements()
 	UpdateInventoryBar();
 }
 
+void HUDSystem::UpdateCursorTexture(Entity entity, bool isAiming)
+{
+	auto player = m_ecs->FindEntity(m_signatures["Player"]);
+	if (!player.has_value())
+		return;
+
+	auto cursor = m_ecs->FindEntity(m_signatures["Cursor"]);
+	if (!cursor.has_value())
+		return;
+
+	std::string resource = isAiming ? "crosshair" : "mouse_icon";
+	auto* texture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ resource, 0, 0 });
+	
+	auto* spriteComponent = m_ecs->GetComponent<SpriteComponent>(cursor.value());
+	spriteComponent->Subtexture = texture;
+}
+
 void HUDSystem::UpdateHealthDisplay(Entity entity)
 {
-	auto* healthComponent = m_ecs->GetComponent<HealthComponent>(entity); // OR stats component (check health)
+	// check tag instead?
+	if (!m_ecs->HasComponent<PlayerControllerComponent>(entity))
+		return;
 
+	auto* healthComponent = m_ecs->GetComponent<HealthComponent>(entity);
 	if (!healthComponent)
 		return;
 
-	// TODO; Get entities with Hudcomponent (that are hearts), set if should be rendered based on players health...
+	IVector2 windowSize = Hi_Engine::ServiceLocator::GetWindow().lock()->GetSize();
 
-	IVector2 windowSize{ 1400, 800 };
+	// TODO; Store hearts in a grid
 
-	auto window = Hi_Engine::ServiceLocator::GetWindow();
-	if (auto win = window.lock())
-	{
-		windowSize = win->GetSize();
-	}
-
-	// Set visibility only? Read from json!?
-	for (int i = 0; i < healthComponent->CurrentValue; ++i)
+	for (int i = 0; i < healthComponent->MaxHealth; ++i)
 	{
 		Entity heart = m_ecs->CreateEntity("HeartContainer");
 
 		auto* transformComponent = m_ecs->GetComponent<TransformComponent>(heart);
-		float xOffset = transformComponent->Scale.x;
-		float yOffset = windowSize.y - transformComponent->Scale.y;
 
-		transformComponent->CurrentPos = { xOffset + (i * transformComponent->Scale.x), yOffset };
+		static const float offsetSide = 50.f;
+		static const float offsetTop = 50.f;
+
+		float offset = transformComponent->Scale.x;
+		transformComponent->CurrentPos.x = (offsetSide + (offset * (float)i)) / windowSize.x;
+
+		float yPosition = windowSize.y - offsetTop;
+		transformComponent->CurrentPos.y = yPosition / windowSize.y;		
 	}
 }
 
@@ -135,12 +119,5 @@ void HUDSystem::UpdateInventoryBar()
 	auto window = Hi_Engine::ServiceLocator::GetWindow();
 	if (auto win = window.lock())
 	{
-
-
-		//auto* transformComponent = inventoryBar->GetComponent<TransformComponent>();
-		//transformComponent->CurrentPos.x = 0.5f;
-		//transformComponent->CurrentPos.x = win->GetSize().x * 0.5f;
-		//transformComponent->CurrentPos.y = 50.f;
 	}
-
 }

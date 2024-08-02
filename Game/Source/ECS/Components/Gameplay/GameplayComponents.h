@@ -252,6 +252,12 @@ struct AttackComponent : public Component
 	// bool								IsEnabled;
 };
 
+struct AttackCooldownComponent
+{
+	const float Duration = 0.25f;
+	float Remaining = 0.f;
+};
+
 struct WeaponComponent : public Component // gun component?
 {
 	float	AttackRange;

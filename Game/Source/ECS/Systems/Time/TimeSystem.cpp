@@ -1,9 +1,7 @@
 #include "Pch.h"
 #include "TimeSystem.h"
-#include "ECS/ECS.h"
 #include "Components/Utility/UtilityComponents.h"
-
-//#include "Entities/EntityManager.h"
+#include "ECS/ECS.h"
 
 
 TimeSystem::TimeSystem()

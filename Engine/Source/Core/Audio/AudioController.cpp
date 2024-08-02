@@ -40,15 +40,15 @@ namespace Hi_Engine
 	void AudioController::Update()
 	{
 		if (m_activeSounds.at(1)->isFinished())
-			std::cout << "Sounds is finise\n";
+			std::cout << "Sounds is finise\n"; // send evnet?
 			//m_activeSounds.at(1)->stop();
 	}
 
 	void AudioController::HandleEvent(PlaySoundEvent& event)
 	{
-		if (auto* source = event.GetSource())
+		if (auto sound = event.GetSoundName())
 		{
-			PlaySound(*source);
+			PlaySound(sound);
 		}
 
 		//PlaySound(event.GetAudio());
@@ -56,9 +56,9 @@ namespace Hi_Engine
 
 	void AudioController::HandleEvent(StopSoundEvent& event)
 	{
-		if (auto* source = event.GetSource())
+		if (auto sound = event.GetSoundName())
 		{
-			StopSound(*source);
+			StopSound(sound);
 		}
 	}
 
@@ -79,24 +79,30 @@ namespace Hi_Engine
 		m_soundEngine->stopAllSoundsOfSoundSource(sound.m_source);
 	}*/
 
-	void AudioController::PlaySound(AudioSource& source)
+	void AudioController::PlaySound(const char* sound)
 	{
+		auto* audio = &ResourceHolder<AudioSource>::GetInstance().GetResource(sound);
+		m_soundEngine->play2D(audio->GetSource(), false);
+
 		//if (auto* audioSource = audio.GetSource())
-		if (auto* audioSource = source.m_source)
-		{
-			auto* sound = m_soundEngine->play2D(audioSource, false);
-			//auto* sound = m_soundEngine->play2D(audioSource, audio.IsLooping());
-			//audio.SetSound(sound);
-		}
+		//if (auto* audioSource = source.m_source)
+		//{
+		//	auto* sound = m_soundEngine->play2D(audioSource, false);
+		//	//auto* sound = m_soundEngine->play2D(audioSource, audio.IsLooping());
+		//	//audio.SetSound(sound);
+		//}
 
 		//audio.Play(m_soundEngine); // DonT? Instead just get / set the data in audio?
 
 		// add to array of current sounds??
 	}
 
-	void AudioController::StopSound(AudioSource& source)
+	void AudioController::StopSound(const char* sound)
 	{
-		m_soundEngine->stopAllSoundsOfSoundSource(source.m_source);
+		auto* audio = &ResourceHolder<AudioSource>::GetInstance().GetResource(sound);
+		m_soundEngine->stopAllSoundsOfSoundSource(audio->GetSource());
+
+
 		// audio.m_sound->stop();
 		//audio.GetSound()->stop();
 

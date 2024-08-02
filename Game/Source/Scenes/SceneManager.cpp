@@ -137,7 +137,7 @@ void SceneManager::LoadScene(eScene type)
 	activeScene->m_systems.clear();
 
 	auto& ecs = activeScene->m_ecs;
-	ecs.DestroySystems();
+	//ecs.DestroySystems();
 
 	auto foundPath = scenePaths.find(type);
 	if (foundPath == scenePaths.end())
@@ -151,16 +151,22 @@ void SceneManager::LoadScene(eScene type)
 
 		if (isSystemAvailable)
 		{
-			auto* created = ecs.CreateSystem(system["type"].GetString());			
-			activeScene->m_systems.push_back(created);
+			auto systemType = system["type"].GetString();
+			
+			auto found = ecs.GetSystem(systemType); // TODO; check nullptr
+			activeScene->m_systems.push_back(found);
 		}
 	}
+
+	// read sounds as well?
+
+	// sort systems here??
 
 	for (const auto& jsonEntity : document["entities"].GetArray())
 	{
 		const char* id = jsonEntity["entity_id"].GetString();
 		
-		Entity entity = ecs.CreateEntity(id);
+		Entity entity = ecs.CreateEntity(id, false);
 
 		if (!jsonEntity.HasMember("components_data"))
 			continue;
@@ -177,6 +183,6 @@ void SceneManager::LoadScene(eScene type)
 			ecs.InitializeComponent(entity, component["type"].GetString(), componentProperties);
 		}
 
-		PostMaster::GetInstance().SendMessage({ eMessage::EntitySpawned, entity }); // FIX!?
+		PostMaster::GetInstance().SendMessage({ eMessage::EntityCreated, entity }); // FIX!?
 	}
 }

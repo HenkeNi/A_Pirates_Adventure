@@ -14,19 +14,23 @@ TitleScene::~TitleScene()
 
 void TitleScene::Update(float deltaTime)
 {
-	//m_ecs.Update(deltaTime);
-	for (auto& system : m_systems)
+	for (auto& systemWeak : m_systems)
 	{
-		system->Update(deltaTime);
+		if (auto system = systemWeak.lock())
+		{
+			system->Update(deltaTime);
+		}
 	}
 }
 
 void TitleScene::Draw() const 
 {
-	//m_ecs.Draw();
-	for (auto& system : m_systems)
+	for (auto& systemWeak : m_systems)
 	{
-		system->Draw();
+		if (auto system = systemWeak.lock())
+		{
+			system->Draw();
+		}
 	}
 }
 

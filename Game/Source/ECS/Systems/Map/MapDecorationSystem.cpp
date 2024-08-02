@@ -1,6 +1,5 @@
 #include "Pch.h"
 #include "MapDecorationSystem.h"
-#include "Entities/EntityManager.h"
 #include "Components/Map/MapComponents.h"
 #include "Components/Core/CoreComponents.h"
 #include "Components/Gameplay/GameplayComponents.h"
@@ -25,10 +24,13 @@ MapDecorationSystem::~MapDecorationSystem()
 
 void MapDecorationSystem::Receive(Message& message)
 {
-	auto mapChunk = std::any_cast<Entity>(message.GetData());
+	auto entity = std::any_cast<Entity>(message.GetData());
 
-	GenerateResources(mapChunk);
-	// PopulateWithFoilage(mapChunk);
+	if (m_ecs->HasComponent<MapChunkComponent>(entity))
+	{
+		GenerateResources(entity);
+		// PopulateWithFoilage(mapChunk);
+	}
 }
 
 void MapDecorationSystem::Update(float deltaTime)
@@ -64,7 +66,7 @@ void MapDecorationSystem::GenerateResources(Entity entity)
 			std::string type = types[index];
 			if (type != "Empty")
 			{
-				spawnedResource = m_ecs->CreateEntity(type.c_str());
+				spawnedResource = m_ecs->CreateEntity(type.c_str(), false);
 				hasSpawned = true;
 			}
 		}
@@ -80,7 +82,7 @@ void MapDecorationSystem::GenerateResources(Entity entity)
 			std::string type = types[index];
 			if (type != "Empty")
 			{
-				spawnedResource = m_ecs->CreateEntity(type.c_str());
+				spawnedResource = m_ecs->CreateEntity(type.c_str(), false);
 				hasSpawned = true;
 			}
 		}
@@ -90,7 +92,7 @@ void MapDecorationSystem::GenerateResources(Entity entity)
 			auto position = transformComponent->CurrentPos;
 			
 			m_ecs->GetComponent<TransformComponent>(spawnedResource)->CurrentPos = { position.x + (tile.Coordinates.x * Tile::Size), position.y + (tile.Coordinates.y * Tile::Size) };;
-			PostMaster::GetInstance().SendMessage({ eMessage::EntitySpawned, spawnedResource });
+			PostMaster::GetInstance().SendMessage({ eMessage::EntityCreated, spawnedResource });
 		}
 
 	}
@@ -111,7 +113,7 @@ void MapDecorationSystem::PopulateWithFoilage(Entity mapChunk)
 
 			for (unsigned i = 0; i < amount; ++i)
 			{
-				Entity entity = m_ecs->CreateEntity(type.c_str());
+				Entity entity = m_ecs->CreateEntity(type.c_str(), false);
 				auto* transform = m_ecs->GetComponent<TransformComponent>(entity);
 
 				//auto sizet = entity->GetComponent<SpriteComponent>()->Subtexture->GetSize(); // TEMP..
@@ -134,7 +136,7 @@ void MapDecorationSystem::PopulateWithFoilage(Entity mapChunk)
 				//static float size = 0.2f;
 				//colliderComponent->Collider.Init({ position.x - size, position.y - size }, { position.x + size, position.y + size });
 
-				PostMaster::GetInstance().SendMessage({ eMessage::EntitySpawned, entity });
+				PostMaster::GetInstance().SendMessage({ eMessage::EntityCreated, entity });
 			}
 		};
 

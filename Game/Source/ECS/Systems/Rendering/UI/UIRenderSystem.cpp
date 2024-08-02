@@ -6,7 +6,6 @@
 #include "Components/Gameplay/GameplayComponents.h"
 
 #include "../../../../../../ThirdParty/glm/ext/matrix_clip_space.hpp"
-//#include "Entities/EntityManager.h"
 
 
 UIRenderSystem::UIRenderSystem()

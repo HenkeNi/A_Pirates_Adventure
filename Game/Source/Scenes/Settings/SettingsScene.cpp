@@ -14,31 +14,35 @@ SettingsScene::~SettingsScene()
 
 void SettingsScene::Update(float deltaTime)
 {
-	//m_ecs.Update(deltaTime);
-	for (auto& system : m_systems)
+	for (auto& systemWeak : m_systems)
 	{
-		system->Update(deltaTime);
+		if (auto system = systemWeak.lock())
+		{
+			system->Update(deltaTime);
+		}
 	}
 }
 
 void SettingsScene::Draw() const
 {
-	//m_ecs.Draw();
-	for (auto& system : m_systems)
+	for (auto& systemWeak : m_systems)
 	{
-		system->Draw();
+		if (auto system = systemWeak.lock())
+		{
+			system->Draw();
+		}
 	}
 }
 
 void SettingsScene::OnEnter()
 {
-	// TODO; read from json...?
-	//Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::PlaySoundEvent>("night_ambience");
+	// Music component instead?
+	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::PlaySoundEvent>("night_ambience");
 }
 
 void SettingsScene::OnExit()
 {
 	m_ecs.DestroyAllEntities();
 
-	//Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::StopSoundEvent>("night_ambience");
+	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::StopSoundEvent>("night_ambience");
 }

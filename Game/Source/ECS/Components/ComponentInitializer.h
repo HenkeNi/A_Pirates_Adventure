@@ -151,7 +151,7 @@ public:
 	template <>
 	inline static void InitializeComponent(HealthComponent* component, const ComponentProperties& properties)
 	{
-		component->CurrentValue = std::get<int>(properties.at("value"));
+		component->CurrentValue = component->MaxHealth = std::get<int>(properties.at("value"));
 		component->IsInvincible = false; // FIX!
 	}
 

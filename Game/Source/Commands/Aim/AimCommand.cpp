@@ -16,6 +16,7 @@ void AimCommand::Execute(Entity entity, ECS& ecs)
 	if (auto* characterStateComponent = ecs.GetComponent<CharacterStateComponent>(entity))
 	{
 		characterStateComponent->IsAiming = true;
+		PostMaster::GetInstance().SendMessage({ eMessage::EntityEnteredAim, entity });
 	}
 
 	///std::cout << "AIM!!";
@@ -28,6 +29,7 @@ void AimCommand::Undo(Entity entity, ECS& ecs)
 	if (auto* characterStateComponent = ecs.GetComponent<CharacterStateComponent>(entity))
 	{
 		characterStateComponent->IsAiming = false;
+		PostMaster::GetInstance().SendMessage({ eMessage::EntityExitedAim, entity });
 	}
 }
 

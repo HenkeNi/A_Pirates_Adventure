@@ -11,23 +11,50 @@ EntityFactory::EntityFactory(ECS& ecs)
 EntityFactory::~EntityFactory()
 {
 }
-	
-void EntityFactory::LoadBlueprint(const std::string& path)
+
+void EntityFactory::LoadBlueprints()
 {
+	const char* path = "../Game/Assets/Json/Blueprints/blueprint_manifest.json";
+
 	auto document = Hi_Engine::ParseDocument(path);
 
-	if (document.IsArray())
+	for (auto& path : document["blueprints"].GetArray())
 	{
-		for (const auto& blueprint : document.GetArray())
+		std::string blueprintPath = path.GetString();
+
+		auto document = Hi_Engine::ParseDocument(blueprintPath);
+
+		if (document.IsArray())
 		{
-			ConstructBlueprint(blueprint);
+			for (const auto& blueprint : document.GetArray())
+			{
+				ConstructBlueprint(blueprint);
+			}
+		}
+		else if (document.IsObject())
+		{
+			ConstructBlueprint(document);
 		}
 	}
-	else if (document.IsObject())
-	{
-		ConstructBlueprint(document);
-	}
+
 }
+	
+//void EntityFactory::LoadBlueprint(const std::string& path)
+//{
+//	auto document = Hi_Engine::ParseDocument(path);
+//
+//	if (document.IsArray())
+//	{
+//		for (const auto& blueprint : document.GetArray())
+//		{
+//			ConstructBlueprint(blueprint);
+//		}
+//	}
+//	else if (document.IsObject())
+//	{
+//		ConstructBlueprint(document);
+//	}
+//}
 
 void EntityFactory::ConstructBlueprint(const rapidjson::Value& value)
 {
@@ -53,28 +80,27 @@ Entity EntityFactory::Create(const char* name)
 
 		if (!properties.empty()) // Todo, also put checks in ComponentInitailizer!
 			m_ecs.InitializeComponent(entity, component.c_str(), properties);
-		//ComponentInitializer::InitializeComponent<T>(void*, properties);
 	}
 
 	return entity;
 }
 
-Entity EntityFactory::Create(const char* name, const rapidjson::Value& value)
-{
-	Entity entity = m_ecs.CreateEmptyEntity();
-
-	auto blueprint = m_blueprints.find(name);
-
-	assert(blueprint != m_blueprints.end() && "Blueprint not found");
-
-	
-	for (const auto& component : value["components_data"].GetArray())
-	{
-
-	}
-
-	return entity;
-}
+//Entity EntityFactory::Create(const char* name, const rapidjson::Value& value)
+//{
+//	Entity entity = m_ecs.CreateEmptyEntity();
+//
+//	auto blueprint = m_blueprints.find(name);
+//
+//	assert(blueprint != m_blueprints.end() && "Blueprint not found");
+//
+//	
+//	for (const auto& component : value["components_data"].GetArray())
+//	{
+//
+//	}
+//
+//	return entity;
+//}
 
 //Entity EntityFactory::CreateFromBlueprint(const EntityBlueprint& blueprint)
 //{

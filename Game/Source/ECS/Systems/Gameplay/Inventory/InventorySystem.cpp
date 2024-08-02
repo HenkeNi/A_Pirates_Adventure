@@ -30,12 +30,18 @@ void InventorySystem::Receive(Message& message)
 	CollectableComponent* collectableComponent = nullptr;
 
 	// assure entities are an equippable item and an actor with equipment
-	for (auto& entity : entities)
+	for (auto entity : entities)
 	{
 		if (m_ecs->HasComponent<InventoryComponent>(entity))
+		{
 			player = entity;
+			inventoryComponent = m_ecs->GetComponent<InventoryComponent>(entity);
+		}
 		else if (m_ecs->HasComponent<CollectableComponent>(entity))
+		{
 			collectable = entity;
+			collectableComponent = m_ecs->GetComponent<CollectableComponent>(entity);
+		}
 	}
 
 	if (!inventoryComponent || !collectableComponent)
@@ -50,10 +56,13 @@ void InventorySystem::Receive(Message& message)
 	{
 		auto* collectableComponent = m_ecs->GetComponent<CollectableComponent>(collectable);
 		collectableComponent->IsCollected = true;
+
+		PostMaster::GetInstance().SendMessage({ eMessage::ItemCollected, collectable }); // Before destroy??
+		
+		m_ecs->DestroyEntity(collectable);
 		// m_entityManager->Destroy(collectable->GetID()); -- do in a clean up system?
 		message.HandleMessage(); // rename MarkAsHandled(); ??
 
-		PostMaster::GetInstance().SendMessage({ eMessage::ItemCollected, collectable });
 	}
 }
   
@@ -61,19 +70,21 @@ void InventorySystem::Update(float deltaTime)
 {
 	assert(m_ecs && "ERROR: ECS is nullptr!");
 
+	// D0 all of this in recive?
+
 	// Clean up collected items
-	std::vector<Entity> collectedEntities;
+	//std::vector<Entity> collectedEntities;
 
-	auto entities = m_ecs->FindEntities(m_signatures["Collectables"]);
-	for (auto entity : entities)
-	{
-		auto* collectableComponent = m_ecs->GetComponent<CollectableComponent>(entity);
-		if (collectableComponent->IsCollected)
-			collectedEntities.push_back(entity);
-	}
+	//auto entities = m_ecs->FindEntities(m_signatures["Collectables"]);
+	//for (auto entity : entities)
+	//{
+	//	auto* collectableComponent = m_ecs->GetComponent<CollectableComponent>(entity);
+	//	if (collectableComponent->IsCollected)
+	//		collectedEntities.push_back(entity);
+	//}
 
-	for (const auto& entity : collectedEntities)
-		m_ecs->DestroyEntity(entity);
+	//for (const auto& entity : collectedEntities)
+	//	m_ecs->DestroyEntity(entity);
 }
 
 void InventorySystem::SetSignature()

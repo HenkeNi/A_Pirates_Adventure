@@ -22,4 +22,6 @@ private:
 	// std::vector<Entity*>	GetNearbyEntities()							const;
 	bool		ApplyDamageOutput(Entity entity, unsigned damage);
 	void		ApplyKnockback(Entity source, Entity target);
+
+	void UpdateAttackCooldowns(float deltaTime);
 };

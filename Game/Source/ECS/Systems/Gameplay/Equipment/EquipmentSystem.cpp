@@ -17,11 +17,13 @@ EquipmentSystem::~EquipmentSystem()
 
 void EquipmentSystem::Receive(Message& message)
 {
-	if (message.GetMessageType() != eMessage::EntitiesCollided) // TODO: called each frame!
+	if (message.GetMessageType() != eMessage::EntitiesCollided)
 		return;
 
 	auto entities = std::any_cast<std::vector<Entity>>(message.GetData()); // Dont pass colliding entities?
 	
+	// Todo; check tag component (if Item)?
+
 	EquipmentComponent* equipmentComponent = nullptr;
 	EquippableComponent* equippableComponent = nullptr;
 	
@@ -33,13 +35,13 @@ void EquipmentSystem::Receive(Message& message)
 	{
 		if (auto* component = m_ecs->GetComponent<EquipmentComponent>(entity))
 		{
-			equipmentComponent ;
+			equipmentComponent = component;
 			owner = entity;
 		}
 		else if (auto* component = m_ecs->GetComponent<EquippableComponent>(entity))
 		{
-			item = entity;
 			equippableComponent = component;
+			item = entity;
 		}
 	}
 
@@ -50,14 +52,18 @@ void EquipmentSystem::Receive(Message& message)
 	//if (EquipItem(player, equippable))
 	{
 		equippableComponent->IsEquipped = true;
-		// remove equippable compoentn??
+
+		// remove equippable compoentn?? or just remove transform / sprite?
 
 		equipmentComponent->EquippedItemIDs[(int)eEquipmentSlot::Melee] = item;
 
 		auto* subEntitiesComponent = m_ecs->GetComponent<SubEntitiesComponent>(owner);
 		subEntitiesComponent->IDs.push_back(item);
 
+		// or remove entity?
 		m_ecs->RemoveComponent<CollectableComponent>(item);
+		//m_ecs->RemoveComponent<SpriteComponent>(item);
+		//m_ecs->RemoveComponent<TransformComponent>(item);
 
 		message.HandleMessage(); // rename MarkAsHandled(); ??
 		PostMaster::GetInstance().SendMessage({ eMessage::ItemCollected, item });
@@ -65,10 +71,6 @@ void EquipmentSystem::Receive(Message& message)
 
 	// sword, etc should have a pickup component?!
 	// if item was equiped...  or colliding with item (an not such slot is taken)
-}
-
-void EquipmentSystem::Update(float deltaTime)
-{
 }
 
 void EquipmentSystem::SetSignature()

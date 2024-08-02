@@ -1,7 +1,6 @@
 #include "Pch.h"
 #include "PlayerControllerSystem.h"
 #include "ECS.h"
-#include "Entities/EntityManager.h"
 #include "Components/Core/CoreComponents.h"
 #include "Components/Gameplay/GameplayComponents.h"
 
@@ -80,6 +79,10 @@ void PlayerControllerSystem::CleanUpCommands()
 			delete command;
 		}
 	}
+}
+
+void PlayerControllerSystem::UpdateCooldowns(Entity entity)
+{
 }
 
 void PlayerControllerSystem::UpdatePlayerState(Entity entity) // dO in commands?

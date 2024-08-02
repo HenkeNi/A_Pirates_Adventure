@@ -40,9 +40,11 @@ namespace Hi_Engine
 		listener.HandleEvent(*this);
 	}
 	
-	void WindowEvent::Init(eWindowEvent type)
+	void WindowEvent::Init(eWindowEvent type, const UVector2& size)
 	{
 		m_eventType = type;
+		m_windowSize = size;
+
 		m_isHandled = false;
 	}
 
