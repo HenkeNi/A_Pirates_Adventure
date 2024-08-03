@@ -1,14 +1,13 @@
 #pragma once
-#include "../Base/Component.h"
 
 
 /* ######################### UI ######################### */
-struct UIComponent : public Component
+struct UIComponent
 {
 	int RenderDepth = 0; // FIX!
 };
 
-struct ButtonComponent : public Component
+struct ButtonComponent
 {
 	std::string				Identifier;
 	FVector4				HoverColor = { 0.2f, 0.2f, 0.2f, 1.f };
@@ -19,11 +18,11 @@ struct ButtonComponent : public Component
 	//class Command* Command; // ??
 };
 
-struct CursorComponent : public Component
+struct CursorComponent
 {
 };
 
-struct GridComponent : public Component
+struct GridComponent
 {
 	// FVector2 CellSize;
 	IVector2 Dimensions; // grid class? or use inventory.. 
@@ -32,25 +31,25 @@ struct GridComponent : public Component
 };
 
 /* ######################### HUD ######################### */
-struct HUDComponent : public Component
+struct HUDComponent
 {
 };
 
-struct ItemComponent : public Component // TODO, create a separate file for hud?
+struct ItemComponent // TODO, create a separate file for hud?
 {
 	std::string Identifier;
 	std::string IconTexture;
 };
 
 // HERE?? Or maybe use two sprites instead?? add system HealthBarSystem?
-struct HealthBarComponent : public Component
+struct HealthBarComponent
 {
 	Hi_Engine::Material Container;
 	Hi_Engine::Material Bar;
 	// position? size?
 };
 
-struct CrosshairComponent : public Component
+struct CrosshairComponent
 {
 	// target? position?
 };

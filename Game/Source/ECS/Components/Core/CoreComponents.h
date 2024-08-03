@@ -1,9 +1,9 @@
 #pragma once
-#include "../Base/Component.h"
 #include <../Hi_Engine.h>
 #include "ECSTypes.h"
 
-struct TagComponent : public Component
+
+struct TagComponent
 {
 	enum class eEntityType
 	{
@@ -21,7 +21,7 @@ struct TagComponent : public Component
 
 
 // ############# Physics Components ############# //
-struct TransformComponent : public Component
+struct TransformComponent
 {
 	FVector2 CurrentPos		= { 0.f, 0.f };
 	FVector2 PreviousPos	= { 0.f, 0.f };
@@ -30,7 +30,7 @@ struct TransformComponent : public Component
 	float    Rotation		= 0.f;
 };
 
-struct VelocityComponent : public Component
+struct VelocityComponent
 {
 	FVector2 Velocity;
 	float	 Speed = 1.f;
@@ -38,7 +38,7 @@ struct VelocityComponent : public Component
 };
 
 // Rename BoxColliderComponent (or RectangleComponent)
-struct ColliderComponent : public Component
+struct ColliderComponent
 {
 	Hi_Engine::Physics::AABB2D<float>	Collider;
 	Offset								Offset;
@@ -58,13 +58,13 @@ struct ColliderComponent : public Component
 	bool								IsActive = true; // ?? or just remove component?
 };
 
-struct CircleColliderComponent : public Component
+struct CircleColliderComponent
 {
 };
 
 
 // ############# Rendering Components ############# //
-struct SpriteComponent : public Component
+struct SpriteComponent
 {
 	FVector4					DefaultColor = { 1.f, 1.f, 1.f, 1.f };
 	FVector4					CurrentColor = { 1.f, 1.f, 1.f, 1.f };
@@ -72,7 +72,7 @@ struct SpriteComponent : public Component
 	bool						ShouldRender = true;
 };
 
-struct AnimationComponent : public Component
+struct AnimationComponent
 {
 	std::unordered_map<std::string, Animation>	Animations;	// replace with Array?? or enum for key?
 	std::string									Active;		// index instead??
@@ -89,7 +89,7 @@ struct AnimationComponent : public Component
 	bool		m_isLooping;*/
 };
 
-struct TextComponent : public Component
+struct TextComponent
 {
 	std::string				  Text;
 	FVector4				  Color;
@@ -98,7 +98,7 @@ struct TextComponent : public Component
 	class Hi_Engine::Font*    Font = nullptr;
 };
 
-struct CameraComponent : public Component
+struct CameraComponent
 {
 	Hi_Engine::Camera Camera;
  	FVector2					TargetOffset;
@@ -112,7 +112,7 @@ struct CameraComponent : public Component
 };
 
 // NEEDED??
-struct ColorComponent : public Component
+struct ColorComponent
 {
 	Color CurrentColor;
 	Color DefaultColor;
@@ -121,7 +121,7 @@ struct ColorComponent : public Component
 
 // ############# Input Components ############# //
 
-struct InputComponent : public Component
+struct InputComponent
 {
 	//std::unordered_map<Hi_Engine::eKey, Hi_Engine::eInputState> InputStates; // replace with state instead of bool?? rename KeyStates?
 	std::unordered_map<Hi_Engine::eKey, bool> InputStates; // replace with state instead of bool?? rename KeyStates?
@@ -133,14 +133,14 @@ struct InputComponent : public Component
 
 
 
-struct BoundingVolume : public Component // Or BOundingBox?
+struct BoundingVolume // Or BOundingBox?
 {
 	Hi_Engine::Physics::AABB2D<unsigned> Volume;
 };
 
 
 // Rename ChildEntitiesComponent? ChildListComponent
-struct SubEntitiesComponent : public Component
+struct SubEntitiesComponent
 {
 	std::vector<unsigned> IDs; // change to ENtity?
 };
@@ -148,31 +148,31 @@ struct SubEntitiesComponent : public Component
 
 
 // Rename BoundComponent?
-struct FollowComponent : public Component
+struct FollowComponent
 {
 	unsigned EntityID = 0;
 };
 
 // interactable component?
-struct ClickableComponent : public Component
+struct ClickableComponent
 {
 
 };
 
 // Store current window size. etc...
-struct SettingsComponent : public Component
+struct SettingsComponent
 {
 
 };
 
 
-struct LineComponent : public Component
+struct LineComponent
 {
 	Hi_Engine::Physics::LineSegment2D<float> LineSegment;
 };
 
 
-struct SceneTransitionComponent : public Component
+struct SceneTransitionComponent
 {
 	enum class eScene SceneType; // Scene to transition to
 	bool IsActive = true;
@@ -184,7 +184,7 @@ struct SceneTransitionComponent : public Component
 
 
 // ############# Audio Components ############# //
-struct AudioComponent : public Component
+struct AudioComponent
 {
 	std::unordered_map<eMessage, std::string> SoundTriggers; 
 	
@@ -202,14 +202,14 @@ struct AudioComponent : public Component
 
 
 
-struct DestinationComponent : public Component
+struct DestinationComponent
 {
 	FVector2 Destination;
 	float ArriveRadius = 0.5f;
 	// TODO: store path? (tiles -> pathfinding)?
 };
 
-struct TargetComponent : public Component
+struct TargetComponent
 {
 	unsigned TargetID;
 	int Target;

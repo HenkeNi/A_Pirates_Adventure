@@ -1,10 +1,9 @@
 #pragma once
-#include "../Base/Component.h"
 #include "Enumerations.h"
 
 
  
-struct WorldTimeComponent : public Component
+struct WorldTimeComponent
 {	
 	std::unordered_map<eTimeOfDay, Hi_Engine::Range<float>> TimeOfDayRanges;
 	eTimeOfDay TimeOfDay;
@@ -14,7 +13,7 @@ struct WorldTimeComponent : public Component
 	unsigned Day = 0;
 };
 
-struct TimerComponent : public Component
+struct TimerComponent
 {
 	float Elapsed = 0.f;
 	double Timestamp = 0.0;
@@ -27,7 +26,7 @@ struct TimerComponent : public Component
 };
 
 
-struct SpawnComponent : public Component
+struct SpawnComponent
 {
 	std::string Spawned;
 	float		SpawnRadius = 30.f;

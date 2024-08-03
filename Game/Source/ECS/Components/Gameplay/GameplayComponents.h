@@ -1,10 +1,9 @@
 #pragma once
-#include "../Base/Component.h"
 #include "Stat.hpp"
 
 
 //#################### Character Components ####################//
-struct AttributesComponent : public Component
+struct AttributesComponent
 {
 	int Perception = 5;
 
@@ -12,7 +11,7 @@ struct AttributesComponent : public Component
 };
 
 // Rename TraitComponent?
-struct PersonalityComponent : public Component
+struct PersonalityComponent
 {
 	bool IsAggressive = false;
 	// bool IsFriendly = false;
@@ -20,20 +19,20 @@ struct PersonalityComponent : public Component
 	// bool IsLoyal = false;
 };
 
-struct FriendlyComponent : public Component
+struct FriendlyComponent
 {
 };
 
-struct HostileComponent : public Component
+struct HostileComponent
 {
 };
 
-struct CrewComponent : public Component
+struct CrewComponent
 {
 };
 
 // Rename? PlayerStateComponent, should just be used by the player??
-struct CharacterStateComponent : public Component
+struct CharacterStateComponent
 {
 	bool IsIdle;
 	bool IsWalking;
@@ -48,7 +47,7 @@ struct CharacterStateComponent : public Component
 
 
 //#################### Crafting Components ####################//
-struct RecipeComponent : public Component
+struct RecipeComponent
 {
 	std::string CraftedItem;
 	std::unordered_map<std::string, unsigned> RequiredItems;
@@ -59,7 +58,7 @@ struct RecipeComponent : public Component
 
 
 // TreeResourceComponent
-struct ResourceComponent : public Component
+struct ResourceComponent
 {
 	//std::string m_entityToCreate = "TreeResource";	// FIX!
 	// std::string m_entityToCreate = "Resource";	// FIX!
@@ -74,7 +73,7 @@ struct ResourceComponent : public Component
 // Harvest system?? HarvetableComponent  ResourceSpawnerComponent
 
 // maybe remove??? or use for fruit trees, etc?
-struct HarvestableComponent : public Component
+struct HarvestableComponent
 {
 	std::string ResourceType;	 // Rename??
 	int			Yield;
@@ -82,7 +81,7 @@ struct HarvestableComponent : public Component
 
 
 // Replace with ItemSpawner??
-struct ResourceProducerComponent : public Component
+struct ResourceProducerComponent
 {
 	std::string		DroppedResource;
 	unsigned		Quantity;
@@ -103,7 +102,7 @@ struct ResourceProducerComponent : public Component
 
 /* - Controllers - */ // MOVE THIS 0> Not ai...	
 
-struct PlayerControllerComponent : public Component
+struct PlayerControllerComponent
 {
 	//std::unordered_map<KeyStatus, class Command*> InputMapping;
 	std::unordered_map<Hi_Engine::eKey, class Command*> InputMapping; // TODO; rename, move Command from engine?
@@ -131,7 +130,7 @@ struct PlayerControllerComponent : public Component
 
 // Rename attributes?
 
-struct HealthComponent : public Component
+struct HealthComponent
 {
 	Stat<int>		HealthStat; // DONT!?
 
@@ -144,7 +143,7 @@ struct HealthComponent : public Component
 
 };
 
-struct StaminaComponent : public Component
+struct StaminaComponent
 {
 	unsigned MaxStamina;
 	int CurrentValue;
@@ -156,7 +155,7 @@ struct StaminaComponent : public Component
 
 
 // HERE??? or Needed???
-struct PhysicalNeeds : public Component
+struct PhysicalNeeds
 {
 	std::unordered_map<std::string, float> Needs;
 
@@ -205,19 +204,19 @@ struct PhysicalNeeds : public Component
 
 
 /* ######################### Equipment ######################### */
-struct EquipmentComponent : public Component
+struct EquipmentComponent
 {
 	std::array<int, (int)eEquipmentSlot::Count> EquippedItemIDs; // Stores ID's of equiped items (-1 == nothing equiped) => entity id or item id (read from json)?
 };
 
-struct EquippableComponent : public Component
+struct EquippableComponent
 {
 	eEquipmentSlot AcceptableSlot; // TODO; read from json
 	bool IsEquipped = false; // NEEDED?
 };
 
 // Consider: Merging the Equipment into the InventoryComponent?
-struct InventoryComponent : public Component
+struct InventoryComponent
 {
 	static constexpr unsigned MaxSlots = 36;
 	std::array<InventorySlot, MaxSlots> Slots;
@@ -233,7 +232,7 @@ struct InventoryComponent : public Component
 	// unsigned AvailableSpace;
 };
 
-struct CollectableComponent : public Component
+struct CollectableComponent
 {
 	Item	Item;
 	double	SpawnTimestamp;
@@ -244,7 +243,7 @@ struct CollectableComponent : public Component
 
 
 /* ######################### Combat ######################### */
-struct AttackComponent : public Component
+struct AttackComponent
 {
 	// Hi_Engine::Physics::AABB2D<float>	Collider;
 	// CU::Vector2<float>					Offset = { 20.f, 20.f };
@@ -258,7 +257,7 @@ struct AttackCooldownComponent
 	float Remaining = 0.f;
 };
 
-struct WeaponComponent : public Component // gun component?
+struct WeaponComponent // gun component?
 {
 	float	AttackRange;
 	float	AttackSpeed;
@@ -277,16 +276,16 @@ struct WeaponComponent : public Component // gun component?
 //
 //};
 
-struct ProjectileComponent : public Component
+struct ProjectileComponent
 {
 	double Timestamp;
 	float LifeTime = 3.f;
 };
 
-struct ExplosionComponent : public Component
+struct ExplosionComponent
 {};
 
-struct KnockbackComponent : public Component
+struct KnockbackComponent
 {
 	FVector2 Direction;
 	float Power;
@@ -294,7 +293,7 @@ struct KnockbackComponent : public Component
 	float Duration;	
 };
 
-struct VisionComponent : public Component
+struct VisionComponent
 {
 	Hi_Engine::Physics::LineSegment2D<float> LineOfSight;
 };
@@ -305,7 +304,7 @@ struct VisionComponent : public Component
 // MOVE
 
 // reanem SpawnComponent?
-struct SpawnerComponent : public Component
+struct SpawnerComponent
 {
 	std::string Spawned;// SpawnableBlueprintID; // ID to entity to create
 	int			Amount;
@@ -314,16 +313,16 @@ struct SpawnerComponent : public Component
 	// bool IsRepeating? or make its own component? Repating Spwaner
 };
 
-struct EnemySpawnerComponent : public Component
+struct EnemySpawnerComponent
 {
 };
 
-struct ItemSpawnerComponent : public Component
+struct ItemSpawnerComponent
 {
 };
 
 
-struct EnvironmentComponent : public Component
+struct EnvironmentComponent
 {
 	// static std::vector<eTile> AcceptableTileTypes; // remove?
 };
@@ -333,12 +332,12 @@ struct EnvironmentComponent : public Component
 
 
 // Topple? Fall, FallOver OR just a Tree Component?  EnvironemnetComponent ResourceComponent? TreePhysics System?
-struct ToppleComponent : public Component
+struct ToppleComponent
 {
 
 };
 
-struct ShakeComponent : public Component
+struct ShakeComponent
 {
 	bool m_isShaking = false;
 	//float m_timestamp = 0.f;

@@ -1,10 +1,9 @@
 #pragma once
-#include "../Base/Component.h"
 #include "Constants.h"
 #include <../Hi_Engine.h>
 
 
-struct MapChunkComponent : public Component
+struct MapChunkComponent
 {
 	std::array<Tile, Constants::MapChunkSize> Tiles;
 	std::array<bool, Constants::MapChunkSize> CollisionMap;

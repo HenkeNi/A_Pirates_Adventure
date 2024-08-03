@@ -1,9 +1,8 @@
 #pragma once
-#include "../Base/Component.h"
 
 
 //#################### AI Components ####################//
-struct BlackboardComponent : public Component
+struct BlackboardComponent
 {
 	inline static FVector2 PlayerPosition; // Todo; use std::any instead? store player ID AND vector of crew IDs??
 	inline static std::vector<Entity> Friendly; // store ids instead??
@@ -13,7 +12,7 @@ struct BlackboardComponent : public Component
 	//bool IsMovingToPOI = false; // replace with destination component instead?
 };
 
-struct BehaviorTreeComponent : public Component
+struct BehaviorTreeComponent
 {
 	class BehaviorTreeNode* RootNode = nullptr;
 	// current node?
@@ -22,22 +21,22 @@ struct BehaviorTreeComponent : public Component
 
 
 
-struct IdleComponent : public Component
+struct IdleComponent
 {
 	const float Duration = 10.f;
 	double Timestamp = 0.0;
 };
 
-struct AlertComponent : public Component
+struct AlertComponent
 {};
 
-struct PatrolComponent : public Component
+struct PatrolComponent
 {};
 
-struct ChaseComponent : public Component
+struct ChaseComponent
 {};
 
-struct FleeComponent : public Component
+struct FleeComponent
 {};
 
 //struct AttackComponent : public Component
@@ -65,31 +64,31 @@ struct FleeComponent : public Component
 
 
 // TODO; Maybe only need SteeringBehaviorComponent (or have separate)?
-struct WanderBehaviorComponent : public Component
+struct WanderBehaviorComponent
 {
 	FVector2	Target;
 	float		WalkDuration = 1.3f;
 	float		ElapsedTime = 0.f;
 };
 
-struct FlockBehaviorComponent : public Component
+struct FlockBehaviorComponent
 {
 	class FlockBehavior*	Behavior = nullptr;
 	unsigned				FlockID;
 };
 
-struct SeekBehaviorComponent : public Component
+struct SeekBehaviorComponent
 {
 	class SeekBehavior*		Behavior = nullptr;
 	FVector2				Target;
 };
 
-struct FleeBehaviorComponent : public Component
+struct FleeBehaviorComponent
 {
 	class FleeBehavior*		Behavior = nullptr;
 };
 
-struct SteeringBehaviorComponent : public Component
+struct SteeringBehaviorComponent
 {
 	class SteeringBehavior* ActiveBehavior = nullptr;
 	std::string				Layer;
