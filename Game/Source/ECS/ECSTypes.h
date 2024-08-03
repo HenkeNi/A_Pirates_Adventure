@@ -11,6 +11,7 @@ using Signature = std::bitset<MaxComponents>;
 using Signatures = std::unordered_map<std::string, Signature>;
 
 using Entity = int;
+using Index = std::size_t;
 
 using ComponentType = std::uint8_t;
 using ComponentTypes = std::unordered_map<std::type_index, ComponentType>;

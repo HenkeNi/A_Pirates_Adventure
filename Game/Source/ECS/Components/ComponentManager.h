@@ -4,7 +4,6 @@
 #include "ECSTypes.h"
 #include <assert.h>
 
-class IComponentArray;
 
 class ComponentManager
 {
@@ -14,13 +13,13 @@ public:
 	template <typename T>
 	void RegisterComponent(const char* name);
 
-	template <typename T>
-	T* AddComponent(Entity entity);
+	void RemoveAllComponents(Entity entity);
 
 	template <typename T>
 	void RemoveComponent(Entity entity);
 
-	void RemoveAllComponents(Entity entity);
+	template <typename T>
+	T* AddComponent(Entity entity);
 
 	template <typename T>
 	std::vector<const T*> GetComponents() const;
@@ -34,21 +33,18 @@ public:
 	template <typename T>
 	T* GetComponent(Entity entity);
 
-	template <typename T>
-	ComponentType GetComponentType() const;
-
 	template <typename... T>
 	std::vector<ComponentType> GetComponentTypes() const;
 
+	template <typename T>
+	ComponentType GetComponentType() const;
+
 private:
-	//template <typename T>
-	//IComponentArray& GetComponentArray();
+	template <typename T>
+	const ComponentArray<T>* FindComponentArray() const;
 
 	template <typename T>
-	const IComponentArray* FindComponentArray() const; // Fix!?
-
-	template <typename T>
-	IComponentArray* FindComponentArray();
+	ComponentArray<T>& GetComponentArray();
 
 	template <typename T>
 	ComponentPool<T>& GetComponentPool();
@@ -67,7 +63,7 @@ inline void ComponentManager::RegisterComponent(const char* name)
 {
 	auto type = std::type_index(typeid(T));
 
-	assert(m_componentArrays.find(type) == m_componentArrays.end() && "[ComponentManager - ERROR]: Component type already registered!");
+	assert(m_componentArrays.find(type) == m_componentArrays.end() && "[ERROR - ComponentManager::RegisterComponent] - Component type already registered!");
 
 	m_componentArrays.insert({ type, std::make_unique<ComponentArray<T>>() });
 	m_componentPools.insert({ type, std::make_unique<ComponentPool<T>>() });
@@ -77,43 +73,34 @@ inline void ComponentManager::RegisterComponent(const char* name)
 }
 
 template<typename T>
-inline T* ComponentManager::AddComponent(Entity entity)
+inline void ComponentManager::RemoveComponent(Entity entity)
 {
-	//T* component = Hi_Engine::MemoryPool<T>::GetInstance().GetResource();
-	
-	void* component = GetComponentPool<T>().GetResource();
-	T* tComponent = static_cast<T*>(component);
+	auto& componentArray = GetComponentArray<T>();
+	auto* component = componentArray.RemoveComponent(entity);
 
-	if (auto* componentArray = FindComponentArray<T>())
-	{
-		componentArray->AddComponent(entity, tComponent);
-	}
-
-	return tComponent;
+	auto& componentPool = GetComponentPool<T>();
+	componentPool.ReturnResource(component);
 }
 
 template<typename T>
-inline void ComponentManager::RemoveComponent(Entity entity)
+inline T* ComponentManager::AddComponent(Entity entity)
 {
-	if (auto* componentArray = FindComponentArray<T>())
-	{
-		if (void* removed = componentArray->RemoveComponent(entity))
-		{
-			//T* component = static_cast<T*>(removed);
+	auto& componentPool = GetComponentPool<T>();
+	T* component = componentPool.GetResource();
 
-			GetComponentPool<T>().ReturnResource(removed);
-			//Hi_Engine::MemoryPool<T>::GetInstance().ReturnResource(component);
-		}
-	}
+	auto& componentArray = GetComponentArray<T>();
+	componentArray.AddComponent(entity, component);
+
+	return component;
 }
 
 template<typename T>
 inline std::vector<const T*> ComponentManager::GetComponents() const
 {
-	std::vector<const T*> components;
+	std::vector<T*> components;
 	if (auto* componentArray = FindComponentArray<T>())
 	{
-		return componentArray->GetComponents();
+		components = componentArray.GetComponents();
 	}
 
 	return components;
@@ -122,23 +109,20 @@ inline std::vector<const T*> ComponentManager::GetComponents() const
 template<typename T>
 inline std::vector<T*> ComponentManager::GetComponents()
 {
-	std::vector<T*> components;
-	if (auto* componentArray = FindComponentArray<T>())
-	{
-		return componentArray->GetComponents();
-	}
-
+	auto& componentArray = GetComponentArray<T>();
+	std::vector<T*> components = componentArray.GetComponents();
+	
 	return components;
 }
 
 template <typename T>
 inline const T* ComponentManager::GetComponent(Entity entity) const
 {
-	T* component = nullptr;
-	if (auto* componentArray = FindComponentArray<T>())
+	const T* component = nullptr;
+
+	if (const auto* componentArray = FindComponentArray<T>())
 	{
-		if (auto* comp = componentArray->GetComponent(entity))
-			component = static_cast<T*>(comp);
+		component = componentArray.GetComponent(entity);
 	}
 
 	return component;
@@ -147,13 +131,8 @@ inline const T* ComponentManager::GetComponent(Entity entity) const
 template <typename T>
 inline T* ComponentManager::GetComponent(Entity entity)
 {
-	T* component = nullptr;
-
-	if (auto* componentArray = FindComponentArray<T>())
-	{
-		if (auto* comp = componentArray->GetComponent(entity))
-			component = static_cast<T*>(comp);
-	}
+	auto& componentArray = GetComponentArray<T>();
+	T* component = componentArray.GetComponent(entity);
 
 	return component;
 }
@@ -169,7 +148,7 @@ inline ComponentType ComponentManager::GetComponentType() const
 		return iterator->second;
 	}
 
-	assert(false && "[ERROR - ComponentManager]: ComponentType not registered!");
+	assert(false && "[ERROR - ComponentManager::GetComponentType] - ComponentType not registered!");
 	return ComponentType();
 }
 
@@ -183,35 +162,34 @@ inline std::vector<ComponentType> ComponentManager::GetComponentTypes() const
 }
 
 template<typename T>
-inline const IComponentArray* ComponentManager::FindComponentArray() const
+inline const ComponentArray<T>* ComponentManager::FindComponentArray() const
 {
 	auto type = std::type_index(typeid(T));
 
 	auto iterator = m_componentArrays.find(type);
 	if (iterator != m_componentArrays.end())
 	{
-		return iterator->second.get();
+		return static_cast<ComponentArray<T>*>(iterator->second.get());
 	}
-
-	assert(false && "[ERROR - ComponentManager]: Component Array not registered!");
 
 	return nullptr;
 }
 
 template <typename T>
-IComponentArray* ComponentManager::FindComponentArray()
+ComponentArray<T>& ComponentManager::GetComponentArray()
 {
 	auto type = std::type_index(typeid(T));
 
 	auto iterator = m_componentArrays.find(type);
-	if (iterator != m_componentArrays.end())
+	if (iterator == m_componentArrays.end())
 	{
-		return iterator->second.get();
+		auto componentArray = std::make_unique<ComponentArray<T>>();
+		m_componentArrays.insert({ type, std::move(componentArray) });
+
+		return static_cast<ComponentArray<T>&>(*m_componentArrays[type]);
 	}
 
-	assert(false && "[ComponentManager - ERROR]: Component Array not registered!");
-
-	return nullptr;
+	return static_cast<ComponentArray<T>&>(*iterator->second);
 }
 
 template<typename T>
@@ -219,8 +197,8 @@ inline ComponentPool<T>& ComponentManager::GetComponentPool()
 {
 	auto type = std::type_index(typeid(T));
 
-	auto itr = m_componentPools.find(type);
-	if (itr == m_componentPools.end())
+	auto iterator = m_componentPools.find(type);
+	if (iterator == m_componentPools.end())
 	{
 		auto componentPool = std::make_unique<ComponentPool<T>>();
 		m_componentPools.insert({ type, std::move(componentPool) });
@@ -228,7 +206,7 @@ inline ComponentPool<T>& ComponentManager::GetComponentPool()
 		return static_cast<ComponentPool<T>&>(*m_componentPools[type]);
 	}
 
-	return static_cast<ComponentPool<T>&>(*itr->second);
+	return static_cast<ComponentPool<T>&>(*iterator->second);
 }
 
 #pragma endregion Method_Definitions

@@ -7,14 +7,17 @@
 #include "ECSTypes.h"
 #include "Components/ComponentInitializer.h"
 
-// class ECS_Engine
+// Rename: ECS_Engine?
 class ECS
 {
 public:
 	ECS();
 
 	void Init();
-	void Shutdown(); // remove?
+	void Shutdown();
+
+	void Serialize();
+	void Deserialize();
 
 	template <typename T>
 	void RegisterSystem(const char* type);
@@ -27,20 +30,23 @@ public:
 
 	void AddComponent(Entity entity, const char* component);
 	
-	template <typename... T>
-	bool HasComponent(Entity entity) const; // implement! should scene fetch systemsin cares about? signature?
-
 	template <typename T>
 	void RemoveComponent(Entity entity);
 
+	template <typename... T>
+	bool HasComponent(Entity entity) const;
+	
 	template <typename T>
-	T* GetComponent(Entity entity);
+	std::vector<const T*> GetComponents() const;
 
 	template <typename T>
-	std::vector<T*> GetAllComponents(); // maybe? TODO; const versions?
+	std::vector<T*> GetComponents();
 
 	template <typename T>
 	std::vector<T*> GetComponents(const std::vector<Entity>& entities);
+
+	template <typename T>
+	T* GetComponent(Entity entity);
 
 	template <typename... Components>
 	Signature GetSignature();
@@ -52,9 +58,7 @@ public:
 
 	Entity CreateEntity(const char* type, bool notify = true); // bool defered spawn?
 
-	// Entity CreateEntity(const char* type, const rapidjson::Value& value);
-
-	Entity CreateEmptyEntity(); // REMOVE?
+	Entity CreateEmptyEntity();
 
 	void DestroyAllEntities();
 
@@ -65,22 +69,12 @@ public:
 	std::optional<Entity> FindEntity(const Signature& signature); // return optional?
 
 	//template <typename... T>
-	//std::vector<Entity> FindEntities(); -> implement!!!
+	//std::vector<Entity> FindEntities();
 
 	//template <typename Component>
 	//Entity FindEntity();
 
-
-	// HERE???
 	//void LoadBlueprints();
-
-	//template <typename... Components>
-	//void SetSignature(class System* system);
-
-	void Serialize();
-
-	void Deserialize();
-
 
 	// TODO; have function tha tdoes both??
 	void InitializeComponent(Entity entity, const char* component, const ComponentProperties& properties);
@@ -136,6 +130,17 @@ inline void ECS::AddComponent(Entity entity)
 	m_entityManager.SetSignature(entity, signature);
 }
 
+template<typename T>
+inline void ECS::RemoveComponent(Entity entity)
+{
+	m_componentManager.RemoveComponent<T>(entity);
+
+	Signature signature = m_entityManager.GetSignature(entity);
+	signature.set(m_componentManager.GetComponentType<T>(), false);
+
+	m_entityManager.SetSignature(entity, signature);
+}
+
 template<typename ...T>
 inline bool ECS::HasComponent(Entity entity) const
 {
@@ -149,38 +154,23 @@ inline bool ECS::HasComponent(Entity entity) const
 }
 
 template<typename T>
-inline void ECS::RemoveComponent(Entity entity)
+inline std::vector<const T*> ECS::GetComponents() const
 {
-	m_componentManager.RemoveComponent<T>(entity);
-
-	Signature signature = m_entityManager.GetSignature(entity);
-	signature.set(m_componentManager.GetComponentType<T>(), false);
-
-	m_entityManager.SetSignature(entity, signature);
-}
-
-template <typename T>
-inline T* ECS::GetComponent(Entity entity)
-{
-	//assert(m_componentManager && "[ECS - ERROR]: ComponentManager is null!");
-
-	return m_componentManager.GetComponent<T>(entity);
+	auto components = m_componentManager.GetComponents<T>();
+	return components;
 }
 
 template<typename T>
-inline std::vector<T*> ECS::GetAllComponents()
+inline std::vector<T*> ECS::GetComponents()
 {
-	// check if entity is active?!
-
-	// m_componentManager.G
-	return std::vector<T*>();
+	auto components = m_componentManager.GetComponents<T>();
+	return components;
 }
 
 template<typename T>
 inline std::vector<T*> ECS::GetComponents(const std::vector<Entity>& entities)
 {
 	std::vector<T*> components;
-
 	for (const auto& entity : entities)
 	{
 		if (auto* component = m_componentManager.GetComponent<T>(entity))
@@ -189,17 +179,14 @@ inline std::vector<T*> ECS::GetComponents(const std::vector<Entity>& entities)
 		}
 	}
 
-	//auto components = m_componentManager->GetComponents<T>();
-
-
-
-	//std::copy_if(components.begin(), components.end(), std::back_inserter(components), [&](T* component) 
-	//	{
-	//		//m_componentManager->GetComponent
-
-	//	});
-
 	return components;
+}
+
+template <typename T>
+inline T* ECS::GetComponent(Entity entity)
+{
+	T* component = m_componentManager.GetComponent<T>(entity);
+	return component;
 }
 
 template<typename ...Components>
@@ -215,23 +202,8 @@ inline Signature ECS::GetSignature()
 template<typename T>
 inline std::weak_ptr<System> ECS::GetSystem()
 {
-	return m_systemManager.GetSystem<T>();
+	auto system = m_systemManager.GetSystem<T>();
+	return system;
 }
-
-//template<typename ...Components>
-//inline std::vector<ComponentType> ECS::GetComponentTypes() const
-//{
-//	std::vector<ComponentType> componentTypes;
-//	(componentTypes.push_back(GetComponentType<Components>()), ...);
-//
-//	return componentTypes;
-//}
-//
-//template<typename Component>
-//inline ComponentType ECS::GetComponentType() const
-//{
-//	auto componentType = m_componentManager.GetComponentType<Component>();
-//	return componentType;
-//}
 
 #pragma endregion Method_Definitions

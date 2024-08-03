@@ -1,36 +1,26 @@
 #pragma once
 #include "ECSTypes.h"
 
-using Index = std::size_t;
-//using Component = void*;
 
 class IComponentArray
 {
 public:
 	virtual ~IComponentArray() = default;
-
-	virtual void AddComponent(Entity entity, void* component) = 0;
-	virtual void* RemoveComponent(Entity entity) = 0;
-
-	virtual std::vector<const void*> GetComponents() const = 0;
-	virtual std::vector<void*>	GetComponents()	= 0;
-
-	virtual const void* GetComponent(Entity entity) const = 0;
-	virtual void* GetComponent(Entity entity) = 0;
+	virtual void* RemoveComponent(Entity entity) = 0;	
 };
 
 template <typename T>
 class ComponentArray : public IComponentArray
 {
 public:
-	void AddComponent(Entity entity, void* component) override;
+	void AddComponent(Entity entity, T* component);
 	void* RemoveComponent(Entity entity) override;
 	
-	std::vector<const void*> GetComponents() const override;
-	std::vector<void*>	GetComponents() override;
+	std::vector<const T*> GetComponents() const;
+	std::vector<T*>	GetComponents();
 
-	const void* GetComponent(Entity entity) const override;
-	void* GetComponent(Entity entity) override;
+	const T* GetComponent(Entity entity) const;
+	T* GetComponent(Entity entity);
 
 	bool HasComponent(Entity entity) const;
 
@@ -38,16 +28,17 @@ private:
 	std::unordered_map<Entity, Index> m_entityToIndexMap;
 	std::unordered_map<Index, Entity> m_indexToEntityMap;
 
-	std::array<T*, MaxEntities> m_components; // store components both for reading and for writing?! (multi threading)
+	// TODO; store "read" and "write" components separately (for multi threading system) 
+	std::array<T*, MaxEntities> m_components;
 	std::size_t m_currentSize;
 };
 
 #pragma region Method_Definitions
 
 template<typename T>
-inline void ComponentArray<T>::AddComponent(Entity entity, void* component)
+inline void ComponentArray<T>::AddComponent(Entity entity, T* component)
 {
-	assert(!HasComponent(entity) && "ERROR: entity already exist");
+	assert(!HasComponent(entity) && "[ERROR - ComponentArray::AddComponent] - Entity already exist!");
 
 	std::size_t index = m_currentSize;
 
@@ -91,7 +82,7 @@ inline void* ComponentArray<T>::RemoveComponent(Entity entity)
 }
 
 template<typename T>
-inline std::vector<const void*> ComponentArray<T>::GetComponents() const
+inline std::vector<const T*> ComponentArray<T>::GetComponents() const
 {
 	std::vector<const void*> components;
 
@@ -104,9 +95,9 @@ inline std::vector<const void*> ComponentArray<T>::GetComponents() const
 }
 
 template<typename T>
-inline std::vector<void*> ComponentArray<T>::GetComponents()
+inline std::vector<T*> ComponentArray<T>::GetComponents()
 {
-	std::vector<void*> components;
+	std::vector<T*> components;
 
 	for (int i = 0; i < m_currentSize; ++i)
 	{
@@ -117,18 +108,21 @@ inline std::vector<void*> ComponentArray<T>::GetComponents()
 }
 
 template<typename T>
-inline const void* ComponentArray<T>::GetComponent(Entity entity) const
+inline const T* ComponentArray<T>::GetComponent(Entity entity) const
 {
-	assert(HasComponent(entity) && "ERROR: failed to retrieve component for entity");
+	const T* component = nullptr;
 
-	std::size_t index = m_entityToIndexMap.at(entity);
-	const T* component = m_components[index];
+	if (HasComponent(entity))
+	{
+		std::size_t index = m_entityToIndexMap.at(entity);
+		component = m_components[index];
+	}
 
 	return component;
 }
 
 template<typename T>
-inline void* ComponentArray<T>::GetComponent(Entity entity)
+inline T* ComponentArray<T>::GetComponent(Entity entity)
 {
 	T* component = nullptr;
 

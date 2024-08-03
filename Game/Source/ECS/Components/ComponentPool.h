@@ -4,8 +4,6 @@ class IComponentPool
 {
 public:
 	~IComponentPool() = default;
-
-	virtual void* GetResource() = 0;
 	virtual void ReturnResource(void* resource) = 0;
 };
 
@@ -16,8 +14,8 @@ public:
 	ComponentPool();
 	~ComponentPool();
 
-	void* GetResource() override;
 	void ReturnResource(void* resource) override;
+	T* GetResource();
 	bool IsEmpty() const;
 
 private:
@@ -44,7 +42,7 @@ inline ComponentPool<T, SizeType, size>::~ComponentPool()
 }
 
 template<typename T, typename SizeType, SizeType size>
-inline void* ComponentPool<T, SizeType, size>::GetResource()
+inline T* ComponentPool<T, SizeType, size>::GetResource()
 {
 	assert(!IsEmpty() && "Component pool reached out of resources!"); // Retur nullptr?
 	
@@ -59,8 +57,7 @@ inline void ComponentPool<T, SizeType, size>::ReturnResource(void* resource)
 {
 	if (resource)
 	{
-		T* tResource = static_cast<T*>(resource);
-		m_available.push(tResource); // needed??
+		m_available.push(static_cast<T*>(resource));
 	}
 }
 
