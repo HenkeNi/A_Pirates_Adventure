@@ -14,7 +14,7 @@ TimeSystem::~TimeSystem()
 
 void TimeSystem::Update(float deltaTime) 
 {
-	assert(m_ecs && "ERROR: ECS is nullptr!");
+	assert(m_ecs && "[TimeSystem - ERROR]: ECS is not initialized!");
 
 	UpdateWorldTime(deltaTime);
 	UpdateTimers(deltaTime);
@@ -51,45 +51,39 @@ void TimeSystem::SetSignature()
 
 void TimeSystem::UpdateWorldTime(float deltaTime)
 {
-	auto worldTimer = m_ecs->FindEntity(m_signatures["WorldTime"]);
+	auto worldTimeComponents = m_ecs->GetComponents<WorldTimeComponent>();
 
-	if (!worldTimer.has_value())
-		return;
-
-	auto* worldTimeComponent = m_ecs->GetComponent<WorldTimeComponent>(worldTimer.value());
-
-	//auto& [ranges, timeOfDay, duration, elapsedTime, progress, day] = *worldTimeComponent;
-
-	float& elapsedTime = worldTimeComponent->ElapsedTimeSinceDayStart;
-
-	elapsedTime += deltaTime;
-	if (elapsedTime >= worldTimeComponent->DayDuration)
+	for (auto* worldTimeComponent : worldTimeComponents)
 	{
-		elapsedTime = 0.f;
-		++worldTimeComponent->Day;
-	}
+		float& elapsedTime = worldTimeComponent->ElapsedTimeSinceDayStart;
 
-	worldTimeComponent->CurrentDayProgress = worldTimeComponent->ElapsedTimeSinceDayStart / worldTimeComponent->DayDuration;
-
-	//SetTimeOfDay(entity);
-	// auto* worldTimeComponent = worldTimeEntity->GetComponent<WorldTimeComponent>();
-
-	eTimeOfDay timeOfDay = worldTimeComponent->TimeOfDay;
-
-	auto found = std::find_if(worldTimeComponent->TimeOfDayRanges.begin(), worldTimeComponent->TimeOfDayRanges.end(),
-		[&](const std::pair<eTimeOfDay, Hi_Engine::Range<float>>& dayDuration)
+		elapsedTime += deltaTime;
+		if (elapsedTime >= worldTimeComponent->DayDuration)
 		{
-			return worldTimeComponent->CurrentDayProgress >= dayDuration.second.Min && worldTimeComponent->CurrentDayProgress <= dayDuration.second.Max;
-			//return Hi_Engine::Math::RangeContains(worldTimeComponent->CurrentDayProgress, range);
-		});
-
-	if (found != worldTimeComponent->TimeOfDayRanges.end())
-	{
-		worldTimeComponent->TimeOfDay = found->first;
-		if (worldTimeComponent->TimeOfDay != timeOfDay)
-		{
-			PostMaster::GetInstance().SendMessage({ eMessage::TimeOfDayChanged, worldTimeComponent->TimeOfDay });
+			elapsedTime = 0.f;
+			++worldTimeComponent->Day;
 		}
+
+		worldTimeComponent->CurrentDayProgress = worldTimeComponent->ElapsedTimeSinceDayStart / worldTimeComponent->DayDuration;
+
+		eTimeOfDay timeOfDay = worldTimeComponent->TimeOfDay;
+
+		auto found = std::find_if(worldTimeComponent->TimeOfDayRanges.begin(), worldTimeComponent->TimeOfDayRanges.end(),
+			[&](const std::pair<eTimeOfDay, Hi_Engine::Range<float>>& dayDuration)
+			{
+				return worldTimeComponent->CurrentDayProgress >= dayDuration.second.Min && worldTimeComponent->CurrentDayProgress <= dayDuration.second.Max;
+			});
+
+		if (found != worldTimeComponent->TimeOfDayRanges.end())
+		{
+			worldTimeComponent->TimeOfDay = found->first;
+			if (worldTimeComponent->TimeOfDay != timeOfDay)
+			{
+				PostMaster::GetInstance().SendMessage({ eMessage::TimeOfDayChanged, worldTimeComponent->TimeOfDay });
+			}
+		}
+
+		std::cout << worldTimeComponent->CurrentDayProgress << "\n";
 	}
 }
 
@@ -120,7 +114,7 @@ void TimeSystem::UpdateWorldTime(float deltaTime)
 //}
 
 void TimeSystem::UpdateTimers(float deltaTime)
-{
+{	
 	auto entities = m_ecs->FindEntities(m_signatures["Timers"]);
 
 	for (Entity entity : entities)

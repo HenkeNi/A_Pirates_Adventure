@@ -1,9 +1,9 @@
 #include "Pch.h"
 #include "InventorySystem.h"
-#include "ECS.h"
 #include "Components/AI/AIComponents.h"
 #include "Components/Core/CoreComponents.h"
 #include "Components/Gameplay/GameplayComponents.h"
+#include "ECS.h"
 
 
 InventorySystem::InventorySystem()

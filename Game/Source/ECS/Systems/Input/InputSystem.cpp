@@ -42,10 +42,11 @@ void InputSystem::Update(float deltaTime)
 		windowSize = window->GetSize();
 	}
 
-	auto entities = m_ecs->FindEntities(m_signatures["Input"]);
-	for (auto entity : entities)
+
+	auto inputComponents = m_ecs->GetComponents<InputComponent>();
+
+	for (auto inputComponent : inputComponents)
 	{
-		auto* inputComponent = m_ecs->GetComponent<InputComponent>(entity);
 
 		for (auto& [key, state] : inputComponent->InputStates)
 		{
@@ -60,7 +61,6 @@ void InputSystem::Update(float deltaTime)
 
 void InputSystem::SetSignature()
 {
-	m_signatures.insert({ "Input", m_ecs->GetSignature<InputComponent>() });
 	m_signatures.insert({ "Camera", m_ecs->GetSignature<CameraComponent>() });
 }
 

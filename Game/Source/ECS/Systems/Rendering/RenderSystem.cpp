@@ -2,6 +2,7 @@
 #include "RenderSystem.h"
 #include "ECS.h"
 
+
 RenderSystem::RenderSystem()
 {
 }
@@ -12,11 +13,11 @@ RenderSystem::~RenderSystem()
 
 void RenderSystem::Draw()
 { 
-	auto cameraOptional = m_ecs->FindEntity(m_signatures.at("Camera"));
-	if (!cameraOptional.has_value())
+	auto entity = m_ecs->FindEntity(m_signatures.at("Camera"));
+	if (!entity.has_value())
 		return;
 
-	Entity camera = cameraOptional.value();
+	Entity camera = entity.value();
 	
 	RenderText(camera);
 
@@ -35,7 +36,6 @@ void RenderSystem::SetSignature()
 {
 	// Todo; fetch archetypes instead?
 	m_signatures.insert({ "Camera", m_ecs->GetSignature<CameraComponent>() });
-	m_signatures.insert({ "MapChunks", m_ecs->GetSignature<MapChunkComponent>() });
 	m_signatures.insert({ "Sprites", m_ecs->GetSignature<SpriteComponent, TransformComponent>() });
 	m_signatures.insert({ "Text", m_ecs->GetSignature<TextComponent, TransformComponent>() });
 
@@ -48,23 +48,22 @@ void RenderSystem::SetSignature()
 
 void RenderSystem::RenderMap(Entity camera)
 {
-	auto mapChunks = m_ecs->FindEntities(m_signatures["MapChunks"]);
-	if (mapChunks.empty())
+	auto mapChunkComponents = m_ecs->GetComponents<MapChunkComponent>();
+
+	if (mapChunkComponents.empty())
 		return;
 
-	// sort out map chunks out of view... have a bounds component??
+	// TODO; sort out map chunks out of view... have a bounds component??
 
 	Hi_Engine::SpriteBatch spriteBatch;
-	spriteBatch.Sprites.reserve(mapChunks.size());
+	spriteBatch.Sprites.reserve(mapChunkComponents.size());
 
-	for (Entity entity : mapChunks)
+	for (auto* mapChunkComponent : mapChunkComponents)
 	{
-		if (auto* mapChunkComponent = m_ecs->GetComponent<MapChunkComponent>(entity))
-		{
-			// TODO; update color of each tile?
+		if (!mapChunkComponent)
+			continue;
 
-			std::copy(mapChunkComponent->Sprites.begin(), mapChunkComponent->Sprites.end(), std::back_inserter(spriteBatch.Sprites));
-		}
+		std::copy(mapChunkComponent->Sprites.begin(), mapChunkComponent->Sprites.end(), std::back_inserter(spriteBatch.Sprites));
 	}
 
 	auto* cameraComponent = m_ecs->GetComponent<CameraComponent>(camera);
