@@ -1,53 +1,54 @@
 #include "Pch.h"
-#include "RangedCombatSystem.h"
-#include "Entities/EntityManager.h"
+#include "ProjectileSystem.h"
 #include "Components/Core/CoreComponents.h"
 #include "Components/Gameplay/GameplayComponents.h"
+#include "ECS.h"
 
 
-RangedCombatSystem::RangedCombatSystem()
+ProjectileSystem::ProjectileSystem()
 {
 	PostMaster::GetInstance().Subscribe(eMessage::EntityFired, this);
 }
 
-RangedCombatSystem::~RangedCombatSystem()
+ProjectileSystem::~ProjectileSystem()
 {
 	PostMaster::GetInstance().Unsubscribe(eMessage::EntityFired, this);
 }
 
-void RangedCombatSystem::Receive(Message& message)
+void ProjectileSystem::Receive(Message& message)
 {
 	if (message.GetMessageType() == eMessage::EntityFired)
 	{
 		auto data = std::any_cast<ProjectileData>(message.GetData());
 
-		auto* projectile = m_entityManager->Create("bullet");
 
-		auto* transformComponent = projectile->GetComponent<TransformComponent>();
+		Entity projectile = m_ecs->CreateEntity("Bullet");
+
+		auto* transformComponent = m_ecs->GetComponent<TransformComponent>(projectile);
 		transformComponent->CurrentPos = data.Position;
 
-		auto* velocityComponent = projectile->GetComponent<VelocityComponent>();
+		auto* velocityComponent = m_ecs->GetComponent<VelocityComponent>(projectile);
 		velocityComponent->Velocity = data.Directin;
 		velocityComponent->IsVelocityConstant = true;
 		velocityComponent->Speed = data.Speed;
 
-		auto* projectileComponent = projectile->GetComponent<ProjectileComponent>();
+		auto* projectileComponent = m_ecs->GetComponent<ProjectileComponent>(projectile);
 		projectileComponent->Timestamp = Hi_Engine::Engine::GetTimer().GetTotalTime();
 	}
 }
 
-void RangedCombatSystem::Update(float deltaTime)
+void ProjectileSystem::Update(float deltaTime)
 {
-	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
+	//assert(m_entityManager && "ERROR: EntityManager is nullptr!");
 
-	auto projectiles = m_entityManager->FindAll<ProjectileComponent>();
+	auto projectiles = m_ecs->FindEntities(m_signatures["Projectiles"]);
 
-	std::vector<Entity*> destroyed;
+	std::vector<Entity> destroyed;
 
 	double time = Hi_Engine::Engine::GetTimer().GetTotalTime();
 	for (auto& projectile : projectiles)
 	{
-		auto* projectileComponent = projectile->GetComponent<ProjectileComponent>();
+		auto* projectileComponent = m_ecs->GetComponent<ProjectileComponent>(projectile);
 
 		// TODO; replace with a distance check? or check against the bounds of the screen instead? (allowing projectiles to travel until colliding with something, if going same direction as player)
 		if (time >= projectileComponent->Timestamp + projectileComponent->LifeTime)
@@ -58,6 +59,11 @@ void RangedCombatSystem::Update(float deltaTime)
 
 	for (auto it = destroyed.rbegin(); it != destroyed.rend(); ++it)
 	{
-		m_entityManager->Destroy((*it)->GetID());
+		m_ecs->DestroyEntity(*it);
 	}
+}
+
+void ProjectileSystem::SetSignature()
+{
+	m_signatures.insert({ "Projectiles", m_ecs->GetSignature<ProjectileComponent>() });
 }

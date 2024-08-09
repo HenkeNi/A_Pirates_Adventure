@@ -81,10 +81,6 @@ void PlayerControllerSystem::CleanUpCommands()
 	}
 }
 
-void PlayerControllerSystem::UpdateCooldowns(Entity entity)
-{
-}
-
 void PlayerControllerSystem::UpdatePlayerState(Entity entity) // dO in commands?
 {
 	auto* characterStateComponent	= m_ecs->GetComponent<CharacterStateComponent>(entity);

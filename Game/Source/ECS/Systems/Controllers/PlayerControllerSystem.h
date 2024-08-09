@@ -17,6 +17,6 @@ private:
 	void ProcessCommands(Entity entity);
 	void CleanUpCommands();
 
-	void UpdateCooldowns(Entity entity);
+	// void UpdateCooldowns(Entity entity);
 	void UpdatePlayerState(Entity entity);
 };

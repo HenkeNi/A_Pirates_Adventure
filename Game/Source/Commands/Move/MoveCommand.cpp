@@ -21,6 +21,8 @@ void MoveCommand::Execute(Entity entity, ECS& ecs)
 
 	if (auto* velocityComponent = ecs.GetComponent<VelocityComponent>(entity))
 	{
+		// send events instead!!!??
+
 		velocityComponent->Velocity.x = m_direction.x == 0.f ? velocityComponent->Velocity.x : m_direction.x;
 		velocityComponent->Velocity.y = m_direction.y == 0.f ? velocityComponent->Velocity.y : m_direction.y;
 		//velocityComponent->Acceleration.x = (m_direction.x == 0.f) ? velocityComponent->Acceleration.x : m_direction.x;

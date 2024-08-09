@@ -7,7 +7,7 @@ class InverterNode : public BehaviorTreeNode
 public:
 	InverterNode(BehaviorTreeNode* child = nullptr);
 
-	eBTNodeStatus	Execute(Entity entity)	override;
+	eBTNodeStatus	Execute(Entity entity, ECS& ecs)	override;
 	void			OnDestroy()						override;
 
 private:
@@ -20,7 +20,7 @@ class SucceederNode : public BehaviorTreeNode
 public:
 	SucceederNode(BehaviorTreeNode* child = nullptr);
 
-	eBTNodeStatus	Execute(Entity entity)	override;
+	eBTNodeStatus	Execute(Entity entity, ECS& ecs)	override;
 	void			OnDestroy()						override;
 
 private:

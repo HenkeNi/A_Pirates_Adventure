@@ -1,18 +1,14 @@
 #include "Pch.h"
 #include "ConditionNodes.h"
-#include "Entities/Entity.h"
 #include "Components/Components.h"
+#include "ECS.h"
 
 
-
-
-
-
-eBTNodeStatus IsIdleNode::Execute(Entity* entity)
+eBTNodeStatus IsIdleNode::Execute(Entity entity, ECS& ecs)
 {
 	if (entity)
 	{
-		if (auto* characterStateComponent = entity->GetComponent<CharacterStateComponent>())
+		if (auto* characterStateComponent = ecs.GetComponent<CharacterStateComponent>(entity))
 		{
 			return characterStateComponent->IsIdle ? eBTNodeStatus::Success : eBTNodeStatus::Failure;
 		}
@@ -21,9 +17,9 @@ eBTNodeStatus IsIdleNode::Execute(Entity* entity)
 	return eBTNodeStatus::Failure;
 }
 
-eBTNodeStatus IsDestinationSetNode::Execute(Entity* entity)
+eBTNodeStatus IsDestinationSetNode::Execute(Entity entity, ECS& ecs)
 {
-	if (entity && entity->HasComponent<DestinationComponent>())
+	if (entity && ecs.HasComponent<DestinationComponent>(entity))
 	{
 		return eBTNodeStatus::Success;
 	}
@@ -31,12 +27,12 @@ eBTNodeStatus IsDestinationSetNode::Execute(Entity* entity)
 	return eBTNodeStatus::Failure;
 }
 
-eBTNodeStatus IsDestinationReachedNode::Execute(Entity* entity)
+eBTNodeStatus IsDestinationReachedNode::Execute(Entity entity, ECS& ecs)
 {
 	if (entity)
 	{
-		auto* destinationComponent = entity->GetComponent<DestinationComponent>();
-		auto* transformComponent = entity->GetComponent<TransformComponent>();
+		auto* destinationComponent = ecs.GetComponent<DestinationComponent>(entity);
+		auto* transformComponent = ecs.GetComponent<TransformComponent>(entity);
 
 		if (destinationComponent && transformComponent)
 		{
@@ -50,9 +46,9 @@ eBTNodeStatus IsDestinationReachedNode::Execute(Entity* entity)
 	return eBTNodeStatus::Failure;
 }
 
-eBTNodeStatus IsTargetSetNode::Execute(Entity* entity)
+eBTNodeStatus IsTargetSetNode::Execute(Entity entity, ECS& ecs)
 {
-	if (entity && entity->HasComponent<TargetComponent>())
+	if (entity && ecs.HasComponent<TargetComponent>(entity))
 	{
 		return eBTNodeStatus::Success;
 	}
@@ -60,18 +56,18 @@ eBTNodeStatus IsTargetSetNode::Execute(Entity* entity)
 	return eBTNodeStatus::Failure;
 }
 
-eBTNodeStatus IsTargetReachedNode::Execute(Entity* entity)
+eBTNodeStatus IsTargetReachedNode::Execute(Entity entity, ECS& ecs)
 {
 	if (entity)
 	{
-		auto* targetComponent = entity->GetComponent<TargetComponent>();
-		auto* transformComponent = entity->GetComponent<TransformComponent>();
+		auto* targetComponent = ecs.GetComponent<TargetComponent>(entity);
+		auto* transformComponent = ecs.GetComponent<TransformComponent>(entity);
 
 		if (targetComponent && transformComponent)
 		{
-			if (auto* target = targetComponent->Target)
+			if (auto target = targetComponent->Target)
 			{
-				auto* targetTransformComponent = target->GetComponent<TransformComponent>();
+				auto* targetTransformComponent = ecs.GetComponent<TransformComponent>(target);
 
 				const auto& targetPosition = targetTransformComponent->CurrentPos;
 				const auto& currentPosition = transformComponent->CurrentPos;
@@ -86,19 +82,19 @@ eBTNodeStatus IsTargetReachedNode::Execute(Entity* entity)
 	return eBTNodeStatus::Failure;
 }
 
-eBTNodeStatus IsTargetInSightNode::Execute(class Entity* entity)
+eBTNodeStatus IsTargetInSightNode::Execute(Entity entity, ECS& ecs)
 {
 	// send event request target? passes itself and target component....
 	if (entity)
 	{
-		auto* targetComponent = entity->GetComponent<TargetComponent>();
-		auto* transformComponent = entity->GetComponent<TransformComponent>();
+		auto* targetComponent = ecs.GetComponent<TargetComponent>(entity);
+		auto* transformComponent = ecs.GetComponent<TransformComponent>(entity);
 
 		if (targetComponent && transformComponent)
 		{
-			if (auto* target = targetComponent->Target)
+			if (auto target = targetComponent->Target)
 			{
-				auto* targetTransformComponent = target->GetComponent<TransformComponent>();
+				auto* targetTransformComponent = ecs.GetComponent<TransformComponent>(target);
 
 				const auto& targetPosition = targetTransformComponent->CurrentPos;
 				const auto& currentPosition = transformComponent->CurrentPos;

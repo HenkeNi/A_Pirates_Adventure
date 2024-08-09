@@ -2,12 +2,13 @@
 #include "../../Base/System.h"
 
 // Rename ProjectileSystem?
-class RangedCombatSystem : public System, public Subscriber
+class ProjectileSystem : public System, public Subscriber
 {
 public:
-	RangedCombatSystem();
-	~RangedCombatSystem();
+	ProjectileSystem();
+	~ProjectileSystem();
 
 	void Receive(Message& message)	override;
 	void Update(float deltaTime)	override;
+	void SetSignature()				override;
 };

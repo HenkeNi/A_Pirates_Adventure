@@ -1,9 +1,8 @@
 #include "Pch.h"
 #include "SteeringBehaviorSystem.h"
-#include "Entities/EntityManager.h"
 #include "Components/Core/CoreComponents.h"
 #include "Components/AI/AIComponents.h"
-
+#include "ECS.h"
 #include "../AI/SteeringBehaviors/Flock/FlockBehavior.h"
 // #include "../AI/SteeringBehaviors/Wander/WanderBehavior.h"
 
@@ -23,9 +22,15 @@ void SteeringBehaviorSystem::Update(float deltaTime)
 	UpdateFleeBehavior(deltaTime);
 }
 
+void SteeringBehaviorSystem::SetSignature()
+{
+	m_signatures.insert({ "Wanderer", m_ecs->GetSignature<WanderBehaviorComponent>() });
+
+}
+
 void SteeringBehaviorSystem::UpdateWanderBehavior(float deltaTime)
 {
-	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
+	//assert(m_entityManager && "ERROR: EntityManager is nullptr!");
 
 	auto entities = m_entityManager->FindAll<WanderBehaviorComponent>();
 

@@ -9,6 +9,7 @@ public:
 	~SteeringBehaviorSystem();
 
 	void Update(float deltaTime)	override;
+	void SetSignature() override;
 
 private:
 	void UpdateWanderBehavior(float deltaTime);

@@ -2,7 +2,6 @@
 #include "Enumerations.h"
 
 
- 
 struct WorldTimeComponent
 {	
 	std::unordered_map<eTimeOfDay, Hi_Engine::Range<float>> TimeOfDayRanges;
@@ -20,18 +19,5 @@ struct TimerComponent
 	float Duration = 0.f;
 	bool IsActive = true;
 
-
-	//	float Duration
-	// std::function<void()>	m_callback = nullptr; ?? or observers??
-};
-
-
-struct SpawnComponent
-{
-	std::string Spawned;
-	float		SpawnRadius = 30.f;
-	float		Interval = 2.f;	// Todo; Give small individual delay..
-	float		ElapsedTime = 0.f;
-	int			Amount = 10;
-	int			SpawnedAmount = 0; // Rename..
+	// Add callback? std::function<void()>
 };

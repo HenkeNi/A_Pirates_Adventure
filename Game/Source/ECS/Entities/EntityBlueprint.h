@@ -1,20 +1,6 @@
 #pragma once
 #include "ECSTypes.h"
 
-namespace
-{
-	// using ComponentData = std::unordered_map<std::string, std::any>;
-
-	// Rename blueprint property?
-	
-	
-
-	//using Property = std::any;
-	//using ComponentType = std::type_index;
-	// using ComponentMap = std::unordered_map<ComponentType, ComponentProperties>;
-
-}
-
 
 // BlueprintManager...
 
@@ -36,21 +22,12 @@ public:
 
 	static Property ParseProperty(const rapidjson::Value& value); // FIX! put elsewhere??
 
-
 private:
 	friend class EntityFactory;
 
 	std::unordered_map<std::string, ComponentProperties>	m_componentProperties;
-	//std::unordered_map<std::type_index, ComponentProperties>	m_componentProperties;
 
-
-	//std::unordered_map<std::string, ComponentData>	m_componentData;
-	//ComponentMap m_componentMap;
-
-
-
-	//std::unordered_map<ComponentType, ComponentProperties> m_componentData; // use type index instead for type?
-	
+	// std::unordered_map<ComponentType, ComponentProperties> m_componentData; // use type index instead for type?
 	// std::unordered_map<std::type_index, Component*> m_componentData;
 };
 

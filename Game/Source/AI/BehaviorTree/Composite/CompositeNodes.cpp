@@ -4,11 +4,11 @@
 
 #pragma region SelectorNode
 
-eBTNodeStatus SelectorNode::Execute(Entity* entity)
+eBTNodeStatus SelectorNode::Execute(Entity entity, ECS& ecs)
 {
 	for (auto* child : m_children)
 	{
-		eBTNodeStatus status = child->Execute(entity);
+		eBTNodeStatus status = child->Execute(entity, ecs);
 
 		if (status == eBTNodeStatus::Running || status == eBTNodeStatus::Success)
 			return status;
@@ -36,11 +36,11 @@ void SelectorNode::AddChild(BehaviorTreeNode* node)
 
 #pragma region SequenceNode
 
-eBTNodeStatus SequenceNode::Execute(Entity* entity)
+eBTNodeStatus SequenceNode::Execute(Entity entity, ECS& ecs)
 {
 	for (auto* child : m_children)
 	{
-		auto status = child->Execute(entity);
+		auto status = child->Execute(entity, ecs);
 
 		if (status == eBTNodeStatus::Running || status == eBTNodeStatus::Failure)
 			return status;

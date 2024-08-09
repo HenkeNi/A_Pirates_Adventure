@@ -150,6 +150,11 @@
       "type": "SceneTransitionSystem",
       "debug": true,
       "release": true
+    },
+    {
+      "type": "ProjectileSystem",
+      "debug": true,
+      "release": true
     }
   ]
 }

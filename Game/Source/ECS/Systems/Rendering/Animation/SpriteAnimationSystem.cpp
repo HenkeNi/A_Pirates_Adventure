@@ -1,8 +1,9 @@
 #include "Pch.h"
 #include "SpriteAnimationSystem.h"
-#include "Entities/EntityManager.h"
 #include "Components/Core/CoreComponents.h"
 #include "Components/Gameplay/GameplayComponents.h"
+#include "ECS.h"
+
 
 SpriteAnimationSystem::SpriteAnimationSystem()
 {
@@ -14,15 +15,15 @@ SpriteAnimationSystem::~SpriteAnimationSystem()
 
 void SpriteAnimationSystem::Update(float deltaTime) 
 {
-	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
+	// assert(m_entityManager && "ERROR: EntityManager is nullptr!");
 
-	auto entities = m_entityManager->FindAll<TransformComponent, AnimationComponent, SpriteComponent>();
+	auto entities = m_ecs->FindEntities(m_signatures["Animations"]);
 
-	for (auto* entity : entities)
+	for (auto entity : entities)
 	{
-		auto* transformComponent	= entity->GetComponent<TransformComponent>();
-		auto* spriteComponent		= entity->GetComponent<SpriteComponent>();
-		auto* animationComponent	= entity->GetComponent<AnimationComponent>();
+		auto* transformComponent	= m_ecs->GetComponent<TransformComponent>(entity);
+		auto* spriteComponent		= m_ecs->GetComponent<SpriteComponent>(entity);
+		auto* animationComponent	= m_ecs->GetComponent<AnimationComponent>(entity);
 
 		
 							
@@ -30,7 +31,7 @@ void SpriteAnimationSystem::Update(float deltaTime)
 		const std::string currentState = GetCurrentState(entity);								
 		auto& animation = animationComponent->Animations[currentState];
 		
-		if (auto* velocityComponent = entity->GetComponent<VelocityComponent>())
+		if (auto* velocityComponent = m_ecs->GetComponent<VelocityComponent>(entity))
 		{
 			UpdateSpriteOrientation(velocityComponent, transformComponent); // pass in entity instead?+
 		}
@@ -96,11 +97,16 @@ void SpriteAnimationSystem::Update(float deltaTime)
 	}
 }
 
-// Todo; no need for m_active?
-std::string SpriteAnimationSystem::GetCurrentState(Entity* entity) const
+void SpriteAnimationSystem::SetSignature()
 {
-	auto* characterStateComponent	= entity->GetComponent<CharacterStateComponent>();
-	auto* animationComponent		= entity->GetComponent<AnimationComponent>();
+	m_signatures.insert({ "Animations", m_ecs->GetSignature<AnimationComponent, TransformComponent, SpriteComponent>() });
+}
+
+// Todo; no need for m_active?
+std::string SpriteAnimationSystem::GetCurrentState(Entity entity) const
+{
+	auto* characterStateComponent	= m_ecs->GetComponent<CharacterStateComponent>(entity);
+	auto* animationComponent		= m_ecs->GetComponent<AnimationComponent>(entity);
 
 	// Todo; create map?
 

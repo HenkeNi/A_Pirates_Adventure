@@ -1,6 +1,7 @@
 #include "Pch.h"
 #include "EntityBlueprint.h"
 
+
 Property EntityBlueprint::ParseProperty(const rapidjson::Value& value)
 {
 	if (value.IsDouble())

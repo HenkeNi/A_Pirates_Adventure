@@ -1,6 +1,6 @@
 #include "Pch.h"
 #include "BehaviorTreeSystem.h"
-#include "Entities/EntityManager.h"
+#include "ECS.h"
 #include "Components/AI/AIComponents.h"
 #include "AI/BehaviorTree/Base/BehaviorTreeNode.h"
 
@@ -16,33 +16,36 @@ BehaviorTreeSystem::~BehaviorTreeSystem()
 
 void BehaviorTreeSystem::Update(float deltaTime)
 {
-	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
+	// assert(m_entityManager && "ERROR: EntityManager is nullptr!");
 
-	auto entities = m_entityManager->FindAll<BehaviorTreeComponent>();
+	auto entities = m_ecs->FindEntities(m_signatures["BehaviorTree"]);
 
-	for (auto& entity : entities)
+	for (auto entity : entities)
 	{
-		auto* behaviorComponent = entity->GetComponent<BehaviorTreeComponent>();
+		auto* behaviorComponent = m_ecs->GetComponent<BehaviorTreeComponent>(entity);
 			
 		if (auto* rootNode = behaviorComponent->RootNode)
-			rootNode->Execute(entity);
+			rootNode->Execute(entity, *m_ecs);
 	}
+}
+
+void BehaviorTreeSystem::SetSignature()
+{
+	m_signatures.insert({ "BehaviorTree", m_ecs->GetSignature<BehaviorTreeComponent>() });
 }
 
 void BehaviorTreeSystem::ClearBehaviorTreeNodes()
 {
-	auto entities = m_entityManager->FindAll<BehaviorTreeComponent>();
+	auto behaviorTreeComponents = m_ecs->GetComponents<BehaviorTreeComponent>();
 
-	for (auto& entity : entities)
+	for (auto* component : behaviorTreeComponents)
 	{
-		auto* behaviorComponet = entity->GetComponent<BehaviorTreeComponent>();
-
-		if (auto* rootNode = behaviorComponet->RootNode)
+		if (auto* rootNode = component->RootNode)
 		{
 			rootNode->OnDestroy();
 		
-			delete behaviorComponet->RootNode;
-			behaviorComponet->RootNode = nullptr;
+			delete component->RootNode;
+			component->RootNode = nullptr;
 		}
 	}
 }

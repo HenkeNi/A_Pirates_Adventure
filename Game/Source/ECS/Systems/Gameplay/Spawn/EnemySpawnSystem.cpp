@@ -1,7 +1,5 @@
 #include "Pch.h"
 #include "EnemySpawnSystem.h"
-#include "Entities/EntityManager.h"
-#include "Entities/Entity.h"
 #include "../AI/BehaviorTree/Composite/CompositeNodes.h"
 #include "../AI/BehaviorTree/Action/ActionNodes.h"
 #include "../AI/BehaviorTree/Condition/ConditionNodes.h"
@@ -23,28 +21,28 @@ void EnemySpawnSystem::Update(float deltaTime)
 {
 	return;
 
-	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
+	//assert(m_entityManager && "ERROR: EntityManager is nullptr!");
 
-	// Make a generic spawner system??
-	auto spawners = m_entityManager->FindAll<SpawnComponent>();
+	//// Make a generic spawner system??
+	//auto spawners = m_entityManager->FindAll<SpawnComponent>();
 
-	for (auto& spawner : spawners)
-	{
- 		auto* spawnComponent = spawner->GetComponent<SpawnComponent>();	// TODO; fix... spawner(s) seems to be garabage.. 201030302 m_components size....
+	//for (auto& spawner : spawners)
+	//{
+ //		auto* spawnComponent = spawner->GetComponent<SpawnComponent>();	// TODO; fix... spawner(s) seems to be garabage.. 201030302 m_components size....
 
-		spawnComponent->ElapsedTime += deltaTime; // replace with timestap + duration...
+	//	spawnComponent->ElapsedTime += deltaTime; // replace with timestap + duration...
 
-		bool isTimeToSpawn = spawnComponent->ElapsedTime >= spawnComponent->Interval;
-		bool isSpawnLimitReached = spawnComponent->SpawnedAmount >= spawnComponent->Amount;
+	//	bool isTimeToSpawn = spawnComponent->ElapsedTime >= spawnComponent->Interval;
+	//	bool isSpawnLimitReached = spawnComponent->SpawnedAmount >= spawnComponent->Amount;
 
-		if (isTimeToSpawn && !isSpawnLimitReached)
-		{
-			spawnComponent->ElapsedTime = 0.f;
-			++spawnComponent->Amount;
+	//	if (isTimeToSpawn && !isSpawnLimitReached)
+	//	{
+	//		spawnComponent->ElapsedTime = 0.f;
+	//		++spawnComponent->Amount;
 
-			SpawnEnemy(spawnComponent->Spawned, spawner->GetComponent<TransformComponent>()->CurrentPos);
-		}
-	}
+	//		SpawnEnemy(spawnComponent->Spawned, spawner->GetComponent<TransformComponent>()->CurrentPos);
+	//	}
+	//}
 	//
 	//static float currentTime = 0.f;
 	//static const float spawnDuration = 5.f;

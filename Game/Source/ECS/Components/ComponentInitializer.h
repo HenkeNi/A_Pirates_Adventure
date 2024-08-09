@@ -182,7 +182,7 @@ public:
 	template <>
 	inline static void InitializeComponent(PersonalityComponent* component, const ComponentProperties& properties)
 	{
-		component->IsAggressive = std::get<bool>(properties.at("is_aggressive"));
+		// component->IsAggressive = std::get<bool>(properties.at("is_aggressive"));
 	}
 
 	template <>
@@ -318,77 +318,4 @@ public:
 		component->TimeOfDayRanges.insert(std::make_pair(eTimeOfDay::Dusk, Hi_Engine::Range{ 0.61f, 0.8f }));
 		component->TimeOfDayRanges.insert(std::make_pair(eTimeOfDay::Night, Hi_Engine::Range{ 0.81f, 1.0f }));
 	}
-
-
-	//static void InitializeComponent(struct AnimationComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct AttackComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct AttributesComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct AudioComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct BehaviorTreeComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct ButtonComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct CameraComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct CharacterStateComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct ColliderComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct EnvironmentComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct GridComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct HarvestableComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct HealthComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct InventoryComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct MapChunkComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct PlayerControllerComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct SpawnComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct SpriteComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct SteeringBehaviorComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct TransformComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct TextComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct ResourceComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct VelocityComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct WeaponComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct WorldTimeComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct WanderBehaviorComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct PersonalityComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct FlockBehaviorComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct SeekBehaviorComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct FleeBehaviorComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct ShakeComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct TagComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct ToppleComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct SceneTransitionComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct TimerComponent* component, const ComponentProperties& properties);
-
-	//static void InitializeComponent(struct UIComponent* component, const ComponentProperties& properties);
 };

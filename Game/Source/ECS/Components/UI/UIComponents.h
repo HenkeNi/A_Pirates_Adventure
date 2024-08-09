@@ -12,10 +12,9 @@ struct ButtonComponent
 	std::string				Identifier;
 	FVector4				HoverColor = { 0.2f, 0.2f, 0.2f, 1.f };
 
-	std::function<void()>	OnClick;
+	std::function<void()>	OnClick; // or a Command?
 	bool					IsHovered = false; // store button state?? => send mouse click event (ui system listens for it, rather than checking directly if mouse is pressed??)
 	bool					IsPressed = false;
-	//class Command* Command; // ??
 };
 
 struct CursorComponent

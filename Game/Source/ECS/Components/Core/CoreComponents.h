@@ -117,6 +117,8 @@ struct ColorComponent
 	Color CurrentColor;
 	Color DefaultColor;
 };
+// SpriteSheet component? (stores texture atlas, also holds current frame, etc...)
+// Shadow component??
 
 
 // ############# Input Components ############# //

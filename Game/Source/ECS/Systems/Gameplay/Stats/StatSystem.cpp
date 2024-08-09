@@ -1,6 +1,5 @@
 #include "Pch.h"
 #include "StatSystem.h"
-#include "Entities/EntityManager.h"
 #include "Components/Gameplay/GameplayComponents.h"
 
 
@@ -20,7 +19,6 @@ void StatSystem::Receive(Message& message)
 
 	// TODO; listen for item equiped, unequiped, etc..?
 
-	assert(m_entityManager && "ERROR: EntityManager is nullptr!");
 
 	//auto msg = aMsg;
 
@@ -50,8 +48,6 @@ void StatSystem::Update(float deltaTime)
 {
 	// Send event if something dies...
 	
-	if (!m_entityManager)
-		return;
 
 
 	//for (auto entity : m_entitiesToRemove)

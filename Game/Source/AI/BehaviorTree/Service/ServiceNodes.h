@@ -5,7 +5,7 @@
 class SetWanderPosition : public BehaviorTreeNode
 {
 public:
-	eBTNodeStatus	Execute(Entity entity)	override;
+	eBTNodeStatus	Execute(Entity entity, ECS& ecs)	override;
 };
 
 
@@ -13,6 +13,6 @@ public:
 class SetTargetNode : public BehaviorTreeNode
 {
 public:
-	eBTNodeStatus	Execute(Entity entity)	override;
+	eBTNodeStatus	Execute(Entity entity, ECS& ecs)	override;
 };
 

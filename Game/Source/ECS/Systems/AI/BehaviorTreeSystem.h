@@ -11,6 +11,7 @@ public:
 	
 	// Init function for setting up AI??
 	void Update(float deltaTime)	override;
+	void SetSignature() override;
 
 private:
 	void ClearBehaviorTreeNodes();

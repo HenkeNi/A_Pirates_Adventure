@@ -9,6 +9,7 @@ public:
 	~SpriteAnimationSystem();
 
 	void Update(float deltaTime)	override;
+	void SetSignature() override;
 
 private:
 	std::string GetCurrentState(Entity entity) const; // ???

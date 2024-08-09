@@ -1,16 +1,16 @@
 #include "Pch.h"
 #include "ActionNodes.h"
-#include "Entities/Entity.h"
 #include "Components/Components.h"
+#include "ECS.h"
 
 
 #pragma region IdleNode
 
-eBTNodeStatus IdleNode::Execute(Entity entity)
+eBTNodeStatus IdleNode::Execute(Entity entity, ECS& ecs)
 {
 	if (entity)
 	{
-		StopMovement(entity);
+		StopMovement(entity, ecs);
 
 		return eBTNodeStatus::Success;
 	}
@@ -18,11 +18,11 @@ eBTNodeStatus IdleNode::Execute(Entity entity)
 	return eBTNodeStatus::Invalid;
 }
 
-void IdleNode::StopMovement(Entity entity)
+void IdleNode::StopMovement(Entity entity, ECS& ecs)
 {
 	// Break slowely? (return running if not fully stopped)
 	
-	if (auto* velocityComponent = entity->GetComponent<VelocityComponent>())
+	if (auto* velocityComponent = ecs.GetComponent<VelocityComponent>(entity))
 		velocityComponent->Velocity = { 0.f, 0.f }; 
 }
 
@@ -31,7 +31,7 @@ void IdleNode::StopMovement(Entity entity)
 
 #pragma region AlertNode
 
-eBTNodeStatus AlertNode::Execute(Entity* entity)
+eBTNodeStatus AlertNode::Execute(Entity entity, ECS& ecs)
 {
 
 	return eBTNodeStatus();
@@ -43,21 +43,21 @@ void AlertNode::OnDestroy()
 
 #pragma endregion AlertNode
 
-eBTNodeStatus MoveToDestinationNode::Execute(Entity* entity)
+eBTNodeStatus MoveToDestinationNode::Execute(Entity entity, ECS& ecs)
 {
 	static float wanderSpeed = 0.5f;
 
 	if (entity)
 	{
-		auto* destinationComponent = entity->GetComponent<DestinationComponent>();
+		auto* destinationComponent = ecs.GetComponent<DestinationComponent>(entity);
 		const auto& destination = destinationComponent->Destination;
 
-		auto* transformComponent = entity->GetComponent<TransformComponent>();
+		auto* transformComponent = ecs.GetComponent<TransformComponent>(entity);
 		const auto& currentPosition = transformComponent->CurrentPos;
 
 		auto direction = currentPosition.DirectionTo(destination);
 		
-		auto* velocityComponent = entity->GetComponent<VelocityComponent>();
+		auto* velocityComponent = ecs.GetComponent<VelocityComponent>(entity);
 		velocityComponent->Velocity = direction.GetNormalized();
 		velocityComponent->Speed = wanderSpeed;
 
@@ -69,27 +69,28 @@ eBTNodeStatus MoveToDestinationNode::Execute(Entity* entity)
 	return eBTNodeStatus::Running;
 }
 
-eBTNodeStatus ChaseTargetNode::Execute(Entity* entity)
+eBTNodeStatus ChaseTargetNode::Execute(Entity entity, ECS& ecs)
 {
 	static float chaseSpeed = 1.f;
 
 	if (entity)
 	{
-		auto* targetComponent = entity->GetComponent<TargetComponent>();
-		auto* transformComponent = entity->GetComponent<TransformComponent>();
+		auto* targetComponent = ecs.GetComponent<TargetComponent>(entity);
+		auto* transformComponent = ecs.GetComponent<TransformComponent>(entity);
 
 		const auto& currentPosition = transformComponent->CurrentPos;
+		int taget = targetComponent->Target;
 
+		if (auto* targetTransformComponent = ecs.GetComponent<TransformComponent>(taget))
+		{
+			const auto& targetCurrentPosition = targetTransformComponent->CurrentPos;
 
-		auto* targetTransformComponent = targetComponent->Target->GetComponent<TransformComponent>();
-		const auto& targetCurrentPosition = targetTransformComponent->CurrentPos;
+			auto direction = currentPosition.DirectionTo(targetCurrentPosition);
 
-		auto direction = currentPosition.DirectionTo(targetCurrentPosition);
-
-		auto* velocityComponent = entity->GetComponent<VelocityComponent>();
-		velocityComponent->Velocity = direction.GetNormalized();
-		velocityComponent->Speed = chaseSpeed;
-
+			auto* velocityComponent = ecs.GetComponent<VelocityComponent>(entity);
+			velocityComponent->Velocity = direction.GetNormalized();
+			velocityComponent->Speed = chaseSpeed;
+		}
 	}
 
 	return eBTNodeStatus::Running;
@@ -97,14 +98,14 @@ eBTNodeStatus ChaseTargetNode::Execute(Entity* entity)
 
 #pragma region MoveToTargetNode
 
-eBTNodeStatus MoveToNode::Execute(Entity* entity)
+eBTNodeStatus MoveToNode::Execute(Entity entity, ECS& ecs)
 {
 	if (entity)
 	{
 		//std::cout << "move\n";
 
-		auto* blackboardComponent = entity->GetComponent<BlackboardComponent>();
-		auto* transformComponent = entity->GetComponent<TransformComponent>();
+		auto* blackboardComponent = ecs.GetComponent<BlackboardComponent>(entity);
+		auto* transformComponent = ecs.GetComponent<TransformComponent>(entity);
 		
 		//if (!blackboardComponent->IsMovingToPOI)
 		//	return eBTNodeStatus::Failure;
@@ -116,7 +117,7 @@ eBTNodeStatus MoveToNode::Execute(Entity* entity)
 		//if (transformComponent->CurrentPos == blackboardComponent->PointOfInterest)
 		//	return eBTNodeStatus::Success;
 
-		auto* velocityComponent = entity->GetComponent<VelocityComponent>();
+		auto* velocityComponent = ecs.GetComponent<VelocityComponent>(entity);
 
 	//	auto direction = transformComponent->CurrentPos.DirectionTo(blackboardComponent->PointOfInterest);
 	//	velocityComponent->Velocity = direction.GetNormalized();
@@ -146,7 +147,7 @@ eBTNodeStatus MoveToNode::Execute(Entity* entity)
 
 
 #pragma region AttackTargetNode
-eBTNodeStatus AttackTargetNode::Execute(Entity* entity)
+eBTNodeStatus AttackTargetNode::Execute(Entity entity, ECS& ecs)
 {
 	return eBTNodeStatus();
 }

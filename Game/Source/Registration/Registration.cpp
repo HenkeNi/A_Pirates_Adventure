@@ -4,7 +4,6 @@
 #include "Systems/SystemManager.h"
 #include "Systems/Systems.h"
 #include "Scenes/Scenes.h"
-//#include "Entities/EntityFactory.h"
 #include "Components/Components.h"
 
 
@@ -92,36 +91,30 @@ namespace Registration
 		//ecs.RegisterSystem<EnemySpawnSystem>("EnemySpawnSystem");
 		ecs.RegisterSystem<EquipmentSystem>("EquipmentSystem");
 		ecs.RegisterSystem<InventorySystem>("InventorySystem");
-		//ecs.RegisterSystem<MeleeCombatSystem>("MeleeCombatSystem");
-		//ecs.RegisterSystem<RangedCombatSystem>("RangedCombatSystem");
+		ecs.RegisterSystem<ProjectileSystem>("ProjectileSystem");
 		ecs.RegisterSystem<ShakeSystem>("ShakeSystem");
 		ecs.RegisterSystem<TimeSystem>("TimeSystem");
 		ecs.RegisterSystem<SpawnSystem>("SpawnSystem");
 		//ecs.RegisterSystem<StatSystem>("StatSystem");
 
-		///* - Map Systems - */
+		/* - Map Systems - */
 		ecs.RegisterSystem<MapGenerationSystem>("MapGenerationSystem");
 		ecs.RegisterSystem<MapDecorationSystem>("MapDecorationSystem");
 
-		///* -  UI Systems - */
+		/* -  UI Systems - */
 		ecs.RegisterSystem<UISystem>("UISystem");
 		ecs.RegisterSystem<HUDSystem>("HUDSystem");
 
-		///* - AI Systems - */
+		/* - AI Systems - */
 		//ecs.RegisterSystem<BlackboardSystem>("BlackboardSystem");
 		//ecs.RegisterSystem<BehaviorTreeSystem>("BehaviorTreeSystem");
 		//ecs.RegisterSystem<SteeringBehaviorSystem>("SteeringBehaviorSystem");
 		//ecs.RegisterSystem<StateTransitionSystem>("StateTransitionSystem");
 
-		///* - Audio System - */
+		/* - Audio System - */
 		ecs.RegisterSystem<AudioSystem>("AudioSystem");
 
 		/* - Render Systems - */
-		//ecs.RegisterSystem<DebugRenderSystem>("DebugRenderSystem");
-		//ecs.RegisterSystem<TextRenderSystem>("TextRenderSystem");
-		//ecs.RegisterSystem<UIRenderSystem>("UIRenderSystem");
-		//ecs.RegisterSystem<SpriteRenderSystem>("SpriteRenderSystem");
-		//ecs.RegisterSystem<MapRenderSystem>("MapRenderSystem");
 		ecs.RegisterSystem<RenderSystem>("RenderSystem");
 	}
 

@@ -12,8 +12,7 @@
 
 /* - Gameplay systems - */
 #include "Gameplay/Combat/CombatSystem.h"
-#include "Gameplay/Combat/MeleeCombatSystem.h"
-#include "Gameplay/Combat/RangedCombatSystem.h"
+#include "Gameplay/Combat/ProjectileSystem.h"
 #include "Gameplay/Inventory/InventorySystem.h"
 #include "Gameplay/Equipment/EquipmentSystem.h"
 #include "Gameplay/Stats/StatSystem.h"
@@ -43,9 +42,4 @@
 /* Rendering systems */
 #include "Rendering/Animation/SpriteAnimationSystem.h"
 #include "Rendering/Camera/CameraSystem.h"
-#include "Rendering/Sprite/SpriteRenderSystem.h"
-#include "Rendering/Text/TextRenderSystem.h"
-#include "Rendering/Debug/DebugRenderSystem.h"
-#include "Rendering/Map/MapRenderSystem.h"
-#include "Rendering/UI/UIRenderSystem.h"
 #include "Rendering/RenderSystem.h"

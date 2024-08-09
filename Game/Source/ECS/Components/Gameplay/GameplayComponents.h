@@ -6,17 +6,16 @@
 struct AttributesComponent
 {
 	int Perception = 5;
-
-	// std::unordered_map<std::string, Stat<int>>		m_attributes;
 };
 
-// Rename TraitComponent?
 struct PersonalityComponent
 {
-	bool IsAggressive = false;
-	// bool IsFriendly = false;
-	// bool IsHostile = false;
-	// bool IsLoyal = false;
+	bool IsLoyal = false;
+	bool IsFriendly = false;
+	bool IsHonest = false;
+	bool IsNervous = false;
+	bool IsHelpful = false;
+	bool IsCompetent = false;
 };
 
 struct FriendlyComponent
@@ -31,18 +30,36 @@ struct CrewComponent
 {
 };
 
-// Rename? PlayerStateComponent, should just be used by the player??
 struct CharacterStateComponent
 {
 	bool IsIdle;
 	bool IsWalking;
 	bool IsRunning;
 	bool IsAttacking;
-	bool IsAlive;		// remove?
+	bool IsAlive;
 	bool IsAiming;
 };
 
+struct StaminaComponent
+{
+	unsigned MaxStamina;
+	int CurrentValue;
+};
 
+struct HealthComponent // stats component instead?
+{
+	// Stat<int>		HealthStat;
+	int				MaxHealth = 100;
+	int				CurrentValue = 100; // make sure is updated when removing modifiers
+	bool			IsInvincible;
+
+	// TODO; store active effects? Or have an effect component?
+};
+
+struct PhysicalNeeds
+{
+	std::unordered_map<std::string, float> Needs;
+};
 
 
 
@@ -53,32 +70,17 @@ struct RecipeComponent
 	std::unordered_map<std::string, unsigned> RequiredItems;
 };
 
-
-
-
-
-// TreeResourceComponent
-struct ResourceComponent
+struct ResourceComponent // Remove?
 {
-	//std::string m_entityToCreate = "TreeResource";	// FIX!
-	// std::string m_entityToCreate = "Resource";	// FIX!
-
-	// TODO; 
 	std::string ResourceType;
 	// unsigned	m_quantity;
 };
 
-
-
-// Harvest system?? HarvetableComponent  ResourceSpawnerComponent
-
-// maybe remove??? or use for fruit trees, etc?
 struct HarvestableComponent
 {
-	std::string ResourceType;	 // Rename??
+	std::string ResourceType;
 	int			Yield;
 };
-
 
 // Replace with ItemSpawner??
 struct ResourceProducerComponent
@@ -89,35 +91,13 @@ struct ResourceProducerComponent
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-/* - Controllers - */ // MOVE THIS 0> Not ai...	
-
+//#################### Controller Components ####################//
 struct PlayerControllerComponent
 {
-	//std::unordered_map<KeyStatus, class Command*> InputMapping;
-	std::unordered_map<Hi_Engine::eKey, class Command*> InputMapping; // TODO; rename, move Command from engine?
-	// - Input/Gamepad mappings -> key, command?
-	// COmmands..
+	std::unordered_map<Hi_Engine::eKey, class Command*> InputMapping;
 };
 
 
-
-
-
-
-// SpriteSheet component? (stores texture atlas, also holds current frame, etc...)
-
-// Shadow component??
 
 
 // Stats such as Health, Stamina, Armor(?), Regeneration -> separate stat components or all in one?
@@ -127,40 +107,6 @@ struct PlayerControllerComponent
 //	std::unordered_map<std::string, StatModifier<float>>		m_floatStats;
 //	std::unordered_map<std::string, StatModifier<unsigned>>		m_intStats;
 //};
-
-// Rename attributes?
-
-struct HealthComponent
-{
-	Stat<int>		HealthStat; // DONT!?
-
-	int MaxHealth = 100;
-	// unsigned		m_maxHealth; // renaem?
-	int				CurrentValue = 100; // make sure is updated when removing modifiers... (100 is just temp -> init somewhere)...
-	bool			IsInvincible;
-
-	// TODO; store in effects? Or have an effect component?
-
-};
-
-struct StaminaComponent
-{
-	unsigned MaxStamina;
-	int CurrentValue;
-	// bool m_is;
-};
-
-
-
-
-
-// HERE??? or Needed???
-struct PhysicalNeeds
-{
-	std::unordered_map<std::string, float> Needs;
-
-};
-
 
 //enum class eModifierType
 //{
@@ -185,21 +131,6 @@ struct PhysicalNeeds
 
 
 
-
-
-
-
-
-
-
-
-
-// Dont have health? Use Stats Component instead?
-//struct HealthComponent : public ComponentBase
-//{
-//	int		m_maxHealth;
-//	int		m_currentHealth;
-//};
 
 
 
@@ -301,26 +232,18 @@ struct VisionComponent
 
 
 
-// MOVE
-
-// reanem SpawnComponent?
-struct SpawnerComponent
+// rename SpawnerComponent?
+struct SpawnComponent
 {
-	std::string Spawned;// SpawnableBlueprintID; // ID to entity to create
-	int			Amount;
-	bool		IsReadyToSpawn; // Spawn type (on death, on hit)???
+	std::string Spawned;
+	float		SpawnRadius = 30.f;
+	float		Interval = 2.f;	// Todo; Give small individual delay..
+	float		ElapsedTime = 0.f;
+	int			Amount = 10;
+	int			SpawnedAmount = 0; // Rename..
 
-	// bool IsRepeating? or make its own component? Repating Spwaner
+	// bool repeat; ?
 };
-
-struct EnemySpawnerComponent
-{
-};
-
-struct ItemSpawnerComponent
-{
-};
-
 
 struct EnvironmentComponent
 {

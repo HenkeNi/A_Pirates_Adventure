@@ -7,11 +7,11 @@ InverterNode::InverterNode(BehaviorTreeNode* child)
 {
 }
 
-eBTNodeStatus InverterNode::Execute(Entity* entity)
+eBTNodeStatus InverterNode::Execute(Entity entity, ECS& ecs)
 {
     if (entity && m_child)
     {
-        auto childState = m_child->Execute(entity);
+        auto childState = m_child->Execute(entity, ecs);
 
         if (childState == eBTNodeStatus::Success)
             return eBTNodeStatus::Failure;
@@ -37,11 +37,11 @@ SucceederNode::SucceederNode(BehaviorTreeNode* child)
 {
 }
 
-eBTNodeStatus SucceederNode::Execute(Entity* entity)
+eBTNodeStatus SucceederNode::Execute(Entity entity, ECS& ecs)
 {
     if (entity && m_child)
     {
-        m_child->Execute(entity);
+        m_child->Execute(entity, ecs);
     }
 
     return eBTNodeStatus::Success;

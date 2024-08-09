@@ -6,7 +6,7 @@
 class SelectorNode : public BehaviorTreeNode
 {
 public:
-	eBTNodeStatus	Execute(Entity entity)	override;
+	eBTNodeStatus	Execute(Entity entity, ECS& ecs)	override;
 	void			OnDestroy()						override;
 
 	void			AddChild(BehaviorTreeNode* node);
@@ -20,7 +20,7 @@ private:
 class SequenceNode : public BehaviorTreeNode
 {
 public:
-	eBTNodeStatus	Execute(Entity entity)	override;
+	eBTNodeStatus	Execute(Entity entity, ECS& ecs)	override;
 	void			OnDestroy()						override;
 
 	void			AddChild(BehaviorTreeNode* node);

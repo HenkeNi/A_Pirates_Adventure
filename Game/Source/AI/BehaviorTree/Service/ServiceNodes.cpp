@@ -1,28 +1,28 @@
 #include "Pch.h"
 #include "ServiceNodes.h"
-#include "Entities/Entity.h"
 #include "Components/Components.h"
+#include "ECS.h"
 
 
-eBTNodeStatus SetWanderPosition::Execute(Entity* entity)
+eBTNodeStatus SetWanderPosition::Execute(Entity entity, ECS& ecs)
 {
 	if (entity)
 	{
-		if (!entity->HasComponent<DestinationComponent>())
+		if (!ecs.HasComponent<DestinationComponent>(entity))
 		{
-			auto* component = Hi_Engine::MemoryPool<DestinationComponent>::GetInstance().GetResource();
-			entity->AddComponent(component);
+			//auto* component = Hi_Engine::MemoryPool<DestinationComponent>::GetInstance().GetResource();
+			ecs.AddComponent<DestinationComponent>(entity);
 		}
 
-		auto* transformComponent = entity->GetComponent<TransformComponent>();
+		auto* transformComponent = ecs.GetComponent<TransformComponent>(entity);
 		auto currentPosition = transformComponent->CurrentPos;
 
-		auto* attributesComponent = entity->GetComponent<AttributesComponent>();
+		auto* attributesComponent = ecs.GetComponent<AttributesComponent>(entity);
 		int perception = attributesComponent->Perception;
 
 		auto random = Hi_Engine::GenerateRandomFloatingPointInRadius<float>(currentPosition, perception * Tile::Size);
 
-		auto* destinationComponent = entity->GetComponent<DestinationComponent>();
+		auto* destinationComponent = ecs.GetComponent<DestinationComponent>(entity);
 		destinationComponent->Destination = random;
 	}
 
@@ -30,29 +30,29 @@ eBTNodeStatus SetWanderPosition::Execute(Entity* entity)
 }
 
 
-eBTNodeStatus SetTargetNode::Execute(Entity* entity)
+eBTNodeStatus SetTargetNode::Execute(Entity entity, ECS& ecs)
 {
 	if (entity)
 	{
-		if (!entity->HasComponent<TargetComponent>())
+		if (!ecs.HasComponent<TargetComponent>(entity))
 		{
-			auto* component = Hi_Engine::MemoryPool<TargetComponent>::GetInstance().GetResource();
-			entity->AddComponent(component);
+			// auto* component = Hi_Engine::MemoryPool<TargetComponent>::GetInstance().GetResource();
+			ecs.AddComponent<TargetComponent>(entity);
 		}
 
-		auto* targetComponent = entity->GetComponent<TargetComponent>();
-		auto* blackboardComponent = entity->GetComponent<BlackboardComponent>();
+		auto* targetComponent = ecs.GetComponent<TargetComponent>(entity);
+		auto* blackboardComponent = ecs.GetComponent<BlackboardComponent>(entity);
 
-		std::vector<Entity*> targets;
+		std::vector<Entity> targets;
 
-		if (entity->HasComponent<FriendlyComponent>())
+		if (ecs.HasComponent<FriendlyComponent>(entity))
 		{
-			targets = blackboardComponent->Hostile;
+			// targets = blackboardComponent->Hostile;
 			//auto targets = BlackboardComponent::Hostile;
 		}
-		else if (entity->HasComponent<HostileComponent>())
+		else if (ecs.HasComponent<HostileComponent>(entity))
 		{
-			targets = blackboardComponent->Friendly;
+			// targets = blackboardComponent->Friendly;
 		}
 
 		// get closes enemy... make function somewhhere
@@ -60,12 +60,12 @@ eBTNodeStatus SetTargetNode::Execute(Entity* entity)
 		if (!targets.empty())
 		{
 			
-			auto* transformComponent = entity->GetComponent<TransformComponent>();
+			auto* transformComponent = ecs.GetComponent<TransformComponent>(entity);
 
-			std::sort(targets.begin(), targets.end(), [&](const Entity* lhs, const Entity* rhs) 
+			std::sort(targets.begin(), targets.end(), [&](Entity lhs, Entity rhs) 
 			{
-					auto* lhsTransformComponent = lhs->GetComponent<TransformComponent>();
-					auto* rhsTransformComponent = rhs->GetComponent<TransformComponent>();
+					auto* lhsTransformComponent = ecs.GetComponent<TransformComponent>(lhs);
+					auto* rhsTransformComponent = ecs.GetComponent<TransformComponent>(rhs);
 
 					auto lhsDistance = transformComponent->CurrentPos.DistanceTo(lhsTransformComponent->CurrentPos);
 					auto rhsDistance = transformComponent->CurrentPos.DistanceTo(rhsTransformComponent->CurrentPos);
@@ -77,7 +77,7 @@ eBTNodeStatus SetTargetNode::Execute(Entity* entity)
 		}
 		else
 		{
-			targetComponent->Target = nullptr; // or removee component?
+			targetComponent->Target = 0; // or removee component?
 		}
 	}
 
