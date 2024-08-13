@@ -26,6 +26,7 @@
 #include "Physics/CollisionSystem.h"
 #include "Physics/MovementSystem.h"
 #include "Physics/ShakeSystem.h"
+#include "Physics/PhysicsSystem.h"
 
 #include "UI/HUDSystem.h"
 #include "UI/UISystem.h"

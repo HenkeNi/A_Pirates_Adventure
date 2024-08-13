@@ -20,9 +20,19 @@ namespace Hi_Engine
 		s_window = window;
 	}
 
+	void ServiceLocator::Register(std::weak_ptr<PhysicsEngine> physics)
+	{
+		s_physics = physics;
+	}
+
 	std::weak_ptr<Window> ServiceLocator::GetWindow()
 	{
 		return s_window;
+	}
+
+	std::weak_ptr<PhysicsEngine> ServiceLocator::GetPhysics()
+	{
+		return s_physics;
 	}
 
 }

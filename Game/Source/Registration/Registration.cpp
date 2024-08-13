@@ -82,6 +82,7 @@ namespace Registration
 		ecs.RegisterSystem<MovementSystem>("MovementSystem");
 		ecs.RegisterSystem<CameraSystem>("CameraSystem");
 		ecs.RegisterSystem<CollisionSystem>("CollisionSystem");
+		ecs.RegisterSystem<PhysicsSystem>("PhysicsSystem");
 		ecs.RegisterSystem<PlayerControllerSystem>("PlayerControllerSystem");
 		ecs.RegisterSystem<SceneTransitionSystem>("SceneTransitionSystem");
 		//ecs.RegisterSystem<SpriteAnimationSystem>("SpriteAnimationSystem");

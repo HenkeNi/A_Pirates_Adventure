@@ -83,7 +83,7 @@ void TimeSystem::UpdateWorldTime(float deltaTime)
 			}
 		}
 
-		std::cout << worldTimeComponent->CurrentDayProgress << "\n";
+		// std::cout << worldTimeComponent->CurrentDayProgress << "\n";
 	}
 }
 

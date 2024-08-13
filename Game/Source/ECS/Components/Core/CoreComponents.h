@@ -30,6 +30,16 @@ struct TransformComponent
 	float    Rotation		= 0.f;
 };
 
+
+struct PhysicsComponent
+{
+	Hi_Engine::BoxCollider BoxCollider;
+	FVector2 Velocity;
+	// density
+	// 
+};
+
+
 struct VelocityComponent
 {
 	FVector2 Velocity;
@@ -37,9 +47,16 @@ struct VelocityComponent
 	bool	 IsVelocityConstant = false;
 };
 
+
+
+
+
 // Rename BoxColliderComponent (or RectangleComponent)
 struct ColliderComponent
 {
+	Hi_Engine::PhysicsBody PhysicsBody;
+	//Hi_Engine::BoxCollider BoxCollider;
+
 	Hi_Engine::Physics::AABB2D<float>	Collider;
 	Offset								Offset;
 	//FVector2				Offset;

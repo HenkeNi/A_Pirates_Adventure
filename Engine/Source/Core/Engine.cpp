@@ -9,10 +9,11 @@
 #include "Input/InputHandler.h"
 #include "Window/Window.h"
 #include "ImGui/ImGuiManager.h"
-#include "../Utility/Time/Timer.h"
 #include "ServiceLocator/ServiceLocator.h" /// ?
 #include "Noise/NoiseGenerator.h"
 #include "Rendering/Shader/Shader.h"
+#include "Physics/PhysicsEngine.h"
+#include "../Utility/Time/Timer.h"
 #include <GLFW/glfw3.h> 
 
 
@@ -77,7 +78,6 @@ namespace Hi_Engine
 		auto renderer = m_moduleManager.GetModule<Renderer>().lock();
 		auto window = m_moduleManager.GetModule<Window>().lock();
 		auto editor = m_moduleManager.GetModule<ImGuiManager>().lock();
-
 		auto textRenderer = m_moduleManager.GetModule<TextRenderer>().lock();
 
 		while (m_isRunning)	// Todo, use enum for GameState instead? !GameState::EXIT or call function in Application? ShouldRun()?
@@ -94,7 +94,7 @@ namespace Hi_Engine
 			/* - Update - */
 			m_application.OnUpdate(deltaTime);
 			m_application.OnLateUpdate(deltaTime);
-
+			
 			/* - Clear screen - */
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // put in renderer
@@ -140,12 +140,14 @@ namespace Hi_Engine
 		m_moduleManager.RegisterModule<TextRenderer>(3);
 		m_moduleManager.RegisterModule<InputHandler>(4);
 		m_moduleManager.RegisterModule<AudioController>(5);
+		m_moduleManager.RegisterModule<PhysicsEngine>(6);
 
 #ifdef DEBUG
-		m_moduleManager.RegisterModule<ImGuiManager>(6);
+		m_moduleManager.RegisterModule<ImGuiManager>(7 );
 #endif
 
 		ServiceLocator::Register(m_moduleManager.GetModule<Window>());
+		ServiceLocator::Register(m_moduleManager.GetModule<PhysicsEngine>());
 	}
 
 	void Engine::LoadResources()

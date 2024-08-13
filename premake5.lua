@@ -42,6 +42,7 @@ project "Engine"
 	IncludeDir["FastNoise"]  = "%{prj.name}/Dependencies/FastNoise"
 	IncludeDir["glm"]		 = "ThirdParty/glm"
 	IncludeDir["irrKlang"]	 = "%{prj.name}/Dependencies/irrKlang/include"
+	IncludeDir["Box2D"]		 = "%{prj.name}/Dependencies/Box2D/include"
 
 	-- (C++/Preprocessor -> Preprocessor Definitions)
 	defines { "GLEW_STATIC" }
@@ -57,6 +58,7 @@ project "Engine"
 		"%{IncludeDir.rapidjson}",
 		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.irrKlang}",
+		"%{IncludeDir.Box2D}",
 		"%{prj.name}/",
 		"%{prj.name}/Dependencies/ImGui",
 		"%{prj.name}/Dependencies/GLEW",
@@ -81,7 +83,8 @@ project "Engine"
 		"glew32s",
 		"opengl32",
 		"freetype",
-		"irrKlang"
+		"irrKlang",
+		"box2d"
 	}
 
 	filter "files:Engine/Dependencies/**.cpp"
@@ -103,7 +106,8 @@ project "Engine"
 		runtime "Debug"
 		libdirs 
 		{ 
-			"%{prj.name}/Dependencies/FreeType/lib/Debug", 
+			"%{prj.name}/Dependencies/Box2D/lib/Debug",
+			"%{prj.name}/Dependencies/FreeType/lib/Debug"
 		}
 
 	filter "configurations:Release"
@@ -112,7 +116,8 @@ project "Engine"
 		runtime "Release"
 		libdirs 
 		{ 
-			"%{prj.name}/Dependencies/FreeType/lib/Release",
+			"%{prj.name}/Dependencies/Box2D/lib/Release",
+			"%{prj.name}/Dependencies/FreeType/lib/Release"
 		}
 
 

@@ -96,6 +96,8 @@ public:
 
 		component->Collider.Init({ -halfWidth, -halfHeight }, { halfWidth, halfHeight });
 
+
+		// Store function pointers in map???
 		std::string type = std::get<std::string>(properties.at("type"));
 		if (type == "Trigger")
 		{
@@ -104,6 +106,21 @@ public:
 		else if (type == "Dynamic")
 		{
 			component->Type = eColliderType::Dynamic;
+
+			// do in PhysicsSystem instead???
+		/*	float xPos = 0.f;
+			float yPos = 0.f;
+			float width = 25.f;
+			float height = 25.f;
+			float density = 1.f;
+			float friction = 0.3f;*/
+
+		//	Hi_Engine::ServiceLocator::GetPhysics().lock()->CreateDynamicBody({ xPos, yPos, width, height, density, friction });
+		}
+		else if (type == "Static")
+		{
+			component->Type = eColliderType::Static;
+			///Hi_Engine::ServiceLocator::GetPhysics().lock()->CreateDynamicBody({ xPos, yPos, width, height, density, friction });
 		}
 
 
@@ -114,6 +131,9 @@ public:
 			component->Offset.YOffset = offset.y;
 			component->Offset.IsDirectionallyBound = std::get<bool>(properties.at("is_offset_directionally_bound"));
 		}
+
+
+
 	}
 
 	template <>

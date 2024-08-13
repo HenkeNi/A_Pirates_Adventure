@@ -17,6 +17,7 @@
 #include "Source/Core/ServiceLocator/ServiceLocator.h"
 
 /* - Physics - */
+#include "Physics/PhysicsEngine.h"
 #include "Source/Core/Physics/Primitives/2D/AABB2D.hpp"
 #include "Source/Core/Physics/Primitives/2D/Ray2D.hpp"
 #include "Source/Core/Physics/Primitives/2D/LineSegment2D.hpp"

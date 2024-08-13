@@ -155,6 +155,11 @@
       "type": "ProjectileSystem",
       "debug": true,
       "release": true
+    },
+    {
+      "type": "PhysicsSystem",
+      "debug": true,
+      "release": true
     }
   ]
 }
