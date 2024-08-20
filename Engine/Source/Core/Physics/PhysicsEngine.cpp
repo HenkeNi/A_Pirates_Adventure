@@ -12,6 +12,7 @@ namespace Hi_Engine
 
 	PhysicsEngine::~PhysicsEngine()
 	{
+		delete m_world;
 	}
 
 	bool PhysicsEngine::Init()
@@ -47,6 +48,11 @@ namespace Hi_Engine
 	//	m_world->DebugDraw();
 	//}
 
+	void PhysicsEngine::SetGravity(const FVector2& gravity)
+	{
+		m_world->SetGravity({ gravity.x, gravity.y });
+	}
+
 	PhysicsBody PhysicsEngine::CreateDynamicBody(const DynamicColliderData& data)
 	{
 		const auto& [position, size, density, friction] = data;
@@ -61,7 +67,7 @@ namespace Hi_Engine
 
 		b2FixtureDef fixtureDef;
 		fixtureDef.shape = &dynamicBox;
-		fixtureDef.density = density;
+		fixtureDef.density = 0.25f;
 		fixtureDef.friction = friction;
 
 		body->CreateFixture(&fixtureDef);

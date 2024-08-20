@@ -19,6 +19,8 @@ namespace Hi_Engine
 		void Update(float deltaTime);
 		//void DebugDraw();
 
+		void SetGravity(const FVector2& gravity);
+
 		PhysicsBody CreateDynamicBody(const DynamicColliderData& data);
 		PhysicsBody CreateStaticBody(const StaticColliderData& data);
 

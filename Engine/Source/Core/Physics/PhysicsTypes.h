@@ -18,6 +18,8 @@ namespace Hi_Engine
 		void SetBody(b2Body* body);
 		void SetVelocity(const FVector2& velocity);
 
+		void ApplyForce(const FVector2& force);
+
 		FVector2 GetPosition() const;
 
 	private:
@@ -25,10 +27,10 @@ namespace Hi_Engine
 		
 	};
 
-	struct BoxCollider // make class?
-	{
-		b2Body* Body;
-	};
+	//struct BoxCollider // make class?
+	//{
+	//	b2Body* Body;
+	//};
 
 	struct StaticColliderData
 	{

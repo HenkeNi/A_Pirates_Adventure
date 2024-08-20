@@ -23,9 +23,19 @@ namespace Hi_Engine
 			assert(m_body->IsEnabled() && "TEST");
 			assert(m_body->GetType() == b2BodyType::b2_dynamicBody && "ERROR");
 
-			// std::cout << "VEL: " << velocity.x << "; " << velocity.y << "\n";
-			m_body->SetLinearVelocity({ velocity.x * 100.f, velocity.y * 100.f });
+			std::cout << "VEL: " << velocity.x << "; " << velocity.y << "\n";
 			m_body->SetAwake(true);
+			m_body->SetLinearVelocity({ velocity.x * 100.f, velocity.y * 100.f });
+		}
+	}
+
+	void PhysicsBody::ApplyForce(const FVector2& force)
+	{
+		if (m_body)
+		{
+
+			assert(m_body->GetType() == b2BodyType::b2_dynamicBody && "ERROR");
+			m_body->ApplyForce({ force.x, force.y }, m_body->GetWorldCenter(), true);
 		}
 	}
 
