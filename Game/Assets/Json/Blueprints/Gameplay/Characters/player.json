@@ -74,7 +74,7 @@
       }
     },
     {
-      "type": "Collider",
+      "type": "Physics",
       "properties": {
         "type": "Dynamic",
         "size": [ 25.0, 25.0 ]

@@ -139,9 +139,8 @@
         }
       },
       {
-        "type": "Collider",
+        "type": "BoundingBox",
         "properties": {
-          "type": "Static",
           "size": [ 0.5, 0.5 ]
         }
       },
@@ -187,9 +186,8 @@
         }
       },
       {
-        "type": "Collider",
+        "type": "BoundingBox",
         "properties": {
-          "type": "Static",
           "size": [ 0.5, 0.5 ]
         }
       },
@@ -237,9 +235,8 @@
         }
       },
       {
-        "type": "Collider",
+        "type": "BoundingBox",
         "properties": {
-          "type": "Static",
           "size": [ 0.5, 0.5 ]
         }
       },
