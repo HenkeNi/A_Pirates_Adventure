@@ -70,6 +70,26 @@ public:
 	}
 
 	template <>
+	inline static void InitializeComponent(BoundingBoxComponent* component, const ComponentProperties& properties)
+	{
+		FVector2 size = std::get<FVector2>(properties.at("size"));
+
+		float halfWidth = size.x * 0.5f;
+		float halfHeight = size.y * 0.5f;
+
+		component->Bounds.Init({ -halfWidth, -halfHeight }, { halfWidth, halfHeight });
+
+
+		if (properties.contains("offset"))
+		{
+			FVector2 offset = std::get<FVector2>(properties.at("offset"));
+			component->Offset.XOffset = offset.x;
+			component->Offset.YOffset = offset.y;
+			component->Offset.IsDirectionallyBound = std::get<bool>(properties.at("is_offset_directionally_bound"));
+		}
+	}
+
+	template <>
 	inline static void InitializeComponent(CameraComponent* component, const ComponentProperties& properties)
 	{
 		component->ZoomRange = { 0.5f, 1.f }; // FIX!

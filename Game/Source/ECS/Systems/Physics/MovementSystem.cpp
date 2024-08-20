@@ -21,6 +21,8 @@ void MovementSystem::Update(float deltaTime)
 {
 	assert(m_ecs && "ERROR: EntityManager is nullptr!");
 
+	return;
+
 	auto entities = m_ecs->FindEntities(m_signatures["Movement"]);
 
 	for (auto entity : entities)
@@ -40,7 +42,8 @@ void MovementSystem::Update(float deltaTime)
 		if (!Hi_Engine::Math::IsNearlyEqual(velocity.x, 0.f) && !Hi_Engine::Math::IsNearlyEqual(velocity.y, 0.f))
 			velocityComponent->Velocity.Normalize();
 
-		transformComponent->CurrentPos += velocityComponent->Speed * velocityComponent->Velocity * deltaTime;
+		// transformComponent->CurrentPos += velocityComponent->Speed * velocityComponent->Velocity * deltaTime;
+
 
 		if (!velocityComponent->IsVelocityConstant)
 			velocityComponent->Velocity = { 0.f, 0.f, };

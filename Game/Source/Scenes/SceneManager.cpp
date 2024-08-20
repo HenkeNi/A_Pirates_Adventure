@@ -168,19 +168,19 @@ void SceneManager::LoadScene(eScene type)
 		
 		Entity entity = ecs.CreateEntity(id, false);
 
-		if (!jsonEntity.HasMember("components_data"))
-			continue;
-
-		for (const auto& component : jsonEntity["components_data"].GetArray())
-		{
-			ComponentProperties componentProperties;
-			
-			for (const auto& [key, value] : component["properties"].GetObj())
+		if (jsonEntity.HasMember("components_data"))
+		{	
+			for (const auto& component : jsonEntity["components_data"].GetArray())
 			{
-				Property property = EntityBlueprint::ParseProperty(value);
-				componentProperties.insert({ key.GetString(), property });
+				ComponentProperties componentProperties;
+			
+				for (const auto& [key, value] : component["properties"].GetObj())
+				{
+					Property property = EntityBlueprint::ParseProperty(value);
+					componentProperties.insert({ key.GetString(), property });
+				}
+				ecs.InitializeComponent(entity, component["type"].GetString(), componentProperties);
 			}
-			ecs.InitializeComponent(entity, component["type"].GetString(), componentProperties);
 		}
 
 		PostMaster::GetInstance().SendMessage({ eMessage::EntityCreated, entity }); // FIX!?

@@ -36,16 +36,16 @@ void BehaviorTreeSystem::SetSignature()
 
 void BehaviorTreeSystem::ClearBehaviorTreeNodes()
 {
-	auto behaviorTreeComponents = m_ecs->GetComponents<BehaviorTreeComponent>();
+	auto& behaviorTreeComponents = m_ecs->GetComponents<BehaviorTreeComponent>();
 
-	for (auto* component : behaviorTreeComponents)
+	for (auto& component : behaviorTreeComponents)
 	{
-		if (auto* rootNode = component->RootNode)
+		if (auto* rootNode = component.RootNode)
 		{
 			rootNode->OnDestroy();
 		
-			delete component->RootNode;
-			component->RootNode = nullptr;
+			delete component.RootNode;
+			component.RootNode = nullptr;
 		}
 	}
 }

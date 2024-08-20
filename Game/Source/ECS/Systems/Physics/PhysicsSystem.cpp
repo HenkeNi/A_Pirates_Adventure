@@ -30,7 +30,7 @@ void PhysicsSystem::Receive(Message& message)
 			colliderComponent->PhysicsBody = physics->CreateDynamicBody({ transformComponent->CurrentPos, transformComponent->Scale, 1.f, 0.3f });
 			break;
 		case eColliderType::Static:
-			// colliderComponent->PhysicsBody = physics->CreateStaticBody({ transformComponent->CurrentPos, transformComponent->Scale });
+			colliderComponent->PhysicsBody = physics->CreateStaticBody({ transformComponent->CurrentPos, transformComponent->Scale });
 			break;
 		}
 	}
@@ -38,6 +38,8 @@ void PhysicsSystem::Receive(Message& message)
 
 void PhysicsSystem::LateUpdate(float deltaTime)
 {
+	//return;
+
 	ApplyVelocities();
 
 	auto physics = Hi_Engine::ServiceLocator::GetPhysics().lock();
@@ -65,6 +67,7 @@ void PhysicsSystem::ApplyVelocities()
 		
 		auto* velocityComponent = m_ecs->GetComponent<VelocityComponent>(entity);
 		colliderComponent->PhysicsBody.SetVelocity(velocityComponent->Velocity);
+		//colliderComponent->PhysicsBody.ApplyForce(velocityComponent->Velocity * 100.f);
 
 		auto* transformComponent = m_ecs->GetComponent<TransformComponent>(entity);
 		std::cout << transformComponent->CurrentPos.x << ", " << transformComponent->CurrentPos.y << "\n";

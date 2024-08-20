@@ -184,7 +184,8 @@ struct AttackComponent
 
 struct AttackCooldownComponent
 {
-	const float Duration = 0.25f;
+	//const float Duration = 0.25f;
+	float Duration = 0.25f;
 	float Remaining = 0.f;
 };
 

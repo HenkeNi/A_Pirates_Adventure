@@ -43,19 +43,19 @@ void InputSystem::Update(float deltaTime)
 	}
 
 
-	auto inputComponents = m_ecs->GetComponents<InputComponent>();
+	auto& inputComponents = m_ecs->GetComponents<InputComponent>();
 
-	for (auto inputComponent : inputComponents)
+	for (auto& inputComponent : inputComponents)
 	{
 
-		for (auto& [key, state] : inputComponent->InputStates)
+		for (auto& [key, state] : inputComponent.InputStates)
 		{
 			state = InputHandler::IsKeyHeld(key) || InputHandler::IsKeyPressed(key);
 		}
 
-		inputComponent->MousePosition = mousePosition;
-		inputComponent->MouseScroll = mouseScroll;
-		inputComponent->MouseWorldPosition = ConvertScreenToWorldPosition(mousePosition, 1400, 800, projectionMatrix);
+		inputComponent.MousePosition = mousePosition;
+		inputComponent.MouseScroll = mouseScroll;
+		inputComponent.MouseWorldPosition = ConvertScreenToWorldPosition(mousePosition, 1400, 800, projectionMatrix);
 	}
 }
 

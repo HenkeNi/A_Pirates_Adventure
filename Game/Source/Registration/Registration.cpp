@@ -14,9 +14,11 @@ namespace Registration
 		/* - Core Components - */
 		ecs.RegisterComponent<TagComponent>("Tag");
 		ecs.RegisterComponent<AnimationComponent>("Animation");
+		ecs.RegisterComponent<BoundingBoxComponent>("BoundingBox");
 		ecs.RegisterComponent<CameraComponent>("Camera");
+		ecs.RegisterComponent<PhysicsComponent>("Physics");
 		ecs.RegisterComponent<ColliderComponent>("Collider");
-		ecs.RegisterComponent<CursorComponent>("Cursor");
+		ecs.RegisterComponent<CursorComponent>("Cursor"); // No need`? set in enigne?
 		ecs.RegisterComponent<InputComponent>("Input");
 		ecs.RegisterComponent<SpriteComponent>("Sprite");
 		ecs.RegisterComponent<TransformComponent>("Transform");
@@ -30,23 +32,23 @@ namespace Registration
 		/* - AI Components - */
 		ecs.RegisterComponent<BlackboardComponent>("Blackboard");
 		ecs.RegisterComponent<BehaviorTreeComponent>("BehaviorTree");
-		ecs.RegisterComponent<SteeringBehaviorComponent>("SteeringBehavior");
-		ecs.RegisterComponent<WanderBehaviorComponent>("WanderBehavior");
-		ecs.RegisterComponent<FlockBehaviorComponent>("FlockBehavior");
-		ecs.RegisterComponent<SeekBehaviorComponent>("SeekBehavior");
-		ecs.RegisterComponent<FleeBehaviorComponent>("FleeBehavior");
+		//ecs.RegisterComponent<SteeringBehaviorComponent>("SteeringBehavior");
+		//ecs.RegisterComponent<WanderBehaviorComponent>("WanderBehavior");
+		//ecs.RegisterComponent<FlockBehaviorComponent>("FlockBehavior");
+		//ecs.RegisterComponent<SeekBehaviorComponent>("SeekBehavior");
+		//ecs.RegisterComponent<FleeBehaviorComponent>("FleeBehavior");
 		// ecs.RegisterComponent<StateMachineComponent>("state_machine");
-		ecs.RegisterComponent<IdleComponent>("Idle");
+		//ecs.RegisterComponent<IdleComponent>("Idle");
 
 		/* - Gameplay Components - */
 		ecs.RegisterComponent<AttributesComponent>("Attribute");
 		ecs.RegisterComponent<PersonalityComponent>("Personality");
 		ecs.RegisterComponent<FriendlyComponent>("Friendly");
-		ecs.RegisterComponent<HostileComponent>("Hostile");
-		ecs.RegisterComponent<CrewComponent>("Crew");
+		//ecs.RegisterComponent<HostileComponent>("Hostile");
+		//ecs.RegisterComponent<CrewComponent>("Crew");
 		ecs.RegisterComponent<HealthComponent>("Health");
 		ecs.RegisterComponent<WeaponComponent>("Weapon");
-		ecs.RegisterComponent<ToppleComponent>("Topple");
+		// ecs.RegisterComponent<ToppleComponent>("Topple");
 		ecs.RegisterComponent<ShakeComponent>("Shake");
 		ecs.RegisterComponent<HarvestableComponent>("Harvestable");
 		ecs.RegisterComponent<EquipmentComponent>("Equipment");
@@ -61,7 +63,7 @@ namespace Registration
 		ecs.RegisterComponent<ProjectileComponent>("Projectile");
 		ecs.RegisterComponent<ResourceComponent>("Resource");
 		ecs.RegisterComponent<CharacterStateComponent>("CharacterState");
-		ecs.RegisterComponent<KnockbackComponent>("Knockback");
+		ecs.RegisterComponent<KnockbackComponent>("Knockback"); // remove?
 
 		/* - UI Components - */
 		ecs.RegisterComponent<HUDComponent>("HUD");

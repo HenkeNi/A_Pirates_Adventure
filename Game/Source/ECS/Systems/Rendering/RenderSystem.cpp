@@ -48,28 +48,30 @@ void RenderSystem::SetSignature()
 
 void RenderSystem::RenderMap(Entity camera)
 {
-	auto mapChunkComponents = m_ecs->GetComponents<MapChunkComponent>();
+	auto& mapChunkComponents = m_ecs->GetComponents<MapChunkComponent>();
 
 	if (mapChunkComponents.empty())
 		return;
-
-	// TODO; sort out map chunks out of view... have a bounds component??
-
-	Hi_Engine::SpriteBatch spriteBatch;
-	spriteBatch.Sprites.reserve(mapChunkComponents.size());
-
-	for (auto* mapChunkComponent : mapChunkComponents)
-	{
-		if (!mapChunkComponent)
-			continue;
-
-		std::copy(mapChunkComponent->Sprites.begin(), mapChunkComponent->Sprites.end(), std::back_inserter(spriteBatch.Sprites));
-	}
 
 	auto* cameraComponent = m_ecs->GetComponent<CameraComponent>(camera);
 	if (!cameraComponent)
 		return;
 
+	Hi_Engine::SpriteBatch spriteBatch;
+	spriteBatch.Sprites.reserve(mapChunkComponents.size());
+
+	int count = 0;
+	for (auto& mapChunkComponent : mapChunkComponents)
+	{
+		if (Hi_Engine::Physics::Intersects(mapChunkComponent.Bounds, cameraComponent->Frustum))
+		{
+			std::copy(mapChunkComponent.Sprites.begin(), mapChunkComponent.Sprites.end(), std::back_inserter(spriteBatch.Sprites));
+			++count;
+		}
+	}
+
+
+	std::cout << "Chunks: " << count << "\n";
 	spriteBatch.ProjectionMatrix = cameraComponent->Camera.GetViewProjectionMatrix();
 	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::SpriteBatchRequest>(spriteBatch);
 }
@@ -92,7 +94,7 @@ void RenderSystem::RenderSprites(Entity camera)
 	for (auto entity : entities)
 	{
 		auto* spriteComponent = m_ecs->GetComponent<SpriteComponent>(entity);
-		if (!spriteComponent->ShouldRender)
+		if (!spriteComponent->IsVisible)
 			continue;
 
 		if (m_ecs->GetComponent<HUDComponent>(entity))
@@ -176,7 +178,7 @@ void RenderSystem::RenderSprites(Entity camera)
 
 		spriteBatch.Sprites.emplace_back(Hi_Engine::Transform{ { position.x, position.y, 0.f }, { scale.x, scale.y }, rotation }, spriteColor, subtexture);
 	}
-
+	//std::cout << "Rendering: " << sprites.size() << " sprites\n";
 	spriteBatch.ProjectionMatrix = cameraComponent->Camera.GetViewProjectionMatrix();
 	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::SpriteBatchRequest>(spriteBatch);
 

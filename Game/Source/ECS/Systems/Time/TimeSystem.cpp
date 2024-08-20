@@ -51,35 +51,35 @@ void TimeSystem::SetSignature()
 
 void TimeSystem::UpdateWorldTime(float deltaTime)
 {
-	auto worldTimeComponents = m_ecs->GetComponents<WorldTimeComponent>();
+	auto& worldTimeComponents = m_ecs->GetComponents<WorldTimeComponent>();
 
-	for (auto* worldTimeComponent : worldTimeComponents)
+	for (auto& worldTimeComponent : worldTimeComponents)
 	{
-		float& elapsedTime = worldTimeComponent->ElapsedTimeSinceDayStart;
+		float& elapsedTime = worldTimeComponent.ElapsedTimeSinceDayStart;
 
 		elapsedTime += deltaTime;
-		if (elapsedTime >= worldTimeComponent->DayDuration)
+		if (elapsedTime >= worldTimeComponent.DayDuration)
 		{
 			elapsedTime = 0.f;
-			++worldTimeComponent->Day;
+			++worldTimeComponent.Day;
 		}
 
-		worldTimeComponent->CurrentDayProgress = worldTimeComponent->ElapsedTimeSinceDayStart / worldTimeComponent->DayDuration;
+		worldTimeComponent.CurrentDayProgress = worldTimeComponent.ElapsedTimeSinceDayStart / worldTimeComponent.DayDuration;
 
-		eTimeOfDay timeOfDay = worldTimeComponent->TimeOfDay;
+		eTimeOfDay timeOfDay = worldTimeComponent.TimeOfDay;
 
-		auto found = std::find_if(worldTimeComponent->TimeOfDayRanges.begin(), worldTimeComponent->TimeOfDayRanges.end(),
+		auto found = std::find_if(worldTimeComponent.TimeOfDayRanges.begin(), worldTimeComponent.TimeOfDayRanges.end(),
 			[&](const std::pair<eTimeOfDay, Hi_Engine::Range<float>>& dayDuration)
 			{
-				return worldTimeComponent->CurrentDayProgress >= dayDuration.second.Min && worldTimeComponent->CurrentDayProgress <= dayDuration.second.Max;
+				return worldTimeComponent.CurrentDayProgress >= dayDuration.second.Min && worldTimeComponent.CurrentDayProgress <= dayDuration.second.Max;
 			});
 
-		if (found != worldTimeComponent->TimeOfDayRanges.end())
+		if (found != worldTimeComponent.TimeOfDayRanges.end())
 		{
-			worldTimeComponent->TimeOfDay = found->first;
-			if (worldTimeComponent->TimeOfDay != timeOfDay)
+			worldTimeComponent.TimeOfDay = found->first;
+			if (worldTimeComponent.TimeOfDay != timeOfDay)
 			{
-				PostMaster::GetInstance().SendMessage({ eMessage::TimeOfDayChanged, worldTimeComponent->TimeOfDay });
+				PostMaster::GetInstance().SendMessage({ eMessage::TimeOfDayChanged, worldTimeComponent.TimeOfDay });
 			}
 		}
 

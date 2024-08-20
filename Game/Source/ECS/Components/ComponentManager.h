@@ -19,13 +19,16 @@ public:
 	void RemoveComponent(Entity entity);
 
 	template <typename T>
-	T* AddComponent(Entity entity);
+	void AddComponent(Entity entity);
+	//T* AddComponent(Entity entity);
+
+	//template <typename T>
+	//std::optional<const std::vector<const T>&> GetComponents() const;
+	//std::vector<const T*> GetComponents() const;
 
 	template <typename T>
-	std::vector<const T*> GetComponents() const;
-
-	template <typename T>
-	std::vector<T*> GetComponents();
+	std::vector<T>& GetComponents();
+	//std::vector<T*> GetComponents();
 
 	template <typename T>
 	const T* GetComponent(Entity entity) const;
@@ -59,7 +62,7 @@ private:
 #pragma region Method_Definitions
 
 template <typename T>
-inline void ComponentManager::RegisterComponent(const char* name)
+void ComponentManager::RegisterComponent(const char* name)
 {
 	auto type = std::type_index(typeid(T));
 
@@ -73,50 +76,54 @@ inline void ComponentManager::RegisterComponent(const char* name)
 }
 
 template<typename T>
-inline void ComponentManager::RemoveComponent(Entity entity)
+void ComponentManager::RemoveComponent(Entity entity)
 {
-	auto& componentArray = GetComponentArray<T>();
-	auto* component = componentArray.RemoveComponent(entity);
+	GetComponentArray<T>().RemoveComponent(entity);
+	//auto& componentArray = GetComponentArray<T>();
+	//auto* component = componentArray.RemoveComponent(entity);
 
-	auto& componentPool = GetComponentPool<T>();
-	componentPool.ReturnResource(component);
+	//auto& componentPool = GetComponentPool<T>();
+	//componentPool.ReturnResource(component);
 }
 
 template<typename T>
-inline T* ComponentManager::AddComponent(Entity entity)
+void ComponentManager::AddComponent(Entity entity)
 {
-	auto& componentPool = GetComponentPool<T>();
-	T* component = componentPool.GetResource();
+	GetComponentArray<T>().AddComponent(entity, T{}); // pass in just T??
 
-	auto& componentArray = GetComponentArray<T>();
-	componentArray.AddComponent(entity, component);
+	//auto& componentPool = GetComponentPool<T>();
+	//T* component = componentPool.GetResource();
 
-	return component;
+	//auto& componentArray = GetComponentArray<T>();
+	//componentArray.AddComponent(entity, component);
+
+	//return component;
 }
 
-template<typename T>
-inline std::vector<const T*> ComponentManager::GetComponents() const
-{
-	std::vector<T*> components;
-	if (auto* componentArray = FindComponentArray<T>())
-	{
-		components = componentArray.GetComponents();
-	}
+//template<typename T>
+//inline std::optional<const std::vector<const T>&> ComponentManager::GetComponents() const
+//{
+//	if (auto* componentArray = FindComponentArray<T>())
+//	{
+//		return std::optional(componentArray.GetComponents());
+//	}
+//
+//	return std::nullopt;
+//}
 
-	return components;
-}
-
 template<typename T>
-inline std::vector<T*> ComponentManager::GetComponents()
+std::vector<T>& ComponentManager::GetComponents()
 {
-	auto& componentArray = GetComponentArray<T>();
-	std::vector<T*> components = componentArray.GetComponents();
+	return GetComponentArray<T>().GetComponents();
+
+	//auto& componentArray = GetComponentArray<T>();
+	//std::vector<T*> components = componentArray.GetComponents();
 	
-	return components;
+	//return components;
 }
 
 template <typename T>
-inline const T* ComponentManager::GetComponent(Entity entity) const
+const T* ComponentManager::GetComponent(Entity entity) const
 {
 	const T* component = nullptr;
 
@@ -129,16 +136,18 @@ inline const T* ComponentManager::GetComponent(Entity entity) const
 }
 
 template <typename T>
-inline T* ComponentManager::GetComponent(Entity entity)
+T* ComponentManager::GetComponent(Entity entity)
 {
-	auto& componentArray = GetComponentArray<T>();
-	T* component = componentArray.GetComponent(entity);
+	return GetComponentArray<T>().GetComponent(entity);
 
-	return component;
+	//auto& componentArray = GetComponentArray<T>();
+	//T* component = componentArray.GetComponent(entity);
+
+	//return component;
 }
 
 template<typename T>
-inline ComponentType ComponentManager::GetComponentType() const
+ComponentType ComponentManager::GetComponentType() const
 {
 	auto type = std::type_index(typeid(T));
 	auto iterator = m_componentTypes.find(type);
@@ -153,7 +162,7 @@ inline ComponentType ComponentManager::GetComponentType() const
 }
 
 template<typename ...T>
-inline std::vector<ComponentType> ComponentManager::GetComponentTypes() const
+std::vector<ComponentType> ComponentManager::GetComponentTypes() const
 {
 	std::vector<ComponentType> componentTypes;
 	(componentTypes.push_back(GetComponentType<T>()), ...);
@@ -162,7 +171,7 @@ inline std::vector<ComponentType> ComponentManager::GetComponentTypes() const
 }
 
 template<typename T>
-inline const ComponentArray<T>* ComponentManager::FindComponentArray() const
+const ComponentArray<T>* ComponentManager::FindComponentArray() const
 {
 	auto type = std::type_index(typeid(T));
 
@@ -193,7 +202,7 @@ ComponentArray<T>& ComponentManager::GetComponentArray()
 }
 
 template<typename T>
-inline ComponentPool<T>& ComponentManager::GetComponentPool()
+ComponentPool<T>& ComponentManager::GetComponentPool()
 {
 	auto type = std::type_index(typeid(T));
 

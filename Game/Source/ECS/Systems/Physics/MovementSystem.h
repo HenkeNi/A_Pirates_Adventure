@@ -20,4 +20,8 @@ private:
 	void MoveSubEntities(Entity entity);
 	//void ApplyKnockback(Entity entity);
 	void ApplyKnockback(struct VelocityComponent* velocityComponent, struct KnockbackComponent* knockbackComponent);
+
+
+
+	// Update Camera bounds? or create bounbds when needed??
 };

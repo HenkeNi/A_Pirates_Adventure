@@ -33,19 +33,33 @@ struct TransformComponent
 
 struct PhysicsComponent
 {
-	Hi_Engine::BoxCollider BoxCollider;
+	Hi_Engine::PhysicsBody PhysicsBody;
 	FVector2 Velocity;
-	// density
-	// 
+	float Density = 0.f;
+	float Friction = 0.f;
+	eColliderType Type;
+
+	// offset?
 };
 
 
+// rename MovementComponent?
 struct VelocityComponent
 {
 	FVector2 Velocity;
-	float	 Speed = 1.f;
-	bool	 IsVelocityConstant = false;
+	float	 Speed = 1.f; 
+	bool	 IsVelocityConstant = false; // Dont? use physics instead?
 };
+
+
+struct BoundingBoxComponent
+{
+	Hi_Engine::Physics::AABB2D<float> Bounds;
+	Offset Offset;
+};
+
+
+
 
 
 
@@ -75,9 +89,6 @@ struct ColliderComponent
 	bool								IsActive = true; // ?? or just remove component?
 };
 
-struct CircleColliderComponent
-{
-};
 
 
 // ############# Rendering Components ############# //
@@ -86,7 +97,7 @@ struct SpriteComponent
 	FVector4					DefaultColor = { 1.f, 1.f, 1.f, 1.f };
 	FVector4					CurrentColor = { 1.f, 1.f, 1.f, 1.f };
 	Hi_Engine::Subtexture2D*	Subtexture	 = nullptr; // Store as int (id) instead?
-	bool						ShouldRender = true;
+	bool						IsVisible = true;
 };
 
 struct AnimationComponent

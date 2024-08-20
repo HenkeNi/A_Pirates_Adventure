@@ -13,9 +13,11 @@ public:
 	void SetSignature()				override;
 
 private:
-	void OnButtonActivated(Entity button);
-	void UpdateCollider(Entity entity);
+	void UpdateButtons(const FVector2& cursorPosition);
+	FVector2 GetCurrentMousePosition() const;
 
 	// void AssignCallback(Entity* button);
-	void UpdateCursor();
+
+	void OnButtonActivated(Entity button);
+	void AllignBoundingBox(Entity entity);
 };

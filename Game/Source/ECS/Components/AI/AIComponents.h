@@ -23,7 +23,8 @@ struct BehaviorTreeComponent
 
 struct IdleComponent
 {
-	const float Duration = 10.f;
+	float Duration = 10.f;
+	//const float Duration = 10.f;
 	double Timestamp = 0.0;
 };
 

@@ -36,14 +36,14 @@ public:
 	template <typename... T>
 	bool HasComponent(Entity entity) const;
 	
-	template <typename T>
-	std::vector<const T*> GetComponents() const;
+	//template <typename T>
+	//const std::vector<T>& GetComponents() const;
 
 	template <typename T>
-	std::vector<T*> GetComponents();
+	std::vector<T>& GetComponents();
 
 	template <typename T>
-	std::vector<T*> GetComponents(const std::vector<Entity>& entities);
+	std::vector<T*> GetComponents(const std::vector<Entity>& entities); // used where
 
 	template <typename T>
 	T* GetComponent(Entity entity);
@@ -153,18 +153,18 @@ inline bool ECS::HasComponent(Entity entity) const
 	return (entitySignature & componentSignature) == componentSignature;
 }
 
-template<typename T>
-inline std::vector<const T*> ECS::GetComponents() const
-{
-	auto components = m_componentManager.GetComponents<T>();
-	return components;
-}
+//template<typename T>
+//inline std::vector<const T*> ECS::GetComponents() const
+//{
+//	auto components = m_componentManager.GetComponents<T>();
+//	return components;
+//}
 
 template<typename T>
-inline std::vector<T*> ECS::GetComponents()
+inline std::vector<T>& ECS::GetComponents()
 {
-	auto components = m_componentManager.GetComponents<T>();
-	return components;
+	return m_componentManager.GetComponents<T>();
+	//return components;
 }
 
 template<typename T>

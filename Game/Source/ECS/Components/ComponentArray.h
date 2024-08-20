@@ -6,66 +6,74 @@ class IComponentArray
 {
 public:
 	virtual ~IComponentArray() = default;
-	virtual void* RemoveComponent(Entity entity) = 0;	
+	virtual void RemoveComponent(Entity entity) = 0;	
 };
 
 template <typename T>
 class ComponentArray : public IComponentArray
 {
 public:
-	void AddComponent(Entity entity, T* component);
-	void* RemoveComponent(Entity entity) override;
+	ComponentArray();
+
+	void AddComponent(Entity entity, T component);
+	void RemoveComponent(Entity entity) override;
 	
-	std::vector<const T*> GetComponents() const;
-	std::vector<T*>	GetComponents();
+	const std::vector<T>& GetComponents() const;
+	std::vector<T>& GetComponents();
 
 	const T* GetComponent(Entity entity) const;
-	T* GetComponent(Entity entity);
+	T*	GetComponent(Entity entity);
 
 	bool HasComponent(Entity entity) const;
 
 private:
 	std::unordered_map<Entity, Index> m_entityToIndexMap;
 	std::unordered_map<Index, Entity> m_indexToEntityMap;
-
+	
 	// TODO; store "read" and "write" components separately (for multi threading system) 
-	std::array<T*, MaxEntities> m_components;
-	std::size_t m_currentSize;
+	std::vector<T> m_components;
 };
 
 #pragma region Method_Definitions
 
 template<typename T>
-inline void ComponentArray<T>::AddComponent(Entity entity, T* component)
+ComponentArray<T>::ComponentArray()
 {
-	assert(!HasComponent(entity) && "[ERROR - ComponentArray::AddComponent] - Entity already exist!");
+	m_components.reserve(MaxEntities);
+}
 
-	std::size_t index = m_currentSize;
+template<typename T>
+void ComponentArray<T>::AddComponent(Entity entity, T component)
+{
+	assert(!HasComponent(entity) && "[ComponentArray::AddComponent] - ERROR: Entity already exist!");
+
+	// make sure dont exceed max amount... (return bool?)
+
+	std::size_t index = m_components.size();
 
 	m_entityToIndexMap.insert_or_assign(entity, index);
 	m_indexToEntityMap.insert_or_assign(index, entity);
 
-	m_components[index] = static_cast<T*>(component);
-	++m_currentSize;
+	m_components.push_back(component);
 }
 
 template<typename T>
-inline void* ComponentArray<T>::RemoveComponent(Entity entity)
+void ComponentArray<T>::RemoveComponent(Entity entity)
 {
 	if (!HasComponent(entity))
-		return nullptr;
+		return;
 
-	std::size_t lastIndex = m_currentSize - 1;
+	std::size_t lastIndex = m_components.size() - 1;
 	std::size_t indexToRemove = m_entityToIndexMap[entity];
 
 	if (indexToRemove != lastIndex)
 	{
-		// overwrite entity to remove with the entity that's last
-		//m_components[indexToRemove] = m_components[lastIndex];
-		std::swap(m_components[indexToRemove], m_components[lastIndex]);
+		m_components[indexToRemove] = m_components[lastIndex];
+		//std::swap(m_components[indexToRemove], m_components[lastIndex]);
 	}
 
-	T* removed = m_components[lastIndex];
+	//T* removed = m_components[lastIndex];
+	m_components.pop_back();
 
 	Entity lastEntity = m_indexToEntityMap[lastIndex];
 
@@ -76,67 +84,53 @@ inline void* ComponentArray<T>::RemoveComponent(Entity entity)
 	m_entityToIndexMap.erase(entity);
 	m_indexToEntityMap.erase(lastIndex);
 
-	--m_currentSize;
+	// --m_currentSize;
 
-	return removed;
+	//return removed;
 }
 
 template<typename T>
-inline std::vector<const T*> ComponentArray<T>::GetComponents() const
+const std::vector<T>& ComponentArray<T>::GetComponents() const
 {
-	std::vector<const void*> components;
-
-	for (int i = 0; i < m_currentSize; ++i)
-	{
-		components.push_back(m_components[i]);
-	}
-
-	return components;
+	return m_components;
 }
 
 template<typename T>
-inline std::vector<T*> ComponentArray<T>::GetComponents()
+std::vector<T>& ComponentArray<T>::GetComponents()
 {
-	std::vector<T*> components;
-
-	for (int i = 0; i < m_currentSize; ++i)
-	{
-		components.push_back(m_components[i]);
-	}
-
-	return components;
+	return m_components;
 }
 
 template<typename T>
-inline const T* ComponentArray<T>::GetComponent(Entity entity) const
-{
-	const T* component = nullptr;
-
-	if (HasComponent(entity))
-	{
-		std::size_t index = m_entityToIndexMap.at(entity);
-		component = m_components[index];
-	}
-
-	return component;
-}
-
-template<typename T>
-inline T* ComponentArray<T>::GetComponent(Entity entity)
+const T* ComponentArray<T>::GetComponent(Entity entity) const
 {
 	T* component = nullptr;
 
 	if (HasComponent(entity))
 	{
 		std::size_t index = m_entityToIndexMap.at(entity);
-		component = m_components[index];
+		component = &m_components[index];
 	}
 
 	return component;
 }
 
 template<typename T>
-inline bool ComponentArray<T>::HasComponent(Entity entity) const
+T* ComponentArray<T>::GetComponent(Entity entity)
+{
+	T* component = nullptr;
+
+	if (HasComponent(entity))
+	{
+		std::size_t index = m_entityToIndexMap.at(entity);
+		component = &m_components[index];
+	}
+
+	return component;
+}
+
+template<typename T>
+bool ComponentArray<T>::HasComponent(Entity entity) const
 {
 	bool contains = m_entityToIndexMap.contains(entity);
 	return contains;

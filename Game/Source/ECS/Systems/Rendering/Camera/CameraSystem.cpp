@@ -1,8 +1,9 @@
 #include "Pch.h"
 #include "CameraSystem.h"
-#include "ECS.h"
 #include "Components/Core/CoreComponents.h"
 #include "ECSTypes.h"
+#include "ECS.h"
+
 
 CameraSystem::CameraSystem()
 	: System{ 1 }
@@ -20,17 +21,18 @@ void CameraSystem::Receive(Message& message)
 	if (message.GetMessageType() == eMessage::GameStarted)
 	{
 		auto camera = m_ecs->FindEntity(m_signatures["Camera"]);
-
 		if (!camera.has_value())
 			return;
 
 		auto* cameraComponent = m_ecs->GetComponent<CameraComponent>(camera.value());
+		if (!cameraComponent)
+			return;
 
 		// do in initalizsr??
 		auto zoomRange = cameraComponent->ZoomRange;
 		cameraComponent->Camera.SetZoomRange(zoomRange);
 		
-		auto player = m_ecs->FindEntity(m_signatures.at("Player"));
+		auto player = m_ecs->FindEntity(m_signatures.at("Player")); // get blackboard component every frame instead??
 		if (player.has_value())
 		{
 			cameraComponent->Target = player.value();
@@ -50,11 +52,8 @@ void CameraSystem::Update(float deltaTime)
 {
 	assert(m_ecs && "[Camera System - ERROR]: ECS is nullptr!");
 
-	// Do every frame? or just at the beginning of new Scene?
-
 	auto entity = m_ecs->FindEntity(m_signatures["Camera"]);
-
-	if (!entity)
+	if (!entity.has_value())
 		return;
 
 	Entity camera = entity.value();
@@ -69,14 +68,14 @@ void CameraSystem::Update(float deltaTime)
 
 	// loop through all cameras... see if active..?
 
-	// TODO; cull entities (mark is should be rendered or not))?
 
 	// GO OVER ALL ENTIITES WITH SPRITE COMPONENT => Check if in view => set ShouldRender
 
 
+	// TODO; cull entities (mark is should be rendered or not))?
 	if (cameraComponent->ShouldCull)
 	{
-		CullEntities();
+		CullEntities(cameraComponent);
 	}
 
 
@@ -152,6 +151,8 @@ void CameraSystem::SetSignature()
 	m_signatures.insert({ "Camera", m_ecs->GetSignature<CameraComponent>() });
 	m_signatures.insert({ "Player", m_ecs->GetSignature<PlayerControllerComponent>() }); // camera controller component instead??? or something.. not all scens camrea should follow 
 
+	m_signatures.insert({ "Sprites", m_ecs->GetSignature<SpriteComponent, TransformComponent>() }); // make sure only in world entities
+
 	//// do in ECS???
 	//auto componentTypes = m_ecs->GetComponentTypes<CameraComponent, TransformComponent>();
 
@@ -173,23 +174,28 @@ void CameraSystem::SetSignature()
 
 }
 
-void CameraSystem::CullEntities()
+void CameraSystem::CullEntities(struct CameraComponent* cameraComponent)
 {
+	auto sprites = m_ecs->FindEntities(m_signatures["Sprites"]);
 
-	//m_ecs
+	for (Entity sprite : sprites)
+	{
+		auto* transformComponent = m_ecs->GetComponent<TransformComponent>(sprite);
+		auto* spriteComponent = m_ecs->GetComponent<SpriteComponent>(sprite);
 
-	//auto* camera = m_entityManager->FindFirst<CameraComponent>();
-	//auto entities = m_entityManager->FindAll<SpriteComponent>();
+		// temp
+		if (m_ecs->HasComponent<HUDComponent>(sprite) || m_ecs->HasComponent<UIComponent>(sprite))
+			continue;
 
-	//for (auto* entity : entities)
-	//{
-	//	// If in view (function)
-	//	auto* transformComponent = entity->GetComponent<TransformComponent>();
-	//	auto currentPosition = transformComponent->CurrentPos;
+		if (transformComponent && spriteComponent)
+		{
+			const auto& position = transformComponent->CurrentPos;
+			//const auto& size = transformComponent->
 
-	//	auto* spriteComponent = entity->GetComponent<SpriteComponent>();
-	//	spriteComponent->ShouldRender = camera->GetComponent<CameraComponent>()->Frustum.IsInside(currentPosition);
-	//}
+			bool isVisible = cameraComponent->Frustum.IsInside(position); // todo; do for all 4 corners?
+			spriteComponent->IsVisible = isVisible;
+		}
+	}
 }
 
 //bool CameraSystem::IsVisible(Entity* entity) const

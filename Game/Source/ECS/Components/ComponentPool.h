@@ -26,7 +26,7 @@ private:
 #pragma region Method_Definitions
 
 template<typename T, typename SizeType, SizeType size>
-inline ComponentPool<T, SizeType, size>::ComponentPool()
+ComponentPool<T, SizeType, size>::ComponentPool()
 	: m_resources{ new T[size] }
 {
 	for (int i = 0; i < size; ++i)
@@ -36,13 +36,13 @@ inline ComponentPool<T, SizeType, size>::ComponentPool()
 }
 
 template<typename T, typename SizeType, SizeType size>
-inline ComponentPool<T, SizeType, size>::~ComponentPool()
+ComponentPool<T, SizeType, size>::~ComponentPool()
 {
 	delete[] m_resources;
 }
 
 template<typename T, typename SizeType, SizeType size>
-inline T* ComponentPool<T, SizeType, size>::GetResource()
+T* ComponentPool<T, SizeType, size>::GetResource()
 {
 	assert(!IsEmpty() && "Component pool reached out of resources!"); // Retur nullptr?
 	
@@ -53,7 +53,7 @@ inline T* ComponentPool<T, SizeType, size>::GetResource()
 }
 
 template<typename T, typename SizeType, SizeType size>
-inline void ComponentPool<T, SizeType, size>::ReturnResource(void* resource)
+void ComponentPool<T, SizeType, size>::ReturnResource(void* resource)
 {
 	if (resource)
 	{
@@ -62,7 +62,7 @@ inline void ComponentPool<T, SizeType, size>::ReturnResource(void* resource)
 }
 
 template<typename T, typename SizeType, SizeType size>
-inline bool ComponentPool<T, SizeType, size>::IsEmpty() const
+bool ComponentPool<T, SizeType, size>::IsEmpty() const
 {
 	return m_available.empty();
 }
