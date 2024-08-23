@@ -1,45 +1,36 @@
 #include "Pch.h"
 #include "PhysicsSystem.h"
 #include "ECS.h"
-// #include <../Core/Physics/PhysicsEngine.h>
 
 
 PhysicsSystem::PhysicsSystem()
 {
 	PostMaster::GetInstance().Subscribe(eMessage::EntityCreated, this);
+	PostMaster::GetInstance().Subscribe(eMessage::EntityDestroyed, this);
 }
 
 PhysicsSystem::~PhysicsSystem()
 {
 	PostMaster::GetInstance().Unsubscribe(eMessage::EntityCreated, this);
+	PostMaster::GetInstance().Unsubscribe(eMessage::EntityDestroyed, this);
 }
 
 void PhysicsSystem::Receive(Message& message)
 {
 	auto entity = std::any_cast<Entity>(message.GetData());
 
-	if (auto* colliderComponent = m_ecs->GetComponent<ColliderComponent>(entity))
+	if (message.GetMessageType() == eMessage::EntityCreated)
 	{
-		auto physics = Hi_Engine::ServiceLocator::GetPhysics().lock();
-
-		auto* transformComponent = m_ecs->GetComponent<TransformComponent>(entity);
-
-		switch (colliderComponent->Type)
-		{
-		case eColliderType::Dynamic:
-			colliderComponent->PhysicsBody = physics->CreateDynamicBody({ transformComponent->CurrentPos, transformComponent->Scale, 1.f, 0.3f });
-			break;
-		case eColliderType::Static:
-			colliderComponent->PhysicsBody = physics->CreateStaticBody({ transformComponent->CurrentPos, transformComponent->Scale });
-			break;
-		}
+		AttachPhysicsBody(entity);
+	}
+	else if (message.GetMessageType() == eMessage::EntityDestroyed)
+	{
+		RemovePhysicsBody(entity);
 	}
 }
 
 void PhysicsSystem::LateUpdate(float deltaTime)
 {
-	//return;
-
 	ApplyVelocities();
 
 	auto physics = Hi_Engine::ServiceLocator::GetPhysics().lock();
@@ -50,7 +41,7 @@ void PhysicsSystem::LateUpdate(float deltaTime)
 
 void PhysicsSystem::SetSignature()
 {
-	m_signatures.insert({ "Dynamic", m_ecs->GetSignature<ColliderComponent, VelocityComponent>() }); // replace with physicsComp...
+	m_signatures.insert({ "Dynamic", m_ecs->GetSignature<PhysicsComponent, VelocityComponent>() }); // replace with physicsComp...
 }
 
 void PhysicsSystem::ApplyVelocities()
@@ -59,19 +50,15 @@ void PhysicsSystem::ApplyVelocities()
 
 	for (auto entity : entities)
 	{
-		auto* colliderComponent = m_ecs->GetComponent<ColliderComponent>(entity);
+		auto* physicsComponent = m_ecs->GetComponent<PhysicsComponent>(entity);
 
 		// FIX!
-		if (colliderComponent->Type != eColliderType::Dynamic)
+		if (physicsComponent->Type != eColliderType::Dynamic)
 			continue;
 		
 		auto* velocityComponent = m_ecs->GetComponent<VelocityComponent>(entity);
-		colliderComponent->PhysicsBody.SetVelocity(velocityComponent->Velocity);
+		physicsComponent->PhysicsBody.SetVelocity(velocityComponent->Velocity * 100.f);
 		//colliderComponent->PhysicsBody.ApplyForce(velocityComponent->Velocity * 100.f);
-
-		auto* transformComponent = m_ecs->GetComponent<TransformComponent>(entity);
-		std::cout << transformComponent->CurrentPos.x << ", " << transformComponent->CurrentPos.y << "\n";
-
 	}
 }
 
@@ -81,7 +68,7 @@ void PhysicsSystem::UpdatePositions()
 	
 	for (auto entity : entities)
 	{
-		auto* colliderComponent = m_ecs->GetComponent<ColliderComponent>(entity);
+		auto* colliderComponent = m_ecs->GetComponent<PhysicsComponent>(entity);
 
 		// FIX!
 		if (colliderComponent->Type != eColliderType::Dynamic)
@@ -91,5 +78,35 @@ void PhysicsSystem::UpdatePositions()
 
 		transformComponent->PreviousPos = transformComponent->CurrentPos; // Needed???
 		transformComponent->CurrentPos = colliderComponent->PhysicsBody.GetPosition();
+	}
+}
+
+void PhysicsSystem::AttachPhysicsBody(Entity entity)
+{
+	auto* physicsComponent = m_ecs->GetComponent<PhysicsComponent>(entity);
+	auto* transformComponent = m_ecs->GetComponent<TransformComponent>(entity);
+
+	if (physicsComponent && transformComponent)
+	{
+		auto physics = Hi_Engine::ServiceLocator::GetPhysics().lock();
+
+		switch (physicsComponent->Type)
+		{
+		case eColliderType::Dynamic:
+			physicsComponent->PhysicsBody = physics->CreateDynamicBody({ transformComponent->CurrentPos, transformComponent->Scale, physicsComponent->Density, physicsComponent->Friction });
+			break;
+		case eColliderType::Static:
+			physicsComponent->PhysicsBody = physics->CreateStaticBody({ transformComponent->CurrentPos, transformComponent->Scale });
+			break;
+		}
+	}
+}
+
+void PhysicsSystem::RemovePhysicsBody(Entity entity)
+{
+	if (auto* physicsComponent = m_ecs->GetComponent<PhysicsComponent>(entity))
+	{
+		auto physics = Hi_Engine::ServiceLocator::GetPhysics().lock();
+		physics->DestroyBody(physicsComponent->PhysicsBody);
 	}
 }

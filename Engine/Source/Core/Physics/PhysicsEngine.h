@@ -24,6 +24,8 @@ namespace Hi_Engine
 		PhysicsBody CreateDynamicBody(const DynamicColliderData& data);
 		PhysicsBody CreateStaticBody(const StaticColliderData& data);
 
+		void DestroyBody(PhysicsBody& body);
+
 		// destroy?
 
 

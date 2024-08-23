@@ -23,9 +23,8 @@ namespace Hi_Engine
 			assert(m_body->IsEnabled() && "TEST");
 			assert(m_body->GetType() == b2BodyType::b2_dynamicBody && "ERROR");
 
-			std::cout << "VEL: " << velocity.x << "; " << velocity.y << "\n";
 			m_body->SetAwake(true);
-			m_body->SetLinearVelocity({ velocity.x * 100.f, velocity.y * 100.f });
+			m_body->SetLinearVelocity({ velocity.x, velocity.y });
 		}
 	}
 

@@ -94,4 +94,10 @@ namespace Hi_Engine
 
 		return PhysicsBody{ body };
 	}
+
+	void PhysicsEngine::DestroyBody(PhysicsBody& body)
+	{
+		m_world->DestroyBody(body.m_body);
+		body.m_body = nullptr;
+	}
 }

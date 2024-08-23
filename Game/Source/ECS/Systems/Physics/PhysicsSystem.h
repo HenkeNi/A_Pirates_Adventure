@@ -15,4 +15,7 @@ public:
 private:
 	void ApplyVelocities();
 	void UpdatePositions();
+
+	void AttachPhysicsBody(Entity entity);
+	void RemovePhysicsBody(Entity entity);
 };

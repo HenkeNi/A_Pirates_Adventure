@@ -9,6 +9,7 @@ namespace Hi_Engine
 
 	};
 
+	class PhysicsEngine;
 
 	class PhysicsBody
 	{
@@ -23,8 +24,9 @@ namespace Hi_Engine
 		FVector2 GetPosition() const;
 
 	private:
+		friend class PhysicsEngine;
+
 		b2Body* m_body;
-		
 	};
 
 	//struct BoxCollider // make class?
