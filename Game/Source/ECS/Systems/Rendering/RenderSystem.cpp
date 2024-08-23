@@ -63,15 +63,13 @@ void RenderSystem::RenderMap(Entity camera)
 	int count = 0;
 	for (auto& mapChunkComponent : mapChunkComponents)
 	{
-		if (Hi_Engine::Physics::Intersects(mapChunkComponent.Bounds, cameraComponent->Frustum))
+		if (mapChunkComponent.IsVisible)
 		{
 			std::copy(mapChunkComponent.Sprites.begin(), mapChunkComponent.Sprites.end(), std::back_inserter(spriteBatch.Sprites));
 			++count;
 		}
 	}
 
-
-	std::cout << "Chunks: " << count << "\n";
 	spriteBatch.ProjectionMatrix = cameraComponent->Camera.GetViewProjectionMatrix();
 	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::SpriteBatchRequest>(spriteBatch);
 }

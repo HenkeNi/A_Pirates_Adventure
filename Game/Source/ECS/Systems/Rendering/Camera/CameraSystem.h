@@ -2,6 +2,8 @@
 #include "../../Base/System.h"
 
 
+using CameraBounds = Hi_Engine::Physics::AABB2D<float>;
+
 /* TODO; make sure to update after movement... */
 class CameraSystem : public System, public Subscriber
 {
@@ -14,16 +16,7 @@ public:
 
 	void SetSignature() override;
 
-
-	// static std::vector<Entity*> GetEntitiesInView(std::vector<Entity*> someEntities);
-	// static bool IsEntityInView() const;
-
-	//static bool IsInView(Entity camera, const Hi_Engine::Physics::AABB2D<float>& bounds); // Rename: Is visible?
-
 private:
-
-	// TODO: CameraSystem does fustrum culling?!
-	void CullEntities(struct CameraComponent* cameraComponent);
-
-	//bool IsVisible(Entity* entity) const; // rename
+	void CullEntities(const CameraBounds& bounds);
+	void CullMapChunks(const CameraBounds& bounds);
 };

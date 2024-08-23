@@ -75,7 +75,10 @@ void CameraSystem::Update(float deltaTime)
 	// TODO; cull entities (mark is should be rendered or not))?
 	if (cameraComponent->ShouldCull)
 	{
-		CullEntities(cameraComponent);
+		const auto& bounds = cameraComponent->Frustum;
+
+		CullEntities(bounds);
+		CullMapChunks(bounds);
 	}
 
 
@@ -152,7 +155,7 @@ void CameraSystem::SetSignature()
 	m_signatures.insert({ "Player", m_ecs->GetSignature<PlayerControllerComponent>() }); // camera controller component instead??? or something.. not all scens camrea should follow 
 
 	m_signatures.insert({ "Sprites", m_ecs->GetSignature<SpriteComponent, TransformComponent>() }); // make sure only in world entities
-
+	m_signatures.insert({ "MapChunks", m_ecs->GetSignature<MapChunkComponent, TransformComponent>() });
 	//// do in ECS???
 	//auto componentTypes = m_ecs->GetComponentTypes<CameraComponent, TransformComponent>();
 
@@ -174,7 +177,8 @@ void CameraSystem::SetSignature()
 
 }
 
-void CameraSystem::CullEntities(struct CameraComponent* cameraComponent)
+
+void CameraSystem::CullEntities(const CameraBounds& bounds)
 {
 	auto sprites = m_ecs->FindEntities(m_signatures["Sprites"]);
 
@@ -192,16 +196,25 @@ void CameraSystem::CullEntities(struct CameraComponent* cameraComponent)
 			const auto& position = transformComponent->CurrentPos;
 			//const auto& size = transformComponent->
 
-			bool isVisible = cameraComponent->Frustum.IsInside(position); // todo; do for all 4 corners?
+			bool isVisible = bounds.IsInside(position); // todo; do for all 4 corners?
 			spriteComponent->IsVisible = isVisible;
 		}
 	}
 }
 
-//bool CameraSystem::IsVisible(Entity* entity) const
-//{
-//	// Check if bounding volume is inside fustrum...
-//
-//
-//	return false;
-//}
+void CameraSystem::CullMapChunks(const CameraBounds& bounds)
+{
+	auto mapChunks = m_ecs->FindEntities(m_signatures["MapChunks"]);
+	
+	for (Entity mapChunk : mapChunks)
+	{
+		auto* transformComponent = m_ecs->GetComponent<TransformComponent>(mapChunk);
+		auto* mapChunkComponent = m_ecs->GetComponent<MapChunkComponent>(mapChunk);
+
+		if (transformComponent && mapChunkComponent)
+		{
+			bool isVisible = Hi_Engine::Physics::Intersects(mapChunkComponent->Bounds, bounds);
+			mapChunkComponent->IsVisible = isVisible;
+		}
+	}
+}
