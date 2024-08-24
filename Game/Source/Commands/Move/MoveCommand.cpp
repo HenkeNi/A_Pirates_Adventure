@@ -5,21 +5,22 @@
 #include "ECS.h"
 
 
-MoveCommand::MoveCommand()
+MoveCommand::MoveCommand(ECS& ecs)
+	: Command{ ecs }
 {
 }
 
-MoveCommand::MoveCommand(const FVector2& direction)
-	: m_direction{ direction }
+MoveCommand::MoveCommand(ECS& ecs, const FVector2& direction)
+	: Command{ ecs }, m_direction{ direction }
 {
 }
 
-void MoveCommand::Execute(Entity entity, ECS& ecs)
+void MoveCommand::Execute(Entity entity)
 {
 	if (!entity)
 		return;
 
-	if (auto* velocityComponent = ecs.GetComponent<VelocityComponent>(entity))
+	if (auto* velocityComponent = m_ecs.GetComponent<VelocityComponent>(entity))
 	{
 		// send events instead!!!??
 
@@ -30,7 +31,7 @@ void MoveCommand::Execute(Entity entity, ECS& ecs)
 	}
 }
 
-bool MoveCommand::CanPerform(Entity entity, ECS& ecs) const
+bool MoveCommand::CanPerform(Entity entity) const
 {
 	if (!entity)
 		return false;

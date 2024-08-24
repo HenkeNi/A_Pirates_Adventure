@@ -5,28 +5,29 @@
 #include "ECS.h"
 
 
-AttackCommand::AttackCommand()
+AttackCommand::AttackCommand(ECS& ecs)
+	: Command{ ecs }
 {
 }
 
-void AttackCommand::Execute(Entity entity, ECS& ecs)
+void AttackCommand::Execute(Entity entity)
 {
 	if (!entity)
 		return;
 
-	if (auto* characterStateComponent = ecs.GetComponent<CharacterStateComponent>(entity))
+	if (auto* characterStateComponent = m_ecs.GetComponent<CharacterStateComponent>(entity))
 	{
 		characterStateComponent->IsAttacking = true;
 	}
 
 	// get equipped weapon instead..
-	if (auto* equipmentComponent = ecs.GetComponent<EquipmentComponent>(entity))
+	if (auto* equipmentComponent = m_ecs.GetComponent<EquipmentComponent>(entity))
 	{
 		int weaponID = equipmentComponent->EquippedItemIDs[(int)eEquipmentSlot::Melee];
 		// fetch weapon from entitymanager?!
 	}
 	
-	if (auto* attackComponent = ecs.GetComponent<AttackComponent>(entity))
+	if (auto* attackComponent = m_ecs.GetComponent<AttackComponent>(entity))
 	{
 		// attackComponent->IsEnabled = true;
 	}
@@ -36,12 +37,12 @@ void AttackCommand::Execute(Entity entity, ECS& ecs)
 }
 
 // Not called...
-bool AttackCommand::CanPerform(Entity entity, ECS& ecs) const
+bool AttackCommand::CanPerform(Entity entity) const
 {
 	if (!entity)
 		return false;
 
-	if (auto* equipmentComponent = ecs.GetComponent<EquipmentComponent>(entity))
+	if (auto* equipmentComponent = m_ecs.GetComponent<EquipmentComponent>(entity))
 	{
 		auto equipment = equipmentComponent->EquippedItemIDs;
 		int weaponID = equipment[(int)eEquipmentSlot::Melee];
@@ -50,7 +51,7 @@ bool AttackCommand::CanPerform(Entity entity, ECS& ecs) const
 			return false;
 	}
 
-	if (auto* characterStateComponent = ecs.GetComponent<CharacterStateComponent>(entity))
+	if (auto* characterStateComponent = m_ecs.GetComponent<CharacterStateComponent>(entity))
 	{
 		if (characterStateComponent->IsAttacking)
 			return false;

@@ -6,11 +6,14 @@ class ECS;
 class Command
 {
 public:
+	Command(ECS& ecs);
 	virtual ~Command() = default;
 
-	virtual void Execute(Entity entity, ECS& ecs) = 0;
-	virtual bool CanPerform(Entity entity, ECS& ecs) const = 0;
+	virtual void Execute(Entity entity) = 0;
+	virtual bool CanPerform(Entity entity) const = 0;
 
-	virtual void Undo(Entity entity, ECS& ecs) {};
-	virtual void UpdateCooldown(float deltaTime) {};
+	virtual void Undo(Entity entity) {};
+
+protected:
+	ECS& m_ecs;
 };

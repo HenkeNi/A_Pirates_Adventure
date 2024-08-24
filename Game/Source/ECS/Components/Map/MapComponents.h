@@ -17,5 +17,8 @@ struct MapChunkComponent
 	Hi_Engine::Physics::AABB2D<float> Bounds;
 
 	// HERE? or a new component...
-	bool IsRenderDataDirty; // ??
+	bool IsRenderDataDirty = false; // ??
+
+
+	bool IsVisible = true;
 };

@@ -4,23 +4,23 @@
 #include "ECS.h"
 
 
-SprintCommand::SprintCommand()
-	: m_sprintSpeed{ 300.f }
+SprintCommand::SprintCommand(ECS& ecs)
+	: Command{ ecs }, m_sprintSpeed{ 300.f }
 {
 }
 
-void SprintCommand::Execute(Entity entity, ECS& ecs)
+void SprintCommand::Execute(Entity entity)
 {
 	if (!entity)
 		return;
 	
-	if (auto* velocityComponent = ecs.GetComponent<VelocityComponent>(entity))
+	if (auto* velocityComponent = m_ecs.GetComponent<VelocityComponent>(entity))
 	{
 		velocityComponent->Speed = m_sprintSpeed; // modify velocity insetad?
 	}
 }
 
-bool SprintCommand::CanPerform(Entity entity, ECS& ecs) const
+bool SprintCommand::CanPerform(Entity entity) const
 {
 	if (!entity)
 		return false;
@@ -28,12 +28,12 @@ bool SprintCommand::CanPerform(Entity entity, ECS& ecs) const
 	return true;
 }
 
-void SprintCommand::Undo(Entity entity, ECS& ecs)
+void SprintCommand::Undo(Entity entity)
 {
 	if (!entity)
 		return;
 
-	if (auto* velocityComponent = ecs.GetComponent<VelocityComponent>(entity))
+	if (auto* velocityComponent = m_ecs.GetComponent<VelocityComponent>(entity))
 	{
 		velocityComponent->Speed = 200.f;
 	}

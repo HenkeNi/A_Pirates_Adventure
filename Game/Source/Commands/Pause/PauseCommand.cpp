@@ -2,12 +2,18 @@
 #include "PauseCommand.h"
 
 
-void PauseCommand::Execute(Entity entity, ECS& ecs)
+PauseCommand::PauseCommand(ECS& ecs)
+	: Command{ ecs }
+{
+}
+
+void PauseCommand::Execute(Entity entity)
 {
 	//PostMaster::GetInstance().SendMessage({ eMessage::TransitionToScene, eScene::Pause });
 }
 
-bool PauseCommand::CanPerform(Entity entity, ECS& ecs) const
+bool PauseCommand::CanPerform(Entity entity) const
 {
 	return false;
 }
+

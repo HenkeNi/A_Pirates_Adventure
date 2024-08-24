@@ -5,7 +5,9 @@
 class PauseCommand : public Command
 {
 public:
-	void Execute(Entity entity, ECS& ecs)			override;
-	bool CanPerform(Entity entity, ECS& ecs) const override;
+	PauseCommand(ECS& ecs);
+
+	void Execute(Entity entity)	override;
+	bool CanPerform(Entity entity) const override;
 
 };

@@ -5,10 +5,10 @@
 class ShootCommand : public Command
 {
 public:
-	ShootCommand();
+	ShootCommand(ECS& ecs);
 
-	void Execute(Entity entity, ECS& ecs)		  override;
-	bool CanPerform(Entity entity, ECS& ecs) const override;
+	void Execute(Entity entity)		  override;
+	bool CanPerform(Entity entity) const override;
 
 private:
 	double				m_timestamp;

@@ -4,12 +4,12 @@
 #include "ECS.h"
 
 
-ShootCommand::ShootCommand()
-	: m_timestamp{ 0.0 }, m_delayBetweenShots{ 0.5f }
+ShootCommand::ShootCommand(ECS& ecs)
+	: Command{ ecs }, m_timestamp{ 0.0 }, m_delayBetweenShots{ 0.5f }
 {
 }
 
-void ShootCommand::Execute(Entity entity, ECS& ecs)
+void ShootCommand::Execute(Entity entity)
 {
 	double currentTime = Hi_Engine::Engine::GetTimer().GetTotalTime();
 
@@ -18,8 +18,8 @@ void ShootCommand::Execute(Entity entity, ECS& ecs)
 
 	m_timestamp = currentTime;
 
-	auto* transformComponent = ecs.GetComponent<TransformComponent>(entity);
-	auto* inputComponent = ecs.GetComponent<InputComponent>(entity);
+	auto* transformComponent = m_ecs.GetComponent<TransformComponent>(entity);
+	auto* inputComponent = m_ecs.GetComponent<InputComponent>(entity);
 
 	// TODO; convert mouse to inworld position => store mouse pls in woorld coord on player?
 	// MousePosToWorldCoords(mousePosition.x, mousePosition.y, 1400, 800, );
@@ -35,7 +35,7 @@ void ShootCommand::Execute(Entity entity, ECS& ecs)
 	PostMaster::GetInstance().SendMessage({ eMessage::EntityFired, data });
 }
 
-bool ShootCommand::CanPerform(Entity entity, ECS& ecs) const
+bool ShootCommand::CanPerform(Entity entity) const
 {
 	return false;
 }
