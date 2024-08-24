@@ -24,6 +24,8 @@ MapDecorationSystem::~MapDecorationSystem()
 
 void MapDecorationSystem::Receive(Message& message)
 {
+	assert(m_ecs && "[MapDecorationSystem - ERROR]: ECS is not initialized!");
+
 	auto entity = std::any_cast<Entity>(message.GetData());
 
 	if (m_ecs->HasComponent<MapChunkComponent>(entity))
@@ -31,10 +33,6 @@ void MapDecorationSystem::Receive(Message& message)
 		GenerateResources(entity);
 		// PopulateWithFoilage(mapChunk);
 	}
-}
-
-void MapDecorationSystem::Update(float deltaTime)
-{
 }
 
 void MapDecorationSystem::SetSignature()

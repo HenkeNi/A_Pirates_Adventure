@@ -1,7 +1,6 @@
 #pragma once
 #include "../../Base/System.h"
 
-// Works for enemies, chest, trees, etc??
 
 // or separate ENemySpawnSystem, form LootDropSystem, and ResourceDropSystem?
 

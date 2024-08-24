@@ -17,7 +17,12 @@ PhysicsSystem::~PhysicsSystem()
 
 void PhysicsSystem::Receive(Message& message)
 {
+	assert(m_ecs && "[PhysicsSystem - ERROR]: ECS is not initialized!");
+
 	auto entity = std::any_cast<Entity>(message.GetData());
+
+	if (!m_ecs->HasComponent<PhysicsComponent>(entity))
+		return;
 
 	if (message.GetMessageType() == eMessage::EntityCreated)
 	{
@@ -31,6 +36,8 @@ void PhysicsSystem::Receive(Message& message)
 
 void PhysicsSystem::LateUpdate(float deltaTime)
 {
+	assert(m_ecs && "[PhysicsSystem - ERROR]: ECS is not initialized!");
+
 	ApplyVelocities();
 
 	auto physics = Hi_Engine::ServiceLocator::GetPhysics().lock();
@@ -52,10 +59,8 @@ void PhysicsSystem::ApplyVelocities()
 	{
 		auto* physicsComponent = m_ecs->GetComponent<PhysicsComponent>(entity);
 
-		// FIX!
-		if (physicsComponent->Type != eColliderType::Dynamic)
-			continue;
-		
+		assert(physicsComponent->Type == eColliderType::Dynamic && "[PhysicsSystem::ApplyVelocities] - PhysicsBody is not dynamic");
+
 		auto* velocityComponent = m_ecs->GetComponent<VelocityComponent>(entity);
 		physicsComponent->PhysicsBody.SetVelocity(velocityComponent->Velocity * 100.f);
 		//colliderComponent->PhysicsBody.ApplyForce(velocityComponent->Velocity * 100.f);

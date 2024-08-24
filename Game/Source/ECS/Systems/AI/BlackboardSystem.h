@@ -1,6 +1,7 @@
 #pragma once
 #include "../Base/System.h"
 
+
 class BlackboardSystem : public System
 {
 public:

@@ -19,4 +19,5 @@ private:
 
 	// void UpdateCooldowns(Entity entity);
 	void UpdatePlayerState(Entity entity);
+	void AddCommands(Entity entity);
 };

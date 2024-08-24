@@ -21,6 +21,4 @@ private:
 	void SetupMapEditor();
 
 	void RegenerateMap();
-
-	// Maybe?
 };

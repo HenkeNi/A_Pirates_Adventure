@@ -22,7 +22,7 @@ CombatSystem::~CombatSystem()
 
 void CombatSystem::Receive(Message& message)	// Listen to collisions from physics
 {
-	assert(m_ecs && "ERROR: EntityManager is nullptr!");
+	assert(m_ecs && "[CombatSystem - ERROR]: ECS is not initialized!");
 
 	//if (message.GetMessageType() == eMessage::AttackAnimationFinished)
 	{
@@ -102,8 +102,7 @@ void CombatSystem::Receive(Message& message)	// Listen to collisions from physic
 
 void CombatSystem::Update(float deltaTime)
 {
-	if (!m_ecs)
-		return;
+	assert(m_ecs && "[CombatSystem - ERROR]: ECS is not initialized!");
 
 	UpdateAttackCooldowns(deltaTime);
 

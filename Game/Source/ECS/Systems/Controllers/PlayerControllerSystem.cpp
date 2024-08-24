@@ -3,36 +3,50 @@
 #include "ECS.h"
 #include "Components/Core/CoreComponents.h"
 #include "Components/Gameplay/GameplayComponents.h"
+#include "Commands/Commands.h"
 
-#include "../Commands/Sprint/SprintCommand.h"
-#include "Commands/Attack/AttackCommand.h"	
-#include "Commands/Move/MoveCommand.h"
+//#include "../Commands/Sprint/SprintCommand.h"
+//#include "Commands/Attack/AttackCommand.h"	
+//#include "Commands/Move/MoveCommand.h"
 
 
 PlayerControllerSystem::PlayerControllerSystem()
 {
-	PostMaster::GetInstance().Subscribe(eMessage::AttackAnimationFinished, this);
+	PostMaster::GetInstance().Subscribe(eMessage::AttackAnimationFinished, this); // AnimationFinishedEvent instead?
+	PostMaster::GetInstance().Subscribe(eMessage::EntityCreated, this);
 }
 
 PlayerControllerSystem::~PlayerControllerSystem()
 {
 	PostMaster::GetInstance().Unsubscribe(eMessage::AttackAnimationFinished, this);
+	PostMaster::GetInstance().Unsubscribe(eMessage::EntityCreated, this);
+
 	CleanUpCommands();
 }
 
 void PlayerControllerSystem::Receive(Message& message)
 {
+	assert(m_ecs && "[PlayerControllerSystem - ERROR]: ECS is not initialized!");
+
 	auto entity = std::any_cast<Entity>(message.GetData());
 
-	if (auto* characterStateComponent = m_ecs->GetComponent<CharacterStateComponent>(entity))
+	if (message.GetMessageType() == eMessage::AttackAnimationFinished)
 	{
-		characterStateComponent->IsAttacking = false;
+		if (auto* characterStateComponent = m_ecs->GetComponent<CharacterStateComponent>(entity))
+		{
+			characterStateComponent->IsAttacking = false;
+		}
+	}
+	else if (message.GetMessageType() == eMessage::EntityCreated)
+	{
+		if (m_ecs->HasComponent<PlayerControllerComponent>(entity))
+			AddCommands(entity);
 	}
 }
 
 void PlayerControllerSystem::Update(float deltaTime)
 {
-	assert(m_ecs && "ERROR: ECS is nullptr!");
+	assert(m_ecs && "[PlayerControllerSystem - ERROR]: ECS is not initialized!");
 
 	auto entities = m_ecs->FindEntities(m_signatures["Player"]);
 
@@ -62,7 +76,7 @@ void PlayerControllerSystem::ProcessCommands(Entity entity)
 		bool isKeyActive = inputComponent->InputStates[key]; // NOTE: this will add the releveant keys to the map.. (maybe use .find, or .at and initialize keys when creating the component?
 		//bool canPerform = command->CanPerform(entity);
 
-		isKeyActive ? command->Execute(entity, *m_ecs) : command->Undo(entity, *m_ecs);
+		isKeyActive ? command->Execute(entity) : command->Undo(entity);
 	}
 }
 
@@ -96,4 +110,24 @@ void PlayerControllerSystem::UpdatePlayerState(Entity entity) // dO in commands?
 	characterStateComponent->IsWalking = isMoving;
 
 	// characterStateComponent->IsRunning = true;
+}
+
+void PlayerControllerSystem::AddCommands(Entity entity)
+{
+	// Todo; read from component (key => action/command) OR read from json? current input.. etc
+
+	if (auto* playerControllerComponent = m_ecs->GetComponent<PlayerControllerComponent>(entity))
+	{
+		playerControllerComponent->InputMapping.insert({ Hi_Engine::eKey::Key_W, new MoveCommand{  *m_ecs, { 0.f,  1.f } } });
+		playerControllerComponent->InputMapping.insert({ Hi_Engine::eKey::Key_S, new MoveCommand{  *m_ecs, { 0.f, -1.f } } });
+		playerControllerComponent->InputMapping.insert({ Hi_Engine::eKey::Key_A, new MoveCommand{  *m_ecs, { -1.f, 0.f } } });
+		playerControllerComponent->InputMapping.insert({ Hi_Engine::eKey::Key_D, new MoveCommand{  *m_ecs, { 1.f,  0.f } } });
+
+		playerControllerComponent->InputMapping.insert({ Hi_Engine::eKey::Key_Space,  new AttackCommand{ *m_ecs } });
+		playerControllerComponent->InputMapping.insert({ Hi_Engine::eKey::Key_LShift, new SprintCommand{ *m_ecs } });
+		playerControllerComponent->InputMapping.insert({ Hi_Engine::eKey::Key_Escape, new PauseCommand{ *m_ecs } });
+		playerControllerComponent->InputMapping.insert({ Hi_Engine::eKey::Key_I,	  new OpenInventoryCommand{ *m_ecs } });
+		playerControllerComponent->InputMapping.insert({ Hi_Engine::eKey::Key_1,	  new AimCommand{ *m_ecs } }); // CHANGE To mouse button
+		playerControllerComponent->InputMapping.insert({ Hi_Engine::eKey::Key_2,	  new ShootCommand{ *m_ecs } });
+	}
 }

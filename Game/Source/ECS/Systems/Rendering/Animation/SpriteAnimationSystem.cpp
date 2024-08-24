@@ -15,7 +15,7 @@ SpriteAnimationSystem::~SpriteAnimationSystem()
 
 void SpriteAnimationSystem::Update(float deltaTime) 
 {
-	// assert(m_entityManager && "ERROR: EntityManager is nullptr!");
+	assert(m_ecs && "[SpriteAnimationSystem - ERROR]: ECS is not initialized!");
 
 	auto entities = m_ecs->FindEntities(m_signatures["Animations"]);
 

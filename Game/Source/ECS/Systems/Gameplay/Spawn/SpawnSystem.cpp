@@ -22,6 +22,8 @@ SpawnSystem::~SpawnSystem()
 
 void SpawnSystem::Receive(Message& message)
 {
+	assert(m_ecs && "[SpawnSystem - ERROR]: ECS is not initialized!");
+
 	auto entity = std::any_cast<Entity>(message.GetData());
 
 	if (m_ecs->HasComponent<SpawnComponent>(entity))
@@ -30,6 +32,8 @@ void SpawnSystem::Receive(Message& message)
 
 void SpawnSystem::Update(float deltaTime)
 {
+	assert(m_ecs && "[SpawnSystem - ERROR]: ECS is not initialized!");
+
 	// get entieis with spawn components... (check what should be spawned )
 }
 

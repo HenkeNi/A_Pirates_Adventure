@@ -14,21 +14,26 @@ MovementSystem::~MovementSystem()
 
 void MovementSystem::Receive(Message& message)
 {
+	assert(m_ecs && "[MovementSysten - ERROR]: ECS is not initialized!");
+
 	// TODO: listen to collision resolved event (from collision system) => update subentities?
 }
 
 void MovementSystem::Update(float deltaTime)
 {
-	assert(m_ecs && "ERROR: EntityManager is nullptr!");
+	assert(m_ecs && "[MovementSysten - ERROR]: ECS is not initialized!");
 
-	return;
+	// return;
 
 	auto entities = m_ecs->FindEntities(m_signatures["Movement"]);
 
 	for (auto entity : entities)
 	{
 		auto* velocityComponent = m_ecs->GetComponent<VelocityComponent>(entity);
+		velocityComponent->Velocity = { 0.f, 0.f, };
 
+		continue;
+		
 		if (auto* knockbackComponent = m_ecs->GetComponent<KnockbackComponent>(entity))
 		{
 			ApplyKnockback(velocityComponent, knockbackComponent);

@@ -21,6 +21,8 @@ SceneTransitionSystem::~SceneTransitionSystem()
 
 void SceneTransitionSystem::Receive(Message& message) // Psas trigger?? check if have scen transition componennt
 {
+	assert(m_ecs && "[SceneTransitionSystem - ERROR]: ECS is not initialized!");
+
 	auto entity = std::any_cast<Entity>(message.GetData());
 
 	auto* sceneTransitionComponent = m_ecs->GetComponent<SceneTransitionComponent>(entity);
@@ -32,7 +34,7 @@ void SceneTransitionSystem::Receive(Message& message) // Psas trigger?? check if
 
 void SceneTransitionSystem::Update(float deltaTime)
 {
-	assert(m_ecs && "ERROR: EntityManager is nullptr!");
+	assert(m_ecs && "[SceneTransitionSystem - ERROR]: ECS is not initialized!");
 
 	auto entities = m_ecs->FindEntities(m_signatures["SceneTransitioners"]);
 	for (const auto& entity : entities)

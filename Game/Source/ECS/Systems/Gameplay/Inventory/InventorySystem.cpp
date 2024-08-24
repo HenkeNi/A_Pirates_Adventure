@@ -18,6 +18,8 @@ InventorySystem::~InventorySystem()
 
 void InventorySystem::Receive(Message& message)
 {
+	assert(m_ecs && "[InventorySystem - ERROR]: ECS is not initialized!");
+
 	// Listen for collision events (triggers)?
 	// listen to entity collision => make sure its done after equipment system
 
@@ -68,7 +70,7 @@ void InventorySystem::Receive(Message& message)
   
 void InventorySystem::Update(float deltaTime)
 {
-	assert(m_ecs && "ERROR: ECS is nullptr!");
+	assert(m_ecs && "[InventorySystem - ERROR]: ECS is not initialized!");
 
 	// D0 all of this in recive?
 

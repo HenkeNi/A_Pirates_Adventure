@@ -1,7 +1,7 @@
 #pragma once
 #include "../../Base/System.h"
 
-// Rename ProjectileSystem?
+
 class ProjectileSystem : public System, public Subscriber
 {
 public:

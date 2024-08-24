@@ -46,6 +46,8 @@ void StatSystem::Receive(Message& message)
 
 void StatSystem::Update(float deltaTime)
 {
+	// assert(m_ecs && "[StatSystem - ERROR]: ECS is not initialized!");
+
 	// Send event if something dies...
 	
 

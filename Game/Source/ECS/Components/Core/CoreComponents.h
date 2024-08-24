@@ -217,8 +217,6 @@ struct SceneTransitionComponent
 struct AudioComponent
 {
 	std::unordered_map<eMessage, std::string> SoundTriggers; 
-	
-	// std::string AudioName; // REmove?
 
 	bool IsLooping = false;
 	bool ShouldPlay = false;

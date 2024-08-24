@@ -13,6 +13,8 @@ RenderSystem::~RenderSystem()
 
 void RenderSystem::Draw()
 { 
+	assert(m_ecs && "[RenderSystem - ERROR]: ECS is not initialized!");
+
 	auto entity = m_ecs->FindEntity(m_signatures.at("Camera"));
 	if (!entity.has_value())
 		return;

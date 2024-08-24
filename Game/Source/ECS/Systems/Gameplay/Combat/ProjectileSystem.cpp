@@ -17,6 +17,8 @@ ProjectileSystem::~ProjectileSystem()
 
 void ProjectileSystem::Receive(Message& message)
 {
+	assert(m_ecs && "[ProjectileSystem - ERROR]: ECS is not initialized!");
+
 	if (message.GetMessageType() == eMessage::EntityFired)
 	{
 		auto data = std::any_cast<ProjectileData>(message.GetData());
@@ -39,7 +41,7 @@ void ProjectileSystem::Receive(Message& message)
 
 void ProjectileSystem::Update(float deltaTime)
 {
-	//assert(m_entityManager && "ERROR: EntityManager is nullptr!");
+	assert(m_ecs && "[ProjectileSystem - ERROR]: ECS is not initialized!");
 
 	auto projectiles = m_ecs->FindEntities(m_signatures["Projectiles"]);
 

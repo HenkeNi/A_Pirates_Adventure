@@ -15,8 +15,8 @@ BlackboardSystem::~BlackboardSystem()
 
 void BlackboardSystem::Update(float deltaTime)
 {
-	//assert(m_entityManager && "ERROR: EntityManager is nullptr!");
-
+	assert(m_ecs && "[BlackboardSystem - ERROR]: ECS is not initialized!");
+	
 	SetPlayerPosition();
 	
 	BlackboardComponent::Friendly = m_ecs->FindEntities(m_signatures["Friendly"]);

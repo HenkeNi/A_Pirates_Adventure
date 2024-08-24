@@ -26,6 +26,8 @@ AudioSystem::~AudioSystem()
 
 void AudioSystem::Receive(Message& message)
 {
+	assert(m_ecs && "[AudioSystem - ERROR]: ECS is not initialized!");
+
 	auto type = message.GetMessageType();
 	auto entity = std::any_cast<Entity>(message.GetData());
 

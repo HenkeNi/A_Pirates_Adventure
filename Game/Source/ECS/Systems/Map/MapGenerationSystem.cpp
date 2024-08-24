@@ -168,6 +168,8 @@ MapGenerationSystem::~MapGenerationSystem()
 
 void MapGenerationSystem::Receive(Message& message)
 {
+	assert(m_ecs && "[MapGenerationSystem - ERROR]: ECS is not initialized!");
+
 	// Generate x amount of areas...
 
 	//for (int y = 0; y < 3; ++y)
@@ -182,7 +184,7 @@ void MapGenerationSystem::Receive(Message& message)
 
 void MapGenerationSystem::Update(float deltaTime)
 {
-	assert(m_ecs && "ERROR: EntityManager is nullptr!");
+	assert(m_ecs && "[MapGenerationSystem - ERROR]: ECS is not initialized!");
 
 	// Todo; use camera bounds instead??
 	auto camera = m_ecs->FindEntity(m_signatures["Camera"]);

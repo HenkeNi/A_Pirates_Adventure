@@ -1,7 +1,7 @@
 #pragma once
 #include "Components.h"
-#include "Commands/Commands.h"
 #include "SceneTypes.h"
+
 
 class ComponentInitializer
 {
@@ -203,26 +203,42 @@ public:
 	template <>
 	inline static void InitializeComponent(PlayerControllerComponent* component, const ComponentProperties& properties)
 	{
-		// Temp (use builder/factory? or system) or map of commands?
-
-		// TODO; make sure to delete...
-		component->InputMapping.insert({ Hi_Engine::eKey::Key_W, new MoveCommand{ { 0.f,   1.f } } });
-		component->InputMapping.insert({ Hi_Engine::eKey::Key_S, new MoveCommand{ { 0.f,	-1.f } } });
-		component->InputMapping.insert({ Hi_Engine::eKey::Key_A, new MoveCommand{ { -1.f,	 0.f } } });
-		component->InputMapping.insert({ Hi_Engine::eKey::Key_D, new MoveCommand{ { 1.f,  0.f } } });
-		
-		component->InputMapping.insert({ Hi_Engine::eKey::Key_Space, new AttackCommand });
-		component->InputMapping.insert({ Hi_Engine::eKey::Key_LShift, new SprintCommand });
-		component->InputMapping.insert({ Hi_Engine::eKey::Key_Escape, new PauseCommand });
-		component->InputMapping.insert({ Hi_Engine::eKey::Key_I, new OpenInventoryCommand });
-		component->InputMapping.insert({ Hi_Engine::eKey::Key_1, new AimCommand }); // CHANGE To mouse button
-		component->InputMapping.insert({ Hi_Engine::eKey::Key_2, new ShootCommand });
+		// Temp (use builder/factory? or system) or map of commands?	
 	}
 
 	template <>
 	inline static void InitializeComponent(PersonalityComponent* component, const ComponentProperties& properties)
 	{
 		// component->IsAggressive = std::get<bool>(properties.at("is_aggressive"));
+	}
+
+	template <>
+	inline static void InitializeComponent(PhysicsComponent* component, const ComponentProperties& properties)
+	{
+		std::string type = std::get<std::string>(properties.at("type"));
+		if (type == "Trigger")
+		{
+			component->Type = eColliderType::Trigger;
+		}
+		else if (type == "Dynamic")
+		{
+			component->Type = eColliderType::Dynamic;
+
+			// do in PhysicsSystem instead???
+		/*	float xPos = 0.f;
+			float yPos = 0.f;
+			float width = 25.f;
+			float height = 25.f;
+			float density = 1.f;
+			float friction = 0.3f;*/
+
+			//	Hi_Engine::ServiceLocator::GetPhysics().lock()->CreateDynamicBody({ xPos, yPos, width, height, density, friction });
+		}
+		else if (type == "Static")
+		{
+			component->Type = eColliderType::Static;
+			///Hi_Engine::ServiceLocator::GetPhysics().lock()->CreateDynamicBody({ xPos, yPos, width, height, density, friction });
+		}
 	}
 
 	template <>

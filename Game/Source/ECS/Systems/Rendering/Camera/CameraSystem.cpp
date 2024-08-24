@@ -18,6 +18,8 @@ CameraSystem::~CameraSystem()
 
 void CameraSystem::Receive(Message& message)
 {
+	assert(m_ecs && "[CameraSystem - ERROR]: ECS is not initialized!");
+
 	if (message.GetMessageType() == eMessage::GameStarted)
 	{
 		auto camera = m_ecs->FindEntity(m_signatures["Camera"]);
@@ -50,7 +52,7 @@ void CameraSystem::Receive(Message& message)
 
 void CameraSystem::Update(float deltaTime)
 {
-	assert(m_ecs && "[Camera System - ERROR]: ECS is nullptr!");
+	assert(m_ecs && "[CameraSystem - ERROR]: ECS is not initialized!");
 
 	auto entity = m_ecs->FindEntity(m_signatures["Camera"]);
 	if (!entity.has_value())

@@ -17,6 +17,8 @@ ShakeSystem::~ShakeSystem()
 
 void ShakeSystem::Receive(Message& message)
 {
+	assert(m_ecs && "[ShakeSystem - ERROR]: ECS is not initialized!");
+
 	if (message.GetMessageType() == eMessage::EntityAttacked)
 	{
 		if (auto entity = std::any_cast<Entity>(message.GetData()))
@@ -33,7 +35,7 @@ void ShakeSystem::Receive(Message& message)
 
 void ShakeSystem::Update(float deltaTime)
 {
-	assert(m_ecs && "ERROR: EntityManager is nullptr!");
+	assert(m_ecs && "[ShakeSystem - ERROR]: ECS is not initialized!");
 
 	auto entities = m_ecs->FindEntities(m_signatures["Shake"]);
 

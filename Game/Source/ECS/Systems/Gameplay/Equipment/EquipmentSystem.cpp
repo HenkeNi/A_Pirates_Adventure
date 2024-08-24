@@ -17,6 +17,8 @@ EquipmentSystem::~EquipmentSystem()
 
 void EquipmentSystem::Receive(Message& message)
 {
+	assert(m_ecs && "[EquipmentSystem - ERROR]: ECS is not initialized!");
+
 	if (message.GetMessageType() != eMessage::EntitiesCollided)
 		return;
 
