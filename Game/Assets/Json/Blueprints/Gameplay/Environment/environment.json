@@ -26,7 +26,7 @@
         }
       },
       {
-        "type": "Collider",
+        "type": "Physics",
         "properties": {
           "type": "Static",
           "size": [ 25.0, 25.0 ]
@@ -81,7 +81,7 @@
         }
       },
       {
-        "type": "Collider",
+        "type": "Physics",
         "properties": {
           "type": "Static",
           "size": [ 25.0, 25.0 ]
@@ -133,7 +133,7 @@
         "type": "Transform",
         "properties": {
           "position": [ 0.0, 0.1 ],
-          "scale": [ 64.0, 64.0 ],
+          "scale": [ 32.0, 32.0 ],
           "pivot": [ 0.0, 0.25 ],
           "rotation": 0.0
         }
@@ -147,7 +147,7 @@
         }
       },
       {
-        "type": "Collider",
+        "type": "Physics",
         "properties": {
           "type": "Static",
           "size": [ 25.0, 25.0 ]
@@ -213,7 +213,7 @@
         }
       },
       {
-        "type": "Collider",
+        "type": "Physics",
         "properties": {
           "type": "Static",
           "size": [ 25.0, 25.0 ]
