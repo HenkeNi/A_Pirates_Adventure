@@ -17,12 +17,14 @@ UISystem::~UISystem()
 
 void UISystem::Receive(Message& message)
 {
+	assert(m_ecs && "[UISystem - ERROR]: ECS is not initialized!");
+
 	// TODO; listen to screen size changed...
 	// TODO; change mouse icon instead
 
 	if (message.GetMessageType() == eMessage::EntityCreated)
 	{
-		AllignBoundingBox(std::any_cast<Entity>(message.GetData()));
+		AlignBoundingBox(std::any_cast<Entity>(message.GetData()));
 	}
 }
 
@@ -124,7 +126,7 @@ void UISystem::OnButtonActivated(Entity button)
 	}
 }
 
-void UISystem::AllignBoundingBox(Entity entity)
+void UISystem::AlignBoundingBox(Entity entity)
 {
 	if (!m_ecs->HasComponent<UIComponent>(entity) && !m_ecs->HasComponent<HUDComponent>(entity))
 		return;

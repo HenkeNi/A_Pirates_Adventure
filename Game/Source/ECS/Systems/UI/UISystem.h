@@ -19,5 +19,5 @@ private:
 	// void AssignCallback(Entity* button);
 
 	void OnButtonActivated(Entity button);
-	void AllignBoundingBox(Entity entity);
+	void AlignBoundingBox(Entity entity);
 };
