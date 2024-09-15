@@ -21,3 +21,10 @@ struct TimerComponent
 
 	// Add callback? std::function<void()>
 };
+
+
+
+//struct EditorComponent
+//{
+//
+//};

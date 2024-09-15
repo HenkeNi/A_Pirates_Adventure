@@ -4,17 +4,27 @@
 /* ######################### UI ######################### */
 struct UIComponent
 {
-	int RenderDepth = 0; // FIX!
+	//int RenderDepth = 0; // FIX!
 };
 
 struct ButtonComponent
 {
+	enum class eButtonState
+	{
+		Idle,
+		Hovered,
+		Clicked,
+		Released,
+		Disabled
+	} CurrentState;
+
 	std::string				Identifier;
+
 	FVector4				HoverColor = { 0.2f, 0.2f, 0.2f, 1.f };
 
 	std::function<void()>	OnClick; // or a Command?
-	bool					IsHovered = false; // store button state?? => send mouse click event (ui system listens for it, rather than checking directly if mouse is pressed??)
-	bool					IsPressed = false;
+	//bool					IsHovered = false; // store button state?? => send mouse click event (ui system listens for it, rather than checking directly if mouse is pressed??)
+	//bool					IsPressed = false;
 };
 
 struct CursorComponent

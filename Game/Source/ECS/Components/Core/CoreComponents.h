@@ -23,6 +23,9 @@ struct TagComponent
 // ############# Physics Components ############# //
 struct TransformComponent
 {
+	//FVector2 WorldPosition = { 0.f, 0.f };
+	//FVector2 LocalPosition = { 0.f, 0.f };
+
 	FVector2 CurrentPos		= { 0.f, 0.f };
 	FVector2 PreviousPos	= { 0.f, 0.f };
 	FVector2 Scale			= { 1.f, 1.f }; // rename size?
@@ -34,7 +37,15 @@ struct TransformComponent
 struct PhysicsComponent
 {
 	Hi_Engine::PhysicsBody PhysicsBody;
-	FVector2 Velocity;
+
+//#ifdef DEBUG
+
+	FVector2 ColliderSize = { 0.f, 0.f };
+	//FVector2 ColliderOffset = { 0.f, 0.f }; offset in sprite instead?
+
+//#endif // DEBUG
+
+	// FVector2 Velocity;
 	float Density = 0.f;
 	float Friction = 0.f;
 	eColliderType Type;
@@ -97,7 +108,8 @@ struct SpriteComponent
 	FVector4					DefaultColor = { 1.f, 1.f, 1.f, 1.f };
 	FVector4					CurrentColor = { 1.f, 1.f, 1.f, 1.f };
 	Hi_Engine::Subtexture2D*	Subtexture	 = nullptr; // Store as int (id) instead?
-	bool						IsVisible = true;
+	int							RenderDepth  = 0;
+	bool						IsVisible	 = true;
 };
 
 struct AnimationComponent
@@ -155,10 +167,11 @@ struct InputComponent
 {
 	//std::unordered_map<Hi_Engine::eKey, Hi_Engine::eInputState> InputStates; // replace with state instead of bool?? rename KeyStates?
 	std::unordered_map<Hi_Engine::eKey, bool> InputStates; // replace with state instead of bool?? rename KeyStates?
-	FVector2									MousePosition;
-	FVector2									MouseWorldPosition;
-	float									  MouseScroll;
+	FVector2 MousePosition;
+	FVector2 MouseWorldPosition;
+	float MouseScroll;
 };
+
 
 
 
@@ -178,14 +191,15 @@ struct SubEntitiesComponent
 
 
 // Rename BoundComponent?
-struct FollowComponent
-{
-	unsigned EntityID = 0;
-};
+//struct FollowComponent
+//{
+//	unsigned EntityID = 0;
+//};
 
 // interactable component?
 struct ClickableComponent
 {
+	Hi_Engine::Physics::AABB2D<float> Bounds;
 
 };
 
@@ -223,10 +237,6 @@ struct AudioComponent
 };
 
 // audio component, audio settings component, etc
-
-
-
-
 
 
 
