@@ -72,6 +72,14 @@ void UISystem::UpdateButtons(const FVector2& cursorPosition)
 			{
 				OnButtonActivated(entity); // Crashes since second button will be destroyed
 			}
+			else
+			{
+				buttonComponent->CurrentState = ButtonComponent::eButtonState::Hovered;
+			}
+		}
+		else
+		{
+			buttonComponent->CurrentState = ButtonComponent::eButtonState::Idle;
 		}
 
 		if (auto* spriteComponent = m_ecs->GetComponent<SpriteComponent>(entity))
@@ -114,10 +122,12 @@ void UISystem::OnButtonActivated(Entity button)
 {
 	if (auto* buttonComponent = m_ecs->GetComponent<ButtonComponent>(button))
 	{
-		if (buttonComponent->IsPressed)
+		if (buttonComponent->CurrentState == ButtonComponent::eButtonState::Clicked)
 			return;
 
-		buttonComponent->IsPressed = true; // TODO; make sure to add timstamp and reset?
+		buttonComponent->CurrentState = ButtonComponent::eButtonState::Clicked;
+
+		// buttonComponent->IsPressed = true; // TODO; make sure to add timstamp and reset?
 
 		if (buttonComponent->OnClick) // or just send evnet??
 			buttonComponent->OnClick();
