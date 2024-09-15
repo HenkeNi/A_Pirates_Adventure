@@ -215,6 +215,14 @@ public:
 	template <>
 	inline static void InitializeComponent(PhysicsComponent* component, const ComponentProperties& properties)
 	{
+		FVector2 size = std::get<FVector2>(properties.at("size"));
+		component->ColliderSize = size;
+
+		//if (properties.contains("offset"))
+		//{
+			//component->ColliderOffset = std::get<FVector2>(properties.at("offset"));
+		//}
+
 		std::string type = std::get<std::string>(properties.at("type"));
 		if (type == "Trigger")
 		{
@@ -281,9 +289,11 @@ public:
 	{
 		std::string texture = std::get<std::string>(properties.at("texture"));
 		IVector2 coordinates = std::get<IVector2>(properties.at("coordinates"));
-
+		int depth = std::get<int>(properties.at("render_depth"));
+		
 		component->Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ texture, coordinates.x, coordinates.y });
 		component->DefaultColor = component->CurrentColor = std::get<FVector4>(properties.at("color"));
+		component->RenderDepth = depth;
 	}
 
 	template <>
@@ -347,7 +357,7 @@ public:
 	template <>
 	inline static void InitializeComponent(UIComponent* component, const ComponentProperties& properties)
 	{
-		component->RenderDepth = std::get<int>(properties.at("render_depth"));
+		// component->RenderDepth = std::get<int>(properties.at("render_depth"));
 	}
 
 	template <>
