@@ -89,6 +89,8 @@ namespace Registration
 		ecs.RegisterSystem<SceneTransitionSystem>("SceneTransitionSystem");
 		//ecs.RegisterSystem<SpriteAnimationSystem>("SpriteAnimationSystem");
 
+		ecs.RegisterSystem<TransformationSystem>("TransformSystem");
+
 		/* - Gameplay Systems - */
 		ecs.RegisterSystem<CombatSystem>("CombatSystem");
 		//ecs.RegisterSystem<EnemySpawnSystem>("EnemySpawnSystem");
@@ -107,6 +109,13 @@ namespace Registration
 		/* -  UI Systems - */
 		ecs.RegisterSystem<UISystem>("UISystem");
 		ecs.RegisterSystem<HUDSystem>("HUDSystem");
+
+#if DEBUG
+
+		ecs.RegisterSystem<EditorSystem>("EditorSystem");
+
+#endif // DEBUG
+
 
 		/* - AI Systems - */
 		//ecs.RegisterSystem<BlackboardSystem>("BlackboardSystem");
