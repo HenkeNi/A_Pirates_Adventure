@@ -28,7 +28,7 @@ namespace Hi_Engine
 
 		// destroy?
 
-
+		void Test();
 
 	private:
 		FVector2 m_gravity;

@@ -22,6 +22,7 @@ namespace Hi_Engine
 		void ApplyForce(const FVector2& force);
 
 		FVector2 GetPosition() const;
+		FVector2 GetSize() const;
 
 	private:
 		friend class PhysicsEngine;

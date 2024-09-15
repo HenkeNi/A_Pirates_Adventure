@@ -63,7 +63,7 @@ namespace Hi_Engine
 		b2Body* body = m_world->CreateBody(&bodyDef);
 
 		b2PolygonShape dynamicBox;
-		dynamicBox.SetAsBox(size.x * 0.5f, size.y * 0.5f);
+		dynamicBox.SetAsBox(size.x, size.y);
 
 		b2FixtureDef fixtureDef;
 		fixtureDef.shape = &dynamicBox;
@@ -85,7 +85,7 @@ namespace Hi_Engine
 		b2Body* body = m_world->CreateBody(&bodyDef);
 
 		b2PolygonShape staticBox;
-		staticBox.SetAsBox(size.x * 0.5f, size.y * 0.5f);
+		staticBox.SetAsBox(size.x, size.y);
 
 		b2FixtureDef fixtureDef;
 		fixtureDef.shape = &staticBox;

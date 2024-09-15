@@ -50,4 +50,20 @@ namespace Hi_Engine
 
 		return position;
 	}
+	FVector2 PhysicsBody::GetSize() const
+	{
+		FVector2 size{ 0.f, 0.f };
+
+		if (m_body)
+		{
+			b2PolygonShape* boxShape = (b2PolygonShape*)m_body->GetFixtureList()->GetShape();
+			b2Vec2 halfExtents = boxShape->m_vertices[1];
+
+			size.x = halfExtents.x * 2.f;
+			size.y = halfExtents.y * 2.f;
+		}
+
+
+		return size;
+	}
 }
