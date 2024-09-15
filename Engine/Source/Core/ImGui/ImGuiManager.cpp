@@ -9,7 +9,7 @@
 
 
 // Test - remove later...
-#include "Noise/NoiseGenerator.h" // TEST...
+// #include "Noise/NoiseGenerator.h" // TEST...
 //#include "../../Utility/Noise/NoiseGenerator.h"
 
 namespace Hi_Engine
@@ -18,12 +18,13 @@ namespace Hi_Engine
 		: Module{ initOrder }
 	{
 		Dispatcher::GetInstance().Subscribe(this);
+		m_imguiWindows.reserve(10);
 	}
 
 	void ImGuiManager::HandleEvent(CreateImGuiWindowRequest& event)
 	{
 		// CreateWindow(event.)
-		m_windows.push_back(event.GetWindow());
+		m_imguiWindows.push_back(event.GetWindow());
 		Dispatcher::GetInstance().Unsubscribe(this);
 	}
 
@@ -32,14 +33,14 @@ namespace Hi_Engine
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 		ImGuiIO& io = ImGui::GetIO(); (void)io; // Suppresses the unused variable warning
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard | ImGuiConfigFlags_NavEnableGamepad;
 
 		ImGui::StyleColorsDark();
 
-		auto window = ServiceLocator::GetWindow(); // todo; send event instead?
-
-		if (auto win = window.lock())
+		// todo; send event instead?
+		if (auto window = ServiceLocator::GetWindow().lock())
 		{
-			ImGui_ImplGlfw_InitForOpenGL(win->GetWindow(), true);
+			ImGui_ImplGlfw_InitForOpenGL(window->GetWindow(), true);
 			ImGui_ImplOpenGL3_Init("#version 330");
 			
 			return true;
@@ -55,6 +56,14 @@ namespace Hi_Engine
 		ImGui::DestroyContext();
 	}
 
+	ImGuiWindow& ImGuiManager::AddWindow(const ImGuiWindow& window)
+	{
+		assert(m_imguiWindows.size() < 10 && "Adding to many windows!");
+		m_imguiWindows.push_back(window);
+
+		return m_imguiWindows.back();
+	}
+
 	void ImGuiManager::BeginFrame()
 	{
 		ImGui_ImplOpenGL3_NewFrame();
@@ -62,43 +71,48 @@ namespace Hi_Engine
 		ImGui::NewFrame();
 	}
 
-	void ImGuiManager::Render()
+	void ImGuiManager::Update()
 	{
-
-		for (const auto& [buttons, pos, size, title, isMovable, isResizable] : m_windows)
+		for (auto& window : m_imguiWindows)
 		{
-			ImGui::Begin(title, nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
-			ImGui::SetWindowPos({ pos.x, pos.y });
-			ImGui::SetWindowSize({ size.x, size.y });
-
-			for (const auto& [callback, label] : buttons)
-			{
-				if (ImGui::Button(label))
-					callback();
-			}
-
-			// TEMP:
-			static float noiseValue = 0.f;
-			if (ImGui::SliderFloat("Noise", &noiseValue, 0.0001f, 1.f, "%.6f"))
-				NoiseGenerator::SetFrequency(noiseValue);
-				
-	
-			static int currentItem = 0; // Index of the currently selected item
-			
-			const char* items[5];
-			items[0] = "I";
-			items[1] = "I";
-			items[2] = "I";
-
-			//const char* items[] = { "Item 1", "Item 2", "Item 3" }; // List of items for the combo box
-			//if (ImGui::Combo("Combo Box", &currentItem, items, IM_ARRAYSIZE(items))) 
-			if (ImGui::Combo("Combo Box", &currentItem, items, 3)) 
-			{
-			}
-
-
-			ImGui::End();
+			window.Update();
 		}
+
+
+		//for (const auto& [buttons, pos, size, title, isMovable, isResizable] : m_windows)
+		//{
+		//	ImGui::Begin(title, nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
+		//	ImGui::SetWindowPos({ pos.x, pos.y });
+		//	ImGui::SetWindowSize({ size.x, size.y });
+
+		//	for (const auto& [callback, label] : buttons)
+		//	{
+		//		if (ImGui::Button(label))
+		//			callback();
+		//	}
+
+		//	// TEMP:
+		//	static float noiseValue = 0.f;
+		//	if (ImGui::SliderFloat("Noise", &noiseValue, 0.0001f, 1.f, "%.6f"))
+		//		NoiseGenerator::SetFrequency(noiseValue);
+		//		
+	
+		//	static int currentItem = 0; // Index of the currently selected item
+		//	
+		//	const char* items[5];
+		//	items[0] = "I";
+		//	items[1] = "I";
+		//	items[2] = "I";
+
+		//	//const char* items[] = { "Item 1", "Item 2", "Item 3" }; // List of items for the combo box
+		//	//if (ImGui::Combo("Combo Box", &currentItem, items, IM_ARRAYSIZE(items))) 
+		//	if (ImGui::Combo("Combo Box", &currentItem, items, 3)) 
+		//	{
+		//	}
+
+
+		//	ImGui::End();
+		//}
 
 		// Render dear imgui into screen
 		ImGui::Render();

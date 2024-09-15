@@ -16,23 +16,25 @@ namespace Hi_Engine
 		bool Init() override;
 		void Shutdown() override;
 
-		template <typename... Args>
-		void CreateWindow(Args&&... args);
+		//template <typename... Args>
+		//void CreateWindow(Args&&... args);
+
+		ImGuiWindow& AddWindow(const ImGuiWindow& window);
 
 		void BeginFrame();
-		void Render();
+		void Update();
 
 	private:
-		std::vector<ImGuiWindow> m_windows;
+		std::vector<ImGuiWindow> m_imguiWindows;
 	};
 
 #pragma region Method_Definitions
 	
-	template <typename... Args>
+	/*template <typename... Args>
 	void ImGuiManager::CreateWindow(Args&&... args)
 	{
 		m_windows.emplace_back(std::forward<Args>(args)...);
-	}
+	}*/
 
 #pragma endregion Method_Definitions
 }

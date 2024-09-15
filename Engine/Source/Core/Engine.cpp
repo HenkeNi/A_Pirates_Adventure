@@ -112,7 +112,7 @@ namespace Hi_Engine
 			//	textRenderer->ProcessQueue();
 
 			if (editor)
-				editor->Render();
+				editor->Update();
 
 			if (window)
 				window->SwapBuffers();
@@ -148,6 +148,7 @@ namespace Hi_Engine
 
 		ServiceLocator::Register(m_moduleManager.GetModule<Window>());
 		ServiceLocator::Register(m_moduleManager.GetModule<PhysicsEngine>());
+		ServiceLocator::Register(m_moduleManager.GetModule<ImGuiManager>());
 	}
 
 	void Engine::LoadResources()
