@@ -25,6 +25,11 @@ namespace Hi_Engine
 		s_physics = physics;
 	}
 
+	void ServiceLocator::Register(std::weak_ptr<ImGuiManager> imgui)
+	{
+		s_imGuiManager = imgui;
+	}
+
 	std::weak_ptr<Window> ServiceLocator::GetWindow()
 	{
 		return s_window;
@@ -35,4 +40,8 @@ namespace Hi_Engine
 		return s_physics;
 	}
 
+	std::weak_ptr<ImGuiManager> ServiceLocator::GetImGuiManager()
+	{
+		return s_imGuiManager;
+	}
 }
