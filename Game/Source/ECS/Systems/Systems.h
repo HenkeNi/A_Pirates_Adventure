@@ -20,7 +20,9 @@
 #include "Controllers/PlayerControllerSystem.h"
 #include "Input/InputSystem.h"
 
-//#include "Development/DebugSystem.h"
+#include "Core/Transformation/TransformationSystem.h"
+
+#include "Editor/EditorSystem.h"
 
 /* - Physics systems - */
 #include "Physics/CollisionSystem.h"
