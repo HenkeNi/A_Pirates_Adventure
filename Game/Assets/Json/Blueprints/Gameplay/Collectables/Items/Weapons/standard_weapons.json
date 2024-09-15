@@ -22,7 +22,8 @@
         "properties": {
           "texture": "sword_01",
           "coordinates": [ 0, 0 ],
-          "color": [ 1.0, 1.0, 1.0, 1.0 ]
+          "color": [ 1.0, 1.0, 1.0, 1.0 ],
+          "render_depth": 1
         }
       },
       {

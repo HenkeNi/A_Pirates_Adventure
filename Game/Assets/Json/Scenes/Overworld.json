@@ -160,6 +160,11 @@
       "type": "PhysicsSystem",
       "debug": true,
       "release": true
+    },
+    {
+      "type": "EditorSystem",
+      "debug": true,
+      "release": false
     }
   ]
 }

@@ -17,14 +17,13 @@
         "properties": {
           "texture": "mouse_icon",
           "coordinates": [ 0, 0 ],
-          "color": [ 1.0, 1.0, 1.0, 1.0 ]
+          "color": [ 1.0, 1.0, 1.0, 1.0 ],
+          "render_depth": 2
         }
       },
       {
         "type": "UI",
-        "properties": {
-          "render_depth": 5
-        }
+        "properties": {}
       },
       {
         "type": "Cursor",
@@ -49,14 +48,13 @@
         "properties": {
           "texture": "title_image",
           "coordinates": [ 0, 0 ],
-          "color": [ 1.0, 1.0, 1.0, 1.0 ]
+          "color": [ 1.0, 1.0, 1.0, 1.0 ],
+          "render_depth": 0
         }
       },
       {
         "type": "UI",
-        "properties": {
-          "render_depth": 2
-        }
+        "properties": {}
       }
     ]
   },
@@ -77,14 +75,13 @@
         "properties": {
           "texture": "title_image",
           "coordinates": [ 0, 0 ],
-          "color": [ 1.0, 1.0, 1.0, 1.0 ]
+          "color": [ 1.0, 1.0, 1.0, 1.0 ],
+          "render_depth": 1
         }
       },
       {
         "type": "UI",
-        "properties": {
-          "render_depth": 1
-        }
+        "properties": {}
       }
     ]
   },
@@ -112,9 +109,7 @@
       },
       {
         "type": "UI",
-        "properties": {
-          "render_depth": 5
-        }
+        "properties": {}
       }
     ]
   },
@@ -135,7 +130,8 @@
         "properties": {
           "texture": "play_button",
           "coordinates": [ 0, 0 ],
-          "color": [ 1.0, 1.0, 1.0, 1.0 ]
+          "color": [ 1.0, 1.0, 1.0, 1.0 ],
+          "render_depth": 1
         }
       },
       {
@@ -152,9 +148,7 @@
       },
       {
         "type": "UI",
-        "properties": {
-          "render_depth": 4
-        }
+        "properties": {}
       },
       {
         "type": "Audio",
@@ -182,7 +176,8 @@
         "properties": {
           "texture": "play_button",
           "coordinates": [ 0, 0 ],
-          "color": [ 1.0, 1.0, 1.0, 1.0 ]
+          "color": [ 1.0, 1.0, 1.0, 1.0 ],
+          "render_depth": 1
         }
       },
       {
@@ -201,9 +196,7 @@
       },
       {
         "type": "UI",
-        "properties": {
-          "render_depth": 4
-        }
+        "properties": {}
       },
       {
         "type": "Audio",
@@ -231,7 +224,8 @@
         "properties": {
           "texture": "square",
           "coordinates": [ 0, 0 ],
-          "color": [ 1.0, 1.0, 1.0, 1.0 ]
+          "color": [ 1.0, 1.0, 1.0, 1.0 ],
+          "render_depth": 1
         }
       },
       {
@@ -242,9 +236,7 @@
       },
       {
         "type": "UI",
-        "properties": {
-          "render_depth": 4
-        }
+        "properties": {}
       }
     ]
   },

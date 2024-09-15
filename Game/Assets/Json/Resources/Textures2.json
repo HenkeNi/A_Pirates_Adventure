@@ -445,14 +445,24 @@
       "rows": 1,
       "cols": 1
     },
-    {
-      "id": "inventory",
-      "path": "HUD/inventory.png",
-      "alpha": true,
-      "filtering": "Linear",
-      "width": 800,
-      "height": 512,
-      "rows": 1,
-      "cols": 1
-    }
+  {
+    "id": "inventory",
+    "path": "HUD/inventory.png",
+    "alpha": true,
+    "filtering": "Linear",
+    "width": 800,
+    "height": 512,
+    "rows": 1,
+    "cols": 1
+  },
+  {
+    "id": "folder",
+    "path": "Icons/folder.png",
+    "alpha": true,
+    "filtering": "Linear",
+    "width": 512,
+    "height": 512,
+    "rows": 1,
+    "cols": 1
+  }
  ]

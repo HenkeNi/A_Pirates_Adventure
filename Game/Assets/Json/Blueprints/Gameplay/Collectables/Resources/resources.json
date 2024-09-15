@@ -22,7 +22,8 @@
         "properties": {
           "texture": "grass",
           "coordinates": [ 0, 0 ],
-          "color": [ 1.0, 1.0, 1.0, 1.0 ]
+          "color": [ 1.0, 1.0, 1.0, 1.0 ],
+          "render_depth": 1
         }
       },
       {
@@ -68,7 +69,8 @@
         "properties": {
           "texture": "rock_fragment",
           "coordinates": [ 0, 0 ],
-          "color": [ 1.0, 1.0, 1.0, 1.0 ]
+          "color": [ 1.0, 1.0, 1.0, 1.0 ],
+          "render_depth": 1
         }
       },
       {
@@ -114,7 +116,8 @@
         "properties": {
           "texture": "log",
           "coordinates": [ 0, 0 ],
-          "color": [ 1.0, 1.0, 1.0, 1.0 ]
+          "color": [ 1.0, 1.0, 1.0, 1.0 ],
+          "render_depth": 1
         }
       },
       {

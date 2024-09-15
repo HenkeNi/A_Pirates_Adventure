@@ -16,7 +16,8 @@
         "properties": {
           "texture": "castaway",
           "coordinates": [ 0, 0 ],
-          "color": [ 1.0, 1.0, 1.0, 1.0 ]
+          "color": [ 1.0, 1.0, 1.0, 1.0 ],
+          "render_depth": 1
         }
       },
       {
@@ -42,7 +43,8 @@
         "properties": {
           "texture": "heart",
           "coordinates": [ 0, 0 ],
-          "color": [ 1.0, 1.0, 1.0, 1.0 ]
+          "color": [ 1.0, 1.0, 1.0, 1.0 ],
+          "render_depth": 1
         }
       },
       {
@@ -68,14 +70,13 @@
         "properties": {
           "texture": "inventory",
           "coordinates": [ 0, 0 ],
-          "color": [ 1.0, 1.0, 1.0, 1.0 ]
+          "color": [ 1.0, 1.0, 1.0, 1.0 ],
+          "render_depth": 1
         }
       },
       {
         "type": "UI",
-        "properties": {
-          "render_depth": 2
-        }
+        "properties": {}
       },
       {
         "type": "Grid",

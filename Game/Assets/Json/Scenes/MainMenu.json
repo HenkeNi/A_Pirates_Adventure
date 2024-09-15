@@ -21,7 +21,8 @@
             "shader": "sprite_batch",
             "texture": "main_image",
             "coordinates": [ 0, 0 ],
-            "color": [ 1.0, 1.0, 1.0, 1.0 ]
+            "color": [ 1.0, 1.0, 1.0, 1.0 ],
+            "render_depth": 0
           }
         }
       ]
@@ -68,7 +69,8 @@
             "shader": "sprite_batch",
             "texture": "play_button",
             "coordinates": [ 0, 0 ],
-            "color": [ 1.0, 1.0, 1.0, 1.0 ]
+            "color": [ 1.0, 1.0, 1.0, 1.0 ],
+            "render_depth": 1
           }
         },
         {
@@ -96,7 +98,8 @@
           "properties": {
             "texture": "settings_icon",
             "coordinates": [ 0, 0 ],
-            "color": [ 1.0, 1.0, 1.0, 1.0 ]
+            "color": [ 1.0, 1.0, 1.0, 1.0 ],
+            "render_depth": 1
           }
         },
         {
@@ -124,7 +127,8 @@
           "properties": {
             "texture": "quit_icon",
             "coordinates": [ 0, 0 ],
-            "color": [ 1.0, 1.0, 1.0, 1.0 ]
+            "color": [ 1.0, 1.0, 1.0, 1.0 ],
+            "render_depth": 1
           }
         }
       ]
@@ -149,7 +153,8 @@
           "properties": {
             "texture": "sound_off",
             "coordinates": [ 0, 0 ],
-            "color": [ 1.0, 1.0, 1.0, 1.0 ]
+            "color": [ 1.0, 1.0, 1.0, 1.0 ],
+            "render_depth": 1
           }
         },
         {
@@ -173,6 +178,11 @@
       "release": true
     },
     {
+      "type": "InputSystem",
+      "debug": true,
+      "release": true
+    },
+    {
       "type": "UISystem",
       "debug": true,
       "release": true
@@ -181,6 +191,16 @@
       "type": "SceneTransitionSystem",
       "debug": true,
       "release": true
+    },
+    {
+      "type": "EditorSystem",
+      "debug": true,
+      "release": false
+    },
+    {
+      "type": "TransformSystem",
+      "debug": true,
+      "release": false
     }
   ]
 }

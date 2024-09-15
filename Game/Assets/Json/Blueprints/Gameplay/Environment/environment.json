@@ -22,14 +22,15 @@
         "properties": {
           "texture": "grass",
           "coordinates": [ 0, 0 ],
-          "color": [ 1.0, 1.0, 1.0, 1.0 ]
+          "color": [ 1.0, 1.0, 1.0, 1.0 ],
+          "render_depth": 0
         }
       },
       {
         "type": "Physics",
         "properties": {
           "type": "Static",
-          "size": [ 25.0, 25.0 ]
+          "size": [ 10.0, 10.0 ]
         }
       },
       {
@@ -77,14 +78,15 @@
         "properties": {
           "texture": "palm",
           "coordinates": [ 0, 0 ],
-          "color": [ 1.0, 1.0, 1.0, 1.0 ]
+          "color": [ 1.0, 1.0, 1.0, 1.0 ],
+          "render_depth": 0
         }
       },
       {
         "type": "Physics",
         "properties": {
           "type": "Static",
-          "size": [ 25.0, 25.0 ]
+          "size": [ 10.0, 10.0 ]
         }
       },
       {
@@ -143,14 +145,15 @@
         "properties": {
           "texture": "rock",
           "coordinates": [ 0, 0 ],
-          "color": [ 1.0, 1.0, 1.0, 1.0 ]
+          "color": [ 1.0, 1.0, 1.0, 1.0 ],
+          "render_depth": 0
         }
       },
       {
         "type": "Physics",
         "properties": {
           "type": "Static",
-          "size": [ 25.0, 25.0 ]
+          "size": [ 10.0, 10.0 ]
         }
       },
       {
@@ -209,7 +212,8 @@
         "properties": {
           "texture": "berry_bush_01",
           "coordinates": [ 0, 0 ],
-          "color": [ 1.0, 1.0, 1.0, 1.0 ]
+          "color": [ 1.0, 1.0, 1.0, 1.0 ],
+          "render_depth": 0
         }
       },
       {

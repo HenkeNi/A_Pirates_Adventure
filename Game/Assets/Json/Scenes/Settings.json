@@ -26,7 +26,8 @@
             "shader": "sprite_batch",
             "texture": "settings_image",
             "coordinates": [ 0, 0 ],
-            "color": [ 1.0, 1.0, 1.0, 1.0 ]
+            "color": [ 1.0, 1.0, 1.0, 1.0 ],
+            "render_depth": 0
           }
         }
       ]
@@ -73,7 +74,8 @@
             "shader": "sprite_batch",
             "texture": "previous_icon",
             "coordinates": [ 0, 0 ],
-            "color": [ 1.0, 1.0, 1.0, 1.0 ]
+            "color": [ 1.0, 1.0, 1.0, 1.0 ],
+            "render_depth": 1
           }
         },
         {
@@ -105,6 +107,11 @@
       "type": "SceneTransitionSystem",
       "debug": true,
       "release": true
+    },
+    {
+      "type": "EditorSystem",
+      "debug": true,
+      "release": false
     }
   ]
 }

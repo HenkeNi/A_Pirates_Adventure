@@ -28,7 +28,8 @@
         "properties": {
           "texture": "castaway",
           "coordinates": [ 0, 0 ],
-          "color": [ 1.0, 1.0, 1.0, 1.0 ]
+          "color": [ 1.0, 1.0, 1.0, 1.0 ],
+          "render_depth": 0
         }
       },
       {
