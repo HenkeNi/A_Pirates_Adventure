@@ -42,4 +42,6 @@ namespace Hi_Engine
 	std::any ParseJson(const rapidjson::Value& value);
 
 	bool IsBuildDebug(); // put in BuildConfig or something?
+
+	void SerializeJson(const char* path);
 }
