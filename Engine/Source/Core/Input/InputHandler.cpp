@@ -28,23 +28,36 @@ namespace Hi_Engine
 
 	bool InputHandler::Init()
 	{
-		// TODO, custom function? Use image form resource holder?
-		GLFWimage image;
- 		image.pixels = stbi_load("../Game/Assets/Textures/Icons/arrow-cursor.png", &image.width, &image.height, 0, 4);
+		if (auto* window = ServiceLocator::GetWindow().lock()->GetWindow())
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+			//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+			// glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-		if (image.pixels)
-		{
-			if (s_customCursor = glfwCreateCursor(&image, image.width, image.height))
-			{
-				auto* window = ServiceLocator::GetWindow().lock()->GetWindow();
-				glfwSetCursor(window, s_customCursor);
-			}
+		return true;
 
-			stbi_image_free(image.pixels);
-			return true;
-		}
+		//// TODO, custom function? Use image form resource holder?
+		//GLFWimage image;
+ 	//	image.pixels = stbi_load("../Game/Assets/Textures/Icons/arrow-cursor.png", &image.width, &image.height, 0, 4);
 
-		return false;
+		//if (image.pixels)
+		//{
+		//	//if (s_customCursor = glfwCreateCursor(&image, image.width, image.height))
+		//	if (s_customCursor = glfwCreateCursor(&image, 0, 0))
+		//	{
+		//		if (auto* window = ServiceLocator::GetWindow().lock()->GetWindow())
+		//			glfwSetCursor(window, s_customCursor);
+		//	}
+
+		//	stbi_image_free(image.pixels);
+		//	return true;
+		//}
+		//else
+		//{
+		//	const char* errorReason = stbi_failure_reason();  // Get the reason for failure
+		//	std::cerr << "Failed to load image: " << errorReason << std::endl;
+		//}
+
+		//return false;
 	}
 
 	void InputHandler::ProcessInput()
