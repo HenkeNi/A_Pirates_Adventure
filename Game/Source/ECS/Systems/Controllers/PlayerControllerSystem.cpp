@@ -5,10 +5,6 @@
 #include "Components/Gameplay/GameplayComponents.h"
 #include "Commands/Commands.h"
 
-//#include "../Commands/Sprint/SprintCommand.h"
-//#include "Commands/Attack/AttackCommand.h"	
-//#include "Commands/Move/MoveCommand.h"
-
 
 PlayerControllerSystem::PlayerControllerSystem()
 {

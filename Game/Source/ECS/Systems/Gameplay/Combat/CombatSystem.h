@@ -12,7 +12,7 @@ public:
 	void Update(float deltaTime)	override;
 	void SetSignature()				override;
 
-	static std::vector<Entity> GetAdversaries(Entity entity); // GetHostileEntities
+	// static std::vector<Entity> GetAdversaries(Entity entity); // GetHostileEntities
 
 private:
 	void		PerformAttack(Entity entity);

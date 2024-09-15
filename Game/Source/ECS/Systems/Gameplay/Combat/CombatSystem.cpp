@@ -176,17 +176,17 @@ void CombatSystem::SetSignature()
 	m_signatures.insert({ "Cooldowns", m_ecs->GetSignature<AttackCooldownComponent>() });
 }
 
-std::vector<Entity> CombatSystem::GetAdversaries(const Entity entity)
-{
-	std::vector<Entity> adversaries; 
-
-	if (entity)
-	{
-		// m_entityManager->
-	}
-
-	return adversaries;
-}
+//std::vector<Entity> CombatSystem::GetAdversaries(const Entity entity)
+//{
+//	std::vector<Entity> adversaries; 
+//
+//	if (entity)
+//	{
+//		// m_entityManager->
+//	}
+//
+//	return adversaries;
+//}
 
 void CombatSystem::PerformAttack(Entity entity) // pass weapon and target??
 {
