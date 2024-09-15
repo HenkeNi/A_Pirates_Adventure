@@ -42,7 +42,6 @@ void InputSystem::Update(float deltaTime)
 		windowSize = window->GetSize();
 	}
 
-
 	auto& inputComponents = m_ecs->GetComponents<InputComponent>();
 
 	for (auto& inputComponent : inputComponents)
@@ -56,6 +55,11 @@ void InputSystem::Update(float deltaTime)
 		inputComponent.MousePosition = mousePosition;
 		inputComponent.MouseScroll = mouseScroll;
 		inputComponent.MouseWorldPosition = ConvertScreenToWorldPosition(mousePosition, 1400, 800, projectionMatrix);
+	}
+
+	if (InputHandler::IsMouseButtonPressed(Hi_Engine::eMouseBtn::LeftBtn))
+	{
+		PostMaster::GetInstance().SendMessage({ eMessage::MouseClicked, mousePosition });
 	}
 }
 
