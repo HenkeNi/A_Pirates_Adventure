@@ -10,7 +10,7 @@ public:
 	virtual ~System() = default;
 
 	void Init(ECS* ecs);
-	virtual void SetSignature() = 0;
+	virtual void SetSignature()					{};
 
 	virtual void Update(float deltaTime)		{};
 	virtual	void LateUpdate(float deltaTime)	{};

@@ -7,7 +7,7 @@
 #include "ECSTypes.h"
 #include "Components/ComponentInitializer.h"
 
-// Rename: ECS_Engine?
+
 class ECS
 {
 public:
@@ -16,7 +16,7 @@ public:
 	void Init();
 	void Shutdown();
 
-	void Serialize();
+	void Serialize(const char* file);
 	void Deserialize();
 
 	template <typename T>

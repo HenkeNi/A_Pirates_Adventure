@@ -7,6 +7,7 @@ class EntityManager
 public:
 	EntityManager();
 
+	// void SetActive(Entity entity); // For when laoding existing entities?
 	Entity Create();
 
 	void Destroy(Entity entity);

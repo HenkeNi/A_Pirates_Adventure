@@ -109,12 +109,23 @@ std::optional<Entity> ECS::FindEntity(const Signature& signature)
 //	}
 //}
 
-void ECS::Serialize()
+void ECS::Serialize(const char* file)
 {
+	// save components...
+
+	Hi_Engine::SerializeJson();
+
+	//auto document = Hi_Engine::ParseDocument("../Game/Assets/Saved/Scenes/MainMenu.json");
+	
+	//const char json[] = " { \"hello\" : \"world\", \"t\" : true , \"f\" : false, \"n\": null, \"i\":123, \"pi\": 3.1416, \"a\":[1, 2, 3, 4] } ";
+	//rapidDocument d;
+	//d.Parse(json);
+
 }
 
 void ECS::Deserialize()
 {
+	// load components...
 }
 
 void ECS::AddComponent(Entity entity, const char* component)
