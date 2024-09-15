@@ -16,4 +16,6 @@ private:
 	void RenderText(Entity camera);
 	void RenderDebugColliders(Entity camera);
 	void RenderScreenSpaceColliders(Entity camera);
+
+	void RenderPhysicsColliders(Entity camera);
 };

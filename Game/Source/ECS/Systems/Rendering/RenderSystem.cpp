@@ -27,7 +27,8 @@ void RenderSystem::Draw()
 
 	RenderScreenSpaceColliders(camera); // FIX!
 	RenderDebugColliders(camera);
-	
+	RenderPhysicsColliders(camera);
+
 #endif // DEBUG
 
 	RenderSprites(camera);
@@ -43,7 +44,7 @@ void RenderSystem::SetSignature()
 
 #ifdef DEBUG
 
-	m_signatures.insert({ "Debug", m_ecs->GetSignature<ColliderComponent, TransformComponent>() });
+	m_signatures.insert({ "Debug", m_ecs->GetSignature<BoundingBoxComponent, TransformComponent>() });
 
 #endif // DEBUG
 }
@@ -114,10 +115,12 @@ void RenderSystem::RenderSprites(Entity camera)
 	/* Render UI */
 	std::sort(uiElements.begin(), uiElements.end(), [&](Entity e1, Entity e2)
 		{
-			const auto* u1 = m_ecs->GetComponent<UIComponent>(e1);
-			const auto* u2 = m_ecs->GetComponent<UIComponent>(e2);
+			//const auto* u1 = m_ecs->GetComponent<UIComponent>(e1);
+			//const auto* u2 = m_ecs->GetComponent<UIComponent>(e2);
+			const auto* s1 = m_ecs->GetComponent<SpriteComponent>(e1);
+			const auto* s2 = m_ecs->GetComponent<SpriteComponent>(e2);
 
-			return u1->RenderDepth > u2->RenderDepth;
+			return s1->RenderDepth > s2->RenderDepth;
 		});
 
 	uiElements.insert(uiElements.end(), hudElements.begin(), hudElements.end());
@@ -129,7 +132,7 @@ void RenderSystem::RenderSprites(Entity camera)
 
 	for (auto entity : uiElements)
 	{
-		const auto& [defaultColor, currentColor, subtexture, shouldRender] = *m_ecs->GetComponent<SpriteComponent>(entity);
+		const auto& [defaultColor, currentColor, subtexture, shouldRender, depth] = *m_ecs->GetComponent<SpriteComponent>(entity);
 		const auto& [currPos, prevPos, scale, pivot, rotation] = *m_ecs->GetComponent<TransformComponent>(entity);
 
 		const auto& [r, g, b, a] = currentColor;
@@ -150,6 +153,17 @@ void RenderSystem::RenderSprites(Entity camera)
 
 #pragma region Sprite_Rendering
 
+	//std::sort(sprites.begin(), sprites.end(), [&](Entity lhs, Entity rhs)
+	//	{
+	//		auto lhsTransform = m_ecs->GetComponent<TransformComponent>(lhs);
+	//		auto rhsTransform = m_ecs->GetComponent<TransformComponent>(rhs);
+
+	//		auto lhsSprite = m_ecs->GetComponent<SpriteComponent>(lhs);
+	//		auto rhsSprite = m_ecs->GetComponent<SpriteComponent>(rhs);
+
+	//		return lhsTransform->CurrentPos.y < rhsTransform->CurrentPos.y;
+	//	});
+
 	std::sort(sprites.begin(), sprites.end(), [&](Entity lhs, Entity rhs)
 		{
 			auto lhsTransform = m_ecs->GetComponent<TransformComponent>(lhs);
@@ -158,8 +172,15 @@ void RenderSystem::RenderSprites(Entity camera)
 			auto lhsSprite = m_ecs->GetComponent<SpriteComponent>(lhs);
 			auto rhsSprite = m_ecs->GetComponent<SpriteComponent>(rhs);
 
-			return lhsTransform->CurrentPos.y < rhsTransform->CurrentPos.y;
+			if (lhsTransform->CurrentPos.y != rhsTransform->CurrentPos.y)
+			{
+				return lhsTransform->CurrentPos.y < rhsTransform->CurrentPos.y;
+			}
+
+			// If Y positions are the same, sort by render depth (higher depth means drawn later)
+			return lhsSprite->RenderDepth < rhsSprite->RenderDepth;
 		});
+
 
 	Hi_Engine::SpriteBatch spriteBatch;
 	spriteBatch.Sprites.reserve(sprites.size());
@@ -167,7 +188,7 @@ void RenderSystem::RenderSprites(Entity camera)
 	/* Render sprites */
 	for (Entity sprite : sprites)
 	{
-		const auto& [defaultColor, currentColor, subtexture, shouldRender] = *m_ecs->GetComponent<SpriteComponent>(sprite);
+		const auto& [defaultColor, currentColor, subtexture, shouldRender, depth] = *m_ecs->GetComponent<SpriteComponent>(sprite);
 		const auto& [currPos, prevPos, scale, pivot, rotation] = *m_ecs->GetComponent<TransformComponent>(sprite);
 
 		glm::vec4 spriteColor = { currentColor.x, currentColor.y, currentColor.z, currentColor.w };
@@ -278,10 +299,13 @@ void RenderSystem::RenderScreenSpaceColliders(Entity camera)
 		if (!m_ecs->HasComponent<UIComponent>(entity))
 			continue;
 
-		auto* colliderComponent = m_ecs->GetComponent<ColliderComponent>(entity);
+		auto* boundingBoxComponent = m_ecs->GetComponent<BoundingBoxComponent>(entity);
+		auto* transformComponent = m_ecs->GetComponent<TransformComponent>(entity);
 
-		const auto& position = colliderComponent->Collider.GetCenter();
-		const auto& scale = colliderComponent->Collider.GetSize();
+		const auto& position = boundingBoxComponent->Bounds.GetCenter();
+		const auto& scale = boundingBoxComponent->Bounds.GetSize();
+
+	
 
 		//const auto& [currPos, prevPos, scale, pivot, rotation] = *transformComponent;
 		//const auto& [r, g, b, a] = spriteComponent->CurrentColor;
@@ -293,12 +317,15 @@ void RenderSystem::RenderScreenSpaceColliders(Entity camera)
 		static const float windowHeight = 800.f;
 		float yPosition = position.y * windowHeight;
 
+		float scaleX = scale.x * windowWidth;
+		float scaleY = scale.y * windowHeight;
+
 		//yPosition += (scale.y * pivot.y);
 
 		glm::vec4 color = { 0.4f, 0.2f, 0.6f, 1.f };
 
 		//spriteBatch.Sprites.emplace_back(Hi_Engine::Transform{ { xPosition, yPosition, 0.f }, { scale.x * windowWidth, scale.y * windowHeight }, 0.f }, color, texture);
-		spriteBatch.Sprites.emplace_back(Hi_Engine::Transform{ { xPosition, yPosition, 0.f }, { scale.x, scale.y }, 0.f }, color, texture);
+		spriteBatch.Sprites.emplace_back(Hi_Engine::Transform{ { xPosition, yPosition, 0.f }, { scaleX, scaleY }, 0.f }, color, texture);
 	}
 
 	spriteBatch.ProjectionMatrix = m_ecs->GetComponent<CameraComponent>(camera)->Camera.GetProjectionMatrix();
@@ -310,5 +337,32 @@ void RenderSystem::RenderScreenSpaceColliders(Entity camera)
 	//
 	//auto* texture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D>::GetInstance().GetResource("debug_00");
 
+	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::SpriteBatchRequest>(spriteBatch);
+}
+
+void RenderSystem::RenderPhysicsColliders(Entity camera)
+{
+	auto physicsComponents = m_ecs->GetComponents<PhysicsComponent>();
+
+	Hi_Engine::SpriteBatch spriteBatch;
+	spriteBatch.Sprites.reserve(physicsComponents.size());
+
+	auto* texture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ "debug", 0, 0 });
+
+	for (const auto& physicsComponent : physicsComponents)
+	{
+		const auto& body = physicsComponent.PhysicsBody;
+		const auto& position = body.GetPosition();
+		const auto& scale = body.GetSize();
+
+		glm::vec4 color = { 1.f, 1.f, 1.f, 1.f };
+
+		spriteBatch.Sprites.emplace_back(Hi_Engine::Transform{ { position.x, position.y, 0.f }, { scale.x, scale.y }, 0.f }, color, texture);
+
+	}
+
+	auto* cameraComponent = m_ecs->GetComponent<CameraComponent>(camera);
+
+	spriteBatch.ProjectionMatrix = cameraComponent->Camera.GetViewProjectionMatrix();
 	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::SpriteBatchRequest>(spriteBatch);
 }
