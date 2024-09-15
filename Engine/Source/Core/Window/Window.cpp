@@ -36,8 +36,9 @@ namespace Hi_Engine
 		glfwSetCursorPosCallback(m_window, InputHandler::CursorCallback);
 		glfwSetMouseButtonCallback(m_window, InputHandler::MouseButtonCallback);
 		glfwSetScrollCallback(m_window, InputHandler::MouseScrollCallback);
-		glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-
+		
+		// glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+		
 		return true;
 	}
 
@@ -66,12 +67,7 @@ namespace Hi_Engine
 
 	bool Window::IsOpen() const
 	{
-		bool IsOpen = true;
-		if (m_window)
-			IsOpen = !glfwWindowShouldClose(m_window);
-		else
-			IsOpen = false;
-
+		bool IsOpen = m_window ? !glfwWindowShouldClose(m_window) : false;
 		return IsOpen;
 	}
 
