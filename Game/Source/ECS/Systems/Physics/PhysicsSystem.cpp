@@ -81,7 +81,8 @@ void PhysicsSystem::UpdatePositions()
 
 		auto* transformComponent = m_ecs->GetComponent<TransformComponent>(entity);
 
-		transformComponent->PreviousPos = transformComponent->CurrentPos; // Needed???
+		//transformComponent->WorldPosition = colliderComponent->PhysicsBody.GetPosition();
+		//transformComponent->PreviousPos = transformComponent->CurrentPos; // Needed???
 		transformComponent->CurrentPos = colliderComponent->PhysicsBody.GetPosition();
 	}
 }
@@ -98,10 +99,12 @@ void PhysicsSystem::AttachPhysicsBody(Entity entity)
 		switch (physicsComponent->Type)
 		{
 		case eColliderType::Dynamic:
-			physicsComponent->PhysicsBody = physics->CreateDynamicBody({ transformComponent->CurrentPos, transformComponent->Scale, physicsComponent->Density, physicsComponent->Friction });
+		{
+			physicsComponent->PhysicsBody = physics->CreateDynamicBody({ transformComponent->CurrentPos, physicsComponent->ColliderSize, physicsComponent->Density, physicsComponent->Friction });
 			break;
+		}
 		case eColliderType::Static:
-			physicsComponent->PhysicsBody = physics->CreateStaticBody({ transformComponent->CurrentPos, transformComponent->Scale });
+			physicsComponent->PhysicsBody = physics->CreateStaticBody({ transformComponent->CurrentPos, physicsComponent->ColliderSize });
 			break;
 		}
 	}

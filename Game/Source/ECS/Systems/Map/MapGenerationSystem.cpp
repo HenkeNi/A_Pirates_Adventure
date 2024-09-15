@@ -394,13 +394,13 @@ void MapGenerationSystem::ApplyTextures(Entity entity) // Rename; texture map ch
 
 void MapGenerationSystem::SetupMapEditor()
 {
-	Hi_Engine::ImGuiWindow imGuiWindow;
-	imGuiWindow.Title = "Perlin Noise";
-	imGuiWindow.Size = { 200.f, 200.f };
-	imGuiWindow.Position = { 1400.f - imGuiWindow.Size.x, 200.f };
+	//Hi_Engine::ImGuiWindow imGuiWindow;
+	//imGuiWindow.Title = "Perlin Noise";
+	//imGuiWindow.Size = { 200.f, 200.f };
+	//imGuiWindow.Position = { 1400.f - imGuiWindow.Size.x, 200.f };
 	// imGuiWindow.Buttons.emplace_back([&]() { m_entityManager->DestroySelected<MapChunkComponent>(); }, "Clear Map");
 
-	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::CreateImGuiWindowRequest>(imGuiWindow);
+	//Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::CreateImGuiWindowRequest>(imGuiWindow);
 }
 
 void MapGenerationSystem::RegenerateMap()

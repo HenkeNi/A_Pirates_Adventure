@@ -47,7 +47,11 @@ enum class eMessage
 	//MapChunkDestroyed
 
 	// TEMP
-	EnemyAttacked
+	EnemyAttacked,
+
+
+	IsSelected, // ? For editor?
+	MouseClicked
 };
 
 enum class eLayer

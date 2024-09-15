@@ -54,7 +54,7 @@ void MovementSystem::Update(float deltaTime)
 			velocityComponent->Velocity = { 0.f, 0.f, };
 
 		//if (HasMoved(entity))
-		if (transformComponent->CurrentPos != transformComponent->PreviousPos)
+		//if (transformComponent->CurrentPos != transformComponent->PreviousPos) MOVE this to TranfsormSystme,
 			MoveSubEntities	(entity);
 	}
 }

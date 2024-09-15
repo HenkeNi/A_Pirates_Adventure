@@ -30,7 +30,7 @@ namespace Hi_Engine
 
 		int width, height, nrChannels;
 		unsigned char* data = stbi_load(path.c_str(), &width, &height, &nrChannels, 0);
-		
+
 		if (!data)
 		{
 			std::cerr << "ERROR: Failed to load image '" << path << "': " << stbi_failure_reason() << std::endl;
@@ -49,7 +49,7 @@ namespace Hi_Engine
 		if (ChannelFormatMap.contains(nrChannels))
 			format = ChannelFormatMap.at(nrChannels);
 
-		Create({ width, height }, format, true, data);
+		Create({ width, height }, format, true, data); // Fix!
 		stbi_image_free(data);
 
 
