@@ -18,6 +18,8 @@ public:
 	template <typename T>
 	void RemoveComponent(Entity entity);
 
+	void SerializeComponents(ComponentRegistry& registry);
+
 	template <typename T>
 	void AddComponent(Entity entity);
 	//T* AddComponent(Entity entity);
@@ -25,6 +27,9 @@ public:
 	//template <typename T>
 	//std::optional<const std::vector<const T>&> GetComponents() const;
 	//std::vector<const T*> GetComponents() const;
+
+	template <typename T>
+	const std::vector<T>& GetComponents() const;
 
 	template <typename T>
 	std::vector<T>& GetComponents();
@@ -53,7 +58,7 @@ private:
 	ComponentPool<T>& GetComponentPool();
 
 	ComponentArrays m_componentArrays;
-	ComponentPools  m_componentPools;
+	ComponentPools  m_componentPools; // remove?
 
 	ComponentTypes m_componentTypes;
 	ComponentType m_nextComponentType;
@@ -110,6 +115,12 @@ void ComponentManager::AddComponent(Entity entity)
 //
 //	return std::nullopt;
 //}
+
+template <typename T>
+const std::vector<T>& ComponentManager::GetComponents() const
+{
+	return GetComponentArray<T>().GetComponents();
+}
 
 template<typename T>
 std::vector<T>& ComponentManager::GetComponents()

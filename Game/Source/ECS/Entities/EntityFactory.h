@@ -1,18 +1,18 @@
 #pragma once
 #include "EntityBlueprint.h"
-#include "ECSTypes.h"
+#include "ECSTypes.h" // needed??
 
-class ECS;
+class EntityManager;
+// class ComponentRegistry;
 
 // TODO: Store blueprints in ResourceHolder??
 class EntityFactory
 {
 public:
-	EntityFactory(ECS& ecs);
+	EntityFactory(EntityManager& entityManager, ComponentRegistry& componentRegistry);
 	~EntityFactory();
 
 	void LoadBlueprints();
-
 
 	// static ComponentProperties ParseComponent(const rapidjson::Value& value); //  dont static?
 
@@ -20,6 +20,8 @@ public:
 	void ConstructBlueprint(const rapidjson::Value& value);
 
 	Entity Create(const char* name);
+	Entity CreateFromJson(const rapidjson::Value& value);
+
 	// Entity Create(const char* name, const rapidjson::Value& value);
 	// Entity Create(const char* name, const ComponentProperties& properties);
 	//Entity CreateFromBlueprint(const EntityBlueprint& blueprint);
@@ -28,16 +30,12 @@ public:
 	//void RegisterComponentBuilder(const std::string& type);
 	void RegisterBlueprint(const std::string& id, EntityBlueprint blueprint);
 
-	// TEST
-	// inline Hi_Engine::Factory<ComponentBuilder, Component>& GetCompFactory() { return m_componentFactory; }
-
 private:
-	// Hi_Engine::Factory<ComponentBuilder, Component>     m_componentFactory; // remove!
 	std::unordered_map<std::string, EntityBlueprint>	m_blueprints; // BlueprintManager?
 
 
-
-	ECS& m_ecs; // pass in EntityManager/ComponentManager instead?
+	EntityManager& m_entityManager;
+	ComponentRegistry& m_componentRegistry;
 };
 
 

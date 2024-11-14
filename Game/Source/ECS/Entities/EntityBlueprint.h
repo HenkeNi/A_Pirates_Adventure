@@ -25,7 +25,7 @@ public:
 private:
 	friend class EntityFactory;
 
-	std::unordered_map<std::string, ComponentProperties>	m_componentProperties;
+	std::unordered_map<std::string, ComponentProperties> m_componentProperties;
 
 	// std::unordered_map<ComponentType, ComponentProperties> m_componentData; // use type index instead for type?
 	// std::unordered_map<std::type_index, Component*> m_componentData;

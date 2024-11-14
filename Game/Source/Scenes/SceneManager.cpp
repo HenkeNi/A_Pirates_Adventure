@@ -129,6 +129,7 @@ void SceneManager::SwapTo(eScene type)
 void SceneManager::LoadScene(eScene type)
 {
 	auto activeScene = GetActiveScene().lock();
+
 	if (!activeScene)
 		return;
 
@@ -154,7 +155,11 @@ void SceneManager::LoadScene(eScene type)
 			auto systemType = system["type"].GetString();
 			
 			auto found = ecs.GetSystem(systemType); // TODO; check nullptr
-			activeScene->m_systems.push_back(found);
+
+			if (!found.expired())
+				activeScene->m_systems.push_back(found);
+			else
+				std::cout << "ERROR: invalid scene\n"; // log class..
 		}
 	}
 
@@ -164,25 +169,6 @@ void SceneManager::LoadScene(eScene type)
 
 	for (const auto& jsonEntity : document["entities"].GetArray())
 	{
-		const char* id = jsonEntity["entity_id"].GetString();
-		
-		Entity entity = ecs.CreateEntity(id, false);
-
-		if (jsonEntity.HasMember("components_data"))
-		{	
-			for (const auto& component : jsonEntity["components_data"].GetArray())
-			{
-				ComponentProperties componentProperties;
-			
-				for (const auto& [key, value] : component["properties"].GetObj())
-				{
-					Property property = EntityBlueprint::ParseProperty(value);
-					componentProperties.insert({ key.GetString(), property });
-				}
-				ecs.InitializeComponent(entity, component["type"].GetString(), componentProperties);
-			}
-		}
-
-		PostMaster::GetInstance().SendMessage({ eMessage::EntityCreated, entity }); // FIX!?
+		ecs.CreateEntityFromJson(jsonEntity);
 	}
 }

@@ -1,10 +1,11 @@
 #include "Pch.h"
 #include "EntityFactory.h"
 #include "ECS.h"
+// #include "ECSTypes.h"
 
 
-EntityFactory::EntityFactory(ECS& ecs)
-	: m_ecs{ ecs }
+EntityFactory::EntityFactory(EntityManager& entityManager, ComponentRegistry& componentRegistry)
+	: m_entityManager{ entityManager }, m_componentRegistry{ componentRegistry }
 {
 }
 
@@ -67,7 +68,7 @@ void EntityFactory::ConstructBlueprint(const rapidjson::Value& value)
 
 Entity EntityFactory::Create(const char* name)
 {
-	Entity entity = m_ecs.CreateEmptyEntity();
+	Entity entity = m_entityManager.Create();
 
 	auto blueprint = m_blueprints.find(name);
 
@@ -76,10 +77,52 @@ Entity EntityFactory::Create(const char* name)
 	const auto& componentProperties = blueprint->second.GetComponentProperties();
 	for (const auto& [component, properties] : componentProperties)
 	{
-		m_ecs.AddComponent(entity, component.c_str()); // fix string!
+		// m_ecs.AddComponent(entity, component.c_str()); // fix string!
+		auto itr = m_componentRegistry.find(component);
+
+		if (itr == m_componentRegistry.end())
+			continue;
+		
+		itr->second.AddComponent(entity);
 
 		if (!properties.empty()) // Todo, also put checks in ComponentInitailizer!
-			m_ecs.InitializeComponent(entity, component.c_str(), properties);
+		{
+			itr->second.InitializeComponent(entity, properties);
+		}
+	}
+
+	return entity;
+}
+
+Entity EntityFactory::CreateFromJson(const rapidjson::Value& value)
+{
+	// maybe not??
+	const char* id = value["entity_id"].GetString();
+	Entity entity = Create(id); // dont call this? or refactor function?? or fine since json only overrides some values?
+
+	//Entity entity = m_ecs.CreateEmptyEntity();
+
+	if (value.HasMember("components_data"))
+	{
+		for (const auto& component : value["components_data"].GetArray())
+		{
+			ComponentProperties componentProperties;
+
+			for (const auto& [key, value] : component["properties"].GetObj())
+			{
+				Property property = EntityBlueprint::ParseProperty(value);
+				componentProperties.insert({ key.GetString(), property });
+			}
+			// move initialization to entity factory?? asdadasdas
+
+
+			auto itr = m_componentRegistry.find(component["type"].GetString());
+			// assert(itr != registry.end() && "[ECS - ERROR]: Couldn't find component type in ComponentRegistry!");
+
+			itr->second.InitializeComponent(entity, componentProperties);
+
+			//m_ecs.InitializeComponent(entity, component["type"].GetString(), componentProperties);
+		}
 	}
 
 	return entity;

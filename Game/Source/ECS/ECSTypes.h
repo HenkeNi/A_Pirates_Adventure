@@ -26,6 +26,16 @@ struct ComponentRegistryEntry
 {
 	std::function<void(Entity)> AddComponent;
 	std::function<void(Entity, const ComponentProperties&)> InitializeComponent;
+
+	//std::function<void(Entity)> SerializeComponent;
+	std::function<void(const void*)> SerializeComponent;    // also take in Entity??
+	
+	// std::function<void(Entity)> DeserializeComponent;
+
+	// std::type_index Type;	// TEMP - find other way
+
+	//std::unordered_map<std::type_index, const char*> TypeIndexToType; // TEMP!
 };
 
-using ComponentRegistry = std::unordered_map<std::string, ComponentRegistryEntry>;
+using ComponentRegistry = std::unordered_map<std::string, ComponentRegistryEntry>; // store type instead?
+using ComponentTypeMap = std::unordered_map<const char*, std::type_index>;

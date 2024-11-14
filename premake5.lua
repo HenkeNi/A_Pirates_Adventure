@@ -120,6 +120,8 @@ project "Engine"
 			"%{prj.name}/Dependencies/FreeType/lib/Release"
 		}
 
+	filter "action:vs*"
+		buildoptions { "/bigobj" }
 
 -- Game Project
 project "Game"

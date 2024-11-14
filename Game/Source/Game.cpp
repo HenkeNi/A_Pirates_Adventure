@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Scenes/Scene.h"
 #include "Registration/Registration.h"
+#include "Registration/RegisterComponents.h"
 #include "ECS/ECS.h"
 
 

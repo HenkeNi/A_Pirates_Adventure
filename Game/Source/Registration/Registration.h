@@ -5,7 +5,7 @@ class SceneManager;
 
 namespace Registration
 {
-	void RegisterComponents(ECS& ecs);
+	//void RegisterComponents(ECS& ecs);
 
 	void RegisterSystems(ECS& ecs);
 

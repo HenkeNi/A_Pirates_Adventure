@@ -2,10 +2,11 @@
 #include "Entities/EntityManager.h"
 #include "Entities/EntityFactory.h"
 #include "Components/ComponentManager.h"
+#include "Components/ComponentInitializer.h"
+#include "Components/ComponentIO.h"
 #include "Systems/SystemManager.h"
 #include "Systems/SystemFactory.h"
 #include "ECSTypes.h"
-#include "Components/ComponentInitializer.h"
 
 
 class ECS
@@ -28,25 +29,24 @@ public:
 	template <typename... T>
 	void AddComponent(Entity entity);
 
-	void AddComponent(Entity entity, const char* component);
-	
 	template <typename T>
 	void RemoveComponent(Entity entity);
 
 	template <typename... T>
 	bool HasComponent(Entity entity) const;
 	
-	//template <typename T>
-	//const std::vector<T>& GetComponents() const;
+	template <typename T>
+	T* GetComponent(Entity entity);
+
+	template <typename T>
+	const std::vector<T>& GetComponents() const;
 
 	template <typename T>
 	std::vector<T>& GetComponents();
 
-	template <typename T>
-	std::vector<T*> GetComponents(const std::vector<Entity>& entities); // used where
-
-	template <typename T>
-	T* GetComponent(Entity entity);
+	//template <typename T>
+	//std::vector<std::reference_wrapper<T>> GetComponents(const std::vector<Entity>& entities); //since cant guarnatee that entity has component?!
+	//std::vector<T*> GetComponents(const std::vector<Entity>& entities); // used where? reference wrapper?
 
 	template <typename... Components>
 	Signature GetSignature();
@@ -56,17 +56,17 @@ public:
 
 	std::weak_ptr<System> GetSystem(const char* system);
 
-	Entity CreateEntity(const char* type, bool notify = true); // bool defered spawn?
+	Entity CreateEntity(const char* type, bool notify = true); // rename CreateFromBlueprint?
 
-	Entity CreateEmptyEntity();
+	Entity CreateEntityFromJson(const rapidjson::Value& jsonEntity);
+
+	std::vector<Entity> FindEntities(const Signature& signature);
+
+	std::optional<Entity> FindEntity(const Signature& signature);
 
 	void DestroyAllEntities();
 
 	void DestroyEntity(Entity entity);
-
-	std::vector<Entity> FindEntities(const Signature& signature);
-
-	std::optional<Entity> FindEntity(const Signature& signature); // return optional?
 
 	//template <typename... T>
 	//std::vector<Entity> FindEntities();
@@ -74,17 +74,13 @@ public:
 	//template <typename Component>
 	//Entity FindEntity();
 
-	//void LoadBlueprints();
-
-	// TODO; have function tha tdoes both??
-	void InitializeComponent(Entity entity, const char* component, const ComponentProperties& properties);
-
 private:
 	EntityManager m_entityManager;
 	EntityFactory m_entityFactory;
 
 	ComponentManager m_componentManager;
 	ComponentRegistry m_componentRegistry;
+	ComponentTypeMap m_componentTypeMap;
 
 	SystemManager m_systemManager;
 	SystemFactory m_systemFactory; // Remove? 
@@ -108,14 +104,35 @@ inline void ECS::RegisterComponent(const char* name)
 	m_componentManager.RegisterComponent<T>(name);
 
 	ComponentRegistryEntry entry;
-	entry.AddComponent = [this](Entity entity) { AddComponent<T>(entity); };
+	entry.AddComponent = [this](Entity entity) 
+	{ 
+		AddComponent<T>(entity); 
+	};
 	entry.InitializeComponent = [this](Entity entity, const ComponentProperties& properties) 
-		{
-			if (auto* component = m_componentManager.GetComponent<T>(entity))
-				ComponentInitializer::InitializeComponent<T>(component, properties); 
-		};
-	
+	{
+		if (auto* component = m_componentManager.GetComponent<T>(entity))
+			ComponentInitializer::InitializeComponent<T>(component, properties); 
+	};
+
+	// entry.SerializeComponent = [this](Entity entity)
+	// {
+	//		if (auto* component = m_componentManager.GetComponent<T>(entity))
+	//			ComponentIO::Serialize(component); // Pass in entity and document?
+	// };
+
+	entry.SerializeComponent = [](const void* component)
+	{
+		// if (auto* component = m_componentManager.GetComponent<T>(entity))
+			ComponentIO::Serialize(static_cast<const T*>(component)); // Pass in entity and document?
+	};
+
+	//entry.Type = std::type_index(typeid(T));
+	//entry.TypeIndexToType.insert_or_assign(std::type_index(typeid(T)), name);
+
+	auto type = std::type_index(typeid(T));
+
 	m_componentRegistry.insert({ name, entry });
+	m_componentTypeMap.insert({ name, type });
 }
 
 template<typename ...T>
@@ -123,7 +140,7 @@ inline void ECS::AddComponent(Entity entity)
 {
 	(m_componentManager.AddComponent<T>(entity), ...);
 
-	Signature signature = m_entityManager.GetSignature(entity); // return reference/const ref instead??
+	Signature signature = m_entityManager.GetSignature(entity);
 
 	((signature.set(m_componentManager.GetComponentType<T>())), ...);
 
@@ -153,41 +170,53 @@ inline bool ECS::HasComponent(Entity entity) const
 	return (entitySignature & componentSignature) == componentSignature;
 }
 
-//template<typename T>
-//inline std::vector<const T*> ECS::GetComponents() const
-//{
-//	auto components = m_componentManager.GetComponents<T>();
-//	return components;
-//}
+template <typename T>
+inline T* ECS::GetComponent(Entity entity)
+{
+	return m_componentManager.GetComponent<T>(entity);
+}
+
+template<typename T>
+inline const std::vector<T>& ECS::GetComponents() const
+{
+	return m_componentManager.GetComponents<T>();
+}
 
 template<typename T>
 inline std::vector<T>& ECS::GetComponents()
 {
 	return m_componentManager.GetComponents<T>();
-	//return components;
 }
 
-template<typename T>
-inline std::vector<T*> ECS::GetComponents(const std::vector<Entity>& entities)
-{
-	std::vector<T*> components;
-	for (const auto& entity : entities)
-	{
-		if (auto* component = m_componentManager.GetComponent<T>(entity))
-		{
-			components.push_back(component);
-		}
-	}
+//template<typename T>
+//inline std::vector<T*> ECS::GetComponents(const std::vector<Entity>& entities)
+//{
+//	std::vector<T*> components;
+//	for (const auto& entity : entities)
+//	{
+//		if (auto* component = m_componentManager.GetComponent<T>(entity))
+//		{
+//			components.push_back(component);
+//		}
+//	}
+//
+//	return components;
+//}
 
-	return components;
-}
-
-template <typename T>
-inline T* ECS::GetComponent(Entity entity)
-{
-	T* component = m_componentManager.GetComponent<T>(entity);
-	return component;
-}
+//template<typename T>
+//inline std::vector<std::reference_wrapper<T>> ECS::GetComponents(const std::vector<Entity>& entities)
+//{
+//	std::vector<std::reference_wrapper<T>> components;
+//	for (const auto& entity : entities)
+//	{
+//		if (auto* component = m_componentManager.GetComponent<T>(entity))
+//		{
+//			components.push_back(std::ref(*component));
+//		}
+//	}
+//
+//	return components;
+//}
 
 template<typename ...Components>
 inline Signature ECS::GetSignature()
