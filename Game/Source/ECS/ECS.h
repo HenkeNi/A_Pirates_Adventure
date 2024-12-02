@@ -5,7 +5,6 @@
 #include "Components/ComponentInitializer.h"
 #include "Components/ComponentIO.h"
 #include "Systems/SystemManager.h"
-#include "Systems/SystemFactory.h"
 #include "ECSTypes.h"
 
 
@@ -18,10 +17,19 @@ public:
 	void Shutdown();
 
 	void Serialize(const char* file);
-	void Deserialize();
+	void Deserialize(const char* file);
 
-	template <typename T>
-	void RegisterSystem(const char* type);
+	Entity CreateEntityFromBlueprint(const char* type, bool notify = true);
+
+	Entity CreateEntityFromJson(const rapidjson::Value& jsonEntity);
+
+	std::vector<Entity> FindEntities(const Signature& signature);
+
+	std::optional<Entity> FindEntity(const Signature& signature);
+
+	void DestroyAllEntities();
+
+	void DestroyEntity(Entity entity);
 
 	template <typename T>
 	void RegisterComponent(const char* name);
@@ -36,6 +44,9 @@ public:
 	bool HasComponent(Entity entity) const;
 	
 	template <typename T>
+	const T* GetComponent(Entity entity) const;
+
+	template <typename T>
 	T* GetComponent(Entity entity);
 
 	template <typename T>
@@ -44,34 +55,25 @@ public:
 	template <typename T>
 	std::vector<T>& GetComponents();
 
-	//template <typename T>
-	//std::vector<std::reference_wrapper<T>> GetComponents(const std::vector<Entity>& entities); //since cant guarnatee that entity has component?!
-	//std::vector<T*> GetComponents(const std::vector<Entity>& entities); // used where? reference wrapper?
-
-	template <typename... Components>
-	Signature GetSignature();
+	template <typename T>
+	void RegisterSystem(const char* type);
 
 	template <typename T>
 	std::weak_ptr<System> GetSystem();
 
 	std::weak_ptr<System> GetSystem(const char* system);
 
-	Entity CreateEntity(const char* type, bool notify = true); // rename CreateFromBlueprint?
+	template <typename... Components>
+	Signature GetSignature();
 
-	Entity CreateEntityFromJson(const rapidjson::Value& jsonEntity);
-
-	std::vector<Entity> FindEntities(const Signature& signature);
-
-	std::optional<Entity> FindEntity(const Signature& signature);
-
-	void DestroyAllEntities();
-
-	void DestroyEntity(Entity entity);
+	//template <typename T>
+	//std::vector<std::reference_wrapper<T>> GetComponents(const std::vector<Entity>& entities); //since cant guarnatee that entity has component?!
+	//std::vector<T*> GetComponents(const std::vector<Entity>& entities); // used where? reference wrapper?
 
 	//template <typename... T>
 	//std::vector<Entity> FindEntities();
 
-	//template <typename Component>
+	//template <typename... Components>
 	//Entity FindEntity();
 
 private:
@@ -80,23 +82,12 @@ private:
 
 	ComponentManager m_componentManager;
 	ComponentRegistry m_componentRegistry;
-	ComponentTypeMap m_componentTypeMap;
 
 	SystemManager m_systemManager;
-	SystemFactory m_systemFactory; // Remove? 
+	// SystemFactory m_systemFactory; // Remove? replace with system registry? or something?
 };
 
 #pragma region Method_Definitions
-
-template<typename T>
-inline void ECS::RegisterSystem(const char* type)
-{
-	m_systemManager.RegisterSystem<T>(type);
-	auto system = m_systemManager.GetSystem<T>().lock();
-	system->Init(this);
-
-	//m_systemFactory.Register<T>(type);
-}
 
 template<typename T>
 inline void ECS::RegisterComponent(const char* name)
@@ -120,19 +111,16 @@ inline void ECS::RegisterComponent(const char* name)
 	//			ComponentIO::Serialize(component); // Pass in entity and document?
 	// };
 
-	entry.SerializeComponent = [](const void* component)
+	entry.SerializeComponent = [](const void* component, const SerializationData& data)
 	{
 		// if (auto* component = m_componentManager.GetComponent<T>(entity))
-			ComponentIO::Serialize(static_cast<const T*>(component)); // Pass in entity and document?
+			ComponentIO::Serialize(static_cast<const T*>(component), data); // Pass in entity and document?
 	};
 
-	//entry.Type = std::type_index(typeid(T));
+	entry.Type = std::type_index(typeid(T));
 	//entry.TypeIndexToType.insert_or_assign(std::type_index(typeid(T)), name);
 
-	auto type = std::type_index(typeid(T));
-
 	m_componentRegistry.insert({ name, entry });
-	m_componentTypeMap.insert({ name, type });
 }
 
 template<typename ...T>
@@ -170,6 +158,12 @@ inline bool ECS::HasComponent(Entity entity) const
 	return (entitySignature & componentSignature) == componentSignature;
 }
 
+template<typename T>
+inline const T* ECS::GetComponent(Entity entity) const
+{
+	return m_componentManager.GetComponent<T>(entity);;
+}
+
 template <typename T>
 inline T* ECS::GetComponent(Entity entity)
 {
@@ -186,6 +180,33 @@ template<typename T>
 inline std::vector<T>& ECS::GetComponents()
 {
 	return m_componentManager.GetComponents<T>();
+}
+
+template<typename T>
+inline void ECS::RegisterSystem(const char* type)
+{
+	m_systemManager.RegisterSystem<T>(type);
+	auto system = m_systemManager.GetSystem<T>().lock();
+	system->Init(this);
+
+	//m_systemFactory.Register<T>(type);
+}
+
+template<typename T>
+inline std::weak_ptr<System> ECS::GetSystem()
+{
+	auto system = m_systemManager.GetSystem<T>();
+	return system;
+}
+
+template<typename ...Components>
+inline Signature ECS::GetSignature()
+{
+	Signature signature;
+
+	((signature.set(m_componentManager.GetComponentType<Components>())), ...);
+
+	return signature;
 }
 
 //template<typename T>
@@ -217,22 +238,5 @@ inline std::vector<T>& ECS::GetComponents()
 //
 //	return components;
 //}
-
-template<typename ...Components>
-inline Signature ECS::GetSignature()
-{
-	Signature signature;
-
-	((signature.set(m_componentManager.GetComponentType<Components>())), ...);
-
-	return signature;
-}
-
-template<typename T>
-inline std::weak_ptr<System> ECS::GetSystem()
-{
-	auto system = m_systemManager.GetSystem<T>();
-	return system;
-}
 
 #pragma endregion Method_Definitions

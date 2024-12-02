@@ -75,7 +75,7 @@ void HUDSystem::UpdateCursorTexture(Entity entity, bool isAiming)
 		return;
 
 	std::string resource = isAiming ? "crosshair" : "mouse_icon";
-	auto* texture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ resource, 0, 0 });
+	auto texture = Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ resource, 0, 0 });
 	
 	auto* spriteComponent = m_ecs->GetComponent<SpriteComponent>(cursor.value());
 	spriteComponent->Subtexture = texture;
@@ -97,7 +97,7 @@ void HUDSystem::UpdateHealthDisplay(Entity entity)
 
 	for (int i = 0; i < healthComponent->MaxHealth; ++i)
 	{
-		Entity heart = m_ecs->CreateEntity("HeartContainer");
+		Entity heart = m_ecs->CreateEntityFromBlueprint("HeartContainer");
 
 		auto* transformComponent = m_ecs->GetComponent<TransformComponent>(heart);
 

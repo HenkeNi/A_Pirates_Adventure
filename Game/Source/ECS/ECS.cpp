@@ -3,7 +3,7 @@
 
 
 ECS::ECS()
-	: m_systemFactory{ *this }, m_entityFactory{ m_entityManager, m_componentRegistry }
+	: m_entityFactory{ m_entityManager, m_componentRegistry }
 {
 }
 
@@ -34,8 +34,11 @@ void ECS::Serialize(const char* file)
 
 }
 
-void ECS::Deserialize()
+void ECS::Deserialize(const char* file)
 {
+	m_componentManager.DeserializeComponents();
+
+
 	// load components...
 }
 
@@ -55,7 +58,7 @@ std::weak_ptr<System> ECS::GetSystem(const char* system)
 //	return nullptr;
 //}
 
-Entity ECS::CreateEntity(const char* type, bool notify)
+Entity ECS::CreateEntityFromBlueprint(const char* type, bool notify)
 {
 	Entity entity = m_entityFactory.Create(type);
 
@@ -74,7 +77,7 @@ Entity ECS::CreateEntityFromJson(const rapidjson::Value& jsonEntity)
 	return entity;
 }
 
-//Entity ECS::CreateEntity(const char* type, const rapidjson::Value& value)
+//Entity ECS::CreateEntityFromBlueprint(const char* type, const rapidjson::Value& value)
 //{
 //	Entity entity = m_entityFactory.Create(type, value);
 //

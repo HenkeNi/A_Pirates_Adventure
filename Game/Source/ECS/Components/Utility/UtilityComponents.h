@@ -14,8 +14,8 @@ struct WorldTimeComponent
 
 struct TimerComponent
 {
-	float Elapsed = 0.f;
 	double Timestamp = 0.0;
+	float Elapsed = 0.f;
 	float Duration = 0.f;
 	bool IsActive = true;
 

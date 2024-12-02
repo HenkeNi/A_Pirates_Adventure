@@ -43,7 +43,7 @@ struct FleeComponent
 //struct AttackComponent : public Component
 //{};
 
-//struct CharacterStateComponent : public Component
+//struct StateComponent : public Component
 //{
 //	bool IsIdle;
 //	bool IsWalking;

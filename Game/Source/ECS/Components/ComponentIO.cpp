@@ -3,8 +3,17 @@
 #include "Components.h"
 
 
-void ComponentIO::Serialize(const TransformComponent* component)
+void ComponentIO::Serialize(const struct TransformComponent* component, const SerializationData& data)
 {
+	rapidjson::Value jsonComponent(rapidjson::kObjectType);
+
+	jsonComponent.AddMember("entity_id", data.Entity, data.Allocator);
+	jsonComponent.AddMember("pos_x", component->CurrentPos.x, data.Allocator);
+	jsonComponent.AddMember("pos_y", component->CurrentPos.y, data.Allocator);
+
+	data.JsonComponentArray.PushBack(jsonComponent, data.Allocator);
+
+
 	//auto position = Hi_Engine::JsonKeyValue{ "position", component.CurrentPos };
 	//auto scale = Hi_Engine::JsonKeyValue{ "scale", component.Scale };
 	//auto pivot = Hi_Engine::JsonKeyValue{ "pivot", component.Pivot };
@@ -58,6 +67,8 @@ void ComponentIO::Serialize(const BoundingBoxComponent* component)
 
 void ComponentIO::Serialize(const CameraComponent* component)
 {
+	int ass = 10;
+	ass += 20;
 }
 
 void ComponentIO::Serialize(const PhysicsComponent* component)
@@ -131,6 +142,6 @@ void ComponentIO::Serialize(const HostileComponent* component)
 
 
 
-void ComponentIO::Deserialize(TransformComponent& component)
-{
-}
+//void ComponentIO::Deserialize(TransformComponent& component)
+//{
+//}

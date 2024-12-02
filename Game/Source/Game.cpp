@@ -23,6 +23,10 @@ void Game::OnUpdate(float deltaTime)
 	{
 		scene->Update(deltaTime);
 	}
+
+
+	if (Hi_Engine::InputHandler::IsKeyPressed(Hi_Engine::eKey::Key_U))
+		m_ecs->Serialize("");
 }
 
 void Game::OnLateUpdate(float deltaTime)

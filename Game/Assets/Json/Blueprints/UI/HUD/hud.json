@@ -12,7 +12,7 @@
         }
       },
       {
-        "type": "Sprite",
+        "type": "UI",
         "properties": {
           "texture": "castaway",
           "coordinates": [ 0, 0 ],
@@ -39,7 +39,7 @@
         }
       },
       {
-        "type": "Sprite",
+        "type": "UI",
         "properties": {
           "texture": "heart",
           "coordinates": [ 0, 0 ],
@@ -66,17 +66,13 @@
         }
       },
       {
-        "type": "Sprite",
+        "type": "UI",
         "properties": {
           "texture": "inventory",
           "coordinates": [ 0, 0 ],
           "color": [ 1.0, 1.0, 1.0, 1.0 ],
           "render_depth": 1
         }
-      },
-      {
-        "type": "UI",
-        "properties": {}
       },
       {
         "type": "Grid",

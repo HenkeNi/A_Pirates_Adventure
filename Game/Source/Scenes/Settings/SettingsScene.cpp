@@ -1,5 +1,6 @@
 #include "Pch.h"
 #include "SettingsScene.h"
+#include "Systems/Base/System.h"
 #include "ECS/ECS.h"
 
 
@@ -37,12 +38,12 @@ void SettingsScene::Draw() const
 void SettingsScene::OnEnter()
 {
 	// Music component instead?
-	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::PlaySoundEvent>("night_ambience");
+	Hi_Engine::EventDispatcher::GetInstance().SendEventInstantly<Hi_Engine::PlaySoundEvent>("night_ambience");
 }
 
 void SettingsScene::OnExit()
 {
 	m_ecs.DestroyAllEntities();
 
-	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::StopSoundEvent>("night_ambience");
+	Hi_Engine::EventDispatcher::GetInstance().SendEventInstantly<Hi_Engine::StopSoundEvent>("night_ambience");
 }

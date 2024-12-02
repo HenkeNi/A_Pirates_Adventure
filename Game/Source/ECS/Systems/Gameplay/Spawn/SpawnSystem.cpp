@@ -52,7 +52,7 @@ void SpawnSystem::Spawn(Entity spawner)
 
 	for (int i = 0; i < spawnComponent->Amount; ++i)
 	{
-		auto entity = m_ecs->CreateEntity(spawnComponent->Spawned.c_str(), false);
+		auto entity = m_ecs->CreateEntityFromBlueprint(spawnComponent->Spawned.c_str(), false);
 		
 		float xOffset = Hi_Engine::GenerateRandomFloatingPoint(-spawnRadius, spawnRadius);
 		float yOffset = Hi_Engine::GenerateRandomFloatingPoint(-spawnRadius, spawnRadius);

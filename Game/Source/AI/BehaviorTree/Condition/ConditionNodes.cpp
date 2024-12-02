@@ -8,9 +8,10 @@ eBTNodeStatus IsIdleNode::Execute(Entity entity, ECS& ecs)
 {
 	if (entity)
 	{
-		if (auto* characterStateComponent = ecs.GetComponent<CharacterStateComponent>(entity))
+		if (auto* characterStateComponent = ecs.GetComponent<StateComponent>(entity))
 		{
-			return characterStateComponent->IsIdle ? eBTNodeStatus::Success : eBTNodeStatus::Failure;
+			//return characterStateComponent->IsIdle ? eBTNodeStatus::Success : eBTNodeStatus::Failure;
+			return (characterStateComponent->CurrentState == eState::Idle) ? eBTNodeStatus::Success : eBTNodeStatus::Failure;
 		}
 	}
 

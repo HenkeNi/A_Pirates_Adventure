@@ -1,6 +1,8 @@
 #pragma once
 #include "InputTypes.h"
-#include "../Modules/Base/Module.h"
+#include "../Modules/Module.h"
+
+#include "../Math/Vectors/Vector.hpp" // Try remove!
 
 struct GLFWwindow;
 struct GLFWcursor;

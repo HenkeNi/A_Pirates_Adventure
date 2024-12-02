@@ -6,6 +6,11 @@
 class ComponentInitializer
 {
 public:
+	//static void InitializeComponent(void* component, const ComponentProperties& properties);
+
+	//static void InitializeComponent(AnimationComponent* component, const ComponentProperties& properties);
+
+
 	//static void InitializeComponent(class Component* component, const ComponentData& data);
 	//template <typename T>
 	/*static void Init(void* component, const ComponentProperties& properties)
@@ -16,18 +21,54 @@ public:
 	
 	// static void InitializeComponent(void* component, const ComponentProperties& properties) {};
 
+	// use void instead???
 	template <typename T>
-	inline static void InitializeComponent(T* component, const ComponentProperties& properties)
+	inline static void InitializeComponent(T* component, const ComponentProperties& properties) // rename Properties to data?
 	{	
 		int x = 20;
 		x += 20;
 	}
 	
+	template <>
 	inline static void InitializeComponent(AnimationComponent* component, const ComponentProperties& properties)
 	{
+		std::string textureID = std::get<std::string>(properties.at("sheet"));
+
+		component->TextureID = textureID;
+
+		AnimationComponent::Animation animation;
+		animation.Frames.push_back({ 1, 0, 0.25f });
+		animation.Frames.push_back({ 1, 1, 0.25f });
+		animation.Frames.push_back({ 1, 2, 0.25f });
+		animation.IsLooping = true;
+
+		component->Animations.insert({ eState::Idle, animation });
+		//auto texture = Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().GetResource(textureID);
+
+		//if (texture)
+		//{
+		//	//component->SpriteSheet = texture;
+		//}
+
+		////std::string active = std::get<std::string>(properties.at("active")); // store index to start instead??
+
+		//int startRow = std::get<int>(properties.at("start_row"));
+		//component->CurrentRow = startRow;
+		//component->CurrentColumn = 0;
+
+		// FIX!!!!!
+		
+
+
+
+
+
+		//for (const auto& )
+		//camt have nested objects in json??f
 
 	}
 
+	template <>
 	inline static void InitializeComponent(AttackComponent* component, const ComponentProperties& properties)
 	{
 	//	auto startPos = FVector2{ 0.f, 0.f };
@@ -38,6 +79,7 @@ public:
 	//	// aComponent->Collider.Init({ startPos.x - colliderSize, startPos.y - colliderSize }, { startPos.x + colliderSize, startPos.y + colliderSize });
 	}
 		
+	template <>
 	inline static void InitializeComponent(AttributesComponent* component, const ComponentProperties& properties)
 	{
 		component->Perception = std::get<int>(properties.at("Perception"));
@@ -96,14 +138,14 @@ public:
 	}
 
 	template <>
-	inline static void InitializeComponent(CharacterStateComponent* component, const ComponentProperties& properties)
+	inline static void InitializeComponent(StateComponent* component, const ComponentProperties& properties)
 	{
-		component->IsIdle = true;
-		component->IsAlive = true;
-		component->IsWalking = false;
-		component->IsRunning = false;
-		component->IsAttacking = false;
-		component->IsAiming = false;
+		//component->IsIdle = true;
+		//component->IsAlive = true;
+		//component->IsWalking = false;
+		///component->IsRunning = false;
+		//component->IsAttacking = false;
+		//component->IsAiming = false;
 	}
 
 	template <>
@@ -196,6 +238,15 @@ public:
 	}
 
 	template <>
+	inline static void InitializeComponent(InputComponent* component, const ComponentProperties& properties)
+	{
+		component->InputStates.insert({ Hi_Engine::eKey::Key_W, false });
+		component->InputStates.insert({ Hi_Engine::eKey::Key_A, false });
+		component->InputStates.insert({ Hi_Engine::eKey::Key_S, false });
+		component->InputStates.insert({ Hi_Engine::eKey::Key_D, false });
+	}
+
+	template <>
 	inline static void InitializeComponent(MapChunkComponent* component, const ComponentProperties& properties)
 	{
 	}
@@ -203,7 +254,13 @@ public:
 	template <>
 	inline static void InitializeComponent(PlayerControllerComponent* component, const ComponentProperties& properties)
 	{
-		// Temp (use builder/factory? or system) or map of commands?	
+		component->InputMapping.insert({ Hi_Engine::eKey::Key_W, { eCommandType::Move, MovementData{ { 0.f,  1.f }}} });
+		component->InputMapping.insert({ Hi_Engine::eKey::Key_A, { eCommandType::Move, MovementData{ { -1.f, 0.f }}} });
+		component->InputMapping.insert({ Hi_Engine::eKey::Key_S, { eCommandType::Move, MovementData{ { 0.f,  -1.f }}} });
+		component->InputMapping.insert({ Hi_Engine::eKey::Key_D, { eCommandType::Move, MovementData{ { 1.f,  0.f }}} });
+
+		component->InputMapping.insert({ Hi_Engine::eKey::Key_LShift, { eCommandType::Sprint, SprintData{ 200.f} } });
+		component->InputMapping.insert({ Hi_Engine::eKey::Key_Space, { eCommandType::Shoot, SprintData{ 200.f} } });
 	}
 
 	template <>
@@ -291,7 +348,7 @@ public:
 		IVector2 coordinates = std::get<IVector2>(properties.at("coordinates"));
 		int depth = std::get<int>(properties.at("render_depth"));
 		
-		component->Subtexture = &Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ texture, coordinates.x, coordinates.y });
+		component->Subtexture = Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ texture, coordinates.x, coordinates.y });
 		component->DefaultColor = component->CurrentColor = std::get<FVector4>(properties.at("color"));
 		component->RenderDepth = depth;
 	}
@@ -339,7 +396,7 @@ public:
 		auto itr = textAlignmentsMapping.find(alignment);
 		
 		component->Alignment = (itr != textAlignmentsMapping.end()) ? itr->second : Hi_Engine::eTextAlginment::Align_Left;
-		component->Font = &Hi_Engine::ResourceHolder<Hi_Engine::Font>::GetInstance().GetResource(fontType);
+		component->Font = Hi_Engine::ResourceHolder<Hi_Engine::Font>::GetInstance().GetResource(fontType);
 		component->Text = std::get<std::string>(properties.at("text"));
 		component->Color = std::get<FVector4>(properties.at("color"));
 		component->Size = std::get<int>(properties.at("size"));
@@ -358,12 +415,19 @@ public:
 	inline static void InitializeComponent(UIComponent* component, const ComponentProperties& properties)
 	{
 		// component->RenderDepth = std::get<int>(properties.at("render_depth"));
+		std::string texture = std::get<std::string>(properties.at("texture"));
+		IVector2 coordinates = std::get<IVector2>(properties.at("coordinates"));
+		int depth = std::get<int>(properties.at("render_depth"));
+
+		component->Subtexture = Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({ texture, coordinates.x, coordinates.y });
+		component->DefaultColor = component->CurrentColor = std::get<FVector4>(properties.at("color"));
+		component->RenderDepth = depth;
 	}
 
 	template <>
 	inline static void InitializeComponent(VelocityComponent* component, const ComponentProperties& properties)
 	{
-		component->Speed = (float)std::get<double>(properties.at("speed"));
+		component->BaseSpeed = component->CurrentSpeed = (float)std::get<double>(properties.at("speed"));
 	}
 
 	template <>

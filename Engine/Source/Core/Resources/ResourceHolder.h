@@ -11,33 +11,27 @@ namespace Hi_Engine
 		ResourceHolder(const ResourceHolder&)			 = delete;
 		ResourceHolder& operator=(const ResourceHolder&) = delete;
 
-		static ResourceHolder&	GetInstance();
-		
-		Resource&				GetResource(const Identifier& identifier);					// return pointer instead
-		const Resource&			GetResource(const Identifier& identifier)		const;
-		bool					HasResource(const Identifier& identifier)		const;
+		ResourceHolder(ResourceHolder&&)				 = default;
+		ResourceHolder& operator=(ResourceHolder&&)		 = default;
 
-		void					LoadResources(const std::string& filePath);
-		void					Insert(Identifier identifier, std::unique_ptr<Resource> resource);
-		void					Clear();
+		static ResourceHolder&				GetInstance();
+		
+		std::shared_ptr<Resource>			GetResource(const Identifier& identifier);					// return pointer instead
+		const std::shared_ptr<Resource>&	GetResource(const Identifier& identifier)		const;
+		bool								HasResource(const Identifier& identifier)		const;
+
+		void								LoadResources(const std::string& filePath);
+		void								Insert(Identifier identifier, std::shared_ptr<Resource> resource);
+		void								Clear();
 
 	private:
-		ResourceHolder();
+		ResourceHolder() = default;
 
-		std::unordered_map<Identifier, std::unique_ptr<Resource>> m_resources;
+		std::unordered_map<Identifier, std::shared_ptr<Resource>> m_resources;
 	};
 
 	/*using TextureHolder = ResourceHolder<Texture2D>;
 	using ShaderHolder  = ResourceHolder<GLSLShader>;*/
-
-#pragma region Constructor
-
-	template <class Resource, typename Identifier>
-	ResourceHolder<Resource, Identifier>::ResourceHolder()
-	{
-	}
-
-#pragma endregion Constructor
 
 #pragma region Method_Definitions
 
@@ -49,16 +43,17 @@ namespace Hi_Engine
 	}
 
 	template <class Resource, typename Identifier>
-	Resource& ResourceHolder<Resource, Identifier>::GetResource(const Identifier& identifier)
+	std::shared_ptr<Resource> ResourceHolder<Resource, Identifier>::GetResource(const Identifier& identifier)
 	{
-		assert(HasResource(identifier));
-		return *m_resources.find(identifier)->second;
+		assert(HasResource(identifier) && "[ResourceHolder::GetResource] - Resource not found");
+		return m_resources.find(identifier)->second;
 	}
 
 	template <class Resource, typename Identifier>
-	const Resource& ResourceHolder<Resource, Identifier>::GetResource(const Identifier& identifier) const
+	const std::shared_ptr<Resource>& ResourceHolder<Resource, Identifier>::GetResource(const Identifier& identifier) const
 	{
-		return GetResource(identifier);
+		assert(HasResource(identifier) && "[ResourceHolder::GetResource] - Resource not found");
+		return m_resources.find(identifier)->second;
 	}
 
 	template <class Resource, typename Identifier>
@@ -90,7 +85,7 @@ namespace Hi_Engine
 	}
 
 	template <class Resource, typename Identifier>
-	void ResourceHolder<Resource, Identifier>::Insert(Identifier identifier, std::unique_ptr<Resource> resource)
+	void ResourceHolder<Resource, Identifier>::Insert(Identifier identifier, std::shared_ptr<Resource> resource)
 	{
 		auto inserted = m_resources.insert(std::make_pair(identifier, std::move(resource)));
 		assert(inserted.second);

@@ -16,9 +16,8 @@
           }
         },
         {
-          "type": "Sprite",
+          "type": "UI",
           "properties": {
-            "shader": "sprite_batch",
             "texture": "main_image",
             "coordinates": [ 0, 0 ],
             "color": [ 1.0, 1.0, 1.0, 1.0 ],
@@ -64,9 +63,8 @@
           }
         },
         {
-          "type": "Sprite",
+          "type": "UI",
           "properties": {
-            "shader": "sprite_batch",
             "texture": "play_button",
             "coordinates": [ 0, 0 ],
             "color": [ 1.0, 1.0, 1.0, 1.0 ],
@@ -94,7 +92,7 @@
           }
         },
         {
-          "type": "Sprite",
+          "type": "UI",
           "properties": {
             "texture": "settings_icon",
             "coordinates": [ 0, 0 ],
@@ -123,7 +121,7 @@
           }
         },
         {
-          "type": "Sprite",
+          "type": "UI",
           "properties": {
             "texture": "quit_icon",
             "coordinates": [ 0, 0 ],
@@ -149,7 +147,7 @@
           }
         },
         {
-          "type": "Sprite",
+          "type": "UI",
           "properties": {
             "texture": "sound_off",
             "coordinates": [ 0, 0 ],

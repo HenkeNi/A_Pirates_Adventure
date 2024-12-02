@@ -1,0 +1,91 @@
+{
+  "Scene": "MainMenu",
+  "components": {
+    "Spawner": [],
+    "Collider": [],
+    "UI": [],
+    "Personality": [],
+    "Blackboard": [],
+    "Tag": [],
+    "BoundingBox": [],
+    "BehaviorTree": [],
+    "Animation": [],
+    "Input": [],
+    "AttackCooldown": [],
+    "Camera": [],
+    "Cursor": [],
+    "Physics": [],
+    "Weapon": [],
+    "Health": [],
+    "Sprite": [],
+    "Equipment": [],
+    "Transform": [
+      {
+        "entity_id": 4,
+        "pos_x": 0.0,
+        "pos_y": 0.0
+      },
+      {
+        "entity_id": 5,
+        "pos_x": 0.0,
+        "pos_y": 0.0
+      },
+      {
+        "entity_id": 6,
+        "pos_x": 700.0,
+        "pos_y": 650.0
+      },
+      {
+        "entity_id": 7,
+        "pos_x": 0.5,
+        "pos_y": 0.5
+      },
+      {
+        "entity_id": 8,
+        "pos_x": 0.8999999761581421,
+        "pos_y": 1.0
+      },
+      {
+        "entity_id": 9,
+        "pos_x": 1.0,
+        "pos_y": 1.0
+      },
+      {
+        "entity_id": 10,
+        "pos_x": 0.6857143044471741,
+        "pos_y": 0.7212499976158142
+      },
+      {
+        "entity_id": 11,
+        "pos_x": 0.0,
+        "pos_y": 1.0
+      }
+    ],
+    "Text": [],
+    "MapChunk": [],
+    "Velocity": [],
+    "SubEntities": [],
+    "SceneTransition": [],
+    "PlayerController": [],
+    "Audio": [],
+    "Collectable": [],
+    "Attribute": [],
+    "Friendly": [],
+    "Hostile": [],
+    "Shake": [],
+    "WorldTime": [],
+    "Harvestable": [],
+    "Equippable": [],
+    "Inventory": [],
+    "Environment": [],
+    "Attack": [],
+    "Projectile": [],
+    "Resource": [],
+    "CharacterState": [],
+    "Knockback": [],
+    "HUD": [],
+    "Button": [],
+    "Grid": [],
+    "Timer": []
+  }
+}

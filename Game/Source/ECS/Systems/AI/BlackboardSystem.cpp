@@ -26,8 +26,8 @@ void BlackboardSystem::Update(float deltaTime)
 void BlackboardSystem::SetSignature()
 {
 	m_signatures.insert({ "Player", m_ecs->GetSignature<PlayerControllerComponent>() });
-	m_signatures.insert({ "Friendly", m_ecs->GetSignature<FriendlyComponent>() });
-	m_signatures.insert({ "Hostile", m_ecs->GetSignature<HostileComponent>() });
+	//m_signatures.insert({ "Friendly", m_ecs->GetSignature<FriendlyComponent>() });
+	//m_signatures.insert({ "Hostile", m_ecs->GetSignature<HostileComponent>() });
 }
 
 void BlackboardSystem::SetPlayerPosition()

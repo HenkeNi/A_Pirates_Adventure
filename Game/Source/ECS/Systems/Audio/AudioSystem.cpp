@@ -36,7 +36,7 @@ void AudioSystem::Receive(Message& message)
 		if (audioComponent->SoundTriggers.contains(type))
 		{
 			const auto& audioName = audioComponent->SoundTriggers.at(type);
-			Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::PlaySoundEvent>(audioName.c_str());
+			Hi_Engine::EventDispatcher::GetInstance().SendEventInstantly<Hi_Engine::PlaySoundEvent>(audioName.c_str());
 		}
 	}
 }

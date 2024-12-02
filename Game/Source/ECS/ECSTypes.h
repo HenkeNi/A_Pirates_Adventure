@@ -22,14 +22,25 @@ using ComponentProperties = std::unordered_map<std::string, Property>;
 using ComponentArrays = std::unordered_map<std::type_index, std::unique_ptr<class IComponentArray>>;
 using ComponentPools = std::unordered_map<std::type_index, std::unique_ptr<class IComponentPool>>;
 
+struct SerializationData
+{
+	Entity Entity;
+
+	rapidjson::Value& JsonComponentArray;
+	rapidjson::Document::AllocatorType& Allocator;
+};
+
 struct ComponentRegistryEntry
 {
 	std::function<void(Entity)> AddComponent;
 	std::function<void(Entity, const ComponentProperties&)> InitializeComponent;
 
 	//std::function<void(Entity)> SerializeComponent;
-	std::function<void(const void*)> SerializeComponent;    // also take in Entity??
+	//std::function<void(Entity entity, const void*, rapidjson::Value&, rapidjson::Document::AllocatorType&)> SerializeComponent;    // also take in Entity??
+	std::function<void(const void*, const SerializationData& data)> SerializeComponent;    // also take in Entity??
 	
+	std::type_index Type = typeid(void);
+
 	// std::function<void(Entity)> DeserializeComponent;
 
 	// std::type_index Type;	// TEMP - find other way
@@ -38,4 +49,9 @@ struct ComponentRegistryEntry
 };
 
 using ComponentRegistry = std::unordered_map<std::string, ComponentRegistryEntry>; // store type instead?
-using ComponentTypeMap = std::unordered_map<const char*, std::type_index>;
+
+
+
+
+//using ComponentRegistry = std::unordered_map<std::type_index, ComponentRegistryEntry>; // store type instead?
+//using ComponentTypeMap = std::unordered_map<std::string, std::type_index>;

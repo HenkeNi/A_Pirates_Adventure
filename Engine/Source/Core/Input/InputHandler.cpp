@@ -1,10 +1,9 @@
 #include "Pch.h"
 #include "InputHandler.h"
-#include "../../Data/Enumerations.h"
 #include <GLFW/glfw3.h> 
 
 #include "ServiceLocator/ServiceLocator.h"
-#include "Window/Window.h"
+#include "Platform/Window/Window.h"
 
 namespace Hi_Engine
 {
@@ -69,7 +68,7 @@ namespace Hi_Engine
 		inputEvent->m_keyStates			= s_keyStates;
 		inputEvent->m_mouseButtonStates = s_mouseButtonStates;
 		inputEvent->m_mousePosition		= s_mousePosition;
-		Dispatcher::GetInstance().SendEventInstantly(inputEvent);
+		EventDispatcher::GetInstance().SendEventInstantly(inputEvent);
 
 		delete inputEvent; 
 	}

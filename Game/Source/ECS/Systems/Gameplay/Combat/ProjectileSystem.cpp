@@ -24,7 +24,7 @@ void ProjectileSystem::Receive(Message& message)
 		auto data = std::any_cast<ProjectileData>(message.GetData());
 
 
-		Entity projectile = m_ecs->CreateEntity("Bullet");
+		Entity projectile = m_ecs->CreateEntityFromBlueprint("Bullet");
 
 		auto* transformComponent = m_ecs->GetComponent<TransformComponent>(projectile);
 		transformComponent->CurrentPos = data.Position;
@@ -32,7 +32,7 @@ void ProjectileSystem::Receive(Message& message)
 		auto* velocityComponent = m_ecs->GetComponent<VelocityComponent>(projectile);
 		velocityComponent->Velocity = data.Directin;
 		velocityComponent->IsVelocityConstant = true;
-		velocityComponent->Speed = data.Speed;
+		velocityComponent->CurrentSpeed = data.Speed;
 
 		auto* projectileComponent = m_ecs->GetComponent<ProjectileComponent>(projectile);
 		projectileComponent->Timestamp = Hi_Engine::Engine::GetTimer().GetTotalTime();

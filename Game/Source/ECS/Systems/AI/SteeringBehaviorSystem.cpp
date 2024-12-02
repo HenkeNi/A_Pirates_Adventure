@@ -32,7 +32,7 @@ void SteeringBehaviorSystem::UpdateWanderBehavior(float deltaTime)
 {
 	//assert(m_entityManager && "ERROR: EntityManager is nullptr!");
 
-	auto entities = m_entityManager->FindAll<WanderBehaviorComponent>();
+	//auto entities = m_entityManager->FindAll<WanderBehaviorComponent>();
 
 	for (auto entity : entities)
 	{

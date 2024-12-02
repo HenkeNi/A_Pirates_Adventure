@@ -7,13 +7,13 @@
 #include "Rendering/Renderer/Renderer.h"
 #include "Audio/AudioController.h"
 #include "Input/InputHandler.h"
-#include "Window/Window.h"
-#include "ImGui/ImGuiManager.h"
+#include "Platform/Window/Window.h"
+#include "Editor/ImGui/ImGuiManager.h"
 #include "ServiceLocator/ServiceLocator.h" /// ?
-#include "Noise/NoiseGenerator.h"
+#include "Utility/Noise/NoiseGenerator.h"
 #include "Rendering/Shader/Shader.h"
 #include "Physics/PhysicsEngine.h"
-#include "../Utility/Time/Timer.h"
+#include "Time/Timer.h"
 #include <GLFW/glfw3.h> 
 
 
@@ -27,13 +27,13 @@ namespace Hi_Engine
 	Engine::Engine(Application& app)
 		: m_application{ app }, m_isRunning{ false }
 	{
-		Dispatcher::GetInstance().Subscribe(this);
+		EventDispatcher::GetInstance().Subscribe(this);
 		RegisterModules();
 	}
 
 	Engine::~Engine()
 	{
-		Dispatcher::GetInstance().Unsubscribe(this);
+		EventDispatcher::GetInstance().Unsubscribe(this);
 	}
 
 	void Engine::HandleEvent(TerminationEvent& event)
@@ -50,8 +50,6 @@ namespace Hi_Engine
 
 		LoadResources(); // Do in LoadModules?
 		m_moduleManager.LoadModules();
-
-		NoiseGenerator::Init();
 
 		m_application.OnCreate(); 
 		
@@ -85,7 +83,7 @@ namespace Hi_Engine
  			timer.Update();
 			const float deltaTime = timer.GetDeltaTime();
 
-			Dispatcher::GetInstance().DispatchEvents();
+			EventDispatcher::GetInstance().DispatchEvents();
 
 			/* - Process input - */
 			if (inputHandler)

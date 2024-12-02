@@ -464,5 +464,25 @@
     "height": 512,
     "rows": 1,
     "cols": 1
+  },
+  {
+    "id": "chest",
+    "path": "chest.png",
+    "alpha": true,
+    "filtering": "Linear",
+    "width": 128,
+    "height": 128,
+    "rows": 1,
+    "cols": 1
+  },
+  {
+    "id": "player_sheet",
+    "path": "Characters/pirate_sheet.png",
+    "alpha": true,
+    "filtering": "Linear",
+    "width": 350,
+    "height": 762,
+    "rows": 6,
+    "cols": 3
   }
  ]

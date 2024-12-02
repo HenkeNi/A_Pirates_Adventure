@@ -80,7 +80,7 @@ void EditorSystem::CreateEditorWindows()
 		{
 			if (auto* inputElement = std::get_if<Hi_Engine::ImGuiTextInput>(imguiWindow.GetElement("textInput")))
 			{
-				if (Entity entity = m_ecs->CreateEntity(inputElement->Buffer))
+				if (Entity entity = m_ecs->CreateEntityFromBlueprint(inputElement->Buffer))
 				{
 					auto* transformComponent = m_ecs->GetComponent<TransformComponent>(entity);
 					transformComponent->CurrentPos = { 0.25f, 0.25f };

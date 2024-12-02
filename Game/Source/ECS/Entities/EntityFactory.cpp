@@ -78,6 +78,7 @@ Entity EntityFactory::Create(const char* name)
 	for (const auto& [component, properties] : componentProperties)
 	{
 		// m_ecs.AddComponent(entity, component.c_str()); // fix string!
+
 		auto itr = m_componentRegistry.find(component);
 
 		if (itr == m_componentRegistry.end())
@@ -115,6 +116,7 @@ Entity EntityFactory::CreateFromJson(const rapidjson::Value& value)
 			}
 			// move initialization to entity factory?? asdadasdas
 
+			//auto type = m_componentTypeMap.find(component["type"].GetString());
 
 			auto itr = m_componentRegistry.find(component["type"].GetString());
 			// assert(itr != registry.end() && "[ECS - ERROR]: Couldn't find component type in ComponentRegistry!");

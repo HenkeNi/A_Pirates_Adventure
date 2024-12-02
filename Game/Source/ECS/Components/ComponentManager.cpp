@@ -33,42 +33,60 @@ void ComponentManager::SerializeComponents(ComponentRegistry& registry)
 	// do in engine??
 	rapidjson::Document document;
 	document.SetObject();
-
 	auto& allocator = document.GetAllocator();
 
-	// store components in a map instead?
+	document.AddMember("Scene", "MainMenu", allocator);
+
+	rapidjson::Value components(rapidjson::kObjectType);
 
 	for (auto& [type, componentArray] : m_componentArrays)
 	{
-
-		// componentArray->ForEachComponent(ComponentIO::Serialize);
-
 		auto iterator = std::find_if(registry.begin(), registry.end(), [&](const auto& entry)
-			{
-				//return entry.second.Type == type;
-				return true;
-			});
+		{
+			return entry.second.Type == type;
+		});
 
 		if (iterator != registry.end())
 		{
-			componentArray->ForEachComponent(iterator->second.SerializeComponent);
+			// std::function<void(const void*)> serialize = std::bind(iterator->second.SerializeComponent, std::placeholders::_1, component);
+			//componentArray->ForEachComponent(serialize);
 
+
+			rapidjson::Value compArray(rapidjson::kArrayType);
 			
-			//std::function<void(void*)> fnc = ComponentIO::Serialize;
+			// TODO; pass in corresponding entity as well...
+			// components.AddMember(type, allocator);
 
-			// How to get all components?? since need to cast to proper component array...
+			componentArray->ForEachComponent([&](Entity entity, const void* comp) // pass in entity as well??? or pass along index isntead? cant get both entity and index
+			{
+					iterator->second.SerializeComponent(comp, { entity,  compArray, allocator });
+			});
 
-			//componentArray->ForEachComponent(iterator->second.SerializeComponent);
+			components.AddMember(rapidjson::Value(iterator->first.c_str(), allocator), compArray, allocator);
 
-			// iterator->second.SerializeComponent(0);
+
+			//components.AddMember(iterator->first.c_str(), compArray, allocator);
+			//auto serialization = [&](const void*) { iterator->second.SerializeComponent; }; // std::bind
+
+			//componentArray->ForEachComponent(serialization); // pass in document as well? use for each cmoponent in systems?????
+			//componentArray->ForEachComponent(iterator->second.SerializeComponent); // pass in document as well? use for each cmoponent in systems?????
 		}
 	}
+
+	document.AddMember("components", components, allocator);
 
 	rapidjson::StringBuffer buffer;
 	rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
 	document.Accept(writer);
 
+
+
 	std::ofstream ofs("../Game/Assets/Saved/Scenes/MainMenu.json");
 	ofs << buffer.GetString();
 	ofs.close();
+}
+
+void ComponentManager::DeserializeComponents()
+{
+
 }

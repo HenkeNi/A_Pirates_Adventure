@@ -14,7 +14,8 @@ enum class eMessage
 	EntityAttacked,				// rename AttackEvent? AttackBegan? AttackEnded?
 
 
-	EntityAttacking,
+	EntityAttacking, // rename?
+
 	EntityWalking, // REMOVE?
 	EntityIdle,		// REMOVE?
 
@@ -23,6 +24,10 @@ enum class eMessage
 	EntityEnteredAim,
 	EntityExitedAim,
 
+	ItemEquipped,
+	ItemUnequipped,
+
+	PlayerLeveledUp,
 
 	//AttackFinished,
 	AnimationComplete,
@@ -30,7 +35,6 @@ enum class eMessage
 	AttackAnimationFinished,
 
 	GameStarted,
-	MapChunkGenerated,
 
 	TimeOfDayChanged,
 

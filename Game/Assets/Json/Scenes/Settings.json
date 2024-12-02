@@ -21,9 +21,8 @@
       "entity_id": "Background",
       "components_data": [
         {
-          "type": "Sprite",
+          "type": "UI",
           "properties": {
-            "shader": "sprite_batch",
             "texture": "settings_image",
             "coordinates": [ 0, 0 ],
             "color": [ 1.0, 1.0, 1.0, 1.0 ],
@@ -69,9 +68,8 @@
           }
         },
         {
-          "type": "Sprite",
+          "type": "UI",
           "properties": {
-            "shader": "sprite_batch",
             "texture": "previous_icon",
             "coordinates": [ 0, 0 ],
             "color": [ 1.0, 1.0, 1.0, 1.0 ],

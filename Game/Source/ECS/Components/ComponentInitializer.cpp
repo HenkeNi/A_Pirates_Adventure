@@ -1,7 +1,6 @@
 #include "Pch.h"
 #include "ComponentInitializer.h"
 #include "Components.h"
-#include "Commands/Commands.h"
 #include "BehaviorTree/BehaviorTreeNodes.h"
 
 #include "../AI/SteeringBehaviors/Flock/FlockBehavior.h"
@@ -224,7 +223,7 @@
 //{
 //	static const std::unordered_map<std::string, std::function<void()>> actionMappings =
 //	{
-//		{ "mute",[]() { Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::SetVolumeEvent>(0.f); }}
+//		{ "mute",[]() { Hi_Engine::EventDispatcher::GetInstance().SendEventInstantly<Hi_Engine::SetVolumeEvent>(0.f); }}
 //	};
 //
 //	/*if (!data.contains("action"))
@@ -259,7 +258,7 @@
 //
 //}
 //
-//void ComponentInitializer::InitializeComponent(CharacterStateComponent* component, const ComponentProperties& properties)
+//void ComponentInitializer::InitializeComponent(StateComponent* component, const ComponentProperties& properties)
 //{
 //	component->IsIdle = true;
 //	component->IsAlive = true;

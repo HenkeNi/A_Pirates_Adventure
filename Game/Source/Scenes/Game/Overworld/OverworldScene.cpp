@@ -1,6 +1,6 @@
 #include "Pch.h"
 #include "OverworldScene.h"
-#include "Systems/SystemManager.h"
+#include "Systems/Base/System.h"
 #include "ECS/ECS.h"
 #include "Components/Core/CoreComponents.h"
 #include "Components/Gameplay/GameplayComponents.h"
@@ -50,12 +50,12 @@ void OverworldScene::Draw() const
 
 void OverworldScene::OnEnter()
 {
-	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::PlaySoundEvent>("ocean_ambience");
+	Hi_Engine::EventDispatcher::GetInstance().SendEventInstantly<Hi_Engine::PlaySoundEvent>("ocean_ambience");
 
 	PostMaster::GetInstance().SendMessage({ eMessage::GameStarted, true }); // Todo; FIX
 }
 
 void OverworldScene::OnExit()
 {
-	Hi_Engine::Dispatcher::GetInstance().SendEventInstantly<Hi_Engine::StopSoundEvent>("ocean_ambience");
+	Hi_Engine::EventDispatcher::GetInstance().SendEventInstantly<Hi_Engine::StopSoundEvent>("ocean_ambience");
 }

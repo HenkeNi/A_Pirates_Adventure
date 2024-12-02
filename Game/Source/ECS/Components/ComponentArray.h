@@ -6,7 +6,9 @@ class IComponentArray
 {
 public:
 	virtual ~IComponentArray() = default;
-	virtual void RemoveComponent(Entity entity) = 0;	
+
+	virtual void RemoveComponent(Entity entity) = 0;
+	virtual void ForEachComponent(const std::function<void(Entity entity, const void*)>& callback) = 0;
 };
 
 template <typename T>
@@ -25,6 +27,7 @@ public:
 	T*	GetComponent(Entity entity);
 
 	bool HasComponent(Entity entity) const;
+	void ForEachComponent(const std::function<void(Entity entity, const void*)>& callback) override; // find better way?
 
 private:
 	std::unordered_map<Entity, Index> m_entityToIndexMap;
@@ -134,6 +137,16 @@ bool ComponentArray<T>::HasComponent(Entity entity) const
 {
 	bool contains = m_entityToIndexMap.contains(entity);
 	return contains;
+}
+
+template<typename T>
+void ComponentArray<T>::ForEachComponent(const std::function<void(Entity entity, const void*)>& callback)
+{
+	for (int i = 0; i < m_components.size(); ++i)
+	{
+		Entity entity = m_indexToEntityMap.at(i); // works???
+		callback(entity, &m_components[i]);
+	}
 }
 
 #pragma endregion Method_Definitions

@@ -1,5 +1,6 @@
 #pragma once
 #include <typeindex>
+#include <memory> // REMOVE LATER
 
 namespace Hi_Engine
 {

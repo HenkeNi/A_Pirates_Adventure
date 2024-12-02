@@ -62,7 +62,7 @@ namespace Registration
 	//	ecs.RegisterComponent<AttackCooldownComponent>("AttackCooldown");
 	//	ecs.RegisterComponent<ProjectileComponent>("Projectile");
 	//	ecs.RegisterComponent<ResourceComponent>("Resource");
-	//	ecs.RegisterComponent<CharacterStateComponent>("CharacterState");
+	//	ecs.RegisterComponent<StateComponent>("CharacterState");
 	//	ecs.RegisterComponent<KnockbackComponent>("Knockback"); // remove?
 
 	//	/* - UI Components - */
@@ -87,9 +87,9 @@ namespace Registration
 		ecs.RegisterSystem<PhysicsSystem>("PhysicsSystem");
 		ecs.RegisterSystem<PlayerControllerSystem>("PlayerControllerSystem");
 		ecs.RegisterSystem<SceneTransitionSystem>("SceneTransitionSystem");
-		//ecs.RegisterSystem<SpriteAnimationSystem>("SpriteAnimationSystem");
+		ecs.RegisterSystem<AnimationSystem>("AnimationSystem");
 
-		ecs.RegisterSystem<TransformationSystem>("TransformSystem");
+		ecs.RegisterSystem<TransformSystem>("TransformSystem");
 
 		/* - Gameplay Systems - */
 		ecs.RegisterSystem<CombatSystem>("CombatSystem");
@@ -100,10 +100,11 @@ namespace Registration
 		ecs.RegisterSystem<ShakeSystem>("ShakeSystem");
 		ecs.RegisterSystem<TimeSystem>("TimeSystem");
 		ecs.RegisterSystem<SpawnSystem>("SpawnSystem");
+		ecs.RegisterSystem<CommandSystem>("CommandSystem");
 		//ecs.RegisterSystem<StatSystem>("StatSystem");
 
 		/* - Map Systems - */
-		ecs.RegisterSystem<MapGenerationSystem>("MapGenerationSystem");
+		ecs.RegisterSystem<MapSystem>("MapGenerationSystem");
 		ecs.RegisterSystem<MapDecorationSystem>("MapDecorationSystem");
 
 		/* -  UI Systems - */

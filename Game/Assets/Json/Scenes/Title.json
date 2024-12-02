@@ -27,7 +27,7 @@
           }
         },
         {
-          "type": "Sprite",
+          "type": "UI",
           "properties": {
             "texture": "title_image",
             "coordinates": [ 0, 0 ],

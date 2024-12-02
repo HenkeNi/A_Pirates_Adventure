@@ -2,9 +2,9 @@
 #include "Enumerations.h"
 #include <any>
 //#include <Hi_Engine.h> // Fix
-#include  <../../../Engine/Source/Utility/Math/Vectors/Vector.hpp>
-#include  <../../../Engine/Source/Core/Rendering/Material/Material.h>
-#include  <../../../Engine/Source/Core/Rendering/Texture/Subtexture2D.h>
+#include  <../Core/Math/Vectors/Vector.hpp>
+#include  <../Rendering/Material/Material.h>
+#include  <../Rendering/Texture/Subtexture2D.h>
 
 #include "ECSTypes.h"
 
@@ -40,7 +40,9 @@ struct CollisionData // Data used for resolving/handling collisions
 
 struct Tile
 {
-	class Hi_Engine::Subtexture2D*  Subtexture; // NEED TO STORE?
+	std::shared_ptr<class Hi_Engine::Subtexture2D>  Subtexture; // NEED TO STORE? store weak ref?
+	//class Hi_Engine::Subtexture2D*  Subtexture; // NEED TO STORE? store weak ref?
+
 	FVector4						Color  = { 1.f, 1.f, 1.f, 1.f }; // DO ELSEWHER!?
 	FVector2						Position;			// store chunk coordiante instead?
 	UVector2						Coordinates;			// Use only one!!
@@ -51,22 +53,7 @@ struct Tile
 };
 
 // Put in Engine?? => wrap a texture instead?? => specify coordiantes and stuff...
-struct Animation
-{
-	std::vector<class Hi_Engine::Subtexture2D*> Animations; // rename AnimationFrames or Frames
-	// std::vector<std::string>	Sprites;
-	unsigned					TotalFrames		= 0;
-	unsigned					CurrentFrame	= 0;
-	float						FrameDuration	= 0.f;
-	float						ElapsedFrameTime = 0.f;
-	bool						IsPlaying = false;
-	bool						IsLooping = false;
-	
-	bool						IsInverted = false;
-
-
-	// TODO; store keyframes??
-};
+//
 
 struct ProjectileData
 {

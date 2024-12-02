@@ -58,7 +58,10 @@ struct PhysicsComponent
 struct VelocityComponent
 {
 	FVector2 Velocity;
-	float	 Speed = 1.f; 
+	float	 BaseSpeed = 1.f;
+	float	 CurrentSpeed = 1.f;
+	float	 SpeedMultiplier = 1.f;
+	float SpeedReductionRate = 20.f; // rename...
 	bool	 IsVelocityConstant = false; // Dont? use physics instead?
 };
 
@@ -107,26 +110,35 @@ struct SpriteComponent
 {
 	FVector4					DefaultColor = { 1.f, 1.f, 1.f, 1.f };
 	FVector4					CurrentColor = { 1.f, 1.f, 1.f, 1.f };
-	Hi_Engine::Subtexture2D*	Subtexture	 = nullptr; // Store as int (id) instead?
-	int							RenderDepth  = 0;
+	std::shared_ptr<Hi_Engine::Subtexture2D>	Subtexture	 = nullptr; // Store as int (id) instead?
+	int							RenderDepth  = 0; // remove? moved to uicomponent
 	bool						IsVisible	 = true;
 };
 
+enum class eState;
+
 struct AnimationComponent
 {
-	std::unordered_map<std::string, Animation>	Animations;	// replace with Array?? or enum for key?
-	std::string									Active;		// index instead??
+	struct Frame
+	{
+		int Row; // make unsigned?
+		int Col;
+		float Duration;
+	};
 
-	// store default??
+	struct Animation
+	{
+		std::vector<Frame> Frames;
+		int CurrentFrameIndex = 0;
+		bool IsLooping = false;
+	};
 
-	/*std::string m_identifier;
-	std::vector<std::string> m_animations;
-	unsigned	m_totalFrames;
-	unsigned	m_currentFrame;
-	float		m_frameDuration;
-	float		m_elapsedFrameTime;
-	bool		m_isPlaying;
-	bool		m_isLooping;*/
+	std::unordered_map<eState, Animation> Animations;
+	std::string TextureID;
+	
+	eState ActiveAnimation;
+	eState DefaultAnimation;
+	float ElapsedFrameTime = 0.f;
 };
 
 struct TextComponent
@@ -135,7 +147,7 @@ struct TextComponent
 	FVector4				  Color;
 	unsigned				  Size = 32;
 	Hi_Engine::eTextAlginment Alignment;
-	class Hi_Engine::Font*    Font = nullptr;
+	std::shared_ptr<class Hi_Engine::Font>    Font = nullptr;
 };
 
 struct CameraComponent

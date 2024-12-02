@@ -19,22 +19,36 @@
     {
       "type": "Sprite",
       "properties": {
-        "texture": "pirate_idle",
+        "texture": "player_sheet",
         "coordinates": [ 0, 0 ],
         "color": [ 1.0, 1.0, 1.0, 1.0 ],
         "render_depth": 0
       }
     },
     {
+      "type": "Animation",
+      "properties": {
+        "sheet": "player_sheet",
+        "start_row": 0,
+        "animations": [
+          {
+            "identifier": "idle",
+            "row": 0,
+            "columns": 3
+          }
+        ]
+      }
+    },
+    {
       "type": "Velocity",
       "properties": {
-        "speed": 200.0
+        "speed": 50.0
       }
     },
     {
       "type": "Input",
       "properties": {}
-    },  
+    },
     {
       "type": "PlayerController",
       "properties": {
@@ -51,6 +65,10 @@
           }
         ]
       }
+    },
+    {
+      "type": "Commands",
+      "properties": {}
     },
     {
       "type": "CharacterState",
@@ -79,7 +97,7 @@
       "properties": {
         "type": "Dynamic",
         "size": [ 15.0, 15.0 ],
-        "offset": [0.5, 0.5]
+        "offset": [ 0.5, 0.5 ]
       }
     },
     {

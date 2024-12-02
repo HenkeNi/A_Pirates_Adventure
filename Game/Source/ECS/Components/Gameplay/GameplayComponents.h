@@ -2,6 +2,55 @@
 #include "Stat.hpp"
 
 
+// Todo, add command for interact, OpenMenu?
+enum class eCommandType
+{
+	Move,
+	Sprint,
+	Attack,
+	Shoot,
+	Aim,
+	Interact,
+};
+
+struct MovementData
+{
+	FVector2 Direction;
+};
+
+struct SprintData
+{
+	float Speed;
+};
+
+
+using CommandData = std::variant<MovementData, SprintData>;
+
+struct Command
+{
+	eCommandType Type;
+	CommandData Data;
+	//  std::variant<MoveData, AttackData, DefendData, InteractData> Data;
+};
+
+
+struct CommandQueueComponent
+{
+	std::queue<Command> Commands;
+};
+
+
+
+
+
+//#################### Controller Components ####################//
+struct PlayerControllerComponent
+{
+	std::unordered_map<Hi_Engine::eKey, Command> InputMapping;
+	//std::unordered_map<Hi_Engine::eKey, eCommandType> InputMapping;
+};
+
+
 //#################### Character Components ####################//
 struct AttributesComponent
 {
@@ -30,14 +79,32 @@ struct CrewComponent
 {
 };
 
-struct CharacterStateComponent
+enum class eState
 {
-	bool IsIdle;
-	bool IsWalking;
-	bool IsRunning;
-	bool IsAttacking;
-	bool IsAlive;
-	bool IsAiming;
+	Idle,
+	Walking,
+	Running,
+	Attacking,
+	Aiming,
+	Dying
+};
+
+// or name CharacterStateComponent?
+struct StateComponent
+{
+
+	std::vector<eState> AvailableStates;
+
+	eState PreviousState;
+	eState CurrentState;
+
+
+	//bool IsIdle;
+	//bool IsWalking;
+	//bool IsRunning;
+	//bool IsAttacking;
+	//bool IsAlive;
+	//bool IsAiming;
 };
 
 struct StaminaComponent
@@ -90,12 +157,6 @@ struct ResourceProducerComponent
 };
 
 
-
-//#################### Controller Components ####################//
-struct PlayerControllerComponent
-{
-	std::unordered_map<Hi_Engine::eKey, class Command*> InputMapping;
-};
 
 
 

@@ -4,6 +4,12 @@
 /* ######################### UI ######################### */
 struct UIComponent
 {
+	std::shared_ptr<Hi_Engine::Subtexture2D> Subtexture = nullptr;
+
+	FVector4					DefaultColor = { 1.f, 1.f, 1.f, 1.f };
+	FVector4					CurrentColor = { 1.f, 1.f, 1.f, 1.f };
+	int							RenderDepth = 0;
+	bool						IsVisible = true;
 	//int RenderDepth = 0; // FIX!
 };
 

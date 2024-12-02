@@ -29,23 +29,25 @@
 
 /* - Data - */
 #include "../Data/Constants.h"
-#include "../Data/Enumerations.h"
-#include "../Data/Structs.h"
 
 /* - Event system - */
-#include "Messaging/Dispatcher/Dispatcher.h"
-#include "Messaging/Listener/EventListener.h"
-#include "Messaging/Events/RenderEvents/RenderEvents.h"
-#include "Messaging/Events/SystemEvents/SystemEvents.h"
-#include "Messaging/Events/Debug/DebugEvents.h"
+#include "EventSystem/Core/EventDispatcher.h"
+#include "EventSystem/Core/EventListener.h"
+#include "EventSystem/Events/RenderEvents.h"
+#include "EventSystem/Events/SystemEvents.h"
+#include "EventSystem/Events/DebugEvents.h"
 
 /* - Math - */
-#include "../Utility/Math/Vectors/Vector.hpp"
-#include "../Utility/Math/Matrices/Matrix3x3.hpp"
-#include "../Utility/Math/Matrices/Matrix4x4.hpp"
-#include "../Utility/Math/Range/Range.hpp"
-#include "../Utility/Math/Point/Point.hpp"
-#include "../Utility/Utility/UtilityFunctions.h"
+#include "Core/Math/Vectors/Vector.hpp"
+#include "Core/Math/Matrices/Matrix3x3.hpp"
+#include "Core/Math/Matrices/Matrix4x4.hpp"
+
+//#include "../Utility/Math/Vectors/Vector.hpp"
+//#include "../Utility/Math/Matrices/Matrix3x3.hpp"
+//#include "../Utility/Math/Matrices/Matrix4x4.hpp"
+#include "Core/Math/Range/Range.hpp"
+#include "Core/Math/Point/Point.hpp"
+#include "Core/Utility/UtilityFunctions.h"
 
 /* - Third Party - 	 ..... TODO; dont put these here... (not glew/glfw stuff) */
 

@@ -27,8 +27,8 @@ namespace Registration
 		ecs.RegisterComponent<AudioComponent>("Audio");
 
 		/* - AI Components - */
-		ecs.RegisterComponent<BlackboardComponent>("Blackboard");
-		ecs.RegisterComponent<BehaviorTreeComponent>("BehaviorTree");
+		//ecs.RegisterComponent<BlackboardComponent>("Blackboard");
+		//ecs.RegisterComponent<BehaviorTreeComponent>("BehaviorTree");
 		//ecs.RegisterComponent<SteeringBehaviorComponent>("SteeringBehavior");
 		//ecs.RegisterComponent<WanderBehaviorComponent>("WanderBehavior");
 		//ecs.RegisterComponent<FlockBehaviorComponent>("FlockBehavior");
@@ -38,6 +38,7 @@ namespace Registration
 		//ecs.RegisterComponent<IdleComponent>("Idle");
 
 		/* - Gameplay Components - */
+		ecs.RegisterComponent<CommandQueueComponent>("Commands");
 		ecs.RegisterComponent<AttributesComponent>("Attribute");
 		ecs.RegisterComponent<PersonalityComponent>("Personality");
 		ecs.RegisterComponent<FriendlyComponent>("Friendly");
@@ -59,7 +60,7 @@ namespace Registration
 		ecs.RegisterComponent<AttackCooldownComponent>("AttackCooldown");
 		ecs.RegisterComponent<ProjectileComponent>("Projectile");
 		ecs.RegisterComponent<ResourceComponent>("Resource");
-		ecs.RegisterComponent<CharacterStateComponent>("CharacterState");
+		ecs.RegisterComponent<StateComponent>("CharacterState");
 		ecs.RegisterComponent<KnockbackComponent>("Knockback"); // remove?
 
 		/* - UI Components - */

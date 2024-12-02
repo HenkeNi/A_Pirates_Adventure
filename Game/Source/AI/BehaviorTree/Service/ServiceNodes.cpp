@@ -45,15 +45,15 @@ eBTNodeStatus SetTargetNode::Execute(Entity entity, ECS& ecs)
 
 		std::vector<Entity> targets;
 
-		if (ecs.HasComponent<FriendlyComponent>(entity))
-		{
-			// targets = blackboardComponent->Hostile;
-			//auto targets = BlackboardComponent::Hostile;
-		}
-		else if (ecs.HasComponent<HostileComponent>(entity))
-		{
-			// targets = blackboardComponent->Friendly;
-		}
+		//if (ecs.HasComponent<FriendlyComponent>(entity))
+		//{
+		//	// targets = blackboardComponent->Hostile;
+		//	//auto targets = BlackboardComponent::Hostile;
+		//}
+		//else if (ecs.HasComponent<HostileComponent>(entity))
+		//{
+		//	// targets = blackboardComponent->Friendly;
+		//}
 
 		// get closes enemy... make function somewhhere
 

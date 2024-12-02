@@ -5,9 +5,9 @@ class ComponentIO
 {
 public:
 
-	static void Serialize(const void* component) {};
+	static void Serialize(const void* component, const SerializationData& data) {};
 
-	static void Serialize(const struct TransformComponent* component);
+	static void Serialize(const struct TransformComponent* component, const SerializationData& data);
 
 	static void Serialize(const struct TagComponent* component);
 	
@@ -51,7 +51,8 @@ public:
 
 	static void Serialize(const struct HostileComponent* component);
 
-	//void Serialize(const struct TransformComponent& component, rapidjson::Document& document);
 
-	static void Deserialize(struct TransformComponent& component);
+	// Not needed?? creaet entity from json instead??
+	//static void Deserialize(struct TransformComponent& component, ComponentProperties& properties); // ?
+	//static void Deserialize(struct TransformComponent& component);
 };

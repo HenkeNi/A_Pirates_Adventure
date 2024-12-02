@@ -59,7 +59,7 @@ eBTNodeStatus MoveToDestinationNode::Execute(Entity entity, ECS& ecs)
 		
 		auto* velocityComponent = ecs.GetComponent<VelocityComponent>(entity);
 		velocityComponent->Velocity = direction.GetNormalized();
-		velocityComponent->Speed = wanderSpeed;
+		velocityComponent->CurrentSpeed = wanderSpeed;
 
 	}
 
@@ -89,7 +89,7 @@ eBTNodeStatus ChaseTargetNode::Execute(Entity entity, ECS& ecs)
 
 			auto* velocityComponent = ecs.GetComponent<VelocityComponent>(entity);
 			velocityComponent->Velocity = direction.GetNormalized();
-			velocityComponent->Speed = chaseSpeed;
+			velocityComponent->CurrentSpeed = chaseSpeed;
 		}
 	}
 

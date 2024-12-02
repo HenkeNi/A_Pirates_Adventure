@@ -7,8 +7,8 @@ namespace Hi_Engine
 	{
 		Input_Invalid = -1,
 		Input_Release = 0,		//	GLFW_RELEASE, 
-		Input_Press = 1,			//	GLFW_PRESS, 
-		Input_Repeat = 2			//	GLFW_REPEAT,
+		Input_Press = 1,		//	GLFW_PRESS, 
+		Input_Repeat = 2		//	GLFW_REPEAT,
 	};
 
 	enum class eKey

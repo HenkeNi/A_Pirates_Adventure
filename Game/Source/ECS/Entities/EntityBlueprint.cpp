@@ -2,6 +2,12 @@
 #include "EntityBlueprint.h"
 
 
+void ParseProperties(ComponentProperties& properties, const rapidjson::Value& value)
+{
+	// while (true)
+}
+
+
 Property EntityBlueprint::ParseProperty(const rapidjson::Value& value)
 {
 	if (value.IsDouble())
@@ -94,7 +100,12 @@ Property EntityBlueprint::ParseProperty(const rapidjson::Value& value)
 		}
 		//std::vector<Property> properties;
 	}
-	else {
+	else if (value.IsObject())
+	{
+
+	}
+	else 
+	{
 		throw std::runtime_error("Unsupported property type");
 	}
 }

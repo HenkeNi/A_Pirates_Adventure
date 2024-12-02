@@ -20,6 +20,8 @@ public:
 
 	void SerializeComponents(ComponentRegistry& registry);
 
+	void DeserializeComponents();
+
 	template <typename T>
 	void AddComponent(Entity entity);
 	//T* AddComponent(Entity entity);
@@ -32,7 +34,7 @@ public:
 	const std::vector<T>& GetComponents() const;
 
 	template <typename T>
-	std::vector<T>& GetComponents();
+	std::vector<T>& GetComponents(); // return component array instead?
 	//std::vector<T*> GetComponents();
 
 	template <typename T>

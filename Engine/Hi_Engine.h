@@ -4,80 +4,75 @@
 #include "Source/Core/Application/Application.h"
 #include "Source/Core/Engine.h"
 
-//#include "Source/Core/Window/Window.h"
 
-#include "Source/Core/Rendering/Renderer/Renderer.h"
+#include "Source/Rendering/Renderer/Renderer.h"
 #include "Source/Core/Input/InputHandler.h"
-#include "Source/Core/Audio/AudioController.h"
-#include "Source/Core/Window/Window.h"
+#include "Source/Audio/AudioController.h"
+#include "Source/Platform/Window/Window.h"
 
-
+#include "Source/Core/Utility/Serializer/Serializer.h"
 
 /* - Service Locator - */
 #include "Source/Core/ServiceLocator/ServiceLocator.h"
 
 /* - Physics - */
-#include "Physics/PhysicsEngine.h"
-#include "Source/Core/Physics/Primitives/2D/AABB2D.hpp"
-#include "Source/Core/Physics/Primitives/2D/Ray2D.hpp"
-#include "Source/Core/Physics/Primitives/2D/LineSegment2D.hpp"
-#include "Source/Core/Physics/Intersections/Intersection2D.hpp"
-#include "Source/Core/Physics/Intersections/HitResult.h"
+#include "Source/Physics/PhysicsEngine.h"
+#include "Source/Physics/Primitives/2D/AABB2D.hpp"
+#include "Source/Physics/Primitives/2D/Ray2D.hpp"
+#include "Source/Physics/Primitives/2D/LineSegment2D.hpp"
+#include "Source/Physics/Intersections/Intersection2D.hpp"
+#include "Source/Physics/Intersections/HitResult.h"
 
 /* - Input - */
 #include "Source/Core/Input/InputHandler.h"
 
 /* - Rendering - */
-#include "Source/Core/Rendering/Camera/Camera.h"
-#include "Source/Core/Rendering/Text/Renderer/TextRenderer.h"
-#include "Source/Core/Rendering/Material/Material.h"
-#include "Source/Core/Rendering/Text/Font/Font.h"
-#include "Source/Core/Rendering/Shader/Shader.h"
-#include "Source/Core/Rendering/Texture/Texture2D.h"
-#include "Source/Core/Rendering/Texture/Subtexture2D.h"
-#include "Source/Core/Rendering/Text/TextTypes.h"
+#include "Source/Rendering/Camera/Camera.h"
+#include "Source/Rendering/Text/Renderer/TextRenderer.h"
+#include "Source/Rendering/Material/Material.h"
+#include "Source/Rendering/Text/Font/Font.h"
+#include "Source/Rendering/Shader/Shader.h"
+#include "Source/Rendering/Texture/Texture2D.h"
+#include "Source/Rendering/Texture/Subtexture2D.h"
+#include "Source/Rendering/Text/TextTypes.h"
 
 /* - Audio - */
-#include "Source/Core/Audio/Audio.h"
-#include "Source/Core/Audio/AudioSource.h"
-#include "Source/Core/Audio/AudioController.h"
+#include "Source/Audio/Audio.h"
+#include "Source/Audio/AudioSource.h"
+#include "Source/Audio/AudioController.h"
 
 /* - ImGui - */
-#include "Source/Core/ImGui/ImGuiManager.h"
+#include "Source/Editor/ImGui/ImGuiManager.h"
 
 /* - Resources - */
 #include "Source/Core/Resources/ResourceHolder.h"
 
 /* - Messaging - */
-#include "Source/Core/Messaging/Dispatcher/Dispatcher.h"
-#include "Source/Core/Messaging/Listener/EventListener.h"
-#include "Source/Core/Messaging/Events/SystemEvents/SystemEvents.h"
-#include "Source/Core/Messaging/Events/RenderEvents/RenderEvents.h"
-#include "Source/Core/Messaging/Events/Debug/DebugEvents.h"
-#include "Source/Core/Messaging/Events/Audio/AudioEvents.h"
+#include "Source/Core/EventSystem/Core/EventDispatcher.h" // REVMOVE LATER! Only allow engine to send events, put render system in engine (pass 
+#include "Source/Core/EventSystem/Core/EventListener.h"
+#include "Source/Core/EventSystem/Events/SystemEvents.h"
+#include "Source/Core/EventSystem/Events/RenderEvents.h"
+#include "Source/Core/EventSystem/Events/DebugEvents.h"
+#include "Source/Core/EventSystem/Events/AudioEvents.h"
 
 /* - Data Structures - */
-#include "Source/Utility/DataStructures/Linear/Dynamic/Stack/Stack.hpp"
-#include "Source/Utility/DataStructures/Linear/Dynamic/Queue/Queue.hpp"
-#include "Source/Utility/DataStructures/Linear/Static/Array/VectorOnStack.hpp"
-#include "Source/Utility/DataStructures/Linear/Static/MemoryPool/MemoryPool.hpp"
-#include "Source/Utility/DataStructures/Non-Linear/Factory/Factory.hpp"
+#include "Source/Core/Utility/DataStructures/Linear/Dynamic/Stack/Stack.hpp"
+#include "Source/Core/Utility/DataStructures/Linear/Dynamic/Queue/Queue.hpp"
+#include "Source/Core/Utility/DataStructures/Linear/Static/Array/VectorOnStack.hpp"
+#include "Source/Core/Utility/DataStructures/Linear/Static/MemoryPool/MemoryPool.hpp"
+#include "Source/Core/Utility/DataStructures/Non-Linear/Factory/Factory.hpp"
 
 /* - Math - */
-#include "Source/Utility/Math/Vectors/Vector.hpp"
-#include "Source/Utility/Math/Matrices/Matrix3x3.hpp"
-#include "Source/Utility/Math/Matrices/Matrix4x4.hpp"
-#include "Source/Utility/Math/Point/Point.hpp"
-#include "Source/Utility/Math/Range/Range.hpp"
-#include "Source/Utility/Math/Mathf.hpp"
+#include "Source/Core/Math/Vectors/Vector.hpp"
+#include "Source/Core/Math/Matrices/Matrix3x3.hpp"
+#include "Source/Core/Math/Matrices/Matrix4x4.hpp"
+#include "Source/Core/Math/Point/Point.hpp"
+#include "Source/Core/Math/Range/Range.hpp"
+#include "Source/Core/Math/Mathf.hpp"
 
 /* - Utility - */
-#include "Source/Utility/Utility/UtilityFunctions.h"
-#include "Source/Utility/Random/Random.h"
-#include "Source/Utility/Time/Timer.h"
-#include "Source/Utility/Algorithms/PathFinding/AStar.hpp"
-#include "Source/Utility/Noise/NoiseGenerator.h"
-
-/* - Data (Expose???) - */
-#include "Source/Data/Enumerations.h"
-#include "Source/Data/Structs.h"
+#include "Source/Core/Utility/Random/Random.h"
+#include "Source/Core/Time/Timer.h"
+#include "Source/Core/Utility/Algorithms/PathFinding/AStar.hpp"
+#include "Source/Core/Utility/Noise/NoiseGenerator.h"
+#include "Source/Core/Utility/UtilityFunctions.h"

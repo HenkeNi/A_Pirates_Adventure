@@ -2,27 +2,26 @@
 #include "CombatSystem.h"
 #include "Components/Core/CoreComponents.h"
 #include "Components/Gameplay/GameplayComponents.h"
-#include "Systems/Physics/MovementSystem.h"
 #include "ECS.h"
 
 
 CombatSystem::CombatSystem()
 {
-	PostMaster::GetInstance().Subscribe(eMessage::AttackAnimationFinished, this);
+	//PostMaster::GetInstance().Subscribe(eMessage::AttackAnimationFinished, this);
 	//PostMaster::GetInstance().Subscribe(eMessage::EnemyAttacked, this);
 	PostMaster::GetInstance().Subscribe(eMessage::EntityAttacked, this);
 }
 
 CombatSystem::~CombatSystem()
 {
-	PostMaster::GetInstance().Unsubscribe(eMessage::AttackAnimationFinished, this);
+	// PostMaster::GetInstance().Unsubscribe(eMessage::AttackAnimationFinished, this);
 	PostMaster::GetInstance().Unsubscribe(eMessage::EntityAttacked, this);
 	//PostMaster::GetInstance().Unsubscribe(eMessage::EnemyAttacked, this);
 }
 
 void CombatSystem::Receive(Message& message)	// Listen to collisions from physics
 {
-	assert(m_ecs && "[CombatSystem - ERROR]: ECS is not initialized!");
+	assert(m_ecs && "[CombatSystem::Receive] - ECS is not initialized!");
 
 	//if (message.GetMessageType() == eMessage::AttackAnimationFinished)
 	{
@@ -90,7 +89,7 @@ void CombatSystem::Receive(Message& message)	// Listen to collisions from physic
 	//	}
 	//}
 	
-	//entity->GetComponent<CharacterStateComponent>()->IsAttacking = false;
+	//entity->GetComponent<StateComponent>()->IsAttacking = false;
 
 	//for (auto* entity : entitiesToRemove)
 	//{

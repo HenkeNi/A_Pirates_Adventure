@@ -13,17 +13,13 @@
         }
       },
       {
-        "type": "Sprite",
+        "type": "UI",
         "properties": {
           "texture": "mouse_icon",
           "coordinates": [ 0, 0 ],
           "color": [ 1.0, 1.0, 1.0, 1.0 ],
           "render_depth": 2
         }
-      },
-      {
-        "type": "UI",
-        "properties": {}
       },
       {
         "type": "Cursor",
@@ -44,17 +40,13 @@
         }
       },
       {
-        "type": "Sprite",
+        "type": "UI",
         "properties": {
           "texture": "title_image",
           "coordinates": [ 0, 0 ],
           "color": [ 1.0, 1.0, 1.0, 1.0 ],
           "render_depth": 0
         }
-      },
-      {
-        "type": "UI",
-        "properties": {}
       }
     ]
   },
@@ -71,17 +63,13 @@
         }
       },
       {
-        "type": "Sprite",
+        "type": "UI",
         "properties": {
           "texture": "title_image",
           "coordinates": [ 0, 0 ],
           "color": [ 1.0, 1.0, 1.0, 1.0 ],
           "render_depth": 1
         }
-      },
-      {
-        "type": "UI",
-        "properties": {}
       }
     ]
   },
@@ -126,15 +114,6 @@
         }
       },
       {
-        "type": "Sprite",
-        "properties": {
-          "texture": "play_button",
-          "coordinates": [ 0, 0 ],
-          "color": [ 1.0, 1.0, 1.0, 1.0 ],
-          "render_depth": 1
-        }
-      },
-      {
         "type": "BoundingBox",
         "properties": {
           "size": [ 0.5, 0.5 ]
@@ -148,7 +127,12 @@
       },
       {
         "type": "UI",
-        "properties": {}
+        "properties": {
+          "texture": "play_button",
+          "coordinates": [ 0, 0 ],
+          "color": [ 1.0, 1.0, 1.0, 1.0 ],
+          "render_depth": 1
+        }
       },
       {
         "type": "Audio",
@@ -172,15 +156,6 @@
         }
       },
       {
-        "type": "Sprite",
-        "properties": {
-          "texture": "play_button",
-          "coordinates": [ 0, 0 ],
-          "color": [ 1.0, 1.0, 1.0, 1.0 ],
-          "render_depth": 1
-        }
-      },
-      {
         "type": "BoundingBox",
         "properties": {
           "size": [ 0.5, 0.5 ]
@@ -196,7 +171,12 @@
       },
       {
         "type": "UI",
-        "properties": {}
+        "properties": {
+          "texture": "play_button",
+          "coordinates": [ 0, 0 ],
+          "color": [ 1.0, 1.0, 1.0, 1.0 ],
+          "render_depth": 1
+        }
       },
       {
         "type": "Audio",
@@ -220,15 +200,6 @@
         }
       },
       {
-        "type": "Sprite",
-        "properties": {
-          "texture": "square",
-          "coordinates": [ 0, 0 ],
-          "color": [ 1.0, 1.0, 1.0, 1.0 ],
-          "render_depth": 1
-        }
-      },
-      {
         "type": "BoundingBox",
         "properties": {
           "size": [ 0.5, 0.5 ]
@@ -236,7 +207,12 @@
       },
       {
         "type": "UI",
-        "properties": {}
+        "properties": {
+          "texture": "square",
+          "coordinates": [ 0, 0 ],
+          "color": [ 1.0, 1.0, 1.0, 1.0 ],
+          "render_depth": 1
+        }
       }
     ]
   },
