@@ -5,7 +5,14 @@
 class IComponentArray
 {
 public:
-	virtual ~IComponentArray() = default;
+	IComponentArray() = default;
+	virtual ~IComponentArray()	= default;
+
+	IComponentArray(const IComponentArray&) = delete;
+	IComponentArray& operator=(const IComponentArray&) = delete;
+
+	IComponentArray(IComponentArray&&) noexcept = default;
+	IComponentArray& operator=(IComponentArray&&) noexcept = default;
 
 	virtual void RemoveComponent(Entity entity) = 0;
 	virtual void ForEachComponent(const std::function<void(Entity entity, const void*)>& callback) = 0;
@@ -24,7 +31,7 @@ public:
 	std::vector<T>& GetComponents();
 
 	const T* GetComponent(Entity entity) const;
-	T*	GetComponent(Entity entity);
+	T* GetComponent(Entity entity);
 
 	bool HasComponent(Entity entity) const;
 	void ForEachComponent(const std::function<void(Entity entity, const void*)>& callback) override; // find better way?

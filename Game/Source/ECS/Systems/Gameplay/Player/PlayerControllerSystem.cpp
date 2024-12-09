@@ -17,6 +17,17 @@ void PlayerControllerSystem::Update(float deltaTime)
 {
 	assert(m_ecs && "[PlayerControllerSystem::Update] - ECS is not initialized!");
 
+	auto componentView = m_ecs->GetComponentView<PlayerControllerComponent, InputComponent, CommandQueueComponent>();
+
+	for (const auto& [playerControllerComponent, inputComponent, commandQueueComponent] : componentView)
+	{
+		std::cout << "HELLO";
+	//for (auto& [playerControllerComponent, inputComponent, commandQueueComponent] : componentView)
+		// if (PlayerControllerComponent.)
+	}
+
+
+
 	for (auto entity : m_ecs->FindEntities(m_signatures["Player"]))
 	{
 		GenerateCommands(entity);
