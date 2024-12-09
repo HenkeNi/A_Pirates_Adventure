@@ -12,7 +12,7 @@
 #include "ServiceLocator/ServiceLocator.h" /// ?
 #include "Utility/Noise/NoiseGenerator.h"
 #include "Rendering/Shader/Shader.h"
-#include "Physics/PhysicsEngine.h"
+#include "Physics/Physics.h"
 #include "Time/Timer.h"
 #include <GLFW/glfw3.h> 
 
@@ -138,14 +138,14 @@ namespace Hi_Engine
 		m_moduleManager.RegisterModule<TextRenderer>(3);
 		m_moduleManager.RegisterModule<InputHandler>(4);
 		m_moduleManager.RegisterModule<AudioController>(5);
-		m_moduleManager.RegisterModule<PhysicsEngine>(6);
+		m_moduleManager.RegisterModule<Physics>(6);
 
 #ifdef DEBUG
 		m_moduleManager.RegisterModule<ImGuiManager>(7 );
 #endif
 
 		ServiceLocator::Register(m_moduleManager.GetModule<Window>());
-		ServiceLocator::Register(m_moduleManager.GetModule<PhysicsEngine>());
+		ServiceLocator::Register(m_moduleManager.GetModule<Physics>());
 		ServiceLocator::Register(m_moduleManager.GetModule<ImGuiManager>());
 	}
 

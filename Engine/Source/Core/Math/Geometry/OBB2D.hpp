@@ -1,7 +1,7 @@
 #pragma once
-#include "../../../../Utility/Math/Vectors/Vector2.hpp"
+#include "../Vectors/Vector2.hpp"
 
-namespace Hi_Engine::Physics
+namespace Hi_Engine::Geometry
 {
 	using namespace Math;
 
