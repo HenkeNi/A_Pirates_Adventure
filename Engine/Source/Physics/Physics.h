@@ -6,11 +6,11 @@ class b2World;
 
 namespace Hi_Engine
 {
-	class PhysicsEngine : public Module
+	class Physics : public Module
 	{
 	public:
-		PhysicsEngine(int initOrder);
-		~PhysicsEngine();
+		Physics(int initOrder);
+		~Physics();
 
 		bool Init()									  override;
 		void Shutdown()								  override;
@@ -28,12 +28,15 @@ namespace Hi_Engine
 
 		// destroy?
 
-		void Test();
-
+		
 	private:
 		FVector2 m_gravity;
 		b2World* m_world;
 
 		// store settings...
+
+
+	//	PhysicsSystem;
+	//	MovementSystem;
 	};
 }

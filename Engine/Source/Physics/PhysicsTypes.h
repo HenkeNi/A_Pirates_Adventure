@@ -9,7 +9,7 @@ namespace Hi_Engine
 
 	};
 
-	class PhysicsEngine;
+	class Physics;
 
 	class PhysicsBody
 	{
@@ -25,7 +25,7 @@ namespace Hi_Engine
 		FVector2 GetSize() const;
 
 	private:
-		friend class PhysicsEngine;
+		friend class Physics;
 
 		b2Body* m_body;
 	};

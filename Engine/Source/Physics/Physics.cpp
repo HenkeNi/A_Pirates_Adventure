@@ -1,36 +1,36 @@
 #include "Pch.h"
-#include "PhysicsEngine.h"
+#include "Physics.h"
 #include <box2d/box2d.h>
 
 
 namespace Hi_Engine
 {
-	PhysicsEngine::PhysicsEngine(int initOrder)
+	Physics::Physics(int initOrder)
 		: Module{ initOrder }, m_gravity{ 0.f, 0.f }, m_world{ nullptr }
 	{
 	}
 
-	PhysicsEngine::~PhysicsEngine()
+	Physics::~Physics()
 	{
 		delete m_world;
 	}
 
-	bool PhysicsEngine::Init()
+	bool Physics::Init()
 	{
 		m_world = new b2World{{ m_gravity.x, m_gravity.y }};
 
 		return true;
 	}
 
-	void PhysicsEngine::Shutdown()
+	void Physics::Shutdown()
 	{
 	}
 
-	void PhysicsEngine::Deserialize(const rapidjson::Value& json)
+	void Physics::Deserialize(const rapidjson::Value& json)
 	{
 	}
 
-	void PhysicsEngine::Update(float deltaTime)
+	void Physics::Update(float deltaTime)
 	{
 		static const float timeStep = 1.f / 60.f;
 		static const int velocityIterations = 6;
@@ -42,18 +42,18 @@ namespace Hi_Engine
 		}
 	}
 
-	//void PhysicsEngine::DebugDraw()
+	//void Physics::DebugDraw()
 	//{
 	//	m_world->SetDebugDraw();
 	//	m_world->DebugDraw();
 	//}
 
-	void PhysicsEngine::SetGravity(const FVector2& gravity)
+	void Physics::SetGravity(const FVector2& gravity)
 	{
 		m_world->SetGravity({ gravity.x, gravity.y });
 	}
 
-	PhysicsBody PhysicsEngine::CreateDynamicBody(const DynamicColliderData& data)
+	PhysicsBody Physics::CreateDynamicBody(const DynamicColliderData& data)
 	{
 		const auto& [position, size, density, friction] = data;
 
@@ -75,7 +75,7 @@ namespace Hi_Engine
 		return PhysicsBody{ body };
 	}
 
-	PhysicsBody PhysicsEngine::CreateStaticBody(const StaticColliderData& data)
+	PhysicsBody Physics::CreateStaticBody(const StaticColliderData& data)
 	{
 		const auto& [position, size] = data;
 
@@ -95,7 +95,7 @@ namespace Hi_Engine
 		return PhysicsBody{ body };
 	}
 
-	void PhysicsEngine::DestroyBody(PhysicsBody& body)
+	void Physics::DestroyBody(PhysicsBody& body)
 	{
 		m_world->DestroyBody(body.m_body);
 		body.m_body = nullptr;

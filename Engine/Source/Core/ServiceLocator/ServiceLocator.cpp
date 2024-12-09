@@ -20,7 +20,7 @@ namespace Hi_Engine
 		s_window = window;
 	}
 
-	void ServiceLocator::Register(std::weak_ptr<PhysicsEngine> physics)
+	void ServiceLocator::Register(std::weak_ptr<Physics> physics)
 	{
 		s_physics = physics;
 	}
@@ -35,7 +35,7 @@ namespace Hi_Engine
 		return s_window;
 	}
 
-	std::weak_ptr<PhysicsEngine> ServiceLocator::GetPhysics()
+	std::weak_ptr<Physics> ServiceLocator::GetPhysics()
 	{
 		return s_physics;
 	}

@@ -1,13 +1,14 @@
  #pragma once
-#include "../Primitives/2D/AABB2D.hpp"  // incl header?
-#include "../Primitives/2D/Circle.hpp"
-#include "../Primitives/2D/Ray2D.hpp"
-#include "../Primitives/2D/LineSegment2D.hpp"
+#include "../../Core/Math/Geometry/AABB2D.hpp"
+#include "../../Core/Math/Geometry/Circle.hpp"
+#include "../../Core/Math/Geometry/Ray2D.hpp"
+#include "../../Core/Math/Geometry/LineSegment2D.hpp"
 #include "HitResult.h"
 
-namespace Hi_Engine::Physics
+namespace Hi_Engine::Intersection // rename Physics or Collisions?
 {
     using namespace Math;
+    using namespace Geometry;
 
     /* AABB vs AABB */
     template <typename T>
