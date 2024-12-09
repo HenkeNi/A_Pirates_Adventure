@@ -5,14 +5,7 @@
 class IComponentArray
 {
 public:
-	IComponentArray() = default;
-	virtual ~IComponentArray()	= default;
-
-	IComponentArray(const IComponentArray&) = delete;
-	IComponentArray& operator=(const IComponentArray&) = delete;
-
-	IComponentArray(IComponentArray&&) noexcept = default;
-	IComponentArray& operator=(IComponentArray&&) noexcept = default;
+	virtual ~IComponentArray() = default;
 
 	virtual void RemoveComponent(Entity entity) = 0;
 	virtual void ForEachComponent(const std::function<void(Entity entity, const void*)>& callback) = 0;
@@ -24,14 +17,16 @@ class ComponentArray : public IComponentArray
 public:
 	ComponentArray();
 
+	// Delte copy contsructor and assignemnet => default mvoe...
+
 	void AddComponent(Entity entity, T component);
 	void RemoveComponent(Entity entity) override;
 	
 	const std::vector<T>& GetComponents() const;
 	std::vector<T>& GetComponents();
 
-	const T* GetComponent(Entity entity) const;
-	T* GetComponent(Entity entity);
+	const T* GetComponent(Entity entity) const; // overalload [] opeator?
+	T*	GetComponent(Entity entity);
 
 	bool HasComponent(Entity entity) const;
 	void ForEachComponent(const std::function<void(Entity entity, const void*)>& callback) override; // find better way?

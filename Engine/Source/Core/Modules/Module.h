@@ -19,6 +19,6 @@ namespace Hi_Engine
         inline int   GetInitOrder() const { return m_initOrder; }
 
     protected:
-        int m_initOrder;
+        int m_initOrder; // remove?
     };
 }
