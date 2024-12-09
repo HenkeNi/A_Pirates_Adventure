@@ -27,8 +27,6 @@
 #include <variant>
 #include <vector>
 
-/* - Data - */
-#include "../Data/Constants.h"
 
 /* - Event system - */
 #include "EventSystem/Core/EventDispatcher.h"

@@ -16,10 +16,11 @@
 #include "Source/Core/ServiceLocator/ServiceLocator.h"
 
 /* - Physics - */
-#include "Source/Physics/PhysicsEngine.h"
-#include "Source/Physics/Primitives/2D/AABB2D.hpp"
-#include "Source/Physics/Primitives/2D/Ray2D.hpp"
-#include "Source/Physics/Primitives/2D/LineSegment2D.hpp"
+#include "Source/Physics/Physics.h"
+
+#include "Source/Core/Math/Geometry/AABB2D.hpp"
+#include "Source/Core/Math/Geometry/Ray2D.hpp"
+#include "Source/Core/Math/Geometry/LineSegment2D.hpp"
 #include "Source/Physics/Intersections/Intersection2D.hpp"
 #include "Source/Physics/Intersections/HitResult.h"
 
