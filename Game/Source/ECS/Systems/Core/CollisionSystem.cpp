@@ -237,7 +237,7 @@ void CollisionSystem::HandleEntityCollisions(std::vector<Entity>& entities)
 
 			if (CanCollide(source, target))
 			{
-				if (Hi_Engine::Physics::Intersects(sourceColliderComponent->Collider, targetColliderComponent->Collider)) // Make intersects more generic? no need for aabb class?
+				if (Hi_Engine::Intersection::Intersects(sourceColliderComponent->Collider, targetColliderComponent->Collider)) // Make intersects more generic? no need for aabb class?
 				{
 					sourceColliderComponent->CollidingEntities.push_back(target);
 					targetColliderComponent->CollidingEntities.push_back(source);

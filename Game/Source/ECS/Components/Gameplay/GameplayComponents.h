@@ -288,7 +288,7 @@ struct KnockbackComponent
 
 struct VisionComponent
 {
-	Hi_Engine::Physics::LineSegment2D<float> LineOfSight;
+	Hi_Engine::Geometry::LineSegment2D<float> LineOfSight;
 };
 
 

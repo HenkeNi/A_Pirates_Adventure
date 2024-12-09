@@ -68,7 +68,7 @@ struct VelocityComponent
 
 struct BoundingBoxComponent
 {
-	Hi_Engine::Physics::AABB2D<float> Bounds;
+	Hi_Engine::Geometry::AABB2D<float> Bounds;
 	Offset Offset;
 };
 
@@ -85,7 +85,7 @@ struct ColliderComponent
 	Hi_Engine::PhysicsBody PhysicsBody;
 	//Hi_Engine::BoxCollider BoxCollider;
 
-	Hi_Engine::Physics::AABB2D<float>	Collider;
+	Hi_Engine::Geometry::AABB2D<float>	Collider;
 	Offset								Offset;
 	//FVector2				Offset;
 	eColliderType						Type;
@@ -154,7 +154,7 @@ struct CameraComponent
 {
 	Hi_Engine::Camera Camera;
  	FVector2					TargetOffset;
-	Hi_Engine::Physics::AABB2D<float> Frustum;
+	Hi_Engine::Geometry::AABB2D<float> Frustum;
 	Hi_Engine::Range<float>	ZoomRange;
 
 	//Entity			Target = 0;
@@ -190,7 +190,7 @@ struct InputComponent
 
 struct BoundingVolume // Or BOundingBox?
 {
-	Hi_Engine::Physics::AABB2D<unsigned> Volume;
+	Hi_Engine::Geometry::AABB2D<unsigned> Volume;
 };
 
 
@@ -211,7 +211,7 @@ struct SubEntitiesComponent
 // interactable component?
 struct ClickableComponent
 {
-	Hi_Engine::Physics::AABB2D<float> Bounds;
+	Hi_Engine::Geometry::AABB2D<float> Bounds;
 
 };
 
@@ -224,7 +224,7 @@ struct SettingsComponent
 
 struct LineComponent
 {
-	Hi_Engine::Physics::LineSegment2D<float> LineSegment;
+	Hi_Engine::Geometry::LineSegment2D<float> LineSegment;
 };
 
 

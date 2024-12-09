@@ -14,7 +14,7 @@ struct MapChunkComponent
 	// Todo, store tile types in chunk??
 
 	// maybe its own component???
-	Hi_Engine::Physics::AABB2D<float> Bounds;
+	Hi_Engine::Geometry::AABB2D<float> Bounds;
 
 	// HERE? or a new component...
 	bool IsRenderDataDirty = false; // ??

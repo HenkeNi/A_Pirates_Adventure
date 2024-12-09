@@ -2,7 +2,7 @@
 #include "../Base/System.h"
 
 
-using CameraBounds = Hi_Engine::Physics::AABB2D<float>;
+using CameraBounds = Hi_Engine::Geometry::AABB2D<float>;
 
 /* TODO; make sure to update after movement... */
 class CameraSystem : public System, public Subscriber

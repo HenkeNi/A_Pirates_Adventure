@@ -215,7 +215,7 @@ void CameraSystem::CullMapChunks(const CameraBounds& bounds)
 
 		if (transformComponent && mapChunkComponent)
 		{
-			bool isVisible = Hi_Engine::Physics::Intersects(mapChunkComponent->Bounds, bounds);
+			bool isVisible = Hi_Engine::Intersection::Intersects(mapChunkComponent->Bounds, bounds);
 			mapChunkComponent->IsVisible = isVisible;
 		}
 	}
