@@ -4,6 +4,8 @@
 #include "ECSTypes.h"
 #include <assert.h>
 
+template <typename... Components>
+class ComponentView;
 
 class ComponentManager
 {
@@ -50,6 +52,9 @@ public:
 	ComponentType GetComponentType() const;
 
 private:
+	template <typename... Components>
+	friend class ComponentView;
+
 	template <typename T>
 	const ComponentArray<T>* FindComponentArray() const;
 

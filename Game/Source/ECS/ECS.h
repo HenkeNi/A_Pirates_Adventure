@@ -7,6 +7,7 @@
 #include "Systems/SystemManager.h"
 #include "ECSTypes.h"
 
+#include "Components/ComponentView.h"
 
 class ECS
 {
@@ -54,6 +55,9 @@ public:
 
 	template <typename T>
 	std::vector<T>& GetComponents();
+
+	template <typename... T>
+	ComponentView<T...> GetComponentView();
 
 	template <typename T>
 	void RegisterSystem(const char* type);
@@ -181,6 +185,17 @@ inline std::vector<T>& ECS::GetComponents()
 {
 	return m_componentManager.GetComponents<T>();
 }
+
+template <typename... T>
+inline ComponentView<T...> ECS::GetComponentView()
+{
+	Signature signature = GetSignature<T...>();
+	auto entities = m_entityManager.GetEntities(signature);
+
+	ComponentView<T...> componentView{ m_componentManager, std::move(entities) };
+	return componentView;
+}
+
 
 template<typename T>
 inline void ECS::RegisterSystem(const char* type)
