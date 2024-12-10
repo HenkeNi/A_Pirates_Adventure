@@ -9,6 +9,10 @@ class ComponentView
 public:
 	ComponentView(ComponentManager& componentManager, std::vector<Entity>&& entities);
 	
+	std::size_t size() const;
+
+	// Use a foreach function instead of providing access to components directly?
+
 	class Iterator
 	{
 	public:
@@ -44,6 +48,12 @@ template <typename... Components>
 ComponentView<Components...>::ComponentView(ComponentManager& componentManager, std::vector<Entity>&& entities)
 	: m_componentArrays{ std::make_tuple(&componentManager.GetComponentArray<Components>()...) }, m_entities{ std::move(entities) }
 {
+}
+
+template<typename ...Components>
+inline std::size_t ComponentView<Components...>::size() const
+{
+	return m_entities.size();
 }
 
 template <typename... Components>

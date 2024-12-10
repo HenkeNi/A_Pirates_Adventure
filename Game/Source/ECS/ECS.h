@@ -4,12 +4,12 @@
 #include "Components/ComponentManager.h"
 #include "Components/ComponentInitializer.h"
 #include "Components/ComponentIO.h"
+#include "Components/ComponentView.h"
 #include "Systems/SystemManager.h"
 #include "ECSTypes.h"
 
-#include "Components/ComponentView.h"
 
-class ECS
+class ECS final
 {
 public:
 	ECS();
@@ -24,7 +24,7 @@ public:
 
 	Entity CreateEntityFromJson(const rapidjson::Value& jsonEntity);
 
-	std::vector<Entity> FindEntities(const Signature& signature);
+	std::vector<Entity> FindEntities(const Signature& signature); // Dont provide access??
 
 	std::optional<Entity> FindEntity(const Signature& signature);
 
@@ -58,6 +58,9 @@ public:
 
 	template <typename... T>
 	ComponentView<T...> GetComponentView();
+
+	template <typename... T>
+	ComponentView<T...> GetComponentView(const std::function<bool(Entity e1, Entity e2)>& sort);
 
 	template <typename T>
 	void RegisterSystem(const char* type);
@@ -191,6 +194,18 @@ inline ComponentView<T...> ECS::GetComponentView()
 {
 	Signature signature = GetSignature<T...>();
 	auto entities = m_entityManager.GetEntities(signature);
+
+	ComponentView<T...> componentView{ m_componentManager, std::move(entities) };
+	return componentView;
+}
+
+template<typename ...T>
+inline ComponentView<T...> ECS::GetComponentView(const std::function<bool(Entity e1, Entity e2)>& sort)
+{
+	Signature signature = GetSignature<T...>();
+	auto entities = m_entityManager.GetEntities(signature);
+
+	std::sort(entities.begin(), entities.end(), sort);
 
 	ComponentView<T...> componentView{ m_componentManager, std::move(entities) };
 	return componentView;
