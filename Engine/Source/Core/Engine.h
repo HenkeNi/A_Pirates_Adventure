@@ -1,10 +1,11 @@
 #pragma once
-#include "EventSystem/Core/EventListener.h"
+#include "Event/Core/EventListener.h"
 #include "Modules/ModuleManager.h"
 
 namespace Hi_Engine
 {
 	class Application;
+	class ThreadPool;
 	class Timer;
 
 	class Engine : public EventListener
@@ -19,11 +20,11 @@ namespace Hi_Engine
 		void Shutdown();
 		void Run();
 
-		static Timer& GetTimer();
-
 	private:
 		void RegisterModules();
-		void LoadResources();
+		void SetupECS();
+		
+		//void LoadResources(); // do in game/app!? load shaders in renderer Init?
 
 		ModuleManager m_moduleManager;
 		Application& m_application;

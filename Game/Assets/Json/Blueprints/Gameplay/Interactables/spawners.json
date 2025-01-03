@@ -3,7 +3,7 @@
     "id": "SkeletonSpawner",
     "components": [
       {
-        "type": "Transform",
+        "type": "TransformComponent",
         "properties": {
           "position": [ 0.0, 0.2 ],
           "scale": [ 0.5, 0.5 ],
@@ -12,7 +12,7 @@
         }
       },
       {
-        "type": "Sprite",
+        "type": "SpriteComponent",
         "properties": {
           "texture": "skeleton_pile",
           "coordinates": [ 0, 0 ],
@@ -21,13 +21,13 @@
         }
       },
       {
-        "type": "Health",
+        "type": "HealthComponent",
         "properties": {
           "value": 100
         }
       },
       {
-        "type": "Spawner",
+        "type": "SpawnerComponent",
         "properties": {
           "spawned": "Skeleton",
           "amount": 5,

@@ -14,7 +14,6 @@ namespace Hi_Engine
 
 		bool Init();
 		void Shutdown();
-		void LoadModules();
 
 		template <typename T, typename... Args>
 		void RegisterModule(Args&&... args);
@@ -27,6 +26,9 @@ namespace Hi_Engine
 
 		template <typename T>
 		std::weak_ptr<T> GetModule();
+		
+		// For each function?
+		void LoadModules();
 
 	private:
 		std::unordered_map<std::type_index, std::shared_ptr<Module>> m_modules;
@@ -38,7 +40,7 @@ namespace Hi_Engine
 	inline void ModuleManager::RegisterModule(Args&&... args)
 	{
 		auto typeIndex = std::type_index(typeid(T));
-		m_modules.insert(std::make_pair(typeIndex, std::make_shared<T>(std::forward<Args>(args)...)));
+		m_modules.insert(std::make_pair(typeIndex, std::make_shared<T>(*this, std::forward<Args>(args)...)));
 	}
 
 	template<typename T>

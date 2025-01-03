@@ -9,8 +9,8 @@
 
 namespace Hi_Engine
 {
-    TextRenderer::TextRenderer(int initOrder)
-        : Module{ initOrder }, m_windowSize{ 1400, 800 }
+    TextRenderer::TextRenderer(ModuleManager& manager)
+        : Module{ manager }, m_windowSize{ 1400, 800 }
 	{
         EventDispatcher::GetInstance().Subscribe(this);
     }

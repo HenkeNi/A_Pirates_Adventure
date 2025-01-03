@@ -3,17 +3,17 @@
     "id": "MouseCursor",
     "components": [
       {
-        "type": "Transform",
+        "type": "TransformComponent",
         "properties": {
           "position": [ 0.0, 0.0 ],
-          "size": [20.0, 20.0],
+          "size": [ 20.0, 20.0 ],
           "scale": [ 20.0, 20.0 ],
           "pivot": [ 0.25, -0.5 ],
           "rotation": 0.0
         }
       },
       {
-        "type": "UI",
+        "type": "UIComponent",
         "properties": {
           "texture": "mouse_icon",
           "coordinates": [ 0, 0 ],
@@ -22,7 +22,7 @@
         }
       },
       {
-        "type": "Cursor",
+        "type": "CursorComponent",
         "properties": {}
       }
     ]
@@ -31,7 +31,7 @@
     "id": "Image",
     "components": [
       {
-        "type": "Transform",
+        "type": "TransformComponent",
         "properties": {
           "position": [ 0.0, 0.0 ],
           "scale": [ 1.0, 1.0 ],
@@ -40,7 +40,7 @@
         }
       },
       {
-        "type": "UI",
+        "type": "UIComponent",
         "properties": {
           "texture": "title_image",
           "coordinates": [ 0, 0 ],
@@ -54,7 +54,7 @@
     "id": "Background",
     "components": [
       {
-        "type": "Transform",
+        "type": "TransformComponent",
         "properties": {
           "position": [ 0.0, 0.0 ],
           "scale": [ 1.0, 1.0 ],
@@ -63,7 +63,7 @@
         }
       },
       {
-        "type": "UI",
+        "type": "UIComponent",
         "properties": {
           "texture": "title_image",
           "coordinates": [ 0, 0 ],
@@ -77,7 +77,7 @@
     "id": "TitleText",
     "components": [
       {
-        "type": "Transform",
+        "type": "TransformComponent",
         "properties": {
           "position": [ 0.0, 0.0 ],
           "scale": [ 1.0, 1.0 ],
@@ -86,7 +86,7 @@
         }
       },
       {
-        "type": "Text",
+        "type": "TextComponent",
         "properties": {
           "font": "Basic",
           "size": 4,
@@ -96,7 +96,7 @@
         }
       },
       {
-        "type": "UI",
+        "type": "UIComponent",
         "properties": {}
       }
     ]
@@ -105,7 +105,7 @@
     "id": "Button",
     "components": [
       {
-        "type": "Transform",
+        "type": "TransformComponent",
         "properties": {
           "position": [ 0.1, 0.1 ],
           "scale": [ 2.0, 2.0 ],
@@ -114,19 +114,19 @@
         }
       },
       {
-        "type": "BoundingBox",
+        "type": "BoundingBoxComponent",
         "properties": {
           "size": [ 0.5, 0.5 ]
         }
       },
       {
-        "type": "Button",
+        "type": "ButtonComponent",
         "properties": {
           "action": ""
         }
       },
       {
-        "type": "UI",
+        "type": "UIComponent",
         "properties": {
           "texture": "play_button",
           "coordinates": [ 0, 0 ],
@@ -135,7 +135,7 @@
         }
       },
       {
-        "type": "Audio",
+        "type": "AudioComponent",
         "properties": {
           "sound_name": "button_click",
           "trigger": "button_activated"
@@ -147,7 +147,7 @@
     "id": "SceneTransitionButton",
     "components": [
       {
-        "type": "Transform",
+        "type": "TransformComponent",
         "properties": {
           "position": [ 0.1, 0.1 ],
           "scale": [ 2.0, 2.0 ],
@@ -156,21 +156,21 @@
         }
       },
       {
-        "type": "BoundingBox",
+        "type": "BoundingBoxComponent",
         "properties": {
           "size": [ 0.5, 0.5 ]
         }
       },
       {
-        "type": "Button",
+        "type": "ButtonComponent",
         "properties": {}
       },
       {
-        "type": "SceneTransition",
+        "type": "SceneTransitionComponent",
         "properties": {}
       },
       {
-        "type": "UI",
+        "type": "UIComponent",
         "properties": {
           "texture": "play_button",
           "coordinates": [ 0, 0 ],
@@ -179,7 +179,7 @@
         }
       },
       {
-        "type": "Audio",
+        "type": "AudioComponent",
         "properties": {
           "sound_name": "button_click",
           "trigger": "button_activated"
@@ -191,7 +191,7 @@
     "id": "InventorySlot",
     "components": [
       {
-        "type": "Transform",
+        "type": "TransformComponent",
         "properties": {
           "position": [ 0.1, 0.1 ],
           "scale": [ 1.0, 1.0 ],
@@ -200,13 +200,13 @@
         }
       },
       {
-        "type": "BoundingBox",
+        "type": "BoundingBoxComponent",
         "properties": {
           "size": [ 0.5, 0.5 ]
         }
       },
       {
-        "type": "UI",
+        "type": "UIComponent",
         "properties": {
           "texture": "square",
           "coordinates": [ 0, 0 ],
@@ -220,7 +220,7 @@
     "id": "Grid",
     "components": [
       {
-        "type": "Transform",
+        "type": "TransformComponent",
         "properties": {
           "position": [ 0.1, 0.1 ],
           "scale": [ 1.0, 1.0 ],
@@ -229,7 +229,7 @@
         }
       },
       {
-        "type": "Grid",
+        "type": "GridComponent",
         "properties": {}
       }
     ]

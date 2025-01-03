@@ -1,22 +1,15 @@
 #include "Pch.h"
 #include "InputHandler.h"
-#include <GLFW/glfw3.h> 
-
-#include "ServiceLocator/ServiceLocator.h"
+#include "Modules/ModuleManager.h"
 #include "Platform/Window/Window.h"
+#include <GLFW/glfw3.h> 
 
 namespace Hi_Engine
 {
-	std::unordered_map<eKey, eInputState>		InputHandler::s_keyStates;
-	std::unordered_map<eMouseBtn, eInputState>	InputHandler::s_mouseButtonStates;
-	FVector2									InputHandler::s_mousePosition;
-	float										InputHandler::s_scrollOffset;
-	GLFWcursor*									InputHandler::s_customCursor = nullptr;
-
-
-	InputHandler::InputHandler(int initOrder)
-		: Module{ initOrder }
+	InputHandler::InputHandler(ModuleManager& manager)
+		: Module{ manager }
 	{
+		s_customCursor = nullptr;
 	}
 
 	InputHandler::~InputHandler()
@@ -27,55 +20,53 @@ namespace Hi_Engine
 
 	bool InputHandler::Init()
 	{
-		if (auto* window = ServiceLocator::GetWindow().lock()->GetWindow())
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-			//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-			// glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		if (auto windowModule = m_moduleManager.GetModule<Window>().lock())
+		{
+			// glfwSetInputMode(windowModule->GetWindow(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+		
+			if (auto* window = windowModule->GetWindow())
+			{
+				if (s_customCursor = SetCustomCursor(window, "../Game/Assets/Textures/Icons/arrow-cursor.png"))
+					glfwSetCursor(window, s_customCursor);
+				else
+					Logger::LogWarning("InputHandler::Init - Failed to create custom cursor!");  
+			}
+		}
 
 		return true;
-
-		//// TODO, custom function? Use image form resource holder?
-		//GLFWimage image;
- 	//	image.pixels = stbi_load("../Game/Assets/Textures/Icons/arrow-cursor.png", &image.width, &image.height, 0, 4);
-
-		//if (image.pixels)
-		//{
-		//	//if (s_customCursor = glfwCreateCursor(&image, image.width, image.height))
-		//	if (s_customCursor = glfwCreateCursor(&image, 0, 0))
-		//	{
-		//		if (auto* window = ServiceLocator::GetWindow().lock()->GetWindow())
-		//			glfwSetCursor(window, s_customCursor);
-		//	}
-
-		//	stbi_image_free(image.pixels);
-		//	return true;
-		//}
-		//else
-		//{
-		//	const char* errorReason = stbi_failure_reason();  // Get the reason for failure
-		//	std::cerr << "Failed to load image: " << errorReason << std::endl;
-		//}
-
-		//return false;
 	}
 
 	void InputHandler::ProcessInput()
 	{
 		glfwPollEvents();
 
-		// TODO: save previous frame's key status?!
-		InputEvent* inputEvent			= new InputEvent;  // TODO: wrap in a class?!
-		inputEvent->m_keyStates			= s_keyStates;
-		inputEvent->m_mouseButtonStates = s_mouseButtonStates;
-		inputEvent->m_mousePosition		= s_mousePosition;
-		EventDispatcher::GetInstance().SendEventInstantly(inputEvent);
-
-		delete inputEvent; 
+		EventDispatcher::GetInstance().AddEvent<InputEvent>(s_keyStates, s_mouseButtonStates, s_mousePosition);
 	}
 
 	void InputHandler::Reset()
 	{
 		s_scrollOffset = 0.f;
+	}
+
+	GLFWcursor* InputHandler::SetCustomCursor(GLFWwindow* window, const char* iconPath)
+	{
+		// TODO: use image form resource holder?
+
+		GLFWimage image;
+		image.pixels = stbi_load(iconPath, &image.width, &image.height, 0, 4);
+
+		if (!image.pixels)
+		{
+			const char* errorReason = stbi_failure_reason();
+			Logger::LogError("InputHandler::SetCustomIcon - Failed to load icon! Reason: " + std::string(errorReason));
+			
+			return nullptr;
+		}
+
+		auto* cursor = glfwCreateCursor(&image, image.width, image.height);
+		stbi_image_free(image.pixels);
+
+		return cursor;
 	}
 
 	void InputHandler::KeyCallback(GLFWwindow* window, int key, int scanCode, int action, int mods)
@@ -90,8 +81,8 @@ namespace Hi_Engine
 
 	void InputHandler::MouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 	{
-		// Scrolling towards is negative, away is positive, no scrolling == 0
-		s_scrollOffset = (float)yoffset; 
+		// Negative for scrolling towards, positive for away, zero for no scroll.
+		s_scrollOffset = (float)yoffset;
 	}
 
 	void InputHandler::CursorCallback(GLFWwindow* window, double xPos, double yPos)

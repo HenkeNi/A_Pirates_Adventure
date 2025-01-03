@@ -15,11 +15,14 @@
 #include <functional>
 #include <iostream>
 #include <memory>
+#include <mutex>
+#include <optional>>
 #include <queue>
 #include <set>
 #include <sstream>
 #include <stack>
 #include <string>
+#include <thread>
 #include <typeindex>
 #include <type_traits>
 #include <random>
@@ -27,13 +30,13 @@
 #include <variant>
 #include <vector>
 
+/* - Logger - */
+#include "Core/Logging/Logger.h"
 
 /* - Event system - */
-#include "EventSystem/Core/EventDispatcher.h"
-#include "EventSystem/Core/EventListener.h"
-#include "EventSystem/Events/RenderEvents.h"
-#include "EventSystem/Events/SystemEvents.h"
-#include "EventSystem/Events/DebugEvents.h"
+#include "Event/Core/EventDispatcher.h"
+#include "Event/Core/EventListener.h"
+#include "Event/Events/SystemEvents.h"
 
 /* - Math - */
 #include "Core/Math/Vectors/Vector.hpp"
@@ -49,6 +52,7 @@
 
 /* - Third Party - 	 ..... TODO; dont put these here... (not glew/glfw stuff) */
 
+
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
@@ -58,6 +62,7 @@
 #include <Dependencies/GLEW/include/GL/glew.h>
 //#include <GLFW/glfw3.h>
 #include <document.h>
+
 //#include <glm.hpp>
 #include <../glm/glm.hpp>
 #include <gtc/matrix_transform.hpp> 

@@ -1,24 +1,7 @@
 #pragma once
 
-//#include <rapidjson.h> // ????
-//#include <../../../ThirdParty/rapidjson/document.h> //FIX! dont include later...
-//#define PI 3.14159265358979323846 
 #include "Dependencies/rapidjson/document.h"
 #include <any>
-
-//namespace rapidjson {
-//	template <typename Encoding, typename Allocator, typename StackAllocator>
-//	class GenericDocument;
-//
-//	// Common typedef for rapidjson::Document
-//	typedef GenericDocument<UTF8<>, MemoryPoolAllocator<>, MemoryPoolAllocator<> > Document;
-//}
-
-//namespace rapidjson {
-//	class Value;
-//}
-
-
 
 namespace Hi_Engine
 {
@@ -44,4 +27,22 @@ namespace Hi_Engine
 	bool IsBuildDebug(); // put in BuildConfig or something?
 
 	void SerializeJson(const char* path);
+
+	template <typename T, typename Compare = std::less<T>>
+	void SelectionSort(std::vector<T>& sequence, Compare sortFunc)
+	{
+		for (std::size_t i = 0; i < sequence.size() - 1; ++i)
+		{
+			std::size_t bestIndex = i;
+			for (std::size_t j = i + 1; j < sequence.size(); ++j)
+			{
+				if (sortFunc(sequence[j], sequence[bestIndex]))
+					bestIndex = j;
+			}
+
+			if (bestIndex != i)
+				std::swap(sequence[bestIndex], sequence[i]);
+		}
+
+	}
 }

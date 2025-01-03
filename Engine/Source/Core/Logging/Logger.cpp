@@ -17,7 +17,7 @@ namespace Hi_Engine
 		{
 			std::cerr << "Failed to open log file: " << logFile << std::endl;
 		}
-		else
+	/*	else
 		{
 			s_logStream << "Log File";
 			s_logStream.flush();
@@ -26,7 +26,7 @@ namespace Hi_Engine
 				int xx = 20;
 				xx += 20;
 			}
-		}
+		}*/
 	}
 
 	void Logger::Shutdown()

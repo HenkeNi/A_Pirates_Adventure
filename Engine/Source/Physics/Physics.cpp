@@ -5,8 +5,8 @@
 
 namespace Hi_Engine
 {
-	Physics::Physics(int initOrder)
-		: Module{ initOrder }, m_gravity{ 0.f, 0.f }, m_world{ nullptr }
+	Physics::Physics(ModuleManager& manager)
+		: Module{ manager }, m_gravity{ 0.f, 0.f }, m_world{ nullptr }
 	{
 	}
 

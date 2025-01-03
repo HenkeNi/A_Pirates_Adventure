@@ -1,33 +1,27 @@
 #include "Pch.h"
 #include "Registration.h"
-#include "ECS.h"
-#include "Systems/SystemManager.h"
-#include "Systems/Systems.h"
+//#include "Systems/Systems.h"
 #include "Scenes/Scenes.h"
-#include "Components/Components.h"
+#include <SceneTypes.h>
+//#include "Components/Components.h"
 
+#include "Systems/SceneTransitionSystem.h"
 
 namespace Registration
 {
-	//void RegisterComponents(ECS& ecs)
-	//{
+	void RegisterComponents()
+	{
 	//	/* - Core Components - */
-	//	ecs.RegisterComponent<TagComponent>("Tag");
 	//	ecs.RegisterComponent<AnimationComponent>("Animation");
 	//	ecs.RegisterComponent<BoundingBoxComponent>("BoundingBox");
 	//	ecs.RegisterComponent<CameraComponent>("Camera");
 	//	ecs.RegisterComponent<PhysicsComponent>("Physics");
 	//	ecs.RegisterComponent<ColliderComponent>("Collider");
 	//	ecs.RegisterComponent<CursorComponent>("Cursor"); // No need`? set in enigne?
-	//	ecs.RegisterComponent<InputComponent>("Input");
-	//	ecs.RegisterComponent<SpriteComponent>("Sprite");
-	//	ecs.RegisterComponent<TransformComponent>("Transform");
 	//	ecs.RegisterComponent<TextComponent>("Text");
-	//	ecs.RegisterComponent<VelocityComponent>("Velocity");
 	//	ecs.RegisterComponent<SubEntitiesComponent>("SubEntities");
 	//	ecs.RegisterComponent<SceneTransitionComponent>("SceneTransition");
 	//	ecs.RegisterComponent<PlayerControllerComponent>("PlayerController");
-	//	ecs.RegisterComponent<AudioComponent>("Audio");
 
 	//	/* - AI Components - */
 	//	ecs.RegisterComponent<BlackboardComponent>("Blackboard");
@@ -74,71 +68,141 @@ namespace Registration
 
 	//	/* - Utility Components - */
 	//	ecs.RegisterComponent<WorldTimeComponent>("WorldTime");
-	//	ecs.RegisterComponent<TimerComponent>("Timer");
-	//}
 
-	void RegisterSystems(ECS& ecs)
-	{
-		/* - Core Systems - */
-		ecs.RegisterSystem<InputSystem>("InputSystem");
-		ecs.RegisterSystem<MovementSystem>("MovementSystem");
-		ecs.RegisterSystem<CameraSystem>("CameraSystem");
-		ecs.RegisterSystem<CollisionSystem>("CollisionSystem");
-		ecs.RegisterSystem<PhysicsSystem>("PhysicsSystem");
-		ecs.RegisterSystem<PlayerControllerSystem>("PlayerControllerSystem");
-		ecs.RegisterSystem<SceneTransitionSystem>("SceneTransitionSystem");
-		ecs.RegisterSystem<AnimationSystem>("AnimationSystem");
+		/* - Core Components - */
+		//ecs.RegisterComponent<TagComponent>("Tag");
+		//ecs.RegisterComponent<AnimationComponent>("Animation");
+		//ecs.RegisterComponent<BoundingBoxComponent>("BoundingBox");
+		//ecs.RegisterComponent<CameraComponent>("Camera");
+		//ecs.RegisterComponent<PhysicsComponent>("Physics");
+		//ecs.RegisterComponent<ColliderComponent>("Collider");
+		//ecs.RegisterComponent<CursorComponent>("Cursor"); // No need`? set in enigne?
+		//ecs.RegisterComponent<InputComponent>("Input");
+		//ecs.RegisterComponent<SpriteComponent>("Sprite");
+		//ecs.RegisterComponent<TextComponent>("Text");
+		//ecs.RegisterComponent<SubEntitiesComponent>("SubEntities");
+		//ecs.RegisterComponent<SceneTransitionComponent>("SceneTransition");
+		//ecs.RegisterComponent<PlayerControllerComponent>("PlayerController");
 
-		ecs.RegisterSystem<TransformSystem>("TransformSystem");
+		/* - AI Components - */
+		//ecs.RegisterComponent<BlackboardComponent>("Blackboard");
+		//ecs.RegisterComponent<BehaviorTreeComponent>("BehaviorTree");
+		//ecs.RegisterComponent<SteeringBehaviorComponent>("SteeringBehavior");
+		//ecs.RegisterComponent<WanderBehaviorComponent>("WanderBehavior");
+		//ecs.RegisterComponent<FlockBehaviorComponent>("FlockBehavior");
+		//ecs.RegisterComponent<SeekBehaviorComponent>("SeekBehavior");
+		//ecs.RegisterComponent<FleeBehaviorComponent>("FleeBehavior");
+		// ecs.RegisterComponent<StateMachineComponent>("state_machine");
+		//ecs.RegisterComponent<IdleComponent>("Idle");
 
-		/* - Gameplay Systems - */
-		ecs.RegisterSystem<CombatSystem>("CombatSystem");
-		//ecs.RegisterSystem<EnemySpawnSystem>("EnemySpawnSystem");
-		ecs.RegisterSystem<EquipmentSystem>("EquipmentSystem");
-		ecs.RegisterSystem<InventorySystem>("InventorySystem");
-		ecs.RegisterSystem<ProjectileSystem>("ProjectileSystem");
-		ecs.RegisterSystem<ShakeSystem>("ShakeSystem");
-		ecs.RegisterSystem<TimeSystem>("TimeSystem");
-		ecs.RegisterSystem<SpawnSystem>("SpawnSystem");
-		ecs.RegisterSystem<CommandSystem>("CommandSystem");
-		//ecs.RegisterSystem<StatSystem>("StatSystem");
+		/* - Gameplay Components - */
+		//ecs.RegisterComponent<CommandQueueComponent>("Commands");
+		//ecs.RegisterComponent<AttributesComponent>("Attribute");
+		//ecs.RegisterComponent<PersonalityComponent>("Personality");
+		//ecs.RegisterComponent<FriendlyComponent>("Friendly");
+		//ecs.RegisterComponent<HostileComponent>("Hostile");
+		////ecs.RegisterComponent<CrewComponent>("Crew");
+		//ecs.RegisterComponent<HealthComponent>("Health");
+		//ecs.RegisterComponent<WeaponComponent>("Weapon");
+		//// ecs.RegisterComponent<ToppleComponent>("Topple");
+		//ecs.RegisterComponent<ShakeComponent>("Shake");
+		//ecs.RegisterComponent<HarvestableComponent>("Harvestable");
+		//ecs.RegisterComponent<EquipmentComponent>("Equipment");
+		//ecs.RegisterComponent<EquippableComponent>("Equippable");
+		//ecs.RegisterComponent<InventoryComponent>("Inventory");
+		//ecs.RegisterComponent<CollectableComponent>("Collectable");
+		//ecs.RegisterComponent<SpawnComponent>("Spawner");
+		//ecs.RegisterComponent<EnvironmentComponent>("Environment");
 
-		/* - Map Systems - */
-		ecs.RegisterSystem<MapSystem>("MapGenerationSystem");
-		ecs.RegisterSystem<MapDecorationSystem>("MapDecorationSystem");
+		//ecs.RegisterComponent<AttackComponent>("Attack");
+		//ecs.RegisterComponent<AttackCooldownComponent>("AttackCooldown");
+		//ecs.RegisterComponent<ProjectileComponent>("Projectile");
+		//ecs.RegisterComponent<ResourceComponent>("Resource");
+		//ecs.RegisterComponent<StateComponent>("CharacterState");
+		//ecs.RegisterComponent<KnockbackComponent>("Knockback"); // remove?
 
-		/* -  UI Systems - */
-		ecs.RegisterSystem<UISystem>("UISystem");
-		ecs.RegisterSystem<HUDSystem>("HUDSystem");
+		///* - UI Components - */
+		//ecs.RegisterComponent<HUDComponent>("HUD");
+		//ecs.RegisterComponent<UIComponent>("UI");
+		//ecs.RegisterComponent<ButtonComponent>("Button");
+		//ecs.RegisterComponent<MapChunkComponent>("MapChunk");
+		//ecs.RegisterComponent<GridComponent>("Grid");
 
-#if DEBUG
-
-		ecs.RegisterSystem<EditorSystem>("EditorSystem");
-
-#endif // DEBUG
-
-
-		/* - AI Systems - */
-		//ecs.RegisterSystem<BlackboardSystem>("BlackboardSystem");
-		//ecs.RegisterSystem<BehaviorTreeSystem>("BehaviorTreeSystem");
-		//ecs.RegisterSystem<SteeringBehaviorSystem>("SteeringBehaviorSystem");
-		//ecs.RegisterSystem<StateTransitionSystem>("StateTransitionSystem");
-
-		/* - Audio System - */
-		ecs.RegisterSystem<AudioSystem>("AudioSystem");
-
-		/* - Render Systems - */
-		ecs.RegisterSystem<RenderSystem>("RenderSystem");
+		///* - Utility Components - */
+		//ecs.RegisterComponent<WorldTimeComponent>("WorldTime");
+		//ecs.RegisterComponent<TimerComponent>("Timer");
 	}
 
-	void RegisterScenes(SceneManager& sceneManager, ECS& ecs)
+	//void RegisterSystems(Hi_Engine::ECSCoordinator& ecs)
+	void RegisterSystems(SceneManager& sceneManager)
+	{
+		Hi_Engine::EngineFacade::RegisterSystem<SceneTransitionSystem>("SceneTransitionSystem", sceneManager);
+
+		/* - Core Systems - */
+//		ecs.RegisterSystem<InputSystem>("InputSystem");
+//		ecs.RegisterSystem<MovementSystem>("MovementSystem");
+//		ecs.RegisterSystem<CameraSystem>("CameraSystem");
+//		ecs.RegisterSystem<CollisionSystem>("CollisionSystem");
+//		ecs.RegisterSystem<PhysicsSystem>("PhysicsSystem");
+//		ecs.RegisterSystem<PlayerControllerSystem>("PlayerControllerSystem");
+//		ecs.RegisterSystem<SceneTransitionSystem>("SceneTransitionSystem");
+//		ecs.RegisterSystem<AnimationSystem>("AnimationSystem");
+//
+//		ecs.RegisterSystem<TransformSystem>("TransformSystem");
+//
+//		/* - Gameplay Systems - */
+//		ecs.RegisterSystem<CombatSystem>("CombatSystem");
+//		//ecs.RegisterSystem<EnemySpawnSystem>("EnemySpawnSystem");
+//		ecs.RegisterSystem<EquipmentSystem>("EquipmentSystem");
+//		ecs.RegisterSystem<InventorySystem>("InventorySystem");
+//		ecs.RegisterSystem<ProjectileSystem>("ProjectileSystem");
+//		ecs.RegisterSystem<ShakeSystem>("ShakeSystem");
+//		ecs.RegisterSystem<TimeSystem>("TimeSystem");
+//		ecs.RegisterSystem<SpawnSystem>("SpawnSystem");
+//		ecs.RegisterSystem<CommandSystem>("CommandSystem");
+//		//ecs.RegisterSystem<StatSystem>("StatSystem");
+//
+//		/* - Map Systems - */
+//		ecs.RegisterSystem<MapSystem>("MapGenerationSystem");
+//		ecs.RegisterSystem<MapDecorationSystem>("MapDecorationSystem");
+//
+//		/* -  UI Systems - */
+//		ecs.RegisterSystem<UISystem>("UISystem");
+//		ecs.RegisterSystem<HUDSystem>("HUDSystem");
+//
+//#if DEBUG
+//
+//		ecs.RegisterSystem<EditorSystem>("EditorSystem");
+//
+//#endif // DEBUG
+//
+//
+//		/* - AI Systems - */
+//		//ecs.RegisterSystem<BlackboardSystem>("BlackboardSystem");
+//		//ecs.RegisterSystem<BehaviorTreeSystem>("BehaviorTreeSystem");
+//		//ecs.RegisterSystem<SteeringBehaviorSystem>("SteeringBehaviorSystem");
+//		//ecs.RegisterSystem<StateTransitionSystem>("StateTransitionSystem");
+//
+//		/* - Audio System - */
+//		ecs.RegisterSystem<AudioSystem>("AudioSystem");
+//
+//		/* - Render Systems - */
+//		ecs.RegisterSystem<RenderSystem>("RenderSystem");
+	}
+
+	void RegisterScenes(SceneManager& sceneManager/*, Hi_Engine::ECSCoordinator& ecs*/)
 	{
 		// Register game's scene here as well?
 	
-		sceneManager.Register<GameScene>(eScene::Game, ecs);
-		sceneManager.Register<LoadingScene>(eScene::Loading, ecs);
-		sceneManager.Register<MenuScene>(eScene::Menu, ecs);
-		sceneManager.Register<SettingsScene>(eScene::Settings, ecs);
-		sceneManager.Register<TitleScene>(eScene::Title, ecs);
+		sceneManager.Register<GameScene>(eScene::Game);
+		sceneManager.Register<LoadingScene>(eScene::Loading);
+		sceneManager.Register<MenuScene>(eScene::Menu);
+		sceneManager.Register<SettingsScene>(eScene::Settings);
+		sceneManager.Register<TitleScene>(eScene::Title);
+	}
+
+	void RegisterCallbacks(Hi_Engine::ECSCoordinator& ecs)
+	{
+		Hi_Engine::CallbackRegistry::Callbacks.insert({ "scene_transition", []() {} });
 	}
 }

@@ -10,7 +10,7 @@ namespace Hi_Engine
 	class Window : public Module
 	{
 	public:
-		Window(int initOrder);
+		Window(ModuleManager& manager);
 		~Window();
 
 		bool			Init()									  override;

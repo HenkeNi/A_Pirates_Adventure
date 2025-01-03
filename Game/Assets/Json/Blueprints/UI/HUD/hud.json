@@ -3,7 +3,7 @@
     "id": "Healthbar",
     "components": [
       {
-        "type": "Transform",
+        "type": "TransformComponent",
         "properties": {
           "position": [ 0.0, 0.3 ],
           "scale": [ 1.0, 1.0 ],
@@ -12,7 +12,7 @@
         }
       },
       {
-        "type": "UI",
+        "type": "UIComponent",
         "properties": {
           "texture": "castaway",
           "coordinates": [ 0, 0 ],
@@ -21,7 +21,7 @@
         }
       },
       {
-        "type": "HUD",
+        "type": "HUDComponent",
         "properties": {}
       }
     ]
@@ -30,7 +30,7 @@
     "id": "HeartContainer",
     "components": [
       {
-        "type": "Transform",
+        "type": "TransformComponent",
         "properties": {
           "position": [ 0.0, 0.0 ],
           "scale": [ 50.0, 50.0 ],
@@ -39,7 +39,7 @@
         }
       },
       {
-        "type": "UI",
+        "type": "UIComponent",
         "properties": {
           "texture": "heart",
           "coordinates": [ 0, 0 ],
@@ -48,7 +48,7 @@
         }
       },
       {
-        "type": "HUD",
+        "type": "HUDComponent",
         "properties": {}
       }
     ]
@@ -57,7 +57,7 @@
     "id": "InventoryBar",
     "components": [
       {
-        "type": "Transform",
+        "type": "TransformComponent",
         "properties": {
           "position": [ 0.5, 0.0 ],
           "scale": [ 500.0, 75.0 ],
@@ -66,7 +66,7 @@
         }
       },
       {
-        "type": "UI",
+        "type": "UIComponent",
         "properties": {
           "texture": "inventory",
           "coordinates": [ 0, 0 ],
@@ -75,7 +75,7 @@
         }
       },
       {
-        "type": "Grid",
+        "type": "GridComponent",
         "properties": {
           "dimensions": [ 1, 10 ],
           "space_between_cells": 5.0

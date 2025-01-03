@@ -1,26 +1,17 @@
 #include "Pch.h"
 #include "DungeonScene.h"
-#include "ECS/ECS.h"
 
 
-DungeonScene::DungeonScene(ECS& ecs)
-	: Scene{ ecs }
-{
-}
-
-DungeonScene::~DungeonScene()
-{
-}
+//DungeonScene::DungeonScene(Hi_Engine::ECSCoordinator& ecs)
+//	: Scene{ ecs }
+//{
+//}
+//
+//DungeonScene::~DungeonScene()
+//{
+//}
 
 void DungeonScene::Update(float deltaTime)
-{
-}
-
-void DungeonScene::LateUpdate(float deltaTime)
-{
-}
-
-void DungeonScene::Draw() const
 {
 }
 

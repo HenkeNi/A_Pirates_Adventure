@@ -11,8 +11,8 @@ namespace Hi_Engine
 	void WindowCloseCallback(GLFWwindow* window);
 
 
-	Window::Window(int initOrder)
-		: Module{ initOrder }, m_window{ nullptr }
+	Window::Window(ModuleManager& manager)
+		: Module{ manager }, m_window{ nullptr }
 	{
 	}
 
@@ -134,6 +134,8 @@ namespace Hi_Engine
 			glfwSetWindowFocusCallback(window, WindowFocusCallback);
 			glfwSetWindowCloseCallback(window, WindowCloseCallback);
 
+			EventDispatcher::GetInstance().SendEventInstantly<WindowEvent>(eWindowEvent::Created, IVector2{ size.x, size.y }, window);
+
 			return window;
 		}
 
@@ -147,9 +149,10 @@ namespace Hi_Engine
 	{
 		glViewport(0, 0, width, height);	// Todo; send event?
 
-		WindowEvent* event = new WindowEvent;
-		event->Init(eWindowEvent::Resize, { (unsigned)width, (unsigned)height });
-		EventDispatcher::GetInstance().SendEventInstantly(event);
+		//WindowEvent* event = new WindowEvent{ eWindowEvent::Resize, { width, height }, window };
+		EventDispatcher::GetInstance().SendEventInstantly<WindowEvent>(eWindowEvent::Resize, IVector2{ width, height }, window);
+
+		//delete event; // FIX!
 	}
 
 	void WindowFocusCallback(GLFWwindow* window, int focused)
@@ -161,7 +164,9 @@ namespace Hi_Engine
 
 	void WindowCloseCallback(GLFWwindow* window)
 	{
-		EventDispatcher::GetInstance().SendEventInstantly(new TerminationEvent);
+		// EventDispatcher::GetInstance().SendEventInstantly(new TerminationEvent);
+
+		EventDispatcher::GetInstance().SendEventInstantly<TerminationEvent>();
 	}
 
 #pragma endregion CALLBACK_FUNCTIONS

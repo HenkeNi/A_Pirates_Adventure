@@ -1,38 +1,19 @@
 #include "Pch.h"
 #include "MenuScene.h"
-#include "Systems/Base/System.h"
-#include "ECS/ECS.h"
 
-
-MenuScene::MenuScene(ECS& ecs)
-	: Scene{ ecs }
-{
-}
-
-MenuScene::~MenuScene()
-{
-}
+//
+//MenuScene::MenuScene(Hi_Engine::ECSCoordinator& ecs)
+//	: Scene{ ecs }
+//{
+//}
+//
+//MenuScene::~MenuScene()
+//{
+//}
 
 void MenuScene::Update(float deltaTime)
 {
-	for (auto& systemWeak : m_systems)
-	{
-		if (auto system = systemWeak.lock())
-		{
-			system->Update(deltaTime);
-		}
-	}
-}
 
-void MenuScene::Draw() const
-{
-	for (auto& systemWeak : m_systems)
-	{
-		if (auto system = systemWeak.lock())
-		{
-			system->Draw();
-		}
-	}
 }
 
 void MenuScene::OnEnter()
@@ -42,6 +23,6 @@ void MenuScene::OnEnter()
 
 void MenuScene::OnExit()
 {
-	m_ecs.DestroyAllEntities();
+	// m_ecs.DestroyAllEntities();
 	//Hi_Engine::EventDispatcher::GetInstance().SendEventInstantly<Hi_Engine::StopSoundEvent>("theme_drunken_sailor");
 }

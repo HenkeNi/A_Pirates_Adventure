@@ -1,13 +1,12 @@
 #include "Pch.h"
 #include "Game.h"
 #include "Scenes/Scene.h"
+#include "SceneTypes.h"
 #include "Registration/Registration.h"
-#include "Registration/RegisterComponents.h"
-#include "ECS/ECS.h"
 
 
 Game::Game()
-	: m_sceneManager{}, m_ecs{ std::make_unique<ECS>() }
+	: m_sceneManager{} // , m_ecs{ std::make_unique<ECS>() }
 {
 }
 
@@ -23,40 +22,18 @@ void Game::OnUpdate(float deltaTime)
 	{
 		scene->Update(deltaTime);
 	}
-
-
-	if (Hi_Engine::InputHandler::IsKeyPressed(Hi_Engine::eKey::Key_U))
-		m_ecs->Serialize("");
-}
-
-void Game::OnLateUpdate(float deltaTime)
-{
-	std::weak_ptr<Scene> activeScene = m_sceneManager.GetActiveScene();
-
-	if (auto scene = activeScene.lock())
-	{
-		scene->LateUpdate(deltaTime);
-	}
-}
-
-void Game::OnDraw()
-{
-	std::weak_ptr<const Scene> activeScene = m_sceneManager.GetActiveScene();
-
-	if (auto scene = activeScene.lock())
-	{
-		scene->Draw();
-	}
 }
 
 void Game::OnCreate()
 {
 	LoadResources();
-	m_ecs->Init();
+	// m_ecs->Init();
 	
-	Registration::RegisterComponents(*m_ecs);
-	Registration::RegisterSystems(*m_ecs);
-	Registration::RegisterScenes(m_sceneManager, *m_ecs);
+	// auto ecs = Hi_Engine::ServiceLocator::GetECS().lock();
+
+	//Registration::RegisterComponents(*ecs);
+	Registration::RegisterSystems(m_sceneManager);
+	Registration::RegisterScenes(m_sceneManager);
 
 	// m_ecs->LoadBlueprints();
 
@@ -67,7 +44,7 @@ void Game::OnCreate()
 void Game::OnDestroy()
 {
 	m_sceneManager.Shutdown();
-	m_ecs->Shutdown();
+	// m_ecs->Shutdown();
 }
 
 void Game::LoadResources()

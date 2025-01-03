@@ -4,13 +4,13 @@
     "layer": "Enemy",
     "components": [
       {
-        "type": "Tag",
+        "type": "TagComponent",
         "properties": {
           "type": "Enemy"
         }
       },
       {
-        "type": "Transform",
+        "type": "TransformComponent",
         "properties": {
           "position": [ 0.0, 0.3 ],
           "scale": [ 64.0, 64.0 ],
@@ -19,20 +19,20 @@
         }
       },
       {
-        "type": "Velocity",
+        "type": "VelocityComponent",
         "properties": {
           "speed": 1.0
         }
       },
       {
-        "type": "Physics",
+        "type": "PhysicsComponent",
         "properties": {
           "type": "Dynamic",
           "size": [ 25.0, 25.0 ]
         }
       },
       {
-        "type": "Sprite",
+        "type": "SpriteComponent",
         "properties": {
           "texture": "skeleton",
           "coordinates": [ 0, 0 ],
@@ -41,45 +41,45 @@
         }
       },
       {
-        "type": "CharacterState",
+        "type": "CharacterStateComponent",
         "properties": {}
       },
       {
-        "type": "Hostile",
+        "type": "HostileComponent",
         "properties": {}
       },
       {
-        "type": "Health",
+        "type": "HealthComponent",
         "properties": {
           "value": 50000
         }
       },
       {
-        "type": "Knockback",
+        "type": "KnockbackComponent",
         "properties": {}
       },
       {
-        "type": "Blackboard",
+        "type": "BlackboardComponent",
         "properties": {}
       },
       {
-        "type": "BehaviorTree",
+        "type": "BehaviorTreeComponent",
         "properties": {}
       },
       {
-        "type": "Attribute",
+        "type": "AttributeComponent",
         "properties": {
           "perception": 6
         }
       },
       {
-        "type": "Personality",
+        "type": "PersonalityComponent",
         "properties": {
           "is_aggressive": true
         }
       },
       {
-        "type": "Audio",
+        "type": "AudioComponent",
         "properties": {
           "sound_name": "death",
           "trigger": "entity_destroyed"
@@ -91,13 +91,13 @@
     "id": "Spider",
     "components": [
       {
-        "type": "Tag",
+        "type": "TagComponent",
         "properties": {
           "type": "Enemy"
         }
       },
       {
-        "type": "Transform",
+        "type": "TransformComponent",
         "properties": {
           "position": [ 0.0, 0.0 ],
           "scale": [ 1.0, 1.0 ],
@@ -106,7 +106,7 @@
         }
       },
       {
-        "type": "Sprite",
+        "type": "SpriteComponent",
         "properties": {
           "texture": "crab",
           "coordinates": [ 0, 0 ],
@@ -115,7 +115,7 @@
         }
       },
       {
-        "type": "BehaviorTree",
+        "type": "BehaviorTreeComponent",
         "properties": {}
       }
     ]

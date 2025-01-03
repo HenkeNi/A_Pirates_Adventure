@@ -3,13 +3,13 @@
     "id": "Crab",
     "components": [
       {
-        "type": "Tag",
+        "type": "TagComponent",
         "properties": {
           "type": "NPC"
         }
       },
       {
-        "type": "Transform",
+        "type": "TransformComponent",
         "properties": {
           "position": [ 0.0, 0.2 ],
           "scale": [ 0.5, 0.5 ],
@@ -18,13 +18,13 @@
         }
       },
       {
-        "type": "Velocity",
+        "type": "VelocityComponent",
         "properties": {
           "speed": 0.25
         }
       },
       {
-        "type": "Sprite",
+        "type": "SpriteComponent",
         "properties": {
           "texture": "crab",
           "coordinates": [ 0, 0 ],
@@ -33,14 +33,14 @@
         }
       },
       {
-        "type": "SteeringBehavior",
+        "type": "SteeringBehaviorComponent",
         "properties": {
           "behavior": "wander_behavior",
           "layer": "animal"
         }
       },
       {
-        "type": "WanderBehavior",
+        "type": "WanderBehaviorComponent",
         "properties": {
         }
       }
@@ -50,13 +50,13 @@
     "id": "fish",
     "components": [
       {
-        "type": "Tag",
+        "type": "TagComponent",
         "properties": {
           "type": "NPC"
         }
       },
       {
-        "type": "Transform",
+        "type": "TransformComponent",
         "properties": {
           "position": [ 0.0, 0.3 ],
           "scale": [ 0.5, 0.5 ],
@@ -65,13 +65,13 @@
         }
       },
       {
-        "type": "Velocity",
+        "type": "VelocityComponent",
         "properties": {
           "speed": 1.0
         }
       },
       {
-        "type": "Sprite",
+        "type": "SpriteComponent",
         "properties": {
           "texture": "fish",
           "coordinates": [ 0, 0 ],
@@ -80,14 +80,14 @@
         }
       },
       {
-        "type": "SteeringBehavior",
+        "type": "SteeringBehaviorComponent",
         "properties": {
           "behavior": "flock_behavior",
           "layer": "fish"
         }
       },
       {
-        "type": "FlockBehavior",
+        "type": "FlockBehaviorComponent",
         "properties": {}
       }
     ]

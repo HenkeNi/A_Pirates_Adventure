@@ -7,7 +7,7 @@
       "entity_id": "Image",
       "components_data": [
         {
-          "type": "Transform",
+          "type": "TransformComponent",
           "properties": {
             "position": [ 0.0, 0.0 ],
             "scale": [ 1400.0, 800.0 ],
@@ -16,7 +16,7 @@
           }
         },
         {
-          "type": "UI",
+          "type": "UIComponent",
           "properties": {
             "texture": "main_image",
             "coordinates": [ 0, 0 ],
@@ -30,7 +30,7 @@
       "entity_id": "TitleText",
       "components_data": [
         {
-          "type": "Transform",
+          "type": "TransformComponent",
           "properties": {
             "position": [ 700.0, 650.0 ],
             "scale": [ 3.0, 3.0 ],
@@ -39,7 +39,7 @@
           }
         },
         {
-          "type": "Text",
+          "type": "TextComponent",
           "properties": {
             "font": "Basic",
             "size": 32,
@@ -54,7 +54,7 @@
       "entity_id": "SceneTransitionButton",
       "components_data": [
         {
-          "type": "Transform",
+          "type": "TransformComponent",
           "properties": {
             "position": [ 0.5, 0.5 ],
             "scale": [ 250.0, 250.0 ],
@@ -63,7 +63,7 @@
           }
         },
         {
-          "type": "UI",
+          "type": "UIComponent",
           "properties": {
             "texture": "play_button",
             "coordinates": [ 0, 0 ],
@@ -72,7 +72,7 @@
           }
         },
         {
-          "type": "SceneTransition",
+          "type": "SceneTransitionComponent",
           "properties": {
             "scene": "game"
           }
@@ -83,7 +83,7 @@
       "entity_id": "SceneTransitionButton",
       "components_data": [
         {
-          "type": "Transform",
+          "type": "TransformComponent",
           "properties": {
             "position": [ 0.9, 1.0 ],
             "scale": [ 80.0, 80.0 ],
@@ -92,7 +92,7 @@
           }
         },
         {
-          "type": "UI",
+          "type": "UIComponent",
           "properties": {
             "texture": "settings_icon",
             "coordinates": [ 0, 0 ],
@@ -101,7 +101,7 @@
           }
         },
         {
-          "type": "SceneTransition",
+          "type": "SceneTransitionComponent",
           "properties": {
             "scene": "settings"
           }
@@ -112,7 +112,7 @@
       "entity_id": "Button",
       "components_data": [
         {
-          "type": "Transform",
+          "type": "TransformComponent",
           "properties": {
             "position": [ 1.0, 1.0 ],
             "scale": [ 80.0, 80.0 ],
@@ -121,7 +121,7 @@
           }
         },
         {
-          "type": "UI",
+          "type": "UIComponent",
           "properties": {
             "texture": "quit_icon",
             "coordinates": [ 0, 0 ],
@@ -138,7 +138,7 @@
       "entity_id": "Button",
       "components_data": [
         {
-          "type": "Transform",
+          "type": "TransformComponent",
           "properties": {
             "position": [ 0.0, 1.0 ],
             "scale": [ 80.0, 80.0 ],
@@ -147,7 +147,7 @@
           }
         },
         {
-          "type": "UI",
+          "type": "UIComponent",
           "properties": {
             "texture": "sound_off",
             "coordinates": [ 0, 0 ],
@@ -156,7 +156,7 @@
           }
         },
         {
-          "type": "Button",
+          "type": "ButtonComponent",
           "properties": {
             "action": "mute"
           }

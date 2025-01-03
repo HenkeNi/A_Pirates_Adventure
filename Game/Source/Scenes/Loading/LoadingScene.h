@@ -5,12 +5,10 @@
 class LoadingScene : public Scene
 {
 public:
-	LoadingScene(ECS& ecs);
-	~LoadingScene();
+	//LoadingScene(Hi_Engine::ECSCoordinator& ecs);
+	//~LoadingScene();
 
 	void Update(float deltaTime)			  override;
-	void Draw()							const override;
-
 	void OnEnter()							  override;
 	void OnExit()							  override;
 };

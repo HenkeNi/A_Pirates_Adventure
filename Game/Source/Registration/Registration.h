@@ -1,13 +1,18 @@
 #pragma once
 
-class ECS;
+//class Hi_Engine::ECSCoordinator;
 class SceneManager;
 
 namespace Registration
 {
-	//void RegisterComponents(ECS& ecs);
+	void RegisterComponents();
+	//void RegisterComponents(Hi_Engine::ECSCoordinator& ecs);
 
-	void RegisterSystems(ECS& ecs);
+	void RegisterSystems(SceneManager& sceneManager);
+	//void RegisterSystems(Hi_Engine::ECSCoordinator& ecs);
 
-	void RegisterScenes(SceneManager& sceneManager, ECS& ecs);	
+	void RegisterScenes(SceneManager& sceneManager);
+
+	void RegisterCallbacks();
+	//void RegisterScenes(SceneManager& sceneManager, Hi_Engine::ECSCoordinator& ecs);
 }

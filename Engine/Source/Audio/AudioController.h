@@ -12,20 +12,16 @@ namespace Hi_Engine
 	class Audio;
 	class AudioSource;
 
-	class AudioController : public Module, public EventListener
+	class AudioController : public Module
 	{
 	public:
-		AudioController(int initOrder);
+		AudioController(ModuleManager& manager);
 		~AudioController();
 
 		bool Init() override;
 		void Shutdown() override;
 		void Update();
 
-		void HandleEvent(class PlaySoundEvent& event) override;
-		void HandleEvent(class StopSoundEvent& event) override;
-		void HandleEvent(class SetVolumeEvent& event) override;
-		
 		void PlaySound(const char* sound);
 		void StopSound(const char* sound);
 

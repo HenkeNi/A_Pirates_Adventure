@@ -1,17 +1,19 @@
 #pragma once
 
 class SceneManager;
-class ECS;
+
+namespace Hi_Engine
+{
+	class ECSCoordinator;
+}
 
 class Scene
 {
 public:
-	Scene(ECS& ecs);
+	//Scene(Hi_Engine::ECSCoordinator& ecs);
 	virtual ~Scene() = default;
 
-	virtual void Update(float deltaTime)			= 0;
-	virtual void LateUpdate(float deltaTime)		 {};
-	virtual void Draw()						const	= 0;
+	virtual void Update(float deltaTime)	  = 0;
 	virtual bool IsTransparent()			const;
 
 	virtual void OnCreated()				   {};
@@ -23,6 +25,5 @@ protected:
 	friend class SceneManager;
 
 	//SharedContext m_sharedContext;
-	std::vector<std::weak_ptr<class System>> m_systems;
-	ECS& m_ecs;
+	//Hi_Engine::ECSCoordinator& m_ecs; //REMOVE? 
 };

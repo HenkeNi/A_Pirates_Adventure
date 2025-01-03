@@ -3,7 +3,7 @@
     "id": "Raft",
     "components": [
       {
-        "type": "Transform",
+        "type": "TransformComponent",
         "properties": {
           "position": [ 0.0, 0.0 ],
           "scale": [ 1.0, 1.0 ],
@@ -12,7 +12,7 @@
         }
       },
       {
-        "type": "Sprite",
+        "type": "SpriteComponent",
         "properties": {
           "texture": "raft",
           "coordinates": [ 0, 0 ],

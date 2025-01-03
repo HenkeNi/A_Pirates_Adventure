@@ -5,12 +5,12 @@
 //#include <../../../ThirdParty/GLEW/include/GL/glew.h> //FIX! dont include later...
 // #include <Dependencies/GLEW/include/GL/glew.h>
 #include "Dependencies/GLEW/include/GL/glew.h"
-#include "../../Core/EventSystem/Core/EventListener.h"
+
 
 namespace Hi_Engine
 {
 	class GLSLShader;
-
+	class Window;
 	// 	separe veiw ports for HUD and game
 	// internal messaging system? static..?
 	// have function for enabling line rendering..?
@@ -18,17 +18,19 @@ namespace Hi_Engine
 
 
 	// TODO; use glGetError()
-	class Renderer : public Module, public EventListener
+	class Renderer : public Module
 	{
 	public:
-		Renderer(int initOrder);
+		Renderer(ModuleManager& manager, Window& window);
 		~Renderer();
 
 		bool Init()				override;
 		void Shutdown()			override;
 		
 		void Deserialize(const rapidjson::Value& json) override;
-		void HandleEvent(SpriteBatchRequest& renderEvent) override;
+
+		void BeginDraw();
+		void EndDraw();
 
 		void ProcessCommands();
 		void BeginFrame(); // BeginBatch?
@@ -40,6 +42,11 @@ namespace Hi_Engine
 
 		void SetShader(GLSLShader* shader);
 		bool IsTextureBound(unsigned texID, float& outTexIndex);
+
+		void ClearScreen(); // Remove later? rework into BeginFrame() or something...
+
+		void SetProjectionMatrix(const glm::mat4& proj);
+		void AddSpriteBatch(SpriteBatch&& batch);
 
 	private:
 		void SetupVertexArray();
@@ -56,6 +63,7 @@ namespace Hi_Engine
 		GLuint		m_whiteTexture = 0;
 		uint32_t	m_whiteTextureSlot = 0;
 
+		Window& m_window; // dont? instead fetch from modulemanager?
 
 		RenderContext	m_quadContext;
 		//RenderContext	m_textContext;

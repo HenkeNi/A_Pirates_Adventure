@@ -1,21 +1,29 @@
 #include "Pch.h"
 #include "Engine.h"
 #include "Application/Application.h"
+
+#include "Logging/Logger.h"
+
 #include "Resources/ResourceHolder.h"
-#include "Rendering/Text/Renderer/TextRenderer.h"
-#include "ServiceLocator/ServiceLocator.h"
 #include "Rendering/Renderer/Renderer.h"
 #include "Audio/AudioController.h"
 #include "Input/InputHandler.h"
+#include "Editor/Editor.h"
 #include "Platform/Window/Window.h"
-#include "Editor/ImGui/ImGuiManager.h"
-#include "ServiceLocator/ServiceLocator.h" /// ?
-#include "Utility/Noise/NoiseGenerator.h"
 #include "Rendering/Shader/Shader.h"
+#include "Rendering/Text/Renderer/TextRenderer.h"
 #include "Physics/Physics.h"
+#include "Utility/Utility.h"
 #include "Time/Timer.h"
-#include <GLFW/glfw3.h> 
+#include "Threading/ThreadPool.h"
 
+#include "ECS/ECS.h"
+#include "ECS/Systems/CoreSystems.h"
+#include "ECS/Components/CoreComponents.h"
+#include "EngineFacade.h"
+
+#include <GLFW/glfw3.h> 
+//#include "ServiceLocator/ServiceLocator.h" /// ?
 
 namespace Hi_Engine
 {
@@ -28,7 +36,7 @@ namespace Hi_Engine
 		: m_application{ app }, m_isRunning{ false }
 	{
 		EventDispatcher::GetInstance().Subscribe(this);
-		RegisterModules();
+		RegisterModules(); // init instead??
 	}
 
 	Engine::~Engine()
@@ -43,16 +51,28 @@ namespace Hi_Engine
 
 	bool Engine::Init()
 	{
-		glfwSetErrorCallback(ErrorCallbackGLFW);
+		glfwSetErrorCallback(ErrorCallbackGLFW); // do in window class?
+
+		Logger::Initialize("../../engine.log"); // path not working?
 
 		if (!m_moduleManager.Init())
+		{
+			Logger::LogInfo("Engine::Initialization - Successfully Completed!");
 			return false;
+		}
 
-		LoadResources(); // Do in LoadModules?
+		// do in game?
+		ResourceHolder<GLSLShader>::GetInstance().LoadResources("../Engine/Assets/Json/Resources/Shaders.json");
+
+		//(LoadResources(); // Do in LoadModules?
 		m_moduleManager.LoadModules();
+
+		SetupECS();
 
 		m_application.OnCreate(); 
 		
+		Logger::LogInfo("Engine::Initialization - Successfully Completed!");
+
 		return (m_isRunning = true);
 	}
 
@@ -61,22 +81,14 @@ namespace Hi_Engine
 		m_application.OnDestroy();
 		m_moduleManager.Shutdown();
 
-		ImGui_ImplOpenGL3_Shutdown();
-		ImGui_ImplGlfw_Shutdown();
-		ImGui::DestroyContext();
+		Logger::Shutdown();
 	}
 
 	void Engine::Run()
 	{
-		//assert(m_application && "Failed to launch application");
-		Timer& timer = GetTimer();
-		//Timer timer;
-		
-		auto inputHandler = m_moduleManager.GetModule<InputHandler>().lock();
-		auto renderer = m_moduleManager.GetModule<Renderer>().lock();
+		auto ecs = m_moduleManager.GetModule<ECSCoordinator>().lock(); // Call lock here, or in the loop?
+		auto& timer = m_moduleManager.GetModule<Utility>().lock()->GetTimer();
 		auto window = m_moduleManager.GetModule<Window>().lock();
-		auto editor = m_moduleManager.GetModule<ImGuiManager>().lock();
-		auto textRenderer = m_moduleManager.GetModule<TextRenderer>().lock();
 
 		while (m_isRunning)	// Todo, use enum for GameState instead? !GameState::EXIT or call function in Application? ShouldRun()?
 		{
@@ -85,72 +97,70 @@ namespace Hi_Engine
 
 			EventDispatcher::GetInstance().DispatchEvents();
 
-			/* - Process input - */
-			if (inputHandler)
-				inputHandler->ProcessInput();
-
-			/* - Update - */
+			ecs->Update(deltaTime);
 			m_application.OnUpdate(deltaTime);
-			m_application.OnLateUpdate(deltaTime);
-			
-			/* - Clear screen - */
-			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // put in renderer
 
-			/* - Render - */
-			m_application.OnDraw();
-
-			if (editor)
-				editor->BeginFrame();
-
-			if (renderer)
-				renderer->ProcessCommands();
-			
-			//if (textRenderer)
-			//	textRenderer->ProcessQueue();
-
-			if (editor)
-				editor->Update();
-
-			if (window)
-				window->SwapBuffers();
-
-			if (inputHandler)
-				inputHandler->Reset();
-			
 #ifdef DEBUG
 			if (window)
-				window->SetTitle("Fps: " + std::to_string((int)timer.GetAverageFPS())); // TODO; Get Draw calls...
+				window->SetTitle("Fps: " + std::to_string((int)timer.GetAverageFPS())); // TODO; Get Draw calls... (have system do this)?
 #endif 
 		}
 	}
-		
-	Timer& Engine::GetTimer()
-	{
-		static Timer timer;
-		return timer;
-	}
 
-	void Engine::RegisterModules()
+	void Engine::RegisterModules() // load from file instead?
 	{
-		m_moduleManager.RegisterModule<Window>(1);
-		m_moduleManager.RegisterModule<Renderer>(2);
-		m_moduleManager.RegisterModule<TextRenderer>(3);
-		m_moduleManager.RegisterModule<InputHandler>(4);
-		m_moduleManager.RegisterModule<AudioController>(5);
-		m_moduleManager.RegisterModule<Physics>(6);
+		m_moduleManager.RegisterModule<Window>(); // have return module pointer?
+
+		auto window = m_moduleManager.GetModule<Window>().lock();
+
+		m_moduleManager.RegisterModule<Renderer>(*window);
+		m_moduleManager.RegisterModule<TextRenderer>();
+
+
+		m_moduleManager.RegisterModule<InputHandler>();
+		m_moduleManager.RegisterModule<AudioController>();
+		m_moduleManager.RegisterModule<ECSCoordinator>(); // accept input handler and renderer?
+		m_moduleManager.RegisterModule<Physics>();
+		m_moduleManager.RegisterModule<Utility>();
 
 #ifdef DEBUG
-		m_moduleManager.RegisterModule<ImGuiManager>(7 );
+		m_moduleManager.RegisterModule<Editor>();
 #endif
 
-		ServiceLocator::Register(m_moduleManager.GetModule<Window>());
-		ServiceLocator::Register(m_moduleManager.GetModule<Physics>());
-		ServiceLocator::Register(m_moduleManager.GetModule<ImGuiManager>());
+		EngineFacade::Register(m_moduleManager.GetModule<ECSCoordinator>());
 	}
 
-	void Engine::LoadResources()
+	void Engine::SetupECS()
 	{
-		ResourceHolder<GLSLShader>::GetInstance().LoadResources("../Engine/Assets/Json/Resources/Shaders.json");
+		auto ecs = m_moduleManager.GetModule<ECSCoordinator>().lock();
+
+		auto window = m_moduleManager.GetModule<Window>().lock();
+		auto editor = m_moduleManager.GetModule<Editor>();
+		auto utility = m_moduleManager.GetModule<Utility>().lock();
+
+		ecs->RegisterSystem<TimeSystem>("TimeSystem", utility->GetTimer());
+		ecs->RegisterSystem<InputSystem>("InputSystem",   *m_moduleManager.GetModule<InputHandler>().lock(), *window);
+		
+		ecs->RegisterSystem<AudioSystem>("AudioSystem",   *m_moduleManager.GetModule<AudioController>().lock());
+		ecs->RegisterSystem<RenderSystem>("RenderSystem", *m_moduleManager.GetModule<Renderer>().lock(), !editor.expired() ? editor : std::weak_ptr<Editor>(), IVector2{1400, 800});
+
+#if DEBUG
+
+		ecs->RegisterSystem<EditorSystem>("EditorSystem", *editor.lock());
+
+#endif // DEBUG
+
+		ecs->RegisterComponent<TransformComponent>("TransformComponent");
+		ecs->RegisterComponent<VelocityComponent>("VelocityComponent");
+		ecs->RegisterComponent<CameraComponent>("CameraComponent");
+		ecs->RegisterComponent<SpriteComponent>("SpriteComponent");
+		ecs->RegisterComponent<InputComponent>("InputComponent");
+		ecs->RegisterComponent<AudioComponent>("AudioComponent");
+		ecs->RegisterComponent<UIComponent>("UIComponent");
+		ecs->RegisterComponent<TimerComponent>("TimerComponent");
 	}
+
+	/*void Engine::LoadResources()
+	{
+	}*/
 }

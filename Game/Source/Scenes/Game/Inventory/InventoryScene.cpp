@@ -1,38 +1,19 @@
 #include "Pch.h"
 #include "InventoryScene.h"
-#include "Systems/Base/System.h"
-#include "ECS/ECS.h"
 
-
-InventoryScene::InventoryScene(ECS& ecs)
-	: Scene{ ecs }
-{
-}
-
-InventoryScene::~InventoryScene()
-{
-}
+//
+//InventoryScene::InventoryScene(Hi_Engine::ECSCoordinator& ecs)
+//	: Scene{ ecs }
+//{
+//}
+//
+//InventoryScene::~InventoryScene()
+//{
+//}
 
 void InventoryScene::Update(float deltaTime)
 {
-	for (auto& systemWeak : m_systems)
-	{
-		if (auto system = systemWeak.lock())
-		{
-			system->Update(deltaTime);
-		}
-	}
-}
 
-void InventoryScene::Draw() const
-{
-	for (auto& systemWeak : m_systems)
-	{
-		if (auto system = systemWeak.lock())
-		{
-			system->Draw();
-		}
-	}
 }
 
 void InventoryScene::OnEnter()
@@ -65,5 +46,5 @@ void InventoryScene::OnEnter()
 
 void InventoryScene::OnExit()
 {
-	m_ecs.DestroyAllEntities();
+	// m_ecs.DestroyAllEntities();
 }

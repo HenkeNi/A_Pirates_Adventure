@@ -6,13 +6,10 @@
 class GameScene : public Scene
 {
 public:
-	GameScene(ECS& ecs);
-	~GameScene();
+	//GameScene(Hi_Engine::ECSCoordinator& ecs);
+	//~GameScene();
 
 	void Update(float deltaTime)			  override;
-	void LateUpdate(float deltaTime)		  override;
-	void Draw()							const override;
-
 	void OnCreated()						  override;
 	void OnEnter()							  override;
 	void OnExit()							  override;

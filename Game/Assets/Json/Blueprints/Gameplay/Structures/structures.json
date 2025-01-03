@@ -3,7 +3,7 @@
     "id": "Hut",
     "components": [
       {
-        "type": "Transform",
+        "type": "TransformComponent",
         "properties": {
           "position": [ 0.0, 1.0 ],
           "scale": [ 2.0, 2.0 ],
@@ -12,7 +12,7 @@
         }
       },
       {
-        "type": "Sprite",
+        "type": "SpriteComponent",
         "properties": {
           "texture": "hut",
           "coordinates": [ 0, 0 ],
@@ -21,7 +21,7 @@
         }
       },
       {
-        "type": "Collider",
+        "type": "ColliderComponent",
         "properties": {
           "type": "Trigger",
           "size": [ 0.5, 0.5 ]

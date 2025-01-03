@@ -5,12 +5,10 @@
 class TitleScene : public Scene 
 {
 public:
-	TitleScene(ECS& ecs);
-	~TitleScene();
+	//TitleScene(Hi_Engine::ECSCoordinator& ecs);
+	//~TitleScene();
 
 	void Update(float deltaTime)		  override;
-	void Draw()						const override;
-
 	void OnEnter()						  override;
 	void OnExit()						  override;
 };

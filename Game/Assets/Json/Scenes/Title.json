@@ -4,7 +4,7 @@
       "entity_id": "Camera",
       "components_data": [
         {
-          "type": "Camera",
+          "type": "CameraComponent",
           "properties": {
             "position": [ 0.0, 0.0 ],
             "scale": [ 1.0, 1.0 ],
@@ -18,7 +18,7 @@
       "entity_id": "Image",
       "components_data": [
         {
-          "type": "Transform",
+          "type": "TransformComponent",
           "properties": {
             "position": [ 0.0, 0.0 ],
             "scale": [ 1400.0, 800.0 ],
@@ -27,7 +27,7 @@
           }
         },
         {
-          "type": "UI",
+          "type": "UIComponent",
           "properties": {
             "texture": "title_image",
             "coordinates": [ 0, 0 ],
@@ -41,7 +41,7 @@
       "entity_id": "TitleText",
       "components_data": [
         {
-          "type": "Transform",
+          "type": "TransformComponent",
           "properties": {
             "position": [ 700.0, 600.0 ],
             "scale": [ 1.0, 1.0 ],
@@ -50,7 +50,7 @@
           }
         },
         {
-          "type": "Text",
+          "type": "TextComponent",
           "properties": {
             "font": "Basic",
             "size": 5,
@@ -65,18 +65,16 @@
       "entity_id": "SceneTimer",
       "components_data": [
         {
-          "type": "Timer",
+          "type": "TimerComponent",
           "properties": {
             "duration": 1.0
           }
-        },
-        {
-          "type": "SceneTransition",
-          "properties": {
-            "scene": "menu"
-          }
         }
       ]
+    },
+    {
+      "entity_id": "Player",
+      "components_data": []
     }
   ],
   "systems": [

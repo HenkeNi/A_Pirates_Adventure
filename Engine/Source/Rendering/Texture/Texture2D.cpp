@@ -3,8 +3,6 @@
 
 #include "../../Core/Resources/ResourceHolder.h"
 #include "Dependencies/stb_image/stb_image.h"
-
-#include "Constants.h"
 #include "Subtexture2D.h" // REMOVE!!! read subtextures from json as well...
 
 inline const std::string TextureDirectory{ "../Game/Assets/Textures/" };

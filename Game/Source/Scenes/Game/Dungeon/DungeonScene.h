@@ -5,13 +5,10 @@
 class DungeonScene : public Scene
 {
 public:
-	DungeonScene(ECS& ecs);
-	~DungeonScene();
+	//DungeonScene(Hi_Engine::ECSCoordinator& ecs);
+	//~DungeonScene();
 
 	void Update(float deltaTime)			  override;
-	void LateUpdate(float deltaTime)		  override;
-	void Draw()							const override;
-
 	void OnEnter()							  override;
 	void OnExit()							  override;
 };

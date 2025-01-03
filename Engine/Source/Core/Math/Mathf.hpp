@@ -94,6 +94,8 @@ namespace Hi_Engine::Math
 		return degrees * (PI / 180);
 	}
 
+	// TODFO; use typename std::enable_if<!std::is_integral<T>::value>::type? instead??
+
 	template <>
 	const char* ConvertToRadians(const char* degrees) = delete;
 

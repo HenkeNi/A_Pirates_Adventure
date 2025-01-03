@@ -2,10 +2,10 @@
 #include "Scene.h"
 
 
-Scene::Scene(ECS& ecs)
-	: m_ecs{ ecs }
-{
-}
+//Scene::Scene(Hi_Engine::ECSCoordinator& ecs)
+//	: m_ecs{ ecs }
+//{
+//}
 
 bool Scene::IsTransparent() const
 {

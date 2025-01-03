@@ -2,7 +2,7 @@
   "id": "MapChunk",
   "components": [
     {
-      "type": "Transform",
+      "type": "TransformComponent",
       "properties": {
         "position": [ 0.0, 0.0 ],
         "scale": [ 1.0, 1.0 ],
@@ -11,7 +11,7 @@
       }
     },
     {
-      "type": "MapChunk",
+      "type": "MapChunkComponent",
       "properties": {
         "width": 10,
         "height": 10

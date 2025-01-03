@@ -2,8 +2,6 @@
 #include "InputTypes.h"
 #include "../Modules/Module.h"
 
-#include "../Math/Vectors/Vector.hpp" // Try remove!
-
 struct GLFWwindow;
 struct GLFWcursor;
 
@@ -14,13 +12,14 @@ namespace Hi_Engine
 	class InputHandler : public Module
 	{
 	public:
-		InputHandler(int initOrder);
+		InputHandler(ModuleManager& manager);
 		~InputHandler();
 
 		bool Init() override;
 		void ProcessInput();
 		void Reset();
 
+		static GLFWcursor* SetCustomCursor(GLFWwindow* window, const char* iconPath);
 		static void KeyCallback(GLFWwindow* window, int key, int scanCode, int action, int mods);
 		static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 		static void MouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
@@ -35,10 +34,10 @@ namespace Hi_Engine
 		static bool IsKeyReleased(eKey key);
 
 	private:	
-		static std::unordered_map<eKey, eInputState> s_keyStates;
-		static std::unordered_map<eMouseBtn, eInputState> s_mouseButtonStates;
-		static FVector2 s_mousePosition;
-		static float s_scrollOffset;
-		static GLFWcursor*	s_customCursor;
+		inline static std::unordered_map<eKey, eInputState> s_keyStates;
+		inline static std::unordered_map<eMouseBtn, eInputState> s_mouseButtonStates;
+		inline static FVector2 s_mousePosition;
+		inline static float s_scrollOffset;
+		inline static GLFWcursor* s_customCursor;
 	};
 }

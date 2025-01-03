@@ -13,7 +13,6 @@ enum class eMessage
 	//EntityDied,				// just destroyed?
 	EntityAttacked,				// rename AttackEvent? AttackBegan? AttackEnded?
 
-
 	EntityAttacking, // rename?
 
 	EntityWalking, // REMOVE?
@@ -52,7 +51,6 @@ enum class eMessage
 
 	// TEMP
 	EnemyAttacked,
-
 
 	IsSelected, // ? For editor?
 	MouseClicked
@@ -133,13 +131,6 @@ enum class eColliderType
 	Trigger
 };
 
-enum class eTimeOfDay
-{
-	Dawn,
-	Day,
-	Dusk, 
-	Night,
-};
 
 
 enum class eAttributes	// or major stats

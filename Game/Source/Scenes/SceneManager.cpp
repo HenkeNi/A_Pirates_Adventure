@@ -2,7 +2,7 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "SceneTypes.h"
-#include "ECS/ECS.h"
+//#include "ECS/ECS.h"
 
 static std::unordered_map<eScene, std::string> scenePaths
 {
@@ -134,10 +134,17 @@ void SceneManager::LoadScene(eScene type)
 		return;
 
 	// TODO; scene loader class?
+	// auto ecs = Hi_Engine::EngineFacade::GetECS().lock();
 
-	activeScene->m_systems.clear();
+	//if (!ecs)
+	//{
+	//	int xx = 20;
+	//	xx += 20;
+	//}
 
-	auto& ecs = activeScene->m_ecs;
+	//activeScene->m_systems.clear();
+	//auto& ecs = activeScene->m_ecs;
+
 	//ecs.DestroySystems();
 
 	auto foundPath = scenePaths.find(type);
@@ -146,22 +153,24 @@ void SceneManager::LoadScene(eScene type)
 
 	auto document = Hi_Engine::ParseDocument(foundPath->second);
 
-	for (const auto& system : document["systems"].GetArray())
-	{
-		bool isSystemAvailable = Hi_Engine::IsBuildDebug() ? system["debug"].GetBool() : system["release"].GetBool();
+	//// temp
 
-		if (isSystemAvailable)
-		{
-			auto systemType = system["type"].GetString();
-			
-			auto found = ecs.GetSystem(systemType); // TODO; check nullptr
+	//for (const auto& system : document["systems"].GetArray())
+	//{
+	//	bool isSystemAvailable = Hi_Engine::IsBuildDebug() ? system["debug"].GetBool() : system["release"].GetBool();
 
-			if (!found.expired())
-				activeScene->m_systems.push_back(found);
-			else
-				std::cout << "ERROR: invalid scene\n"; // log class..
-		}
-	}
+	//	if (isSystemAvailable)
+	//	{
+	//		auto systemType = system["type"].GetString();
+	//		
+	//		auto found = ecs.GetSystem(systemType); // TODO; check nullptr
+
+	//		if (!found.expired())
+	//			activeScene->m_systems.push_back(found);
+	//		else
+	//			std::cout << "ERROR: invalid scene\n"; // log class..
+	//	}
+	//}
 
 	// read sounds as well?
 
@@ -169,6 +178,8 @@ void SceneManager::LoadScene(eScene type)
 
 	for (const auto& jsonEntity : document["entities"].GetArray())
 	{
-		ecs.CreateEntityFromJson(jsonEntity);
+		// ecs->CreateEntityFromJson(jsonEntity);
+
+		Hi_Engine::EngineFacade::CreateEntityFromJson(jsonEntity);
 	}
 }

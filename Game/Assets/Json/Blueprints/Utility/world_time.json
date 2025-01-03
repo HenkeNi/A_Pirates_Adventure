@@ -3,7 +3,7 @@
     "id": "WorldTime",
     "components": [
       {
-        "type": "WorldTime",
+        "type": "WorldTimeComponent",
         "properties": {
           "day_duration": 30.0
         }
@@ -14,13 +14,13 @@
     "id": "SceneTimer",
     "components": [
       {
-        "type": "Timer",
+        "type": "TimerComponent",
         "properties": {
           "duration": 10.0
         }
       },
       {
-        "type": "SceneTransition",
+        "type": "SceneTransitionComponent",
         "properties": {
           "scene": "menu",
           "should_remove": false

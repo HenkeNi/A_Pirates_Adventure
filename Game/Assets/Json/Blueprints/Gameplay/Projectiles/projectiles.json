@@ -3,7 +3,7 @@
     "id": "Bullet",
     "components": [
       {
-        "type": "Transform",
+        "type": "TransformComponent",
         "properties": {
           "position": [ 0.0, 0.0 ],
           "scale": [ 16.0, 16.0 ],
@@ -12,13 +12,13 @@
         }
       },
       {
-        "type": "Velocity",
+        "type": "VelocityComponent",
         "properties": {
           "speed": 100.0
         }
       },
       {
-        "type": "Sprite",
+        "type": "SpriteComponent",
         "properties": {
           "texture": "cocunut",
           "coordinates": [ 0, 0 ],
@@ -27,11 +27,11 @@
         }
       },
       {
-        "type": "Projectile",
+        "type": "ProjectileComponent",
         "properties": {}
       },
       {
-        "type": "Collider",
+        "type": "ColliderComponent",
         "properties": {
           "type": "Dynamic",
           "size": [ 12.5, 12.5 ]

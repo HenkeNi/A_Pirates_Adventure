@@ -3,13 +3,13 @@
     "id": "RustySword",
     "components": [
       {
-        "type": "Tag",
+        "type": "TagComponent",
         "properties": {
           "type": "Collectable"
         }
       },
       {
-        "type": "Transform",
+        "type": "TransformComponent",
         "properties": {
           "position": [ 0.0, 0.0 ],
           "scale": [ 64.0, 64.0 ],
@@ -18,7 +18,7 @@
         }
       },
       {
-        "type": "Sprite",
+        "type": "SpriteComponent",
         "properties": {
           "texture": "sword_01",
           "coordinates": [ 0, 0 ],
@@ -27,7 +27,7 @@
         }
       },
       {
-        "type": "Collider",
+        "type": "ColliderComponent",
         "properties": {
           "type": "Dynamic",
           "size": [ 25.0, 25.0 ],
@@ -36,26 +36,26 @@
         }
       },
       {
-        "type": "Weapon",
+        "type": "WeaponComponent",
         "properties": {
           "damage": 10,
           "speed": 2.0
         }
       },
       {
-        "type": "AttackCooldown",
+        "type": "AttackCooldownComponent",
         "properties": {}
       },
       {
-        "type": "Equippable",
+        "type": "EquippableComponent",
         "properties": {}
       },
       {
-        "type": "Collectable",
+        "type": "CollectableComponent",
         "properties": {}
       },
       {
-        "type": "Audio",
+        "type": "AudioComponent",
         "properties": {
           "sound_name": "pickaxe",
           "trigger": "item_used"

@@ -1,6 +1,5 @@
 #include "Pch.h"
 #include "Renderer.h"
-#include "../Data/Constants.h"
 #include "../Material/Material.h"
 #include "../Texture/Texture2D.h"
 #include "../Texture/Subtexture2D.h"
@@ -8,6 +7,7 @@
 #include "../Shader/Shader.h"
 #include "glm.hpp"
 #include "Resources/ResourceHolder.h"
+#include "Platform/Window/Window.h"
 
 #define INDICES_PER_QUAD 6
 #define VERTICES_PER_QUAD 4
@@ -67,11 +67,9 @@ namespace Hi_Engine
 		}	
 	}
 
-	Renderer::Renderer(int initOrder)
-		: Module{ initOrder }	// : m_buffer{ new Vertex[Constants::maxVertexCount] }, m_currentVertex{ nullptr }
+	Renderer::Renderer(ModuleManager& manager, Window& window)
+		: Module{ manager }, m_window{ window }	// : m_buffer{ new Vertex[Constants::maxVertexCount] }, m_currentVertex{ nullptr }
 	{
-		EventDispatcher::GetInstance().Subscribe(this);
-
 		//m_quadContext.Buffer = new Vertex[Constants::MaxVertexCount];
 
 	
@@ -95,7 +93,6 @@ namespace Hi_Engine
 
 	Renderer::~Renderer()
 	{
-		EventDispatcher::GetInstance().Unsubscribe(this);
 	}
 
 	bool Renderer::Init()
@@ -142,9 +139,12 @@ namespace Hi_Engine
 		SetShader(shader.get());
 	}
 
-	void Renderer::HandleEvent(SpriteBatchRequest& renderEvent)
+	void Renderer::BeginDraw()
 	{
-		m_spriteBatches.push(renderEvent.GetBatch());
+	}
+
+	void Renderer::EndDraw()
+	{
 	}
 
 	void Renderer::ProcessCommands()
@@ -155,7 +155,7 @@ namespace Hi_Engine
 
 			BeginFrame();
 
-			m_quadContext.GLSLShader->SetMatrix4("uViewProjection", batch.ProjectionMatrix);
+			// m_quadContext.GLSLShader->SetMatrix4("uViewProjection", batch.ProjectionMatrix);
 			
 			// Todo; check if shader sent by event, is valid..
 
@@ -167,6 +167,9 @@ namespace Hi_Engine
 			m_spriteBatches.pop();
 			EndFrame();
 		}
+
+		m_window.SwapBuffers();
+		// swap buffers?
 	}
 
 	void Renderer::BeginFrame()
@@ -291,6 +294,23 @@ namespace Hi_Engine
 			}
 		}
 		return false;
+	}
+
+	void Renderer::ClearScreen()
+	{
+		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	}
+
+	void Renderer::SetProjectionMatrix(const glm::mat4& proj)
+	{
+		if (auto* shader = m_quadContext.GLSLShader)
+			shader->SetMatrix4("uViewProjection", proj);
+	}
+
+	void Renderer::AddSpriteBatch(SpriteBatch&& batch)
+	{
+		m_spriteBatches.push(std::move(batch));
 	}
  
 	void Renderer::SetupVertexArray()

@@ -5,10 +5,11 @@
 class IdleNode : public BehaviorTreeNode
 {
 public:
-	eBTNodeStatus	Execute(Entity entity, ECS& ecs)	override;
+	//eBTNodeStatus	Execute(Entity entity, ECS& ecs)	override;
+	eBTNodeStatus	Execute()	override;
 
 private:
-	void			StopMovement(Entity entity, ECS& ecs);
+	void			StopMovement();
 
 	float			Duration = 0;
 };
@@ -17,7 +18,7 @@ private:
 class AlertNode : public BehaviorTreeNode
 {
 public:
-	eBTNodeStatus	Execute(Entity entity, ECS& ecs)	override;
+	eBTNodeStatus	Execute()	override;
 	void			OnDestroy()						override;
 };
 
@@ -25,19 +26,19 @@ public:
 class MoveToDestinationNode : public BehaviorTreeNode
 {
 public:
-	eBTNodeStatus	Execute(Entity entity, ECS& ecs)	override;
+	eBTNodeStatus	Execute()	override;
 };
 
 class ChaseTargetNode : public BehaviorTreeNode
 {
 public:
-	eBTNodeStatus	Execute(Entity entity, ECS& ecs)	override;
+	eBTNodeStatus	Execute()	override;
 };
 
 class MoveToNode : public BehaviorTreeNode
 {
 public:
-	eBTNodeStatus	Execute(Entity entity, ECS& ecs)	override;
+	eBTNodeStatus	Execute()	override;
 
 
 	//void			SetCallback(const std::function<void()>& callback);

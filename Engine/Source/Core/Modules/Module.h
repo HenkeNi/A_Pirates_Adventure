@@ -4,10 +4,13 @@
 
 namespace Hi_Engine
 {
+    class ModuleManager;
+    class SystemManager;
+
     class Module
     {
     public:
-        Module(int initOrder);
+        Module(ModuleManager& manager);
         virtual ~Module() = default;
 
         virtual bool Init() = 0;
@@ -16,9 +19,7 @@ namespace Hi_Engine
         virtual void Deserialize(const rapidjson::Value& json) {};
         virtual void Serialize() {};
 
-        inline int   GetInitOrder() const { return m_initOrder; }
-
     protected:
-        int m_initOrder; // remove?
+        ModuleManager& m_moduleManager;
     };
 }

@@ -3,20 +3,18 @@
 #include "AudioSource.h"
 #include "Audio.h"
 #include "Resources/ResourceHolder.h"
-#include "../Core/EventSystem/Events/AudioEvents.h"
+#include "../Core/Event/Events/AudioEvents.h"
 #include <irrKlang.h>
 
 namespace Hi_Engine
 {
-	AudioController::AudioController(int initOrder)
-		: Module{ initOrder } //, m_soundEngine{ nullptr }
+	AudioController::AudioController(ModuleManager& manager)
+		: Module{ manager }//m_soundEngine{ nullptr }
 	{
-		EventDispatcher::GetInstance().Subscribe(this);
 	}
 
 	AudioController::~AudioController()
 	{
-		EventDispatcher::GetInstance().Unsubscribe(this);
 	}
 
 	bool AudioController::Init()
@@ -44,28 +42,28 @@ namespace Hi_Engine
 			//m_activeSounds.at(1)->stop();
 	}
 
-	void AudioController::HandleEvent(PlaySoundEvent& event)
-	{
-		if (auto sound = event.GetSoundName())
-		{
-			PlaySound(sound);
-		}
+	//void AudioController::HandleEvent(PlaySoundEvent& event)
+	//{
+	//	if (auto sound = event.GetSoundName())
+	//	{
+	//		PlaySound(sound);
+	//	}
 
-		//PlaySound(event.GetAudio());
-	}
+	//	//PlaySound(event.GetAudio());
+	//}
 
-	void AudioController::HandleEvent(StopSoundEvent& event)
-	{
-		if (auto sound = event.GetSoundName())
-		{
-			StopSound(sound);
-		}
-	}
+	//void AudioController::HandleEvent(StopSoundEvent& event)
+	//{
+	//	if (auto sound = event.GetSoundName())
+	//	{
+	//		StopSound(sound);
+	//	}
+	//}
 
-	void AudioController::HandleEvent(SetVolumeEvent& event)
-	{
-		m_soundEngine->setSoundVolume(event.GetVolume());
-	}
+	//void AudioController::HandleEvent(SetVolumeEvent& event)
+	//{
+	//	m_soundEngine->setSoundVolume(event.GetVolume());
+	//}
 
 	/*void AudioController::PlaySound(const std::string& name)
 	{

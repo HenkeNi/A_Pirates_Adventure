@@ -9,7 +9,7 @@ namespace Hi_Engine
 	class Physics : public Module
 	{
 	public:
-		Physics(int initOrder);
+		Physics(ModuleManager& manager);
 		~Physics();
 
 		bool Init()									  override;

@@ -6,14 +6,14 @@
 #include "Inventory/InventoryScene.h"
 
 
-GameScene::GameScene(ECS& ecs)
-	: Scene{ ecs }
-{
-}
-
-GameScene::~GameScene()
-{
-}
+//GameScene::GameScene(Hi_Engine::ECSCoordinator& ecs)
+//	: Scene{ ecs }
+//{
+//}
+//
+//GameScene::~GameScene()
+//{
+//}
 
 void GameScene::Update(float deltaTime)
 {
@@ -24,31 +24,13 @@ void GameScene::Update(float deltaTime)
 	}
 }
 
-void GameScene::LateUpdate(float deltaTime)
-{
-	std::weak_ptr<Scene> activeScene = m_sceneManager.GetActiveScene();
-	if (auto scene = activeScene.lock())
-	{
-		scene->LateUpdate(deltaTime);
-	}
-}
-
-void GameScene::Draw() const
-{
-	std::weak_ptr<const Scene> activeScene = m_sceneManager.GetActiveScene();
-	if (auto scene = activeScene.lock())
-	{
-		scene->Draw();
-	}
-}
-
 void GameScene::OnCreated()
 {
 	// TODO; pass the Game Scene's entitymanager to subscene's?
 
-	m_sceneManager.Register<OverworldScene>(eScene::Overworld, m_ecs);
-	m_sceneManager.Register<DungeonScene>(eScene::Dungeon, m_ecs);
-	m_sceneManager.Register<InventoryScene>(eScene::Inventory, m_ecs);
+	m_sceneManager.Register<OverworldScene>(eScene::Overworld);
+	m_sceneManager.Register<DungeonScene>(eScene::Dungeon);
+	m_sceneManager.Register<InventoryScene>(eScene::Inventory);
 
 	// m_sceneManager.Init({ eScene::Overworld });
 }

@@ -1,6 +1,6 @@
 #include "Pch.h"
 #include "FlockBehavior.h"
-#include "Components/Core/CoreComponents.h"
+//#include "Components/Core/CoreComponents.h"
 
 
 FlockBehavior::FlockBehavior()

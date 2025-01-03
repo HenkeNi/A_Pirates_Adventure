@@ -2,13 +2,13 @@
   "id": "Player",
   "components": [
     {
-      "type": "Tag",
+      "type": "TagComponent",
       "properties": {
         "type": "Player"
       }
     },
     {
-      "type": "Transform",
+      "type": "TransformComponent",
       "properties": {
         "position": [ 0.0, 0.0 ],
         "scale": [ 64.0, 64.0 ],
@@ -17,7 +17,7 @@
       }
     },
     {
-      "type": "Sprite",
+      "type": "SpriteComponent",
       "properties": {
         "texture": "player_sheet",
         "coordinates": [ 0, 0 ],
@@ -26,7 +26,7 @@
       }
     },
     {
-      "type": "Animation",
+      "type": "AnimationComponent",
       "properties": {
         "sheet": "player_sheet",
         "start_row": 0,
@@ -40,17 +40,17 @@
       }
     },
     {
-      "type": "Velocity",
+      "type": "VelocityComponent",
       "properties": {
         "speed": 50.0
       }
     },
     {
-      "type": "Input",
+      "type": "InputComponent",
       "properties": {}
     },
     {
-      "type": "PlayerController",
+      "type": "PlayerControllerComponent",
       "properties": {
         "commands": [
           {
@@ -67,33 +67,33 @@
       }
     },
     {
-      "type": "Commands",
+      "type": "CommandQueueComponent",
       "properties": {}
     },
     {
-      "type": "CharacterState",
+      "type": "CharacterStateComponent",
       "properties": {}
     },
     {
-      "type": "Friendly",
+      "type": "FriendlyComponent",
       "properties": {}
     },
     {
-      "type": "Equipment",
+      "type": "EquipmentComponent",
       "properties": {}
     },
     {
-      "type": "Inventory",
+      "type": "InventoryComponent",
       "properties": {}
     },
     {
-      "type": "Health",
+      "type": "HealthComponent",
       "properties": {
         "value": 5
       }
     },
     {
-      "type": "Physics",
+      "type": "PhysicsComponent",
       "properties": {
         "type": "Dynamic",
         "size": [ 15.0, 15.0 ],
@@ -101,7 +101,7 @@
       }
     },
     {
-      "type": "SubEntities",
+      "type": "SubEntitiesComponent",
       "properties": {}
     }
 

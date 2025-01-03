@@ -3,7 +3,7 @@
 /* - Core - */
 #include "Source/Core/Application/Application.h"
 #include "Source/Core/Engine.h"
-
+#include "Source/Core/EngineFacade.h"
 
 #include "Source/Rendering/Renderer/Renderer.h"
 #include "Source/Core/Input/InputHandler.h"
@@ -12,8 +12,6 @@
 
 #include "Source/Core/Utility/Serializer/Serializer.h"
 
-/* - Service Locator - */
-#include "Source/Core/ServiceLocator/ServiceLocator.h"
 
 /* - Physics - */
 #include "Source/Physics/Physics.h"
@@ -23,6 +21,11 @@
 #include "Source/Core/Math/Geometry/LineSegment2D.hpp"
 #include "Source/Physics/Intersections/Intersection2D.hpp"
 #include "Source/Physics/Intersections/HitResult.h"
+
+/* - ECS - */
+#include "Source/ECS/ECS.h" // dont ??? 
+#include "Source/ECS/Systems/System.h"
+#include "Source/ECS/Components/CoreComponents.h"
 
 /* - Input - */
 #include "Source/Core/Input/InputHandler.h"
@@ -43,18 +46,16 @@
 #include "Source/Audio/AudioController.h"
 
 /* - ImGui - */
-#include "Source/Editor/ImGui/ImGuiManager.h"
+#include "Source/Editor/Editor.h"
 
 /* - Resources - */
 #include "Source/Core/Resources/ResourceHolder.h"
 
 /* - Messaging - */
-#include "Source/Core/EventSystem/Core/EventDispatcher.h" // REVMOVE LATER! Only allow engine to send events, put render system in engine (pass 
-#include "Source/Core/EventSystem/Core/EventListener.h"
-#include "Source/Core/EventSystem/Events/SystemEvents.h"
-#include "Source/Core/EventSystem/Events/RenderEvents.h"
-#include "Source/Core/EventSystem/Events/DebugEvents.h"
-#include "Source/Core/EventSystem/Events/AudioEvents.h"
+#include "Source/Core/Event/Core/EventDispatcher.h" // REVMOVE LATER! Only allow engine to send events, put render system in engine (pass 
+#include "Source/Core/Event/Core/EventListener.h"
+#include "Source/Core/Event/Events/SystemEvents.h"
+#include "Source/Core/Event/Events/AudioEvents.h"
 
 /* - Data Structures - */
 #include "Source/Core/Utility/DataStructures/Linear/Dynamic/Stack/Stack.hpp"

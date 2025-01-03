@@ -4,7 +4,7 @@
       "entity_id": "Camera",
       "components_data": [
         {
-          "type": "Camera",
+          "type": "CameraComponent",
           "properties": {
             "position": [ 0.0, 0.0 ],
             "scale": [ 1.0, 1.0 ],
@@ -21,7 +21,7 @@
       "entity_id": "Background",
       "components_data": [
         {
-          "type": "UI",
+          "type": "UIComponent",
           "properties": {
             "texture": "sky",
             "coordinates": [ 0, 0 ],
@@ -35,7 +35,7 @@
       "entity_id": "TitleText",
       "components_data": [
         {
-          "type": "Transform",
+          "type": "TransformComponent",
           "properties": {
             "position": [ 700.0, 650.0 ],
             "scale": [ 2.0, 2.0 ],
@@ -44,7 +44,7 @@
           }
         },
         {
-          "type": "Text",
+          "type": "TextComponent",
           "properties": {
             "font": "Basic",
             "size": 32,
@@ -59,7 +59,7 @@
       "entity_id": "Button",
       "components_data": [
         {
-          "type": "Transform",
+          "type": "TransformComponent",
           "properties": {
             "position": [ -2.0, -2.0 ],
             "scale": [ 1.0, 1.0 ],
@@ -68,7 +68,7 @@
           }
         },
         {
-          "type": "UI",
+          "type": "UIComponent",
           "properties": {
             "texture": "previous_icon",
             "coordinates": [ 0, 0 ],
@@ -77,7 +77,7 @@
           }
         },
         {
-          "type": "SceneTransition",
+          "type": "SceneTransitionComponent",
           "properties": {
             "scene": "menu"
           }
@@ -88,7 +88,7 @@
       "entity_id": "InventorySlot",
       "components_data": [
         {
-          "type": "Transform",
+          "type": "TransformComponent",
           "properties": {
             "position": [ -1.0, -1.0 ],
             "scale": [ 0.25, 0.25 ],

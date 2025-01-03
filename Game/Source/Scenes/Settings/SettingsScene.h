@@ -5,12 +5,10 @@
 class SettingsScene : public Scene
 {
 public:
-	SettingsScene(ECS& ecs);
-	~SettingsScene();
+	//SettingsScene(Hi_Engine::ECSCoordinator& ecs);
+	//~SettingsScene();
 
 	void Update(float deltaTime)			  override;
-	void Draw()							const override;
-
 	void OnEnter()							  override;
 	void OnExit()							  override;
 };
