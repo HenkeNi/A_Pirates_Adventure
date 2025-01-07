@@ -47,8 +47,8 @@ namespace Hi_Engine
 		template <typename... Components>
 		ComponentView<Components...> GetComponentView();
 
-		template <typename... Components>
-		ComponentView<Components...> GetComponentView(const std::function<bool(Entity e1, Entity e2)>& sort);
+		template <typename... Components, typename Comparator>
+		ComponentView<Components...> GetComponentView(Comparator&& comparator);
 
 		template <typename Component>
 		const std::vector<Component>& GetComponents() const;
@@ -152,13 +152,13 @@ namespace Hi_Engine
 		return componentView;
 	}
 
-	template<typename ...Components>
-	inline ComponentView<Components...> ECSCoordinator::GetComponentView(const std::function<bool(Entity e1, Entity e2)>& sort)
+	template <typename... Components, typename Comparator>
+	inline ComponentView<Components...> ECSCoordinator::GetComponentView(Comparator&& comparator)
 	{
 		Signature signature = GetSignature<Components...>();
 		auto entities = m_entityManager.GetEntities(signature);
 
-		std::sort(entities.begin(), entities.end(), sort);
+		std::sort(entities.begin(), entities.end(), comparator);
 
 		ComponentView<Components...> componentView{ m_componentManager, std::move(entities) };
 		return componentView;

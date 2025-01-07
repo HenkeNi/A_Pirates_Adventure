@@ -16,7 +16,7 @@ namespace Hi_Engine
 	using ComponentArrays = std::unordered_map<std::type_index, std::unique_ptr<class IComponentArray>>;// void ptr instead?
 	using Signature = std::bitset<MaxComponents>;
 	using Signatures = std::unordered_map<std::string, Signature>;
-	using ComponentRegistry = std::unordered_map<std::string, struct ComponentRegistryEntry>;
+	using ComponentRegistry = std::unordered_map<std::string, struct ComponentRegistryEntry>; // make into class?
 	using Property = std::variant<bool, int, float, double, std::string, FVector2, FVector3, FVector4, IVector2, IVector3, IVector4>;
 	using ComponentProperties = std::unordered_map<std::string, Property>;
 	
@@ -28,6 +28,6 @@ namespace Hi_Engine
 
 	struct CallbackRegistry
 	{
-		inline static std::unordered_map<const char*, std::function<void()>> Callbacks; // Maybe in Timer/Button Component (or system), or separate Callback/Action component?
+		inline static std::unordered_map<const char*, std::function<void(Entity)>> Callbacks; // Maybe in Timer/Button Component (or system), or separate Callback/Action component?
 	};
 }

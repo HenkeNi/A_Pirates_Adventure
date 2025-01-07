@@ -26,8 +26,8 @@ namespace Hi_Engine
                 elapsedTime = 0.f;
                 timerComponent.IsDone = true;
                 
-                if (timerComponent.Callback)
-                    timerComponent.Callback();
+                // if (timerComponent.Callback)
+                    // timerComponent.Callback(); // solve by always using component view? and give access to entity when iterating over
 
                 // TODO; consider removing component    
             }

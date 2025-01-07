@@ -23,7 +23,6 @@
 #include "EngineFacade.h"
 
 #include <GLFW/glfw3.h> 
-//#include "ServiceLocator/ServiceLocator.h" /// ?
 
 namespace Hi_Engine
 {
@@ -53,7 +52,7 @@ namespace Hi_Engine
 	{
 		glfwSetErrorCallback(ErrorCallbackGLFW); // do in window class?
 
-		Logger::Initialize("../../engine.log"); // path not working?
+		Logger::Initialize("../Engine/Logs/engine_debug.log");
 
 		if (!m_moduleManager.Init())
 		{
@@ -142,7 +141,7 @@ namespace Hi_Engine
 		ecs->RegisterSystem<InputSystem>("InputSystem",   *m_moduleManager.GetModule<InputHandler>().lock(), *window);
 		
 		ecs->RegisterSystem<AudioSystem>("AudioSystem",   *m_moduleManager.GetModule<AudioController>().lock());
-		ecs->RegisterSystem<RenderSystem>("RenderSystem", *m_moduleManager.GetModule<Renderer>().lock(), !editor.expired() ? editor : std::weak_ptr<Editor>(), IVector2{1400, 800});
+		ecs->RegisterSystem<RenderSystem>("RenderSystem", m_moduleManager.GetModule<Renderer>(), !editor.expired() ? editor : std::weak_ptr<Editor>(), IVector2{1400, 800});
 
 #if DEBUG
 

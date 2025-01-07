@@ -78,7 +78,7 @@ namespace Hi_Engine
 
 	struct TimerComponent
 	{
-		std::function<void()> Callback; // pass in entity?
+		std::function<void(int entity)> Callback;
 		float Duration = 0.f;
 		float ElapsedTime = 0.f;
 

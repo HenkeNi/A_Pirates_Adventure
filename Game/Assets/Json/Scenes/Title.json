@@ -67,7 +67,8 @@
         {
           "type": "TimerComponent",
           "properties": {
-            "duration": 1.0
+            "duration": 1.0,
+            "callback": "scene_transition"
           }
         }
       ]

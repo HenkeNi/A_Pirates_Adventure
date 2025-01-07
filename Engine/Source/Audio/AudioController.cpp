@@ -22,7 +22,7 @@ namespace Hi_Engine
 		m_soundEngine = irrklang::createIrrKlangDevice();
 		if (!m_soundEngine)
 		{
-			std::cerr << "Failed to boot up ISoundEngine!\n";
+			Logger::LogError("AudioController::Init - Failed to boot up ISoundEngine!");
 			return false;
 		}
 
@@ -37,8 +37,8 @@ namespace Hi_Engine
 
 	void AudioController::Update()
 	{
-		if (m_activeSounds.at(1)->isFinished())
-			std::cout << "Sounds is finise\n"; // send evnet?
+		// if (m_activeSounds.at(1)->isFinished())
+			//std::cout << "Sounds is finise\n"; // send evnet?
 			//m_activeSounds.at(1)->stop();
 	}
 

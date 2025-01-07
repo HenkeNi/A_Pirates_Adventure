@@ -19,6 +19,7 @@ namespace Hi_Engine
 		IComponentArray& operator=(IComponentArray&&) noexcept = default;
 
 		virtual void RemoveComponent(Entity entity) = 0;
+		virtual void Clear() = 0;
 	};
 
 	template <typename T>
@@ -38,9 +39,10 @@ namespace Hi_Engine
 
 		bool HasComponent(Entity entity) const;
 		void ForEachComponent(const std::function<void(T&)>& callback);
+		
+		void Clear() override;
 
 	private:
-
 		std::unordered_map<Entity, std::size_t> m_entityToIndexMap;
 		std::unordered_map<std::size_t, Entity> m_indexToEntityMap;
 
@@ -158,6 +160,15 @@ namespace Hi_Engine
 	{
 		for (auto& component : m_components)
 			callback(component);
+	}
+
+	template<typename T>
+	void ComponentArray<T>::Clear()
+	{
+		m_entityToIndexMap.clear();
+		m_indexToEntityMap.clear();
+
+		m_components.clear();
 	}
 
 #pragma endregion Templated_Methods

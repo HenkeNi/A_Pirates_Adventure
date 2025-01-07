@@ -3,11 +3,6 @@
 #include "Modules/ModuleManager.h"
 #include "Platform/Window/Window.h"
 
-//#include "ServiceLocator/ServiceLocator.h"
-// Test - remove later...
-// #include "Noise/NoiseGenerator.h" // TEST...
-//#include "../../Utility/Noise/NoiseGenerator.h"
-
 namespace Hi_Engine
 {
 	Editor::Editor(ModuleManager& manager)

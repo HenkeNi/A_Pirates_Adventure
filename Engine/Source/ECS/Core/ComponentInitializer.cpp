@@ -54,6 +54,13 @@ namespace Hi_Engine
 	void InitializeComponent(TimerComponent* component, const ComponentProperties& properties)
 	{
 		component->Duration = (float)std::get<double>(properties.at("duration"));
-	}
 
+		assert(properties.contains("callback") && "No callback registered");
+
+		std::string callbackKey = std::get<std::string>(properties.at("callback"));
+		auto itr = CallbackRegistry::Callbacks.find(callbackKey.c_str());
+
+		if (itr != CallbackRegistry::Callbacks.end())
+			component->Callback = itr->second;
+	}
 }

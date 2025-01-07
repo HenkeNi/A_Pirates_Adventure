@@ -55,10 +55,10 @@ namespace Hi_Engine
 		const class Subtexture2D* Subtexture = nullptr; // FIX???
 	};
 
-	struct SpriteBatch // renaem render batch??
+	struct SpriteBatch // renaem render batch?? add function for checkign if empty?
 	{
 		std::vector<Sprite> Sprites;
-		glm::mat4 ProjectionMatrix;
+		glm::mat4 ProjectionMatrix; // remove?
 	};
 
 

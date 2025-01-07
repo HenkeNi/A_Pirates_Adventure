@@ -1,7 +1,7 @@
 #pragma once
 #include "../Utility/ECSTypes.h"
 
-// Store in core components file?
+// Store in core components file? Pass in entity?
 
 namespace Hi_Engine
 {

@@ -17,16 +17,10 @@ namespace Hi_Engine
 		{
 			std::cerr << "Failed to open log file: " << logFile << std::endl;
 		}
-	/*	else
+		else
 		{
-			s_logStream << "Log File";
-			s_logStream.flush();
-			if (s_logStream.good())
-			{
-				int xx = 20;
-				xx += 20;
-			}
-		}*/
+			s_logStream << "Engine Logs:\n";
+		}
 	}
 
 	void Logger::Shutdown()
@@ -45,7 +39,7 @@ namespace Hi_Engine
 
 		SetConsoleTextColor(GetOutputColor(level));
 		
-		std::cout << logEntry << std::endl;
+		std::cout << logEntry << '\n' << std::endl;
 
 		if (s_logStream.is_open())
 		{

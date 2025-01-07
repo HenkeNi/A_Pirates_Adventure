@@ -24,7 +24,10 @@ namespace Hi_Engine
 	bool Window::Init()
 	{
 		if (!glfwInit())
+		{
+			Logger::LogError("Window::Init - Failed to initialize glfw!");
 			return false;
+		}
 
 		m_window = CreateWindow({ 1200, 800 }, "");
 
@@ -149,10 +152,7 @@ namespace Hi_Engine
 	{
 		glViewport(0, 0, width, height);	// Todo; send event?
 
-		//WindowEvent* event = new WindowEvent{ eWindowEvent::Resize, { width, height }, window };
 		EventDispatcher::GetInstance().SendEventInstantly<WindowEvent>(eWindowEvent::Resize, IVector2{ width, height }, window);
-
-		//delete event; // FIX!
 	}
 
 	void WindowFocusCallback(GLFWwindow* window, int focused)
@@ -164,8 +164,6 @@ namespace Hi_Engine
 
 	void WindowCloseCallback(GLFWwindow* window)
 	{
-		// EventDispatcher::GetInstance().SendEventInstantly(new TerminationEvent);
-
 		EventDispatcher::GetInstance().SendEventInstantly<TerminationEvent>();
 	}
 

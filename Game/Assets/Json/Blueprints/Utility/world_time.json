@@ -16,7 +16,8 @@
       {
         "type": "TimerComponent",
         "properties": {
-          "duration": 10.0
+          "duration": 10.0,
+          "callback": "None"
         }
       },
       {

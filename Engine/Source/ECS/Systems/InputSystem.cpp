@@ -5,7 +5,6 @@
 #include "Platform/Window/Window.h"
 #include "../Components/CoreComponents.h"
 
-
 namespace Hi_Engine
 {
 	FVector2 ConvertScreenToWorldPosition(const FVector2& mousePos, int windowWidth, int windowHeight, const glm::mat4& viewProjectionMatrix);

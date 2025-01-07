@@ -1,6 +1,7 @@
 #pragma once
 #include "System.h"
 #include "Event/Events/SystemEvents.h"
+#include "Rendering/RenderTypes.h"
 
 namespace Hi_Engine
 {
@@ -10,7 +11,7 @@ namespace Hi_Engine
 	class RenderSystem : public System, public EventListener
 	{
 	public:
-		RenderSystem(ECSCoordinator& ecs, Renderer& renderer, std::weak_ptr<Editor> editor, const IVector2& size);
+		RenderSystem(ECSCoordinator& ecs, std::weak_ptr<Renderer> renderer, std::weak_ptr<Editor> editor, const IVector2& size);
 
 		void HandleEvent(class WindowEvent& event) override;
 		void Update(float deltaTime) override;
@@ -18,11 +19,11 @@ namespace Hi_Engine
 		eUpdatePhase GetUpdatePhase() const override;
 
 	private:
-		void RenderUI();
-		void RenderSprites();
+		SpriteBatch CreateUIBatch();
+		SpriteBatch CreateSpriteBatch();
 
 		IVector2 m_windowSize;
-		Renderer& m_renderer;
+		std::weak_ptr<Renderer> m_renderer;
 		std::weak_ptr<Editor> m_editor;
 	};
 }
