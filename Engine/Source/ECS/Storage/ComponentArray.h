@@ -3,6 +3,7 @@
 
 // TODO; 
 //  * store "read" and "write" components separately (for multi threading system) 
+// Rename ComponentStorage or ComponentContainer
 
 namespace Hi_Engine
 {
@@ -28,19 +29,20 @@ namespace Hi_Engine
 	public:
 		ComponentArray();
 
+		template <typename Callback>
+		void ForEachComponent(Callback&& callback);
+		
 		bool AddComponent(Entity entity, const T& component);
 		void RemoveComponent(Entity entity) override;
+		
+		bool HasComponent(Entity entity) const;
+		void Clear() override;
 
 		const std::vector<T>& GetComponents() const;
 		std::vector<T>& GetComponents();
 
 		const T* GetComponent(Entity entity) const;
 		T* GetComponent(Entity entity);
-
-		bool HasComponent(Entity entity) const;
-		void ForEachComponent(const std::function<void(T&)>& callback);
-		
-		void Clear() override;
 
 	private:
 		std::unordered_map<Entity, std::size_t> m_entityToIndexMap;
@@ -55,6 +57,14 @@ namespace Hi_Engine
 	ComponentArray<T>::ComponentArray()
 	{
 		m_components.reserve(MaxEntities);
+	}
+
+	template<typename T>
+	template<typename Callback>
+	void ComponentArray<T>::ForEachComponent(Callback&& callback)
+	{
+		for (auto& component : m_components)
+			callback(component);
 	}
 
 	template <typename T>
@@ -110,6 +120,27 @@ namespace Hi_Engine
 	}
 
 	template <typename T>
+	bool ComponentArray<T>::HasComponent(Entity entity) const
+	{
+		if (m_entityToIndexMap.contains(entity))
+		{
+			std::size_t index = m_entityToIndexMap.at(entity);
+			return index >= 0 && index < m_components.size();
+		}
+
+		return false;
+	}
+
+	template<typename T>
+	void ComponentArray<T>::Clear()
+	{
+		m_entityToIndexMap.clear();
+		m_indexToEntityMap.clear();
+
+		m_components.clear();
+	}
+
+	template <typename T>
 	const std::vector<T>& ComponentArray<T>::GetComponents() const
 	{
 		return m_components;
@@ -141,34 +172,6 @@ namespace Hi_Engine
 		}
 
 		return nullptr;
-	}
-
-	template <typename T>
-	bool ComponentArray<T>::HasComponent(Entity entity) const
-	{
-		if (m_entityToIndexMap.contains(entity))
-		{
-			std::size_t index = m_entityToIndexMap.at(entity);
-			return index >= 0 && index < m_components.size();
-		}
-
-		return false;
-	}
-
-	template <typename T>
-	void ComponentArray<T>::ForEachComponent(const std::function<void(T&)>& callback)
-	{
-		for (auto& component : m_components)
-			callback(component);
-	}
-
-	template<typename T>
-	void ComponentArray<T>::Clear()
-	{
-		m_entityToIndexMap.clear();
-		m_indexToEntityMap.clear();
-
-		m_components.clear();
 	}
 
 #pragma endregion Templated_Methods
