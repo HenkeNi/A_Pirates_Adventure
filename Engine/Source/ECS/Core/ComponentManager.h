@@ -3,6 +3,7 @@
 #include "../Utility/ECSTypes.h"
 
 // TODO; add functions for serialize / deserialize all components?
+// make component manager templated instead?
 
 namespace Hi_Engine
 {

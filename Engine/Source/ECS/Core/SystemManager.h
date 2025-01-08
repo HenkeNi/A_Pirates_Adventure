@@ -13,7 +13,9 @@ namespace Hi_Engine
 	private:
 		void SortSystems();
 
-		std::vector<std::shared_ptr<System>> m_systems;
+		using SystemRegistry = std::vector<std::shared_ptr<System>>;
+
+		SystemRegistry m_systems;
 
 		// std::unordered_map<std::string, std::type_index> m_systemTypes;
 	};

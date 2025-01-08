@@ -84,4 +84,10 @@ namespace Hi_Engine
 
 		bool IsDone = false; // or remove afterwards?
 	};
+
+	//struct HierarchyComponent
+	//{
+	//	Entity Parent;
+	// 
+	// };
 }
