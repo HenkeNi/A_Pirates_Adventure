@@ -9,10 +9,12 @@ namespace Hi_Engine
 	constexpr std::uint8_t MaxComponents = 64;
 
 
+#define INVALID_ENTITY = -1; // ??
+
 	// type aliases
 	using Entity = int;
-	using ComponentType = std::uint8_t;
-	using ComponentTypes = std::unordered_map<std::type_index, ComponentType>;
+	using ComponentID = std::uint8_t;
+	using ComponentIDs = std::unordered_map<std::type_index, ComponentID>;
 	using ComponentArrays = std::unordered_map<std::type_index, std::unique_ptr<class IComponentArray>>;// void ptr instead?
 	using Signature = std::bitset<MaxComponents>;
 	using Signatures = std::unordered_map<std::string, Signature>;

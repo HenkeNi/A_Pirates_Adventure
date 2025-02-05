@@ -1,6 +1,8 @@
 #pragma once
 #include "../Storage/ComponentArray.h"
 #include "../Utility/ECSTypes.h"
+#include "Logging/Logger.h"
+#include "Utility/TypeTraits.h"
 
 // TODO; add functions for serialize / deserialize all components?
 // make component manager templated instead?
@@ -16,132 +18,133 @@ namespace Hi_Engine
 		ComponentManager();
 		~ComponentManager();
 
-		template <typename T>
-		void RegisterComponent(const char* name);
-		
-		template <typename T>
-		void AddComponent(Entity entity);
+		template <ComponentType T>
+		void RegisterComponent();
 
-		template <typename T>
+		template <ComponentType T, typename... Args>
+		void AddComponent(Entity entity, Args&&... args);
+
+		template <ComponentType T>
 		void RemoveComponent(Entity entity);
 
 		void RemoveAllComponents(Entity entity);
 		
-		template <typename T>
-		const std::vector<T>& GetComponents() const;
-		
-		template <typename T>
-		std::vector<T>& GetComponents();
-		
-		template <typename T>
-		const T* GetComponent(Entity entity) const;
+		void Clear();
 
-		template <typename T>
-		T* GetComponent(Entity entity);
+		template <ComponentType T>
+		decltype(auto) GetComponents() const;
 
-		template <typename... T>
-		std::vector<ComponentType> GetComponentTypes() const;
+		template <ComponentType T>
+		decltype(auto) GetComponents();
 
-		template <typename T>
-		ComponentType GetComponentType() const;
+		template <ComponentType T>
+		decltype(auto) GetComponent(Entity entity) const;
+
+		template <ComponentType T>
+		decltype(auto) GetComponent(Entity entity);
+
+		template <ComponentType... Ts>
+		std::vector<ComponentID> GetComponentIDs() const;
+
+		template <ComponentType T>
+		std::optional<ComponentID> GetComponentID() const;
 
 	private:
-		template <typename... Components>
+		template <typename... Ts>
 		friend class ComponentView;
 		
-		template <typename T>
+		template <ComponentType T>
 		const ComponentArray<T>* FindComponentArray() const;
 
-		template <typename T>
+		template <ComponentType T>
 		ComponentArray<T>& GetComponentArray();
 
 		ComponentArrays m_componentArrays;
-		ComponentTypes m_componentTypes;
-		ComponentType m_nextComponentType;
+		ComponentIDs m_componentIDs; // rename ComponentSignature?
+		ComponentID m_nextComponentID;
 	};
 
 #pragma region Templated_Methods
 
-	template <typename T>
-	void ComponentManager::RegisterComponent(const char* name)
+	template <ComponentType T>
+	void ComponentManager::RegisterComponent()
 	{
 		auto type = std::type_index(typeid(T));
 
 		assert(m_componentArrays.find(type) == m_componentArrays.end() && "[ComponentManager::RegisterComponent] - Error: Component type already registered!");
 
 		m_componentArrays.insert({ type, std::make_unique<ComponentArray<T>>() });
-		m_componentTypes.insert({ type, m_nextComponentType });
+		m_componentIDs.insert({ type, m_nextComponentID });
 
-		++m_nextComponentType;
+		++m_nextComponentID;
 	}
 
-	template<typename T>
-	void ComponentManager::AddComponent(Entity entity)
+	template <ComponentType T, typename... Args>
+	void ComponentManager::AddComponent(Entity entity, Args&&... args)
 	{
-		GetComponentArray<T>().AddComponent(entity, T{}); // pass in just T??
+		GetComponentArray<T>().AddComponent(entity, std::forward<Args>(args)...);
 	}
 
-	template<typename T>
+	template <ComponentType T>
 	void ComponentManager::RemoveComponent(Entity entity)
 	{
 		GetComponentArray<T>().RemoveComponent(entity);	
 	}
 
-	template <typename T>
-	const std::vector<T>& ComponentManager::GetComponents() const
+	template <ComponentType T>
+	decltype(auto) ComponentManager::GetComponents() const
 	{
 		return GetComponentArray<T>().GetComponents();
 	}
 
-	template<typename T>
-	std::vector<T>& ComponentManager::GetComponents()
+	template <ComponentType T>
+	decltype(auto) ComponentManager::GetComponents()
 	{
 		return GetComponentArray<T>().GetComponents();
 	}
 
-	template <typename T>
-	const T* ComponentManager::GetComponent(Entity entity) const
+	template <ComponentType T>
+	decltype(auto) ComponentManager::GetComponent(Entity entity) const
 	{
 		if (const auto* componentArray = FindComponentArray<T>())
 		{
 			return componentArray.GetComponent(entity);
 		}
 
-		return nullptr;
+		return decltype(auto){};
 	}
 
-	template <typename T>
-	T* ComponentManager::GetComponent(Entity entity)
+	template <ComponentType T>
+	decltype(auto) ComponentManager::GetComponent(Entity entity)
 	{
 		return GetComponentArray<T>().GetComponent(entity); // why not same as above???????
 	}
 
-	template<typename ...T>
-	std::vector<ComponentType> ComponentManager::GetComponentTypes() const
+	template<ComponentType ...Ts>
+	std::vector<ComponentID> ComponentManager::GetComponentIDs() const
 	{
-		std::vector<ComponentType> componentTypes;
-		(componentTypes.push_back(GetComponentType<T>()), ...);
+		std::vector<ComponentID> componentIDs;
+		(componentIDs.push_back(GetComponentID<Ts>()), ...);
 
-		return componentTypes;
+		return componentIDs;
 	}
 
-	template<typename T>
-	ComponentType ComponentManager::GetComponentType() const
+	template<ComponentType T>
+	std::optional<ComponentID> ComponentManager::GetComponentID() const
 	{
 		auto type = std::type_index(typeid(T));
-		auto iterator = m_componentTypes.find(type);
+		auto iterator = m_componentIDs.find(type);
 
-		if (iterator != m_componentTypes.end())
+		if (iterator != m_componentIDs.end())
 		{
 			return iterator->second;
 		}
 
-		std::cerr << "[ERROR - ComponentManager::GetComponentType] - ComponentType: " << typeid(T).name() << " not registered!";
-		//assert(false && "[ERROR - ComponentManager::GetComponentType] - ComponentType: " << typeid(T).name() << " not registered!");
-		return ComponentType();
+		Logger::LogError("ComponentManager::GetComponentID - ComponentID: " + std::string(typeid(T).name()) + " not registered!");
+		return std::nullopt;
 	}
 
-	template<typename T>
+	template <ComponentType T>
 	const ComponentArray<T>* ComponentManager::FindComponentArray() const
 	{
 		auto type = std::type_index(typeid(T));
@@ -155,7 +158,7 @@ namespace Hi_Engine
 		return nullptr;
 	}
 
-	template <typename T>
+	template <ComponentType T>
 	ComponentArray<T>& ComponentManager::GetComponentArray()
 	{
 		auto type = std::type_index(typeid(T));

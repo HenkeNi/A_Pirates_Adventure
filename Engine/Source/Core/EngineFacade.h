@@ -24,6 +24,8 @@ namespace Hi_Engine
 
 		static std::optional<Entity> CreateEntityFromJson(const rapidjson::Value& jsonEntity);
 
+		static std::optional<Entity> CreateEntityFromPrefab(const char* type);
+
 	private:
 		friend class Engine;
 

@@ -51,14 +51,18 @@ namespace Hi_Engine
 
     void ECSCoordinator::DestroyAllEntities()
     {
+        m_entityManager.DestroyAll();
+        m_componentManager.Clear();
     }
 
     void ECSCoordinator::DestroyEntity(Entity entity)
     {
+        m_entityManager.Destroy(entity);
+        m_componentManager.RemoveAllComponents(entity);
     }
 
     void ECSCoordinator::Update(float deltaTime)
     {
-        m_systemManager.ForEachSystem([&](System& system) { system.Update(deltaTime); });
+        m_systemManager.ForEachSystem([&](System& system) { system.Update(deltaTime); }); // measure execution here?? or in systme manager? i.e how long each system takes..
     }
 }

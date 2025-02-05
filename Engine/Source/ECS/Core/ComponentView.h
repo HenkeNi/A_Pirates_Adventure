@@ -2,6 +2,8 @@
 #include "../Utility/ECSTypes.h"
 #include "ComponentManager.h"
 
+// TODO; check if const version of get component is ever run (in Component Array)
+
 namespace Hi_Engine
 {
 	template <typename... Components>
@@ -13,6 +15,23 @@ namespace Hi_Engine
 		std::size_t size() const;
 
 		// Use a foreach function instead of providing access to components directly? pass in function?
+		template <typename Component>
+		Component* GetComponent(Entity entity) const
+		{
+			auto componentArray = std::get<ComponentArray<Component>*>(m_componentArrays);
+			return componentArray->GetComponent(entity);
+		}
+
+		// TODO; provide const version?
+		template <typename Callback>
+		void ForEach(Callback&& callback)
+		{			
+			// overload parallel version?
+			std::for_each(m_entities.begin(), m_entities.end(), [&](Entity entity) 
+			{
+				callback(GetComponent<Components>(entity)...);
+			});
+		}
 
 		class Iterator
 		{
@@ -92,7 +111,7 @@ namespace Hi_Engine
 
 	template <typename... Components>
 	template <typename Component>
-	Component* ComponentView<Components...>::Iterator::GetComponent(Entity entity) const
+	inline Component* ComponentView<Components...>::Iterator::GetComponent(Entity entity) const
 	{
 		auto componentArray = std::get<ComponentArray<Component>*>(m_componentArrays);
 		return componentArray->GetComponent(entity);

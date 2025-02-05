@@ -57,7 +57,7 @@ namespace Hi_Engine
 
 	struct SpriteBatch // renaem render batch?? add function for checkign if empty?
 	{
-		std::vector<Sprite> Sprites;
+		std::vector<Sprite> Sprites; // use array instead?? max batch size
 		glm::mat4 ProjectionMatrix; // remove?
 	};
 

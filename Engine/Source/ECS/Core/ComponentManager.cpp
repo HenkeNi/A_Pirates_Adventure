@@ -4,7 +4,7 @@
 namespace Hi_Engine
 {
 	ComponentManager::ComponentManager()
-		: m_nextComponentType{ 1 }
+		: m_nextComponentID{ 1 }
 	{
 	}
 
@@ -17,6 +17,14 @@ namespace Hi_Engine
 		for (auto& [type, componentArray] : m_componentArrays)
 		{
 			componentArray->RemoveComponent(entity);
+		}
+	}
+
+	void ComponentManager::Clear()
+	{
+		for (auto& [type, componentArray] : m_componentArrays)
+		{
+			componentArray->Clear();
 		}
 	}
 }

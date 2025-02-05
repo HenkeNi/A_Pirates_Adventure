@@ -7,8 +7,6 @@
 
 namespace Hi_Engine
 {
-	void SetConsoleTextColor(int color);
-
 	void Logger::Initialize(const std::string& logFile)
 	{
 		s_logStream.open(logFile, std::ios::out | std::ios::app);
@@ -31,28 +29,28 @@ namespace Hi_Engine
 		}
 	}
 
-	void Logger::Log(const std::string& message, eLogLevel level)
-	{
-		std::lock_guard<std::mutex> lock(s_lockMutex);
+	//void Logger::Log(const std::string& message, eLogLevel level)
+	//{
+	//	std::lock_guard<std::mutex> lock(s_lockMutex);
 
-		std::string logEntry = "[" + GetTimeStamp() + "] [" + GetLevelString(level) + "] " + message;
+	//	std::string logEntry = "[" + GetTimeStamp() + "] [" + GetLevelString(level) + "] " + message;
 
-		SetConsoleTextColor(GetOutputColor(level));
-		
-		std::cout << logEntry << '\n' << std::endl;
+	//	SetConsoleTextColor(GetOutputColor(level));
+	//	
+	//	std::cout << logEntry << '\n' << std::endl;
 
-		if (s_logStream.is_open())
-		{
-			s_logStream << logEntry << std::endl;
-			s_logStream.flush();
-		}
-		else
-		{
-			std::cerr << "Failed to open log file: " << std::endl;
-		}
+	//	if (s_logStream.is_open())
+	//	{
+	//		s_logStream << logEntry << std::endl;
+	//		s_logStream.flush();
+	//	}
+	//	else
+	//	{
+	//		std::cerr << "Failed to open log file: " << std::endl;
+	//	}
 
-		SetConsoleTextColor(7);
-	}
+	//	SetConsoleTextColor(7);
+	//}
 
 	std::string Logger::GetLevelString(eLogLevel level)
 	{

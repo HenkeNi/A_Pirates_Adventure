@@ -28,33 +28,35 @@ namespace Hi_Engine
 		void Shutdown()			override;
 		
 		void Deserialize(const rapidjson::Value& json) override;
+		void SetProjectionMatrix(const glm::mat4& proj);
+		void AddSpriteBatch(SpriteBatch&& batch); // or just render sprite batch? Make tempalted?
 
-		void BeginDraw();
-		void EndDraw();
-
-		void ProcessCommands();
-		void BeginFrame(); // BeginBatch?
+		void BeginFrame();
+		void ProcessBatches();
 		void EndFrame();
+
+
+		// PRIVATE?
 		void Display();
 
 		void DrawSprite(const Sprite& sprite);
 		void DrawQuad(const QuadRenderData& data);
+		// PRIVATE?
 
 		void SetShader(GLSLShader* shader);
 		bool IsTextureBound(unsigned texID, float& outTexIndex);
 
 		void ClearScreen(); // Remove later? rework into BeginFrame() or something...
 
-		void SetProjectionMatrix(const glm::mat4& proj);
-		void AddSpriteBatch(SpriteBatch&& batch);
-
 	private:
 		void SetupVertexArray();
+		void BeginNewBatch(); // or ResetContext?
 
-		std::queue<SpriteBatch> m_spriteBatches;
+		std::queue<SpriteBatch> m_spriteBatches; // render commands? pool??
 
 		// store a viewport?
-		
+
+
 		// Texture manager?
 		std::array<uint32_t, MaxTextureSlots> m_textureSlots;
 		uint32_t	m_textureSlotIndex = 1; // texture 0 == white texture...
@@ -63,10 +65,8 @@ namespace Hi_Engine
 		GLuint		m_whiteTexture = 0;
 		uint32_t	m_whiteTextureSlot = 0;
 
-		Window& m_window; // dont? instead fetch from modulemanager?
-
 		RenderContext	m_quadContext;
-		//RenderContext	m_textContext;
 		RenderStats		m_stats;
+		Window& m_window; // dont? instead fetch from modulemanager?
 	};
 }

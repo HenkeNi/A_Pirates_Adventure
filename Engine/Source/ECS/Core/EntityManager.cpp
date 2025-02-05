@@ -39,7 +39,7 @@ namespace Hi_Engine
 		}
 		else
 		{
-			std::cerr << "[EntityManager::Destroy] - Invalid Entity!\n";
+			Logger::LogError("[EntityManager::Destroy] - Invalid Entity " + std::to_string(entity) + " !");
 		}
 	}
 
@@ -56,28 +56,31 @@ namespace Hi_Engine
 
 	std::vector<Entity> EntityManager::GetEntities(const Signature& signature) const
 	{
-		std::vector<Entity> entities;
+		std::vector<Entity> entities(m_active.size());
 
-		std::copy_if(m_active.begin(), m_active.end(), std::back_inserter(entities), [&](Entity entity)
+		auto it = std::copy_if(std::execution::seq, m_active.begin(), m_active.end(), entities.begin(), [&](Entity entity)
 			{
 				return (m_signatures[entity] & signature) == signature;
 			});
 
+	 	entities.resize(std::distance(entities.begin(), it));
 		return entities;
 	}
 	
 	std::optional<Entity> EntityManager::GetEntity(const Signature& signature) const
 	{
-		auto itr = std::find_if(m_active.begin(), m_active.end(), [&](Entity entity)
+		auto it = std::find_if(m_active.begin(), m_active.end(), [&](Entity entity)
 			{
 				return (m_signatures[entity] & signature) == signature;
 
 			});
 
-		if (itr != m_active.end())
-			return *itr;
+		return (it != m_active.end()) ? std::optional<Entity>{*it } : std::nullopt;
 
-		return std::nullopt;
+	/*	if (it != m_active.end())
+			return *it;
+
+		return std::nullopt;*/
 	}
 
 	std::optional<Signature> EntityManager::GetSignature(Entity entity) const
@@ -88,7 +91,7 @@ namespace Hi_Engine
 		}
 		else
 		{
-			std::cerr << "[EntityManager::GetSignature] - Invalid Entity!\n";
+			Logger::LogError("[EntityManager::GetSignature] - Invalid Entity!");
 			return std::nullopt;
 		}
 	}

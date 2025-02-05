@@ -45,4 +45,8 @@ namespace Hi_Engine
 		}
 
 	}
+
+
+	// NOTE; passing by value here avoids unnecessary copying
+	std::string ToLowerCase(std::string text);
 }

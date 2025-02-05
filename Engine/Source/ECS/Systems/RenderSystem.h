@@ -19,8 +19,8 @@ namespace Hi_Engine
 		eUpdatePhase GetUpdatePhase() const override;
 
 	private:
-		SpriteBatch CreateUIBatch();
-		SpriteBatch CreateSpriteBatch();
+		SpriteBatch CreateSpriteBatch() const;
+		SpriteBatch CreateUIBatch() const;
 
 		IVector2 m_windowSize;
 		std::weak_ptr<Renderer> m_renderer;

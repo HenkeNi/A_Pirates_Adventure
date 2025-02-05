@@ -139,25 +139,37 @@ namespace Hi_Engine
 		SetShader(shader.get());
 	}
 
-	void Renderer::BeginDraw()
+	void Renderer::SetProjectionMatrix(const glm::mat4& proj)
 	{
+		if (auto* shader = m_quadContext.GLSLShader)
+		{
+			shader->SetMatrix4("uViewProjection", proj);
+		}
+		else
+		{
+			Logger::LogWarning("Renderer::SetProjectionMatrix - No Shader set!");
+		}
 	}
 
-	void Renderer::EndDraw()
+	void Renderer::AddSpriteBatch(SpriteBatch&& batch)
 	{
+		m_spriteBatches.push(std::move(batch));
 	}
 
-	void Renderer::ProcessCommands()
+	void Renderer::BeginFrame()
 	{
+		// Reset stats
+		m_stats.TotalDraws = 0;
+		m_stats.TotalQuads = 0;
+	}
+
+	void Renderer::ProcessBatches()
+	{
+		BeginNewBatch();
+
 		while (!m_spriteBatches.empty())
 		{
 			auto batch = m_spriteBatches.front();
-
-			BeginFrame();
-
-			// m_quadContext.GLSLShader->SetMatrix4("uViewProjection", batch.ProjectionMatrix);
-			
-			// Todo; check if shader sent by event, is valid..
 
 			for (const auto& sprite : batch.Sprites)
 			{
@@ -165,19 +177,9 @@ namespace Hi_Engine
 			}
 
 			m_spriteBatches.pop();
-			EndFrame();
 		}
 
-		m_window.SwapBuffers();
-		// swap buffers?
-	}
-
-	void Renderer::BeginFrame()
-	{
-		/* Set current vertex to point to the first element */
-		m_quadContext.CurrentVertex = m_quadContext.Buffer;
-		m_quadContext.IndexCount = 0;
-		m_textureSlotIndex = 1;
+		Display();
 	}
 
 	void Renderer::EndFrame()
@@ -186,9 +188,8 @@ namespace Hi_Engine
 
 		// std::cout << "Total draws: " << m_stats.TotalDraws << ", total quads: " << m_stats.TotalQuads << "\n";
 
-		// Reset stats
-		m_stats.TotalDraws = 0;
-		m_stats.TotalQuads = 0;
+		m_window.SwapBuffers();
+
 	}
 
 	void Renderer::Display()
@@ -206,7 +207,7 @@ namespace Hi_Engine
 		}
 
 		// m_activeShader->SetIntArray("uTextures", m_textureSlots, m_textureSlotIndex);	// NEEDED??
-		m_quadContext.GLSLShader->Activate();
+		//m_quadContext.GLSLShader->Activate();
 
 		
 		glBindVertexArray(m_quadContext.VAO);
@@ -218,14 +219,14 @@ namespace Hi_Engine
 
 	void Renderer::DrawSprite(const Sprite& sprite)
 	{
-		auto& [transform, color, subtexture ] = sprite;
+		auto* subtexture = sprite.Subtexture;
 
-		if (!subtexture)
+		if (!subtexture) // TODO; use some "invalid" texture instead
 			return;
 
 		// unsigned textureId = subtexture->GetTexture().GetID();  // Dont use weak??
 
-		unsigned textureID = subtexture->GetTexture().GetID();
+		unsigned textureID = sprite.Subtexture->GetTexture().GetID();
 		float textureIndex = 0;
 
 		/* Check if this texture is already bound to a slot */
@@ -240,10 +241,10 @@ namespace Hi_Engine
 		if (m_quadContext.IndexCount >= MaxIndexCount)
 		{
 			Display();
-			BeginFrame();
+			BeginNewBatch();
 		}
 
-		SetupVertices(&m_quadContext.CurrentVertex, transform, color, subtexture->GetTexCoords(), textureIndex);
+		SetupVertices(&m_quadContext.CurrentVertex, sprite.Transform, sprite.Color, subtexture->GetTexCoords(), textureIndex);
 
 		m_quadContext.IndexCount += INDICES_PER_QUAD;
 		++m_stats.TotalQuads;
@@ -255,7 +256,7 @@ namespace Hi_Engine
 		if (m_quadContext.IndexCount >= MaxIndexCount)
 		{
 			Display();
-			BeginFrame();
+			BeginNewBatch();
 		}
 
 		static const glm::vec2 textureCoords[4] = {
@@ -302,17 +303,6 @@ namespace Hi_Engine
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	void Renderer::SetProjectionMatrix(const glm::mat4& proj)
-	{
-		if (auto* shader = m_quadContext.GLSLShader)
-			shader->SetMatrix4("uViewProjection", proj);
-	}
-
-	void Renderer::AddSpriteBatch(SpriteBatch&& batch)
-	{
-		m_spriteBatches.push(std::move(batch));
-	}
- 
 	void Renderer::SetupVertexArray()
 	{
 		/* Create vertex array object */
@@ -354,5 +344,13 @@ namespace Hi_Engine
 		/* Unbind VBO and VAO */
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
+	}
+
+	void Renderer::BeginNewBatch()
+	{
+		/* Set current vertex to point to the first element */
+		m_quadContext.CurrentVertex = m_quadContext.Buffer;
+		m_quadContext.IndexCount = 0;
+		m_textureSlotIndex = 1;
 	}
 }

@@ -203,6 +203,7 @@ namespace Registration
 
 	void RegisterCallbacks(Hi_Engine::ECSCoordinator& ecs)
 	{
-		Hi_Engine::CallbackRegistry::Callbacks.insert({ "scene_transition", []() {} });
+		// how to pass scene type? Fetch sceentransition component? or entity?
+		Hi_Engine::CallbackRegistry::Callbacks.insert({ "scene_transition", [&](Hi_Engine::Entity entity) { PostMaster::GetInstance().SendMessage({ eMessage::TransitionToScene, entity }); } }); // or register functio in engine faceade?
 	}
 }

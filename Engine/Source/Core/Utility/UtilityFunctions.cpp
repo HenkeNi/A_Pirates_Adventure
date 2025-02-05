@@ -118,4 +118,12 @@ namespace Hi_Engine
 			std::cerr << "Failed to open file for writing." << std::endl;
 		}
 	}
+
+	std::string ToLowerCase(std::string text)
+	{
+		for (auto t : text)
+			t = std::tolower(t);
+
+		return text;
+	}
 }

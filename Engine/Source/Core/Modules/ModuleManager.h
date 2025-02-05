@@ -2,6 +2,9 @@
 #include <typeindex>
 #include <memory> // REMOVE LATER
 
+// Send module loaded / unloaded events
+// load modules doesnt load modules?? needs to register still?
+
 namespace Hi_Engine
 {
 	class Module;

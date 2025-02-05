@@ -13,5 +13,10 @@ namespace Hi_Engine
 	{
 		return s_ecs.lock()->CreateEntityFromJson(jsonEntity);
 	}
+
+	std::optional<Entity> EngineFacade::CreateEntityFromPrefab(const char* type)
+	{
+		return s_ecs.lock()->CreateEntityFromPrefab(type);
+	}
 }
 

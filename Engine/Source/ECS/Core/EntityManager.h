@@ -1,12 +1,12 @@
 #pragma once
 #include "../Utility/ECSTypes.h"
-
+#include "Utility/NonCopyable.h"
 #include <optional>
 #include <queue>
 
 namespace Hi_Engine
 {
-	class EntityManager
+	class EntityManager : private NonCopyable
 	{
 	public:
 		void Initialize();
@@ -22,7 +22,7 @@ namespace Hi_Engine
 
 		std::optional<Signature> GetSignature(Entity entity) const;
 		void SetSignature(Entity entity, const Signature& signature);
-
+		
 		bool IsValidEntity(Entity entity) const;
 
 	private:

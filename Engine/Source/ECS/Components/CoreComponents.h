@@ -41,7 +41,7 @@ namespace Hi_Engine
 	{
 		FVector4					DefaultColor = { 1.f, 1.f, 1.f, 1.f };
 		FVector4					CurrentColor = { 1.f, 1.f, 1.f, 1.f };
-		std::shared_ptr<class Subtexture2D>	Subtexture = nullptr;
+		std::shared_ptr<class Subtexture2D>	Subtexture = nullptr; // store id instead?
 		int							RenderDepth = 0; // remove? moved to uicomponent
 		bool						IsVisible = true;
 	};
@@ -78,7 +78,7 @@ namespace Hi_Engine
 
 	struct TimerComponent
 	{
-		std::function<void(int entity)> Callback;
+		std::function<void(int entity)> Callback; //  - dont allow non trivial data`? store id to callback insteaD?
 		float Duration = 0.f;
 		float ElapsedTime = 0.f;
 

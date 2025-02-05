@@ -1,13 +1,14 @@
 #pragma once
 #include "../Utility/ECSTypes.h"
+#include "Utility/TypeTraits.h"
+#include "Logging/Logger.h"
 
 // TODO; 
-//  * store "read" and "write" components separately (for multi threading system) 
-// Rename ComponentStorage or ComponentContainer
+// Rename ComponentStorage or ComponentContainer or rename SparseSet?
 
 namespace Hi_Engine
 {
-	class IComponentArray
+	class IComponentArray : private NonCopyable
 	{
 	public:
 		IComponentArray() = default;
@@ -23,16 +24,17 @@ namespace Hi_Engine
 		virtual void Clear() = 0;
 	};
 
-	template <typename T>
-	class ComponentArray : public IComponentArray
+	template <ComponentType T>
+	class ComponentArray : public IComponentArray // rename SparseSet
 	{
 	public:
 		ComponentArray();
 
-		template <typename Callback>
+		template <Callable Callback>
 		void ForEachComponent(Callback&& callback);
 		
-		bool AddComponent(Entity entity, const T& component);
+		template <typename... Args>
+		bool AddComponent(Entity entity, Args&&... args);
 		void RemoveComponent(Entity entity) override;
 		
 		bool HasComponent(Entity entity) const;
@@ -41,58 +43,63 @@ namespace Hi_Engine
 		const std::vector<T>& GetComponents() const;
 		std::vector<T>& GetComponents();
 
-		const T* GetComponent(Entity entity) const;
+		const T* GetComponent(Entity entity) const; // return std::optional<std::refrence_wrapper?>
 		T* GetComponent(Entity entity);
 
 	private:
 		std::unordered_map<Entity, std::size_t> m_entityToIndexMap;
-		std::unordered_map<std::size_t, Entity> m_indexToEntityMap;
+		std::unordered_map<std::size_t, Entity> m_indexToEntityMap; // NEED?
+		
+		std::array<std::size_t, MaxEntities> m_entityToIndex; // sparse
 
-		std::vector<T> m_components;
+		std::vector<T> m_components; // packed 
 	};
 
 #pragma region Templated_Methods
 
-	template <typename T>
+	template <ComponentType T>
 	ComponentArray<T>::ComponentArray()
 	{
 		m_components.reserve(MaxEntities);
 	}
 
-	template<typename T>
-	template<typename Callback>
+	template <ComponentType T>
+	template<Callable Callback>
 	void ComponentArray<T>::ForEachComponent(Callback&& callback)
 	{
-		for (auto& component : m_components)
-			callback(component);
+		std::for_each(m_components.begin(), m_components.end(), [](T& component) { callback(component); });
+
+		//for (auto& component : m_components)
+		//	callback(component);
 	}
 
-	template <typename T>
-	bool ComponentArray<T>::AddComponent(Entity entity, const T& component)
+	template<ComponentType T>
+	template<typename ...Args>
+	inline bool ComponentArray<T>::AddComponent(Entity entity, Args && ...args)
 	{
 		if (HasComponent(entity))
 		{
-			std::cerr << "[ComponentArray::AddComponent] - Entity: " << entity << " already has component of type " << typeid(T).name() << "\n";
+			Logger::LogError("[ComponentArray::AddComponent] - Entity: " + std::to_string(entity) + " already has component of type " + std::string(typeid(T).name()));
 			return false;
 		}
 
 		std::size_t index = m_components.size();
-		
+
 		if (index >= MaxEntities)
 		{
-			std::cerr << "[ComponentArray::AddComponent] - component array at max capacity!\n";
+			Logger::LogError("[ComponentArray::AddComponent] - component array of type " + std::string(typeid(T).name()) + " at max capacity!");
 			return false;
 		}
 
 		m_entityToIndexMap.insert_or_assign(entity, index);
 		m_indexToEntityMap.insert_or_assign(index, entity);
 
-		m_components.push_back(component);
+		m_components.emplace_back(std::forward<Args>(args)...);
 
 		return true;
 	}
 
-	template <typename T>
+	template <ComponentType T>
 	void ComponentArray<T>::RemoveComponent(Entity entity)
 	{
 		if (!HasComponent(entity))
@@ -119,7 +126,7 @@ namespace Hi_Engine
 		m_components.pop_back();
 	}
 
-	template <typename T>
+	template <ComponentType T>
 	bool ComponentArray<T>::HasComponent(Entity entity) const
 	{
 		if (m_entityToIndexMap.contains(entity))
@@ -131,7 +138,7 @@ namespace Hi_Engine
 		return false;
 	}
 
-	template<typename T>
+	template <ComponentType T>
 	void ComponentArray<T>::Clear()
 	{
 		m_entityToIndexMap.clear();
@@ -140,19 +147,19 @@ namespace Hi_Engine
 		m_components.clear();
 	}
 
-	template <typename T>
+	template <ComponentType T>
 	const std::vector<T>& ComponentArray<T>::GetComponents() const
 	{
 		return m_components;
 	}
 
-	template <typename T>
+	template <ComponentType T>
 	std::vector<T>& ComponentArray<T>::GetComponents()
 	{
 		return m_components;
 	}
 
-	template <typename T>
+	template <ComponentType T>
 	const T* ComponentArray<T>::GetComponent(Entity entity) const
 	{
 		if (HasComponent(entity))
@@ -163,7 +170,7 @@ namespace Hi_Engine
 		return nullptr;
 	}
 	
-	template <typename T>
+	template <ComponentType T>
 	T* ComponentArray<T>::GetComponent(Entity entity)
 	{
 		if (HasComponent(entity))

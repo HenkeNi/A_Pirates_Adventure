@@ -27,7 +27,7 @@ namespace Hi_Engine
 		void SendEventInstantly(Args&&... args);	
 
 		template <typename T, typename... Args>
-		void AddEvent(Args&&... args);
+		void AddEvent(Args&&... args); // reanem? CreateEvemt`?
 
 	private:
 		EventDispatcher() = default;

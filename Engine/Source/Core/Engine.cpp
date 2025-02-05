@@ -34,13 +34,6 @@ namespace Hi_Engine
 	Engine::Engine(Application& app)
 		: m_application{ app }, m_isRunning{ false }
 	{
-		EventDispatcher::GetInstance().Subscribe(this);
-		RegisterModules(); // init instead??
-	}
-
-	Engine::~Engine()
-	{
-		EventDispatcher::GetInstance().Unsubscribe(this);
 	}
 
 	void Engine::HandleEvent(TerminationEvent& event)
@@ -53,6 +46,9 @@ namespace Hi_Engine
 		glfwSetErrorCallback(ErrorCallbackGLFW); // do in window class?
 
 		Logger::Initialize("../Engine/Logs/engine_debug.log");
+
+		RegisterModules();
+		EventDispatcher::GetInstance().Subscribe(this);
 
 		if (!m_moduleManager.Init())
 		{
@@ -80,6 +76,7 @@ namespace Hi_Engine
 		m_application.OnDestroy();
 		m_moduleManager.Shutdown();
 
+		EventDispatcher::GetInstance().Unsubscribe(this);
 		Logger::Shutdown();
 	}
 
@@ -91,6 +88,8 @@ namespace Hi_Engine
 
 		while (m_isRunning)	// Todo, use enum for GameState instead? !GameState::EXIT or call function in Application? ShouldRun()?
 		{
+			PROFILE_FUNCTION("Engine::Run (Game Loop): ");
+
  			timer.Update();
 			const float deltaTime = timer.GetDeltaTime();
 
@@ -99,10 +98,10 @@ namespace Hi_Engine
 			ecs->Update(deltaTime);
 			m_application.OnUpdate(deltaTime);
 
-#ifdef DEBUG
+//#ifdef DEBUG
 			if (window)
 				window->SetTitle("Fps: " + std::to_string((int)timer.GetAverageFPS())); // TODO; Get Draw calls... (have system do this)?
-#endif 
+//#endif 
 		}
 	}
 

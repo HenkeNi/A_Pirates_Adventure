@@ -16,7 +16,7 @@ namespace Hi_Engine
 		inline const Timer& GetTimer() const { return m_timer; }
 		inline Timer& GetTimer() { return m_timer; }
 	private:
-		ThreadPool m_threadPool;
+		ThreadPool m_threadPool; // or make into modules instead?
 		Timer m_timer;
 	};
 }

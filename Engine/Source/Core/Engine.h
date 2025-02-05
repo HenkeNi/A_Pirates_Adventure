@@ -12,7 +12,7 @@ namespace Hi_Engine
 	{
 	public:
 		Engine(Application& app);
-		~Engine();
+		~Engine() = default;
 
 		void HandleEvent(class TerminationEvent& event) override;
 

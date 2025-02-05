@@ -8,71 +8,52 @@ namespace Hi_Engine::Math
 
 	// ################## Min ################## //
 	template <typename T>
-	constexpr T Min(T value1, T value2)
+	constexpr T Min(T a, T b)
 	{
-		return value1 < value2 ? value1 : value2;
+		return a < b ? a : b;
 	}
 	
 	// ################## Max ################## //
 	template <typename T>
-	constexpr T Max(T value1, T value2)
+	constexpr T Max(T a, T b)
 	{
-		return value1 > value2 ? value1 : value2;
+		return b < a ? a : b;
 	}
 
 	// ################## Abs ################## //
-	template <typename T>
+	template <std::totally_ordered T> // check
 	constexpr T Abs(T value)
 	{
 		return value < 0 ? -value : value;
 	}
 
-	template <>
-	const char* Abs(const char* value) = delete;
-	
-	template <>
-	std::string Abs(std::string value) = delete;
-
-
 	// ################## Clamp ################## //
-	template <typename T>
+	template <std::totally_ordered T> // or integer?
 	constexpr T Clamp(T value, T min, T max)
 	{
 		assert(max >= min);
 		return std::max(min, std::min(max, value));
 	}
 
-	template <>
-	const char* Clamp(const char* value, const char* min, const char* max) = delete;
-
-	template <>
-	std::string Clamp(std::string value, std::string min, std::string max) = delete;
-
 	// ################## Lerp ################## //
-	template <typename T>
+	template <std::totally_ordered T> // Check
 	constexpr T Lerp(T a, T b, T c)
 	{
 		T result = (a + c * (b - a));
 		return result;
 	}
 
-	template <>
-	const char* Lerp(const char* a, const char* b, const char* c) = delete;
-
-	template <>
-	std::string Lerp(std::string a, std::string b, std::string c) = delete;
-
 	// ################## Swap ################## //
 	template <typename T>
-	void Swap(T& value1, T& value2)
+	void Swap(T& a, T& b) // check
 	{
-		T temp = value1;
-		value1 = value2;
-		value2 = temp;
+		T temp = a;
+		a = b;
+		b = temp;
 	}
 
 	// ################## Swap ################## //
-	template <typename T>
+	template <std::integral T>
 	T Wrap(T value, T min, T max)
 	{
 		return (value < min) ? max - (min - value) % (max - min)
@@ -80,6 +61,8 @@ namespace Hi_Engine::Math
 	}
 
 	// ################## Rerange ################## //
+
+	// template <std::ranges::input_range R>
 	template <typename T>
 	T Rerange(T value, const Range<T>& oldRange, const Range<T>& newRange) // Todo; rename MapToNewRange?
 	{
@@ -87,48 +70,34 @@ namespace Hi_Engine::Math
 		return newValue;
 	}
 
-	// ################## Convert to radians ################## //
-	template <typename T>
-	constexpr T ConvertToRadians(T degrees)
+	// ################## Angle Conversion Functions ################## //
+	template <std::floating_point T>
+	constexpr T RadiansToDegrees(T radians)
 	{
-		return degrees * (PI / 180);
+		return (radians * (T(180) / T(PI)));
 	}
 
-	// TODFO; use typename std::enable_if<!std::is_integral<T>::value>::type? instead??
-
-	template <>
-	const char* ConvertToRadians(const char* degrees) = delete;
-
-	template <>
-	std::string ConvertToRadians(std::string degrees) = delete;
-
-	// ################## Convert to degrees ################## //
-	template <typename T>
-	constexpr T ConvertToDegrees(T radians)
+	template <std::floating_point T>
+	constexpr T DegreesToRadians(T degrees)
 	{
-		return 180 * (radians / PI);
+		return (degrees * (T(PI) / T(180)));
 	}
 
-	template <>
-	const char* ConvertToDegrees(const char* radians) = delete;
-
-	template <>
-	std::string ConvertToDegrees(std::string radians) = delete;
-
-	template <typename T>
-	constexpr T ConvertRadiansToDegrees(T radians) // Todo remove??
+	// ################## Floating Comparison Functions ################## //
+	template <std::floating_point T>
+	bool IsNearlyEqual(T a, T b, T epsilon = static_cast<T>(0.0001))
 	{
-		return (radians * (180 / PI));
+		return std::fabs(a - b) < epsilon;
 	}
 
-	template <typename T>
-	constexpr T ConvertDegreesToRadians(T degrees) // Todo remove??
-	{
-		return (degrees * (PI / 180));
-	}
 
-	inline bool IsNearlyEqual(float value1, float value2, float epsilon = 0.0001f)
-	{
-		return fabs(value1 - value2) < epsilon;
+
+
+
+
+	template <typename T, typename U>
+	requires std::integral<T>&& std::floating_point<U>
+	T add(T a, U b) {
+		return a + b;
 	}
 }
