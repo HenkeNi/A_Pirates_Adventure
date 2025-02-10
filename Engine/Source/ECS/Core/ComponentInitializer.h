@@ -7,15 +7,15 @@ namespace Hi_Engine
 {
 	void InitializeComponent(void* component, const ComponentProperties& properties);
 
-	void InitializeComponent(class TransformComponent* component, const ComponentProperties& properties);
+	void InitializeComponent(struct TransformComponent* component, const ComponentProperties& properties);
 
-	void InitializeComponent(class InputComponent* component, const ComponentProperties& properties);
+	void InitializeComponent(struct InputComponent* component, const ComponentProperties& properties);
 
-	void InitializeComponent(class CameraComponent* component, const ComponentProperties& properties);
+	void InitializeComponent(struct CameraComponent* component, const ComponentProperties& properties);
 
-	void InitializeComponent(class SpriteComponent* component, const ComponentProperties& properties);
+	void InitializeComponent(struct SpriteComponent* component, const ComponentProperties& properties);
 
-	void InitializeComponent(class UIComponent* component, const ComponentProperties& properties);
+	void InitializeComponent(struct UIComponent* component, const ComponentProperties& properties);
 
-	void InitializeComponent(class TimerComponent* component, const ComponentProperties& properties);
+	void InitializeComponent(struct TimerComponent* component, const ComponentProperties& properties);
 }
