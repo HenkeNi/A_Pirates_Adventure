@@ -24,7 +24,7 @@ namespace Hi_Engine
 			return entity;
 		}
 
-		std::cerr << "[EntityManager::Create] - Maximum entity capacity reached!\n";
+		Logger::LogWarning("[EntityManager::Create] - Maximum entity capacity reached!");
 		return std::nullopt;
 	}
 	
