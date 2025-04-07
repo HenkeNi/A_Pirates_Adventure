@@ -1,11 +1,16 @@
 #pragma once
-#include "../Utility/ECSTypes.h"
+#include "../ECS/Utility/ECSTypes.h"
 
 namespace Hi_Engine
 {
+	// Store entity factory in game layer
+
+
 	// Store Prefabs in resource holder?
 
 	class EntityManager;
+	class EntityFactory;
+	class ComponentRegistry;
 
 	class EntityPrefab
 	{
@@ -30,7 +35,7 @@ namespace Hi_Engine
 	class EntityFactory
 	{
 	public:
-		EntityFactory(EntityManager& entityManager, ComponentRegistry& componentRegistry);
+		EntityFactory(EntityManager& entityManager, ComponentRegistry& componentRegistry); // TODO; dont pass in component regitry?
 		~EntityFactory();
 
 		void LoadPrefabs();

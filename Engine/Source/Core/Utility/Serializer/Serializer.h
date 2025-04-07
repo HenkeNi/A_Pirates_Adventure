@@ -4,6 +4,19 @@
 
 namespace Hi_Engine
 {
+	/*class Serializer
+	{
+	public:
+	};
+
+	class JsonSerializer : public Serializer
+	{
+	public:
+
+	};*/
+
+	// class ECSSerializer ?? -> make module?
+
 	using JsonValue = std::variant<int, float, std::string, bool, FVector2>;
 	using JsonKey = const char*;
 

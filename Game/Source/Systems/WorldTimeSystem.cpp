@@ -9,13 +9,23 @@ WorldTimeSystem::WorldTimeSystem(Hi_Engine::ECSCoordinator& ecs)
 
 void WorldTimeSystem::Update(float deltaTime)
 {
-	for (auto& worldTimeComponent : m_ecs.GetComponents<WorldTimeComponent>())
-	{
-		AdvanceTime(worldTimeComponent, deltaTime);
+	auto view = m_ecs.GetComponentView<WorldTimeComponent>();
 
-		UpdateDayProgress(worldTimeComponent);
-		UpdateTimeOfDay(worldTimeComponent);
-	}
+	view.ForEach([=](WorldTimeComponent& component)
+		{
+			AdvanceTime(component, deltaTime);
+
+			UpdateDayProgress(component);
+			UpdateTimeOfDay(component);
+		});
+
+	//for (auto& worldTimeComponent : m_ecs.GetComponents<WorldTimeComponent>())
+	//{
+	//	AdvanceTime(worldTimeComponent, deltaTime);
+
+	//	UpdateDayProgress(worldTimeComponent);
+	//	UpdateTimeOfDay(worldTimeComponent);
+	//}
 }
 
 Hi_Engine::eUpdatePhase WorldTimeSystem::GetUpdatePhase() const

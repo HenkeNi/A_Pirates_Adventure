@@ -3,6 +3,7 @@
 #include "Utility/NonCopyable.h"
 #include <optional>
 #include <queue>
+#include <array>
 
 namespace Hi_Engine
 {
@@ -21,13 +22,13 @@ namespace Hi_Engine
 		std::optional<Entity> GetEntity(const Signature& signature) const;
 
 		std::optional<Signature> GetSignature(Entity entity) const;
-		void SetSignature(Entity entity, const Signature& signature);
 		
+		void SetSignature(Entity entity, const Signature& signature);
 		bool IsValidEntity(Entity entity) const;
 
 	private:
 		std::vector<Entity> m_active;
-		std::queue<Entity> m_available;
+		std::queue<Entity> m_available; // sort?? priority queue or heap?
 
 		std::array<Signature, MaxEntities> m_signatures;
 	};

@@ -26,23 +26,39 @@ namespace Hi_Engine
 
 	void RenderSystem::Update(float deltaTime)
 	{
-		PROFILE_FUNCTION("RenderSystem::Update");
+		// TODO; only sort visible entities!
+
+		PROFILE_FUNCTION("RenderSystem::Update [Begin]");
 
 		if (auto renderer = m_renderer.lock())
 		{
 			renderer->BeginFrame();
 			renderer->ClearScreen(); // or have part of the process function call?
 
-			const auto& cameraComponents = m_ecs.GetComponents<CameraComponent>();
-			auto cameraIterator = std::find_if(cameraComponents.begin(), cameraComponents.end(), [](const CameraComponent& component) { return component.IsActive; });
+			auto view = m_ecs.GetComponentView<CameraComponent>(); // TODO; use FindIf fnc later...
+			CameraComponent* cameraComponent = nullptr;
 
-			if (cameraIterator == cameraComponents.end())
+			view.ForEach([&](CameraComponent& component)
+				{
+					if (component.IsActive)
+					{
+						cameraComponent = &component;
+						return;
+					}
+					// will break / return work?
+				});
+
+			// const auto& cameraComponents = m_ecs.GetComponents<CameraComponent>();
+			//auto cameraIterator = std::find_if(cameraComponents.begin(), cameraComponents.end(), [](const CameraComponent& component) { return component.IsActive; });
+
+			///if (cameraIterator == cameraComponents.end())
+			if (!cameraComponent)
 			{
 				Logger::LogError("RenderSystem::Update - Failed to find an active Camera!");
 				return;
 			}
 
-			const auto& camera = cameraIterator->Camera;
+			const auto& camera = cameraComponent->Camera;
 
 			renderer->SetProjectionMatrix(camera.GetViewProjectionMatrix()); // do in function?? Check if any entities to draw before?!
 			renderer->AddSpriteBatch(std::move(CreateSpriteBatch()));
@@ -82,13 +98,9 @@ namespace Hi_Engine
 
 	SpriteBatch RenderSystem::CreateSpriteBatch() const
 	{
-		auto componentView = m_ecs.GetComponentView<SpriteComponent, TransformComponent>([this](Entity lhs, Entity rhs)
-		{
-			const auto* lhsTransform = m_ecs.GetComponent<TransformComponent>(lhs);
-			const auto* rhsTransform = m_ecs.GetComponent<TransformComponent>(rhs);
+		PROFILE_FUNCTION("\tRenderSystem::CreateSpriteBatch");
 
-			return lhsTransform->Position.y < rhsTransform->Position.y;
-		});
+		auto componentView = m_ecs.GetComponentView<SpriteComponent, TransformComponent>();
 
 		SpriteBatch spriteBatch;
 		spriteBatch.Sprites.reserve(componentView.size());
@@ -106,39 +118,28 @@ namespace Hi_Engine
 
 				const auto& [r, g, b, a] = spriteComponent->CurrentColor;
 
-				spriteBatch.Sprites.emplace_back(Hi_Engine::Transform{ { xPosition, yPosition, 0.f }, { scale.x, scale.y }, transformComponent->Rotation }, glm::vec4{ r, g, b, a }, spriteComponent->Subtexture.get());
-
+				spriteBatch.Sprites.emplace_back(Transform{ { xPosition, yPosition, 0.f }, { scale.x, scale.y }, transformComponent->Rotation }, glm::vec4{ r, g, b, a }, spriteComponent->Subtexture.get());
 			});
 
-
-		//for (const auto& [spriteComponent, transformComponent] : componentView)
-		//{
-		//	if (!spriteComponent->IsVisible || !spriteComponent->Subtexture)
-		//		continue;
-
-		//	const FVector2& scale = transformComponent->Scale;
-		//	const float& rotation = transformComponent->Rotation;
-
-		//	float xPosition = transformComponent->Position.x + (transformComponent->Pivot.x * scale.x);
-		//	float yPosition = transformComponent->Position.y + (transformComponent->Pivot.y * scale.y);
-
-		//	const auto& [r, g, b, a] = spriteComponent->CurrentColor;
-		//	
-		//	spriteBatch.Sprites.emplace_back(Hi_Engine::Transform{ { xPosition, yPosition, 0.f }, { scale.x, scale.y }, transformComponent->Rotation }, glm::vec4{ r, g, b, a }, spriteComponent->Subtexture.get());
-		//}
+		auto& sprites = spriteBatch.Sprites;
+		std::sort(sprites.begin(), sprites.end(), [](const Sprite& lhs, const Sprite& rhs) { return lhs.Transform.Position.y < rhs.Transform.Position.y; });
 
 		return spriteBatch;
 	}
 
 	SpriteBatch RenderSystem::CreateUIBatch() const
 	{
-		auto componentView = m_ecs.GetComponentView<UIComponent, TransformComponent>([this](Entity lhs, Entity rhs)
+		PROFILE_FUNCTION("\tRenderSystem::CreateUIBatch");
+
+		auto componentView = m_ecs.GetComponentView<UIComponent, TransformComponent>();
+		
+		/*auto componentView = m_ecs.GetComponentView<UIComponent, TransformComponent>([this](Entity lhs, Entity rhs)
 		{
 			const auto* lhsUI = m_ecs.GetComponent<UIComponent>(lhs);
 			const auto* rhsUI = m_ecs.GetComponent<UIComponent>(rhs);
 			
 			return lhsUI->RenderDepth > rhsUI->RenderDepth;
-		});
+		});*/
 
 		SpriteBatch spriteBatch;
 		spriteBatch.Sprites.reserve(componentView.size());
@@ -162,6 +163,11 @@ namespace Hi_Engine
 				spriteBatch.Sprites.emplace_back(Transform{ { xPosition, yPosition, 0.f }, { scale.x, scale.y }, rotation }, glm::vec4{ r, g, b, a }, uiComponent->Subtexture.get());
 
 		});
+
+		// Will this work when it should be render depth?? -> maybe solution is to use render depth for z or something
+		auto& sprites = spriteBatch.Sprites;
+		std::sort(sprites.begin(), sprites.end(), [](const Sprite& lhs, const Sprite& rhs) { return lhs.Transform.Position.y < rhs.Transform.Position.y; });
+
 
 		//for (const auto& [uiComponent, transformComponent] : componentView)
 		//{

@@ -18,21 +18,52 @@ namespace Hi_Engine
 	{
 		m_inputHandler.ProcessInput();
 
-		const auto& cameraComponents = m_ecs.GetComponents<CameraComponent>();
-		auto cameraIterator = std::find_if(cameraComponents.begin(), cameraComponents.end(), [](const CameraComponent& component) { return component.IsActive; });
+		auto cameraView = m_ecs.GetComponentView<CameraComponent>(); // TODO; use FindIf fnc later...
+		CameraComponent* cameraComponent = nullptr;
 
-		if (cameraIterator == cameraComponents.end())
+		cameraView.ForEach([&](CameraComponent& component)
+			{
+				if (component.IsActive)
+				{
+					cameraComponent = &component;
+					return;
+				}
+				// will break / return work?
+			});
+
+		if (!cameraComponent)
 			return;
+
+		// maybe store view projection matrix elsewhere??
+		//const auto& cameraComponents = m_ecs.GetComponentView<CameraComponent>();
+		//auto cameraIterator = std::find_if(cameraComponents.begin(), cameraComponents.end(), [](const CameraComponent& component) { return component.IsActive; });
+
+		//if (cameraIterator == cameraComponents.end())
+			//return;
 
 		IVector2 windowSize = m_window.GetSize();
 	
-		auto projectionMatrix = cameraIterator->Camera.GetViewProjectionMatrix();
+		auto projectionMatrix = cameraComponent->Camera.GetViewProjectionMatrix();
 
 		FVector2 mousePosition = InputHandler::GetMousePosition();
 		FVector2 mouseWorldPosition = ConvertScreenToWorldPosition(mousePosition, windowSize.x, windowSize.y, projectionMatrix);
 		float mouseScroll = InputHandler::GetScrollOffset();
 
-		for (auto& inputComponent : m_ecs.GetComponents<InputComponent>())
+		auto inputView = m_ecs.GetComponentView<InputComponent>();
+		inputView.ForEach([&](InputComponent& component) 
+			{
+				for (auto& [key, state] : component.InputStates)
+				{
+					state = InputHandler::IsKeyHeld(key) || InputHandler::IsKeyPressed(key);
+				}
+
+				component.MousePosition = mousePosition;
+				component.MouseWorldPosition = mouseWorldPosition;
+				component.MouseScroll = mouseScroll;
+
+			});
+
+	/*	for (auto& inputComponent : m_ecs.GetComponentView<InputComponent>())
 		{
 			for (auto& [key, state] : inputComponent.InputStates)
 			{
@@ -42,7 +73,7 @@ namespace Hi_Engine
 			inputComponent.MousePosition = mousePosition;
 			inputComponent.MouseWorldPosition = mouseWorldPosition;
 			inputComponent.MouseScroll = mouseScroll;
-		}
+		}*/
 
 		//if (InputHandler::IsMouseButtonPressed(Hi_Engine::eMouseBtn::LeftBtn))
 		//{

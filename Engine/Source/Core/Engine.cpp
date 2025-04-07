@@ -68,6 +68,9 @@ namespace Hi_Engine
 		
 		Logger::LogInfo("Engine::Initialization - Successfully Completed!");
 
+		// SparseSet<TransformComponent, Entity> sparseSet;
+
+
 		return (m_isRunning = true);
 	}
 
@@ -156,6 +159,10 @@ namespace Hi_Engine
 		ecs->RegisterComponent<AudioComponent>("AudioComponent");
 		ecs->RegisterComponent<UIComponent>("UIComponent");
 		ecs->RegisterComponent<TimerComponent>("TimerComponent");
+		ecs->RegisterComponent<TagComponent>("TagComponent");
+
+		ecs->RegisterComponent<TextComponent>("TextComponent");
+		ecs->RegisterComponent<SceneTransitionComponent>("SceneTransitionComponent");
 	}
 
 	/*void Engine::LoadResources()

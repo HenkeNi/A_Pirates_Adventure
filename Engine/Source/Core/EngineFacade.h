@@ -22,9 +22,22 @@ namespace Hi_Engine
 		template <typename System, typename... Args>
 		static void RegisterSystem(const char* name, Args&&... args);
 
-		static std::optional<Entity> CreateEntityFromJson(const rapidjson::Value& jsonEntity);
+		static std::optional<Entity> CreateEntity();
 
-		static std::optional<Entity> CreateEntityFromPrefab(const char* type);
+		template <ComponentType T, typename... Args>
+		static void AddComponent(Entity entity, Args&&... args)
+		{
+			if (auto ecs = s_ecs.lock())
+			{
+				ecs->AddComponent<T>(entity, std::forward<Args>(args)...);
+			}
+
+			// s_ecs.lock()->AddComponent(entity, std::forward<Args>(args)...);
+		}
+
+		//static std::optional<Entity> CreateEntityFromJson(const rapidjson::Value& jsonEntity);
+
+		//static std::optional<Entity> CreateEntityFromPrefab(const char* type);
 
 	private:
 		friend class Engine;

@@ -1,6 +1,7 @@
 #include "Pch.h"
 #include "EntityFactory.h"
-#include "EntityManager.h"
+#include "../ECS/Core/EntityManager.h"
+#include "../ECS/Core/ComponentRegistry.h"
 
 namespace Hi_Engine
 {
@@ -189,16 +190,22 @@ namespace Hi_Engine
 		const auto& componentProperties = prefab->second.GetComponentProperties();
 		for (const auto& [component, properties] : componentProperties)
 		{
-			auto itr = m_componentRegistry.find(component);
+			const auto& data = m_componentRegistry.GetComponentDataByName(component.c_str());
+			// TODO; call add component function
 
-			if (itr == m_componentRegistry.end())
-				continue;
+			//auto itr = m_componentRegistry.find(component);
 
-			itr->second.AddComponent(entity.value());
+			//if (itr == m_componentRegistry.end())
+			//	continue;
+
+
+			// itr->second.AddComponent(entity.value());
 
 			if (!properties.empty()) // Todo, also put checks in ComponentInitailizer!
 			{
-				itr->second.InitializeComponent(entity.value(), properties);
+				//itr->second.InitializeComponent(entity.value(), properties);
+
+				// TODO; initialize
 			}
 		}
 
@@ -226,16 +233,21 @@ namespace Hi_Engine
 				}
 
 				const auto& componentType = component["type"].GetString();
-				auto itr = m_componentRegistry.find(componentType);
 
-				if (itr != m_componentRegistry.end())
-				{
-					itr->second.InitializeComponent(entity.value(), componentProperties);
-				}
-				else
-				{
-					std::cerr << "[EntityFactory::CreateFromJson] - couldn't find component type " << componentType << "\n";
-				}
+				const auto& data = m_componentRegistry.GetComponentDataByName(componentType);
+
+				// TODO; call init function...
+
+				//auto itr = m_componentRegistry.find(componentType);
+
+				//if (itr != m_componentRegistry.end())
+				//{
+				//	//itr->second.InitializeComponent(entity.value(), componentProperties);
+				//}
+				//else
+				//{
+				//	std::cerr << "[EntityFactory::CreateFromJson] - couldn't find component type " << componentType << "\n";
+				//}
 
 			}
 		}

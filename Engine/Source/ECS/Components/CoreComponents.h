@@ -41,7 +41,7 @@ namespace Hi_Engine
 	{
 		FVector4					DefaultColor = { 1.f, 1.f, 1.f, 1.f };
 		FVector4					CurrentColor = { 1.f, 1.f, 1.f, 1.f };
-		std::shared_ptr<class Subtexture2D>	Subtexture = nullptr; // store id instead?
+		std::shared_ptr<class Subtexture2D>	Subtexture = nullptr; // store id instead? and CachedSubtexture?
 		int							RenderDepth = 0; // remove? moved to uicomponent
 		bool						IsVisible = true;
 	};
@@ -84,6 +84,15 @@ namespace Hi_Engine
 
 		bool IsDone = false; // or remove afterwards?
 	};
+
+	
+	
+	
+	struct TextComponent
+	{};
+
+	struct SceneTransitionComponent
+	{};
 
 	//struct HierarchyComponent
 	//{

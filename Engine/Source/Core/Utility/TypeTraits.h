@@ -11,9 +11,9 @@ concept Integral = std::is_integral_v<T>;
 template <typename T>
 concept FloatingPoint = std::is_floating_point_v<T>;
 
-// Arithmetic (Integral types + Floating point types)
+// Integral or floating point (can be any number type)
 template <typename T>
-concept Arithmetic = Integral<T> || FloatingPoint<T>;
+concept Numeric = Integral<T> || FloatingPoint<T>;
 
 // Signed
 template <typename T>
@@ -75,6 +75,10 @@ concept MoveAssignable = std::is_move_assignable_v<T>;
 template <typename T>
 concept Destructible = std::is_destructible_v<T>;
 
+// Move-constructible and copy-constructible
+template <typename T>
+concept CopyOrMoveConstructible = CopyConstructible<T> || MoveConstructible<T>;
+
 // Equality comparable (can use operator==)
 template <typename T, typename U>
 concept EqualityComparable = std::is_same_v<decltype(std::declval<T>() == std::declval<U>()), bool>;
@@ -92,18 +96,6 @@ concept Range = requires(T t) {
     { std::begin(t) } -> std::forward_iterator;
     { std::end(t) } -> std::forward_iterator;
 };
-
-// Invocable (can be invoked with specific arguments)
-template <typename F, typename... Args>
-concept Invocable = std::is_invocable_v<F, Args...>;
-
-// Move-constructible and copy-constructible
-template <typename T>
-concept CopyOrMoveConstructible = CopyConstructible<T> || MoveConstructible<T>;
-
-// Integral or floating point (can be any number type)
-template <typename T>
-concept Numeric = Integral<T> || FloatingPoint<T>;
 
 // String-like type
 template <typename T>

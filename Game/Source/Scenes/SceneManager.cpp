@@ -180,6 +180,6 @@ void SceneManager::LoadScene(eScene type)
 	{
 		// ecs->CreateEntityFromJson(jsonEntity);
 
-		Hi_Engine::EngineFacade::CreateEntityFromJson(jsonEntity);
+		// Hi_Engine::EngineFacade::CreateEntityFromJson(jsonEntity);
 	}
 }
