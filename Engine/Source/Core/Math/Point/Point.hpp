@@ -10,4 +10,7 @@ namespace Hi_Engine::Math
 		T X;
 		T Y;
 	};
+
+	template <typename T>
+	Point(T x, T y) -> Point<T>;
 }
