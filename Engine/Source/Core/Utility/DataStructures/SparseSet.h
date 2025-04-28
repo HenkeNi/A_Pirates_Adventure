@@ -7,12 +7,13 @@ namespace Hi_Engine
 	// TODO; consider replacing vectors with fixed size arrays
 
 	template <typename ValueType, Integral KeyType = std::size_t>
-	class SparseSet
+	class SparseSet final
 	{
 	public:
 		// ==================== Core API ====================
 		// Construction/Destruction
 		SparseSet(std::size_t initialSize = 1024);
+		~SparseSet() = default;
 
 		SparseSet(const SparseSet&) = default;
 		SparseSet(SparseSet&&) noexcept = default;
