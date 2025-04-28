@@ -3,9 +3,11 @@
 
 namespace Hi_Engine
 {
-	// TODO; change naming convention to sparse_set?
-	// TODO; consider replacing vectors with fixed size arrays
-
+	// Consider; 
+	// * renaming to 'sparse_set'
+	// * change to raw memory (KeyType* m_sparse, or std::unique_ptr<KeyType[]>
+	// * use custom iterator
+	
 	template <typename ValueType, Integral KeyType = std::size_t>
 	class SparseSet final
 	{
