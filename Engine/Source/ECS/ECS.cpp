@@ -61,14 +61,20 @@ namespace Hi_Engine
         }
     }
 
-    void ECSCoordinator::DestroyEntity(Entity entity)
+    void ECSCoordinator::DestroyEntity(const Entity& entity)
     {
-        m_entityManager.Destroy(entity);
-
-        for (auto& manager : m_componentManagers)
+        if (m_entityManager.Destroy(entity))
         {
-            manager.second->RemoveComponent(entity);
+            for (auto& manager : m_componentManagers)
+            {
+                manager.second->RemoveComponent(entity.ID); 
+            }
         }
+    }
+
+    bool ECSCoordinator::IsAlive(const Entity& entity) const
+    {
+        return m_entityManager.IsAlive(entity);
     }
 
     void ECSCoordinator::Update(float deltaTime)

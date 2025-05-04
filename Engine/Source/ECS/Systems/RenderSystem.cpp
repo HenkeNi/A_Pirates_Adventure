@@ -36,58 +36,41 @@ namespace Hi_Engine
 			renderer->ClearScreen(); // or have part of the process function call?
 
 			auto view = m_ecs.GetComponentView<CameraComponent>(); // TODO; use FindIf fnc later...
-			CameraComponent* cameraComponent = nullptr;
+			Hi_Engine::Camera* camera = nullptr;
 
+			// Find first instead?
+			//view.ForEach([&](CameraComponent& component)
 			view.ForEach([&](CameraComponent& component)
+			{
+				if (component.IsActive)
 				{
-					if (component.IsActive)
-					{
-						cameraComponent = &component;
-						return;
-					}
-					// will break / return work?
-				});
+					camera = &component.Camera;
+					return false;
+				}
 
-			// const auto& cameraComponents = m_ecs.GetComponents<CameraComponent>();
-			//auto cameraIterator = std::find_if(cameraComponents.begin(), cameraComponents.end(), [](const CameraComponent& component) { return component.IsActive; });
+				return true;
+			});
 
-			///if (cameraIterator == cameraComponents.end())
-			if (!cameraComponent)
+			if (!camera)
 			{
 				Logger::LogError("RenderSystem::Update - Failed to find an active Camera!");
 				return;
 			}
 
-			const auto& camera = cameraComponent->Camera;
-
-			renderer->SetProjectionMatrix(camera.GetViewProjectionMatrix()); // do in function?? Check if any entities to draw before?!
+			// Render sprites
+			renderer->SetProjectionMatrix(camera->GetViewProjectionMatrix()); // do in function?? Check if any entities to draw before?!
 			renderer->AddSpriteBatch(std::move(CreateSpriteBatch()));
-			renderer->ProcessBatches();
+			{
+				PROFILE_FUNCTION("RenderSystem Process batch 1");
+				renderer->ProcessBatches();
+			}
 		
-			renderer->SetProjectionMatrix(camera.GetProjectionMatrix());
+			// Render UI (with Orthographic Projection)
+			renderer->SetProjectionMatrix(camera->GetProjectionMatrix());
 			renderer->AddSpriteBatch(std::move(CreateUIBatch())); // TODO; check if batch is empty before?
 			renderer->ProcessBatches();
-
-			//m_window.SwapBuffers();
-			renderer->EndFrame();
-
-
-			// UI Rendering (Orthographic Projection)
-			//renderer->SetProjectionMatrix(orthoMatrix);
-			//renderer->BeginBatch();
-			//// Add UI elements to the batch
-			//renderer->AddToBatch(uiVertices, uiIndices);
-			//renderer->EndBatch(); // Calls glDrawElements
-
-
-
-
-			//// Sprite Rendering (Perspective Projection)
-			//renderer->SetProjectionMatrix(perspectiveMatrix);
-			//renderer->BeginBatch();
-			//// Add sprites to the batch
-			//renderer->AddToBatch(spriteVertices, spriteIndices);
-			//renderer->EndBatch(); // Calls glDrawElements
+			
+			renderer->EndFrame(); //m_window.SwapBuffers();
 		}
 	}
 
@@ -100,25 +83,26 @@ namespace Hi_Engine
 	{
 		PROFILE_FUNCTION("\tRenderSystem::CreateSpriteBatch");
 
-		auto componentView = m_ecs.GetComponentView<SpriteComponent, TransformComponent>();
+		const auto componentView = m_ecs.GetComponentView<SpriteComponent, TransformComponent>();
 
 		SpriteBatch spriteBatch;
 		spriteBatch.Sprites.reserve(componentView.size());
 
-		componentView.ForEach([&](const SpriteComponent* spriteComponent, const TransformComponent* transformComponent) 
+		//componentView.ForEach([&](const SpriteComponent* spriteComponent, const TransformComponent* transformComponent) 
+		componentView.ForEach([&](const SpriteComponent& spriteComponent, const TransformComponent& transformComponent) 
 			{
-				if (!spriteComponent->IsVisible || !spriteComponent->Subtexture)
+				if (!spriteComponent.IsVisible || !spriteComponent.Subtexture)
 					return;
 
-				const FVector2& scale = transformComponent->Scale;
-				const float& rotation = transformComponent->Rotation;
+				const FVector2& scale = transformComponent.Scale;
+				const float& rotation = transformComponent.Rotation;
 
-				float xPosition = transformComponent->Position.x + (transformComponent->Pivot.x * scale.x);
-				float yPosition = transformComponent->Position.y + (transformComponent->Pivot.y * scale.y);
+				float xPosition = transformComponent.Position.x + (transformComponent.Pivot.x * scale.x);
+				float yPosition = transformComponent.Position.y + (transformComponent.Pivot.y * scale.y);
 
-				const auto& [r, g, b, a] = spriteComponent->CurrentColor;
+				const auto& [r, g, b, a] = spriteComponent.CurrentColor;
 
-				spriteBatch.Sprites.emplace_back(Transform{ { xPosition, yPosition, 0.f }, { scale.x, scale.y }, transformComponent->Rotation }, glm::vec4{ r, g, b, a }, spriteComponent->Subtexture.get());
+				spriteBatch.Sprites.emplace_back(Transform{ { xPosition, yPosition, 0.f }, { scale.x, scale.y }, transformComponent.Rotation }, glm::vec4{ r, g, b, a }, spriteComponent.Subtexture.get());
 			});
 
 		auto& sprites = spriteBatch.Sprites;
@@ -144,23 +128,23 @@ namespace Hi_Engine
 		SpriteBatch spriteBatch;
 		spriteBatch.Sprites.reserve(componentView.size());
 
-		componentView.ForEach([&](const UIComponent* uiComponent, const TransformComponent* transformComponent)
+		componentView.ForEach([&](const UIComponent& uiComponent, const TransformComponent& transformComponent)
 		{
-				if (!uiComponent->IsVisible || !uiComponent->Subtexture)
+				if (!uiComponent.IsVisible || !uiComponent.Subtexture)
 					return;
 
-				const FVector2& scale = transformComponent->Scale;
-				const float& rotation = transformComponent->Rotation;
+				const FVector2& scale = transformComponent.Scale;
+				const float& rotation = transformComponent.Rotation;
 
-				float xPosition = transformComponent->Position.x * m_windowSize.x;
-				xPosition += (scale.x * transformComponent->Pivot.x);
+				float xPosition = transformComponent.Position.x * m_windowSize.x;
+				xPosition += (scale.x * transformComponent.Pivot.x);
 
-				float yPosition = transformComponent->Position.y * m_windowSize.y;
-				yPosition += (scale.y * transformComponent->Pivot.y);
+				float yPosition = transformComponent.Position.y * m_windowSize.y;
+				yPosition += (scale.y * transformComponent.Pivot.y);
 
-				const auto& [r, g, b, a] = uiComponent->CurrentColor;
+				const auto& [r, g, b, a] = uiComponent.CurrentColor;
 
-				spriteBatch.Sprites.emplace_back(Transform{ { xPosition, yPosition, 0.f }, { scale.x, scale.y }, rotation }, glm::vec4{ r, g, b, a }, uiComponent->Subtexture.get());
+				spriteBatch.Sprites.emplace_back(Transform{ { xPosition, yPosition, 0.f }, { scale.x, scale.y }, rotation }, glm::vec4{ r, g, b, a }, uiComponent.Subtexture.get());
 
 		});
 

@@ -3,11 +3,16 @@
 
 namespace Hi_Engine
 {
+	EntityManager::EntityManager()
+		: m_signatures{}, m_versions{}
+	{
+	}
+
 	void EntityManager::Initialize()
 	{
-		m_active.reserve(MaxEntities);
+		//m_active.reserve(MaxEntities);
 
-		for (std::size_t i = 0; i < MaxEntities; ++i)
+		for (uint32_t i = 0; i < MaxEntities; ++i)
 		{
 			m_available.push(i);
 		}
@@ -17,94 +22,110 @@ namespace Hi_Engine
 	{
 		if (!m_available.empty())
 		{
-			Entity entity = m_available.front();
+			EntityID id = m_available.front();
 			m_available.pop();
 
-			m_active.push_back(entity);
-			return entity;
+			//m_alive[entity] = true;
+			
+			m_alive.Emplace(id, id, m_versions[id]);
+			return Entity{ id, m_versions[id] };
 		}
 
 		Logger::LogWarning("[EntityManager::Create] - Maximum entity capacity reached!");
 		return std::nullopt;
 	}
 	
-	void EntityManager::Destroy(Entity entity)
+	bool EntityManager::Destroy(const Entity& entity)
 	{
-		if (IsValidEntity(entity))
+		if (IsAlive(entity)) // valid check entiy as well?
 		{
-			m_available.push(entity);
-			m_signatures[entity].reset();
+			m_available.push(entity.ID);
+			
+			m_signatures[entity.ID].reset();
+			++m_versions[entity.ID];
 
-			m_active.erase(std::remove(m_active.begin(), m_active.end(), entity));
+			//m_alive[false];
+
+			m_alive.Remove(entity.ID);
+			return true;
+
+			//auto it = std::find(m_active.begin(), m_active.end(), entity);
+			//if (it != m_active.end())
+			//{
+			//	std::iter_swap(it, m_active.end() - 1);
+			//}
+
+			// m_active.erase(std::remove(m_active.begin(), m_active.end(), entity), m_active.end()); // circular delete..
 		}
 		else
 		{
-			Logger::LogError("[EntityManager::Destroy] - Invalid Entity " + std::to_string(entity) + " !");
+			Logger::LogError("[EntityManager::Destroy] - Invalid Entity " + std::to_string(entity.ID) + " !");
+			return false;
 		}
 	}
 
 	void EntityManager::DestroyAll()
 	{
-		for (Entity entity : m_active)
+		for (auto& [id, version] : m_alive) // call destroy function instead? or not?
 		{
-			m_available.push(entity);
-			m_signatures[entity].reset();
+			//m_alive[entity] = false;
+
+			m_available.push(id);
+			m_signatures[id].reset();
+			++m_versions[id];
 		}
 
-		m_active.clear();
+		m_alive.Clear();
 	}
 
-	std::vector<Entity> EntityManager::GetEntities(const Signature& signature) const
+	std::vector<EntityID> EntityManager::GetEntities(Signature signature) const // Return id or entities?
 	{
-		std::vector<Entity> entities(m_active.size());
+		std::vector<EntityID> matchingIDs;
 
-		auto it = std::copy_if(std::execution::seq, m_active.begin(), m_active.end(), entities.begin(), [&](Entity entity)
-			{
-				return (m_signatures[entity] & signature) == signature;
-			});
+		for (const auto& entity : m_alive)
+		{
+			if ((m_signatures[entity.ID] & signature) == signature)
+				matchingIDs.emplace_back(entity.ID);
+		}
 
-	 	entities.resize(std::distance(entities.begin(), it));
-		return entities;
+		return matchingIDs;
+
+		//std::vector<EntityID> matchingIDs(m_alive.Size()); // TODO; store id insteadD!
+		//auto it = std::copy_if(std::execution::seq, m_alive.begin(), m_alive.end(), matchingIDs.begin(), [&](const Entity& entity) // TODO: make sure works with sparse set..
+		//	{
+		//		return (m_signatures[entity.ID] & signature) == signature;
+		//	});
+
+		//matchingIDs.resize(std::distance(matchingIDs.begin(), it));
+		//return matchingIDs;
 	}
 	
-	std::optional<Entity> EntityManager::GetEntity(const Signature& signature) const
+	std::optional<Signature> EntityManager::GetSignature(EntityID id) const
 	{
-		auto it = std::find_if(m_active.begin(), m_active.end(), [&](Entity entity)
-			{
-				return (m_signatures[entity] & signature) == signature;
-
-			});
-
-		return (it != m_active.end()) ? std::optional<Entity>{*it } : std::nullopt;
-
-	/*	if (it != m_active.end())
-			return *it;
-
-		return std::nullopt;*/
+		return m_signatures[id];
 	}
 
-	std::optional<Signature> EntityManager::GetSignature(Entity entity) const
+	void EntityManager::SetSignature(const Entity& entity, Signature signature)
 	{
-		if (IsValidEntity(entity))
+		assert(IsValidEntity(entity) && "[EntityManager - ERROR]: Entity out of range.");
+
+		if (IsAlive(entity))
 		{
-			return m_signatures[entity];
+			m_signatures[entity.ID] = signature;
 		}
 		else
 		{
-			Logger::LogError("[EntityManager::GetSignature] - Invalid Entity!");
-			return std::nullopt;
+			Logger::LogWarning("[EntityManager::SetSignature] - Invalid Entity");
 		}
 	}
 
-	void EntityManager::SetSignature(Entity entity, const Signature& signature)
+	bool EntityManager::IsValidEntity(const Entity& entity) const
 	{
-		assert(entity < MaxEntities && "[EntityManager - ERROR]: Entity out of range.");
-
-		m_signatures[entity] = signature;
+		return entity.ID < MaxEntities && entity.ID >= 0;
 	}
 
-	bool EntityManager::IsValidEntity(Entity entity) const
+	bool EntityManager::IsAlive(const Entity& entity) const
 	{
-		return entity < MaxEntities && entity >= 0;
+		return m_versions[entity.ID] == entity.Version; // get from sparse set as well???
 	}
 }

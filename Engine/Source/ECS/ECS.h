@@ -13,8 +13,6 @@
 #include "Utility/DataStructures/SparseSet.h"
 #include "../Core/Time/Timer.h"
 
-// #include <functional>
-
 // TODO; create an ECS message system?
 // TODO: dont have ECS be a module, rename to World? and store directly in engine?
 // maybe store ECS in scene (make part of engine?) or application
@@ -30,7 +28,6 @@ namespace Hi_Engine::ECS
 		static SparseSet<T> sparseSet;
 		return sparseSet;
 	}*/
-
 }
 
 namespace Hi_Engine
@@ -38,6 +35,7 @@ namespace Hi_Engine
 	class System;
 	class Engine;
 
+	// rename World? ECSWorld Registry? ECSRegistry?
 	class ECSCoordinator : public Module
 	{
 	public:
@@ -49,28 +47,21 @@ namespace Hi_Engine
 
 		void DestroyAllEntities();
 
-		void DestroyEntity(Entity entity);
-
-
-		//std::optional<Entity> CreateEntityFromPrefab(const char* type, bool notify = true); // pass string view (by value) instead?
-		//std::optional<Entity> CreateEntityFromJson(const rapidjson::Value& jsonEntity);
-
-		// REMOVE?
-		//template <ComponentType... Ts, Callable<Entity, Entity> Comparator>
-		//ComponentView<Ts...> GetComponentView(Comparator&& comparator); // dont allow sorting here? sort in system?
+		void DestroyEntity(const Entity& entity);
 
 		template <ComponentType T> //template <ComponentType T, StringConvertible U>
 		void RegisterComponent(auto&& name); // TODO; add type safety for auto? static function in registry class instead?
 
 		template <ComponentType... Ts>
-		void AddComponents(Entity entity); // take in data instead?
+		void AddComponents(const Entity& entity);
 
 		template <ComponentType T, typename... Args>
-		void AddComponent(Entity entity, Args&&... args);
+		void AddComponent(const Entity& entity, Args&&... args);
 
 		template <ComponentType T>
-		void RemoveComponent(Entity entity);
+		void RemoveComponent(const Entity& entity);
 
+		// TODO; rename Query?
 		template <ComponentType... Ts>
 		ComponentView<Ts...> GetComponentView() const;
 
@@ -78,10 +69,10 @@ namespace Hi_Engine
 		ComponentView<Ts...> GetComponentView();
 	
 		template <ComponentType T>
-		const T* GetComponent(Entity entity) const;
+		const T* GetComponent(const Entity& entity) const; // make sure to version check entity!
 
 		template <ComponentType T>
-		T* GetComponent(Entity entity);
+		T* GetComponent(const Entity& entity); // or just iD??
 
 		template <DerivedFrom<System> T, typename... Args>
 		void RegisterSystem(const char* name, Args&&... args); // remove name?
@@ -90,14 +81,12 @@ namespace Hi_Engine
 		Signature GetSignature() const;
 
 		template <ComponentType... Ts>
-		bool HasAllComponents(Entity entity) const;
+		bool HasAllComponents(EntityID id) const;
 
-		// HasAnyComponents
+		template <ComponentType... Ts>
+		bool HasAnyComponent(EntityID id) const; // TODO; TEST!
 
-		bool IsAlive(Entity entity) const
-		{
-			return true;
-		}
+		bool IsAlive(const Entity& entity) const;
 
 	private:
 		template <ComponentType T>
@@ -125,7 +114,7 @@ namespace Hi_Engine
 	{
 		// TODO; assert that component is trivial?
 
-		m_componentRegistry.RegisterComponent<T>(name); // forward name? 
+		m_componentRegistry.RegisterComponent<T>(std::forward<decltype(name)>(name));
 
 		//ComponentRegistryEntry entry;
 		//entry.AddComponent = [this](Entity entity)
@@ -142,18 +131,24 @@ namespace Hi_Engine
 	}
 
 	template <ComponentType... Ts>
-	inline void ECSCoordinator::AddComponents(Entity entity)
+	inline void ECSCoordinator::AddComponents(const Entity& entity)
 	{
 		(AddComponent<Ts>(entity), ...);
 	}
 
 	template<ComponentType T, typename... Args>
-	inline void ECSCoordinator::AddComponent(Entity entity, Args&&... args)
+	inline void ECSCoordinator::AddComponent(const Entity& entity, Args&&... args)
 	{
+		if (!m_entityManager.IsAlive(entity))
+		{
+			Logger::LogWarning("[ECS::AddComponents] - Trying to add component an invalid entity!");
+			return;
+		}
+
 		auto& componentMananger = FindOrCreateComponentManager<T>();
 
-		componentMananger.AddComponent(entity, std::forward<Args>(args)...);
-		std::optional<Signature> optionalSignature = m_entityManager.GetSignature(entity);
+		componentMananger.AddComponent(entity.ID, std::forward<Args>(args)...);
+		std::optional<Signature> optionalSignature = m_entityManager.GetSignature(entity.ID);
 
 		if (optionalSignature.has_value())
 		{
@@ -164,17 +159,19 @@ namespace Hi_Engine
 		}
 		else
 		{
-			Logger::LogError("[ECSCoordinator::AddComponent] - Failed to fetch correct signature for entity: " + std::to_string(entity));
+			Logger::LogError("[ECSCoordinator::AddComponent] - Failed to fetch correct signature for entity: " + std::to_string(entity.ID));
 		}
 	}
 
 	template <ComponentType T>
-	inline void ECSCoordinator::RemoveComponent(Entity entity)
+	inline void ECSCoordinator::RemoveComponent(const Entity& entity)
 	{
+		// TODO; valid check entity
+
 		if (auto* componentManager = GetComponentManager<T>())
 		{
-			componentManager->RemoveComponent(entity);
-			std::optional<Signature> optionalSignature = m_entityManager.GetSignature(entity);
+			componentManager->RemoveComponent(entity.ID);
+			std::optional<Signature> optionalSignature = m_entityManager.GetSignature(entity.ID);
 
 			if (optionalSignature.has_value())
 			{
@@ -185,7 +182,7 @@ namespace Hi_Engine
 			}
 			else
 			{
-				Logger::LogWarning("[ECS::RemoveComponent] - Failed to find signature for entity " + std::to_string(entity));
+				Logger::LogWarning("[ECS::RemoveComponent] - Failed to find signature for entity " + std::to_string(entity.ID));
 			}
 		}
 		else
@@ -215,22 +212,37 @@ namespace Hi_Engine
 	}
 
 	template <ComponentType T>
-	inline const T* ECSCoordinator::GetComponent(Entity entity) const
+	inline const T* ECSCoordinator::GetComponent(const Entity& entity) const
 	{
-		if (auto* componentManager = GetComponentManager<T>())
+		T* component = nullptr;
+
+		if (!m_entityManager.IsAlive(entity))
 		{
-			return componentManager->GetComponent(entity);
+			Logger::LogWarning("[ECS::GetComponent] - Invalid entity!");
 		}
-		
-		Logger::LogWarning("[ECS::GetComponent] - ComponentManager for type not found!");
-		return nullptr;
+		else if (auto* componentManager = GetComponentManager<T>())
+		{
+			component = componentManager->GetComponent(entity.ID);
+		}
+		else
+		{
+			Logger::LogWarning("[ECS::GetComponent] - ComponentManager for type not found!");
+		}
+
+		return component;
 	}
 
 	template <ComponentType T>
-	inline T* ECSCoordinator::GetComponent(Entity entity)
+	inline T* ECSCoordinator::GetComponent(const Entity& entity)
 	{
+		if (!m_entityManager.IsAlive(entity))
+		{
+			Logger::LogWarning("[ECS::GetComponent] - Invalid entity!");
+			return nullptr;
+		}
+
 		auto& componentManager = FindOrCreateComponentManager<T>(); // or always use GetComponentManager?
-		return componentManager.GetComponent(entity);
+		return componentManager.GetComponent(entity.ID); // Check if alive before calling component manager?
 	}
 
 	template <DerivedFrom<System> T, typename... Args>
@@ -250,9 +262,9 @@ namespace Hi_Engine
 	}
 
 	template <ComponentType... Ts>
-	inline bool ECSCoordinator::HasAllComponents(Entity entity) const
+	inline bool ECSCoordinator::HasAllComponents(EntityID id) const
 	{
-		std::optional<Signature> entitySignature = m_entityManager.GetSignature(entity);
+		std::optional<Signature> entitySignature = m_entityManager.GetSignature(id);
 
 		if (entitySignature.has_value())
 		{
@@ -262,6 +274,24 @@ namespace Hi_Engine
 			return (entitySignature.value() & componentSignature) == componentSignature;
 		}
 
+		Logger::LogWarning("[ECS::HasAllComponents] - Failed to find entity signature!");
+		return false;
+	}
+
+	template<ComponentType ...Ts>
+	inline bool ECSCoordinator::HasAnyComponent(EntityID id) const
+	{
+		std::optional<Signature> optionalSignature = m_entityManager.GetSignature(id);
+
+		if (optionalSignature.has_value())
+		{
+			Signature componentSignature;
+			(componentSignature.set(m_componentRegistry.GetComponentID<Ts>().value_or(0)), ...);
+
+			return (optionalSignature.value() & componentSignature).any();
+		}
+
+		Logger::LogWarning("[ECS::HasAnyComponent] - Failed to find entity signature!");
 		return false;
 	}
 
