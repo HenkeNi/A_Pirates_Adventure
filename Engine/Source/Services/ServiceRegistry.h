@@ -42,10 +42,10 @@ namespace Hi_Engine
 
 		// Shared ownership access (no-throw, returns empty shared_ptr if not found)
 		template <DerivedFrom<IService> T>
-		const std::shared_ptr<T> TryGetShared() const noexcept;
+		[[nodiscard]] const std::shared_ptr<T> TryGetShared() const noexcept;
 		
 		template <DerivedFrom<IService> T>
-		std::shared_ptr<T> TryGetShared() noexcept;
+		[[nodiscard]] std::shared_ptr<T> TryGetShared() noexcept;
 
 		// ==================== Capacity ====================
 		std::size_t Size() const noexcept;
@@ -54,10 +54,10 @@ namespace Hi_Engine
 
 		// ==================== Query Methods ====================
 		template <DerivedFrom<IService> T> 
-		bool Has() const;
+		[[nodiscard]] bool Has() const;
 
 		template <DerivedFrom<IService>... Ts>
-		bool HasAll() const;
+		[[nodiscard]] bool HasAll() const;
 
 	private:
 		// ==================== Interal Helpers ====================
@@ -83,7 +83,7 @@ namespace Hi_Engine
 	}
 
 	template <DerivedFrom<IService> ...Ts>
-	void ServiceRegistry::InsertAll(std::shared_ptr<Ts> ...services)
+	void ServiceRegistry::InsertAll(std::shared_ptr<Ts>... services)
 	{
 		std::lock_guard lock(m_mutex);
 		(m_services.insert_or_assign(GetTypeIndex<Ts>(), std::move(services)), ...);
@@ -170,7 +170,7 @@ namespace Hi_Engine
 	template <DerivedFrom<IService> T>
 	std::shared_ptr<T> ServiceRegistry::TryGetShared() noexcept
 	{
-		std::lock_guard<std::mutex> lock(m_mutex);
+		std::lock_guard lock(m_mutex);
 
 		if (auto it = m_services.find(GetTypeIndex<T>()); it != m_services.end())
 		{
