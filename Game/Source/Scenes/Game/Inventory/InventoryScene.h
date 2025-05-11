@@ -1,8 +1,8 @@
 #pragma once
-#include "../../Scene.h"
+#include <../Scene/Scene.h>
 
 // Rename GameMenu or InGameMenu? CraftingsMenu...
-class InventoryScene : public Scene
+class InventoryScene : public Hi_Engine::Scene
 {
 public:
 	//InventoryScene(Hi_Engine::ECSCoordinator& ecs);

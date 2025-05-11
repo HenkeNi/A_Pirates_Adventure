@@ -1,8 +1,8 @@
 #pragma once
-#include "../../Scene.h"
+#include <../Scene/Scene.h>
 
 
-class DungeonScene : public Scene
+class DungeonScene : public Hi_Engine::Scene
 {
 public:
 	//DungeonScene(Hi_Engine::ECSCoordinator& ecs);

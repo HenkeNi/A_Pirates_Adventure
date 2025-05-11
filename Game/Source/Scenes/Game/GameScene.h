@@ -1,9 +1,10 @@
 #pragma once
-#include "../Scene.h"
-#include "../SceneManager.h"
+#include <../Scene/Scene.h>
+//#include "../Scene.h"
+//#include "../SceneManager.h"
 
 
-class GameScene : public Scene
+class GameScene : public Hi_Engine::Scene
 {
 public:
 	//GameScene(Hi_Engine::ECSCoordinator& ecs);
@@ -15,5 +16,5 @@ public:
 	void OnExit()							  override;
 
 private:
-	SceneManager m_sceneManager;
+	//SceneManager m_sceneManager;
 };

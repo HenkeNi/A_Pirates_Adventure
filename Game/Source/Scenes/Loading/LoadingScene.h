@@ -1,8 +1,8 @@
 #pragma once
-#include "../Scene.h"
+#include <../Scene/Scene.h>
 
 
-class LoadingScene : public Scene
+class LoadingScene : public Hi_Engine::Scene
 {
 public:
 	//LoadingScene(Hi_Engine::ECSCoordinator& ecs);

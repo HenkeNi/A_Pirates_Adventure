@@ -1,8 +1,8 @@
 #pragma once
-#include "../../Scene.h"
+#include <../Scene/Scene.h>
 
 
-class OverworldScene : public Scene
+class OverworldScene : public Hi_Engine::Scene
 {
 public:
 	//OverworldScene(Hi_Engine::ECSCoordinator& ecs);

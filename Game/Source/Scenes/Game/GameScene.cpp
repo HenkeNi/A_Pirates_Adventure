@@ -1,6 +1,6 @@
 #include "Pch.h"
 #include "GameScene.h"
-#include "SceneTypes.h"
+//#include "SceneTypes.h"
 #include "Dungeon/DungeonScene.h"
 #include "Overworld/OverworldScene.h"
 #include "Inventory/InventoryScene.h"

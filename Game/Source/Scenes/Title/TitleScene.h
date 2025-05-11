@@ -1,8 +1,8 @@
 #pragma once
-#include "../Scene.h"
+#include <../Scene/Scene.h>
 
 
-class TitleScene : public Scene 
+class TitleScene : public Hi_Engine::Scene
 {
 public:
 	//TitleScene(Hi_Engine::ECSCoordinator& ecs);

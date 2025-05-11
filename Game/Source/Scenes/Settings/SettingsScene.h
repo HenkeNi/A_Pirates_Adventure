@@ -1,8 +1,8 @@
 #pragma once
-#include "../Scene.h"
+#include <../Scene/Scene.h>
 
 
-class SettingsScene : public Scene
+class SettingsScene : public Hi_Engine::Scene
 {
 public:
 	//SettingsScene(Hi_Engine::ECSCoordinator& ecs);

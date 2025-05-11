@@ -1,9 +1,9 @@
 #pragma once
-#include "../Scene.h"
+#include <../Scene/Scene.h>
 
 
 // Derive MainMenuScene from MenuScene??
-class MenuScene : public Scene
+class MenuScene : public Hi_Engine::Scene
 {
 public:
 	//MenuScene(Hi_Engine::ECSCoordinator& ecs);
