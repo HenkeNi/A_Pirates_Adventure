@@ -1,8 +1,17 @@
 #pragma once
+#include "Utility/TypeTraits.h"
+
+// TEMP.. (needed since launcher and game will need/see this impl)
+#include <typeindex>
+#include <mutex>
+#include <unordered_map>
 
 namespace Hi_Engine
 {
 	class IService;
+
+	// TODO; Send event when register / unregister?
+	// TODO; change shared pointer into unique?
 
 	class ServiceRegistry
 	{
@@ -35,22 +44,22 @@ namespace Hi_Engine
 
 		// Nullable access (no-throw, returns nullptr if not found)
 		template <DerivedFrom<IService> T>
-		const T* TryGet() const noexcept;
+		const T* TryGet() const;
 
 		template <DerivedFrom<IService> T>
-		T* TryGet() noexcept;
+		T* TryGet();
 
 		// Shared ownership access (no-throw, returns empty shared_ptr if not found)
 		template <DerivedFrom<IService> T>
-		[[nodiscard]] const std::shared_ptr<T> TryGetShared() const noexcept;
+		[[nodiscard]] const std::shared_ptr<T> TryGetShared() const;
 		
 		template <DerivedFrom<IService> T>
-		[[nodiscard]] std::shared_ptr<T> TryGetShared() noexcept;
+		[[nodiscard]] std::shared_ptr<T> TryGetShared();
 
 		// ==================== Capacity ====================
 		std::size_t Size() const noexcept;
 
-		bool IsEmpty() const noexcept;
+		[[nodiscard]] bool IsEmpty() const noexcept;
 
 		// ==================== Query Methods ====================
 		template <DerivedFrom<IService> T> 
@@ -61,7 +70,7 @@ namespace Hi_Engine
 
 	private:
 		// ==================== Interal Helpers ====================
-		template <typename T>
+		template <DerivedFrom<IService> T>
 		constexpr std::type_index GetTypeIndex() const noexcept;
 		
 		// ==================== Type Aliases ====================
@@ -129,7 +138,7 @@ namespace Hi_Engine
 	}
 
 	template <DerivedFrom<IService> T>
-	const T* ServiceRegistry::TryGet() const noexcept
+	const T* ServiceRegistry::TryGet() const
 	{
 		std::lock_guard lock(m_mutex);
 
@@ -142,7 +151,7 @@ namespace Hi_Engine
 	}
 
 	template <DerivedFrom<IService> T>
-	T* ServiceRegistry::TryGet() noexcept
+	T* ServiceRegistry::TryGet()
 	{
 		std::lock_guard lock(m_mutex);
 
@@ -155,7 +164,7 @@ namespace Hi_Engine
 	}
 
 	template <DerivedFrom<IService> T>
-	const std::shared_ptr<T> ServiceRegistry::TryGetShared() const noexcept
+	const std::shared_ptr<T> ServiceRegistry::TryGetShared() const
 	{
 		std::lock_guard lock(m_mutex);
 
@@ -168,7 +177,7 @@ namespace Hi_Engine
 	}
 
 	template <DerivedFrom<IService> T>
-	std::shared_ptr<T> ServiceRegistry::TryGetShared() noexcept
+	std::shared_ptr<T> ServiceRegistry::TryGetShared()
 	{
 		std::lock_guard lock(m_mutex);
 
@@ -196,7 +205,7 @@ namespace Hi_Engine
 		return (m_services.contains(GetTypeIndex<Ts>()) && ...);
 	}
 
-	template <typename T>
+	template <DerivedFrom<IService> T>
 	constexpr std::type_index ServiceRegistry::GetTypeIndex() const noexcept
 	{
 		return std::type_index(typeid(T));
