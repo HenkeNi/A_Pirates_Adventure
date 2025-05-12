@@ -10,20 +10,17 @@
 #include "Registry/ComponentRegistry.h"
 #include "ECSRegistry.h"
 
-//#include "Core/ComponentInitializer.h" // remove?
-//#include "../Core/Time/Timer.h"
 
 // Consider;
-// TODO; create an ECS message system?
-// maybe store ECS in scene (make part of engine?) or application
+// create an ECS message system?
+// Send event for entity added / removed?
+// systems caches signatures?
 
-// TODO; systems caches signatures?
-// Each scene has a (ECS)world? can transfer entities?
+// can transfer entities (between scenes / ECSCore)?
 
 // TODO; cache already created ComponentView's in "Groups"
 // TODO; Cache component view (groups)? when created, cache them in a map (key == signature?) -> groups listen to various entity events?
 
-// Maybe world is not part of the ECS???
 // contains a Registry class? (register system(s); components, etc)?
 
 // ECS::Core instead?
@@ -33,64 +30,65 @@ namespace Hi_Engine
 	class ECSCore
 	{
 	public:
-		std::optional<Entity> CreateEntity();
-
+		// ==================== Emtity Lifecycle ====================
+		[[nodiscard]] std::optional<Entity> CreateEntity();
+		void DestroyEntity(const Entity& entity);
+		void DestroyEntities(const std::vector<Entity>& entities);
 		void DestroyAllEntities();
 
-		void DestroyEntity(const Entity& entity);
+		// ==================== Component Management ====================
+		template <ComponentType T, typename... Args>
+		void AddComponent(const Entity& entity, Args&&... args);
 
 		template <ComponentType... Ts>
 		void AddComponents(const Entity& entity);
 
-		template <ComponentType T, typename... Args>
-		void AddComponent(const Entity& entity, Args&&... args);
-
 		template <ComponentType T>
 		void RemoveComponent(const Entity& entity);
 
+		// ==================== Component Access ====================
+		template <ComponentType T>
+		[[nodiscard]] const T& GetComponent(const Entity& entity) const; // should implement this?
+
+		template <ComponentType T>
+		[[nodiscard]] T& GetComponent(const Entity& entity);
+
+		template <ComponentType T>
+		[[nodiscard]] const T* TryGetComponent(const Entity& entity) const; // make sure to version check entity!
+
+		template <ComponentType T>
+		[[nodiscard]] T* TryGetComponent(const Entity& entity); // or just iD??
+
+		// ==================== Views & Queries ====================
 		template <ComponentType... Ts>
-		ComponentView<Ts...> GetComponentView() const;
+		[[nodiscard]] ComponentView<Ts...> GetComponentView() const;
 
 		template <ComponentType... Ts>
-		ComponentView<Ts...> GetComponentView();
+		[[nodiscard]] ComponentView<Ts...> GetComponentView();
 	
-		template <ComponentType T>
-		const T* GetComponent(const Entity& entity) const; // make sure to version check entity!
-
-		template <ComponentType T>
-		T* GetComponent(const Entity& entity); // or just iD??
-
-		// more Get component functions (T& etc...)
+		template <ComponentType... Ts>
+		[[nodiscard]] Signature GetSignature() const; // expose? expose get entity signature?
 
 		template <ComponentType... Ts>
-		Signature GetSignature() const;
+		[[nodiscard]] bool HasAllComponents(EntityID id) const;
 
 		template <ComponentType... Ts>
-		bool HasAllComponents(EntityID id) const;
+		[[nodiscard]] bool HasAnyComponent(EntityID id) const;
 
-		template <ComponentType... Ts>
-		bool HasAnyComponent(EntityID id) const; // TODO; TEST!
-
-		bool IsAlive(const Entity& entity) const;
+		[[nodiscard]] bool IsAlive(const Entity& entity) const;
 
 	private:
 		template <ComponentType T>
-		ComponentManager<T>& FindOrCreateComponentManager(); // Dont`?
+		[[nodiscard]] ComponentManager<T>& FindOrCreateComponentManager();
 		
 		template <ComponentType T>
-		const ComponentManager<T>* GetComponentManager() const;
+		[[nodiscard]] const ComponentManager<T>* GetComponentManager() const;
 
 		EntityManager m_entityManager;
-		ComponentManagerMap m_componentManagers;
+		ComponentManagerMap m_componentManagers; // store in sparse set instead? (component ID as key)
 	};
 
 #pragma region Templated_Methods
-
-	template <ComponentType... Ts>
-	void ECSCore::AddComponents(const Entity& entity)
-	{
-		(AddComponent<Ts>(entity), ...);
-	}
 
 	template<ComponentType T, typename... Args>
 	void ECSCore::AddComponent(const Entity& entity, Args&&... args)
@@ -117,6 +115,12 @@ namespace Hi_Engine
 		{
 			Logger::LogError("[ECSCoordinator::AddComponent] - Failed to fetch correct signature for entity: " + std::to_string(entity.ID));
 		}
+	}
+	
+	template <ComponentType... Ts>
+	void ECSCore::AddComponents(const Entity& entity)
+	{
+		(AddComponent<Ts>(entity), ...);
 	}
 
 	template <ComponentType T>
@@ -151,28 +155,20 @@ namespace Hi_Engine
 		}
 	}
 
-	template<ComponentType ...Ts>
-	ComponentView<Ts...> ECSCore::GetComponentView() const
+	template <ComponentType T>
+	const T& ECSCore::GetComponent(const Entity& entity) const
 	{
-		const Signature signature = GetSignature<Ts...>();
-		auto entities = m_entityManager.GetEntities(signature);
-
-		const ComponentView<Ts...> componentView{ FindOrCreateComponentManager<Ts>().GetContainer()..., std::move(entities) };
-		return componentView;
-	}
-
-	template <ComponentType... Ts>
-	ComponentView<Ts...> ECSCore::GetComponentView()
-	{
-		const Signature signature = GetSignature<Ts...>();
-		auto entities = m_entityManager.GetEntities(signature); // instead get sparse sets... get smallest , fetch all entites, compare to other sparse sets??
-
-		ComponentView<Ts...> componentView{ FindOrCreateComponentManager<Ts>().GetContainer()..., std::move(entities)};
-		return componentView;
+		// TODO: insert return statement here
 	}
 
 	template <ComponentType T>
-	const T* ECSCore::GetComponent(const Entity& entity) const
+	T& ECSCore::GetComponent(const Entity& entity)
+	{
+		// TODO: insert return statement here
+	}
+
+	template <ComponentType T>
+	const T* ECSCore::TryGetComponent(const Entity& entity) const
 	{
 		T* component = nullptr;
 
@@ -193,7 +189,7 @@ namespace Hi_Engine
 	}
 
 	template <ComponentType T>
-	T* ECSCore::GetComponent(const Entity& entity)
+	T* ECSCore::TryGetComponent(const Entity& entity)
 	{
 		if (!m_entityManager.IsAlive(entity))
 		{
@@ -203,6 +199,26 @@ namespace Hi_Engine
 
 		auto& componentManager = FindOrCreateComponentManager<T>(); // or always use GetComponentManager?
 		return componentManager.GetComponent(entity.ID); // Check if alive before calling component manager?
+	}
+
+	template<ComponentType ...Ts>
+	ComponentView<Ts...> ECSCore::GetComponentView() const
+	{
+		const Signature signature = GetSignature<Ts...>();
+		auto entities = m_entityManager.GetEntityIDs(signature);
+
+		const ComponentView<Ts...> componentView{ FindOrCreateComponentManager<Ts>().GetContainer()..., std::move(entities) };
+		return componentView;
+	}
+
+	template <ComponentType... Ts>
+	ComponentView<Ts...> ECSCore::GetComponentView()
+	{
+		const Signature signature = GetSignature<Ts...>();
+		auto entities = m_entityManager.GetEntityIDs(signature); // instead get sparse sets... get smallest , fetch all entites, compare to other sparse sets??
+
+		ComponentView<Ts...> componentView{ FindOrCreateComponentManager<Ts>().GetContainer()..., std::move(entities)};
+		return componentView;
 	}
 
 	template <ComponentType... Ts>
