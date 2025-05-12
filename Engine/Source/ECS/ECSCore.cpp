@@ -1,29 +1,21 @@
 #include "Pch.h"
-#include "ECS.h"
+#include "ECSCore.h"
 #include "Systems/System.h"
 
-namespace Hi_Engine
+namespace Hi_Engine /// ::ECS
 {
-    ECSCoordinator::ECSCoordinator(ModuleManager& manager)
-        : Module{ manager } // , m_entityFactory{ m_entityManager, m_componentRegistry }
-    {
-    }
+    //void World::Init()
+    //{
+    //  //  m_entityFactory.LoadPrefabs();
+    //    m_entityManager.Initialize();
+    //}
 
-
-    bool ECSCoordinator::Init()
-    {
-      //  m_entityFactory.LoadPrefabs();
-        m_entityManager.Initialize();
-
-        return true;
-    }
-
-    std::optional<Entity> ECSCoordinator::CreateEntity()
+    std::optional<Entity> ECSCore::CreateEntity()
     {
         return m_entityManager.Create();
     }
 
-    //std::optional<Entity> ECSCoordinator::CreateEntityFromPrefab(const char* type, bool notify)
+    //std::optional<Entity> World::CreateEntityFromPrefab(const char* type, bool notify)
     //{
     //    std::optional<Entity> entity = m_entityFactory.Create(type);
 
@@ -36,13 +28,13 @@ namespace Hi_Engine
     //    return entity.value();
     //}
 
-    //std::optional<Entity> ECSCoordinator::CreateEntityFromJson(const rapidjson::Value& jsonEntity)
+    //std::optional<Entity> World::CreateEntityFromJson(const rapidjson::Value& jsonEntity)
     //{
     //    std::optional<Entity> entity = m_entityFactory.CreateFromJson(jsonEntity);
 
     //    if (!entity.has_value())
     //    {
-    //        //std::cerr << "[ECSCoordinator::CreateEntityFromJson] - Failed to create entity!\n";
+    //        //std::cerr << "[World::CreateEntityFromJson] - Failed to create entity!\n";
     //        return std::nullopt;
     //    }
 
@@ -51,7 +43,7 @@ namespace Hi_Engine
     //    return entity;
     //}
 
-    void ECSCoordinator::DestroyAllEntities()
+    void ECSCore::DestroyAllEntities()
     {
         m_entityManager.DestroyAll();
 
@@ -61,7 +53,7 @@ namespace Hi_Engine
         }
     }
 
-    void ECSCoordinator::DestroyEntity(const Entity& entity)
+    void ECSCore::DestroyEntity(const Entity& entity)
     {
         if (m_entityManager.Destroy(entity))
         {
@@ -72,13 +64,8 @@ namespace Hi_Engine
         }
     }
 
-    bool ECSCoordinator::IsAlive(const Entity& entity) const
+    bool ECSCore::IsAlive(const Entity& entity) const
     {
         return m_entityManager.IsAlive(entity);
-    }
-
-    void ECSCoordinator::Update(float deltaTime)
-    {
-        m_systemManager.ForEachSystem([&](System& system) { system.Update(deltaTime); }); // measure execution here?? or in systme manager? i.e how long each system takes..
     }
 }

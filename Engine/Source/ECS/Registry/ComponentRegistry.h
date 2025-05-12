@@ -21,21 +21,53 @@ namespace Hi_Engine
         // initializer? add component?
     };
 
+    //using ComponentRegistry = std::unordered_map<std::string, struct ComponentRegistryEntry>; // make into class?
+
+//struct ComponentRegistryEntry
+//{
+//	std::function<void(Entity)> AddComponent;
+//	std::function<void(Entity, const ComponentProperties&)> InitializeComponent;
+//};
+
+    struct CallbackRegistry // TODO; fix!
+    {
+        //inline static std::unordered_map<const char*, std::function<void(Entity)>> Callbacks; // Maybe in Timer/Button Component (or system), or separate Callback/Action component?
+    };
+
+
 	// singelton or all static?
     class ComponentRegistry
     {
     public:
+        using Signatures = std::unordered_map<std::string, Signature>; // or store in ECSTypes?
+
         template <ComponentType T>
         void RegisterComponent(const char* name);
 
-        template <typename T>
-        bool IsRegistered()
-        {
-            return m_typeToComponentData.find(typeid(T)) != m_typeToComponentData.end();
-        }
+        //template <ComponentType T>  //template <ComponentType T, StringConvertible U>
+        //void RegisterComponent(auto&& name); // TODO; add type safety for auto? static function in registry class instead?
+        //{
+        //    m_componentRegistry.RegisterComponent<T>(std::forward<decltype(name)>(name));
+
+        //    // store serilization data as well? initialization data?
+
+        //    //ComponentRegistryEntry entry;
+        //    //entry.AddComponent = [this](Entity entity)
+        //    //{
+        //    //	AddComponents<T>(entity);
+        //    //};
+        //    //entry.InitializeComponent = [this](Entity entity, const ComponentProperties& properties)
+        //    //{
+        //    //	if (auto* component = m_componentManager.GetComponent<T>(entity))
+        //    //		InitializeComponent(component, properties);
+        //    //};
+        //}
+
+        template <ComponentType T>
+        bool IsRegistered() const;
 
         template <ComponentType... Ts>
-        Signatures GetSignature() const
+        Signatures GetSignatures() const
         {
             Signature signature{};
             (signature.set(GetComponentID<Ts>()), ...);
@@ -85,7 +117,7 @@ namespace Hi_Engine
             return id++;
         }
 
-        std::unordered_map<std::type_index, ComponentData> m_typeToComponentData;
+        std::unordered_map<std::type_index, ComponentData> m_typeToComponentData; // sparse set? is type idnex an intgeer?
         std::unordered_map<ComponentID, ComponentData*> m_idToComponentData;
         std::unordered_map<std::string, ComponentData*> m_nameToComponentData;
     };
@@ -120,5 +152,11 @@ namespace Hi_Engine
         }
     }
    
+    template <ComponentType T>
+    bool ComponentRegistry::IsRegistered() const
+    {
+        return m_typeToComponentData.find(typeid(T)) != m_typeToComponentData.end();
+    }
+
 #pragma endregion
 }
