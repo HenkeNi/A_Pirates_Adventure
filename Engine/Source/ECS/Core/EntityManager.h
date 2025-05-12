@@ -9,45 +9,51 @@
 
 namespace Hi_Engine
 {
+	// Consider; replacing Queue with a priority queue or heap (make sure lower ids get used first). rename AvailableIDs?
+
 	class EntityManager : private NonCopyable
 	{
 	public:
+		// ==================== Construction/Destruction ====================
 		EntityManager();
+		~EntityManager() = default;
 
-		// TODO; make sure to increment version!
+		EntityManager(const EntityManager&) = delete;
+		EntityManager(EntityManager&&) = default;
 
-		void Initialize();
-		std::optional<Entity> Create();
+		EntityManager& operator=(const EntityManager&) = delete;
+		EntityManager& operator=(EntityManager&&) = default;
 
-		bool Destroy(const Entity& entity);
-		void DestroyAll(); // TODO: Check if work as expected
+		// ==================== Lifecycle ====================
+		[[nodiscard]] std::optional<Entity> Create() noexcept; // safe to use noexcept?
+		bool Destroy(const Entity& entity) noexcept;
+		void DestroyAll() noexcept;
 
-		std::vector<EntityID> GetEntities(Signature signature) const; // return entity or ids??
+		// ==================== Queries ====================
+		[[nodiscard]] bool IsValidEntity(const Entity& entity) const noexcept;
+		[[nodiscard]] bool IsAlive(const Entity& entity) const noexcept;
 
-		// Get version?
-
-		std::optional<Signature> GetSignature(EntityID id) const;
+		// ==================== Signature Management ====================
+		[[nodiscard]] std::optional<Signature> GetSignature(EntityID id) const noexcept;
 		void SetSignature(const Entity& entity, Signature signature);
 
-		// TODO; Make sure to chekc version in is alive!
-		bool IsValidEntity(const Entity& entity) const;
-		bool IsAlive(const Entity& entity) const;
+		// ==================== Bulk Operations ====================
+		[[nodiscard]] std::vector<Entity> GetEntities(Signature signature) const;
+		[[nodiscard]] std::vector<EntityID> GetEntityIDs(Signature signature) const;
+
+		// ==================== Statistics ====================
+		[[nodiscard]] inline std::size_t GetAliveCount() const noexcept { return m_alive.Size(); }
+		[[nodiscard]] inline std::size_t GetAvailableCount() const noexcept { return m_available.size(); }
 		
 	private:
-		//std::array<bool, MaxEntities> m_alive{ false };
-		//std::array<uint8_t, MaxEntities> m_alive{ false };
-		//std::bitset<MaxComponents> m_alive;
+		// ==================== Helpers ====================
+		void InitializeEntityIDs() noexcept;
 
-		// TODO; just id's? when creating, fetch version?
-
-
-		// std::vector<Entity> m_active; // Or store entity as a whole??:::: set? std::unordered_set<Entity, EntityHash, EntityEqual> activeEntities; no need anymore??? use version(s)!?
-
-
+		// ==================== Data Members ====================
 		std::array<Signature, MaxEntities> m_signatures;
-		std::array<uint32_t, MaxEntities> m_versions; // or entityVersions?
+		std::array<uint32_t, MaxEntities> m_versions;
 
-		SparseSet<Entity, EntityID> m_alive; // Use uint32_t as key? or ID as key?
-		std::queue<EntityID> m_available; // sort?? priority queue or heap? rename AvailableIDs?
+		SparseSet<Entity, EntityID> m_alive;
+		std::queue<EntityID> m_available;
 	};
 }
