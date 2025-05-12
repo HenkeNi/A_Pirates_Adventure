@@ -15,15 +15,7 @@
 
 namespace Hi_Engine
 {
-	SceneManager::SceneManager()
-	{
-		//PostMaster::GetInstance().Subscribe(eMessage::TransitionToScene, this);
-	}
 
-	SceneManager::~SceneManager()
-	{
-		//PostMaster::GetInstance().Unsubscribe(eMessage::TransitionToScene, this);
-	}
 
 	//void SceneManager::Receive(Message& message)
 	//{
@@ -50,7 +42,7 @@ namespace Hi_Engine
 	//	}
 	//}
 
-	void SceneManager::Init(const std::initializer_list<SceneID>& scenes)
+	void SceneManager::Init(std::initializer_list<SceneID> scenes)
 	{
 		for (const auto scene : scenes)
 			m_activeScenes.push_back(scene);
@@ -58,7 +50,7 @@ namespace Hi_Engine
 
 	void SceneManager::Shutdown()
 	{
-		for (auto& [type, scene] : m_registeredScenes)
+		for (auto& [type, scene] : m_scenes)
 		{
 			if (scene)
 				scene->OnDestroyed();
@@ -70,7 +62,7 @@ namespace Hi_Engine
 	std::weak_ptr<const Scene> SceneManager::GetActive() const
 	{
 		if (!m_activeScenes.empty())
-			return m_registeredScenes.at(m_activeScenes.back());
+			return m_scenes.at(m_activeScenes.back());
 
 		return std::weak_ptr<Scene>();
 	}
@@ -78,7 +70,7 @@ namespace Hi_Engine
 	std::weak_ptr<Scene> SceneManager::GetActive()
 	{
 		if (!m_activeScenes.empty())
-			return m_registeredScenes.at(m_activeScenes.back());
+			return m_scenes.at(m_activeScenes.back());
 
 		return std::weak_ptr<Scene>();
 	}
@@ -90,14 +82,14 @@ namespace Hi_Engine
 			LoadScene(id);
 		}
 
-		m_registeredScenes[id]->OnEnter();
+		m_scenes[id]->OnEnter();
 	}
 
 	void SceneManager::Push(SceneID id)
 	{
 		if (!m_activeScenes.empty())
 		{
-			m_registeredScenes[m_activeScenes.back()]->OnExit();
+			m_scenes[m_activeScenes.back()]->OnExit();
 		}
 
 		m_activeScenes.push_back(id);
@@ -108,7 +100,7 @@ namespace Hi_Engine
 	{
 		if (!m_activeScenes.empty())
 		{
-			m_registeredScenes[m_activeScenes.back()]->OnExit();
+			m_scenes[m_activeScenes.back()]->OnExit();
 			m_activeScenes.pop_back();
 
 			TransitionTo(m_activeScenes.back());
@@ -119,7 +111,7 @@ namespace Hi_Engine
 	{
 		if (!m_activeScenes.empty())
 		{
-			m_registeredScenes[m_activeScenes.back()]->OnExit();
+			m_scenes[m_activeScenes.back()]->OnExit();
 			m_activeScenes.pop_back();
 		}
 

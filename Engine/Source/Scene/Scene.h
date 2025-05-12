@@ -32,5 +32,6 @@ namespace Hi_Engine
 
 		ECSCore m_ecs;
 		SystemManager m_systemManager; // private?
+		std::string m_filePath;
 	};
 }

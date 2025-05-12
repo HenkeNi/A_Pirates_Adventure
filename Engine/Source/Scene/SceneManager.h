@@ -1,34 +1,31 @@
 #pragma once
-//#include "PostMaster/Subscriber.h"
-#include "Services/IService.h"
-//#include "Scene.h"
-
-
-//namespace Utility
-//{
-//	using Scenes = std::unordered_map<eScene, std::shared_ptr<Scene>>;
-//}
+#include "Service/IService.h"
 
 namespace Hi_Engine
 {
-	// Consider; read scenes from file?
-
 	class Scene;
 
-	class SceneManager : public IService // public Subscriber
+	class SceneManager : public IService
 	{
 	public:
 		using SceneID = uint32_t;
 
-		SceneManager();
-		~SceneManager();
+		SceneManager() = default;
+		~SceneManager() = default;
 
-		//void Receive(Message& message) override;
+		SceneManager(const SceneManager&) = delete;
+		SceneManager(SceneManager&&) = default;
 
-		template <typename T, typename... Args>
-		void Register(const char* name, Args&&... args); // AddScene?
+		SceneManager& operator=(const SceneManager&) = delete;
+		SceneManager& operator=(SceneManager&&) = default;
 
-		void Init(const std::initializer_list<SceneID>& scenes);
+		template <DerivedFrom<Scene> T>
+		void Insert(std::shared_ptr<Scene> scene, const char* name);
+
+		template <DerivedFrom<Scene> T, typename... Args>
+		void Emplace(const char* name, Args&&... args);
+
+		void Init(std::initializer_list<SceneID> scenes);
 		void Shutdown();
 
 		std::weak_ptr<const Scene> GetActive() const;
@@ -39,23 +36,56 @@ namespace Hi_Engine
 		void Pop();
 		void SwapTo(SceneID id);
 
+		template <DerivedFrom<Scene> T>
+		SceneID GetSceneID() const;
+
 	private:
-		void LoadScene(SceneID id);
+		SceneID GenerateSceneID() const;
+		void LoadScene(SceneID id); // path instead?
 
-		std::unordered_map<SceneID, std::shared_ptr<Scene>> m_registeredScenes; // have a unique?
-		// name to id?
+		using SceneMap = std::unordered_map<SceneID, std::shared_ptr<Scene>>; // replace with unique_ptr?
+		using SceneNameMap = std::unordered_map<std::string, SceneID>;
 
-		// Utility::Scenes m_registeredScenes;
-		std::vector<SceneID> m_activeScenes;
+		SceneMap m_scenes;
+		SceneNameMap m_nameToID;		
+		std::vector<SceneID> m_activeScenes; // stack instead? or not (cant see behind current)
 	};
 
 #pragma region Method_Definitions
 
-	template <typename T, typename... Args>
-	void SceneManager::Register(const char* name, Args&&... args)
+	template <DerivedFrom<Scene> T>
+	void SceneManager::Insert(std::shared_ptr<Scene> scene, const char* name)
 	{
-		m_registeredScenes.insert({ name, std::make_shared<T>(std::forward<Args>(args)...) });
-		m_registeredScenes[name]->OnCreated();
+		const SceneID id = GetSceneID<T>();
+
+		m_scenes.insert_or_assign(id, std::move(scene));
+		m_nameToID.insert_or_assign(name, id);
+
+		m_scenes[id]->OnCreated();
+	}
+
+	template <DerivedFrom<Scene> T, typename... Args>
+	void SceneManager::Emplace(const char* name, Args&&... args)
+	{
+		const SceneID id = GetSceneID<T>();
+
+		m_scenes.insert_or_assign({ id, std::make_shared<T>(std::forward<Args>(args)...) });
+		m_nameToID.insert_or_assign(name, id);
+
+		m_scenes[id]->OnCreated();
+	}
+
+	template <DerivedFrom<Scene> T>
+	SceneManager::SceneID SceneManager::GetSceneID() const
+	{
+		static const SceneID id = GenerateSceneID();
+		return id;
+	}
+
+	SceneManager::SceneID SceneManager::GenerateSceneID() const
+	{
+		static SceneID id = 0;
+		return id++;
 	}
 
 #pragma endregion Method_Definitions
