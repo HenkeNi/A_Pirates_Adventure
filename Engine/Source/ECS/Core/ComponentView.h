@@ -7,9 +7,8 @@
 namespace Hi_Engine
 {
 	// Consider;
-	//	* renaming class 'Query'
 	//  * caching component view (pass in sparse set, but pass in entities each frame?)
-	//  * add sorting?
+	//  * add sorting? and predicate (for ForEach) as optional, or separate function
 
 	template <ComponentType... Ts>
 	class ComponentView
@@ -23,7 +22,6 @@ namespace Hi_Engine
 
 		ComponentView& operator=(const ComponentView&) = default;
 		ComponentView& operator=(ComponentView&&) noexcept = default;
-
 
 		// ==================== Core API ====================
 		// Iteration
@@ -41,11 +39,11 @@ namespace Hi_Engine
 		T* GetComponent(EntityID id);
 
 		// ==================== Queries ====================
-		bool Contains(EntityID id) const;
+		[[nodiscard]] bool Contains(EntityID id) const noexcept;
 
-		bool IsEmpty() const;
+		[[nodiscard]] bool IsEmpty() const noexcept;
 
-		std::size_t size() const;
+		[[nodiscard]] std::size_t size() const noexcept;
 
 		inline const std::vector<Entity>& GetEntities() const { return m_entities; }
 
@@ -83,7 +81,7 @@ namespace Hi_Engine
 		std::tuple<Ts*...> GetComponents(EntityID id) const;
 
 		// ==================== Data Members ====================
-		std::tuple<ComponentContainer<Ts>&...> m_components;
+		std::tuple<ComponentContainer<Ts>&...> m_components; // or component managers??	
 		const std::vector<EntityID> m_entities;
 
 		// std::vector<std::tuple<Entity, Ts*...>> m_cache;
@@ -177,19 +175,19 @@ namespace Hi_Engine
 	}
 
 	template <ComponentType ...Ts>
-	bool ComponentView<Ts...>::Contains(EntityID entity) const
+	bool ComponentView<Ts...>::Contains(EntityID entity) const noexcept
 	{
 		return std::find(m_entities.begin(), m_entities.end(), entity) != m_entities.end();
 	}
 
 	template <ComponentType ...Ts>
-	bool ComponentView<Ts...>::IsEmpty() const
+	bool ComponentView<Ts...>::IsEmpty() const noexcept
 	{
 		return m_entities.empty();
 	}
 
 	template <ComponentType... Ts>
-	std::size_t ComponentView<Ts...>::size() const
+	std::size_t ComponentView<Ts...>::size() const noexcept
 	{
 		return m_entities.size();
 	}
