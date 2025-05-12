@@ -10,7 +10,7 @@ namespace Hi_Engine
 {
 	class IService;
 
-	// TODO; Send event when register / unregister?
+	// TODO; Send event when register / unregister? observer pattern? (i.e. Subscribe), or use EventDIspatcher?
 	// TODO; change shared pointer into unique?
 
 	class ServiceRegistry
