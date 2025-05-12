@@ -9,8 +9,8 @@
 
 namespace Hi_Engine
 {
-    TextRenderer::TextRenderer(ModuleManager& manager)
-        : Module{ manager }, m_windowSize{ 1400, 800 }
+    TextRenderer::TextRenderer()
+        : m_windowSize{ 1400, 800 }
 	{
         EventDispatcher::GetInstance().Subscribe(this);
     }
@@ -20,7 +20,7 @@ namespace Hi_Engine
         EventDispatcher::GetInstance().Unsubscribe(this);
 	}
 
-	bool TextRenderer::Init()
+	bool TextRenderer::Initialize()
 	{
         glGenVertexArrays(1, &m_textContext.VAO);
         glBindVertexArray(m_textContext.VAO);

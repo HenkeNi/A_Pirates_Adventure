@@ -1,18 +1,19 @@
 #pragma once
-#include "../Core/Modules/Module.h"
+#include "../Services/IService.h"
 #include "PhysicsTypes.h"
 
 class b2World;
 
 namespace Hi_Engine
 {
-	class Physics : public Module
+	// Handle physics differently? maybe not a service? maybe each scene or world?
+	class Physics : public IService
 	{
 	public:
-		Physics(ModuleManager& manager);
+		Physics();
 		~Physics();
 
-		bool Init()									  override;
+		bool Initialize()							  override;
 		void Shutdown()								  override;
 		void Deserialize(const rapidjson::Value& json) override;
 

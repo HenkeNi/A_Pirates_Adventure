@@ -1,5 +1,5 @@
 #pragma once
-#include "../../../Core/Modules/Module.h"
+#include "../Services/IService.h"
 #include "../../RenderTypes.h"
 
 typedef struct FT_LibraryRec_* FT_Library;
@@ -8,13 +8,13 @@ namespace Hi_Engine
 {
 	struct TextRenderData;
 	
-	class TextRenderer : public Module, public EventListener
+	class TextRenderer : public IService, public EventListener
 	{
 	public:
-		TextRenderer(ModuleManager& manager);
+		TextRenderer();
 		~TextRenderer();
 
-		bool Init() override;
+		bool Initialize() override;
 		void Shutdown() override;
 		// void HandleEvent(class TextRenderEvent& event);
 

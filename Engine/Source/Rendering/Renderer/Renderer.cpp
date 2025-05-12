@@ -67,8 +67,8 @@ namespace Hi_Engine
 		}	
 	}
 
-	Renderer::Renderer(ModuleManager& manager, Window& window)
-		: Module{ manager }, m_window{ window }	// : m_buffer{ new Vertex[Constants::maxVertexCount] }, m_currentVertex{ nullptr }
+	Renderer::Renderer(Window& window)
+		: m_window{ window }	// : m_buffer{ new Vertex[Constants::maxVertexCount] }, m_currentVertex{ nullptr }
 	{
 		//m_quadContext.Buffer = new Vertex[Constants::MaxVertexCount];
 
@@ -95,7 +95,7 @@ namespace Hi_Engine
 	{
 	}
 
-	bool Renderer::Init()
+	bool Renderer::Initialize()
 	{
 		GLenum error = glewInit();
 		if (error != GLEW_OK)

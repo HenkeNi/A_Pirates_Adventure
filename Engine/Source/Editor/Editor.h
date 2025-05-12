@@ -1,19 +1,21 @@
 #pragma once
 #include "../Core/Event/Core/EventListener.h"
-#include "../Core/Modules/Module.h"
+#include "Services/IService.h"
 #include "ImGui/ImGuiTypes.h"
 
 struct GLFWwindow;
 
 namespace Hi_Engine
 {
+	class Window;
+
 	// Todo; consider making Editor a project (.exe)
-	class Editor : public Module, public EventListener
+	class Editor : public IService, public EventListener
 	{
 	public:
-		Editor(ModuleManager& manager);
+		Editor(Window& window);
 
-		bool Init() override;
+		bool Initialize() override;
 		void Shutdown() override;
 
 		void HandleEvent(class WindowEvent& event) override;
@@ -22,6 +24,15 @@ namespace Hi_Engine
 		//void CreateWindow(Args&&... args);
 
 		ImGuiWindow& AddWindow(const ImGuiWindow& window);
+		ImGuiWindow& AddWindow(ImGuiWindow&& window);
+
+		//ImGuiWindow& AddWindow(ImGuiWindow window); // OR only this?
+
+		template <typename ValueType>
+		std::enable_if_t<std::is_base_of_v<ImGuiWindow, ValueType>, ImGuiWindow&> AddWindow(ValueType&& window)
+		{
+			m_imguiWindows.push_back(std::forward<ValueType>(window));
+		}
 
 		void BeginFrame();
 		void Update(); // get windows instead??
@@ -33,6 +44,7 @@ namespace Hi_Engine
 		void Destroy();
 
 		std::vector<ImGuiWindow> m_imguiWindows;
+		class Window& m_window; // pointer instead? listen to unregister? or store service registry?
 	};
 
 #pragma region Method_Definitions

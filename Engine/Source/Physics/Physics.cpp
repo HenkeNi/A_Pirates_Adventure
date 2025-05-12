@@ -5,8 +5,8 @@
 
 namespace Hi_Engine
 {
-	Physics::Physics(ModuleManager& manager)
-		: Module{ manager }, m_gravity{ 0.f, 0.f }, m_world{ nullptr }
+	Physics::Physics()
+		: m_gravity{ 0.f, 0.f }, m_world{ nullptr }
 	{
 	}
 
@@ -15,7 +15,7 @@ namespace Hi_Engine
 		delete m_world;
 	}
 
-	bool Physics::Init()
+	bool Physics::Initialize()
 	{
 		m_world = new b2World{{ m_gravity.x, m_gravity.y }};
 

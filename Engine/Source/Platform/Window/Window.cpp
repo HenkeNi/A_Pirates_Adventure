@@ -11,8 +11,8 @@ namespace Hi_Engine
 	void WindowCloseCallback(GLFWwindow* window);
 
 
-	Window::Window(ModuleManager& manager)
-		: Module{ manager }, m_window{ nullptr }
+	Window::Window()
+		: m_window{ nullptr }
 	{
 	}
 
@@ -21,7 +21,7 @@ namespace Hi_Engine
 		glfwTerminate();
 	}
 
-	bool Window::Init()
+	bool Window::Initialize()
 	{
 		if (!glfwInit())
 		{

@@ -1,7 +1,8 @@
 #pragma once
-#include "../Core/Modules/Module.h"
+//#include "../Core/Modules/Module.h"
 #include "../RenderTypes.h"
 #include <queue>
+#include "../Services/IService.h"
 //#include <../../../ThirdParty/GLEW/include/GL/glew.h> //FIX! dont include later...
 // #include <Dependencies/GLEW/include/GL/glew.h>
 #include "Dependencies/GLEW/include/GL/glew.h"
@@ -17,17 +18,23 @@ namespace Hi_Engine
 	constexpr uint32_t MaxTextureSlots = 32;		// Or max textures?
 
 
+	class IRenderer : public IService
+	{
+
+	};
+
 	// TODO; use glGetError()
-	class Renderer : public Module
+	class Renderer : public IRenderer
 	{
 	public:
-		Renderer(ModuleManager& manager, Window& window);
+		Renderer(Window& window);
 		~Renderer();
 
-		bool Init()				override;
+		bool Initialize()		override;
 		void Shutdown()			override;
 		
-		void Deserialize(const rapidjson::Value& json) override;
+		//void Deserialize(const rapidjson::Value& json) override;
+		void Deserialize(const rapidjson::Value& json);
 		void SetProjectionMatrix(const glm::mat4& proj);
 		void AddSpriteBatch(SpriteBatch&& batch); // or just render sprite batch? Make tempalted?
 

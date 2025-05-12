@@ -1,25 +1,19 @@
 #include "Pch.h"
 #include "Editor.h"
-#include "Modules/ModuleManager.h"
 #include "Platform/Window/Window.h"
 
 namespace Hi_Engine
 {
-	Editor::Editor(ModuleManager& manager)
-		: Module{ manager }
+	Editor::Editor(Window& window)
+		: m_window{ window }
 	{
 		m_imguiWindows.reserve(10);
 	}
 
-	bool Editor::Init()
+	bool Editor::Initialize()
 	{
-		if (auto window = m_moduleManager.GetModule<Window>().lock())
-		{
-			Setup(window->GetWindow());
-			return true;
-		}
-
-		return false;
+		Setup(m_window.GetWindow());
+		return true;
 	}
 
 	void Editor::Shutdown()

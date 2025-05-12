@@ -1,5 +1,5 @@
 #pragma once
-#include "../Core/Modules/Module.h"
+#include "../Services/IService.h"
 
 struct GLFWwindow;
 
@@ -7,13 +7,13 @@ namespace Hi_Engine
 {
 	class Engine;
 
-	class Window : public Module
+	class Window : public IService
 	{
 	public:
-		Window(ModuleManager& manager);
+		Window();
 		~Window();
 
-		bool			Init()									  override;
+		bool			Initialize()							  override;
 		void			Shutdown()								  override;
 		void			Deserialize(const rapidjson::Value& json) override;
 	
