@@ -4,34 +4,38 @@
 
 namespace Hi_Engine
 {
-	struct SystemDependency
-	{
-
-	};
-
-
-	void SystemManager::AddSystem(std::shared_ptr<System>&& system)
+	void SystemManager::Insert(std::unique_ptr<System>&& system)
 	{
 		m_systems.push_back(std::move(system));
-		SortSystems();
+		m_isSorted = false;
 	}
 
-	void SystemManager::ForEachSystem(const std::function<void(System&)>& callback)
+	void SystemManager::Clear()
 	{
-		for (auto& system : m_systems)
-		{
-			if (system)
-			{
-				callback(*system);
-			}
-		}
+		m_systems.clear();
 	}
 
-	void SystemManager::SortSystems()
+	void SystemManager::SortByPriority()
 	{
-		std::sort(m_systems.begin(), m_systems.end(), [](const std::shared_ptr<System>& lhs, const std::shared_ptr<System>& rhs) 
+		std::sort(m_systems.begin(), m_systems.end(), [](const auto& lhs, const auto& rhs)
 			{
 				return (int)lhs->GetUpdatePhase() < (int)rhs->GetUpdatePhase();
 			});
+	}
+
+	void SystemManager::Update(float deltaTime)
+	{
+		if (!m_isSorted)
+		{
+			SortByPriority();
+			m_isSorted = true;
+		}
+
+		std::for_each(m_systems.begin(), m_systems.end(), [=](auto& system) { system->Update(deltaTime); });
+	}
+
+	bool SystemManager::IsEmpty() const noexcept
+	{
+		return m_systems.empty();
 	}
 }
