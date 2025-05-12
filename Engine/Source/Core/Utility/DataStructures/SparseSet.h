@@ -6,7 +6,7 @@ namespace Hi_Engine
 	// Consider; 
 	// * renaming to 'sparse_set'
 	// * change to raw memory (KeyType* m_sparse, or std::unique_ptr<KeyType[]>
-	// * use custom iterator
+	// * use custom iterator (Add custom iterators that return (key, value) pairs)
 	
 	template <typename ValueType, Integral KeyType = std::size_t>
 	class SparseSet final
@@ -52,9 +52,9 @@ namespace Hi_Engine
 		void Swap(SparseSet& other) noexcept;
 
 		// ==================== Capacity ====================
-		bool IsEmpty() const noexcept;
-		std::size_t	Size() const;
-		bool Contains(KeyType key) const;
+		[[nodiscard]] bool IsEmpty() const noexcept;
+		[[nodiscard]] bool Contains(KeyType key) const;
+		[[nodiscard]] std::size_t Size() const noexcept;
 		
 		// ==================== Iterators ====================
 		auto begin() { return m_dense.begin(); }
@@ -89,28 +89,28 @@ namespace Hi_Engine
 		m_dense.reserve(initialSize);
 	}
 
-	template<typename ValueType, Integral KeyType>
-	inline const ValueType& SparseSet<ValueType, KeyType>::At(KeyType key) const
+	template <typename ValueType, Integral KeyType>
+	const ValueType& SparseSet<ValueType, KeyType>::At(KeyType key) const
 	{
 		if (!Contains(key)) throw std::out_of_range("Invalid key");
 		return m_dense[m_sparse[key]];
 	}
 
-	template<typename ValueType, Integral KeyType>
-	inline ValueType& SparseSet<ValueType, KeyType>::At(KeyType key)
+	template <typename ValueType, Integral KeyType>
+	ValueType& SparseSet<ValueType, KeyType>::At(KeyType key)
 	{
 		return const_cast<ValueType&>(std::as_const(*this).At(key));
 	}
 
-	template<typename ValueType, Integral KeyType>
-	inline const ValueType& SparseSet<ValueType, KeyType>::operator[](KeyType key) const
+	template <typename ValueType, Integral KeyType>
+	const ValueType& SparseSet<ValueType, KeyType>::operator[](KeyType key) const
 	{
 		assert(Contains(key));
 		return m_dense[m_sparse[key]];
 	}
 
-	template<typename ValueType, Integral KeyType>
-	inline ValueType& SparseSet<ValueType, KeyType>::operator[](KeyType key)
+	template <typename ValueType, Integral KeyType>
+	ValueType& SparseSet<ValueType, KeyType>::operator[](KeyType key)
 	{
 		assert(Contains(key));
 		return m_dense[m_sparse[key]];
@@ -128,8 +128,8 @@ namespace Hi_Engine
 		return Contains(key) ? &m_dense[m_sparse[key]] : nullptr;
 	}
 
-	template<typename ValueType, Integral KeyType>
-	template<typename... Args>
+	template <typename ValueType, Integral KeyType>
+	template <typename... Args>
 	bool SparseSet<ValueType, KeyType>::Emplace(KeyType key, Args&&... args)
 	{
 		// Early exit for invalid key
@@ -163,7 +163,7 @@ namespace Hi_Engine
 		return true;
 	}
 
-	template<typename ValueType, Integral KeyType>
+	template <typename ValueType, Integral KeyType>
 	void SparseSet<ValueType, KeyType>::Insert(KeyType key, ValueType&& value)
 	{
 		Emplace(key, std::forward<ValueType>(value));
@@ -202,46 +202,46 @@ namespace Hi_Engine
 		std::fill(m_reverse.begin(), m_reverse.end(), InvalidIndex);
 	}
 
-	template<typename ValueType, Integral KeyType>
-	inline void SparseSet<ValueType, KeyType>::Reserve(std::size_t capacity)
+	template <typename ValueType, Integral KeyType>
+	void SparseSet<ValueType, KeyType>::Reserve(std::size_t capacity)
 	{
 		m_sparse.reserve(capacity);
 		m_reverse.reserve(capacity);
 		m_dense.reserve(capacity);
 	}
 
-	template<typename ValueType, Integral KeyType>
-	inline void SparseSet<ValueType, KeyType>::ShrinkToFit()
+	template <typename ValueType, Integral KeyType>
+	void SparseSet<ValueType, KeyType>::ShrinkToFit()
 	{
 		m_sparse.shrink_to_fit();
 		m_reverse.shrink_to_fit();
 		m_dense.shrink_to_fit();
 	}
 
-	template<typename ValueType, Integral KeyType>
-	inline void SparseSet<ValueType, KeyType>::Swap(SparseSet& other) noexcept
+	template <typename ValueType, Integral KeyType>
+	void SparseSet<ValueType, KeyType>::Swap(SparseSet& other) noexcept
 	{
 		m_sparse.swap(other.m_sparse);
 		m_reverse.swap(other.m_reverse);
 		m_dense.swap(other.m_dense);
 	}
 
-	template<typename ValueType, Integral KeyType>
-	inline bool SparseSet<ValueType, KeyType>::IsEmpty() const noexcept
+	template <typename ValueType, Integral KeyType>
+	bool SparseSet<ValueType, KeyType>::IsEmpty() const noexcept
 	{
 		return m_dense.empty();
-	}
-
-	template <typename ValueType, Integral KeyType>
-	std::size_t SparseSet<ValueType, KeyType>::Size() const
-	{
-		return m_dense.size();
 	}
 
 	template <typename ValueType, Integral KeyType>
 	bool SparseSet<ValueType, KeyType>::Contains(KeyType key) const
 	{
 		return key >= 0 && static_cast<std::size_t>(key) < m_sparse.size() && m_sparse[key] != InvalidIndex;
+	}
+
+	template <typename ValueType, Integral KeyType>
+	std::size_t SparseSet<ValueType, KeyType>::Size() const noexcept
+	{
+		return m_dense.size();
 	}
 
 #pragma endregion Templated_Methods
