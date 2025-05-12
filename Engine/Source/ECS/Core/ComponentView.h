@@ -16,9 +16,10 @@ namespace Hi_Engine
 	public:
 		// ==================== Construction/Destruction ====================
 		ComponentView(ComponentContainer<Ts>&... containers, std::vector<EntityID>&& entities);
+		~ComponentView() = default;
+
 		ComponentView(const ComponentView&) = default;
 		ComponentView(ComponentView&&) noexcept = default;
-		~ComponentView() = default;
 
 		ComponentView& operator=(const ComponentView&) = default;
 		ComponentView& operator=(ComponentView&&) noexcept = default;
