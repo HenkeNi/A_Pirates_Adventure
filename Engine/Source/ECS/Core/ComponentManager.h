@@ -16,7 +16,6 @@ namespace Hi_Engine
 
 		// ==================== Component Management ====================
 		virtual void RemoveComponent(EntityID id) = 0;
-		virtual void RemoveComponents(const std::vector<EntityID>& ids) = 0;
 		virtual void RemoveAllComponents() = 0;
 
 		// ==================== Queries ====================
@@ -43,7 +42,6 @@ namespace Hi_Engine
 		bool AddComponent(EntityID id, Args&&... args);
 
 		void RemoveComponent(EntityID id) override;
-		void RemoveComponents(const std::vector<EntityID>& ids) override;
 		void RemoveAllComponents() override;
 
 		// ==================== Component Access ====================
@@ -61,7 +59,7 @@ namespace Hi_Engine
 		void Reserve(std::size_t capacity);
 
 		// ==================== Query Operations ====================
-		[[nodiscard]] std::size_t GetComponentCount() override noexcept;
+		[[nodiscard]] std::size_t GetComponentCount() const noexcept override;
 		[[nodiscard]] bool HasComponent(EntityID id) const override;
 
 	private:
@@ -81,15 +79,6 @@ namespace Hi_Engine
 	void ComponentManager<T>::RemoveComponent(EntityID id)
 	{
 		m_components.Remove(id);
-	}
-
-	template <ComponentType T>
-	void ComponentManager<T>::RemoveComponents(const std::vector<EntityID>& ids)
-	{
-		for (const auto& id : ids)
-		{
-			m_components.Remove(id);
-		}
 	}
 
 	template <ComponentType T>
@@ -140,8 +129,8 @@ namespace Hi_Engine
 		m_components.Reserve(capacity);
 	}
 
-	template<ComponentType T>
-	inline std::size_t ComponentManager<T>::GetComponentCount() noexcept
+	template <ComponentType T>
+	std::size_t ComponentManager<T>::GetComponentCount() const noexcept
 	{
 		return m_components.Size();
 	}
@@ -149,7 +138,7 @@ namespace Hi_Engine
 	template <ComponentType T>
 	bool ComponentManager<T>::HasComponent(EntityID id) const
 	{
-		return m_components.Contains(entity);
+		return m_components.Contains(id);
 	}
 
 #pragma endregion
