@@ -49,7 +49,7 @@ concept SameType = std::is_same_v<T, U>;
 
 // Derived from
 template <typename T, typename Base>
-concept DerivedFrom = std::is_base_of_v<Base, T>;
+concept DerivedFrom = std::is_base_of_v<Base, T> && !std::is_same_v<Base, T>;
 
 // Default constructible (i.e., takes no arguments)
 template <typename T>
