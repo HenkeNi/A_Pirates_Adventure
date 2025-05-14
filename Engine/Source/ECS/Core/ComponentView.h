@@ -34,10 +34,10 @@ namespace Hi_Engine
 
 		// Random Access
 		template <ComponentType T>
-		const T* GetComponent(EntityID id) const; // OR VALID CHECK ENTITY??!
+		[[nodiscard]] const T* GetComponent(EntityID id) const; // OR VALID CHECK ENTITY??!
 
 		template <ComponentType T>
-		T* GetComponent(EntityID id);
+		[[nodiscard]] T* GetComponent(EntityID id);
 
 		// ==================== Queries ====================
 		[[nodiscard]] bool Contains(EntityID id) const noexcept;
@@ -46,7 +46,7 @@ namespace Hi_Engine
 
 		[[nodiscard]] std::size_t size() const noexcept;
 
-		inline const std::vector<Entity>& GetEntities() const { return m_entities; }
+		[[nodiscard]] inline const std::vector<Entity>& GetEntities() const { return m_entities; }
 
 		// ==================== Search ====================
 		template <typename Predicate> // template <Callable Func>
