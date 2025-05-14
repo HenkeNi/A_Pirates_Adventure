@@ -107,7 +107,7 @@ namespace Hi_Engine
 		if (optionalSignature.has_value())
 		{
 			Signature signature = optionalSignature.value();
-			signature.set(ECSRegistry::GetComponentRegistry.GetComponentID<T>());
+			signature.set(ECSRegistry::GetComponentRegistry().GetComponentID<T>());
 
 			m_entityManager.SetSignature(entity, signature);
 		}
