@@ -1,4 +1,5 @@
 #pragma once
+#include <span> // temp
 
 namespace Hi_Engine
 {
@@ -30,17 +31,17 @@ namespace Hi_Engine
 		// ==================== Access & Queries ====================
 		// Nullable access
 		template <DerivedFrom<System> T>
-		const T* TryGetSystem() const;
+		[[nodiscard]] const T* TryGetSystem() const;
 
 		template <DerivedFrom<System> T>
-		T* TryGetSystem();
+		[[nodiscard]] T* TryGetSystem();
 
 		// Guaranteed access
 		template <DerivedFrom<System> T>
-		const T& GetSystem() const;
+		[[nodiscard]] const T& GetSystem() const;
 
 		template <DerivedFrom<System> T>
-		T& GetSystem();
+		[[nodiscard]] T& GetSystem();
 
 		// Existence checks
 		template <DerivedFrom<System> T>
