@@ -1,5 +1,4 @@
 #pragma once
-#include "Scenes/SceneManager.h"
 #include <Application/Application.h>
 
 class Game : public Hi_Engine::Application
@@ -14,7 +13,6 @@ public:
 	void OnDestroy()					override;
 
 private:
+	//void RegisterScenes();
 	void LoadResources();
-
-	SceneManager m_sceneManager;
 };
