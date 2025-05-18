@@ -11,7 +11,7 @@
 //{
 //}
 
-void DungeonScene::Update(float deltaTime)
+void DungeonScene::OnUpdate(float deltaTime)
 {
 }
 

@@ -11,7 +11,7 @@
 //{
 //}
 
-void SettingsScene::Update(float deltaTime)
+void SettingsScene::OnUpdate(float deltaTime)
 {
 
 }

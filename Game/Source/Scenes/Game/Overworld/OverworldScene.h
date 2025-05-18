@@ -8,7 +8,7 @@ public:
 	//OverworldScene(Hi_Engine::ECSCoordinator& ecs);
 	//~OverworldScene();
 
-	void Update(float deltaTime)			  override;
+	void OnUpdate(float deltaTime)			  override;
 	void OnEnter()							  override;
 	void OnExit()							  override;
 };

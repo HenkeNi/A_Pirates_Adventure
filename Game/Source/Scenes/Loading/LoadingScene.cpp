@@ -11,7 +11,7 @@
 //{
 //}
 
-void LoadingScene::Update(float deltaTime)
+void LoadingScene::OnUpdate(float deltaTime)
 {
 }
 

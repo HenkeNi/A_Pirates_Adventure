@@ -10,11 +10,11 @@ public:
 	//GameScene(Hi_Engine::ECSCoordinator& ecs);
 	//~GameScene();
 
-	void Update(float deltaTime)			  override;
+	void OnUpdate(float deltaTime)			  override;
 	void OnCreated()						  override;
 	void OnEnter()							  override;
 	void OnExit()							  override;
 
 private:
-	//SceneManager m_sceneManager;
+	//SceneManager m_sceneManager; -> how to deal with "nested" scene managers?
 };

@@ -11,7 +11,7 @@
 //{
 //}
 
-void MenuScene::Update(float deltaTime)
+void MenuScene::OnUpdate(float deltaTime)
 {
 
 }

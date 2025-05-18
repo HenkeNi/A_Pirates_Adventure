@@ -11,7 +11,7 @@
 //{
 //}
 
-void InventoryScene::Update(float deltaTime)
+void InventoryScene::OnUpdate(float deltaTime)
 {
 
 }

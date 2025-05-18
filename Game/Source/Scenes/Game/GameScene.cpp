@@ -15,29 +15,29 @@
 //{
 //}
 
-void GameScene::Update(float deltaTime)
+void GameScene::OnUpdate(float deltaTime)
 {
-	std::weak_ptr<Scene> activeScene = m_sceneManager.GetActiveScene();
-	if (auto scene = activeScene.lock())
+	//std::weak_ptr<Scene> activeScene = m_sceneManager.GetActiveScene();
+	/*if (auto scene = activeScene.lock())
 	{
 		scene->Update(deltaTime);
-	}
+	}*/
 }
 
 void GameScene::OnCreated()
 {
 	// TODO; pass the Game Scene's entitymanager to subscene's?
 
-	m_sceneManager.Register<OverworldScene>(eScene::Overworld);
-	m_sceneManager.Register<DungeonScene>(eScene::Dungeon);
-	m_sceneManager.Register<InventoryScene>(eScene::Inventory);
+	//m_sceneManager.Register<OverworldScene>(eScene::Overworld);
+	//m_sceneManager.Register<DungeonScene>(eScene::Dungeon);
+	//m_sceneManager.Register<InventoryScene>(eScene::Inventory);
 
 	// m_sceneManager.Init({ eScene::Overworld });
 }
 
 void GameScene::OnEnter()
 {
-	PostMaster::GetInstance().SendMessage({ eMessage::TransitionToScene, eScene::Overworld });
+	// PostMaster::GetInstance().SendMessage({ eMessage::TransitionToScene, eScene::Overworld });
 
 	/*std::weak_ptr<Scene> activeScene = m_sceneManager.GetActiveScene();
 	if (auto scene = activeScene.lock())

@@ -11,7 +11,7 @@
 //{
 //}
 
-void OverworldScene::Update(float deltaTime)
+void OverworldScene::OnUpdate(float deltaTime)
 {
 }
 
