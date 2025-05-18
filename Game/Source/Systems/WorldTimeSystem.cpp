@@ -2,7 +2,7 @@
 #include "WorldTimeSystem.h"
 #include "Components/GameplayComponents.h"
 
-WorldTimeSystem::WorldTimeSystem(Hi_Engine::ECSCoordinator& ecs)
+WorldTimeSystem::WorldTimeSystem(Hi_Engine::ECSCore& ecs)
 	: System{ ecs }
 {
 }

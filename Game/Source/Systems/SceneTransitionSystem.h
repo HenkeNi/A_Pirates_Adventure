@@ -7,13 +7,14 @@ class SceneManager;
 
 namespace Hi_Engine
 {
-	class ECSCoordinator;
+	class ECSCore;
+	class SceneManager;
 }
 
 class SceneTransitionSystem : public Hi_Engine::System, public Subscriber
 {
 public:
-	SceneTransitionSystem(Hi_Engine::ECSCoordinator& ecs, SceneManager& manager);
+	SceneTransitionSystem(Hi_Engine::ECSCore& ecs, Hi_Engine::SceneManager& manager);
 	~SceneTransitionSystem();
 
 	void Update(float deltaTime) override;
@@ -22,5 +23,5 @@ public:
 	Hi_Engine::eUpdatePhase GetUpdatePhase() const override;
 
 private:
-	SceneManager& m_sceneManager;
+	Hi_Engine::SceneManager& m_sceneManager;
 };
