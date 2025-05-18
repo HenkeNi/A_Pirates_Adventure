@@ -82,7 +82,7 @@ namespace Hi_Engine
 		std::tuple<Ts*...> GetComponents(EntityID id) const;
 
 		// ==================== Data Members ====================
-		std::tuple<ComponentContainer<Ts>&...> m_components; // or component managers??	
+		std::tuple<ComponentContainer<Ts>&...> m_components;
 		const std::vector<EntityID> m_entities;
 
 		// std::vector<std::tuple<Entity, Ts*...>> m_cache;
