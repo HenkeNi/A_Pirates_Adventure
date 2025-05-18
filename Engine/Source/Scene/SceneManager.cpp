@@ -145,7 +145,7 @@ namespace Hi_Engine
 		//if (foundPath == scenePaths.end())
 		//	return;
 
-		//auto document = Hi_Engine::ParseDocument(foundPath->second);
+		//auto document = Hi_Engine::LoadJsonDocument(foundPath->second);
 
 		//// temp
 
@@ -176,5 +176,11 @@ namespace Hi_Engine
 
 			// Hi_Engine::EngineFacade::CreateEntityFromJson(jsonEntity);
 		}
+	}
+
+	SceneManager::SceneID SceneManager::GenerateSceneID() const
+	{
+		static SceneID id = 0;
+		return id++;
 	}
 }

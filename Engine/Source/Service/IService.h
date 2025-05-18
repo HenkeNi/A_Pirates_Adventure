@@ -7,11 +7,10 @@ namespace Hi_Engine
 	public:
 		virtual ~IService() = default;
 
-		virtual bool Initialize() { return true; }; // not pure virtual?
 		virtual void Shutdown() {};
 
 		// Keep these??
-		virtual void Deserialize(/*const rapidjson::Value& json*/const char* path) {}; // accept a serializer instead?
+		virtual void Deserialize(const char* path) {};
 		virtual void Serialize() {};
 	};
 }

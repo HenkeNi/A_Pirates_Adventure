@@ -1,5 +1,5 @@
 #pragma once
-#include "Service/IService.h"
+#include "../Service/IService.h"
 
 namespace Hi_Engine
 {
@@ -69,7 +69,7 @@ namespace Hi_Engine
 	{
 		const SceneID id = GetSceneID<T>();
 
-		m_scenes.insert_or_assign({ id, std::make_shared<T>(std::forward<Args>(args)...) });
+		m_scenes.insert_or_assign(id, std::make_shared<T>(std::forward<Args>(args)...));
 		m_nameToID.insert_or_assign(name, id);
 
 		m_scenes[id]->OnCreated();
@@ -80,12 +80,6 @@ namespace Hi_Engine
 	{
 		static const SceneID id = GenerateSceneID();
 		return id;
-	}
-
-	SceneManager::SceneID SceneManager::GenerateSceneID() const
-	{
-		static SceneID id = 0;
-		return id++;
 	}
 
 #pragma endregion Method_Definitions
