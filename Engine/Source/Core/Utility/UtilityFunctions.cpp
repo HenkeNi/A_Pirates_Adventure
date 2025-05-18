@@ -2,10 +2,17 @@
 #include "UtilityFunctions.h"
 #include <stringbuffer.h>
 #include <writer.h>
+// 
 
 
 namespace Hi_Engine
 {
+	
+
+
+
+
+
 	std::wstring ConvertToWideString(const std::string& string)
 	{
 		std::wstring wString{ string.begin(), string.end() };
@@ -13,7 +20,7 @@ namespace Hi_Engine
 	}
 
 	
-	/*rapidjson::Document ParseDocument(const std::string& path)
+	/*rapidjson::Document LoadJsonDocument(const std::string& path)
 	{
 		std::ifstream ifs{ path };
 		std::string content{ std::istreambuf_iterator<char>(ifs), std::istreambuf_iterator<char>() };
@@ -24,6 +31,8 @@ namespace Hi_Engine
 		assert(!document.HasParseError() && "ERROR: Failed to parse document");
 		return document;
 	}*/
+
+	
 
 	std::any ParseJson(const rapidjson::Value& value)
 	{
@@ -98,7 +107,7 @@ namespace Hi_Engine
 		position.AddMember("x", 100, allocator);
 		position.AddMember("y", 200, allocator);
 
-		// Add position to the document
+		// Emplace position to the document
 		document.AddMember("position", position, allocator);
 
 		// 4. Serialize the document to a string
