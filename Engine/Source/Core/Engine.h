@@ -1,12 +1,11 @@
 #pragma once
 #include "Event/Core/EventListener.h"
-#include "Modules/ModuleManager.h"
+#include "../Service/ServiceRegistry.h"
+#include "Config/EngineConfig.h"
 
 namespace Hi_Engine
 {
 	class Application;
-	class ThreadPool;
-	class Timer;
 
 	class Engine : public EventListener
 	{
@@ -21,13 +20,16 @@ namespace Hi_Engine
 		void Run();
 
 	private:
-		void RegisterModules();
+		void RegisterServiceTypes();
+		bool SetupServices();
 		void SetupECS();
 		
-		//void LoadResources(); // do in game/app!? load shaders in renderer Init?
+		// Store engine config..
+		// display system?
 
-		ModuleManager m_moduleManager;
-		Application& m_application;
+		ServiceRegistry m_services;
+		EngineConfig m_engineConfig;
+ 		Application& m_application;
 		bool m_isRunning;
 	};
 }
