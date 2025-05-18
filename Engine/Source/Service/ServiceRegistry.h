@@ -11,7 +11,8 @@ namespace Hi_Engine
 	class IService;
 
 	// TODO; Send event when register / unregister? observer pattern? (i.e. Subscribe), or use EventDIspatcher?
-	// TODO; change shared pointer into unique?
+
+	// Consider; storing unique_ptr's instead, implement GetSafe (uses dynamic cast rather than static) - or a template bool bUseSafe?
 
 	class ServiceRegistry
 	{
@@ -34,30 +35,37 @@ namespace Hi_Engine
 
 		void Clear() noexcept;
 
+		// ==================== Iteration ====================
+		template <typename Callback>
+		void ForEach(Callback&& callback) const;
+
+		template <typename Callback>
+		void ForEach(Callback&& callback);
+
 		// ==================== Access Methods ====================
 		// Strong guarantee (throws std::out_of_range if service not found)
 		template <DerivedFrom<IService> T>
-		const T& Get() const;
+		[[nodiscard]] const T& Get() const;
 
 		template <DerivedFrom<IService> T>
-		T& Get();
+		[[nodiscard]] T& Get();
 
 		// Nullable access (no-throw, returns nullptr if not found)
 		template <DerivedFrom<IService> T>
-		const T* TryGet() const;
+		[[nodiscard]] const T* TryGet() const; // remove?
 
 		template <DerivedFrom<IService> T>
-		T* TryGet();
+		[[nodiscard]] T* TryGet();
 
-		// Shared ownership access (no-throw, returns empty shared_ptr if not found)
+		// Weak ownership access (no-throw, returns empty weak_ptr if not found)
 		template <DerivedFrom<IService> T>
-		[[nodiscard]] const std::shared_ptr<T> TryGetShared() const;
+		[[nodiscard]] const std::weak_ptr<T> TryGetWeak() const;
 		
 		template <DerivedFrom<IService> T>
-		[[nodiscard]] std::shared_ptr<T> TryGetShared();
-
+		[[nodiscard]] std::weak_ptr<T> TryGetWeak();
+		
 		// ==================== Capacity ====================
-		std::size_t Size() const noexcept;
+		[[nodiscard]] std::size_t Size() const noexcept;
 
 		[[nodiscard]] bool IsEmpty() const noexcept;
 
@@ -72,7 +80,7 @@ namespace Hi_Engine
 		// ==================== Interal Helpers ====================
 		template <DerivedFrom<IService> T>
 		constexpr std::type_index GetTypeIndex() const noexcept;
-		
+
 		// ==================== Type Aliases ====================
 		using ServicePtr = std::shared_ptr<IService>;
 		using ServiceMap = std::unordered_map<std::type_index, ServicePtr>;
@@ -88,7 +96,7 @@ namespace Hi_Engine
 	void ServiceRegistry::Insert(std::shared_ptr<T> service)
 	{
 		std::lock_guard lock(m_mutex);
-		m_services.insert_or_assign(GetTypeIndex<T>(), std::move(service));
+		m_services.insert_or_assign(GetTypeIndex<T>(), std::move(service)); // move here?
 	}
 
 	template <DerivedFrom<IService> ...Ts>
@@ -116,25 +124,48 @@ namespace Hi_Engine
 		m_services.erase(GetTypeIndex<T>());
 	}
 
-	template<DerivedFrom<IService> ...Ts>
-	inline void ServiceRegistry::RemoveAll()
+	template <DerivedFrom<IService> ...Ts>
+	void ServiceRegistry::RemoveAll()
 	{
 		std::lock_guard lock(m_mutex);
 		(m_services.erase(GetTypeIndex<Ts>()), ...);
+	}
+
+	template <typename Callback>
+	void ServiceRegistry::ForEach(Callback&& callback) const
+	{
+		for (const auto& [type, service] : m_services)
+		{
+			if (service) callback(service);
+		}
+	}
+
+	template <typename Callback>
+	void ServiceRegistry::ForEach(Callback&& callback)
+	{
+		for (auto& [type, service] : m_services)
+		{
+			if (service) callback(service);
+		}
 	}
 
 	template <DerivedFrom<IService> T>
 	const T& ServiceRegistry::Get() const
 	{
 		std::lock_guard lock(m_mutex);
-		return *m_services.at(GetTypeIndex<T>());
+
+		auto it = m_services.find(GetTypeIndex<T>());
+
+		assert(it != m_services.end() && "Service not found in registry!");
+		assert(dynamic_cast<const T*>(it->second.get()) && "Type mismatch detected!");
+
+		return *static_cast<const T*>(it->second.get());
 	}
 
 	template <DerivedFrom<IService> T>
 	T& ServiceRegistry::Get()
-	{
-		std::lock_guard lock(m_mutex);
-		return *m_services.at(GetTypeIndex<T>());
+	{		
+		return const_cast<T&>(std::as_const(*this).Get<T>());
 	}
 
 	template <DerivedFrom<IService> T>
@@ -144,6 +175,8 @@ namespace Hi_Engine
 
 		if (auto it = m_services.find(GetTypeIndex<T>()); it != m_services.end())
 		{
+			assert(dynamic_cast<const T*>(it->second.get()) && "Type mismatch detected!");
+
 			return static_cast<const T*>(it->second.get());
 		}
 
@@ -153,40 +186,28 @@ namespace Hi_Engine
 	template <DerivedFrom<IService> T>
 	T* ServiceRegistry::TryGet()
 	{
-		std::lock_guard lock(m_mutex);
-
-		if (auto it = m_services.find(GetTypeIndex<T>()); it != m_services.end())
-		{
-			return static_cast<T*>(it->second.get());
-		}
-
-		return nullptr;
+		return const_cast<T*>(std::as_const(*this).TryGet<T>());
 	}
 
 	template <DerivedFrom<IService> T>
-	const std::shared_ptr<T> ServiceRegistry::TryGetShared() const
+	const std::weak_ptr<T> ServiceRegistry::TryGetWeak() const
 	{
 		std::lock_guard lock(m_mutex);
 
 		if (auto it = m_services.find(GetTypeIndex<T>()); it != m_services.end())
 		{
+			assert(dynamic_cast<const T*>(it->second.get()) && "Type mismatch detected!");
+
 			return std::static_pointer_cast<const T>(it->second);
 		}
 
-		return nullptr;
+		return {};
 	}
 
 	template <DerivedFrom<IService> T>
-	std::shared_ptr<T> ServiceRegistry::TryGetShared()
+	std::weak_ptr<T> ServiceRegistry::TryGetWeak()
 	{
-		std::lock_guard lock(m_mutex);
-
-		if (auto it = m_services.find(GetTypeIndex<T>()); it != m_services.end())
-		{
-			return std::static_pointer_cast<T>(it->second);
-		}
-
-		return nullptr;
+		return const_cast<std::weak_ptr<T>>(std::as_const(*this).TryGetWeak<T>());
 	}
 
 	template <DerivedFrom<IService> T>
