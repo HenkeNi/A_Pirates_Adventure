@@ -18,10 +18,7 @@ namespace Hi_Engine
 		EntityManager();
 		~EntityManager() = default;
 
-		EntityManager(const EntityManager&) = delete;
 		EntityManager(EntityManager&&) = default;
-
-		EntityManager& operator=(const EntityManager&) = delete;
 		EntityManager& operator=(EntityManager&&) = default;
 
 		// ==================== Lifecycle ====================
