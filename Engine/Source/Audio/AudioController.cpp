@@ -8,8 +8,8 @@
 
 namespace Hi_Engine
 {
-	AudioController::AudioController(ModuleManager& manager)
-		: Module{ manager }//m_soundEngine{ nullptr }
+	AudioController::AudioController()
+		// : m_soundEngine{ nullptr }
 	{
 	}
 
@@ -17,7 +17,7 @@ namespace Hi_Engine
 	{
 	}
 
-	bool AudioController::Init()
+	bool AudioController::Initialize()
 	{
 		m_soundEngine = irrklang::createIrrKlangDevice();
 		if (!m_soundEngine)

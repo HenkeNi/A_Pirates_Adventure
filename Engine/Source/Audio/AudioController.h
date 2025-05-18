@@ -1,5 +1,5 @@
 #pragma once
-#include "../Core/Modules/Module.h"
+#include "../Service/IService.h"
 
 namespace irrklang
 {
@@ -12,13 +12,13 @@ namespace Hi_Engine
 	class Audio;
 	class AudioSource;
 
-	class AudioController : public Module
+	class AudioController : public IService
 	{
 	public:
-		AudioController(ModuleManager& manager);
+		AudioController();
 		~AudioController();
 
-		bool Init() override;
+		bool Initialize();
 		void Shutdown() override;
 		void Update();
 
