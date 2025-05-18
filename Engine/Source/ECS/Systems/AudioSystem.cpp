@@ -3,7 +3,7 @@
 
 namespace Hi_Engine
 {
-	AudioSystem::AudioSystem(ECSCoordinator& ecs, AudioController& audioController)
+	AudioSystem::AudioSystem(ECSCore& ecs, AudioController& audioController)
 		: System{ ecs }, m_audioController{ audioController }
 	{
 	}

@@ -5,7 +5,7 @@
 
 namespace Hi_Engine
 {
-	EditorSystem::EditorSystem(ECSCoordinator& ecs, Editor& editor)
+	EditorSystem::EditorSystem(ECSCore& ecs, Editor& editor)
 		: System{ ecs }, m_editor{ editor }
 	{
 	}

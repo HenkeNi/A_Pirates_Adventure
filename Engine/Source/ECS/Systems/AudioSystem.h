@@ -8,7 +8,7 @@ namespace Hi_Engine
 	class AudioSystem : public System
 	{
 	public:
-		AudioSystem(ECSCoordinator& ecs, AudioController& audioController);
+		AudioSystem(ECSCore& ecs, AudioController& audioController);
 		
 		eUpdatePhase GetUpdatePhase() const override;
 

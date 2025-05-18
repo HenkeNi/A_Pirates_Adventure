@@ -8,7 +8,7 @@ namespace Hi_Engine
 	class TimeSystem : public System
 	{
 	public:
-		TimeSystem(ECSCoordinator& ecs, Timer& timer);
+		TimeSystem(ECSCore& ecs, Timer& timer);
 
 		void Update(float deltaTime) override;
 		eUpdatePhase GetUpdatePhase() const override;

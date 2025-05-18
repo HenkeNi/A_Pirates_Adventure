@@ -3,7 +3,7 @@
 
 namespace Hi_Engine
 {
-	System::System(ECSCoordinator& ecs)
+	System::System(ECSCore& ecs)
 		: m_ecs{ ecs }
 	{
 	}

@@ -11,7 +11,7 @@ namespace Hi_Engine
 	class RenderSystem : public System, public EventListener
 	{
 	public:
-		RenderSystem(ECSCoordinator& ecs, std::weak_ptr<Renderer> renderer, std::weak_ptr<Editor> editor, const IVector2& size);
+		RenderSystem(ECSCore& ecs, std::weak_ptr<Renderer> renderer, std::weak_ptr<Editor> editor, const IVector2& size);
 
 		void HandleEvent(class WindowEvent& event) override;
 		void Update(float deltaTime) override;
@@ -23,7 +23,7 @@ namespace Hi_Engine
 		SpriteBatch CreateUIBatch() const;
 
 		IVector2 m_windowSize;
-		std::weak_ptr<Renderer> m_renderer;
+		std::weak_ptr<Renderer> m_renderer; // Use IRenderer here!s
 		std::weak_ptr<Editor> m_editor;
 	};
 }

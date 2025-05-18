@@ -3,7 +3,7 @@
 
 namespace Hi_Engine
 {
-	CameraSystem::CameraSystem(ECSCoordinator& ecs)
+	CameraSystem::CameraSystem(ECSCore& ecs)
 		: System{ ecs }
 	{
 	}
