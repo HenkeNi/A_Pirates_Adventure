@@ -1,0 +1,32 @@
+{
+  "window": {
+    "type": "GLFWWindow",
+    "width": 1400,
+    "height": 800,
+    "fullscreen": false,
+    "title": "A Pirate's Adventure",
+    "icon_path": "../Game/Assets/Textures/Icons/pirate_flag_icon.png"
+  },
+  "renderer": {
+    "type": "OpenGLRenderer",
+    "vsync": true,
+    "max_fps": 60,
+    "default_shader": "sprite_batch",
+    "max_quad_count": 10000,
+    "max_vertex_count": 40000,
+    "max_index_count": 6000
+  },
+  "audio": {
+    "type": "IrrKlangAudio",
+    "volume": 1.0
+  },
+  "input": {
+    "type": "GLFWInput"
+  },
+  "physics": {
+    "type": "Box2DPhysics"
+  },
+  "text_renderer": {
+    "default_shader": "Text"
+  }
+}
