@@ -3,61 +3,75 @@
 
 namespace Hi_Engine
 {
+	void ParseRendererConfig(const rapidjson::Value& obj, RendererConfig& config)
+	{
+		config.Type = JsonUtils::GetJsonVale<std::string>(obj, "type", "OpenGLRenderer");
+	}
+
+	void ParsePhysicsConfig(const rapidjson::Value& obj, PhysicsConfig& config)
+	{
+		config.Type = JsonUtils::GetJsonVale<std::string>(obj, "type", "Box2DPhysics");
+	}
+	
+	void ParseWindowConfig(const rapidjson::Value& obj, WindowConfig& config)
+	{
+		config.Type = JsonUtils::GetJsonVale<std::string>(obj, "type", "GLFWWindow");
+		config.Title = JsonUtils::GetJsonVale<std::string>(obj, "title", "A Pirate's Adventure!");
+		config.Width = JsonUtils::GetJsonVale<int>(obj, "width", 1280);
+		config.Height = JsonUtils::GetJsonVale<int>(obj, "height", 720);
+		config.Fullscreen = JsonUtils::GetJsonVale<bool>(obj, "fullscreen", false);
+	}
+
+	void ParseAudioConfig(const rapidjson::Value& obj, AudioConfig& config)
+	{
+		config.Type = JsonUtils::GetJsonVale<std::string>(obj, "type", "IrrKlangAudio");
+		config.MasterVolume = JsonUtils::GetJsonVale<float>(obj, "volume", 1.f);
+	}
+
+	void ParseInputConfig(const rapidjson::Value& obj, InputConfig& config)
+	{
+		config.Type = JsonUtils::GetJsonVale<std::string>(obj, "type", "GLFWInput");
+	}
+
 	struct EngineConfig::Impl
 	{
+		RendererConfig m_rendererConfig;
+		PhysicsConfig m_physicsConfig;
+		WindowConfig m_windowConfig;
 		AudioConfig m_audioConfig;
 		InputConfig m_inputConfig;
-		WindowConfig m_windowConfig;
-		RendererConfig m_rendererConfig;
-		
-		void LoadFromFile(const char* path)
-		{
-			auto doc = ParseDocument(path);
 
-			if (doc.HasMember("window") && doc["window"].IsObject())
-				ParseWindowConfig(doc["window"].GetObject());
+		eLoadResult LoadFromFile(const fs::path& path)
+		{
+			if (!fs::exists(path))
+			{
+				return eLoadResult::FileNotFound;
+			}
 			
-			if (doc.HasMember("renderer") && doc["renderer"].IsObject())
-				ParseRendererConfig(doc["renderer"].GetObject());
-
-			if (doc.HasMember("audio") && doc["audio"].IsObject())
-				ParseAudioConfig(doc["audio"].GetObject());
+			try
+			{
+				auto doc = JsonUtils::LoadJsonDocument(path.string());
 			
-			if (doc.HasMember("input") && doc["input"].IsObject())
-				ParseInputConfig(doc["input"].GetObject());
-		}
+				auto parseSection = [&doc](const char* name, auto& config, auto parser) 
+				{
+					if (doc.HasMember(name) && doc[name].IsObject()) 
+					{
+						parser(doc[name].GetObject(), config);
+					}
+				};
 
-		void ParseWindowConfig(const rapidjson::Value& obj)
-		{
-			if (obj.HasMember("width") && obj["width"].IsInt())
-				m_windowConfig.Width = obj["width"].GetInt();
+				parseSection("renderer", m_rendererConfig, ParseRendererConfig);				
+				parseSection("physics", m_physicsConfig, ParsePhysicsConfig);
+				parseSection("window", m_windowConfig, ParseWindowConfig);
+				parseSection("audio", m_audioConfig, ParseAudioConfig);
+				parseSection("input", m_inputConfig, ParseInputConfig);
 
-			if (obj.HasMember("height") && obj["height"].IsInt())
-				m_windowConfig.Height = obj["height"].GetInt();
-
-			if (obj.HasMember("fullscreen") && obj["fullscreen"].IsBool())
-				m_windowConfig.Fullscreen = obj["fullscreen"].GetBool();
-		}
-
-		void ParseRendererConfig(const rapidjson::Value& obj)
-		{
-			if (obj.HasMember("type") && obj["type"].IsString())
-				m_rendererConfig.Type = obj["type"].GetString();
-		}
-		
-		void ParseAudioConfig(const rapidjson::Value& obj)
-		{
-			if (obj.HasMember("type") && obj["type"].IsString())
-				m_audioConfig.Type = obj["type"].GetString();
-			
-			if (obj.HasMember("volume") && obj["volume"].IsFloat())
-				m_audioConfig.MasterVolume = obj["volume"].GetFloat();
-		}
-
-		void ParseInputConfig(const rapidjson::Value& obj)
-		{
-			if (obj.HasMember("type") && obj["type"].IsString())
-				m_inputConfig.Type = obj["type"].GetString();
+				return eLoadResult::Success;
+			}
+			catch (...)
+			{
+				return eLoadResult::ParseError;
+			}
 		}
 	};
 
@@ -70,53 +84,38 @@ namespace Hi_Engine
 	{
 	}
 
-	void EngineConfig::LoadFromFile(const char* path)
+	EngineConfig::eLoadResult EngineConfig::LoadFromFile(const fs::path& configPath)
 	{
-		m_impl->LoadFromFile(path);
+		return m_impl->LoadFromFile(configPath);
 	}
 
-	const char* EngineConfig::GetWindowType() const
+	bool EngineConfig::SaveToFile(const fs::path& configPath) const
 	{
-		return m_impl->m_windowConfig.Type;
+		return false;
 	}
 
-	int EngineConfig::GetWindowWidth() const
+	const WindowConfig& EngineConfig::GetWindowConfig() const noexcept
 	{
-		return m_impl->m_windowConfig.Width;
+		return m_impl->m_windowConfig;
 	}
 
-	int EngineConfig::GetWindowHeight() const
+	const RendererConfig& EngineConfig::GetRendererConfig() const noexcept
 	{
-		return m_impl->m_windowConfig.Height;
+		return m_impl->m_rendererConfig;
 	}
 
-	bool EngineConfig::IsWindowFullscreen() const
+	const AudioConfig& EngineConfig::GetAudioConfig() const noexcept
 	{
-		return m_impl->m_windowConfig.Fullscreen;
+		return m_impl->m_audioConfig;
 	}
 
-	const char* EngineConfig::GetRendererType() const
+	const InputConfig& EngineConfig::GetInputConfig() const noexcept
 	{
-		return m_impl->m_rendererConfig.Type;
+		return m_impl->m_inputConfig;
 	}
 
-	const char* EngineConfig::GetAudioType() const
+	const PhysicsConfig& EngineConfig::GetPhysicsConfig() const noexcept
 	{
-		return m_impl->m_audioConfig.Type;
-	}
-
-	float EngineConfig::GetMasterVolume() const
-	{
-		return m_impl->m_audioConfig.MasterVolume;
-	}
-
-	const char* EngineConfig::GetInputType() const
-	{
-		return m_impl->m_inputConfig.Type;
-	}
-
-	float EngineConfig::GetMouseSensitivity() const
-	{
-		return m_impl->m_inputConfig.MouseSensitivity;
+		return m_impl->m_physicsConfig;
 	}
 }
