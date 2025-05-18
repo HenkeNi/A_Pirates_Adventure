@@ -1,4 +1,5 @@
 #pragma once
+#include "../Service/IService.h"
 
 // todo: memory allocator
 
@@ -12,7 +13,7 @@ namespace Hi_Engine
 		// std::atomic<bool> m_isWorking;
 	};
 
-	class ThreadPool
+	class ThreadPool : public IService
 	{
 	public:
 		ThreadPool(std::size_t numThreads = std::thread::hardware_concurrency());
