@@ -1,7 +1,7 @@
 #include "Pch.h"
 #include "RenderSystem.h"
 #include "Rendering/Renderer/Renderer.h"
-#include "ECS/ECSCore.h"
+#include "World/World.h"
 #include "ECS/Components/CoreComponents.h"
 
 
@@ -11,7 +11,7 @@
 
 namespace Hi_Engine
 {
-	RenderSystem::RenderSystem(ECSCore& ecs, std::weak_ptr<Renderer> renderer, std::weak_ptr<Editor> editor, const IVector2& size)
+	RenderSystem::RenderSystem(World& ecs, std::weak_ptr<Renderer> renderer, std::weak_ptr<Editor> editor, const IVector2& size)
 	: System{ ecs }, m_renderer{ renderer }, m_editor{ editor }, m_windowSize{ size }
 	{
 	}

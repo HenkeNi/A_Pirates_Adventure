@@ -3,7 +3,7 @@
 
 namespace Hi_Engine
 {
-	class ECSCore;
+	class World;
 }
 
 struct WorldTimeComponent;
@@ -11,7 +11,7 @@ struct WorldTimeComponent;
 class WorldTimeSystem : public Hi_Engine::System
 {
 public:
-	WorldTimeSystem(Hi_Engine::ECSCore& ecs);
+	WorldTimeSystem(Hi_Engine::World& world);
 
 	void Update(float deltaTime) override;
 	Hi_Engine::eUpdatePhase GetUpdatePhase() const override;

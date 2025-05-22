@@ -1,6 +1,6 @@
 #include "Pch.h"
 #include "InputSystem.h"
-#include "ECS/ECSCore.h"
+#include "World/World.h"
 #include "Core/Input/InputHandler.h"
 #include "Platform/Window/Window.h"
 #include "../Components/CoreComponents.h"
@@ -9,7 +9,7 @@ namespace Hi_Engine
 {
 	FVector2 ConvertScreenToWorldPosition(const FVector2& mousePos, int windowWidth, int windowHeight, const glm::mat4& viewProjectionMatrix);
 
-	InputSystem::InputSystem(ECSCore& ecs, InputHandler& inputHandler, Window& window)
+	InputSystem::InputSystem(World& ecs, InputHandler& inputHandler, Window& window)
 		: System{ ecs }, m_inputHandler{ inputHandler }, m_window{ window }
 	{
 	}

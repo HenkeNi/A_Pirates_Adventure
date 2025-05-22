@@ -1,15 +1,15 @@
 #include "Pch.h"
-#include "ECSCore.h"
-#include "Systems/System.h"
+#include "World.h"
+#include "ECS/Systems/System.h"
 
-namespace Hi_Engine /// ::ECS
+namespace Hi_Engine
 {
-    std::optional<Entity> ECSCore::CreateEntity()
+    std::optional<Entity> World::CreateEntity()
     {
         return m_entityManager.Create();
     }
 
-    void ECSCore::DestroyEntity(const Entity& entity)
+    void World::DestroyEntity(const Entity& entity)
     {
         if (m_entityManager.Destroy(entity))
         {
@@ -20,7 +20,7 @@ namespace Hi_Engine /// ::ECS
         }
     }
 
-    void ECSCore::DestroyEntities(const std::vector<Entity>& entities)
+    void World::DestroyEntities(const std::vector<Entity>& entities)
     {
         for (const auto& entity : entities)
         {
@@ -34,7 +34,7 @@ namespace Hi_Engine /// ::ECS
         }
     }
 
-    void ECSCore::DestroyAllEntities()
+    void World::DestroyAllEntities()
     {
         m_entityManager.DestroyAll();
 
@@ -44,8 +44,17 @@ namespace Hi_Engine /// ::ECS
         }
     }
 
-    bool ECSCore::IsAlive(const Entity& entity) const
+    bool World::IsAlive(const Entity& entity) const
     {
         return m_entityManager.IsAlive(entity);
+    }
+  
+    void World::RemoveAllSystems()
+    {
+        m_systemManager.Clear();
+    }
+
+    void World::Update(float deltaTime)
+    {
     }
 }

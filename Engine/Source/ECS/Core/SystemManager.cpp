@@ -15,12 +15,9 @@ namespace Hi_Engine
 		m_systems.clear();
 	}
 
-	void SystemManager::SortByPriority()
+	bool SystemManager::IsEmpty() const noexcept
 	{
-		std::sort(m_systems.begin(), m_systems.end(), [](const auto& lhs, const auto& rhs)
-			{
-				return (int)lhs->GetUpdatePhase() < (int)rhs->GetUpdatePhase();
-			});
+		return m_systems.empty();
 	}
 
 	void SystemManager::Update(float deltaTime)
@@ -34,8 +31,11 @@ namespace Hi_Engine
 		std::for_each(m_systems.begin(), m_systems.end(), [=](auto& system) { system->Update(deltaTime); });
 	}
 
-	bool SystemManager::IsEmpty() const noexcept
+	void SystemManager::SortByPriority()
 	{
-		return m_systems.empty();
+		std::sort(m_systems.begin(), m_systems.end(), [](const auto& lhs, const auto& rhs)
+			{
+				return (int)lhs->GetUpdatePhase() < (int)rhs->GetUpdatePhase();
+			});
 	}
 }

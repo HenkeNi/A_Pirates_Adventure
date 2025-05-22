@@ -17,7 +17,9 @@ namespace Hi_Engine
 		using Systems = std::vector<std::unique_ptr<System>>; 
 		using SystemView = std::span<const std::unique_ptr<System>>;
 
-		// ==================== Modifiers ====================
+		// ==================== System Management ====================
+		// Methods that handles the lifecycle of systems (addition, removal, clearing)
+
 		void Insert(std::unique_ptr<System>&& system);
 
 		template <DerivedFrom<System> T, typename... Args>
@@ -28,35 +30,56 @@ namespace Hi_Engine
 
 		void Clear();
 
-		// ==================== Access & Queries ====================
-		// Nullable access
-		template <DerivedFrom<System> T>
-		[[nodiscard]] const T* TryGetSystem() const;
+		// ==================== System Access ====================
+		// Methods for accessing systems with different safety guarantees
 
-		template <DerivedFrom<System> T>
-		[[nodiscard]] T* TryGetSystem();
-
-		// Guaranteed access
 		template <DerivedFrom<System> T>
 		[[nodiscard]] const T& GetSystem() const;
 
 		template <DerivedFrom<System> T>
 		[[nodiscard]] T& GetSystem();
 
-		// Existence checks
 		template <DerivedFrom<System> T>
-		[[nodiscard]] bool HasSystem() const;
+		[[nodiscard]] const T* TryGetSystem() const;
 
-		template <DerivedFrom<System>... Ts>
-		[[nodiscard]] bool HasSystems() const;
+		template <DerivedFrom<System> T>
+		[[nodiscard]] T* TryGetSystem();
 
-		// Bulk access
 		template <typename... Ts>
-		std::tuple<Ts*...> GetSystems();
+		std::tuple<Ts*...> GetSystems(); // no discard?
 
 		inline [[nodiscard]] const Systems& GetAllSystems() const noexcept { return m_systems; }
 
-		// ==================== Iteration & Operations ====================
+		// ==================== System Queries ====================
+		// Methods for querying system state and existence
+
+		template <DerivedFrom<System> T>
+		[[nodiscard]] bool HasSystem() const; // Noexcept?
+
+		template <DerivedFrom<System>... Ts>
+		[[nodiscard]] bool HasSystems() const; // Noexcept?
+
+		template <DerivedFrom<System>... Ts>
+		[[nodiscard]] bool IsEnabled() const noexcept; // Noexcept?
+
+		[[nodiscard]] bool IsEmpty() const noexcept;
+
+		[[nodiscard]] inline std::size_t GetSystemCount() const noexcept { return m_systems.size(); }
+
+		// ==================== System Control ====================
+		// Methods for enabling/disabling systems and controlling execution
+
+		template <DerivedFrom<System> T>
+		void Enable();
+
+		template <DerivedFrom<System> T>
+		void Disable();
+
+		void Update(float deltaTime);
+
+		// ==================== System Iteration ====================
+		// Methods for iterating over systems with various predicates
+
 		template <typename Func>
 		void ForEach(Func&& callback) const;
 
@@ -66,23 +89,16 @@ namespace Hi_Engine
 		template <DerivedFrom<System> T, typename Func>
 		void ForEach(Func&& callback, Func&& predicate);
 
-		// ==================== Sorting ====================
+		// ==================== System Ordering ====================
+		// Methods for controlling system execution order
+
 		void SortByPriority();
 
 		template <typename Func>
 		void Sort(Func&& sortFnc);
-
-		// ==================== Update ====================
-		void Update(float deltaTime);
 	
-		// ==================== Utility ====================		
-		[[nodiscard]] inline std::size_t GetSystemCount() const noexcept { return m_systems.size(); }
-
-		[[nodiscard]] bool IsEmpty() const noexcept;
-
 	private:
 		std::unordered_map<std::type_index, std::size_t> m_indexToSystem;
-
 		Systems m_systems;
 		bool m_isSorted = false;
 	};
@@ -105,6 +121,18 @@ namespace Hi_Engine
 	}
 
 	template <DerivedFrom<System> T>
+	const T& SystemManager::GetSystem() const
+	{
+		// TODO: insert return statement here
+	}
+
+	template <DerivedFrom<System> T>
+	T& SystemManager::GetSystem()
+	{
+		// TODO: insert return statement here
+	}
+
+	template <DerivedFrom<System> T>
 	const T* SystemManager::TryGetSystem() const
 	{
 		return nullptr;
@@ -116,16 +144,10 @@ namespace Hi_Engine
 		return nullptr;
 	}
 
-	template <DerivedFrom<System> T>
-	const T& SystemManager::GetSystem() const
+	template <typename ...Ts>
+	std::tuple<Ts*...> SystemManager::GetSystems()
 	{
-		// TODO: insert return statement here
-	}
-
-	template <DerivedFrom<System> T>
-	T& SystemManager::GetSystem()
-	{
-		// TODO: insert return statement here
+		return std::tuple<Ts*...>();
 	}
 
 	template <DerivedFrom<System> T>
@@ -140,10 +162,28 @@ namespace Hi_Engine
 		return false;
 	}
 
-	template <typename ...Ts>
-	std::tuple<Ts*...> SystemManager::GetSystems()
+	template <DerivedFrom<System> ...Ts>
+	bool SystemManager::IsEnabled() const noexcept
 	{
-		return std::tuple<Ts*...>();
+		return false;
+	}
+
+	template <DerivedFrom<System> T>
+	void SystemManager::Enable()
+	{
+		if (auto* system = TryGetSystem<T>())
+		{
+			system->SetEnabled(true);
+		}
+	}
+
+	template <DerivedFrom<System> T>
+	void SystemManager::Disable()
+	{
+		if (auto* system = TryGetSystem<T>())
+		{
+			system->SetEnabled(false);
+		}
 	}
 
 	template <typename Func>

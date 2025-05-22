@@ -1,12 +1,12 @@
 #include "Pch.h"
 #include "TimeSystem.h"
 #include "Time/Timer.h"
-#include "ECS/ECSCore.h"
+#include "World/World.h"
 #include "ECS/Components/CoreComponents.h"
 
 namespace Hi_Engine
 {
-    TimeSystem::TimeSystem(ECSCore& ecs, Timer& timer)
+    TimeSystem::TimeSystem(World& ecs, Timer& timer)
         : System{ ecs }, m_timer{ timer }
     {
     }

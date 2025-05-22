@@ -2,7 +2,7 @@
 
 namespace Hi_Engine
 {
-	class ECSCore;
+	class World;
 
 	enum class eUpdatePhase
 	{
@@ -14,13 +14,17 @@ namespace Hi_Engine
 	class System
 	{
 	public:
-		System(ECSCore& ecs); // dont? forces systems in game to accept ECS as parameter as well..
+		System(World& ecs); // dont? forces systems in game to accept ECS as parameter as well..
 		virtual ~System() = default;
 
 		virtual void Update(float deltaTime) {};
 		virtual eUpdatePhase GetUpdatePhase() const = 0;
 
+		void SetEnabled(bool isEnabled);
+		[[nodiscard]] bool IsEnabled() const noexcept;
+
 	protected:
-		ECSCore& m_ecs;
+		World& m_ecs;
+		bool m_isEnabled;
 	};
 }

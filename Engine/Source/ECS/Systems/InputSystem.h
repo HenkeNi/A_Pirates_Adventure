@@ -9,7 +9,7 @@ namespace Hi_Engine
 	class InputSystem : public System
 	{
 	public:
-		InputSystem(ECSCore& ecs, InputHandler& inputHandler, Window& window);
+		InputSystem(World& ecs, InputHandler& inputHandler, Window& window);
 
 		void Update(float deltaTime) override;
 		eUpdatePhase GetUpdatePhase() const override;

@@ -2,8 +2,8 @@
 #include "SceneTransitionSystem.h"
 
 
-SceneTransitionSystem::SceneTransitionSystem(Hi_Engine::ECSCore& ecs, Hi_Engine::SceneManager& manager)
-	: System{ ecs }, m_sceneManager{ manager }
+SceneTransitionSystem::SceneTransitionSystem(Hi_Engine::World& world, Hi_Engine::SceneManager& manager)
+	: System{ world }, m_sceneManager{ manager }
 {
 	PostMaster::GetInstance().Subscribe(eMessage::TransitionToScene, this);
 }
