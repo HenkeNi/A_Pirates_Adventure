@@ -1,13 +1,12 @@
 #pragma once
-#include "../ECS/ECSCore.h"
-#include "../ECS/Core/SystemManager.h"
+#include "../World/World.h"
 
 namespace Hi_Engine
 {	
 	class Scene
 	{
 	public:
-		virtual ~Scene() = default;
+		virtual ~Scene() = default;	
 
 		void Update(float deltaTime);
 		virtual bool IsTransparent() const;
@@ -20,10 +19,7 @@ namespace Hi_Engine
 	protected:	
 		virtual void OnUpdate(float deltaTime) {};
 	
-		ECSCore m_ecs;
+		World m_world; // or inverse relationship??
 		std::string m_filePath;
-
-	private:
-		SystemManager m_systemManager;
 	};
 }

@@ -6,7 +6,7 @@ namespace Hi_Engine
 {
 	void Scene::Update(float deltaTime)
 	{
-		m_systemManager.Update(deltaTime);
+		m_world.Update(deltaTime);
 		OnUpdate(deltaTime);
 	}
 
