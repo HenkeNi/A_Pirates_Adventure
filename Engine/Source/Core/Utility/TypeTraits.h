@@ -15,6 +15,9 @@ concept FloatingPoint = std::is_floating_point_v<T>;
 template <typename T>
 concept Numeric = Integral<T> || FloatingPoint<T>;
 
+template <typename T>
+concept StringLike = std::is_convertible_v<T, std::string_view>;
+
 // Signed
 template <typename T>
 concept Signed = std::is_signed_v<T>;
@@ -49,7 +52,7 @@ concept SameType = std::is_same_v<T, U>;
 
 // Derived from
 template <typename T, typename Base>
-concept DerivedFrom = std::is_base_of_v<Base, T> && !std::is_same_v<Base, T>;
+concept DerivedFrom = std::is_base_of_v<Base, T> && !std::is_same_v<Base, T>; // decay?
 
 // Default constructible (i.e., takes no arguments)
 template <typename T>
@@ -103,7 +106,10 @@ concept StringConvertible = std::convertible_to<T, std::string_view>;
 
 // Class or Struct
 template <typename T>
-concept CustomType = std::is_class_v<T> && std::is_standard_layout_v<T>;
+concept CustomType = std::is_class_v<T>;
+
+template <typename T, typename Type>
+concept IsExactly = std::is_same_v<T, Type>;
 
 template <typename T>
 concept ComponentType = std::is_class_v<T> /*&& std::is_standard_layout_v<T> *//*&& std::is_trivially_copyable_v<T>*/ /*&& std::is_trivially_default_constructible_v<T>*/; // rename? since ComponentType already exist in component manager?!
