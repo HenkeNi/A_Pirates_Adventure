@@ -1,10 +1,12 @@
 #pragma once
+#include "../Service/IService.h"
 #include <chrono>
 #include <iostream>
 
 namespace Hi_Engine
 {
-	class Timer	
+	// MAke static?
+	class Timer : public IService
 	{
 	public:
 		Timer();
