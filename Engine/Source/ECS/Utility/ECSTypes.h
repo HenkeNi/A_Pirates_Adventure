@@ -1,17 +1,12 @@
 #pragma once
-
-#include "../../Core/Math/Vectors/Vector.hpp" // temp...
-
-#include <bitset>
-#include <functional>
-#include <variant>
-
+#include "Utility/IDGenerator.h"
 #include "Utility/TypeTraits.h"
 #include "Utility/DataStructures/SparseSet.h"
 #include "Entity.h"
-//#include <type_traits>
-
+#include <functional>
+#include <variant>
 #include <memory>
+#include <bitset>
 
 namespace Hi_Engine
 {
@@ -22,15 +17,32 @@ namespace Hi_Engine
 #define INVALID_ENTITY -1 // ??
 
 	using ComponentID = std::uint8_t;
-	//using ComponentIDs = std::unordered_map<std::type_index, ComponentID>;
+	using SystemID = std::uint8_t;
+
+	struct ComponentTag final {};
+	struct SystemTag final {};
+
+	template <ComponentType T>
+	ComponentID GetComponentID()
+	{
+		return static_cast<ComponentID>(IDGenerator<ComponentTag>::GetID<T>());
+	}
+
+	class System;
+	template <DerivedFrom<System> T>
+	SystemID GetSystemID()
+	{
+		return static_cast<SystemID>(IDGenerator<SystemTag>::GetID<T>());
+	}
 
 	using Signature = std::bitset<MaxComponents>;
 
-	//using Property = std::variant<bool, int, float, double, std::string, FVector2, FVector3, FVector4, IVector2, IVector3, IVector4>;
-	//using ComponentProperties = std::unordered_map<std::string, Property>;
-	
 	template <ComponentType T>
 	using ComponentContainer = SparseSet<std::decay_t<T>, EntityID>;
-
+	
 	using ComponentManagerMap = std::unordered_map<ComponentID, std::unique_ptr<class IComponentManager>>;
+
+
+	//using Property = std::variant<bool, int, float, double, std::string, FVector2, FVector3, FVector4, IVector2, IVector3, IVector4>;
+	//using ComponentProperties = std::unordered_map<std::string, Property>;
 }

@@ -13,6 +13,7 @@
 // TODO; - can transfer entities (between scenes / World)?
 // Consider; cache already created ComponentView's in "Groups" - systems caches signatures?
 // Consider; Cache component view (groups)? when created, cache them in a map (key == signature?) -> groups listen to various entity events?
+// Consider; returning Entity handle(s)?
 
 namespace Hi_Engine
 {
@@ -151,7 +152,7 @@ namespace Hi_Engine
 		if (optionalSignature.has_value())
 		{
 			Signature signature = optionalSignature.value();
-			signature.set(ECSRegistry::GetComponentRegistry().GetComponentID<T>());
+			signature.set(GetComponentID<T>());
 
 			m_entityManager.SetSignature(entity, signature);
 		}
@@ -184,7 +185,7 @@ namespace Hi_Engine
 			if (optionalSignature.has_value())
 			{
 				auto signature = optionalSignature.value();
-				signature.set(ECSRegistry::GetComponentRegistry().GetComponentID<T>(), false);
+				signature.set(GetComponentID<T>(), false);
 
 				m_entityManager.SetSignature(entity, signature);
 			}
@@ -255,7 +256,7 @@ namespace Hi_Engine
 		if (entitySignature.has_value())
 		{
 			Signature componentSignature;
-			(componentSignature.set(ECSRegistry::GetComponentRegistry().GetComponentID<Ts>().value_or(0)), ...);
+			(componentSignature.set(GetComponentID<Ts>().value_or(0)), ...);
 
 			return (entitySignature.value() & componentSignature) == componentSignature;
 		}
@@ -272,7 +273,7 @@ namespace Hi_Engine
 		if (optionalSignature.has_value())
 		{
 			Signature componentSignature;
-			(componentSignature.set(ECSRegistry::GetComponentRegistry().GetComponentID<Ts>().value_or(0)), ...);
+			(componentSignature.set(GetComponentID<Ts>().value_or(0)), ...);
 
 			return (optionalSignature.value() & componentSignature).any();
 		}
@@ -334,9 +335,7 @@ namespace Hi_Engine
 	template <ComponentType T>
 	ComponentManager<T>& World::FindOrCreateComponentManager()
 	{
-		ComponentID id = ECSRegistry::GetComponentRegistry().GetComponentID<T>();
-
-		auto it = m_componentManagers.try_emplace(id, std::make_unique<ComponentManager<T>>());
+		auto it = m_componentManagers.try_emplace(GetComponentID<T>(), std::make_unique<ComponentManager<T>>());
 
 		if (it.second)
 		{
@@ -350,7 +349,7 @@ namespace Hi_Engine
 	template <ComponentType T>
 	const ComponentManager<T>* World::GetComponentManager() const
 	{
-		auto id = ECSRegistry::GetComponentRegistry().GetComponentID<T>();
+		auto id = GetComponentID<T>();
 		auto it = m_componentManagers.find(id);
 
 		if (it != m_componentManagers.end())
@@ -365,7 +364,7 @@ namespace Hi_Engine
 	Signature World::GetSignature() const
 	{
 		Signature signature;
-		(signature.set(ECSRegistry::GetComponentRegistry().GetComponentID<Ts>()), ...);
+		(signature.set(GetComponentID<Ts>()), ...);
 
 		return signature;
 	}
