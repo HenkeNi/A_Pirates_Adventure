@@ -1,11 +1,8 @@
 #pragma once
 #include "../../Core/Utility/DataStructures/SparseSet.h"
 #include "../Utility/ECSTypes.h"
-#include "../Utility/Entity.h"
-#include "Logging/Logger.h"
 #include "Utility/TypeTraits.h"
-
-
+#include "Logging/Logger.h"
 
 namespace Hi_Engine
 {

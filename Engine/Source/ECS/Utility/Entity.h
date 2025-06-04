@@ -1,21 +1,21 @@
 #pragma once
+#include "ECSTypes.h"
 #include <cstdint>
 #include <cstddef>
 #include <functional>
 
 namespace Hi_Engine
 {
-	using EntityID = uint32_t;
 
 	struct Entity
 	{
-		EntityID ID; // or index
+		EntityID ID;
 		uint32_t Version;
 	};
 
 	struct EntityEqual
 	{
-		bool operator()(const Entity& lhs, const Entity& rhs)
+		bool operator()(const Entity& lhs, const Entity& rhs) noexcept
 		{
 			return lhs.ID == rhs.ID && lhs.Version == rhs.Version;
 		}

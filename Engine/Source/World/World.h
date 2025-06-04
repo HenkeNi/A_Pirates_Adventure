@@ -1,22 +1,26 @@
 #pragma once
 #include "Utility/TypeTraits.h"
 //#include "Utility/DataStructures/SparseSet.h" // -> NEEDED?
-#include "../ECS/ECSRegistry.h"
-#include "../ECS/Registry/ComponentRegistry.h"
 #include "../ECS/Core/EntityManager.h"
 #include "../ECS/Core/ComponentManager.h"
-#include "../ECS/Core/ComponentView.h"
+#include "../ECS/Utility/ComponentView.h"
 #include "../ECS/Core/SystemManager.h"
 #include "../ECS/Utility/ECSTypes.h"
+//#include "../ECS/Registry/ComponentRegistry.h"
+#include "../ECS/ECSRegistry.h"
+// include Logger?
 
-// TODO; - Send events for entity added / removed?
-// TODO; - can transfer entities (between scenes / World)?
+// put in ecs folder?
+
+// TODO; - Send events for entity added / removed? - can transfer entities (between scenes / World)?
 // Consider; cache already created ComponentView's in "Groups" - systems caches signatures?
 // Consider; Cache component view (groups)? when created, cache them in a map (key == signature?) -> groups listen to various entity events?
-// Consider; returning Entity handle(s)?
+// Acceot reference to ECSRegistry?
 
 namespace Hi_Engine
 {
+	class EntityHandle;
+
 	class World : public NonCopyable
 	{
 	public:
@@ -32,7 +36,7 @@ namespace Hi_Engine
 		// ==================== Entity Management ====================
 		// Methods for creating and destroying entities
 
-		[[nodiscard]] std::optional<Entity> CreateEntity();
+		[[nodiscard]] std::optional<EntityHandle> CreateEntity(); // needs to include EntiyHandle?!
 
 		void DestroyEntity(const Entity& entity);
 
@@ -203,9 +207,9 @@ namespace Hi_Engine
 	template <ComponentType T>
 	const T& World::GetComponent(const Entity& entity) const
 	{
-		assert(m_entityManager.IsAlive(entity) && HasComponent<T>(entity));
+		assert(m_entityManager.IsAlive(entity) && HasAllComponents<T>(entity.ID));
 
-		return GetComponentManager<T>().GetComponent(entity.ID);
+		return GetComponentManager<T>()->GetComponent(entity.ID);
 	}
 
 	template <ComponentType T>
@@ -256,7 +260,7 @@ namespace Hi_Engine
 		if (entitySignature.has_value())
 		{
 			Signature componentSignature;
-			(componentSignature.set(GetComponentID<Ts>().value_or(0)), ...);
+			(componentSignature.set(GetComponentID<Ts>()), ...);
 
 			return (entitySignature.value() & componentSignature) == componentSignature;
 		}
@@ -273,7 +277,7 @@ namespace Hi_Engine
 		if (optionalSignature.has_value())
 		{
 			Signature componentSignature;
-			(componentSignature.set(GetComponentID<Ts>().value_or(0)), ...);
+			(componentSignature.set(GetComponentID<Ts>()), ...);
 
 			return (optionalSignature.value() & componentSignature).any();
 		}

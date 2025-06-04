@@ -2,7 +2,6 @@
 #include "Utility/IDGenerator.h"
 #include "Utility/TypeTraits.h"
 #include "Utility/DataStructures/SparseSet.h"
-#include "Entity.h"
 #include <functional>
 #include <variant>
 #include <memory>
@@ -18,6 +17,7 @@ namespace Hi_Engine
 
 	using ComponentID = std::uint8_t;
 	using SystemID = std::uint8_t;
+	using EntityID = uint32_t;
 
 	struct ComponentTag final {};
 	struct SystemTag final {};

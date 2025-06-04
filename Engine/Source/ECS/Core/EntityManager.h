@@ -1,11 +1,11 @@
 #pragma once
-#include "../Utility/ECSTypes.h"
 #include "Utility/NonCopyable.h"
+#include "Utility/DataStructures/SparseSet.h"
 #include "../Utility/Entity.h"
+#include "../Utility/ECSTypes.h"
 #include <optional>
 #include <queue>
 #include <array>
-#include "Utility/DataStructures/SparseSet.h"
 
 namespace Hi_Engine
 {

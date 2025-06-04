@@ -3,6 +3,7 @@
 
 namespace Hi_Engine
 {
+	// Consider replacing map and vector with a SparseSet; - might be worse for sorting though!
 	// Figure out system dependencies
 	// Separate between update and render systems
 	// SparseSet?
@@ -123,6 +124,8 @@ namespace Hi_Engine
 	template <DerivedFrom<System> T>
 	const T& SystemManager::GetSystem() const
 	{
+
+
 		// TODO: insert return statement here
 	}
 

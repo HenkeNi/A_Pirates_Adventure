@@ -1,8 +1,8 @@
 #pragma once
+//#include "../Core/ComponentManager.h"
 #include "../Utility/ECSTypes.h"
-#include "ComponentManager.h"
+#include "../Utility/Entity.h"
 #include "../../Core/Utility/DataStructures/SparseSet.h"
-
 
 namespace Hi_Engine
 {

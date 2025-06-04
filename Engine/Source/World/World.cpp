@@ -1,12 +1,20 @@
 #include "Pch.h"
 #include "World.h"
 #include "ECS/Systems/System.h"
+#include "ECS/Utility/EntityHandle.h"
 
 namespace Hi_Engine
 {
-    std::optional<Entity> World::CreateEntity()
+    std::optional<EntityHandle> World::CreateEntity()
     {
-        return m_entityManager.Create();
+        auto entity = m_entityManager.Create();
+
+        if (entity.has_value())
+        {
+            return EntityHandle{ entity.value(), this };
+        }
+
+        return std::nullopt;
     }
 
     void World::DestroyEntity(const Entity& entity)
@@ -56,5 +64,6 @@ namespace Hi_Engine
 
     void World::Update(float deltaTime)
     {
+        m_systemManager.Update(deltaTime);
     }
 }
