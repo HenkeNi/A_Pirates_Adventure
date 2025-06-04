@@ -1,22 +1,29 @@
 #pragma once
 #include "Utility/TypeTraits.h"
-
-// TEMP.. (needed since launcher and game will need/see this impl)
+#include <unordered_map>
 #include <typeindex>
 #include <mutex>
-#include <unordered_map>
 
 namespace Hi_Engine
 {
 	class IService;
 
 	// TODO; Send event when register / unregister? observer pattern? (i.e. Subscribe), or use EventDIspatcher?
-
 	// Consider; storing unique_ptr's instead, implement GetSafe (uses dynamic cast rather than static) - or a template bool bUseSafe?
+	// Is service registry a bad name? SubsystemHolder? ServiceHolder?
 
 	class ServiceRegistry
 	{
 	public:
+		ServiceRegistry() = default;
+		~ServiceRegistry() = default;
+
+		ServiceRegistry(const ServiceRegistry&) = delete;
+		ServiceRegistry(ServiceRegistry&&) = delete;
+
+		ServiceRegistry& operator=(const ServiceRegistry&) = delete;
+		ServiceRegistry& operator=(ServiceRegistry&&) = delete;
+
 		// ==================== Insertion / Removal ====================
 		template <DerivedFrom<IService> T>
 		void Insert(std::shared_ptr<T> service);
@@ -25,7 +32,7 @@ namespace Hi_Engine
 		void InsertAll(std::shared_ptr<Ts>... services);
 
 		template <DerivedFrom<IService>, typename... Args>
-		void Emplace(Args&&... args);
+		void Emplace(Args&&... args); // TODO; return created object?
 
 		template <DerivedFrom<IService> T>
 		void Remove();
@@ -59,7 +66,7 @@ namespace Hi_Engine
 
 		// Weak ownership access (no-throw, returns empty weak_ptr if not found)
 		template <DerivedFrom<IService> T>
-		[[nodiscard]] const std::weak_ptr<T> TryGetWeak() const;
+		[[nodiscard]] std::weak_ptr<const T> TryGetWeak() const;
 		
 		template <DerivedFrom<IService> T>
 		[[nodiscard]] std::weak_ptr<T> TryGetWeak();
@@ -87,7 +94,7 @@ namespace Hi_Engine
 
 		// ==================== Data Members ====================
 		ServiceMap m_services;
-		mutable std::mutex m_mutex;
+		mutable std::mutex m_mutex{};
 	};
 
 #pragma region Templated_Methods
@@ -190,7 +197,7 @@ namespace Hi_Engine
 	}
 
 	template <DerivedFrom<IService> T>
-	const std::weak_ptr<T> ServiceRegistry::TryGetWeak() const
+	std::weak_ptr<const T> ServiceRegistry::TryGetWeak() const
 	{
 		std::lock_guard lock(m_mutex);
 
@@ -207,7 +214,16 @@ namespace Hi_Engine
 	template <DerivedFrom<IService> T>
 	std::weak_ptr<T> ServiceRegistry::TryGetWeak()
 	{
-		return const_cast<std::weak_ptr<T>>(std::as_const(*this).TryGetWeak<T>());
+		//return const_cast<std::weak_ptr<T>>(std::as_const(*this).TryGetWeak<T>());
+		auto constWeak = std::as_const(*this).TryGetWeak<T>();
+		
+		if (auto spt = constWeak.lock()) 
+		{
+			return std::const_pointer_cast<T>(spt);
+		}
+			
+		return {};
+		
 	}
 
 	template <DerivedFrom<IService> T>

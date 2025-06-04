@@ -1,4 +1,5 @@
 #pragma once
+#include <unordered_map>
 
 namespace Hi_Engine
 {
@@ -17,9 +18,6 @@ namespace Hi_Engine
 
 	private:
 		using CreatorFunc = std::function<std::shared_ptr<IService>()>;
-
-		//template <typename... Args>
-		//std::shared_ptr<IService> CreatorFunc(Args&&... args);
 
 		std::unordered_map<std::string, CreatorFunc> m_creators;
 	};
@@ -45,5 +43,3 @@ namespace Hi_Engine
 
 #pragma endregion
 }
-
-// todo, cahce created component views? make views listen to entity created/destrpyed event?
