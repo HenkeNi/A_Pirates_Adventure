@@ -4,19 +4,8 @@
 //#include "SceneTypes.h"
 //#include "ECS/ECS.h"
 
-//static std::unordered_map<eScene, std::string> scenePaths
-//{
-//	//{ eScene::Inventory,	"../Game/Assets/Json/Scenes/Inventory.json"	},
-//	//{ eScene::Settings,		"../Game/Assets/Json/Scenes/Settings.json"	},
-//	//{ eScene::Menu,			"../Game/Assets/Json/Scenes/MainMenu.json"	},
-//	//{ eScene::Title,		"../Game/Assets/Json/Scenes/Title.json"		},
-//	//{ eScene::Overworld,	"../Game/Assets/Json/Scenes/Overworld.json"	}
-//};
-
 namespace Hi_Engine
 {
-
-
 	//void SceneManager::Receive(Message& message)
 	//{
 	//	auto sceneType = std::any_cast<eScene>(message.GetData());
@@ -77,6 +66,8 @@ namespace Hi_Engine
 
 	void SceneManager::TransitionTo(SceneID id)
 	{
+		// TODO; add to active scnees?
+
 		//if (scenePaths.contains(id))
 		{
 			LoadScene(id);
@@ -127,19 +118,13 @@ namespace Hi_Engine
 		if (!activeScene)
 			return;
 
+		//auto document = JsonUtils::LoadJsonDocument();
+		
 		// TODO; scene loader class?
-		// auto ecs = Hi_Engine::EngineFacade::GetECS().lock();
+		// Clear scene? or on exit (do in scene if needed)?
 
-		//if (!ecs)
-		//{
-		//	int xx = 20;
-		//	xx += 20;
-		//}
+		// auto& world = activeScene->LoadFromJson();
 
-		//activeScene->m_systems.clear();
-		//auto& ecs = activeScene->m_ecs;
-
-		//ecs.DestroySystems();
 
 		//auto foundPath = scenePaths.find(id);
 		//if (foundPath == scenePaths.end())
@@ -174,13 +159,7 @@ namespace Hi_Engine
 		{
 			// ecs->CreateEntityFromJson(jsonEntity);
 
-			// Hi_Engine::EngineFacade::CreateEntityFromJson(jsonEntity);
+			// Hi_Engine::EngineFacade::FromJson(jsonEntity);
 		}
-	}
-
-	SceneManager::SceneID SceneManager::GenerateSceneID() const
-	{
-		static SceneID id = 0;
-		return id++;
 	}
 }

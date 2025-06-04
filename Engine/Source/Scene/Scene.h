@@ -9,6 +9,8 @@ namespace Hi_Engine
 		virtual ~Scene() = default;	
 
 		void Update(float deltaTime);
+		//void Enter(); -> update ECSRegitry with new world?
+
 		virtual bool IsTransparent() const;
 
 		virtual void OnCreated() {};
@@ -16,9 +18,11 @@ namespace Hi_Engine
 		virtual void OnEnter() {}; // handle loading of systems in engine?
 		virtual void OnExit() {};
 
-	protected:	
+	protected:
 		virtual void OnUpdate(float deltaTime) {};
 	
+		// Store SystemManager here?? static?
+		// static ECSRegistry??	
 		World m_world; // or inverse relationship??
 		std::string m_filePath;
 	};
