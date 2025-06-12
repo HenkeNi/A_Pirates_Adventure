@@ -3,14 +3,15 @@
 /* - Core - */
 #include "Source/Core/Application/Application.h"
 #include "Source/Core/Engine.h"
-#include "Source/Core/EngineFacade.h"
 
+
+#include "Source/Scene/SceneManager.h"
 #include "Source/Rendering/Renderer/Renderer.h"
 #include "Source/Core/Input/InputHandler.h"
 #include "Source/Audio/AudioController.h"
 #include "Source/Platform/Window/Window.h"
 
-#include "Source/Core/Utility/Serializer/Serializer.h"
+//#include "Source/Core/Utility/Serializer/Serializer.h"
 
 
 /* - Physics - */
@@ -23,9 +24,17 @@
 #include "Source/Physics/Intersections/HitResult.h"
 
 /* - ECS - */
-#include "Source/ECS/ECS.h" // dont ??? 
+#include "Source/World/World.h"
 #include "Source/ECS/Systems/System.h"
 #include "Source/ECS/Components/CoreComponents.h"
+#include "Source/ECS/Utility/EntityHandle.h"
+#include "Source/ECS/Factory/EntityFactory.h"
+#include "Source/ECS/Factory/SystemFactory.h"
+
+/* - Registry - */
+#include "Source/Core/Registry/RegistryHelpers.h"
+#include "Source/Core/Registry/RegistryEntries.h"
+#include "Source/Core/Registry/RegistryAliases.h"
 
 /* - Input - */
 #include "Source/Core/Input/InputHandler.h"
@@ -77,4 +86,5 @@
 #include "Source/Core/Time/Timer.h"
 #include "Source/Core/Utility/Algorithms/PathFinding/AStar.hpp"
 #include "Source/Core/Utility/Noise/NoiseGenerator.h"
-#include "Source/Core/Utility/UtilityFunctions.h"
+#include "Source/Core/Utility/Utils.h"
+

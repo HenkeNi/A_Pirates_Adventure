@@ -1,5 +1,5 @@
 #pragma once
-#include "../Services/IService.h"
+#include "../Service/IService.h"
 #include "PhysicsTypes.h"
 
 class b2World;
@@ -13,9 +13,9 @@ namespace Hi_Engine
 		Physics();
 		~Physics();
 
-		bool Initialize()							  override;
+		bool Initialize();
 		void Shutdown()								  override;
-		void Deserialize(const rapidjson::Value& json) override;
+		void Deserialize(const char* path) override;
 
 		void Update(float deltaTime);
 		//void DebugDraw();

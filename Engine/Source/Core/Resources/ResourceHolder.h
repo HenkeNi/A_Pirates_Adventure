@@ -1,9 +1,17 @@
 #pragma once
-#include "Dependencies/rapidjson/document.h"
-
+#include "Dependencies/rapidjson/document.h" // <> instead
 
 namespace Hi_Engine
 {
+
+
+	/*class ResourceHolder : public IService
+	{
+
+	};*/
+
+
+	// rename asset manager? store as service?
 	template <class Resource, typename Identifier = std::string>
 	class ResourceHolder
 	{
@@ -77,6 +85,7 @@ namespace Hi_Engine
 		for (auto& value : document.GetArray())
 		{
 			auto resource = std::make_unique<Resource>();
+			assert(resource && "Failed to create resource");
 			resource->Init(value);
 
 			std::string name = resource->GetName();

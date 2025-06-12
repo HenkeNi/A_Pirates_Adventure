@@ -6,8 +6,7 @@
 #include "../ECS/Utility/ComponentView.h"
 #include "../ECS/Core/SystemManager.h"
 #include "../ECS/Utility/ECSTypes.h"
-//#include "../ECS/Registry/ComponentRegistry.h"
-#include "../ECS/ECSRegistry.h"
+
 // include Logger?
 
 // put in ecs folder?
@@ -15,7 +14,8 @@
 // TODO; - Send events for entity added / removed? - can transfer entities (between scenes / World)?
 // Consider; cache already created ComponentView's in "Groups" - systems caches signatures?
 // Consider; Cache component view (groups)? when created, cache them in a map (key == signature?) -> groups listen to various entity events?
-// Acceot reference to ECSRegistry?
+
+// TODO; rename Add To Emplace?
 
 namespace Hi_Engine
 {

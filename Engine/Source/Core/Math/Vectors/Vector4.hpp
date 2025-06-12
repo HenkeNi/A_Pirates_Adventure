@@ -30,6 +30,9 @@ namespace Hi_Engine::Math
 		T w;
 	};
 
+	template <class T>
+	Vector4(T, T, T, T) -> Vector4<T>;
+
 #pragma region Method_Definitions
 
 	template <class T>

@@ -24,10 +24,21 @@ namespace Hi_Engine
 	public:
 		TerminationEvent();
 
-		void					Dispatch(EventListener& listener)		  override;
-		bool					IsHandled()							const override; // Renive????
+		void Dispatch(EventListener& listener) override;
 
 	private:
+	};
+
+	// find better name: 
+	class ServiceEvent : public Event<ServiceEvent>
+	{
+	public:
+		ServiceEvent();
+
+		void Dispatch(EventListener& listener) override;
+
+	private:
+		// IService* m_
 	};
 
 	/* ########################## Window Event ########################## */

@@ -1,18 +1,23 @@
 #pragma once
+//#include <Utility/RegistryEntries.h>
 
 //class Hi_Engine::ECSCoordinator;
-class SceneManager;
+
+//namespace Hi_Engine
+//{
+//	template <typename RegistryEntry, typename ID>
+//	class TypeRegistry;
+//
+//	using SceneRegistry = TypeRegistry<SceneRegistryEntry, SceneID>;
+//}
 
 namespace Registration
 {
 	void RegisterComponents();
-	//void RegisterComponents(Hi_Engine::ECSCoordinator& ecs);
 
-	void RegisterSystems(SceneManager& sceneManager);
-	//void RegisterSystems(Hi_Engine::ECSCoordinator& ecs);
+	//void RegisterSystems(Hi_Engine::ServiceRegistry& registry); // maybe each scene?
 
-	void RegisterScenes(SceneManager& sceneManager);
+	void RegisterScenes(Hi_Engine::SceneRegistry& registry);
 
-	void RegisterCallbacks();
-	//void RegisterScenes(SceneManager& sceneManager, Hi_Engine::ECSCoordinator& ecs);
+	// void RegisterCallbacks();
 }

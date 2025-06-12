@@ -20,6 +20,11 @@ namespace Hi_Engine
 	//}
 
 
+	EntityFactory::EntityFactory(World& world)
+		: m_world{ world }
+	{
+	}
+
 	void EntityFactory::Initialize(std::weak_ptr<const PrefabRegistry> registry)
 	{
 		m_prefabRegistry = registry;
@@ -47,16 +52,16 @@ namespace Hi_Engine
 
 			auto& entity = entityHandle.value();
 
-			auto& componentRegistry = ECSRegistry::GetComponentRegistry();
+			////auto& componentRegistry = ECSRegistry::GetComponentRegistry();
 
-			for (const auto& [componentName, properties] : prefab->Data)
-			{
-				auto componentMeta = componentRegistry.GetComponentRegistryEntry(componentName.c_str());
+			//for (const auto& [componentName, properties] : prefab->Data)
+			//{
+			//	auto componentMeta = componentRegistry.GetComponentRegistryEntry(componentName.c_str());
 
-				componentMeta.AddComponentFunc(entity);
-				componentMeta.InitFunc(entity, properties);
+			//	componentMeta.AddComponentFunc(entity);
+			//	componentMeta.InitFunc(entity, properties);
 
-			}
+			//}
 
 			//world.CreateEntity
 		}

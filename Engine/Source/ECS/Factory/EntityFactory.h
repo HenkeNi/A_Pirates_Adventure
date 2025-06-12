@@ -11,6 +11,8 @@ namespace Hi_Engine
 	class EntityFactory
 	{
 	public:
+		EntityFactory(World& world);
+
 		//EntityFactory();
 
 		// Find another way!, dont expose as public, should only be called once..
@@ -20,7 +22,8 @@ namespace Hi_Engine
 
 	private:
 		std::weak_ptr<const PrefabRegistry> m_prefabRegistry;
-		// Component registry??
+		World& m_world;
+		// Component registry?? 
 	};
 
 

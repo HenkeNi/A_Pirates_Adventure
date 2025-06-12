@@ -13,6 +13,8 @@ namespace Hi_Engine
 	public:
 		RenderSystem(World& ecs, std::weak_ptr<Renderer> renderer, std::weak_ptr<Editor> editor, const IVector2& size);
 
+		//void Init()
+
 		void HandleEvent(class WindowEvent& event) override;
 		void Update(float deltaTime) override;
 

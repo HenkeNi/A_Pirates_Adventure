@@ -70,17 +70,17 @@ namespace Hi_Engine
 
 		//if (scenePaths.contains(id))
 		{
-			LoadScene(id);
+			LoadScene(id); // Dont?
 		}
 
-		m_scenes[id]->OnEnter();
+		m_scenes[id]->Enter(id);
 	}
 
 	void SceneManager::Push(SceneID id)
 	{
 		if (!m_activeScenes.empty())
 		{
-			m_scenes[m_activeScenes.back()]->OnExit();
+			m_scenes[m_activeScenes.back()]->Exit();
 		}
 
 		m_activeScenes.push_back(id);
@@ -91,7 +91,7 @@ namespace Hi_Engine
 	{
 		if (!m_activeScenes.empty())
 		{
-			m_scenes[m_activeScenes.back()]->OnExit();
+			m_scenes[m_activeScenes.back()]->Exit();
 			m_activeScenes.pop_back();
 
 			TransitionTo(m_activeScenes.back());
@@ -102,7 +102,7 @@ namespace Hi_Engine
 	{
 		if (!m_activeScenes.empty())
 		{
-			m_scenes[m_activeScenes.back()]->OnExit();
+			m_scenes[m_activeScenes.back()]->Exit();
 			m_activeScenes.pop_back();
 		}
 
@@ -136,7 +136,7 @@ namespace Hi_Engine
 
 		//for (const auto& system : document["systems"].GetArray())
 		//{
-		//	bool isSystemAvailable = Hi_Engine::IsBuildDebug() ? system["debug"].GetBool() : system["release"].GetBool();
+		//	bool isSystemAvailable = Hi_Engine::IsDebugBuild() ? system["debug"].GetBool() : system["release"].GetBool();
 
 		//	if (isSystemAvailable)
 		//	{

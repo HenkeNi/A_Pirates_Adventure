@@ -4,6 +4,40 @@
 namespace Hi_Engine
 {
 
+	// AVOIDS THIS:
+
+	//struct BaseEvent { virtual ~BaseEvent() = default; };
+	//struct MouseEvent : BaseEvent { int x, y; };
+	//struct KeyEvent : BaseEvent { char key; };
+
+	//// Dispatcher stores `std::vector<BaseEvent*>`
+	//void Dispatch(BaseEvent* e) {
+	//	if (auto* mouse = dynamic_cast<MouseEvent*>(e)) { /* ... */ }
+	//	else if (auto* key = dynamic_cast<KeyEvent*>(e)) { /* ... */ }
+	//}
+
+	//// Handlers for different events
+	//struct MouseClickHandler {
+	//	void handle(const MouseClickEvent& e) { std::cout << "Click at (" << e.x << ", " << e.y << ")\n"; }
+	//};
+
+	//struct KeyPressHandler {
+	//	void handle(const KeyPressEvent& e) { std::cout << "Key pressed: " << e.key << "\n"; }
+	//};
+
+	//// Combine handlers into one dispatcher
+	//using InputDispatcher = Overloader<MouseClickHandler, KeyPressHandler>;
+
+	//// Usage
+	//InputDispatcher dispatcher;
+	//MouseClickEvent click{ 10, 20 };
+	//KeyPressEvent key{ 'A' };
+
+	//dispatcher.handle(click); // Calls MouseClickHandler::handle()
+	//dispatcher.handle(key);   // Calls KeyPressHandler::handle()
+
+
+
 	enum class ePriority
 	{
 		Low,

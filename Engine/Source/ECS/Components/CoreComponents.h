@@ -39,6 +39,11 @@ namespace Hi_Engine
 
 	struct SpriteComponent
 	{
+		SpriteComponent(std::shared_ptr<class Subtexture2D> subtexture = nullptr)
+			: Subtexture{ subtexture }
+		{
+		}
+
 		FVector4					DefaultColor = { 1.f, 1.f, 1.f, 1.f };
 		FVector4					CurrentColor = { 1.f, 1.f, 1.f, 1.f };
 		std::shared_ptr<class Subtexture2D>	Subtexture = nullptr; // store id instead? and CachedSubtexture?

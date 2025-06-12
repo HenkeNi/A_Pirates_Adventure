@@ -32,7 +32,7 @@ namespace Hi_Engine
 		bool			IsEmpty()													const;
 		bool			IsFull()													const;
 
-		void			Add(const Type& value);
+		void			Emplace(const Type& value);
 		void			Insert(const SizeType index, const Type& value);
 		void			RemoveCyclic(const Type& value);
 		void			RemoveCyclicAtIndex(const SizeType index);
@@ -178,7 +178,7 @@ namespace Hi_Engine
 	}
 
 	template <typename Type, int size, typename SizeType, bool useSafeModeFlag>
-	void VectorOnStack<Type, size, SizeType, useSafeModeFlag>::Add(const Type& value)
+	void VectorOnStack<Type, size, SizeType, useSafeModeFlag>::Emplace(const Type& value)
 	{
 		assert(m_counter < size && "VectorOnStack is at full capacity");
 		m_data[m_counter++] = value;

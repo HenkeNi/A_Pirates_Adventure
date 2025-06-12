@@ -1,7 +1,7 @@
 #pragma once
 #include "../Service/IService.h"
-#include "SceneRegistry.h"
-#include "Utility/IDGenerator.h"
+//#include "SceneRegistry.h" MAYBE!??
+#include "SceneTypes.h"
 
 namespace Hi_Engine
 {
@@ -27,7 +27,7 @@ namespace Hi_Engine
 		template <DerivedFrom<Scene> T, typename... Args>
 		void Emplace(Args&&... args);
 
-		template <DerivedFrom<Scene>... Ts>
+		template <DerivedFrom<Scene>... Ts> // renme SetActiveScene instead?
 		void Init();
 
 		// templated instead??

@@ -26,7 +26,7 @@ namespace Hi_Engine
 	{
 	}
 
-	void Physics::Deserialize(const rapidjson::Value& json)
+	void Physics::Deserialize(const char* path)
 	{
 	}
 

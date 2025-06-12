@@ -2,80 +2,81 @@
 #include "Dependencies/rapidjson/document.h"
 
 
-namespace Hi_Engine
+namespace Hi_Engine::JsonUtils
 {
-	namespace JsonUtils
+	namespace fs = std::filesystem;
+
+	template <typename T>
+	struct TypeHelper;
+
+	template <>
+	struct TypeHelper<int>
 	{
-		namespace fs = std::filesystem;
+		static bool Is(const rapidjson::Value& val) { return val.IsInt(); }
+		static int Get(const rapidjson::Value& val) { return val.GetInt(); }
+	};
 
-		template <typename T>
-		struct TypeHelper;
+	template <>
+	struct TypeHelper<bool>
+	{
+		static bool Is(const rapidjson::Value& val) { return val.IsBool(); }
+		static bool Get(const rapidjson::Value& val) { return val.GetBool(); }
+	};
 
-		template <>
-		struct TypeHelper<int>
+	template <>
+	struct TypeHelper<float>
+	{
+		static bool Is(const rapidjson::Value& val) { return val.IsFloat(); }
+		static float Get(const rapidjson::Value& val) { return val.GetFloat(); }
+	};
+
+	template <>
+	struct TypeHelper<double>
+	{
+		static bool Is(const rapidjson::Value& val) { return val.IsDouble(); }
+		static double Get(const rapidjson::Value& val) { return val.GetDouble(); }
+	};
+
+	template <>
+	struct TypeHelper<std::string>
+	{
+		static bool Is(const rapidjson::Value& val) { return val.IsString(); }
+		static std::string Get(const rapidjson::Value& val) { return val.GetString(); }
+	};
+
+	rapidjson::Document LoadJsonDocument(const fs::path& path);
+
+	template <typename T>
+	T GetJsonValue(const rapidjson::Value& obj, const char* name)
+	{
+		if (!obj.HasMember(name))
+			throw std::runtime_error(std::string("Missing JSON member: ") + name);
+
+		const auto& val = obj[name];
+
+		if (!TypeHelper<T>::Is(val))
+			throw std::runtime_error(std::string("Incorrect type for member: ") + name);
+
+		return TypeHelper<T>::Get(val);
+	}
+
+	template <typename T>
+	T GetJsonVale(const rapidjson::Value& obj, const char* name, const T& defaultValue)
+	{
+		if (obj.HasMember(name))
 		{
-			static bool Is(const rapidjson::Value& val) { return val.IsInt(); }
-			static int Get(const rapidjson::Value& val) { return val.GetInt(); }
-		};
-
-		template <>
-		struct TypeHelper<bool>
-		{
-			static bool Is(const rapidjson::Value& val) { return val.IsBool(); }
-			static bool Get(const rapidjson::Value& val) { return val.GetBool(); }
-		};
-
-		template <>
-		struct TypeHelper<float>
-		{
-			static bool Is(const rapidjson::Value& val) { return val.IsFloat(); }
-			static float Get(const rapidjson::Value& val) { return val.GetFloat(); }
-		};
-		
-		template <>
-		struct TypeHelper<double>
-		{
-			static bool Is(const rapidjson::Value& val) { return val.IsDouble(); }
-			static double Get(const rapidjson::Value& val) { return val.GetDouble(); }
-		};
-		
-		template <>
-		struct TypeHelper<std::string>
-		{
-			static bool Is(const rapidjson::Value& val) { return val.IsString(); }
-			static std::string Get(const rapidjson::Value& val) { return val.GetString(); }
-		};
-
-		rapidjson::Document LoadJsonDocument(const fs::path& path);
-
-		template <typename T>
-		T GetJsonValue(const rapidjson::Value& obj, const char* name)
-		{
-			if (!obj.HasMember(name))
-				throw std::runtime_error(std::string("Missing JSON member: ") + name);
-
 			const auto& val = obj[name];
 
-			if (!TypeHelper<T>::Is(val))
-				throw std::runtime_error(std::string("Incorrect type for member: ") + name);
-
-			return TypeHelper<T>::Get(val);
-		}
-
-		template <typename T>
-		T GetJsonVale(const rapidjson::Value& obj, const char* name, const T& defaultValue)
-		{
-			if (obj.HasMember(name))
+			if (TypeHelper<T>::Is(val))
 			{
-				const auto& val = obj[name];
-
-				if (TypeHelper<T>::Is(val))
-				{
-					return TypeHelper<T>::Get(val);
-				}
-			}	
-
-			return defaultValue;
+				return TypeHelper<T>::Get(val);
+			}
 		}
+
+		return defaultValue;
 	}
+
+
+	// FIX?!
+	void SerializeJson(const char* path);
 }

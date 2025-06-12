@@ -27,6 +27,8 @@ namespace Hi_Engine
 		// Store engine config..
 		// display system?
 
+		// Store core system here??
+
 		ServiceRegistry m_services;
 		EngineConfig m_engineConfig;
  		Application& m_application;

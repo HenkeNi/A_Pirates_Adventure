@@ -1,19 +1,14 @@
 #include "Pch.h"
 #include "TitleScene.h"
-//#include <../ECS/World.h>
-
+ 
 //#include "Systems/Base/System.h"
 //#include "ECS/ECS.h"
 
 
-//TitleScene::TitleScene(Hi_Engine::ECSCoordinator& ecs)
-//	: Scene{ ecs }
-//{
-//}
-
-//TitleScene::~TitleScene()
-//{
-//}
+TitleScene::TitleScene(Hi_Engine::RegistryContext context)
+	: Scene{ std::move(context) }
+{
+}
 
 void TitleScene::OnUpdate(float deltaTime)
 {
@@ -21,23 +16,43 @@ void TitleScene::OnUpdate(float deltaTime)
 
 void TitleScene::OnEnter()
 {
-	auto cameraEntity = m_ecs.CreateEntity();
-	m_ecs.AddComponent<Hi_Engine::CameraComponent>(cameraEntity.value());
-	m_ecs.AddComponent<Hi_Engine::TransformComponent>(cameraEntity.value());
+	//auto& systemFactory = Hi_Engine::ECSRegistry::GetSystemFactory();
+	// systemFactory.
 
 
-	//for (int i = 0; i < Hi_Engine::MaxEntities; ++i)
-	for (int i = 0; i < 1000; ++i)
-	{
-		auto entity = m_ecs.CreateEntity();
+	// ----------
+	// TODO; place factory in scene? (static?)
 
-		if (entity.has_value())
-		{
-			auto texture = Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({"settings_image", 0, 0 });
-			m_ecs.AddComponent<Hi_Engine::SpriteComponent>(entity.value(), texture);
-			m_ecs.AddComponent<Hi_Engine::TransformComponent>(entity.value());
-		}
-	}
+	// auto& entityFactory = Hi_Engine::ECSRegistry::GetEntityFactory();
+	//auto imageHandle = entityFactory.CreateFromPrefab(m_world, "Image");
+
+
+	//auto cameraHandle = m_world.CreateEntity();
+
+	//if (cameraHandle.has_value())
+	//{
+	//	auto cameraEntity = cameraHandle.value().GetEntity();
+
+	//	m_world.AddComponent<Hi_Engine::CameraComponent>(cameraEntity);
+	//	m_world.AddComponent<Hi_Engine::TransformComponent>(cameraEntity);
+	//}
+
+	//entityFactory.CreateFromPrefab(m_world, "Image");
+
+	////for (int i = 0; i < Hi_Engine::MaxEntities; ++i)
+	//for (int i = 0; i < 1000; ++i)
+	//{
+	//	auto entityHandle = m_world.CreateEntity();
+
+	//	if (entityHandle.has_value())
+	//	{
+	//		auto entity = entityHandle.value().GetEntity();
+
+	//		auto texture = Hi_Engine::ResourceHolder<Hi_Engine::Subtexture2D, Hi_Engine::SubtextureData>::GetInstance().GetResource({"settings_image", 0, 0 });
+	//		m_world.AddComponent<Hi_Engine::SpriteComponent>(entity, texture);
+	//		m_world.AddComponent<Hi_Engine::TransformComponent>(entity);
+	//	}
+	//}
 }
 
 void TitleScene::OnExit() 

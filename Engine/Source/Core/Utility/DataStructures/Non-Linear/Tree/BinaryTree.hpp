@@ -4,6 +4,8 @@
 
 namespace Hi_Engine
 {
+	// TOOD; use  (np->* ...->* paths) to traverse tree(s)
+
 	template <typename T>
 	bool IsEqual(const T& aFirst, const T& aSecond)
 	{

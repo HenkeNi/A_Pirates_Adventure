@@ -4,12 +4,24 @@
 
 namespace Hi_Engine::Math
 {
+	// make struct instead? since members are public anyways? make a Math.hpp file? (make functions standalone)
+	template <typename T>
+	struct vec2
+	{
+		T x;
+		T y;
+	};
+	
+	template <typename T>
+	vec2(T, T) -> vec2<T>;
+
+
 	template <class T>
 	class Vector2
 	{
 	public:
 		Vector2();
-		Vector2(const T& x, const T& y);
+		Vector2(const T& x, const T& y); // use forward reference?
 		Vector2(const Vector2& vector)				= default;
 		~Vector2()									= default;
 

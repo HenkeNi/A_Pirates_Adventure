@@ -11,14 +11,14 @@ namespace Hi_Engine
 	class SceneManager;
 }
 
-class SceneTransitionSystem : public Hi_Engine::System, public Subscriber
+class SceneTransitionSystem : public Hi_Engine::System//, public Subscriber
 {
 public:
 	SceneTransitionSystem(Hi_Engine::World& world, Hi_Engine::SceneManager& manager);
 	~SceneTransitionSystem();
 
 	void Update(float deltaTime) override;
-	void Receive(Message& message) override;
+	//void Receive(Message& message) override;
 
 	Hi_Engine::eUpdatePhase GetUpdatePhase() const override;
 

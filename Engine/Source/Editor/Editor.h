@@ -1,6 +1,6 @@
 #pragma once
 #include "../Core/Event/Core/EventListener.h"
-#include "Services/IService.h"
+#include "../Service/IService.h"
 #include "ImGui/ImGuiTypes.h"
 
 struct GLFWwindow;
@@ -13,9 +13,9 @@ namespace Hi_Engine
 	class Editor : public IService, public EventListener
 	{
 	public:
-		Editor(Window& window);
+		Editor();
 
-		bool Initialize() override;
+		bool Initialize(Window* window);
 		void Shutdown() override;
 
 		void HandleEvent(class WindowEvent& event) override;
@@ -44,7 +44,7 @@ namespace Hi_Engine
 		void Destroy();
 
 		std::vector<ImGuiWindow> m_imguiWindows;
-		class Window& m_window; // pointer instead? listen to unregister? or store service registry?
+		Window* m_window; // pointer instead? listen to unregister? or store service registry?
 	};
 
 #pragma region Method_Definitions

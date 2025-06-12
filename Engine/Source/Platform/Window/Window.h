@@ -1,35 +1,35 @@
 #pragma once
-#include "../Services/IService.h"
+#include "../Service/IService.h"
 
 struct GLFWwindow;
 
 namespace Hi_Engine
 {
+	struct WindowConfig;
 	class Engine;
 
 	class Window : public IService
 	{
 	public:
 		Window();
-		~Window();
+		~Window() = default;
 
-		bool			Initialize()							  override;
-		void			Shutdown()								  override;
-		void			Deserialize(const rapidjson::Value& json) override;
+		bool Initialize(const WindowConfig& config);
+		void Shutdown() override;
 	
-		GLFWwindow*		GetWindow();
-		const IVector2& GetSize()									const;
-		bool			IsOpen()									const;
-		void			SwapBuffers()								const;
-		void			Close();
+		[[nodiscard]] GLFWwindow* GetHandle() const noexcept;
+		[[nodiscard]] const IVector2& GetSize() const noexcept;
+		[[nodiscard]] bool IsOpen() const noexcept;
 
-		void			SetTitle(const std::string& title);
-		void			SetSize(const IVector2& size);
-		void			SetIcon(const std::string& texturePath);
-		void			ToggleFullscreen();
+		void SwapBuffers() const;
+		void Close();
+		void SetTitle(const std::string& title); // strign view?
+		void SetSize(const IVector2& size);
+		void SetIcon(const std::filesystem::path& iconPath);
+		void ToggleFullscreen();
 
 	private:
-		GLFWwindow*		CreateWindow(const IVector2& size, const std::string& title);
+		GLFWwindow* CreateWindow(const IVector2& size, const std::string& title);
 
 		friend	class Engine;
 

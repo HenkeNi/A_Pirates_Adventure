@@ -1,12 +1,9 @@
 #include "Pch.h"
 #include "Game.h"
-//#include "Scenes/Scene.h"
-//#include "SceneTypes.h"
 #include "Registration/Registration.h"
-// #include <>
+#include "Title/TitleScene.h"
 
 Game::Game()
-	//: m_sceneManager{} // , m_ecs{ std::make_unique<ECS>() }
 {
 }
 
@@ -16,29 +13,29 @@ Game::~Game()
 
 void Game::OnUpdate(float deltaTime)
 {
-	//std::weak_ptr<Scene> activeScene = m_sceneManager.GetActiveScene();
-
-	//if (auto scene = activeScene.lock())
-	//{
-	//	scene->Update(deltaTime);
-	//}
 }
 
 void Game::OnCreate()
 {
 	LoadResources();
 
-	auto& sceneManager = m_serviceRegistry->Get<Hi_Engine::SceneManager>();
-	
-	Registration::RegisterScenes(sceneManager);
+	auto weakSceneRegistry = m_serviceRegistry->TryGetWeak<Hi_Engine::SceneRegistry>();
+	auto weakSystemRegistry = m_serviceRegistry->TryGetWeak<Hi_Engine::SystemRegistry>();
 
+	if (auto sharedSceneRegistry = weakSceneRegistry.lock())
+		Registration::RegisterScenes(*sharedSceneRegistry);
 
 	// Consider; read scenes from file?
+	auto& sceneManager = m_serviceRegistry->Get<Hi_Engine::SceneManager>();
 
-	// m_ecs->Init();
-	
-	// auto ecs = Hi_Engine::ServiceLocator::GetECS().lock();
+	//auto systemRegistry = m_serviceRegistry->TryGetWeak<Hi_Engine::SystemRegistry>();
 
+
+
+	sceneManager.Emplace<TitleScene>(Hi_Engine::RegistryContext{ weakSceneRegistry, weakSystemRegistry });
+
+	sceneManager.Init<TitleScene>();
+	sceneManager.TransitionTo<TitleScene>();
 	//Registration::RegisterComponents(*ecs);
 	//Registration::RegisterSystems(m_sceneManager);
 
@@ -50,8 +47,6 @@ void Game::OnCreate()
 
 void Game::OnDestroy()
 {
-	// m_sceneManager.Shutdown();
-	// m_ecs->Shutdown();
 }
 
 //void Game::RegisterScenes()

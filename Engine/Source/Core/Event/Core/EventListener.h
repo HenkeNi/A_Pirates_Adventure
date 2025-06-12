@@ -19,6 +19,7 @@ namespace Hi_Engine
 		virtual void HandleEvent(class StopSoundEvent& event)		{};
 		virtual void HandleEvent(class SetVolumeEvent& event)		{};
 		virtual void HandleEvent(class CreateImGuiWindowRequest& event)		{};
+		virtual void HandleEvent(class ServiceEvent& event)		{};
 		//virtual void HandleEvent(RenderSpriteEvent& event)		{};
 	};
 }

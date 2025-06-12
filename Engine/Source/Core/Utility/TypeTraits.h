@@ -112,5 +112,5 @@ template <typename T, typename Type>
 concept IsExactly = std::is_same_v<T, Type>;
 
 template <typename T>
-concept ComponentType = std::is_class_v<T> /*&& std::is_standard_layout_v<T> *//*&& std::is_trivially_copyable_v<T>*/ /*&& std::is_trivially_default_constructible_v<T>*/; // rename? since ComponentType already exist in component manager?!
+concept ComponentType = std::is_class_v<T>; /*&& std::is_standard_layout_v<T> *//*&& std::is_trivially_copyable_v<T>*/ /*&& std::is_trivially_default_constructible_v<T>*/; // rename? since ComponentType already exist in component manager?!
 //concept ComponentType = std::is_trivial_v<T> && std::is_standard_layout_v<T> && std::is_class_v<T>; // rename? since ComponentType already exist in component manager?!

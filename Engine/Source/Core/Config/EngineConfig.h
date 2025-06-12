@@ -53,6 +53,8 @@ namespace Hi_Engine
 		EngineConfig();
 		~EngineConfig();
 
+		// Rule of 5 ?
+
 		eLoadResult LoadFromFile(const fs::path& configPath);
 
 		bool SaveToFile(const fs::path& configPath) const;

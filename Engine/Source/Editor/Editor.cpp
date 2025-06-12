@@ -4,15 +4,15 @@
 
 namespace Hi_Engine
 {
-	Editor::Editor(Window& window)
-		: m_window{ window }
+	Editor::Editor()
 	{
 		m_imguiWindows.reserve(10);
 	}
 
-	bool Editor::Initialize()
+	bool Editor::Initialize(Window* window)
 	{
-		Setup(m_window.GetWindow());
+		// m_window = window;
+		Setup(window->GetHandle());
 		return true;
 	}
 

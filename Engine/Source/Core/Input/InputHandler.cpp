@@ -1,13 +1,11 @@
 #include "Pch.h"
 #include "InputHandler.h"
-#include "Modules/ModuleManager.h"
 #include "Platform/Window/Window.h"
 #include <GLFW/glfw3.h> 
 
 namespace Hi_Engine
 {
-	InputHandler::InputHandler(ModuleManager& manager)
-		: Module{ manager }
+	InputHandler::InputHandler()
 	{
 		s_customCursor = nullptr;
 	}
@@ -18,23 +16,24 @@ namespace Hi_Engine
 			glfwDestroyCursor(s_customCursor);
 	}
 
-	bool InputHandler::Init()
-	{
-		if (auto windowModule = m_moduleManager.GetModule<Window>().lock())
-		{
-			// glfwSetInputMode(windowModule->GetWindow(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-		
-			if (auto* window = windowModule->GetWindow())
-			{
-				if (s_customCursor = SetCustomCursor(window, "../Game/Assets/Textures/Icons/arrow-cursor.png"))
-					glfwSetCursor(window, s_customCursor);
-				else
-					Logger::LogWarning("InputHandler::Init - Failed to create custom cursor!");  
-			}
-		}
+	//bool InputHandler::Initialize()
+	//{
+	//	if (auto windowModule = m_moduleManager.GetModule<Window>().lock())
+	//	{
+	//		// glfwSetInputMode(windowModule->GetWindow(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+	//	
+	//		// amybe move some of this logic to window class?
+	//		if (auto* window = windowModule->GetWindow())
+	//		{
+	//			if (s_customCursor = SetCustomCursor(window, "../Game/Assets/Textures/Icons/arrow-cursor.png"))
+	//				glfwSetCursor(window, s_customCursor);
+	//			else
+	//				Logger::LogWarning("InputHandler::Init - Failed to create custom cursor!");  
+	//		}
+	//	}
 
-		return true;
-	}
+	//	return true;
+	//}
 
 	void InputHandler::ProcessInput()
 	{

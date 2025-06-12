@@ -1,6 +1,8 @@
 #pragma once
 #include "InputTypes.h"
-#include "../Modules/Module.h"
+#include "../Service/IService.h"
+
+#include "../Math/Vectors/Vector.hpp" // REMOVE?
 
 struct GLFWwindow;
 struct GLFWcursor;
@@ -9,13 +11,21 @@ struct GLFWcursor;
 
 namespace Hi_Engine
 {
-	class InputHandler : public Module
+	// CONSIDER; changing name to InputService
+	// Don't have static functions?
+
+	// or just InputHandler?
+	class IInputHandler : public IService 
+	{};
+
+	// GFWLInputHandler? 
+	class InputHandler : public IInputHandler // TODO; make non static?
 	{
 	public:
-		InputHandler(ModuleManager& manager);
+		InputHandler();
 		~InputHandler();
 
-		bool Init() override;
+		// bool Initialize() override; -> best way to call and pass in window?
 		void ProcessInput();
 		void Reset();
 

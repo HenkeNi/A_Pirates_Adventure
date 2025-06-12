@@ -17,12 +17,22 @@ namespace Hi_Engine
 		listener.HandleEvent(*this);
 	}
 
-	bool TerminationEvent::IsHandled() const
+#pragma endregion TERMINATION_EVENT
+
+#pragma region SERVICE_EVENT
+	
+	ServiceEvent::ServiceEvent()
+		: Event{ ePriority::High }
 	{
-		return false;
 	}
 
-#pragma endregion TERMINATION_EVENT
+	void ServiceEvent::Dispatch(EventListener& listener)
+	{
+		listener.HandleEvent(*this);
+	}
+
+#pragma endregion
+
 
 #pragma region WINDOW_EVENT
 
@@ -184,4 +194,5 @@ namespace Hi_Engine
 	}*/
 
 #pragma endregion MOUSE_EVENT
+
 }

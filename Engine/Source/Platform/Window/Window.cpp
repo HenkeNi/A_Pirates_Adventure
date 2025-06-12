@@ -3,6 +3,7 @@
 #include "Input/InputHandler.h"
 #include <GLFW/glfw3.h>
 
+#include "Core/Config/EngineConfig.h"
 
 namespace Hi_Engine
 {
@@ -16,20 +17,16 @@ namespace Hi_Engine
 	{
 	}
 
-	Window::~Window()
-	{
-		glfwTerminate();
-	}
-
-	bool Window::Initialize()
+	bool Window::Initialize(const WindowConfig& config)
 	{
 		if (!glfwInit())
 		{
-			Logger::LogError("Window::Init - Failed to initialize glfw!");
+			Logger::LogError("Window::Init - Failed to initialize GLFW!");
 			return false;
 		}
 
-		m_window = CreateWindow({ 1200, 800 }, "");
+		m_window = CreateWindow({ config.Width, config.Height }, config.Title);
+		m_size = { config.Width, config.Height };
 
 		glfwSwapInterval(0); // turns off V-sync
 		glViewport(0, 0, m_size.x, m_size.y);
@@ -53,33 +50,18 @@ namespace Hi_Engine
 		glfwTerminate();
 	}
 
-	void Window::Deserialize(const rapidjson::Value& json)
-	{
-		auto window = json["window"].GetObject();
-
-		std::string name = window["name"].GetString();
-		SetTitle(name);
-
-		std::string iconPath = window["icon_path"].GetString();
-		SetIcon(iconPath);
-
-		m_size.x = window["size"]["width"].GetInt();
-		m_size.y = window["size"]["height"].GetInt();
-		SetSize(m_size);
-	}
-
-	bool Window::IsOpen() const
+	bool Window::IsOpen() const noexcept
 	{
 		bool IsOpen = m_window ? !glfwWindowShouldClose(m_window) : false;
 		return IsOpen;
 	}
 
-	GLFWwindow* Window::GetWindow()
+	GLFWwindow* Window::GetHandle() const noexcept
 	{
 		return m_window;
 	}
 
-	const IVector2& Window::GetSize() const
+	const IVector2& Window::GetSize() const noexcept
 	{
 		return m_size;
 	}
@@ -107,10 +89,10 @@ namespace Hi_Engine
 		m_size = size;
 	}
 
-	void Window::SetIcon(const std::string& texturePath)
+	void Window::SetIcon(const std::filesystem::path& iconPath)
 	{
 		GLFWimage image;
-		image.pixels = stbi_load(texturePath.c_str(), &image.width, &image.height, 0, 4);
+		image.pixels = stbi_load(iconPath.string().c_str(), &image.width, &image.height, 0, 4);
 
 		glfwSetWindowIcon(m_window, 1, &image);
 		stbi_image_free(image.pixels);
