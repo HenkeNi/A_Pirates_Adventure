@@ -110,12 +110,12 @@ namespace Hi_Engine
 	template <ComponentType... Ts>
 	bool EntityHandle::HasAllComponents() const
 	{
-		return m_world->HasAllComponents<Ts>(m_entity.ID);
+		return m_world->HasAllComponents<Ts...>(m_entity.ID);
 	}
 
 	template <ComponentType ...Ts>
 	bool EntityHandle::HasAnyComponents() const
 	{
-		return m_world->HasAnyComponent<Ts>(m_entity.ID);
+		return m_world->HasAnyComponent<Ts...>(m_entity.ID);
 	}
 }
