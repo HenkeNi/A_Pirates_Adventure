@@ -67,10 +67,10 @@ namespace Hi_Engine
 		}	
 	}
 
-	Renderer::Renderer(Window& window)
+	Renderer::Renderer(Window* window)
 		: m_window{ window }	// : m_buffer{ new Vertex[Constants::maxVertexCount] }, m_currentVertex{ nullptr }
 	{
-		//m_quadContext.Buffer = new Vertex[Constants::MaxVertexCount];
+		// m_quadContext.Buffer = new Vertex[Constants::MaxVertexCount];
 
 	
 		// DO this in init? or elsewhere?
@@ -89,14 +89,17 @@ namespace Hi_Engine
 
 		for (auto i = 1; i < MaxTextureSlots; ++i)
 			m_textureSlots[i] = 0;
+
 	}
 
 	Renderer::~Renderer()
 	{
 	}
 
-	bool Renderer::Initialize()
+	bool Renderer::Initialize(Window* window)
 	{
+		m_window = window;
+
 		GLenum error = glewInit();
 		if (error != GLEW_OK)
 		{
@@ -108,6 +111,12 @@ namespace Hi_Engine
 		glEnable(GL_DEPTH_TEST);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_BLEND);
+
+
+		// maybe do in desierilze (read max vertex count, default shader, etc)
+		m_quadContext.Buffer = new Vertex[MaxVertexCount];
+		SetupVertexArray();
+		//
 
 		return true;
 	}
@@ -124,19 +133,19 @@ namespace Hi_Engine
 		delete[] m_quadContext.Buffer;
 	}
 
-	void Renderer::Deserialize(const rapidjson::Value& json)
+	void Renderer::Deserialize(const char* path)
 	{
-		auto renderer = json["renderer"].GetObj();
+		//auto renderer = json["renderer"].GetObj();
 
-		int vertexMaxCount = renderer["max_count"]["vertex"].GetInt();
-		m_quadContext.Buffer = new Vertex[vertexMaxCount];
+		//int vertexMaxCount = renderer["max_count"]["vertex"].GetInt();
+		//m_quadContext.Buffer = new Vertex[vertexMaxCount];
 
-		SetupVertexArray();
+		//SetupVertexArray();
 
-		std::string res = renderer["default_shader"].GetString();
-		auto shader = ResourceHolder<GLSLShader>::GetInstance().GetResource(res);
+		//std::string res = renderer["default_shader"].GetString();
+		//auto shader = ResourceHolder<GLSLShader>::GetInstance().GetResource(res);
 
-		SetShader(shader.get());
+		//SetShader(shader.get());
 	}
 
 	void Renderer::SetProjectionMatrix(const glm::mat4& proj)
@@ -147,7 +156,7 @@ namespace Hi_Engine
 		}
 		else
 		{
-			Logger::LogWarning("Renderer::SetProjectionMatrix - No Shader set!");
+			Logger::LogError("Renderer::SetProjectionMatrix - No Shader set!");
 		}
 	}
 
@@ -184,11 +193,13 @@ namespace Hi_Engine
 
 	void Renderer::EndFrame()
 	{
-		Display();
+		// Display(); // dont here??
 
 		// std::cout << "Total draws: " << m_stats.TotalDraws << ", total quads: " << m_stats.TotalQuads << "\n";
 
-		m_window.SwapBuffers();
+		assert(m_window && "Window's nullptr");
+
+		m_window->SwapBuffers(); // call from render system?
 
 	}
 
