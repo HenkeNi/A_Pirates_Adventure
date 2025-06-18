@@ -21,10 +21,10 @@ namespace Hi_Engine
 		// ==================== System Management ====================
 		// Methods that handles the lifecycle of systems (addition, removal, clearing)
 
-		void Insert(std::unique_ptr<System>&& system);
-
 		template <DerivedFrom<System> T, typename... Args>
 		T& Emplace(Args&&... args);
+
+		void Insert(std::unique_ptr<System>&& system);
 
 		template <DerivedFrom<System> T>
 		void RemoveSystem();
