@@ -1,6 +1,41 @@
 #pragma once
 #include "Dependencies/rapidjson/document.h"
 
+// TEMP?
+namespace Hi_Engine
+{
+	// Define elsewhere? PropertyValue.h?
+	struct PropertyValue : std::variant<
+		std::nullptr_t,
+		bool,
+		int,
+		float,
+		std::string,
+		std::unordered_map<std::string, PropertyValue>,
+		std::vector<PropertyValue>>
+	{
+		using variant::variant; // inherit constructors
+	};
+
+	using Properties = std::unordered_map<std::string, PropertyValue>;
+
+	// put somewhere else??
+	template <typename T>
+	T GetPropertyValueOrDefault(const std::unordered_map<std::string, PropertyValue>& properties, const std::string& key, const T& defaultValue) // use auto instead of compdata??
+	{
+		if (auto it = properties.find(key); it != properties.end())
+		{
+			if (auto* val = std::get_if<T>(&it->second))
+			{
+				return *val;
+			}
+		}
+
+		return defaultValue;
+	}
+
+	Properties GetProperties(const rapidjson::Value& propertyValue);
+}
 
 namespace Hi_Engine::JsonUtils
 {
@@ -76,7 +111,9 @@ namespace Hi_Engine::JsonUtils
 		return defaultValue;
 	}
 
-
+	// Consider; Put in separate file (PropertyUtils?)
+	PropertyValue GetPropertyValue(const rapidjson::Value& value); // From JSon function instead? store in comp entry?
+	
 	// FIX?!
 	void SerializeJson(const char* path);
 }

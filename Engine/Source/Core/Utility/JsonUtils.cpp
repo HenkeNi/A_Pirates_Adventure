@@ -31,6 +31,54 @@ namespace Hi_Engine
 			return document;
 		}
 
+		PropertyValue GetPropertyValue(const rapidjson::Value& value)
+		{
+			if (value.IsObject())
+			{
+				std::unordered_map<std::string, PropertyValue> values;
+
+				for (const auto& v : value.GetObject())
+				{
+					values.insert({ v.name.GetString(), GetPropertyValue(v.value) });
+				}
+
+				return values;
+			}
+			else if (value.IsArray())
+			{
+				std::vector<PropertyValue> values;
+
+				for (const auto& v : value.GetArray())
+				{
+					values.push_back(GetPropertyValue(v));
+				}
+
+				return values;
+			}
+			else if (value.IsInt())
+			{
+				return value.GetInt();
+			}
+			else if (value.IsDouble())
+			{
+				return static_cast<float>(value.GetFloat());
+			}
+			else if (value.IsString())
+			{
+				return std::string(value.GetString());
+			}
+			else if (value.IsBool())
+			{
+				return value.GetBool();
+			}
+			else if (value.IsNull())
+			{
+				return nullptr;
+			}
+
+			throw std::runtime_error("Unsupported JSON type in ParseValue()");
+		}
+
 		void SerializeJson(const char* path)
 		{
 			rapidjson::Document document;
@@ -66,5 +114,26 @@ namespace Hi_Engine
 				std::cerr << "Failed to open file for writing." << std::endl;
 			}
 		}
+	}
+
+	Properties GetProperties(const rapidjson::Value& propertyValue)
+	{
+		Properties properties;
+
+		for (const auto& [name, value] : propertyValue["properties"].GetObject())
+		{
+			try
+			{
+				properties.insert({ name.GetString(), JsonUtils::GetPropertyValue(value) });
+				//componentData.insert({ name.GetString(), ParseValue(value) });
+			}
+			catch (...)
+			{
+				//Logger::LogError("[LoadPrefabs] - " + path.string());
+				// return?
+			}
+		}
+
+		return properties;
 	}
 }
