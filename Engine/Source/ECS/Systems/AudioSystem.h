@@ -8,11 +8,11 @@ namespace Hi_Engine
 	class AudioSystem : public System
 	{
 	public:
-		AudioSystem(World& ecs, AudioController& audioController);
+		AudioSystem(World& world, AudioController& audioController);
 		
 		eUpdatePhase GetUpdatePhase() const override;
 
 	private:
-		AudioController& m_audioController;
+		AudioController& m_audioController; // weak ptr instead?
 	};
 }

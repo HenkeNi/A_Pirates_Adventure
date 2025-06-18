@@ -9,7 +9,7 @@ WorldTimeSystem::WorldTimeSystem(Hi_Engine::World& world)
 
 void WorldTimeSystem::Update(float deltaTime)
 {
-	auto view = m_ecs.GetComponentView<WorldTimeComponent>();
+	auto view = m_world.GetComponentView<WorldTimeComponent>();
 
 	view.ForEach([=](WorldTimeComponent& component)
 		{

@@ -11,11 +11,9 @@ namespace Hi_Engine
 	class RenderSystem : public System, public EventListener
 	{
 	public:
-		RenderSystem(World& ecs, std::weak_ptr<Renderer> renderer, std::weak_ptr<Editor> editor, const IVector2& size);
+		RenderSystem(World& world, std::weak_ptr<Renderer> renderer, std::weak_ptr<Editor> editor, const IVector2& size);
 
-		//void Init()
-
-		void HandleEvent(class WindowEvent& event) override;
+		void OnEvent(class WindowEvent& event) override;
 		void Update(float deltaTime) override;
 
 		eUpdatePhase GetUpdatePhase() const override;

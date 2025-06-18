@@ -3,8 +3,8 @@
 
 namespace Hi_Engine
 {
-	System::System(World& ecs)
-		: m_ecs{ ecs }, m_isEnabled{ true }
+	System::System(World& world)
+		: m_world{ world }, m_isEnabled{ true }
 	{
 	}
 

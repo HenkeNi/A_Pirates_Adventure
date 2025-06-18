@@ -9,8 +9,8 @@ namespace Hi_Engine
 {
 	FVector2 ConvertScreenToWorldPosition(const FVector2& mousePos, int windowWidth, int windowHeight, const glm::mat4& viewProjectionMatrix);
 
-	InputSystem::InputSystem(World& ecs, InputHandler& inputHandler, Window& window)
-		: System{ ecs }, m_inputHandler{ inputHandler }, m_window{ window }
+	InputSystem::InputSystem(World& world, InputHandler& inputHandler, Window& window)
+		: System{ world }, m_inputHandler{ inputHandler }, m_window{ window }
 	{
 	}
 
@@ -18,7 +18,7 @@ namespace Hi_Engine
 	{
 		m_inputHandler.ProcessInput();
 
-		auto cameraView = m_ecs.GetComponentView<CameraComponent>(); // TODO; use FindIf fnc later...
+		auto cameraView = m_world.GetComponentView<CameraComponent>(); // TODO; use FindIf fnc later...
 		CameraComponent* cameraComponent = nullptr;
 
 		cameraView.ForEach([&](CameraComponent& component)
@@ -45,16 +45,17 @@ namespace Hi_Engine
 	
 		auto projectionMatrix = cameraComponent->Camera.GetViewProjectionMatrix();
 
-		FVector2 mousePosition = InputHandler::GetMousePosition();
+		FVector2 mousePosition = m_inputHandler.GetMousePosition(); //InputHandler::GetMousePosition();
 		FVector2 mouseWorldPosition = ConvertScreenToWorldPosition(mousePosition, windowSize.x, windowSize.y, projectionMatrix);
-		float mouseScroll = InputHandler::GetScrollOffset();
+		float mouseScroll = m_inputHandler.GetScrollOffset(); // InputHandler::GetScrollOffset();
 
-		auto inputView = m_ecs.GetComponentView<InputComponent>();
+		auto inputView = m_world.GetComponentView<InputComponent>();
 		inputView.ForEach([&](InputComponent& component) 
 			{
 				for (auto& [key, state] : component.InputStates)
 				{
-					state = InputHandler::IsKeyHeld(key) || InputHandler::IsKeyPressed(key);
+					state = m_inputHandler.IsKeyHeld(key) || m_inputHandler.IsKeyPressed(key); // Get key state instead?
+					// state = InputHandler::IsKeyHeld(key) || InputHandler::IsKeyPressed(key);
 				}
 
 				component.MousePosition = mousePosition;

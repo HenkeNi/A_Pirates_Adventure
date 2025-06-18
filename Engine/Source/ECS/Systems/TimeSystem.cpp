@@ -6,32 +6,35 @@
 
 namespace Hi_Engine
 {
-    TimeSystem::TimeSystem(World& ecs, Timer& timer)
-        : System{ ecs }, m_timer{ timer }
+    TimeSystem::TimeSystem(World& world, Timer& timer)
+        : System{ world }, m_timer{ timer }
     {
     }
 
     void TimeSystem::Update(float deltaTime)
     {
-        auto view = m_ecs.GetComponentView<TimerComponent>();
+        auto view = m_world.GetComponentView<TimerComponent>();
         view.ForEach([=](TimerComponent& component)
             {
                 if (component.IsDone)
                     return;
-
+           
                 float& elapsedTime = component.ElapsedTime;
-                    
-                        elapsedTime += deltaTime;
-                            
-                        if (elapsedTime >= component.Duration)   
-                        {
-                            elapsedTime = 0.f;
-                            component.IsDone = true;
-                            
-                            // if (timerComponent.Callback)
-                                // timerComponent.Callback(); // solve by always using component view? and give access to entity when iterating over
-                        }
+                elapsedTime += deltaTime;
+                        
+                if (elapsedTime >= component.Duration)   
+                {
+                    elapsedTime = 0.f;
+                    component.IsDone = true;
+
+                    // send event!
+
+                    // if (timerComponent.Callback)
+                        // timerComponent.Callback(); // solve by always using component view? and give access to entity when iterating over   
+                }
+                        
             });
+        
 
     //    for (auto& timerComponent : )
     //    {

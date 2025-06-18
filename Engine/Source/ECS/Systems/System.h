@@ -14,7 +14,7 @@ namespace Hi_Engine
 	class System
 	{
 	public:
-		System(World& ecs); // dont? forces systems in game to accept ECS as parameter as well..
+		System(World& world); // dont? forces systems in game to accept ECS as parameter as well..
 		virtual ~System() = default;
 
 		virtual void Update(float deltaTime) {};
@@ -24,7 +24,7 @@ namespace Hi_Engine
 		[[nodiscard]] bool IsEnabled() const noexcept;
 
 	protected:
-		World& m_ecs;
+		World& m_world;
 		bool m_isEnabled;
 	};
 }

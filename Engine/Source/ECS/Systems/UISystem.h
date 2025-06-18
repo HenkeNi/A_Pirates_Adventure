@@ -5,5 +5,9 @@ namespace Hi_Engine
 {
 	class UISystem : public System
 	{
+	public:
+		UISystem(World& world);
+
+		eUpdatePhase GetUpdatePhase() const override;
 	};
 }

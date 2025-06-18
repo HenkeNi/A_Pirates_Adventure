@@ -8,7 +8,7 @@ namespace Hi_Engine
 	class EditorSystem : public System
 	{
 	public:
-		EditorSystem(World& ecs, Editor& editor);
+		EditorSystem(World& world, Editor& editor);
 
 		void Update(float deltaTime) override;
 		eUpdatePhase GetUpdatePhase() const override;

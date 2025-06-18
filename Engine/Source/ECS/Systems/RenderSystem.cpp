@@ -11,12 +11,12 @@
 
 namespace Hi_Engine
 {
-	RenderSystem::RenderSystem(World& ecs, std::weak_ptr<Renderer> renderer, std::weak_ptr<Editor> editor, const IVector2& size)
-	: System{ ecs }, m_renderer{ renderer }, m_editor{ editor }, m_windowSize{ size }
+	RenderSystem::RenderSystem(World& world, std::weak_ptr<Renderer> renderer, std::weak_ptr<Editor> editor, const IVector2& size)
+	: System{ world }, m_renderer{ renderer }, m_editor{ editor }, m_windowSize{ size }
 	{
 	}
 
-	void RenderSystem::HandleEvent(WindowEvent& event)
+	void RenderSystem::OnEvent(WindowEvent& event)
 	{
 		if (event.GetEventType() == eWindowEvent::Resize)
 		{
@@ -35,7 +35,7 @@ namespace Hi_Engine
 			renderer->BeginFrame();
 			renderer->ClearScreen(); // or have part of the process function call?
 
-			auto view = m_ecs.GetComponentView<CameraComponent>(); // TODO; use FindIf fnc later...
+			auto view = m_world.GetComponentView<CameraComponent>(); // TODO; use FindIf fnc later...
 			Hi_Engine::Camera* camera = nullptr;
 
 			// Find first instead?
@@ -57,18 +57,30 @@ namespace Hi_Engine
 				return;
 			}
 
-			// Render sprites
-			renderer->SetProjectionMatrix(camera->GetViewProjectionMatrix()); // do in function?? Check if any entities to draw before?!
-			renderer->AddSpriteBatch(std::move(CreateSpriteBatch()));
+			// Render sprites		
+			auto spriteBatch = CreateSpriteBatch();
+
+			if (!spriteBatch.Sprites.empty())
 			{
-				PROFILE_FUNCTION("RenderSystem Process batch 1");
-				renderer->ProcessBatches();
+				renderer->SetProjectionMatrix(camera->GetViewProjectionMatrix()); // do in function?? Check if any entities to draw before?!
+	
+				renderer->AddSpriteBatch(std::move(spriteBatch));
+				{
+					PROFILE_FUNCTION("RenderSystem Process batch 1");
+					renderer->ProcessBatches();
+				}
 			}
 		
 			// Render UI (with Orthographic Projection)
-			renderer->SetProjectionMatrix(camera->GetProjectionMatrix());
-			renderer->AddSpriteBatch(std::move(CreateUIBatch())); // TODO; check if batch is empty before?
-			renderer->ProcessBatches();
+			auto uiBatch = CreateUIBatch();
+
+			if (!uiBatch.Sprites.empty())
+			{
+				renderer->SetProjectionMatrix(camera->GetProjectionMatrix());
+				
+				renderer->AddSpriteBatch(std::move(uiBatch)); // TODO; check if batch is empty before?
+				renderer->ProcessBatches();
+			}
 			
 			renderer->EndFrame(); //m_window.SwapBuffers();
 		}
@@ -83,7 +95,7 @@ namespace Hi_Engine
 	{
 		PROFILE_FUNCTION("\tRenderSystem::CreateSpriteBatch");
 
-		const auto componentView = m_ecs.GetComponentView<SpriteComponent, TransformComponent>();
+		const auto componentView = m_world.GetComponentView<SpriteComponent, TransformComponent>();
 
 		SpriteBatch spriteBatch;
 		spriteBatch.Sprites.reserve(componentView.size());
@@ -115,7 +127,7 @@ namespace Hi_Engine
 	{
 		PROFILE_FUNCTION("\tRenderSystem::CreateUIBatch");
 
-		auto componentView = m_ecs.GetComponentView<UIComponent, TransformComponent>();
+		auto componentView = m_world.GetComponentView<UIComponent, TransformComponent>();
 		
 		/*auto componentView = m_ecs.GetComponentView<UIComponent, TransformComponent>([this](Entity lhs, Entity rhs)
 		{

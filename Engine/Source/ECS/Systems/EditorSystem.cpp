@@ -5,8 +5,8 @@
 
 namespace Hi_Engine
 {
-	EditorSystem::EditorSystem(World& ecs, Editor& editor)
-		: System{ ecs }, m_editor{ editor }
+	EditorSystem::EditorSystem(World& world, Editor& editor)
+		: System{ world }, m_editor{ editor }
 	{
 	}
 
