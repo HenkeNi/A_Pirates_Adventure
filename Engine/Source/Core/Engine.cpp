@@ -30,10 +30,6 @@
 #include "Registry/RegistryTraits.h"
 #include "Registry/RegistryHelpers.h"
 
-// Put in register.h?
-#include "ECS/Registry/ComponentRegistry.h"
-#include "ECS/Registry/SystemRegistry.h"
-
 // create a single Systems.h?
 #include "ECS/Systems/RenderSystem.h"
 
@@ -43,6 +39,7 @@
 #include "Rendering/Texture/Subtexture2D.h"
 #include "ECS/Systems/UISystem.h"
 #include "../../../Game/Source/Systems/SceneTransitionSystem.h"
+#include "Event/Core/EventBus.h"
 
 namespace Hi_Engine
 {
@@ -56,7 +53,7 @@ namespace Hi_Engine
 	{
 	}
 
-	void Engine::HandleEvent(TerminationEvent& event)
+	void Engine::OnEvent(TerminationEvent& event)
 	{
 		m_isRunning = false;
 	}
@@ -79,12 +76,10 @@ namespace Hi_Engine
 		if (!SetupServices())
 			return false;
 
-		EventDispatcher::GetInstance().Subscribe(this);
+		//EventBus::GetInstance().Subscribe(this);
 
-		// Make service instead?
-		ResourceHolder<GLSLShader>::GetInstance().LoadResources("../Engine/Assets/Json/Resources/Shaders.json");
-
-		SetupECS();
+		RegisterSystems();
+		RegisterComponents();
 
 		m_application.Initialize(&m_services);
 		m_application.OnCreate(); 
@@ -100,7 +95,7 @@ namespace Hi_Engine
 
 		m_services.ForEach([](auto& service) { service->Shutdown(); });
 
-		EventDispatcher::GetInstance().Unsubscribe(this);
+		// EventDispatcher::GetInstance().Unsubscribe(this);
 		Logger::Shutdown();
 	}
 
@@ -115,7 +110,11 @@ namespace Hi_Engine
 			
 			const float deltaTime = timer.GetDeltaTime();
 
-			EventDispatcher::GetInstance().DispatchEvents();
+			if (auto eventBus = m_services.TryGetWeak<EventBus>().lock())
+			{
+				eventBus->DispatchEvents();
+				//EventDispatcher::GetInstance().DispatchEvents();
+			}
 
 			auto& sceneManager = m_services.Get<SceneManager>();
 			
@@ -154,28 +153,246 @@ namespace Hi_Engine
 		serviceFactory.Register<PrefabRegistry>("PrefabRegistry");
 	}
 
+	void Engine::RegisterComponents()
+	{
+		// TODO; do static initalization instead?
+
+		auto& componentRegistry = m_services.Get<ComponentRegistry>();
+
+		// Transform Component
+		RegisterComponent<TransformComponent>(componentRegistry, "TransformComponent",
+			[](EntityHandle& handle, const Properties& data)
+			{
+				auto& component = handle.GetComponent<TransformComponent>();
+
+				auto position = GetPropertyValueOrDefault(data, "position", std::vector<PropertyValue>{ 0.f, 0.f });
+				component.Position.x = std::get<float>(position[0]);
+				component.Position.y = std::get<float>(position[1]);
+
+				auto scale = GetPropertyValueOrDefault(data, "scale", std::vector<PropertyValue>{ 0.f, 0.f });
+				component.Scale.x = std::get<float>(scale[0]);
+				component.Scale.y = std::get<float>(scale[1]);
+
+
+				auto pivot = GetPropertyValueOrDefault(data, "pivot", std::vector<PropertyValue>{ 0.f, 0.f });
+				component.Pivot.x = std::get<float>(pivot[0]);
+				component.Pivot.y = std::get<float>(pivot[1]);
+
+				float rotation = GetPropertyValueOrDefault(data, "rotation", float{ 0.f });
+				component.Rotation = rotation;
+			});
+
+		// Velocity Component
+		RegisterComponent<VelocityComponent>(componentRegistry, "VelocityComponent",
+			[](EntityHandle& handle, const Properties& data)
+			{
+				auto& component = handle.GetComponent<VelocityComponent>();
+
+				auto velocity = GetPropertyValueOrDefault(data, "velocity", std::vector<PropertyValue>{ 0.f, 0.f });
+				component.Velocity.x = std::get<float>(velocity[0]);
+				component.Velocity.y = std::get<float>(velocity[1]);
+
+				float baseSpeed = GetPropertyValueOrDefault(data, "base_speed", float{ 0.f });
+				component.BaseSpeed = baseSpeed;
+
+				// TODO... add other fields
+			});
+
+		// Camera Component
+		RegisterComponent<CameraComponent>(componentRegistry, "CameraComponent",
+			[](EntityHandle& handle, const Properties& data)
+			{
+				auto& component = handle.GetComponent<CameraComponent>();
+
+				// TODO...
+			});
+
+		// Sprite Component
+		RegisterComponent<SpriteComponent>(componentRegistry, "SpriteComponent",
+			[](EntityHandle& handle, const Properties& data)
+			{
+				auto& component = handle.GetComponent<SpriteComponent>();
+
+				// temp...
+				std::string texture = GetPropertyValueOrDefault<std::string>(data, "texture", "");
+
+				auto coordinates = GetPropertyValueOrDefault(data, "coordinates", std::vector<PropertyValue>{ 0.f, 0.f });
+				int xCoord = std::get<int>(coordinates[0]);
+				int yCoord = std::get<int>(coordinates[1]);
+
+				//component.Subtexture = ResourceHolder<Subtexture2D, SubtextureData>::GetInstance().GetResource({ texture, xCoord, yCoord });
+				//component->DefaultColor = component->CurrentColor = std::get<FVector4>(properties.at("color"));
+				//component->RenderDepth = std::get<int>(properties.at("render_depth"));
+			});
+
+		// UI Component
+		RegisterComponent<UIComponent>(componentRegistry, "UIComponent",
+			[](EntityHandle& handle, const Properties& data)
+			{
+				auto& component = handle.GetComponent<UIComponent>();
+
+				std::string texture = GetPropertyValueOrDefault<std::string>(data, "texture", ""); // TODO; use some "error" texture as default...
+				auto coordinates = GetPropertyValueOrDefault(data, "coordinates", std::vector<PropertyValue>{ 0, 0 });
+
+				// temp... (title text has no texture)...
+				if (texture != "")
+					component.Subtexture = ResourceHolder<Subtexture2D, SubtextureData>::GetInstance().GetResource({ texture, std::get<int>(coordinates[0]), std::get<int>(coordinates[1]) });
+				component.RenderDepth = GetPropertyValueOrDefault<int>(data, "render_depth", 0);
+				
+				auto propertyColor = GetPropertyValueOrDefault(data, "color", std::vector<PropertyValue>{ 1.f, 1.f, 1.f, 1.f });
+
+				FVector4 color;
+				color.x = std::get<float>(propertyColor[0]);
+				color.y = std::get<float>(propertyColor[1]);
+				color.z = std::get<float>(propertyColor[2]);
+				color.w = std::get<float>(propertyColor[3]);
+
+				component.DefaultColor = component.DefaultColor = color;
+			});
+
+		// Input Component
+		RegisterComponent<InputComponent>(componentRegistry, "InputComponent",
+			[](EntityHandle& handle, const Properties& data)
+			{
+				auto& component = handle.GetComponent<InputComponent>();
+
+				// temp...
+				component.InputStates.insert({ Hi_Engine::eKey::Key_W, false });
+				component.InputStates.insert({ Hi_Engine::eKey::Key_A, false });
+				component.InputStates.insert({ Hi_Engine::eKey::Key_S, false });
+				component.InputStates.insert({ Hi_Engine::eKey::Key_D, false });
+			});
+
+		// Audio Component
+		RegisterComponent<AudioComponent>(componentRegistry, "AudioComponent",
+			[](EntityHandle& handle, const Properties& data)
+			{
+				auto& component = handle.GetComponent<AudioComponent>();
+			});
+
+		// Tag Component
+		RegisterComponent<TagComponent>(componentRegistry, "TagComponent",
+			[](EntityHandle& handle, const Properties& data)
+			{
+				auto& component = handle.GetComponent<TagComponent>();
+			});
+
+		// Timer Component
+		RegisterComponent<TimerComponent>(componentRegistry, "TimerComponent",
+			[](EntityHandle& handle, const Properties& data)
+			{
+				auto& component = handle.GetComponent<TimerComponent>();
+
+				component.Duration = GetPropertyValueOrDefault(data, "duration", 0.f);
+				
+				// fetch action...
+
+				/*"action": {
+					"event": "ChangeScene",
+						"params" : {
+						"scene": "GameScene"
+					}
+				}*/
+			});
+
+		// Text Component
+		RegisterComponent<TextComponent>(componentRegistry, "TextComponent",
+			[](EntityHandle& handle, const Properties& data)
+			{
+				auto& component = handle.GetComponent<TextComponent>();
+			});
+
+		// Scene Transition Component
+		RegisterComponent<SceneTransitionComponent>(componentRegistry, "SceneTransitionComponent",
+			[](EntityHandle& handle, const Properties& data)
+			{
+				auto& component = handle.GetComponent<SceneTransitionComponent>();
+			});
+
+	}
+
+	void Engine::RegisterSystems()
+	{
+		// Register systems
+		auto& systemRegistry = m_services.Get<SystemRegistry>();
+
+		RegisterSystem<CameraSystem>(systemRegistry, "CameraSystem");
+
+		RegisterSystem<RenderSystem>(systemRegistry, "RenderSystem",
+			[](World& world, ServiceRegistry& registry)
+			{
+				const auto& size = registry.Get<Window>().GetSize();
+
+				return std::make_unique<RenderSystem>(world, registry.TryGetWeak<Renderer>(), registry.TryGetWeak<Editor>(), size);
+			});
+
+		RegisterSystem<UISystem>(systemRegistry, "UISystem");
+
+		RegisterSystem<TimeSystem>(systemRegistry, "TimeSystem",
+			[](World& world, ServiceRegistry& registry)
+			{
+				return std::make_unique<TimeSystem>(world, registry.Get<Timer>());
+			});
+
+		RegisterSystem<SceneTransitionSystem>(systemRegistry, "SceneTransitionSystem",
+			[](World& world, ServiceRegistry& registry)
+			{
+				return std::make_unique<SceneTransitionSystem>(world, registry.Get<SceneManager>());
+			});
+
+		RegisterSystem<AudioSystem>(systemRegistry, "AudioSystem",
+			[](World& world, ServiceRegistry& registry)
+			{
+				return std::make_unique<AudioSystem>(world, registry.Get<AudioController>());
+			});
+
+		RegisterSystem<InputSystem>(systemRegistry, "InputSystem",
+			[](World& world, ServiceRegistry& registry)
+			{
+				return std::make_unique<InputSystem>(world, registry.Get<InputHandler>(), registry.Get<Window>());
+			});
+
+		if constexpr (Utils::IsDebugBuild())
+		{
+			RegisterSystem<EditorSystem>(systemRegistry, "EditorSystem",
+				[](World& world, ServiceRegistry& registry)
+				{
+					return std::make_unique<EditorSystem>(world, registry.Get<Editor>());
+				});
+		}
+	}
+
 	bool Engine::SetupServices()
 	{
 		auto& factory = ServiceFactory::GetInstance();
 
+		m_services.Emplace<EventBus>(); // have emplace return instance???
+
+		// TODO; use factory to create all services?? read from json?
+
 		const auto& windowConfig = m_engineConfig.GetWindowConfig();
-		auto window = factory.Create<Window>(windowConfig.Type.c_str());
+		auto window = factory.Create<Window>(windowConfig.Type.c_str()); // NEED TO PASS IN EVENT BUS?
 		if (!window)
 		{
 			Logger::LogError("Failed to create Window service: " + windowConfig.Type);
 			return false;
 		}
 
-		window->Initialize(windowConfig);
+		window->Initialize(windowConfig, m_services.TryGetWeak<EventBus>());
 		m_services.Insert(window);
 
 		const auto& inputConfig = m_engineConfig.GetInputConfig();
 		auto input = factory.Create<InputHandler>(inputConfig.Type.c_str());
+		input->AttachToWindow(window->GetHandle()); // is window (shared ptr) still valid?
+		input->Init(m_services.TryGetWeak<EventBus>());
 		m_services.Insert(input);
 
 		const auto& rendererConfig = m_engineConfig.GetRendererConfig();
 		auto renderer = factory.Create<Renderer>(rendererConfig.Type.c_str());
-		renderer->Initialize();
+		renderer->Initialize(m_services.TryGet<Window>());
+		// Make service instead?
+		ResourceHolder<GLSLShader>::GetInstance().LoadResources("../Engine/Assets/Json/Resources/Shaders.json");
+		renderer->SetShader(ResourceHolder<GLSLShader>::GetInstance().GetResource("sprite_batch").get());
 		m_services.Insert(renderer);
 
 		const auto& audioConfig = m_engineConfig.GetAudioConfig();
@@ -198,202 +415,16 @@ namespace Hi_Engine
 		m_services.Emplace<TypeRegistry<ComponentRegistryEntry, ComponentID>>();
 		m_services.Emplace<TypeRegistry<SystemRegistryEntry, SystemID>>();
 
+
 		// Do else where??
 		auto& prefabRegistry = m_services.Get<PrefabRegistry>();
-		prefabRegistry.LoadPrefabs("../Engine/Assets/Json/Prefabs/Prefab_UI.json"); // load from game or engine?
+
+		prefabRegistry.LoadPrefabs("../Engine/Assets/Json/Prefabs/ui_prefab.json"); // load from game or engine?
+		prefabRegistry.LoadPrefabs("../Engine/Assets/Json/Prefabs/camera_prefab.json");
+		prefabRegistry.LoadPrefabs("../Engine/Assets/Json/Prefabs/world_time_prefab.json");
+		//prefabRegistry.LoadPrefabs("../Engine/Assets/Json/Prefabs/world_time.json");
 
 		// Elsewhere??
 		// ECSRegistry::GetEntityFactory().Initialize(m_services.TryGetWeak<PrefabRegistry>());
-	}
-
-	void Engine::SetupECS()
-	{
-		// TODO; do static initalization instead?
-
-		// Register components
-		//auto& componentRegistry = m_services.Get<TypeRegistry<ComponentRegistryEntry, ComponentID>>();
-		auto& componentRegistry = m_services.Get<ComponentRegistry>();
-		
-		// Transform Component
-		RegisterComponent<TransformComponent>(componentRegistry, "TransformComponent",
-			[](EntityHandle& handle, const Prefab::ComponentData& data)
-			{
-				auto& component = handle.GetComponent<TransformComponent>();
-
-				auto position = GetPropertyValueOrDefault(data, "position", std::vector<PropertyValue>{ 0.f, 0.f });
-				component.Position.x = std::get<float>(position[0]);
-				component.Position.y = std::get<float>(position[1]);
-
-				auto scale = GetPropertyValueOrDefault(data, "scale", std::vector<PropertyValue>{ 0.f, 0.f });
-				component.Scale.x = std::get<float>(scale[0]);
-				component.Scale.y = std::get<float>(scale[1]);
-			
-				
-				auto pivot = GetPropertyValueOrDefault(data, "pivot", std::vector<PropertyValue>{ 0.f, 0.f });
-				component.Pivot.x = std::get<float>(pivot[0]);
-				component.Pivot.y = std::get<float>(pivot[1]);
-
-				float rotation = GetPropertyValueOrDefault(data, "rotation", float{ 0.f });
-				component.Rotation = rotation;
-			});
-
-		// Velocity Component
-		RegisterComponent<VelocityComponent>(componentRegistry, "VelocityComponent",
-			[](EntityHandle& handle, const Prefab::ComponentData& data)
-			{
-				auto& component = handle.GetComponent<VelocityComponent>();
-
-				auto velocity = GetPropertyValueOrDefault(data, "velocity", std::vector<PropertyValue>{ 0.f, 0.f });
-				component.Velocity.x = std::get<float>(velocity[0]);
-				component.Velocity.y = std::get<float>(velocity[1]);
-
-				float baseSpeed = GetPropertyValueOrDefault(data, "base_speed", float{ 0.f });
-				component.BaseSpeed = baseSpeed;
-
-				// TODO... add other fields
-			});
-
-		// Camera Component
-		RegisterComponent<CameraComponent>(componentRegistry, "CameraComponent",
-			[](EntityHandle& handle, const Prefab::ComponentData& data)
-			{
-				auto& component = handle.GetComponent<CameraComponent>();
-
-				// TODO...
-			});
-
-		// Sprite Component
-		RegisterComponent<SpriteComponent>(componentRegistry, "SpriteComponent",
-			[](EntityHandle& handle, const Prefab::ComponentData& data)
-			{
-				auto& component = handle.GetComponent<SpriteComponent>();
-
-				// temp...
-				std::string texture = GetPropertyValueOrDefault<std::string>(data, "texture", "");
-
-				auto coordinates = GetPropertyValueOrDefault(data, "coordinates", std::vector<PropertyValue>{ 0.f, 0.f });
-				int xCoord = std::get<int>(coordinates[0]);
-				int yCoord = std::get<int>(coordinates[1]);
-
-				//component.Subtexture = ResourceHolder<Subtexture2D, SubtextureData>::GetInstance().GetResource({ texture, xCoord, yCoord });
-				//component->DefaultColor = component->CurrentColor = std::get<FVector4>(properties.at("color"));
-				//component->RenderDepth = std::get<int>(properties.at("render_depth"));
-			});
-
-		// UI Component
-		RegisterComponent<UIComponent>(componentRegistry, "UIComponent",
-			[](EntityHandle& handle, const Prefab::ComponentData& data)
-			{
-				auto& component = handle.GetComponent<UIComponent>();
-
-				// component->RenderDepth = std::get<int>(properties.at("render_depth"));
-				// std::string texture = std::get<std::string>(properties.at("texture"));
-				// IVector2 coordinates = std::get<IVector2>(properties.at("coordinates"));
-
-				// component->Subtexture = ResourceHolder<Subtexture2D, SubtextureData>::GetInstance().GetResource({ texture, coordinates.x, coordinates.y });
-				// component->DefaultColor = component->CurrentColor = std::get<FVector4>(properties.at("color"));
-				// component->RenderDepth = std::get<int>(properties.at("render_depth"));
-			});
-		
-		// Input Component
-		RegisterComponent<InputComponent>(componentRegistry, "InputComponent",
-			[](EntityHandle& handle, const Prefab::ComponentData& data)
-			{
-				auto& component = handle.GetComponent<InputComponent>();
-
-				// temp...
-				component.InputStates.insert({ Hi_Engine::eKey::Key_W, false });
-				component.InputStates.insert({ Hi_Engine::eKey::Key_A, false });
-				component.InputStates.insert({ Hi_Engine::eKey::Key_S, false });
-				component.InputStates.insert({ Hi_Engine::eKey::Key_D, false });
-			});
-		
-		// Audio Component
-		RegisterComponent<AudioComponent>(componentRegistry, "AudioComponent",
-			[](EntityHandle& handle, const Prefab::ComponentData& data)
-			{
-				auto& component = handle.GetComponent<AudioComponent>();
-			});
-		
-		// Tag Component
-		RegisterComponent<TagComponent>(componentRegistry, "TagComponent",
-			[](EntityHandle& handle, const Prefab::ComponentData& data)
-			{
-				auto& component = handle.GetComponent<TagComponent>();
-			});
-		
-		// Timer Component
-		RegisterComponent<TimerComponent>(componentRegistry, "TimerComponent",
-			[](EntityHandle& handle, const Prefab::ComponentData& data)
-			{
-				auto& component = handle.GetComponent<TimerComponent>();
-
-				//component->Duration = (float)std::get<double>(properties.at("duration"));
-				//
-				//		assert(properties.contains("callback") && "No callback registered");
-				//
-				//		std::string callbackKey = std::get<std::string>(properties.at("callback"));
-				//		auto itr = CallbackRegistry::Callbacks.find(callbackKey.c_str());
-				//
-				//		if (itr != CallbackRegistry::Callbacks.end())
-				//			component->Callback = itr->second;
-			});
-		
-		// Text Component
-		RegisterComponent<TextComponent>(componentRegistry, "TextComponent",
-			[](EntityHandle& handle, const Prefab::ComponentData& data)
-			{
-				auto& component = handle.GetComponent<TextComponent>();
-			});
-		
-		// Scene Transition Component
-		RegisterComponent<SceneTransitionComponent>(componentRegistry, "SceneTransitionComponent",
-			[](EntityHandle& handle, const Prefab::ComponentData& data)
-			{
-				auto& component = handle.GetComponent<SceneTransitionComponent>();
-			});
-
-
-
-		// Register systems
-		auto& systemRegistry = m_services.Get<SystemRegistry>();
-
-		RegisterSystem<CameraSystem>(systemRegistry, "CameraSystem");
-		RegisterSystem<RenderSystem>(systemRegistry, "RenderSystem");
-		RegisterSystem<UISystem>(systemRegistry, "UISystem");
-		RegisterSystem<TimeSystem>(systemRegistry, "TimeSystem");
-		RegisterSystem<SceneTransitionSystem>(systemRegistry, "SceneTransitionSystem");
-
-		//systemRegistry.Register<RenderSystem>("RenderSystem");
-		//systemRegistry.Register<AudioSystem>("AudioSystem");
-
-//		auto window = m_moduleManager.GetModule<Window>().lock();
-//		auto editor = m_moduleManager.GetModule<Editor>();
-//		auto utility = m_moduleManager.GetModule<Utility>().lock();
-//
-//		ecs->RegisterSystem<TimeSystem>("TimeSystem", utility->GetTimer());
-//		ecs->RegisterSystem<InputSystem>("InputSystem",   *m_moduleManager.GetModule<InputHandler>().lock(), *window);
-//		
-//		ecs->RegisterSystem<AudioSystem>("AudioSystem",   *m_moduleManager.GetModule<AudioController>().lock());
-//		ecs->RegisterSystem<RenderSystem>("RenderSystem", m_moduleManager.GetModule<Renderer>(), !editor.expired() ? editor : std::weak_ptr<Editor>(), IVector2{1400, 800});
-//
-//#if DEBUG
-//
-//		ecs->RegisterSystem<EditorSystem>("EditorSystem", *editor.lock());
-//
-//#endif // DEBUG
-//
-//		ecs->RegisterComponent<TransformComponent>("TransformComponent");
-//		ecs->RegisterComponent<VelocityComponent>("VelocityComponent");
-//		ecs->RegisterComponent<CameraComponent>("CameraComponent");
-//		ecs->RegisterComponent<SpriteComponent>("SpriteComponent");
-//		ecs->RegisterComponent<InputComponent>("InputComponent");
-//		ecs->RegisterComponent<AudioComponent>("AudioComponent");
-//		ecs->RegisterComponent<UIComponent>("UIComponent");
-//		ecs->RegisterComponent<TimerComponent>("TimerComponent");
-//		ecs->RegisterComponent<TagComponent>("TagComponent");
-//
-//		ecs->RegisterComponent<TextComponent>("TextComponent");
-//		ecs->RegisterComponent<SceneTransitionComponent>("SceneTransitionComponent");
 	}
 }

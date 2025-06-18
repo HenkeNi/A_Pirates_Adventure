@@ -13,7 +13,8 @@ namespace Hi_Engine
 		Engine(Application& app);
 		~Engine() = default;
 
-		void HandleEvent(class TerminationEvent& event) override;
+
+		void OnEvent(class TerminationEvent& event);
 
 		bool Init();
 		void Shutdown();
@@ -21,8 +22,9 @@ namespace Hi_Engine
 
 	private:
 		void RegisterServiceTypes();
+		void RegisterComponents();
+		void RegisterSystems();
 		bool SetupServices();
-		void SetupECS();
 		
 		// Store engine config..
 		// display system?
