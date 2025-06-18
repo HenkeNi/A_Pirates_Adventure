@@ -2,7 +2,7 @@
 //#include "../Core/Modules/Module.h"
 #include "../RenderTypes.h"
 #include <queue>
-#include "../Services/IService.h"
+#include "../Service/IService.h"
 //#include <../../../ThirdParty/GLEW/include/GL/glew.h> //FIX! dont include later...
 // #include <Dependencies/GLEW/include/GL/glew.h>
 #include "Dependencies/GLEW/include/GL/glew.h"
@@ -20,21 +20,23 @@ namespace Hi_Engine
 
 	class IRenderer : public IService
 	{
-
+		// store some data here instead!
 	};
 
+	// listens to service added!
 	// TODO; use glGetError()
+
 	class Renderer : public IRenderer
 	{
 	public:
-		Renderer(Window& window);
+		Renderer(Window* window = nullptr); // weak ptr instead?
 		~Renderer();
 
-		bool Initialize()		override;
+		bool Initialize(Window* window);
 		void Shutdown()			override;
 		
 		//void Deserialize(const rapidjson::Value& json) override;
-		void Deserialize(const rapidjson::Value& json);
+		void Deserialize(const char* path);
 		void SetProjectionMatrix(const glm::mat4& proj);
 		void AddSpriteBatch(SpriteBatch&& batch); // or just render sprite batch? Make tempalted?
 
@@ -74,6 +76,6 @@ namespace Hi_Engine
 
 		RenderContext	m_quadContext;
 		RenderStats		m_stats;
-		Window& m_window; // dont? instead fetch from modulemanager?
+		Window* m_window; // dont? instead fetch from modulemanager?
 	};
 }
