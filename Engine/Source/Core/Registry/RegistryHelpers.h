@@ -7,9 +7,11 @@
 #include "../../Prefab/PrefabRegistry.h" // neede for prefab data?
 #include "RegistryAliases.h"
 
+#include "../World/World.h" // ?????
+
 namespace Hi_Engine
 {
-	template <ComponentType T, Callable<EntityHandle&, const Prefab::ComponentData&> InitFunc>
+	template <ComponentType T, Callable<EntityHandle&, const Properties&> InitFunc>
 	void RegisterComponent(ComponentRegistry& registry, const std::string& name, InitFunc&& func)
 	{
 		const ComponentID id = GetComponentID<T>();
@@ -22,12 +24,21 @@ namespace Hi_Engine
 	}
 
 	class System;
+
 	template <DerivedFrom<System> T>
 	void RegisterSystem(SystemRegistry& registry, const std::string& name)
 	{
-		const SystemID id = GetSystemID<T>();
+		RegisterSystem<T>(registry, name, [](World& world, ServiceRegistry& registry) { return std::make_unique<T>(world); });
+	}
 
-		registry.Register<T>(name, id, name, true, id, [](class World* world) { return std::make_unique<T>(world); });
+	//class World;
+	template <DerivedFrom<System> T, Callable<World&, ServiceRegistry&> Creator>
+	void RegisterSystem(SystemRegistry& registry, const std::string& name, Creator&& creationFunc)
+	{
+		const SystemID id = GetSystemID<T>();
+		//registry.Register<T>(name, id, name, true, id, [](class World& world) { return std::make_unique<T>(world); });
+		registry.Register<T>(name, id, name, true, id, std::forward<Creator>(creationFunc));
+
 	}
 
 	class Scene;

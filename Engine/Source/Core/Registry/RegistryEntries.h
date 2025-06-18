@@ -16,8 +16,9 @@ namespace Hi_Engine
 		ComponentID ID;
 
 		// Pass world instead?
-		std::function<void(EntityHandle& handle, const Prefab::ComponentData& data)> InitFunc; // rename Initializer?
-		std::function<void(EntityHandle& handle)> AddComponentFunc;
+		std::function<void(EntityHandle& handle, const Properties& data)> InitFunc; // rename Initializer?
+		//std::function<void(EntityHandle& handle, const decltype(Prefab::ComponentProperties)& data)> InitFunc; // rename Initializer?
+		std::function<void(EntityHandle& handle)> AddComponentFunc; // reanem Create function?
 
 		// std::function<void()> // store serialization func, accept rapidjson Value object?
 		// std::function<void(void*)> destructor;        
@@ -25,12 +26,13 @@ namespace Hi_Engine
 
 	struct SystemRegistryEntry
 	{
-		const char* DisplayName;
+		//const char* DisplayName;
+		std::string DisplayName;
 
 		bool IsEnabledByDefault = true;
 		SystemID ID;
 
-		std::function<std::unique_ptr<System>(class World* world)> CreatorFunction;
+		std::function<std::unique_ptr<System>(class World& world, class ServiceRegistry& registry)> CreatorFunction;
 		// Update order? enum / tag for type (render, physics, logic)? Dependencies
 		// Execution / Update phase: PreUpdate, Update, PostUpdate
 	};
@@ -45,4 +47,12 @@ namespace Hi_Engine
 
 		// thumbnail path? priority?
 	};
+
+	struct EventRegistryEntry
+	{
+		std::string Name;
+
+	};
+
+	// store events??
 }
