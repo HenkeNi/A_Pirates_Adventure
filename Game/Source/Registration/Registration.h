@@ -15,9 +15,11 @@ namespace Registration
 {
 	void RegisterComponents();
 
-	//void RegisterSystems(Hi_Engine::ServiceRegistry& registry); // maybe each scene?
+	//void RegisterSystems(Hi_Engine::ServiceRegistry& registry);
+	void RegisterSystems(Hi_Engine::SystemRegistry& registry);
 
 	void RegisterScenes(Hi_Engine::SceneRegistry& registry);
+
 
 	// void RegisterCallbacks();
 }

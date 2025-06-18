@@ -11,6 +11,7 @@
 //#include <../Scene/SceneManager.h>
 
 #include "Systems/SceneTransitionSystem.h"
+#include "Systems/WorldTimeSystem.h"
 
 
 namespace Registration
@@ -195,9 +196,20 @@ namespace Registration
 ////		ecs.RegisterSystem<RenderSystem>("RenderSystem");
 //	}
 
+	void RegisterSystems(Hi_Engine::SystemRegistry& registry)
+	{
+		Hi_Engine::RegisterSystem<WorldTimeSystem>(registry, "WorldTimeSystem");
+		Hi_Engine::RegisterSystem<SceneTransitionSystem>(registry, "SceneTransitionSystem",
+			[](Hi_Engine::World& world, Hi_Engine::ServiceRegistry& registry)
+			{
+				return std::make_unique<SceneTransitionSystem>(world, registry.Get<Hi_Engine::SceneManager>());
+			});
+	}
+
 	void RegisterScenes(Hi_Engine::SceneRegistry& registry)
 	{
 		Hi_Engine::RegisterScene<TitleScene>(registry, "TitleScene", "../Game/Assets/Json/Scenes/Title.json");
+		
 		//registry.Register<TitleScene>("TitleScene");
 
 		// sceneManager.Emplace<TitleScene>("TitleScene");
