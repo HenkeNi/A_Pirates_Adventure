@@ -1,28 +1,25 @@
 #pragma once
 #include "../World/World.h"
 #include "../ECS/Factory/EntityFactory.h"
-#include "../ECS/Factory/SystemFactory.h"
 
-//#include "Registry/RegistryEntries.h" // causes circular dependencies?s
 #include "Registry/RegistryAliases.h"
 
 namespace Hi_Engine
 {
-	//class SystemRegistry;
+	class ServiceRegistry;
 
 	struct RegistryContext
 	{
 		std::weak_ptr<SceneRegistry> SceneRegistry;
 		std::weak_ptr<SystemRegistry> SystemRegistry;
+		std::weak_ptr<ComponentRegistry> ComponentRegistry;
 	};
 
 	class Scene
 	{
 	public:
-		Scene(RegistryContext context);
+		Scene(ServiceRegistry& registry);
 		virtual ~Scene() = default;	
-
-		//Scene(const RegistryContext& context);
 
 		void Update(float deltaTime);
 		void Enter(SceneID id); //  -> update ECSRegitry with new world?
@@ -40,12 +37,11 @@ namespace Hi_Engine
 
 		World m_world; // or inverse relationship??
 
-		RegistryContext m_registryContext;
-
-		//std::weak_ptr<SceneRegistry> m_sceneRegistry; // need both Scene and System Registry?
+		RegistryContext m_registryContext; // private?
+		ServiceRegistry& m_serviceRegistry;
 
 		// Put in factory struct?
 		EntityFactory m_entityFactory;
-		SystemFactory m_systemFactory; // private?
+		//SystemFactory m_systemFactory; // private?
 	};
 }
