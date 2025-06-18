@@ -1,46 +1,37 @@
 #pragma once
 #include "../Service/IService.h"
+#include "Utility/JsonUtils.h"
 
 namespace Hi_Engine
 {
-	// TODO; rename class Prefab...
+	// TODO; store in ResourceHolder?
 
 	// Consider; Keep as Service? or store in ECSRegistry? Store in ResourceHolder?
 	// TODO; [json] Place all prefabs into separate files
 
-	struct PropertyValue : std::variant<
-		std::nullptr_t,
-		bool,
-		int,
-		float,
-		std::string,
-		std::unordered_map<std::string, PropertyValue>,
-		std::vector<PropertyValue>>
-	{
-		using variant::variant; // inherit constructors
-	};
+	//struct PropertyValue : std::variant<
+	//	std::nullptr_t,
+	//	bool,
+	//	int,
+	//	float,
+	//	std::string,
+	//	std::unordered_map<std::string, PropertyValue>,
+	//	std::vector<PropertyValue>>
+	//{
+	//	using variant::variant; // inherit constructors
+	//};
 
 	struct Prefab
 	{
 		//using PropertyValue = std::variant<int, float, bool, std::string, std::any>;
-		using ComponentData = std::unordered_map<std::string, PropertyValue>; // rename ComponentProperties??
+		//using ComponentData = std::unordered_map<std::string, PropertyValue>; // rename ComponentProperties??
+		//std::unordered_map<std::string, ComponentData> Data;
 
-		std::unordered_map<std::string, ComponentData> Data;
+		std::unordered_map<std::string, Properties> ComponentProperties;
 	};
 
-	template <typename T>
-	T GetPropertyValueOrDefault(const Prefab::ComponentData& data, const std::string& key, const T& defaultValue) // use auto instead of compdata??
-	{
-		if (auto it = data.find(key); it != data.end())
-		{
-			if (auto* val = std::get_if<T>(&it->second))
-			{
-				return *val;
-			}
-		}
-
-		return defaultValue;
-	}
+	// Put in json utils? Next to GetPropertyValue?
+	
 
 	class PrefabRegistry : public IService
 	{
