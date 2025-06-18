@@ -12,12 +12,12 @@ namespace Hi_Engine
     TextRenderer::TextRenderer()
         : m_windowSize{ 1400, 800 }
 	{
-        EventDispatcher::GetInstance().Subscribe(this);
+       // EventDispatcher::GetInstance().Subscribe(this);
     }
 	
 	TextRenderer::~TextRenderer()
 	{
-        EventDispatcher::GetInstance().Unsubscribe(this);
+        //EventDispatcher::GetInstance().Unsubscribe(this);
 	}
 
 	bool TextRenderer::Initialize()

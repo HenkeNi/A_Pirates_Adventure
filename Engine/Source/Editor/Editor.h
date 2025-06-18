@@ -18,7 +18,7 @@ namespace Hi_Engine
 		bool Initialize(Window* window);
 		void Shutdown() override;
 
-		void HandleEvent(class WindowEvent& event) override;
+		//void HandleEvent(class WindowEvent& event) override;
 
 		//template <typename... Args>
 		//void CreateWindow(Args&&... args);

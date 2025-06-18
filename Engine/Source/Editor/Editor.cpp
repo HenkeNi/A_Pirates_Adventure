@@ -21,13 +21,13 @@ namespace Hi_Engine
 		Destroy();
 	}
 
-	void Editor::HandleEvent(WindowEvent& event)
-	{
-		if (event.GetEventType() == eWindowEvent::Created)
-		{
-			Setup(event.GetWindow());
-		}
-	}
+	//void Editor::HandleEvent(WindowEvent& event)
+	//{
+	//	if (event.GetEventType() == eWindowEvent::Created)
+	//	{
+	//		Setup(event.GetWindow());
+	//	}
+	//}
 
 	ImGuiWindow& Editor::AddWindow(const ImGuiWindow& window)
 	{

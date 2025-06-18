@@ -1,5 +1,5 @@
 #pragma once
-#include "../Services/IService.h"
+#include "../Service/IService.h"
 #include "../../RenderTypes.h"
 
 typedef struct FT_LibraryRec_* FT_Library;
@@ -14,7 +14,7 @@ namespace Hi_Engine
 		TextRenderer();
 		~TextRenderer();
 
-		bool Initialize() override;
+		bool Initialize();
 		void Shutdown() override;
 		// void HandleEvent(class TextRenderEvent& event);
 
