@@ -1,32 +1,27 @@
 #pragma once
 #include "../ECS/Utility/ECSTypes.h"
+#include "Registry/RegistryAliases.h"
 //#include "../Utility/EntityHandle.h"
 
 namespace Hi_Engine
 {
 	class PrefabRegistry;
-	class World;
 	class EntityHandle;
+	class World;
 
 	class EntityFactory
 	{
 	public:
-		EntityFactory(World& world);
+		EntityFactory(World& world, std::weak_ptr<const PrefabRegistry> prefabRegistry, std::weak_ptr<const ComponentRegistry> componentRegistry);
 
-		//EntityFactory();
-
-		// Find another way!, dont expose as public, should only be called once..
-		void Initialize(std::weak_ptr<const PrefabRegistry> registry);
-
+		// dont mark with nodiscard?
 		std::optional<EntityHandle> CreateFromPrefab(World& world, const std::string& name); // bool notify = true
 
 	private:
+		// use Registry struct?
 		std::weak_ptr<const PrefabRegistry> m_prefabRegistry;
+		std::weak_ptr<const ComponentRegistry> m_componentRegistry; // non const?
+
 		World& m_world;
-		// Component registry?? 
 	};
-
-
-	// std::function<void(Entity)> AddComponent;
-	// std::function<void(Entity, const ComponentProperties&)> InitializeComponent;
 }
