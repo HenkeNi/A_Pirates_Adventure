@@ -19,11 +19,22 @@ void Game::OnCreate()
 {
 	LoadResources();
 
+	if (!m_serviceRegistry)
+	{
+		assert(false && "[Game::OnCreate] - ServiceRegistry not valid!");
+		return;
+	}
+
 	auto weakSceneRegistry = m_serviceRegistry->TryGetWeak<Hi_Engine::SceneRegistry>();
+
+	if (auto sceneRegistry = weakSceneRegistry.lock())
+		Registration::RegisterScenes(*sceneRegistry);
+
 	auto weakSystemRegistry = m_serviceRegistry->TryGetWeak<Hi_Engine::SystemRegistry>();
 
-	if (auto sharedSceneRegistry = weakSceneRegistry.lock())
-		Registration::RegisterScenes(*sharedSceneRegistry);
+	if (auto systemRegistry = weakSystemRegistry.lock())
+		Registration::RegisterSystems(*systemRegistry);
+
 
 	// Consider; read scenes from file?
 	auto& sceneManager = m_serviceRegistry->Get<Hi_Engine::SceneManager>();
@@ -31,8 +42,8 @@ void Game::OnCreate()
 	//auto systemRegistry = m_serviceRegistry->TryGetWeak<Hi_Engine::SystemRegistry>();
 
 
-
-	sceneManager.Emplace<TitleScene>(Hi_Engine::RegistryContext{ weakSceneRegistry, weakSystemRegistry });
+	// maybe just pass service registry?
+	sceneManager.Emplace<TitleScene>(*m_serviceRegistry);
 
 	sceneManager.Init<TitleScene>();
 	sceneManager.TransitionTo<TitleScene>();
