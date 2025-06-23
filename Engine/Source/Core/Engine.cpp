@@ -284,15 +284,23 @@ namespace Hi_Engine
 				auto& component = handle.GetComponent<TimerComponent>();
 
 				component.Duration = GetPropertyValueOrDefault(data, "duration", 0.f);
+				auto action = GetPropertyValueOrDefault(data, "action", std::unordered_map<std::string, PropertyValue>{});
 				
-				// fetch action...
+				if (auto it = action.find("event"); it != action.end())
+				{
+					std::string eventName = std::get<std::string>(it->second);
+					component.OnCompleted.EventName = std::move(eventName);
+				}
 
-				/*"action": {
-					"event": "ChangeScene",
-						"params" : {
-						"scene": "GameScene"
+				if (auto it = action.find("params"); it != action.end())
+				{
+					auto params = std::get<std::unordered_map<std::string, PropertyValue>>(it->second);
+
+					for (const auto& [key, value] : params)
+					{
+						component.OnCompleted.Params.insert({ key, value });
 					}
-				}*/
+				}
 			});
 
 		// Text Component
@@ -302,13 +310,7 @@ namespace Hi_Engine
 				auto& component = handle.GetComponent<TextComponent>();
 			});
 
-		// Scene Transition Component
-		RegisterComponent<SceneTransitionComponent>(componentRegistry, "SceneTransitionComponent",
-			[](EntityHandle& handle, const Properties& data)
-			{
-				auto& component = handle.GetComponent<SceneTransitionComponent>();
-			});
-
+		
 	}
 
 	void Engine::RegisterSystems()
@@ -421,7 +423,7 @@ namespace Hi_Engine
 
 		prefabRegistry.LoadPrefabs("../Engine/Assets/Json/Prefabs/ui_prefab.json"); // load from game or engine?
 		prefabRegistry.LoadPrefabs("../Engine/Assets/Json/Prefabs/camera_prefab.json");
-		prefabRegistry.LoadPrefabs("../Engine/Assets/Json/Prefabs/world_time_prefab.json");
+		prefabRegistry.LoadPrefabs("../Engine/Assets/Json/Prefabs/utility_prefab.json");
 		//prefabRegistry.LoadPrefabs("../Engine/Assets/Json/Prefabs/world_time.json");
 
 		// Elsewhere??
