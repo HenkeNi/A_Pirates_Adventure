@@ -20,6 +20,7 @@
 # Folders
 bin/
 bin-int/
+Engine/Dependencies
 
 # Visual Studio files
 .vs/
