@@ -1,5 +1,5 @@
 #pragma once
-#include "../Service/IService.h"
+#include "../../Services/IService.h"
 #include "RegistryTraits.h"
 
 namespace Hi_Engine

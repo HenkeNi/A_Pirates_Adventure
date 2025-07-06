@@ -8,6 +8,7 @@
 #include <cassert>
 #include <cmath>
 #include <cstdint>
+#include <filesystem>
 #include <fstream>
 #include <functional>
 #include <iostream>
@@ -25,7 +26,7 @@
 /* - Engine - */
 #include <../Hi_Engine.h>	// TODO; remove this file? 
 #include <../Source/Core/Math/Vectors/Vector.hpp>
-#include <../Source/Core/Utility/DataStructures/Linear/Dynamic/Stack/Stack.hpp>
+#include <../Source/Core/Utility/DataStructures/Stack.hpp>
 
 /* - Message System - */
 #include "PostMaster/PostMaster.h"

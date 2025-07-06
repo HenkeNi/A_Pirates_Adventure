@@ -1,22 +1,22 @@
 #include "Pch.h"
 #include "InputSystem.h"
-#include "World/World.h"
-#include "Core/Input/InputHandler.h"
-#include "Platform/Window/Window.h"
+#include "ECS/World/World.h"
+#include "Services/Input/InputService.h"
+#include "Services/Window/WindowService.h"
 #include "../Components/CoreComponents.h"
 
 namespace Hi_Engine
 {
 	FVector2 ConvertScreenToWorldPosition(const FVector2& mousePos, int windowWidth, int windowHeight, const glm::mat4& viewProjectionMatrix);
 
-	InputSystem::InputSystem(World& world, InputHandler& inputHandler, Window& window)
-		: System{ world }, m_inputHandler{ inputHandler }, m_window{ window }
+	InputSystem::InputSystem(World& world, InputService& input, WindowService& window)
+		: System{ world }, m_inputService{ input }, m_windowService{ window }
 	{
 	}
 
 	void InputSystem::Update(float deltaTime)
 	{
-		m_inputHandler.ProcessInput();
+		m_inputService.ProcessInput();
 
 		auto cameraView = m_world.GetComponentView<CameraComponent>(); // TODO; use FindIf fnc later...
 		CameraComponent* cameraComponent = nullptr;
@@ -41,20 +41,20 @@ namespace Hi_Engine
 		//if (cameraIterator == cameraComponents.end())
 			//return;
 
-		IVector2 windowSize = m_window.GetSize();
+		IVector2 windowSize = m_windowService.GetSize();
 	
 		auto projectionMatrix = cameraComponent->Camera.GetViewProjectionMatrix();
 
-		FVector2 mousePosition = m_inputHandler.GetMousePosition(); //InputHandler::GetMousePosition();
+		FVector2 mousePosition = m_inputService.GetMousePosition(); //InputHandler::GetMousePosition();
 		FVector2 mouseWorldPosition = ConvertScreenToWorldPosition(mousePosition, windowSize.x, windowSize.y, projectionMatrix);
-		float mouseScroll = m_inputHandler.GetScrollOffset(); // InputHandler::GetScrollOffset();
+		float mouseScroll = m_inputService.GetScrollOffset(); // InputHandler::GetScrollOffset();
 
 		auto inputView = m_world.GetComponentView<InputComponent>();
 		inputView.ForEach([&](InputComponent& component) 
 			{
 				for (auto& [key, state] : component.InputStates)
 				{
-					state = m_inputHandler.IsKeyHeld(key) || m_inputHandler.IsKeyPressed(key); // Get key state instead?
+					state = m_inputService.IsKeyHeld(key) || m_inputService.IsKeyPressed(key); // Get key state instead?
 					// state = InputHandler::IsKeyHeld(key) || InputHandler::IsKeyPressed(key);
 				}
 
@@ -81,7 +81,7 @@ namespace Hi_Engine
 			//PostMaster::GetInstance().SendMessage({ eMessage::MouseClicked, mousePosition }); // dont send event?
 		//}
 
-		m_inputHandler.Reset();
+		m_inputService.Reset();
 	}
 
 	eUpdatePhase InputSystem::GetUpdatePhase() const

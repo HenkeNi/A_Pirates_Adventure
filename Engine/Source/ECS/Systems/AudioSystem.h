@@ -3,16 +3,16 @@
 
 namespace Hi_Engine
 {
-	class AudioController;
+	class AudioService;
 
 	class AudioSystem : public System
 	{
 	public:
-		AudioSystem(World& world, AudioController& audioController);
+		AudioSystem(World& world, std::weak_ptr<AudioService> audioService);
 		
 		eUpdatePhase GetUpdatePhase() const override;
 
 	private:
-		AudioController& m_audioController; // weak ptr instead?
+		std::weak_ptr<AudioService> m_audioService; // weak ptr instead?
 	};
 }

@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Camera",
+    "components": [
+      {
+        "type": "TagComponent",
+        "properties": {
+          "type": "Camera"
+        }
+      },
+      {
+        "type": "TransformComponent",
+        "properties": {
+          "position": [ 0.0, 0.0 ],
+          "scale": [ 1.0, 1.0 ],
+          "pivot": [ 0.0, 0.0 ],
+          "rotation": 0.0
+        }
+      },
+      {
+        "type": "CameraComponent",
+        "properties": {}
+      }
+    ]
+  }
+]
+  

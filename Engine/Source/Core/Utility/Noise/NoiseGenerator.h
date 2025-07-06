@@ -4,6 +4,7 @@ class FastNoiseLite;
 
 namespace Hi_Engine
 {
+	// make into service?
 	class NoiseGenerator
 	{
 	public:

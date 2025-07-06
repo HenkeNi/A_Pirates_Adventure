@@ -1,5 +1,5 @@
 #pragma once
-#include <../Scene/Scene.h>
+#include <../Services/Scene/Scene.h>
 
 
 class SettingsScene : public Hi_Engine::Scene

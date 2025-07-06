@@ -1,7 +1,9 @@
 #pragma once
-#include "../../Rendering/Camera/Camera.h"
+#include "../../Services/Rendering/Camera.h"
 #include "../Core/Math/Geometry/AABB2D.hpp"
 #include "../Core/Math/Range/Range.hpp"
+
+#include "Utility/JsonUtils.h" // used for PropertyValue...
 
 namespace Hi_Engine
 {
@@ -23,9 +25,9 @@ namespace Hi_Engine
 		bool	 IsVelocityConstant = false; // Dont? use physics instead?
 	};
 
-	struct CameraComponent
+	struct CameraComponent // TODO; store camera data intead of camera!
 	{
-		Camera					 Camera;
+		Camera					 Camera; // eplace with camera data... (projection matrix etc...
 		FVector2				 TargetOffset;
 		Geometry::AABB2D<float>  Frustum;
 		Math::Range<float>			 ZoomRange;
@@ -37,27 +39,35 @@ namespace Hi_Engine
 		bool IsActive = true; // fix, default to false
 	};
 
+	struct TextureData
+	{
+		std::string TextureID;
+		IVector2 Coordinates;
+	};
+
 	struct SpriteComponent
 	{
-		SpriteComponent(std::shared_ptr<class Subtexture2D> subtexture = nullptr)
+	/*	SpriteComponent(std::shared_ptr<class Subtexture2D> subtexture = nullptr)
 			: Subtexture{ subtexture }
 		{
-		}
+		}*/
 
 		FVector4					DefaultColor = { 1.f, 1.f, 1.f, 1.f };
 		FVector4					CurrentColor = { 1.f, 1.f, 1.f, 1.f };
-		std::shared_ptr<class Subtexture2D>	Subtexture = nullptr; // store id instead? and CachedSubtexture?
+		//std::shared_ptr<class Subtexture2D>	Subtexture = nullptr; // store id instead? and CachedSubtexture?
+		TextureData TextureData;
 		int							RenderDepth = 0; // remove? moved to uicomponent
 		bool						IsVisible = true;
 	};
 
 	struct UIComponent
 	{
-		std::shared_ptr<class Subtexture2D>	Subtexture = nullptr;
-		FVector4					DefaultColor = { 1.f, 1.f, 1.f, 1.f };
-		FVector4					CurrentColor = { 1.f, 1.f, 1.f, 1.f };
-		int							RenderDepth = 0;
-		bool						IsVisible = true;
+		//std::shared_ptr<class Subtexture2D>	Subtexture = nullptr;
+		//TextureData TextureData;
+		//FVector4					DefaultColor = { 1.f, 1.f, 1.f, 1.f };
+		//FVector4					CurrentColor = { 1.f, 1.f, 1.f, 1.f };
+		//int							RenderDepth = 0;
+		//bool						IsVisible = true;
 	};
 
 	/*struct UIRenderComponent
@@ -81,9 +91,24 @@ namespace Hi_Engine
 
 	};
 
+	// Maybe rename?
+	struct EventTrigger
+	{
+		std::string EventName;
+		std::unordered_map<std::string, PropertyValue> Params;
+	};
+
+	struct EventTriggerComponent
+	{
+		std::vector<EventTrigger> Triggers;
+	};
+
+
 	struct TimerComponent
 	{
-		std::function<void(int entity)> Callback; //  - dont allow non trivial data`? store id to callback insteaD?
+		EventTrigger OnCompleted; // optional?
+		// std::function<void(int entity)> Callback; //  - dont allow non trivial data`? store id to callback insteaD?
+
 		float Duration = 0.f;
 		float ElapsedTime = 0.f;
 
@@ -91,13 +116,14 @@ namespace Hi_Engine
 	};
 
 	
+
 	
 	
 	struct TextComponent
 	{};
 
-	struct SceneTransitionComponent
-	{};
+	//struct SceneTransitionComponent
+	//{};
 
 	//struct HierarchyComponent
 	//{

@@ -3,18 +3,20 @@
 
 // TODO; consider replacing reference to SceneManager with event?
 
-class SceneManager;
+//class SceneManager;
 
 namespace Hi_Engine
 {
 	class World;
-	class SceneManager;
+	class SceneService;
 }
+
+// Not needed?? send event directly to SceneManager?
 
 class SceneTransitionSystem : public Hi_Engine::System//, public Subscriber
 {
 public:
-	SceneTransitionSystem(Hi_Engine::World& world, Hi_Engine::SceneManager& manager);
+	SceneTransitionSystem(Hi_Engine::World& world, Hi_Engine::SceneService& service);
 	~SceneTransitionSystem();
 
 	void Update(float deltaTime) override;
@@ -23,5 +25,5 @@ public:
 	Hi_Engine::eUpdatePhase GetUpdatePhase() const override;
 
 private:
-	Hi_Engine::SceneManager& m_sceneManager;
+	Hi_Engine::SceneService& m_sceneService;
 };

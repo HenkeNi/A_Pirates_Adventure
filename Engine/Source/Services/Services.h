@@ -1,0 +1,13 @@
+#pragma once
+#include "Audio/AudioService.h"
+#include "Config/ConfigService.h"
+#include "Event/EventService.h"
+#include "Input/InputService.h"
+#include "Physics/PhysicsService.h"
+#include "Rendering/RenderService.h"
+#include "Resource/ResourceService.h"
+#include "Resource/PrefabRegistryService.h"
+#include "Scene/SceneService.h"
+#include "Task/TaskService.h"
+#include "Time/TimeService.h"
+#include "Window/WindowService.h"

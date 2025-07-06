@@ -1,17 +1,19 @@
 #pragma once
 #include "System.h"
-#include "Event/Events/SystemEvents.h"
-#include "Rendering/RenderTypes.h"
+#include "Services/Event/SystemEvents.h"
+#include "Services/Rendering/RenderTypes.h"
+#include "Services/Resource/ResourceAliases.h" // put in PCH instead? (enough?)
 
 namespace Hi_Engine
 {
-	class Editor;
-	class Renderer;
+	//class Editor;
+	class RenderService;
+	class ServiceRegistry;
 
 	class RenderSystem : public System, public EventListener
 	{
 	public:
-		RenderSystem(World& world, std::weak_ptr<Renderer> renderer, std::weak_ptr<Editor> editor, const IVector2& size);
+		RenderSystem(World& world, ServiceRegistry& registry);
 
 		void OnEvent(class WindowEvent& event) override;
 		void Update(float deltaTime) override;
@@ -19,11 +21,14 @@ namespace Hi_Engine
 		eUpdatePhase GetUpdatePhase() const override;
 
 	private:
-		SpriteBatch CreateSpriteBatch() const;
-		SpriteBatch CreateUIBatch() const;
+		using SubtextureHolder = SubtextureAssetService;
 
+		void RenderWorldSprites(SubtextureHolder& textureHolder, RenderService& renderService, const glm::mat4& projection);
+		void RenderUISprites(SubtextureHolder& textureHolder, RenderService& renderService, const glm::mat4& projection);
+	
 		IVector2 m_windowSize;
-		std::weak_ptr<Renderer> m_renderer; // Use IRenderer here!s
-		std::weak_ptr<Editor> m_editor;
+		std::weak_ptr<RenderService> m_renderService; // Use IRenderer here!s
+		std::weak_ptr<SubtextureHolder> m_subtextureAssetService;
+		//std::weak_ptr<Editor> m_editor;
 	};
 }

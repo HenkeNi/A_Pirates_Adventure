@@ -3,19 +3,19 @@
 
 namespace Hi_Engine
 {
-	class InputHandler;
-	class Window;
+	class InputService;
+	class WindowService;
 
 	class InputSystem : public System
 	{
 	public:
-		InputSystem(World& world, InputHandler& inputHandler, Window& window);
+		InputSystem(World& world, InputService& input, WindowService& window);
 
 		void Update(float deltaTime) override;
 		eUpdatePhase GetUpdatePhase() const override;
 
 	private:
-		InputHandler& m_inputHandler;
-		Window& m_window;
+		InputService& m_inputService;
+		WindowService& m_windowService;
 	};
 }

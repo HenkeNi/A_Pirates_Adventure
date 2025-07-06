@@ -25,28 +25,28 @@ void Game::OnCreate()
 		return;
 	}
 
-	auto weakSceneRegistry = m_serviceRegistry->TryGetWeak<Hi_Engine::SceneRegistry>();
+	auto weakSceneRegistry = m_serviceRegistry->TryGetWeak<Hi_Engine::SceneRegistryService>();
 
 	if (auto sceneRegistry = weakSceneRegistry.lock())
 		Registration::RegisterScenes(*sceneRegistry);
 
-	auto weakSystemRegistry = m_serviceRegistry->TryGetWeak<Hi_Engine::SystemRegistry>();
+	auto weakSystemRegistry = m_serviceRegistry->TryGetWeak<Hi_Engine::SystemRegistryService>();
 
 	if (auto systemRegistry = weakSystemRegistry.lock())
 		Registration::RegisterSystems(*systemRegistry);
 
 
 	// Consider; read scenes from file?
-	auto& sceneManager = m_serviceRegistry->Get<Hi_Engine::SceneManager>();
+	auto& sceneService = m_serviceRegistry->Get<Hi_Engine::SceneService>();
 
 	//auto systemRegistry = m_serviceRegistry->TryGetWeak<Hi_Engine::SystemRegistry>();
 
 
 	// maybe just pass service registry?
-	sceneManager.Emplace<TitleScene>(*m_serviceRegistry);
+	sceneService.Emplace<TitleScene>(*m_serviceRegistry);
 
-	sceneManager.Init<TitleScene>();
-	sceneManager.TransitionTo<TitleScene>();
+	sceneService.Init<TitleScene>();
+	sceneService.TransitionTo<TitleScene>();
 	//Registration::RegisterComponents(*ecs);
 	//Registration::RegisterSystems(m_sceneManager);
 
@@ -68,7 +68,7 @@ void Game::OnDestroy()
 
 void Game::LoadResources()
 {
- 	Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().LoadResources("../Game/Assets/Json/Resources/Textures2.json");
+ 	//Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().LoadResources("../Game/Assets/Json/Resources/Textures2.json");
 //	Hi_Engine::ResourceHolder<Hi_Engine::Font>::GetInstance().LoadResources("../Game/Assets/Json/Resources/Fonts.json"); // do in engine!
-	Hi_Engine::ResourceHolder<Hi_Engine::AudioSource>::GetInstance().LoadResources("../Game/Assets/Json/Audio/Audio.json");
+	//Hi_Engine::ResourceHolder<Hi_Engine::AudioSource>::GetInstance().LoadResources("../Game/Assets/Json/Audio/Audio.json");
 }

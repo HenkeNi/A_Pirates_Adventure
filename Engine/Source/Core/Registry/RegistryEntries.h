@@ -1,8 +1,7 @@
 #pragma once
-#include "../../Scene/SceneTypes.h"
-#include "../Prefab/PrefabRegistry.h" // Fix this! needed for Prefab::ComponentData
+#include "../../Services/Scene/SceneTypes.h"
+#include "../../Services/Resource/PrefabRegistryService.h"// Fix this! needed for Prefab::ComponentData
 #include "../../ECS/Utility/ECSTypes.h"
-
 
 namespace Hi_Engine
 {

@@ -1,0 +1,28 @@
+[
+  {
+    "name": "WorldTime",
+    "components": [
+      {
+        "type": "WorldTimeComponent",
+        "properties": {
+          "day_duration": 30.0
+        }
+      }
+    ]
+  },
+  {
+    "name": "Timer",
+    "components": [
+      {
+        "type": "TimerComponent",
+        "properties": {
+          "duration": 10.0,
+          "action": {
+            "event": "None",
+            "params": {}
+          }
+        }
+      }
+    ]
+  }
+]

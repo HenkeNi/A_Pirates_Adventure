@@ -3,8 +3,8 @@
 
 namespace Hi_Engine
 {
-	AudioSystem::AudioSystem(World& world, AudioController& audioController)
-		: System{ world }, m_audioController{ audioController }
+	AudioSystem::AudioSystem(World& world, std::weak_ptr<AudioService> audioService)
+		: System{ world }, m_audioService{ audioService }
 	{
 	}
 

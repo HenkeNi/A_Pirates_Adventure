@@ -1,13 +1,15 @@
 #include "Pch.h"
 #include "TimeSystem.h"
-#include "Time/Timer.h"
-#include "World/World.h"
+#include "Services/ServiceRegistry.h"
+#include "Services/Time/TimeService.h"
+#include "ECS/World/World.h"
 #include "ECS/Components/CoreComponents.h"
+#include "Registry/RegistryAliases.h"
 
 namespace Hi_Engine
 {
-    TimeSystem::TimeSystem(World& world, Timer& timer)
-        : System{ world }, m_timer{ timer }
+    TimeSystem::TimeSystem(World& world, ServiceRegistry& registry)
+        : System{ world }, m_timeService{ registry.TryGetWeak<TimeService>() }, m_eventService{ registry.TryGetWeak<EventService>() }, m_eventRegistry{ registry.TryGetWeak<EventRegistryService>() }
     {
     }
 
@@ -27,34 +29,15 @@ namespace Hi_Engine
                     elapsedTime = 0.f;
                     component.IsDone = true;
 
-                    // send event!
+                    if (auto eventBus = m_eventService.lock())
+                    {
+                        // TODO; fetch event registry...
 
-                    // if (timerComponent.Callback)
-                        // timerComponent.Callback(); // solve by always using component view? and give access to entity when iterating over   
+                        // event registry...
+                        // TODO; send event!
+                    }
                 }
-                        
             });
-        
-
-    //    for (auto& timerComponent : )
-    //    {
-    //        if (timerComponent.IsDone)
-    //            continue;
-
-    //        float& elapsedTime = timerComponent.ElapsedTime;
-    //        elapsedTime += deltaTime;
-    //            
-    //        if (elapsedTime >= timerComponent.Duration)   
-    //        {
-    //            elapsedTime = 0.f;
-    //            timerComponent.IsDone = true;
-    //            
-    //            // if (timerComponent.Callback)
-    //                // timerComponent.Callback(); // solve by always using component view? and give access to entity when iterating over
-
-    //            // TODO; consider removing component    
-    //        }
-    //    }
     }
 
     eUpdatePhase TimeSystem::GetUpdatePhase() const

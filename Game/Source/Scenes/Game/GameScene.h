@@ -1,5 +1,6 @@
 #pragma once
-#include <../Scene/Scene.h>
+#include <../Services/Scene/Scene.h>
+//#include <../Scene/Scene.h>
 //#include "../Scene.h"
 //#include "../SceneManager.h"
 

@@ -15,7 +15,7 @@ namespace Hi_Engine
 	{
 	public:
 		// ==================== Construction/Destruction ====================
-		ComponentView(ComponentContainer<Ts>&... containers, std::vector<EntityID>&& entities);
+		ComponentView(ComponentContainer<Ts>&... containers, std::vector<Entity>&& entities);
 		~ComponentView() = default;
 
 		ComponentView(const ComponentView&) = default;
@@ -44,7 +44,7 @@ namespace Hi_Engine
 
 		[[nodiscard]] bool IsEmpty() const noexcept;
 
-		[[nodiscard]] std::size_t size() const noexcept;
+		[[nodiscard]] std::size_t Size() const noexcept;
 
 		[[nodiscard]] inline const std::vector<Entity>& GetEntities() const { return m_entities; }
 
@@ -83,61 +83,65 @@ namespace Hi_Engine
 
 		// ==================== Data Members ====================
 		std::tuple<ComponentContainer<Ts>&...> m_components;
-		const std::vector<EntityID> m_entities;
+		const std::vector<Entity> m_entities;
+
+		//const std::vector<EntityID> m_entities; // store handles instead? or Entities...
 
 		// std::vector<std::tuple<Entity, Ts*...>> m_cache;
+
+		// Or just EntityHandles??
 	};
 
 #pragma region Templated_Methods
 
 	template <ComponentType... Ts>
-	ComponentView<Ts...>::ComponentView(ComponentContainer<Ts>&... containers, std::vector<EntityID>&& entities)
-		: m_components{ containers... }, m_entities{ std::forward<std::vector<EntityID>>(entities) }
+	ComponentView<Ts...>::ComponentView(ComponentContainer<Ts>&... containers, std::vector<Entity>&& entities)
+		: m_components{ containers... }, m_entities{ std::forward<std::vector<Entity>>(entities) }
 	{
 	}
 
-	template <ComponentType ...Ts>
+	template <ComponentType... Ts>
 	template <typename Callback>
 	void ComponentView<Ts...>::ForEach(Callback&& callback) const
 	{
 		// try parallell version...
-		std::for_each(m_entities.begin(), m_entities.end(), [&](EntityID id)
+		std::for_each(m_entities.begin(), m_entities.end(), [&](Entity entitiy)
 		{
-			if constexpr (requires { { callback(std::get<ComponentContainer<Ts>&>(m_components).At(id)...) } -> std::same_as<bool>; })
+			if constexpr (requires { { callback(std::get<ComponentContainer<Ts>&>(m_components).At(entitiy.ID)...) } -> std::same_as<bool>; })
 			{
-				if (!callback(std::get<ComponentContainer<Ts>&>(m_components).At(id)...))
+				if (!callback(std::get<ComponentContainer<Ts>&>(m_components).At(entitiy.ID)...))
 				{
 					return;
 				}
 			}
 			else
 			{
-				callback(std::get<ComponentContainer<Ts>&>(m_components).At(id)...); // pass in entity id? ... func(std::as_const(comps)...);  // const Ts&...
+				callback(std::get<ComponentContainer<Ts>&>(m_components).At(entitiy.ID)...); // pass in entity id? ... func(std::as_const(comps)...);  // const Ts&...
 			}
 		});
 	}
 
-	template <ComponentType ...Ts>
+	template <ComponentType... Ts>
 	template <typename Callback>
 	void ComponentView<Ts...>::ForEach(Callback&& callback)
 	{
-		std::for_each(m_entities.begin(), m_entities.end(), [&](EntityID id)
+		std::for_each(m_entities.begin(), m_entities.end(), [&](Entity entity)
 		{
-			if constexpr (requires { { callback(std::get<ComponentContainer<Ts>&>(m_components).At(id)...) } -> std::same_as<bool>; })
+			if constexpr (requires { { callback(std::get<ComponentContainer<Ts>&>(m_components).At(entity.ID)...) } -> std::same_as<bool>; })
 			{
-				if (!callback(std::get<ComponentContainer<Ts>&>(m_components).At(id)...))
+				if (!callback(std::get<ComponentContainer<Ts>&>(m_components).At(entity.ID)...))
 				{
 					return;
 				}
 			}
 			else
 			{
-				callback(std::get<ComponentContainer<Ts>&>(m_components).At(id)...); // pass in entity? ... func(std::as_const(comps)...);  // const Ts&...
+				callback(std::get<ComponentContainer<Ts>&>(m_components).At(entity.ID)...); // pass in entity? ... func(std::as_const(comps)...);  // const Ts&...
 			}
 		});
 	}
 
-	template <ComponentType ...Ts>
+	template <ComponentType... Ts>
 	template <ComponentType T>
 	const T* ComponentView<Ts...>::GetComponent(EntityID id) const
 	{
@@ -145,7 +149,7 @@ namespace Hi_Engine
 		return container.Get(id);
 	}
 
-	template <ComponentType ...Ts>
+	template <ComponentType... Ts>
 	template <ComponentType T>
 	T* ComponentView<Ts...>::GetComponent(EntityID id)
 	{
@@ -153,7 +157,7 @@ namespace Hi_Engine
 		return container.Get(id);
 	}
 
-	template<ComponentType ...Ts>
+	template<ComponentType... Ts>
 	template<typename Predicate>
 	std::vector<Entity> ComponentView<Ts...>::FindAllIf(Predicate&& predicate) const
 	{
@@ -162,69 +166,78 @@ namespace Hi_Engine
 		return std::vector<Entity>{};
 	}
 
-	template <ComponentType ...Ts>
+	template <ComponentType... Ts>
 	template <typename Predicate>
-	std::optional<Entity> ComponentView<Ts...>::FindIf(Predicate&& predicate) const
+	std::optional<Entity> ComponentView<Ts...>::FindIf(Predicate&& predicate) const // return pair?
 	{
-		assert(false && "NOT IMPLEMENTED");
+		//assert(false && "NOT IMPLEMENTED");
+
+		for (const auto& entity : m_entities)
+		{
+			if (predicate(std::get<ComponentContainer<Ts>&>(m_components).At(entity.ID)...))
+				return entity;
+		}
+
+		// TODO; return EntityHandle...?
+
 		// TODO; add iterator?
 
 		// auto sparseSet = std::get<SparseSet<T>&>(m_components); -> dont iterate over sparse set? (req an iterator)
 
 		//return std::find_if
-		return nullptr;
+		return std::nullopt;
 	}
 
-	template <ComponentType ...Ts>
-	bool ComponentView<Ts...>::Contains(EntityID entity) const noexcept
+	template <ComponentType... Ts>
+	bool ComponentView<Ts...>::Contains(EntityID id) const noexcept
 	{
-		return std::find(m_entities.begin(), m_entities.end(), entity) != m_entities.end();
+		return std::find(m_entities.begin(), m_entities.end(), id) != m_entities.end();
 	}
 
-	template <ComponentType ...Ts>
+	template <ComponentType... Ts>
 	bool ComponentView<Ts...>::IsEmpty() const noexcept
 	{
 		return m_entities.empty();
 	}
 
 	template <ComponentType... Ts>
-	std::size_t ComponentView<Ts...>::size() const noexcept
+	std::size_t ComponentView<Ts...>::Size() const noexcept
 	{
 		return m_entities.size();
 	}
 
-	template <ComponentType ...Ts>
+	template <ComponentType... Ts>
 	std::tuple<Ts*...> ComponentView<Ts...>::GetComponents(EntityID id) const
 	{
 		return { std::get<ComponentContainer<Ts>&>(m_components).Get(id)... };
 	}
 
-	template <ComponentType ...Ts>
+	template <ComponentType... Ts>
 	ComponentView<Ts...>::Iterator::Iterator(ComponentView* view, std::size_t index)
 		: m_view{ view }, m_index{ index }
 	{
 	}
 
-	template <ComponentType ...Ts>
+	template <ComponentType... Ts>
 	typename ComponentView<Ts...>::Iterator& ComponentView<Ts...>::Iterator::operator++()
 	{
 		++m_index;
 		return *this;
 	}
 
-	template <ComponentType ...Ts>
+	template <ComponentType... Ts>
 	bool ComponentView<Ts...>::Iterator::operator!=(const Iterator& other) const
 	{
 		return m_index != other.m_index;
 	}
 
-	template <ComponentType ...Ts>
+	template <ComponentType... Ts>
 	const std::tuple<Ts*...> ComponentView<Ts...>::Iterator::operator*() const
 	{
 		return m_view->GetComponents(m_view->m_entities[m_index]);
 	}
 
-	template <ComponentType ...Ts>
+	template <ComponentType... Ts>
 	std::tuple<Ts*...> ComponentView<Ts...>::Iterator::operator*()
 	{
 		return m_view->GetComponents(m_view->m_entities[m_index]);

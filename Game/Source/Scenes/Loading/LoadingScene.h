@@ -1,5 +1,5 @@
 #pragma once
-#include <../Scene/Scene.h>
+#include <../Services/Scene/Scene.h>
 
 
 class LoadingScene : public Hi_Engine::Scene

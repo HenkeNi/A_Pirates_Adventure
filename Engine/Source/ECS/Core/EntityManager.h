@@ -23,23 +23,29 @@ namespace Hi_Engine
 
 		// ==================== Lifecycle ====================
 		[[nodiscard]] std::optional<Entity> Create() noexcept; // safe to use noexcept?
+
 		bool Destroy(const Entity& entity) noexcept;
+
 		void DestroyAll() noexcept;
 
 		// ==================== Queries ====================
 		[[nodiscard]] bool IsValidEntity(const Entity& entity) const noexcept;
+
 		[[nodiscard]] bool IsAlive(const Entity& entity) const noexcept;
 
 		// ==================== Signature Management ====================
 		[[nodiscard]] std::optional<Signature> GetSignature(EntityID id) const noexcept;
+
 		void SetSignature(const Entity& entity, Signature signature);
 
 		// ==================== Bulk Operations ====================
-		[[nodiscard]] std::vector<Entity> GetEntities(Signature signature) const;
 		[[nodiscard]] std::vector<EntityID> GetEntityIDs(Signature signature) const;
+
+		[[nodiscard]] std::vector<Entity> GetEntities(Signature signature) const;
 
 		// ==================== Statistics ====================
 		[[nodiscard]] inline std::size_t GetAliveCount() const noexcept { return m_alive.Size(); }
+
 		[[nodiscard]] inline std::size_t GetAvailableCount() const noexcept { return m_available.size(); }
 		
 	private:

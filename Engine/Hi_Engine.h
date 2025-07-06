@@ -1,77 +1,68 @@
 #pragma once
 
 /* - Core - */
-#include "Source/Core/Application/Application.h"
-#include "Source/Core/Engine.h"
-
-
-#include "Source/Scene/SceneManager.h"
-#include "Source/Rendering/Renderer/Renderer.h"
-#include "Source/Core/Input/InputHandler.h"
-#include "Source/Audio/AudioController.h"
-#include "Source/Platform/Window/Window.h"
-
-//#include "Source/Core/Utility/Serializer/Serializer.h"
-
-
-/* - Physics - */
-#include "Source/Physics/Physics.h"
-
 #include "Source/Core/Math/Geometry/AABB2D.hpp"
 #include "Source/Core/Math/Geometry/Ray2D.hpp"
 #include "Source/Core/Math/Geometry/LineSegment2D.hpp"
-#include "Source/Physics/Intersections/Intersection2D.hpp"
-#include "Source/Physics/Intersections/HitResult.h"
+
+/* - Application - */
+#include "Source/Application/Application.h"
+
+/* - Engine - */
+#include "Source/Engine/Engine.h"
+
+/* - Services - */
+#include "Source/Services/IService.h"
+#include "Source/Services/Scene/SceneService.h"
+#include "Source/Services/Rendering/RenderService.h"
+// #include "Source/Services/Rendering/TextService" -> TODO!
+#include "Source/Services/Input/InputService.h"
+#include "Source/Services/Audio/AudioService.h"
+#include "Source/Services/Window/WindowService.h"
+#include "Source/Services/Physics/PhysicsService.h"
+#include "Source/Services/Resource/ResourceService.h"
+#include "Source/Services/Event/EventService.h"
+#include "Source/Services/Time/TimeService.h"
+
+/* - Physics - */
+#include "Source/Core/Utility/Intersections/Intersection2D.hpp"
+#include "Source/Core/Utility/Intersections/HitResult.h"
 
 /* - ECS - */
-#include "Source/World/World.h"
+#include "Source/ECS/World/World.h"
 #include "Source/ECS/Systems/System.h"
 #include "Source/ECS/Components/CoreComponents.h"
 #include "Source/ECS/Utility/EntityHandle.h"
 #include "Source/ECS/Factory/EntityFactory.h"
-#include "Source/ECS/Factory/SystemFactory.h"
 
 /* - Registry - */
 #include "Source/Core/Registry/RegistryHelpers.h"
 #include "Source/Core/Registry/RegistryEntries.h"
 #include "Source/Core/Registry/RegistryAliases.h"
 
-/* - Input - */
-#include "Source/Core/Input/InputHandler.h"
-
 /* - Rendering - */
-#include "Source/Rendering/Camera/Camera.h"
-#include "Source/Rendering/Text/Renderer/TextRenderer.h"
-#include "Source/Rendering/Material/Material.h"
-#include "Source/Rendering/Text/Font/Font.h"
-#include "Source/Rendering/Shader/Shader.h"
-#include "Source/Rendering/Texture/Texture2D.h"
-#include "Source/Rendering/Texture/Subtexture2D.h"
-#include "Source/Rendering/Text/TextTypes.h"
+#include "Source/Services/Rendering/Camera.h"
+#include "Source/Services/Rendering/Font.h"
+#include "Source/Services/Rendering/Shader.h"
+#include "Source/Services/Rendering/Texture2D.h"
+#include "Source/Services/Rendering/Subtexture2D.h"
+#include "Source/Services/Rendering/TextTypes.h"
 
 /* - Audio - */
-#include "Source/Audio/Audio.h"
-#include "Source/Audio/AudioSource.h"
-#include "Source/Audio/AudioController.h"
-
-/* - ImGui - */
-#include "Source/Editor/Editor.h"
-
-/* - Resources - */
-#include "Source/Core/Resources/ResourceHolder.h"
+#include "Source/Services/Audio/Audio.h"
+#include "Source/Services/Audio/AudioSource.h"
 
 /* - Messaging - */
-#include "Source/Core/Event/Core/EventDispatcher.h" // REVMOVE LATER! Only allow engine to send events, put render system in engine (pass 
-#include "Source/Core/Event/Core/EventListener.h"
-#include "Source/Core/Event/Events/SystemEvents.h"
-#include "Source/Core/Event/Events/AudioEvents.h"
+#include "Source/Services/Event/EventListener.h"
+#include "Source/Services/Event/SystemEvents.h"
+#include "Source/Services/Event/AudioEvents.h"
 
 /* - Data Structures - */
-#include "Source/Core/Utility/DataStructures/Linear/Dynamic/Stack/Stack.hpp"
-#include "Source/Core/Utility/DataStructures/Linear/Dynamic/Queue/Queue.hpp"
-#include "Source/Core/Utility/DataStructures/Linear/Static/Array/VectorOnStack.hpp"
-#include "Source/Core/Utility/DataStructures/Linear/Static/MemoryPool/MemoryPool.hpp"
-#include "Source/Core/Utility/DataStructures/Non-Linear/Factory/Factory.hpp"
+#include "Source/Core/Utility/DataStructures/Stack.hpp"
+#include "Source/Core/Utility/DataStructures/Queue.hpp"
+#include "Source/Core/Utility/DataStructures/VectorOnStack.hpp"
+#include "Source/Core/Utility/DataStructures/MemoryPool.hpp"
+#include "Source/Core/Utility/DataStructures/Factory.hpp"
 
 /* - Math - */
 #include "Source/Core/Math/Vectors/Vector.hpp"
@@ -83,7 +74,6 @@
 
 /* - Utility - */
 #include "Source/Core/Utility/Random/Random.h"
-#include "Source/Core/Time/Timer.h"
 #include "Source/Core/Utility/Algorithms/PathFinding/AStar.hpp"
 #include "Source/Core/Utility/Noise/NoiseGenerator.h"
 #include "Source/Core/Utility/Utils.h"

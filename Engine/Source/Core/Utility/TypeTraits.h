@@ -42,9 +42,26 @@ concept LvalueReference = std::is_lvalue_reference_v<T>;
 template <typename T>
 concept RvalueReference = std::is_rvalue_reference_v<T>;
 
-// Callable (i.e., can be called with Args...)
+// Callable (i.e., can be called with Args...)  // rename inovacble
 template <typename T, typename... Args>
 concept Callable = std::is_invocable_v<T, Args...>;
+
+template <typename Func, typename Return>
+concept Returns = requires(Func f)
+{
+    { f() } -> std::same_as<Return>;
+};
+
+template <typename Func, typename Return, typename... Args>
+concept CallableReturns = std::invocable<Func, Args...> && std::same_as<std::invoke_result_t<Func, Args...>, Return>;
+
+//template <typename Func, typename Return, typename... Args>
+//concept CallableReturns = requires(Func f, Args... args)
+//{
+//    { std::invoke(f, args...) } -> std::same_as<Return>;
+//    //{ f(std::forward<Args>(args)...) } -> std::same_as<Return>;
+//};
+
 
 // Same type (checks if two types are the same)
 template <typename T, typename U>
@@ -110,6 +127,9 @@ concept CustomType = std::is_class_v<T>;
 
 template <typename T, typename Type>
 concept IsExactly = std::is_same_v<T, Type>;
+
+template <typename T>
+concept ServiceType = std::is_class_v<T> && !std::is_pointer_v<T>;
 
 template <typename T>
 concept ComponentType = std::is_class_v<T>; /*&& std::is_standard_layout_v<T> *//*&& std::is_trivially_copyable_v<T>*/ /*&& std::is_trivially_default_constructible_v<T>*/; // rename? since ComponentType already exist in component manager?!

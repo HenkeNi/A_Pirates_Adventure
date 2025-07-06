@@ -12,6 +12,7 @@
 #include <cmath>
 #include <cstdint>
 #include <execution>
+#include <filesystem>
 #include <fstream>
 #include <functional>
 #include <iostream>
@@ -30,16 +31,23 @@
 #include <type_traits>
 #include <random>
 #include <unordered_map>
+#include <unordered_set>
 #include <variant>
 #include <vector>
 
 /* - Logger - */
 #include "Core/Logging/Logger.h"
 
+/* - Type Traits - */
+#include "Utility/TypeTraits.h"
+
 /* - Event system - */
-#include "Event/Core/EventDispatcher.h"
-#include "Event/Core/EventListener.h"
-#include "Event/Events/SystemEvents.h"
+#include "Services/Event/EventService.h"
+#include "Services/Event/EventListener.h"
+#include "Services/Event/SystemEvents.h"
+
+/* - Utility - */
+#include "Core/Utility/JsonUtils.h"
 
 /* - Math - */
 #include "Core/Math/Vectors/Vector.hpp"
@@ -51,13 +59,14 @@
 //#include "../Utility/Math/Matrices/Matrix4x4.hpp"
 #include "Core/Math/Range/Range.hpp"
 #include "Core/Math/Point/Point.hpp"
-#include "Core/Utility/UtilityFunctions.h"
+#include "Core/Utility/Utils.h"
 
 #include "Core/Utility/DataStructures/SparseSet.h"
 
 #include "Core/Utility/NonCopyable.h"
+#include "Core/Utility/IDGenerator.h"
 
-#include "Core/Time/Timer.h"
+#include "Services/Time/TimeService.h"
 
 /* - Third Party - 	 ..... TODO; dont put these here... (not glew/glfw stuff) */
 
@@ -71,6 +80,9 @@
 #include <Dependencies/GLEW/include/GL/glew.h>
 //#include <GLFW/glfw3.h>
 #include <document.h>
+
+#include <Dependencies/rapidjson/document.h> // ggod idea?
+
 
 //#include <glm.hpp>
 #include <../glm/glm.hpp>

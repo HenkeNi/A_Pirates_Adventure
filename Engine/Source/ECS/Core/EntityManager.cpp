@@ -87,19 +87,6 @@ namespace Hi_Engine
 		}
 	}
 
-	std::vector<Entity> EntityManager::GetEntities(Signature signature) const
-	{
-		std::vector<Entity> matchingEntities;
-
-		for (const auto& entity : m_alive)
-		{
-			if ((m_signatures[entity.ID] & signature) == signature)
-				matchingEntities.emplace_back(entity);
-		}
-
-		return matchingEntities;
-	}
-
 	std::vector<EntityID> EntityManager::GetEntityIDs(Signature signature) const
 	{
 		std::vector<EntityID> matchingIDs;
@@ -111,6 +98,19 @@ namespace Hi_Engine
 		}
 
 		return matchingIDs;
+	}
+
+	std::vector<Entity> EntityManager::GetEntities(Signature signature) const
+	{
+		std::vector<Entity> matchingEntities;
+
+		for (const auto& entity : m_alive)
+		{
+			if ((m_signatures[entity.ID] & signature) == signature)
+				matchingEntities.emplace_back(entity);
+		}
+
+		return matchingEntities;
 	}
 
 	void EntityManager::InitializeEntityIDs() noexcept

@@ -3,8 +3,7 @@
 #include <any>
 //#include <Hi_Engine.h> // Fix
 #include  <../Core/Math/Vectors/Vector.hpp>
-#include  <../Rendering/Material/Material.h>
-#include  <../Rendering/Texture/Subtexture2D.h>
+//#include  <../Rendering/Subtexture2D.h>
 
 
 /// using namespace Hi_Engine::Math;

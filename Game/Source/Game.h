@@ -1,5 +1,5 @@
 #pragma once
-#include <Application/Application.h>
+#include <../Application/Application.h>
 
 class Game : public Hi_Engine::Application
 {

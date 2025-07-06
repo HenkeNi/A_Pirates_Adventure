@@ -63,10 +63,12 @@ project "Engine"
 		"%{prj.name}/Dependencies/ImGui",
 		"%{prj.name}/Dependencies/GLEW",
 		"%{prj.name}/Source/",
+		"%{prj.name}/Source/Application",
 		"%{prj.name}/Source/Core",
-		"%{prj.name}/Source/Data",
+		"%{prj.name}/Source/ECS",
+		"%{prj.name}/Source/Engine",
 		"%{prj.name}/Source/Precompiled",
-		"%{prj.name}/Source/Utility"
+		"%{prj.name}/Source/Services"
 	}
 	
 	libdirs

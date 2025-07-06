@@ -27,13 +27,17 @@
           }
         },
         {
-          "type": "UIComponent",
+          "type": "SpriteComponent",
           "properties": {
             "texture": "title_image",
             "coordinates": [ 0, 0 ],
             "color": [ 1.0, 1.0, 1.0, 1.0 ],
             "render_depth": 0
           }
+        },
+        {
+          "type": "UIComponent",
+          "properties": {}
         }
       ]
     },
@@ -62,20 +66,21 @@
       ]
     },
     {
-      "entity_id": "SceneTimer",
+      "entity_id": "Timer",
       "components_data": [
         {
           "type": "TimerComponent",
           "properties": {
             "duration": 1.0,
-            "callback": "scene_transition"
+            "action": {
+              "event": "ChangeScene",
+              "params": {
+                "scene": "GameScene"
+              }
+            }
           }
         }
       ]
-    },
-    {
-      "entity_id": "Player",
-      "components_data": []
     }
   ],
   "systems": [
@@ -103,11 +108,6 @@
       "type": "SceneTransitionSystem",
       "debug": true,
       "release": true
-    },
-    {
-      "type": "EditorSystem",
-      "debug": true,
-      "release": false
     }
   ]
 }

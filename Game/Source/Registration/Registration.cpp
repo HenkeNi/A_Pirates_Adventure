@@ -1,23 +1,22 @@
 #include "Pch.h"
 #include "Registration.h"
-#include "Scenes/Title/TitleScene.h"
-
+#include "Scenes/Scenes.h"
 
 //#include "Systems/Systems.h"
-#include "Scenes/Scenes.h"
 //#include <SceneTypes.h>
 //#include "Components/Components.h"
-
 //#include <../Scene/SceneManager.h>
 
 #include "Systems/SceneTransitionSystem.h"
 #include "Systems/WorldTimeSystem.h"
 
+#include "../Components/GameplayComponents.h"
 
 namespace Registration
 {
 	void RegisterComponents()
 	{
+
 	//	/* - Core Components - */
 	//	ecs.RegisterComponent<AnimationComponent>("Animation");
 	//	ecs.RegisterComponent<BoundingBoxComponent>("BoundingBox");
@@ -196,17 +195,17 @@ namespace Registration
 ////		ecs.RegisterSystem<RenderSystem>("RenderSystem");
 //	}
 
-	void RegisterSystems(Hi_Engine::SystemRegistry& registry)
+	void RegisterSystems(Hi_Engine::SystemRegistryService& registry)
 	{
 		Hi_Engine::RegisterSystem<WorldTimeSystem>(registry, "WorldTimeSystem");
 		Hi_Engine::RegisterSystem<SceneTransitionSystem>(registry, "SceneTransitionSystem",
 			[](Hi_Engine::World& world, Hi_Engine::ServiceRegistry& registry)
 			{
-				return std::make_unique<SceneTransitionSystem>(world, registry.Get<Hi_Engine::SceneManager>());
+				return std::make_unique<SceneTransitionSystem>(world, registry.Get<Hi_Engine::SceneService>());
 			});
 	}
 
-	void RegisterScenes(Hi_Engine::SceneRegistry& registry)
+	void RegisterScenes(Hi_Engine::SceneRegistryService& registry)
 	{
 		Hi_Engine::RegisterScene<TitleScene>(registry, "TitleScene", "../Game/Assets/Json/Scenes/Title.json");
 		

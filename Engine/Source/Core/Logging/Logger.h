@@ -13,6 +13,7 @@ namespace Hi_Engine
 
 	void SetConsoleTextColor(int color);
 
+	// rename LoggingService  or LogService?!
 	class Logger
 	{
 	public:

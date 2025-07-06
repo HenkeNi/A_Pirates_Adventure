@@ -16,10 +16,9 @@ namespace Registration
 	void RegisterComponents();
 
 	//void RegisterSystems(Hi_Engine::ServiceRegistry& registry);
-	void RegisterSystems(Hi_Engine::SystemRegistry& registry);
+	void RegisterSystems(Hi_Engine::SystemRegistryService& registry);
 
-	void RegisterScenes(Hi_Engine::SceneRegistry& registry);
+	void RegisterScenes(Hi_Engine::SceneRegistryService& registry);
 
-
-	// void RegisterCallbacks();
+	// void RegisterEvents();
 }

@@ -1,13 +1,13 @@
 #include "Pch.h"
 #include "EntityFactory.h"
 #include "../ECS/Core/EntityManager.h"
-#include "Prefab/PrefabRegistry.h"
+#include "Services/Resource/PrefabRegistryService.h"
 #include "../ECS/Utility/EntityHandle.h"
 
 
 namespace Hi_Engine
 {
-	EntityFactory::EntityFactory(World& world, std::weak_ptr<const PrefabRegistry> prefabRegistry, std::weak_ptr<const ComponentRegistry> componentRegistry)
+	EntityFactory::EntityFactory(World& world, std::weak_ptr<const PrefabRegistryService> prefabRegistry, std::weak_ptr<const ComponentRegistryService> componentRegistry)
 		: m_world{ world }, m_prefabRegistry{ prefabRegistry }, m_componentRegistry{ componentRegistry }
 	{
 	}
