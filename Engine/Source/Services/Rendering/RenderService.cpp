@@ -119,7 +119,7 @@ namespace Hi_Engine
 		return true;
 	}
 
-	void RenderService::Shutdown()
+	void RenderService::Shutdown() noexcept
 	{
 		glDeleteVertexArrays(1, &m_quadContext.VAO);
 		glDeleteBuffers(1, &m_quadContext.VBO);

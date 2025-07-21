@@ -15,30 +15,25 @@ namespace Hi_Engine
 		~PhysicsService();
 
 		bool Initialize();
-		void Shutdown() override;
-		void Deserialize(const char* path);
+		void Shutdown() noexcept override;
+		void Deserialize(const char* path); // TODO; pass in physics config data in init instead...
 
 		void Update(float deltaTime);
 		//void DebugDraw();
 
 		void SetGravity(const FVector2& gravity);
 
-		PhysicsBody CreateDynamicBody(const DynamicColliderData& data);
-		PhysicsBody CreateStaticBody(const StaticColliderData& data);
+		[[nodiscard]] PhysicsBody CreateDynamicBody(const DynamicColliderData& data);
+		[[nodiscard]] PhysicsBody CreateStaticBody(const StaticColliderData& data);
 
 		void DestroyBody(PhysicsBody& body);
 
 		// destroy?
 
-		
 	private:
 		FVector2 m_gravity;
 		b2World* m_world;
 
-		// store settings...
-
-
-	//	PhysicsSystem;
-	//	MovementSystem;
+			// store settings...
 	};
 }

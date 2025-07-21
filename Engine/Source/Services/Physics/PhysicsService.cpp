@@ -21,7 +21,7 @@ namespace Hi_Engine
 		return true;
 	}
 
-	void PhysicsService::Shutdown()
+	void PhysicsService::Shutdown() noexcept
 	{
 	}
 

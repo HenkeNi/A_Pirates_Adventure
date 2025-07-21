@@ -6,6 +6,6 @@ namespace Hi_Engine
 	{
 	public:
 		virtual ~IService() = default;
-		virtual void Shutdown() {};
+		virtual void Shutdown() noexcept {};
 	};
 }

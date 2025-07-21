@@ -33,7 +33,7 @@ namespace Hi_Engine
 		~RenderService();
 
 		bool Initialize();
-		void Shutdown();
+		void Shutdown() noexcept override;
 		
 		//void Deserialize(const rapidjson::Value& json) override;
 		void Deserialize(const char* path);
