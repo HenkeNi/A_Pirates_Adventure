@@ -3,10 +3,19 @@
 #include <windows.h>
 
 #define WHITE_COLOR 7
-#define ERROR_COLOR 
 
 namespace Hi_Engine
 {
+	using WORD = unsigned short;
+
+	constexpr WORD COLOR_INFO = 7;		// Light gray (default)
+	constexpr WORD COLOR_WARNING = 6;	// Yellow
+	constexpr WORD COLOR_ERROR = 4;		// Red
+
+	WORD GetOutputColor(eLogLevel level);
+
+	void SetConsoleTextColor(WORD attributes);
+
 	void Logger::Initialize(const std::string& logFile)
 	{
 		s_logStream.open(logFile, std::ios::out | std::ios::app);
@@ -29,28 +38,29 @@ namespace Hi_Engine
 		}
 	}
 
-	//void Logger::Log(const std::string& message, eLogLevel level)
-	//{
-	//	std::lock_guard<std::mutex> lock(s_lockMutex);
+	void Logger::Log(std::string_view message, eLogLevel level)
+	{
+		std::lock_guard<std::mutex> lock(s_lockMutex);
 
-	//	std::string logEntry = "[" + GetTimeStamp() + "] [" + GetLevelString(level) + "] " + message;
+		std::string logEntry = "[" + GetTimeStamp() + "] [" + GetLevelString(level) + "] " + std::string(message);
 
-	//	SetConsoleTextColor(GetOutputColor(level));
-	//	
-	//	std::cout << logEntry << '\n' << std::endl;
+		SetConsoleTextColor(GetOutputColor(level));
 
-	//	if (s_logStream.is_open())
-	//	{
-	//		s_logStream << logEntry << std::endl;
-	//		s_logStream.flush();
-	//	}
-	//	else
-	//	{
-	//		std::cerr << "Failed to open log file: " << std::endl;
-	//	}
+		std::cout << logEntry << '\n' << std::endl;
 
-	//	SetConsoleTextColor(7);
-	//}
+		if (s_logStream.is_open())
+		{
+			s_logStream << logEntry << std::endl;
+			s_logStream.flush();
+		}
+		else
+		{
+			std::cerr << "Failed to open log file: " << std::endl;
+		}
+
+		// Reset output color
+		SetConsoleTextColor(GetOutputColor(eLogLevel::Info));
+	}
 
 	std::string Logger::GetLevelString(eLogLevel level)
 	{
@@ -71,20 +81,21 @@ namespace Hi_Engine
 		return buffer;
 	}
 
-	int Logger::GetOutputColor(eLogLevel level)
+	void SetConsoleTextColor(WORD attributes)
+	{
+		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+		SetConsoleTextAttribute(hConsole, attributes);
+	}
+
+	WORD GetOutputColor(eLogLevel level)
 	{
 		switch (level)
 		{
-		case Hi_Engine::eLogLevel::Info: return 7;
-		case Hi_Engine::eLogLevel::Warning: return 6;
-		case Hi_Engine::eLogLevel::Error: return 4;
-		default: return 7;
+		case Hi_Engine::eLogLevel::Info: return COLOR_INFO;
+		case Hi_Engine::eLogLevel::Warning: return COLOR_WARNING;
+		case Hi_Engine::eLogLevel::Error: return COLOR_ERROR;
+		default: return COLOR_INFO;
 		}
 	}
 
-	void SetConsoleTextColor(int color)
-	{
-		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-		SetConsoleTextAttribute(hConsole, color);
-	}
 }
