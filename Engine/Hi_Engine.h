@@ -13,16 +13,7 @@
 
 /* - Services - */
 #include "Source/Services/IService.h"
-#include "Source/Services/Scene/SceneService.h"
-#include "Source/Services/Rendering/RenderService.h"
-// #include "Source/Services/Rendering/TextService" -> TODO!
-#include "Source/Services/Input/InputService.h"
-#include "Source/Services/Audio/AudioService.h"
-#include "Source/Services/Window/WindowService.h"
-#include "Source/Services/Physics/PhysicsService.h"
-#include "Source/Services/Resource/ResourceService.h"
-#include "Source/Services/Event/EventService.h"
-#include "Source/Services/Time/TimeService.h"
+#include "Source/Services/ServiceIncludes.h"
 
 /* - Physics - */
 #include "Source/Core/Utility/Intersections/Intersection2D.hpp"
@@ -48,9 +39,12 @@
 #include "Source/Services/Rendering/Subtexture2D.h"
 #include "Source/Services/Rendering/TextTypes.h"
 
+/* - Resource - */
+#include "Source/Services/Resource/ResourceLoader.h"
+#include "Source/Services/Resource/ResourceAliases.h"
+
 /* - Audio - */
-#include "Source/Services/Audio/Audio.h"
-#include "Source/Services/Audio/AudioSource.h"
+#include "Source/Services/Audio/AudioService.h"
 
 /* - Messaging - */
 #include "Source/Services/Event/EventListener.h"
