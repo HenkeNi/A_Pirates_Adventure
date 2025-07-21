@@ -5,6 +5,8 @@
 // TODO; check if sorting after importance works?
 #include <queue>
 
+// TODO; user needs to be able to specify events?
+
 namespace Hi_Engine
 {
 	class BaseEvent;
@@ -47,7 +49,7 @@ namespace Hi_Engine
 		void AddEvent(Args&&... args); // reanem? CreateEvemt`?
 
 	private:
-		bool IsQueueFull() const;
+		[[nodiscard]] bool IsQueueFull() const;
 		void BroadcastEvent(BaseEvent* event);
 		 
 		std::priority_queue<BaseEvent*, std::vector<BaseEvent*>, EventCompare>	m_events;	 // TODO; Own heap or priority queue?

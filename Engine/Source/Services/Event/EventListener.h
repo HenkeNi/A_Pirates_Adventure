@@ -32,6 +32,7 @@ namespace Hi_Engine
 		virtual void OnEvent(class SetVolumeEvent& event)		{};
 		virtual void OnEvent(class CreateImGuiWindowRequest& event)		{};
 		virtual void OnEvent(class ServiceEvent& event)		{};
+		virtual void OnEvent(class SceneEvent& event)		{};
 		//virtual void OnEvent(RenderSpriteEvent& event)		{};
 
 		// name HandleEvent?

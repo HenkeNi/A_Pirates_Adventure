@@ -1,23 +1,24 @@
 #pragma once
 #include "Event.h"
+//#include "../ECS/Utility/EntityHandle.h"
 
 namespace Hi_Engine
 {
-	class AudioSource;
+	//class AudioSource;
+	class EntityHandle;
 
 	class PlaySoundEvent : public Event<PlaySoundEvent>
 	{
 	public:
-		PlaySoundEvent();
-		PlaySoundEvent(const char* name, bool shouldLoop);
-
-		//void Dispatch(EventListener& listener) override;
+		PlaySoundEvent(EntityHandle* entityHandle = nullptr);
+		//PlaySoundEvent(const char* name, bool shouldLoop);
 	
-		inline const char* GetSoundName() const { return m_soundName; }
+		//inline const char* GetSoundName() const { return m_soundName; }
 	
 	private:
-		const char* m_soundName;
-		bool m_isLooping;
+		EntityHandle* m_entityHandle; // or avoid this dependecny to ECS outside of the ECS framework?
+		//const char* m_soundName;
+		//bool m_isLooping;
 	};
 
 

@@ -1,18 +1,19 @@
 #include "Pch.h"
 #include "AudioEvents.h"
+#include "../ECS/Utility/EntityHandle.h"
 
 
 namespace Hi_Engine
 {
-	PlaySoundEvent::PlaySoundEvent()
-		: Event{ ePriority::Moderate }, m_soundName{ "" }, m_isLooping{ false }
+	PlaySoundEvent::PlaySoundEvent(EntityHandle* entityHandle)
+		: Event{ ePriority::Moderate }, m_entityHandle{ entityHandle } //, m_soundName{ "" }, m_isLooping{ false }
 	{
 	}
 
-	PlaySoundEvent::PlaySoundEvent(const char* name, bool shouldLoop)
+	/*PlaySoundEvent::PlaySoundEvent(const char* name, bool shouldLoop)
 		: Event{ ePriority::Moderate }, m_soundName{ name }, m_isLooping{ shouldLoop }
 	{
-	}
+	}*/
 
 	/*void PlaySoundEvent::Dispatch(EventListener& listener)
 	{
@@ -57,4 +58,5 @@ namespace Hi_Engine
 	{
 		return m_volume;
 	}
+	
 }
