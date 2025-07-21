@@ -17,13 +17,13 @@ namespace Hi_Engine
 		template <DerivedFrom<IService> Service, DerivedFrom<IService>... Dependencies>
 		void Register();
 
-		std::unordered_map<std::type_index, std::shared_ptr<IService>> Build();
+		[[nodiscard]] std::unordered_map<std::type_index, std::shared_ptr<IService>> Build() const; // return just vecotr of systems???
 
 	private:
 		template <DerivedFrom<IService> T>
-		constexpr std::type_index GetTypeIndex() const noexcept;
+		[[nodiscard]] constexpr std::type_index GetTypeIndex() const noexcept;
 
-		std::vector<std::type_index> TopologicalSort() const;
+		[[nodiscard]] std::vector<std::type_index> TopologicalSort() const;
 
 		std::unordered_map<std::type_index, ServiceDefinition> m_definitions;
 	};

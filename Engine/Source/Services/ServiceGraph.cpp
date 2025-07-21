@@ -3,7 +3,7 @@
 
 namespace Hi_Engine
 {
-	std::unordered_map<std::type_index, std::shared_ptr<IService>> ServiceGraph::Build() // safe to insert into unorderd:map?
+	std::unordered_map<std::type_index, std::shared_ptr<IService>> ServiceGraph::Build() const // safe to insert into unorderd:map?
 	{
 		std::unordered_map<std::type_index, std::shared_ptr<IService>> result;
 
