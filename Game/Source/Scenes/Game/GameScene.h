@@ -1,14 +1,11 @@
 #pragma once
 #include <../Services/Scene/Scene.h>
-//#include <../Scene/Scene.h>
-//#include "../Scene.h"
-//#include "../SceneManager.h"
-
+#include "SubSceneManager.h"
 
 class GameScene : public Hi_Engine::Scene
 {
 public:
-	//GameScene(Hi_Engine::ECSCoordinator& ecs);
+	GameScene(Hi_Engine::ServiceRegistry& registry);
 	//~GameScene();
 
 	void OnUpdate(float deltaTime)			  override;
@@ -16,6 +13,8 @@ public:
 	void OnEnter()							  override;
 	void OnExit()							  override;
 
+	// TODO; store ui in game...?
+
 private:
-	//SceneManager m_sceneManager; -> how to deal with "nested" scene managers?
+	SubSceneManager m_subSceneManager;
 };

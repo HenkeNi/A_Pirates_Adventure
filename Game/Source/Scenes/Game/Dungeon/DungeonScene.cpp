@@ -1,15 +1,10 @@
 #include "Pch.h"
 #include "DungeonScene.h"
 
-
-//DungeonScene::DungeonScene(Hi_Engine::ECSCoordinator& ecs)
-//	: Scene{ ecs }
-//{
-//}
-//
-//DungeonScene::~DungeonScene()
-//{
-//}
+DungeonScene::DungeonScene(Hi_Engine::ServiceRegistry& registry)
+	: Scene{ registry }
+{
+}
 
 void DungeonScene::OnUpdate(float deltaTime)
 {

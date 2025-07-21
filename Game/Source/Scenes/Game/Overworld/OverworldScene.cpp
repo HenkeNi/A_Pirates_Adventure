@@ -1,15 +1,15 @@
 #include "Pch.h"
 #include "OverworldScene.h"
+#include "Systems/Map/MapGenerationSystem.h"
 
+OverworldScene::OverworldScene(Hi_Engine::ServiceRegistry& registry)
+	: Scene{ registry }
+{
+}
 
-//OverworldScene::OverworldScene(Hi_Engine::ECSCoordinator& ecs)
-//	: Scene{ ecs }
-//{
-//}
-//
-//OverworldScene::~OverworldScene()
-//{
-//}
+OverworldScene::~OverworldScene()
+{
+}
 
 void OverworldScene::OnUpdate(float deltaTime)
 {
@@ -17,12 +17,15 @@ void OverworldScene::OnUpdate(float deltaTime)
 
 void OverworldScene::OnEnter()
 {
-	//Hi_Engine::EventDispatcher::GetInstance().SendEventInstantly<Hi_Engine::PlaySoundEvent>("ocean_ambience", true);
+	auto& mapGenerationSystem = m_world.GetSystem<MapGenerationSystem>();
+	mapGenerationSystem.SetFactory(&m_entityFactory);
+	
 
-	//PostMaster::GetInstance().SendMessage({ eMessage::GameStarted, true }); // Todo; FIX
+	PostMaster::GetInstance().SendMessage({ eMessage::GameStarted, true });
 }
 
 void OverworldScene::OnExit()
 {
-	//Hi_Engine::EventDispatcher::GetInstance().SendEventInstantly<Hi_Engine::StopSoundEvent>("ocean_ambience");
 }
+
+// TODO; always destroy systems? leaving them alive will allow them to listen for events!

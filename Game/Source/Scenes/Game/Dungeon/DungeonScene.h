@@ -5,8 +5,7 @@
 class DungeonScene : public Hi_Engine::Scene
 {
 public:
-	//DungeonScene(Hi_Engine::ECSCoordinator& ecs);
-	//~DungeonScene();
+	DungeonScene(Hi_Engine::ServiceRegistry& registry);
 
 	void OnUpdate(float deltaTime)			  override;
 	void OnEnter()							  override;
