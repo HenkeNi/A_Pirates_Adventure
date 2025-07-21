@@ -6,15 +6,16 @@
 #include "Services/ServiceRegistry.h"
 #include "Services/Rendering/Texture2D.h"
 
+#include "../Audio/AudioService.h"
+#include "irrKlang.h"
+
 namespace Hi_Engine
 {
-	inline const std::string TextureDirectory{ "../Game/Assets/Textures/" };
+	inline const std::string TextureDirectory{ "../Assets/Textures/" };
 
-	void LoadTexturesFromJson(ServiceRegistry& registry, const std::filesystem::path& path)
+
+	void TextureLoader::LoadFromJson(TextureAssetService& textureAssets, SubtextureAssetService& subtextureAssets, const std::filesystem::path& path)
 	{
-		auto& textureService = registry.Get<TextureAssetService>();
-		auto& subTextureService = registry.Get<SubtextureAssetService>();
-
 		auto document = JsonUtils::LoadJsonDocument(path);
 
 		for (const auto& entry : document.GetArray())
@@ -25,8 +26,8 @@ namespace Hi_Engine
 
 			auto texture = std::make_shared<Texture2D>();
 			texture->Init(id, path, filtering);
-			
-			textureService.Insert(texture->GetName(), texture);
+
+			textureAssets.Insert(texture->GetName(), texture);
 
 
 
@@ -53,14 +54,15 @@ namespace Hi_Engine
 					subtexture->Init(glm::vec2{ minX, minY }, glm::vec2{ maxX, maxY }); // or store reference / raw pointer?
 
 					int invertedRow = (rows - 1) - row;
-					subTextureService.Insert({ texture->GetName(), invertedRow, (int)col }, std::move(subtexture));
+					subtextureAssets.Insert({ texture->GetName(), invertedRow, (int)col }, std::move(subtexture));
+					//subTextureService.Insert({ texture->GetName(), invertedRow, (int)col }, std::move(subtexture));
 					//ResourceHolder<Subtexture2D, SubtextureData>::GetInstance().Insert({ m_name, invertedRow, (int)col }, subtexture);
 				}
 			}
 		}
 	}
 
-	void LoadShadersFromJson(ShaderAssetService& service, const std::filesystem::path& path)
+	void ShaderLoader::LoadFromJson(ShaderAssetService& service, const std::filesystem::path& path)
 	{
 		auto document = JsonUtils::LoadJsonDocument(path);
 
@@ -79,17 +81,33 @@ namespace Hi_Engine
 		}
 	}
 
-	void LoadAudioFromJson(AudioAssetService& service, const std::filesystem::path& path)
+	void AudioLoader::LoadFromJson(AudioService& audioService, AudioAssetService& assetService, const std::filesystem::path& path)
 	{
 		auto document = JsonUtils::LoadJsonDocument(path);
 
+		auto soundEngine = audioService.GetEngine();
+
+		if (!soundEngine)
+		{
+			Logger::LogError("[AudioLoader::LoadFromJson] - Invalid sound engine!");
+			return;
+		}
+
 		for (const auto& entry : document.GetArray())
 		{
-			auto audioSource = std::make_shared<AudioSource>();
-			audioSource->Init(entry); // read data her instead?+
+			auto* source = soundEngine->addSoundSourceFromFile(entry["filepath"].GetString());
 
-			const auto& name = audioSource->GetName();
-			service.Insert(name, std::move(audioSource)); // FIX! 
+			if (!source)
+			{
+				Logger::LogWarning("[AudioLoader::LoadFromJson] - Failed to create sound!");
+				continue;
+			}
+
+			std::string name = entry["name"].GetString();
+			bool isLooping = entry["is_looping"].GetBool();
+
+			auto audioSource = std::make_shared<AudioClip>(source, name, isLooping);
+			assetService.Insert(std::move(name), audioSource);
 		}
 	}
 }
