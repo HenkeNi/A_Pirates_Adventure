@@ -1,6 +1,6 @@
 #include "Pch.h"
 #include "Engine.h"
-#include "Services/Services.h"
+#include "Services/ServiceIncludes.h"
 #include "Services/ServiceRegistry.h"
 #include "Services/Resource/ResourceAliases.h"
 #include "Core/Registry/RegistryAliases.h"
@@ -28,7 +28,7 @@ namespace Hi_Engine::EngineSetup
 		RegisterSystem<AudioSystem>(registry, "AudioSystem",
 			[](World& world, ServiceRegistry& registry)
 			{
-				return std::make_unique<AudioSystem>(world, registry.TryGetWeak<AudioService>());
+				return std::make_unique<AudioSystem>(world, registry.TryGetWeak<AudioService>(), registry.TryGetWeak<AudioAssetService>());
 			});
 
 		RegisterSystem<TimeSystem>(registry, "TimeSystem",
@@ -44,11 +44,17 @@ namespace Hi_Engine::EngineSetup
 			{
 				return std::make_unique<InputSystem>(world, registry.Get<InputService>(), registry.Get<WindowService>());
 			});
+
+		RegisterSystem<CollisionSystem>(registry, "CollisionSystem");
+
+		RegisterSystem<PhysicsSystem>(registry, "PhysicsSystem", [](World& world, ServiceRegistry& registry)
+			{
+				return std::make_unique<PhysicsSystem>(world, registry.TryGetWeak<PhysicsService>());
+			});
 	}
 
 	void RegisterComponents(ComponentRegistryService& registry)
 	{
-
 		// Camera Component
 		RegisterComponent<CameraComponent>(registry, "CameraComponent",
 			[](EntityHandle& handle, const Properties& data)
@@ -77,15 +83,12 @@ namespace Hi_Engine::EngineSetup
 				//component->RenderDepth = std::get<int>(properties.at("render_depth"));
 			});
 
-
-
 		// Text Component
 		RegisterComponent<TextComponent>(registry, "TextComponent",
 			[](EntityHandle& handle, const Properties& data)
 			{
 				auto& component = handle.GetComponent<TextComponent>();
 			});
-
 
 		// sprite
 
@@ -116,7 +119,6 @@ namespace Hi_Engine::EngineSetup
 				component.Rotation = rotation;
 			});
 
-
 		// Velocity Component
 		RegisterComponent<VelocityComponent>(registry, "VelocityComponent",
 			[](EntityHandle& handle, const Properties& data)
@@ -141,10 +143,10 @@ namespace Hi_Engine::EngineSetup
 			});
 
 		// Audio Component
-		RegisterComponent<AudioComponent>(registry, "AudioComponent",
+		RegisterComponent<AudioSourceComponent>(registry, "AudioSourceComponent",
 			[](EntityHandle& handle, const Properties& data)
 			{
-				auto& component = handle.GetComponent<AudioComponent>();
+				auto& component = handle.GetComponent<AudioSourceComponent>();
 			});
 
 		// Timer Component
@@ -190,9 +192,35 @@ namespace Hi_Engine::EngineSetup
 				component.InputStates.insert({ Hi_Engine::eKey::Key_S, false });
 				component.InputStates.insert({ Hi_Engine::eKey::Key_D, false });
 			});
+
+
+		// consider moving to game
+		RegisterComponent<CursorComponent>(registry, "CursorComponent",
+			[](EntityHandle& handle, const Properties& data) 
+			{
+
+			});
+
+
+			// maybe dont have this components in engine?
+		RegisterComponent<HUDComponent>(registry, "HUDComponent", 
+			[](EntityHandle& handle, const Properties& data) 
+			{
+			});
+
+		RegisterComponent<GridComponent>(registry, "GridComponent",
+			[](EntityHandle& handle, const Properties& data)
+			{
+			});
 	}
 
 	void RegisterEvents(EventRegistryService& registry)
 	{
+		RegisterEvent<SceneEvent>(registry, "ChangeScene", 
+			[](EventService& eventService, const Properties& properties) // replace with Properties..? pass inevent?
+			{
+				std::string scene = GetPropertyValueOrDefault<std::string>(properties, "scene", "none"); // WILL WORK? stores n map...!?
+				eventService.AddEvent<SceneEvent>(std::move(scene));
+			});
 	}
 }
