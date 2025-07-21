@@ -4,12 +4,7 @@
 namespace Hi_Engine
 {
     UISystem::UISystem(World& world)
-        : System{ world }
+        : System{ world, eUpdatePhase::Update }
     {
-    }
-
-    eUpdatePhase UISystem::GetUpdatePhase() const
-    {
-        return eUpdatePhase::Update;
     }
 }

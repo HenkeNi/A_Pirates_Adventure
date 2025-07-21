@@ -1,15 +1,29 @@
 #include "Pch.h"
 #include "AudioSystem.h"
+#include "Services/Audio/AudioService.h"
 
 namespace Hi_Engine
 {
-	AudioSystem::AudioSystem(World& world, std::weak_ptr<AudioService> audioService)
-		: System{ world }, m_audioService{ audioService }
+	AudioSystem::AudioSystem(World& world, std::weak_ptr<AudioService> audioService, std::weak_ptr<AudioAssetService> audioAssetService)
+		: System{ world, eUpdatePhase::PostUpdate }, m_audioService{ audioService }, m_audioAssetService{ audioAssetService }
 	{
 	}
 
-	eUpdatePhase AudioSystem::GetUpdatePhase() const
+	void AudioSystem::OnEvent(PlaySoundEvent& event)
 	{
-		return eUpdatePhase::PostUpdate; // handle no update phase?
+		if (auto audioService = m_audioService.lock())
+		{
+			// audioService->PlaySound(event);
+		}
+	}
+
+	void AudioSystem::OnEvent(StopSoundEvent& event)
+	{
+
+	}
+
+	void AudioSystem::OnEvent(SetVolumeEvent& event)
+	{
+
 	}
 }

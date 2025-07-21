@@ -3,10 +3,14 @@
 
 namespace Hi_Engine
 {
+	class PhysicsService;
+
 	class PhysicsSystem : public System
 	{
 	public:
+		PhysicsSystem(World& world, std::weak_ptr<PhysicsService> physicsService);
 
-		eUpdatePhase GetUpdatePhase() const override;
+	private:
+		std::weak_ptr<PhysicsService> m_physicsService;
 	};
 }

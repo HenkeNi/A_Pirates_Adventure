@@ -7,7 +7,5 @@ namespace Hi_Engine
 	{
 	public:
 		UISystem(World& world);
-
-		eUpdatePhase GetUpdatePhase() const override;
 	};
 }

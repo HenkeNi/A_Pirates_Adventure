@@ -9,6 +9,5 @@ namespace Hi_Engine
 		CameraSystem(World& world);
 
 		void Update(float deltaTime) override;
-		eUpdatePhase GetUpdatePhase() const override;
 	};
 }

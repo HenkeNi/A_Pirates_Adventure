@@ -18,8 +18,6 @@ namespace Hi_Engine
 		void OnEvent(class WindowEvent& event) override;
 		void Update(float deltaTime) override;
 
-		eUpdatePhase GetUpdatePhase() const override;
-
 	private:
 		using SubtextureHolder = SubtextureAssetService;
 

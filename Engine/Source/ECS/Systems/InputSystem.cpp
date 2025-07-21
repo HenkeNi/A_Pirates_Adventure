@@ -10,7 +10,7 @@ namespace Hi_Engine
 	FVector2 ConvertScreenToWorldPosition(const FVector2& mousePos, int windowWidth, int windowHeight, const glm::mat4& viewProjectionMatrix);
 
 	InputSystem::InputSystem(World& world, InputService& input, WindowService& window)
-		: System{ world }, m_inputService{ input }, m_windowService{ window }
+		: System{ world, eUpdatePhase::PreUpdate }, m_inputService{ input }, m_windowService{ window }
 	{
 	}
 
@@ -82,11 +82,6 @@ namespace Hi_Engine
 		//}
 
 		m_inputService.Reset();
-	}
-
-	eUpdatePhase InputSystem::GetUpdatePhase() const
-	{
-		return eUpdatePhase::PreUpdate;
 	}
 
 	FVector2 ConvertScreenToWorldPosition(const FVector2& mousePos, int windowWidth, int windowHeight, const glm::mat4& viewProjectionMatrix)

@@ -2,6 +2,7 @@
 
 namespace Hi_Engine
 {
+	class SystemManager;
 	class World;
 
 	enum class eUpdatePhase
@@ -14,17 +15,30 @@ namespace Hi_Engine
 	class System
 	{
 	public:
-		System(World& world); // dont? forces systems in game to accept ECS as parameter as well..
+		System(World& world, eUpdatePhase phase);
 		virtual ~System() = default;
 
 		virtual void Update(float deltaTime) {};
-		virtual eUpdatePhase GetUpdatePhase() const = 0;
 
-		void SetEnabled(bool isEnabled);
-		[[nodiscard]] bool IsEnabled() const noexcept;
+		[[nodiscard]] inline bool IsEnabled() const noexcept { return m_isEnabled; }
+		[[nodiscard]] inline eUpdatePhase GetUpdatePhase() const noexcept { return m_updatePhase; }
 
 	protected:
+		virtual void OnCreated() {};
+		virtual void OnDestroyed() {};
+
+		virtual void OnDisabled() {};
+		virtual void OnEnabled() {};
+
 		World& m_world;
+
+	private:
+		void Enable();
+		void Disable();
+
+		friend class SystemManager;
+
+		eUpdatePhase m_updatePhase;
 		bool m_isEnabled;
 	};
 }

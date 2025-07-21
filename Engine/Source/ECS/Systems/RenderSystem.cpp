@@ -16,7 +16,7 @@
 namespace Hi_Engine
 {
 	RenderSystem::RenderSystem(World& world, ServiceRegistry& registry)
-	: System{ world }, m_renderService{ registry.TryGetWeak<RenderService>() }, m_subtextureAssetService{ registry.TryGetWeak<SubtextureAssetService>() }, m_windowSize{ registry.Get<WindowService>().GetSize() }
+	: System{ world, eUpdatePhase::PostUpdate }, m_renderService{ registry.TryGetWeak<RenderService>() }, m_subtextureAssetService{ registry.TryGetWeak<SubtextureAssetService>() }, m_windowSize{ registry.Get<WindowService>().GetSize() }
 	{
 	}
 
@@ -68,11 +68,6 @@ namespace Hi_Engine
 		RenderUISprites(*assetService, *renderService, camera.GetProjectionMatrix());
 
 		renderService->EndFrame();
-	}
-
-	eUpdatePhase RenderSystem::GetUpdatePhase() const
-	{
-		return eUpdatePhase::PostUpdate;
 	}
 
 	void RenderSystem::RenderWorldSprites(SubtextureHolder& textureHolder, RenderService& renderService, const glm::mat4& projection)

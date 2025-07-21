@@ -3,8 +3,8 @@
 
 namespace Hi_Engine
 {
-    eUpdatePhase PhysicsSystem::GetUpdatePhase() const
+    PhysicsSystem::PhysicsSystem(World& world, std::weak_ptr<PhysicsService> physicsService)
+        : System{ world, eUpdatePhase::Update }, m_physicsService{ physicsService }
     {
-        return eUpdatePhase::Update;
     }
 }

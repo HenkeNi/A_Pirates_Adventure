@@ -1,6 +1,7 @@
 #pragma once
 #include "AudioSystem.h"
 #include "CameraSystem.h"
+#include "CollisionSystem.h"
 #include "InputSystem.h"
 #include "PhysicsSystem.h"
 #include "RenderSystem.h"

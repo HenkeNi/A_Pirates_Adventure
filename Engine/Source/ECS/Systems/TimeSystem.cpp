@@ -9,7 +9,7 @@
 namespace Hi_Engine
 {
     TimeSystem::TimeSystem(World& world, ServiceRegistry& registry)
-        : System{ world }, m_timeService{ registry.TryGetWeak<TimeService>() }, m_eventService{ registry.TryGetWeak<EventService>() }, m_eventRegistry{ registry.TryGetWeak<EventRegistryService>() }
+        : System{ world, eUpdatePhase::PreUpdate }, m_timeService{ registry.TryGetWeak<TimeService>() }, m_eventService{ registry.TryGetWeak<EventService>() }, m_eventRegistry{ registry.TryGetWeak<EventRegistryService>() }
     {
     }
 
@@ -29,19 +29,31 @@ namespace Hi_Engine
                     elapsedTime = 0.f;
                     component.IsDone = true;
 
-                    if (auto eventBus = m_eventService.lock())
-                    {
-                        // TODO; fetch event registry...
-
-                        // event registry...
-                        // TODO; send event!
-                    }
+                    DispatchEvent(component.OnCompleted);
                 }
             });
     }
 
-    eUpdatePhase TimeSystem::GetUpdatePhase() const
+    void TimeSystem::DispatchEvent(EventTrigger& trigger)
     {
-        return eUpdatePhase::PreUpdate;
+        auto eventService = m_eventService.lock();
+
+        if (!eventService)
+        {
+            Logger::LogWarning("[TimeSystem::DispatchEvent] - EventService is invalid!");
+            return;
+        }
+
+        auto eventRegistry = m_eventRegistry.lock();
+
+        if (!eventRegistry)
+        {
+            Logger::LogWarning("[TimeSystem::DispatchEvent] - EventRegistry is invalid!");
+            return;
+        }
+
+        const auto& [name, dispatcher] = eventRegistry->Get(trigger.EventName);
+        
+        dispatcher(*eventService, trigger.Params);
     }
 }

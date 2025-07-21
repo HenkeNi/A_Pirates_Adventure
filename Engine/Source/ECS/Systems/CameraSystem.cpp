@@ -4,16 +4,11 @@
 namespace Hi_Engine
 {
 	CameraSystem::CameraSystem(World& world)
-		: System{ world }
+		: System{ world, eUpdatePhase::Update }
 	{
 	}
 
 	void CameraSystem::Update(float deltaTime)
 	{
-	}
-
-	eUpdatePhase CameraSystem::GetUpdatePhase() const
-	{
-		return eUpdatePhase::Update;
 	}
 }

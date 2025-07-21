@@ -12,7 +12,6 @@ namespace Hi_Engine
 		InputSystem(World& world, InputService& input, WindowService& window);
 
 		void Update(float deltaTime) override;
-		eUpdatePhase GetUpdatePhase() const override;
 
 	private:
 		InputService& m_inputService;

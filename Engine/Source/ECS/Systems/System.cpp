@@ -3,18 +3,26 @@
 
 namespace Hi_Engine
 {
-	System::System(World& world)
-		: m_world{ world }, m_isEnabled{ true }
+	System::System(World& world, eUpdatePhase phase)
+		: m_world{ world }, m_updatePhase{ phase }, m_isEnabled{ true }
 	{
 	}
 
-	void System::SetEnabled(bool isEnabled)
+	void System::Enable()
 	{
-		m_isEnabled = isEnabled;
+		if (!m_isEnabled)
+		{
+			m_isEnabled = true;
+			OnEnabled();
+		}
 	}
 
-	bool System::IsEnabled() const noexcept
+	void System::Disable()
 	{
-		return m_isEnabled;
+		if (m_isEnabled)
+		{
+			m_isEnabled = false;
+			OnDisabled();
+		}
 	}
 }
