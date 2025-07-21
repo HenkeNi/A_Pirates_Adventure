@@ -13,7 +13,7 @@ concept FloatingPoint = std::is_floating_point_v<T>;
 
 // Integral or floating point (can be any number type)
 template <typename T>
-concept Numeric = Integral<T> || FloatingPoint<T>;
+concept Numeric = std::is_integral_v<T> || std::floating_point<T>;
 
 template <typename T>
 concept StringLike = std::is_convertible_v<T, std::string_view>;
