@@ -8,13 +8,16 @@ namespace Hi_Engine
 
 struct WorldTimeComponent;
 
-class WorldTimeSystem : public Hi_Engine::System
+class WorldTimeSystem : public Hi_Engine::System, public Subscriber
 {
 public:
 	WorldTimeSystem(Hi_Engine::World& world);
+	~WorldTimeSystem();
 
+	void Receive(Message& message) override; // just for test...
 	void Update(float deltaTime) override;
-	Hi_Engine::eUpdatePhase GetUpdatePhase() const override;
+
+	void OnCreated() override;
 
 private:
 	void AdvanceTime(WorldTimeComponent& component, float deltaTime);

@@ -3,7 +3,17 @@
 #include "Components/GameplayComponents.h"
 
 WorldTimeSystem::WorldTimeSystem(Hi_Engine::World& world)
-	: System{ world }
+	: System{ world, Hi_Engine::eUpdatePhase::Update }
+{
+	PostMaster::GetInstance().Subscribe(eMessage::GameStarted, this);
+}
+
+WorldTimeSystem::~WorldTimeSystem()
+{
+	PostMaster::GetInstance().Unsubscribe(eMessage::GameStarted, this);
+}
+
+void WorldTimeSystem::Receive(Message& message)
 {
 }
 
@@ -28,9 +38,8 @@ void WorldTimeSystem::Update(float deltaTime)
 	//}
 }
 
-Hi_Engine::eUpdatePhase WorldTimeSystem::GetUpdatePhase() const
+void WorldTimeSystem::OnCreated()
 {
-	return Hi_Engine::eUpdatePhase::Update;
 }
 
 void WorldTimeSystem::AdvanceTime(WorldTimeComponent& component, float deltaTime)
