@@ -1,8 +1,7 @@
 #include "Pch.h"
 #include "SceneService.h"
 #include "Scene.h"
-//#include "SceneTypes.h"
-//#include "ECS/ECS.h"
+#include "SceneLoader.h"
 
 namespace Hi_Engine
 {
@@ -31,13 +30,17 @@ namespace Hi_Engine
 	//	}
 	//}
 
-	void SceneService::Init(std::initializer_list<SceneID> scenes)
+	void SceneService::Clear()
+	{
+	}
+
+	void SceneService::SetActiveScenes(std::initializer_list<SceneID> scenes)
 	{
 		for (const auto scene : scenes)
 			m_activeScenes.push_back(scene);
 	}
 
-	void SceneService::Shutdown()
+	void SceneService::Shutdown() noexcept
 	{
 		for (auto& [type, scene] : m_scenes)
 		{
@@ -46,6 +49,77 @@ namespace Hi_Engine
 		}
 
 		m_activeScenes.clear();
+	}
+
+	void SceneService::TransitionTo(SceneID id) // or replace current scene??
+	{
+		// TEMP
+		if (m_activeScenes.back() != id)
+			m_scenes[m_activeScenes.back()]->OnExit();
+
+		// TEMP:::
+		auto found = std::find(m_activeScenes.begin(), m_activeScenes.end(), id);
+		if (found == m_activeScenes.end())
+			m_activeScenes.push_back(id);
+		else
+		{
+			while(m_activeScenes.back() != id)
+				m_activeScenes.pop_back();
+		}
+
+		
+		if (auto scene = m_scenes[id])
+		{
+			SceneLoader sceneLoader;
+			sceneLoader.Load(*scene, id);
+			
+			m_scenes[id]->OnEnter();
+		}
+		// else throw error?
+
+		//SceneLoader::LoadScene(id, { scene->GetWorld(), scene->})
+
+		// TODO; add to active scnees?
+		//if (scenePaths.contains(id))
+		//{
+		//	LoadScene(id); // Dont?
+		//}
+
+	}
+
+	void SceneService::Push(SceneID id)
+	{
+		if (!m_activeScenes.empty())
+		{
+			m_scenes[m_activeScenes.back()]->OnExit();
+		}
+
+		m_activeScenes.push_back(id);
+		TransitionTo(m_activeScenes.back());
+	}
+
+	void SceneService::Pop()
+	{
+		if (!m_activeScenes.empty())
+		{
+			m_scenes[m_activeScenes.back()]->OnExit();
+			m_activeScenes.pop_back();
+
+			TransitionTo(m_activeScenes.back());
+		}
+	}
+
+	void SceneService::SwapTo(SceneID id)
+	{
+		if (!m_activeScenes.empty())
+		{
+			m_scenes[m_activeScenes.back()]->OnExit();
+			m_activeScenes.pop_back();
+		}
+
+		m_activeScenes.push_back(id);
+
+		TransitionTo(id);
 	}
 
 	std::weak_ptr<const Scene> SceneService::GetActive() const
@@ -58,108 +132,19 @@ namespace Hi_Engine
 
 	std::weak_ptr<Scene> SceneService::GetActive()
 	{
+		// TOOD; const cast??
+
 		if (!m_activeScenes.empty())
 			return m_scenes.at(m_activeScenes.back());
 
 		return std::weak_ptr<Scene>();
 	}
 
-	void SceneService::TransitionTo(SceneID id)
+	/*void SceneService::LoadScene(SceneID id)
 	{
-		// TODO; add to active scnees?
-
-		//if (scenePaths.contains(id))
-		{
-			LoadScene(id); // Dont?
-		}
-
-		m_scenes[id]->Enter(id);
 	}
 
-	void SceneService::Push(SceneID id)
+	void SceneService::UnloadScene(SceneID id)
 	{
-		if (!m_activeScenes.empty())
-		{
-			m_scenes[m_activeScenes.back()]->Exit();
-		}
-
-		m_activeScenes.push_back(id);
-		TransitionTo(m_activeScenes.back());
-	}
-
-	void SceneService::Pop()
-	{
-		if (!m_activeScenes.empty())
-		{
-			m_scenes[m_activeScenes.back()]->Exit();
-			m_activeScenes.pop_back();
-
-			TransitionTo(m_activeScenes.back());
-		}
-	}
-
-	void SceneService::SwapTo(SceneID id)
-	{
-		if (!m_activeScenes.empty())
-		{
-			m_scenes[m_activeScenes.back()]->Exit();
-			m_activeScenes.pop_back();
-		}
-
-		m_activeScenes.push_back(id);
-
-		TransitionTo(id);
-	}
-
-	void SceneService::LoadScene(SceneID id)
-	{
-		auto activeScene = GetActive().lock();
-
-		if (!activeScene)
-			return;
-
-		//auto document = JsonUtils::LoadJsonDocument();
-		
-		// TODO; scene loader class?
-		// Clear scene? or on exit (do in scene if needed)?
-
-		// auto& world = activeScene->LoadFromJson();
-
-
-		//auto foundPath = scenePaths.find(id);
-		//if (foundPath == scenePaths.end())
-		//	return;
-
-		//auto document = Hi_Engine::LoadJsonDocument(foundPath->second);
-
-		//// temp
-
-		//for (const auto& system : document["systems"].GetArray())
-		//{
-		//	bool isSystemAvailable = Hi_Engine::IsDebugBuild() ? system["debug"].GetBool() : system["release"].GetBool();
-
-		//	if (isSystemAvailable)
-		//	{
-		//		auto systemType = system["type"].GetString();
-		//		
-		//		auto found = ecs.GetSystem(systemType); // TODO; check nullptr
-
-		//		if (!found.expired())
-		//			activeScene->m_systems.push_back(found);
-		//		else
-		//			std::cout << "ERROR: invalid scene\n"; // log class..
-		//	}
-		//}
-
-		// read sounds as well?
-
-		// sort systems here??
-
-		//for (const auto& jsonEntity : document["entities"].GetArray())
-		{
-			// ecs->CreateEntityFromJson(jsonEntity);
-
-			// Hi_Engine::EngineFacade::FromJson(jsonEntity);
-		}
-	}
+	}*/
 }
