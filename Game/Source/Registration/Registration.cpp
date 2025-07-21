@@ -7,8 +7,7 @@
 //#include "Components/Components.h"
 //#include <../Scene/SceneManager.h>
 
-#include "Systems/SceneTransitionSystem.h"
-#include "Systems/WorldTimeSystem.h"
+#include "Systems/Systems.h"
 
 #include "../Components/GameplayComponents.h"
 
@@ -144,22 +143,21 @@ namespace Registration
 //		Hi_Engine::EngineFacade::RegisterSystem<SceneTransitionSystem>("SceneTransitionSystem", sceneManager);
 //
 //		/* - Core Systems - */
-////		ecs.RegisterSystem<InputSystem>("InputSystem");
-////		ecs.RegisterSystem<MovementSystem>("MovementSystem");
 ////		ecs.RegisterSystem<CameraSystem>("CameraSystem");
 ////		ecs.RegisterSystem<CollisionSystem>("CollisionSystem");
 ////		ecs.RegisterSystem<PhysicsSystem>("PhysicsSystem");
-////		ecs.RegisterSystem<PlayerControllerSystem>("PlayerControllerSystem");
-////		ecs.RegisterSystem<SceneTransitionSystem>("SceneTransitionSystem");
 ////		ecs.RegisterSystem<AnimationSystem>("AnimationSystem");
-////
+
 ////		ecs.RegisterSystem<TransformSystem>("TransformSystem");
+////		ecs.RegisterSystem<PlayerControllerSystem>("PlayerControllerSystem");
+////
 ////
 ////		/* - Gameplay Systems - */
 ////		ecs.RegisterSystem<CombatSystem>("CombatSystem");
-////		//ecs.RegisterSystem<EnemySpawnSystem>("EnemySpawnSystem");
 ////		ecs.RegisterSystem<EquipmentSystem>("EquipmentSystem");
 ////		ecs.RegisterSystem<InventorySystem>("InventorySystem");
+// 
+////		//ecs.RegisterSystem<EnemySpawnSystem>("EnemySpawnSystem");
 ////		ecs.RegisterSystem<ProjectileSystem>("ProjectileSystem");
 ////		ecs.RegisterSystem<ShakeSystem>("ShakeSystem");
 ////		ecs.RegisterSystem<TimeSystem>("TimeSystem");
@@ -175,46 +173,50 @@ namespace Registration
 ////		ecs.RegisterSystem<UISystem>("UISystem");
 ////		ecs.RegisterSystem<HUDSystem>("HUDSystem");
 ////
-////#if DEBUG
-////
-////		ecs.RegisterSystem<EditorSystem>("EditorSystem");
-////
-////#endif // DEBUG
-////
-////
 ////		/* - AI Systems - */
 ////		//ecs.RegisterSystem<BlackboardSystem>("BlackboardSystem");
 ////		//ecs.RegisterSystem<BehaviorTreeSystem>("BehaviorTreeSystem");
 ////		//ecs.RegisterSystem<SteeringBehaviorSystem>("SteeringBehaviorSystem");
 ////		//ecs.RegisterSystem<StateTransitionSystem>("StateTransitionSystem");
-////
-////		/* - Audio System - */
-////		ecs.RegisterSystem<AudioSystem>("AudioSystem");
-////
-////		/* - Render Systems - */
-////		ecs.RegisterSystem<RenderSystem>("RenderSystem");
-//	}
+////	}
+
+	void RegisterComponents(Hi_Engine::ComponentRegistryService& registry)
+	{
+		Hi_Engine::RegisterComponent<WorldTimeComponent>(registry, "WorldTimeComponent", 
+			[](Hi_Engine::EntityHandle& handle, const Hi_Engine::Properties& properties)
+			{
+			});
+	}
 
 	void RegisterSystems(Hi_Engine::SystemRegistryService& registry)
 	{
 		Hi_Engine::RegisterSystem<WorldTimeSystem>(registry, "WorldTimeSystem");
+
 		Hi_Engine::RegisterSystem<SceneTransitionSystem>(registry, "SceneTransitionSystem",
 			[](Hi_Engine::World& world, Hi_Engine::ServiceRegistry& registry)
 			{
-				return std::make_unique<SceneTransitionSystem>(world, registry.Get<Hi_Engine::SceneService>());
+				return std::make_unique<SceneTransitionSystem>(world, registry.Get<Hi_Engine::SceneService>(), registry.Get<Hi_Engine::EventService>()/*, registry.Get<Hi_Engine::SceneRegistryService>()*/);
 			});
+
+		Hi_Engine::RegisterSystem<MovementSystem>(registry, "MovementSystem");
+
+		Hi_Engine::RegisterSystem<PlayerControllerSystem>(registry, "PlayerControllerSystem");
+
+		Hi_Engine::RegisterSystem<CombatSystem>(registry, "CombatSystem");
+
+		Hi_Engine::RegisterSystem<EquipmentSystem>(registry, "EquipmentSystem");
+
+		Hi_Engine::RegisterSystem<InventorySystem>(registry, "InventorySystem");
+
+		Hi_Engine::RegisterSystem<MapGenerationSystem>(registry, "MapGenerationSystem");
 	}
 
 	void RegisterScenes(Hi_Engine::SceneRegistryService& registry)
 	{
-		Hi_Engine::RegisterScene<TitleScene>(registry, "TitleScene", "../Game/Assets/Json/Scenes/Title.json");
-		
-		//registry.Register<TitleScene>("TitleScene");
+		Hi_Engine::RegisterScene<TitleScene>(registry, "TitleScene", "../Assets/Scenes/Title.json");
+		Hi_Engine::RegisterScene<GameScene>(registry, "GameScene", "../Assets/Scenes/Game.json"); // NOTE; overworld used here!
+		Hi_Engine::RegisterScene<OverworldScene>(registry, "Overworld", "../Assets/Scenes/Overworld.json");
 
-		// sceneManager.Emplace<TitleScene>("TitleScene");
-		// Register game's scene here as well?
-	
-		//sceneManager->Register<GameScene>();
 		//sceneManager->Register<LoadingScene>();
 		//sceneManager->Register<MenuScene>();
 		//sceneManager->Register<SettingsScene>();
@@ -224,13 +226,13 @@ namespace Registration
 	}
 
 	//static std::unordered_map<eScene, std::string> scenePaths
-//{
-//	//{ eScene::Inventory,	"../Game/Assets/Json/Scenes/Inventory.json"	},
-//	//{ eScene::Settings,		"../Game/Assets/Json/Scenes/Settings.json"	},
-//	//{ eScene::Menu,			"../Game/Assets/Json/Scenes/MainMenu.json"	},
-//	//{ eScene::Title,		"../Game/Assets/Json/Scenes/Title.json"		},
-//	//{ eScene::Overworld,	"../Game/Assets/Json/Scenes/Overworld.json"	}
-//};
+	//{
+	//{ eScene::Inventory,	"../Game/Assets/Json/Scenes/Inventory.json"	},
+	//{ eScene::Settings,		"../Game/Assets/Json/Scenes/Settings.json"	},
+	//{ eScene::Menu,			"../Game/Assets/Json/Scenes/MainMenu.json"	},
+	//{ eScene::Title,		"../Game/Assets/Json/Scenes/Title.json"		},
+	//{ eScene::Overworld,	"../Game/Assets/Json/Scenes/Overworld.json"	}
+	//};
 
 
 	//void RegisterCallbacks(Hi_Engine::ECSRegistry& ecs)

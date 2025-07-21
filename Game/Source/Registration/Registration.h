@@ -13,7 +13,7 @@
 
 namespace Registration
 {
-	void RegisterComponents();
+	void RegisterComponents(Hi_Engine::ComponentRegistryService& registry);
 
 	//void RegisterSystems(Hi_Engine::ServiceRegistry& registry);
 	void RegisterSystems(Hi_Engine::SystemRegistryService& registry);
