@@ -15,6 +15,9 @@
 
 // Consider; 1. Rename 'Add' To 'Emplace' for components? 2. Put world in ECS folder? 3. Return Component in AddComponent function?
 
+
+// TODO; Add GetEntity(ID) -> returns a handle? SearchForEntity()?
+
 namespace Hi_Engine
 {
 	class EntityHandle;
@@ -42,7 +45,7 @@ namespace Hi_Engine
 
 		// ==================== Entity Queries ====================
 
-		[[nodiscard]] bool IsAlive(const Entity& entity) const;
+		[[nodiscard]] inline bool IsAlive(const Entity& entity) const { return m_entityManager.IsAlive(entity); }
 
 		// ==================== Component Management ====================
 
@@ -92,29 +95,50 @@ namespace Hi_Engine
 		// ==================== System Management ====================
 
 		template <DerivedFrom<System> T, typename... Args>
-		void EmplaceSystem(Args&&... args);
-
-		void InsertSystem(std::unique_ptr<System> system);
+		inline void EmplaceSystem(Args&&... args) { m_systemManager.Emplace(std::forward<Args>(args)...); }
 
 		template <DerivedFrom<System> T>
-		void RemoveSystem();
+		inline void InsertSystem(std::unique_ptr<T>&& system) { m_systemManager.Insert(std::move(system)); }
 
-		void RemoveAllSystems();
-
-		template <DerivedFrom<System> T>
-		void EnableSystem();
+		inline void InsertSystem(std::unique_ptr<System>&& system, std::type_index type) { m_systemManager.Insert(std::move(system), type); }
 
 		template <DerivedFrom<System> T>
-		void DisableSystem();
+		inline void RemoveSystem() { m_systemManager.RemoveSystem<T>(); }
+
+		inline void RemoveAllSystems() { m_systemManager.Clear(); }
+
+		template <DerivedFrom<System> T>
+		inline void EnableSystem() { m_systemManager.Enable<T>(); }
+
+		template <DerivedFrom<System> T>
+		inline void DisableSystem() { m_systemManager.Disable<T>(); }
+
+		// ==================== System Access ====================
+
+		template <DerivedFrom<System> T>
+		[[nodiscard]] inline const T& GetSystem() const { return m_systemManager.GetSystem<T>(); }
+
+		template <DerivedFrom<System> T>
+		[[nodiscard]] inline T& GetSystem() { return m_systemManager.GetSystem<T>(); }
+		
+		template <DerivedFrom<System> T>
+		[[nodiscard]] inline const T* TryGetSystem() const { return m_systemManager.TryGetSystem<T>(); }
+
+		template <DerivedFrom<System> T>
+		[[nodiscard]] inline T* TryGetSystem() { return m_systemManager.TryGetSystem<T>(); }
 
 		// ==================== System Queries ====================
 		
 		template <DerivedFrom<System> T>
-		[[nodiscard]] bool HasSystem() const; // noexcep?
+		[[nodiscard]] inline bool HasSystem() const { return m_systemManager.HasSystem<T>(); } // noexcep?
+
+		[[nodiscard]] inline std::size_t GetSystemCount() const noexcept { return m_systemManager.GetSystemCount(); }
 
 		// ==================== Per-Frame Execution ====================
 
 		void Update(float deltaTime);
+
+		// Add ForEachSystem...
 
 	private:
 		// ==================== Internal Helpers ====================
@@ -217,7 +241,7 @@ namespace Hi_Engine
 	template <ComponentType T>
 	const T* World::TryGetComponent(const Entity& entity) const
 	{
-		T* component = nullptr;
+		const T* component = nullptr;
 
 		if (!m_entityManager.IsAlive(entity))
 		{
@@ -236,7 +260,7 @@ namespace Hi_Engine
 	}
 
 	template <ComponentType T>
-	T* World::TryGetComponent(const Entity& entity)
+	T* World::TryGetComponent(const Entity& entity) // const cast instead? (cant use FindOrCreateComponentManager then
 	{
 		if (!m_entityManager.IsAlive(entity))
 		{
@@ -338,36 +362,6 @@ namespace Hi_Engine
 
 		ComponentView<Ts...> componentView{ FindOrCreateComponentManager<Ts>().GetContainer()..., std::move(matchingEntities) };
 		return componentView;
-	}
-
-	template <DerivedFrom<System> T, typename... Args>
-	void World::EmplaceSystem(Args&&... args)
-	{
-		m_systemManager.Emplace(std::forward<Args>(args)...);
-	}
-
-	template <DerivedFrom<System> T>
-	void World::RemoveSystem()
-	{
-		m_systemManager.RemoveSystem<T>();
-	}
-
-	template <DerivedFrom<System> T>
-	void World::EnableSystem()
-	{
-		m_systemManager.Enable<T>();
-	}
-
-	template <DerivedFrom<System> T>
-	void World::DisableSystem()
-	{
-		m_systemManager.Disable<T>();
-	}
-
-	template <DerivedFrom<System> T>
-	bool World::HasSystem() const
-	{
-		return m_systemManager.HasSystem<T>();
 	}
 
 	template <ComponentType T>

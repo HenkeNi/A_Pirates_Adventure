@@ -52,21 +52,6 @@ namespace Hi_Engine
         }
     }
 
-    bool World::IsAlive(const Entity& entity) const
-    {
-        return m_entityManager.IsAlive(entity);
-    }
-  
-    void World::InsertSystem(std::unique_ptr<System> system)
-    {
-        m_systemManager.Insert(std::move(system));
-    }
-
-    void World::RemoveAllSystems()
-    {
-        m_systemManager.Clear();
-    }
-
     void World::Update(float deltaTime)
     {
         m_systemManager.Update(deltaTime);
