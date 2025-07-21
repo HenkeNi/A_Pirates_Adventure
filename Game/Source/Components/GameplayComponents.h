@@ -17,3 +17,11 @@ struct WorldTimeComponent
 	float CurrentDayProgress; // = 0.f;
 	unsigned Day; // = 0;
 };
+
+// Or name MovementComponent
+struct VelocityComponent
+{
+	FVector2 Velocity{};
+	float BaseSpeed;
+	float CurrentSpeed;
+};
