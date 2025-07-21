@@ -4,13 +4,13 @@
 namespace irrklang
 {
 	class ISoundEngine;
-	class ISound;
+	//class ISound;
 }
 
 namespace Hi_Engine
 {
-	class Audio;
-	class AudioSource;
+	class AudioHandle;
+	class AudioClip;
 
 	class AudioService : public IService
 	{
@@ -19,19 +19,23 @@ namespace Hi_Engine
 		~AudioService();
 
 		bool Initialize();
-		void Shutdown() override;
-		void Update();
+		void Shutdown() noexcept override;
 
-		void PlaySound(const char* sound); // prefere passing actual audio. Store ResourceService ref in AudioSystem instead..
-		void StopSound(const char* sound);
+		AudioHandle PlaySound(AudioClip* clip, bool shouldLoop = false);
+		//void StopSound(const char* sound);
 
-		static inline irrklang::ISoundEngine* GetEngine() { return m_soundEngine; }
+		void StopAll();
+		void SetMasterVolume();
+
+		inline irrklang::ISoundEngine* GetEngine() { return m_soundEngine; } // not static? fetch service instead?? 
 
 	private:
 
-		std::unordered_map<unsigned, irrklang::ISound*> m_activeSounds;
-		static inline irrklang::ISoundEngine* m_soundEngine = nullptr;
+		//std::unordered_map<unsigned, irrklang::ISound*> m_activeSounds;
+		irrklang::ISoundEngine* m_soundEngine;
 
-		float m_volume;
+		// store loaded sound sources here?? lazy load (only load when needed)
+
+		float m_volume; // master volume?
 	};
 }

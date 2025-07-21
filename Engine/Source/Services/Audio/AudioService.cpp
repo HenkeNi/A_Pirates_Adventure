@@ -1,7 +1,7 @@
 #include "Pch.h"
 #include "AudioService.h"
-#include "AudioSource.h"
-#include "Audio.h"
+#include "AudioClip.h"
+#include "AudioHandle.h"
 #include "Services/Resource/ResourceService.h"
 #include "Services/Event/AudioEvents.h"
 #include <irrKlang.h>
@@ -9,7 +9,7 @@
 namespace Hi_Engine
 {
 	AudioService::AudioService()
-		// : m_soundEngine{ nullptr }
+		: m_soundEngine{ nullptr }
 	{
 	}
 
@@ -20,6 +20,7 @@ namespace Hi_Engine
 	bool AudioService::Initialize()
 	{
 		m_soundEngine = irrklang::createIrrKlangDevice();
+
 		if (!m_soundEngine)
 		{
 			Logger::LogError("AudioController::Init - Failed to boot up ISoundEngine!");
@@ -29,17 +30,10 @@ namespace Hi_Engine
 		return true;
 	}
 
-	void AudioService::Shutdown()
+	void AudioService::Shutdown() noexcept
 	{
 		if (m_soundEngine)
 			m_soundEngine->drop();
-	}
-
-	void AudioService::Update()
-	{
-		// if (m_activeSounds.at(1)->isFinished())
-			//std::cout << "Sounds is finise\n"; // send evnet?
-			//m_activeSounds.at(1)->stop();
 	}
 
 	//void AudioController::HandleEvent(PlaySoundEvent& event)
@@ -65,47 +59,28 @@ namespace Hi_Engine
 	//	m_soundEngine->setSoundVolume(event.GetVolume());
 	//}
 
-	/*void AudioController::PlaySound(const std::string& name)
+	/*void AudioController::StopSound(const std::string& name)
 	{
-		auto& sound = ResourceHolder<AudioSource>::GetInstance().GetResource(name);
-		m_soundEngine->play2D(sound.m_source, sound.m_isLooping);
-	}
-
-	void AudioController::StopSound(const std::string& name)
-	{
-		auto& sound = ResourceHolder<AudioSource>::GetInstance().GetResource(name);
 		m_soundEngine->stopAllSoundsOfSoundSource(sound.m_source);
 	}*/
 
-	void AudioService::PlaySound(const char* sound)
+	AudioHandle AudioService::PlaySound(AudioClip* clip, bool shouldLoop)
 	{
-		//auto audio = ResourceHolder<AudioSource>::GetInstance().GetResource(sound);
-		//m_soundEngine->play2D(audio->GetSource(), false);
+		if (m_soundEngine)
+		{
+			auto* sound = m_soundEngine->play2D(clip->GetSource(), shouldLoop);
+			return AudioHandle{ sound };
+		}
 
-		//if (auto* audioSource = audio.GetSource())
-		//if (auto* audioSource = source.m_source)
-		//{
-		//	auto* sound = m_soundEngine->play2D(audioSource, false);
-		//	//auto* sound = m_soundEngine->play2D(audioSource, audio.IsLooping());
-		//	//audio.SetSound(sound);
-		//}
-
-		//audio.Play(m_soundEngine); // DonT? Instead just get / set the data in audio?
-
-		// add to array of current sounds??
+		return AudioHandle{};
 	}
 
-	void AudioService::StopSound(const char* sound)
-	{
-		//auto audio = ResourceHolder<AudioSource>::GetInstance().GetResource(sound);
-		//m_soundEngine->stopAllSoundsOfSoundSource(audio->GetSource());
-
-
-		// audio.m_sound->stop();
-		//audio.GetSound()->stop();
-
-		//audio.Stop();
-	}
+	//void AudioService::StopSound(const char* sound)
+	//{
+	//	//auto audio = ResourceHolder<AudioSource>::GetInstance().GetResource(sound);
+	//	//m_soundEngine->stopAllSoundsOfSoundSource(audio->GetSource());
+	//	//audio.Stop();
+	//}
 
 	//void AudioController::PlaySound(const AudioSource& source)
 	//{
