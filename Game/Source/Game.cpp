@@ -3,6 +3,8 @@
 #include "Registration/Registration.h"
 #include "Title/TitleScene.h"
 
+#include "Game/GameScene.h" // or construct SCenes!?
+
 Game::Game()
 {
 }
@@ -15,7 +17,7 @@ void Game::OnUpdate(float deltaTime)
 {
 }
 
-void Game::OnCreate()
+void Game::OnCreated()
 {
 	LoadResources();
 
@@ -35,40 +37,45 @@ void Game::OnCreate()
 	if (auto systemRegistry = weakSystemRegistry.lock())
 		Registration::RegisterSystems(*systemRegistry);
 
+	auto weakComponentRegistry = m_serviceRegistry->TryGetWeak<Hi_Engine::ComponentRegistryService>();
+
+	if (auto componentRegistry = weakComponentRegistry.lock())
+		Registration::RegisterComponents(*componentRegistry);
 
 	// Consider; read scenes from file?
 	auto& sceneService = m_serviceRegistry->Get<Hi_Engine::SceneService>();
 
 	//auto systemRegistry = m_serviceRegistry->TryGetWeak<Hi_Engine::SystemRegistry>();
 
-
 	// maybe just pass service registry?
 	sceneService.Emplace<TitleScene>(*m_serviceRegistry);
+	sceneService.Emplace<GameScene>(*m_serviceRegistry);
 
-	sceneService.Init<TitleScene>();
-	sceneService.TransitionTo<TitleScene>();
-	//Registration::RegisterComponents(*ecs);
-	//Registration::RegisterSystems(m_sceneManager);
+	sceneService.SetActiveScenes<TitleScene>();
+	sceneService.TransitionTo<TitleScene>(); // Do in init?
+ }
 
-	// m_ecs->LoadBlueprints();
-
-	//m_sceneManager.Init({ eScene::Game, eScene::Menu, eScene::Title });
-	//m_sceneManager.TransitionToScene(eScene::Title);
-}
-
-void Game::OnDestroy()
+void Game::OnDestroyed()
 {
 }
-
-//void Game::RegisterScenes()
-//{
-//	auto& sceneManager = m_serviceRegistry->Get<Hi_Engine::SceneManager>();
-//	sceneManager.Emplace<Hi_Engine::TitleScene>("TitleScene");
-//}
 
 void Game::LoadResources()
 {
- 	//Hi_Engine::ResourceHolder<Hi_Engine::Texture2D>::GetInstance().LoadResources("../Game/Assets/Json/Resources/Textures2.json");
-//	Hi_Engine::ResourceHolder<Hi_Engine::Font>::GetInstance().LoadResources("../Game/Assets/Json/Resources/Fonts.json"); // do in engine!
-	//Hi_Engine::ResourceHolder<Hi_Engine::AudioSource>::GetInstance().LoadResources("../Game/Assets/Json/Audio/Audio.json");
+	// Prefabs
+	auto& prefabRegistry = m_serviceRegistry->Get<Hi_Engine::PrefabRegistryService>();
+
+	for (const auto& filePath : Hi_Engine::Utils::GetFilesWithExtension("../Assets/Prefabs", ".json"))
+	{
+		prefabRegistry.LoadPrefabs(filePath);
+	}
+
+	// Fonts
+
+	// Icons (set window icon)
+
+	// Textures
+	Hi_Engine::TextureLoader::LoadFromJson(m_serviceRegistry->Get<Hi_Engine::TextureAssetService>(), m_serviceRegistry->Get<Hi_Engine::SubtextureAssetService>(), "../Assets/Textures/Textures2.json");
+
+	// Audio
+	Hi_Engine::AudioLoader::LoadFromJson(m_serviceRegistry->Get<Hi_Engine::AudioService>(), m_serviceRegistry->Get<Hi_Engine::AudioAssetService>(), "../Assets/Audio/Audio.json");
 }

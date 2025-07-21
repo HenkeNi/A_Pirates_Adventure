@@ -7,12 +7,11 @@ public:
 	Game();
 	~Game();
 
-	void OnUpdate(float deltaTime)		override;
+	void OnUpdate(float deltaTime) override;
 
-	void OnCreate()						override;
-	void OnDestroy()					override;
+	void OnCreated() override;
+	void OnDestroyed() override;
 
 private:
-	//void RegisterScenes();
 	void LoadResources();
 };
