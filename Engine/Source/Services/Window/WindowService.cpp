@@ -38,18 +38,10 @@ namespace Hi_Engine
 		glfwSwapInterval(0); // turns off V-sync
 		glViewport(0, 0, m_size.x, m_size.y);
 
-		// HERE?
-		//glfwSetKeyCallback(m_window, InputHandler::KeyCallback);
-		//glfwSetCursorPosCallback(m_window, InputHandler::CursorCallback);
-		//glfwSetMouseButtonCallback(m_window, InputHandler::MouseButtonCallback);
-		//glfwSetScrollCallback(m_window, InputHandler::MouseScrollCallback);
-		
-		// glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-	
 		return true;
 	}
 
-	void WindowService::Shutdown()
+	void WindowService::Shutdown() noexcept
 	{
 		if (IsOpen())
 			Close();
@@ -63,14 +55,26 @@ namespace Hi_Engine
 		return IsOpen;
 	}
 
-	GLFWwindow* WindowService::GetHandle() const noexcept
+	bool WindowService::IsFullscreen() const noexcept
 	{
-		return m_window;
+		assert(false && "Not implemented");
+		return false;
 	}
 
 	const IVector2& WindowService::GetSize() const noexcept
 	{
 		return m_size;
+	}
+
+	float WindowService::GetAspectRatio() const noexcept
+	{
+		assert(false && "Not implemented");
+		return 0.0f;
+	}
+
+	GLFWwindow* WindowService::GetGLFWHandle() const noexcept
+	{
+		return m_window;
 	}
 	
 	void WindowService::SwapBuffers() const
@@ -78,14 +82,18 @@ namespace Hi_Engine
 		glfwSwapBuffers(m_window);
 	}	
 
+	void WindowService::ToggleFullscreen()
+	{
+	}
+
 	void WindowService::Close()
 	{
 		glfwSetWindowShouldClose(m_window, true);
 	}
 
-	void WindowService::SetTitle(const std::string& title)
+	void WindowService::SetTitle(std::string_view title)
 	{
-		glfwSetWindowTitle(m_window, title.c_str());
+		glfwSetWindowTitle(m_window, title.data());
 	}
 
 	void WindowService::SetSize(const IVector2& size)
@@ -105,11 +113,7 @@ namespace Hi_Engine
 		stbi_image_free(image.pixels);
 	}
 
-	void WindowService::ToggleFullscreen()
-	{
-	}
-
-	GLFWwindow* WindowService::CreateWindow(const IVector2& size, const std::string& title)
+	GLFWwindow* WindowService::CreateWindow(const IVector2& size, const std::string& title) const
 	{
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -126,6 +130,7 @@ namespace Hi_Engine
 			glfwSetWindowFocusCallback(window, WindowFocusCallback);
 			glfwSetWindowCloseCallback(window, WindowCloseCallback);
 
+			// TODO; dont send event here?
 			if (auto eventService = m_eventService.lock())
 				eventService->SendEventInstantly<WindowEvent>(eWindowEvent::Created, IVector2{ size.x, size.y }, window);
 			//EventDispatcher::GetInstance().SendEventInstantly<WindowEvent>(eWindowEvent::Created, IVector2{ size.x, size.y }, window);
