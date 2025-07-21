@@ -18,9 +18,6 @@ namespace Hi_Engine
 		m_totalTime += elapsed;
 		m_previousTimePoint = current;
 
-		
-		
-		
 		// Calculate average Delta time
 		m_totalDeltaTime += GetDeltaTime();
 		++m_numFrames;
@@ -32,13 +29,11 @@ namespace Hi_Engine
 			m_numFrames = 0;
 		}
 		
-
-
 		// Calculate average fps
 		++m_totalFrames;
 		if ((m_elapsedTime += GetDeltaTime()) >= 1.f)
 		{
-			m_averageFPS = m_totalFrames / m_elapsedTime;
+			m_avgFPS = m_totalFrames / m_elapsedTime;
 			m_totalFrames = 0;
 			m_elapsedTime = 0.f;
 		}
@@ -57,7 +52,7 @@ namespace Hi_Engine
 
 	float TimeService::GetAverageFPS() const
 	{
-		return m_averageFPS;
+		return m_avgFPS;
 	}
 
 	double TimeService::GetTotalTime() const
@@ -65,32 +60,8 @@ namespace Hi_Engine
 		return m_totalTime.count();
 	}
 
-	//void Timer::NotifyOnTimePassed(TimerRequest request)
-	//{
-	//	request.TimeOfRequest = GetTotalTime();
-	//	m_timeRequests.push_back(request);
-	//}
-
-	//bool Timer::ContainsTimerRequests() const
-	//{
-	//	return !m_timeRequests.empty();
-	//}
-
-	bool TimeService::HasTimeElapsed(double duration, double startTime) const
+	double TimeService::GetFrameTime() const
 	{
-		return startTime + duration >= GetTotalTime();
-	}
-
-	void TimeService::CheckTimerRequests()
-	{
-		// TODO: fix..
-		/*for (std::size_t i = m_timeRequests.size() - 1; i >= 0; --i)
-		{
-			if (HasTimeElapsed(m_timeRequests[i].DurationInSecs, m_timeRequests[i].TimeOfRequest))
-			{
-				m_timeRequests[i].Callback();
-				m_timeRequests.erase(m_timeRequests.begin() + i);
-			}
-		}*/
+		return 0.0;
 	}
 }

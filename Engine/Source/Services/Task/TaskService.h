@@ -29,8 +29,10 @@ namespace Hi_Engine
 		void AddTask(Task&& task);
 
 	private:
+		// ==================== Internal ====================
 		void RunTask();
 
+		// ==================== Data Members ====================
 		std::vector<Worker> m_workers;
 		std::queue<Task> m_taskQueue;
 
