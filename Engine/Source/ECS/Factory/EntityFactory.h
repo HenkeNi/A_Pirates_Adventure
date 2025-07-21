@@ -14,8 +14,9 @@ namespace Hi_Engine
 	public:
 		EntityFactory(World& world, std::weak_ptr<const PrefabRegistryService> prefabRegistry, std::weak_ptr<const ComponentRegistryService> componentRegistry);
 
+		// rendundant world pass here??!
 		// dont mark with nodiscard?
-		std::optional<EntityHandle> CreateFromPrefab(World& world, const std::string& name); // bool notify = true
+		std::optional<EntityHandle> CreateFromPrefab(World& world, const std::string& name); // bool notify = true Pass world in constructor instead????
 
 	private:
 		// use Registry struct?
