@@ -3,6 +3,8 @@
 
 namespace Hi_Engine
 {
+	// [Consider] - making OnCreated/OnDestroyed protected (friend class Engine)
+
 	class ServiceRegistry;
 
 	class Application : public NonCopyable
@@ -15,10 +17,10 @@ namespace Hi_Engine
 		Application& operator=(Application&&) = delete;
 
 		void Initialize(ServiceRegistry* registry);
-		virtual void OnUpdate(float deltaTime)		= 0;
+		virtual void OnUpdate(float deltaTime) = 0;
 
-		virtual void OnCreate()						 {};
-		virtual void OnDestroy()					 {};
+		virtual void OnCreated() {};
+		virtual void OnDestroyed() {};
 
 	protected:
 		ServiceRegistry* m_serviceRegistry;
