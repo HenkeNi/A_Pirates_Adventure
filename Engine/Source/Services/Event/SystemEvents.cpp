@@ -6,8 +6,6 @@
 
 namespace Hi_Engine
 {
-#pragma region TERMINATION_EVENT
-
 	TerminationEvent::TerminationEvent()
 		: Event{ ePriority::High }
 	{
@@ -17,10 +15,6 @@ namespace Hi_Engine
 	{
 		listener.HandleEvent(*this);
 	}*/
-
-#pragma endregion TERMINATION_EVENT
-
-#pragma region SERVICE_EVENT
 	
 	ServiceEvent::ServiceEvent()
 		: Event{ ePriority::High }
@@ -32,10 +26,6 @@ namespace Hi_Engine
 	//	listener.HandleEvent(*this);
 	//}
 
-#pragma endregion
-
-
-#pragma region WINDOW_EVENT
 
 	WindowEvent::WindowEvent()
 		: Event{ ePriority::Moderate }
@@ -61,11 +51,6 @@ namespace Hi_Engine
 	{
 		return m_windowSize;
 	}
-
-#pragma endregion WINDOW_EVENT
-
-
-#pragma region INPUT_EVENT
 
 	InputEvent::InputEvent()
 		: Event{ ePriority::Moderate }
@@ -105,10 +90,6 @@ namespace Hi_Engine
 		return m_mousePosition;
 	}
 
-#pragma endregion INPUT_EVENT
-
-
-#pragma region KEY_EVENT
 
 	/*KeyEvent::KeyEvent()
 		: Event{ ePriority::High }, m_keyState{ eInputState::Release }, m_keyCode{ -1 }
@@ -154,11 +135,6 @@ namespace Hi_Engine
 		return m_keyCode;
 	}*/
 
-#pragma endregion KEY_EVENT
-
-
-
-#pragma region MOUSE_EVENT
 
 	/*MouseEvent::MouseEvent()
 		: Event{ ePriority::Low }, m_currMousePos{ 0, 0 }, m_prevMousePos{ 0, 0 }
@@ -194,6 +170,19 @@ namespace Hi_Engine
 		return m_currMousePos;
 	}*/
 
-#pragma endregion MOUSE_EVENT
+	/*SceneEvent::SceneEvent(const Properties& properties)
+		: Event{ ePriority::Moderate }
+	{
+	}*/
+
+	//SceneEvent::SceneEvent()
+	//	: Event{ ePriority::Moderate }
+	//{
+	//}
+
+	//SceneEvent::SceneEvent(const std::string& scene)
+	//	: Event{ ePriority::Moderate }
+	//{
+	//}
 
 }

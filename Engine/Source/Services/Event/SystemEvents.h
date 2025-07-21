@@ -4,6 +4,9 @@
 // #include "Utility/Math/Vectors/Vector.hpp" // Remove? 
 #include "Math/Vectors/Vector.hpp"
 
+//#include "Utility/JsonUtils.h" // TEst: for events
+
+
 struct GLFWwindow;
 
 namespace Hi_Engine
@@ -98,6 +101,25 @@ namespace Hi_Engine
 		FVector2									m_mousePosition;
 	};
 
+
+
+	class SceneEvent : public Event<SceneEvent>
+	{
+	public:
+		//SceneEvent();
+		//SceneEvent(const std::string& scene);
+		//SceneEvent(const Properties& properties);
+
+		SceneEvent() : Event{ ePriority::Moderate } {}
+		SceneEvent(std::string scene) : Event{ ePriority::Moderate }, m_type{ std::move(scene) } {}
+
+		[[nodiscard]] inline const std::string& GetType() const { return m_type; }
+
+	private:
+		std::string m_type;
+		//bool m_shouldPop;
+	};
+
 	/*class KeyEvent : public Event
 	{
 	public:
@@ -140,5 +162,7 @@ namespace Hi_Engine
 	//	CU::Vector2<unsigned>	m_currMousePos, m_prevMousePos;
 	//	bool					m_leftMouseCliked; // STATE? Clicked, Held, Releasd?	map for different buttons??
 	//};
+
+
 
 }
