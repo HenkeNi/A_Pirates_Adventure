@@ -10,11 +10,15 @@ namespace Hi_Engine
 
 	// TODO; Send event when register / unregister? observer pattern? (i.e. Subscribe), or use EventDIspatcher?
 	// Consider; storing unique_ptr's instead, implement GetSafe (uses dynamic cast rather than static) - or a template bool bUseSafe?
-	// Is service registry a bad name? SubsystemHolder? ServiceHolder?
+	// [Consider] don't allow overwrite services(?), instead assert if service already exist
+	// [Class Name] Is service registry a bad name? SubsystemHolder? ServiceHolder?
 
+
+	// Consider; marking Insert(s), InsertAll, Remove, RemoveAll, ForEach, Has and HasAll with noexcept?
 	class ServiceRegistry
 	{
 	public:
+		// ==================== Constructors ====================
 		ServiceRegistry() = default;
 		~ServiceRegistry() = default;
 
@@ -28,13 +32,13 @@ namespace Hi_Engine
 		template <DerivedFrom<IService> T>
 		void Insert(std::shared_ptr<T> service);
 
-		void Insert(std::shared_ptr<IService> service, std::type_index type);
+		void Insert(std::shared_ptr<IService> service);
 
 		template <DerivedFrom<IService>... Ts>
 		void InsertAll(std::shared_ptr<Ts>... services);
 
 		template <DerivedFrom<IService> T, typename... Args>
-		T& Emplace(Args&&... args); // TODO; return created object?
+		T& Emplace(Args&&... args);
 
 		template <DerivedFrom<IService> T>
 		void Remove();
@@ -69,17 +73,17 @@ namespace Hi_Engine
 		// Weak ownership access (no-throw, returns empty weak_ptr if not found)
 		template <DerivedFrom<IService> T>
 		[[nodiscard]] std::weak_ptr<const T> TryGetWeak() const;
-		
+
 		template <DerivedFrom<IService> T>
 		[[nodiscard]] std::weak_ptr<T> TryGetWeak();
-		
+
 		// ==================== Capacity ====================
 		[[nodiscard]] std::size_t Size() const noexcept;
 
 		[[nodiscard]] bool IsEmpty() const noexcept;
 
 		// ==================== Query Methods ====================
-		template <DerivedFrom<IService> T> 
+		template <DerivedFrom<IService> T>
 		[[nodiscard]] bool Has() const;
 
 		template <DerivedFrom<IService>... Ts>
@@ -105,7 +109,8 @@ namespace Hi_Engine
 	void ServiceRegistry::Insert(std::shared_ptr<T> service)
 	{
 		std::lock_guard lock(m_mutex);
-		m_services.insert_or_assign(GetTypeIndex<T>(), std::move(service)); // move here?
+
+		m_services.insert_or_assign(GetTypeIndex<T>(), service);
 	}
 
 	template <DerivedFrom<IService> ...Ts>
@@ -175,7 +180,7 @@ namespace Hi_Engine
 
 	template <DerivedFrom<IService> T>
 	T& ServiceRegistry::Get()
-	{		
+	{
 		return const_cast<T&>(std::as_const(*this).Get<T>());
 	}
 
@@ -219,7 +224,7 @@ namespace Hi_Engine
 	std::weak_ptr<T> ServiceRegistry::TryGetWeak()
 	{
 		std::lock_guard lock(m_mutex);
-		
+
 		if (auto it = m_services.find(GetTypeIndex<T>()); it != m_services.end())
 		{
 			assert(dynamic_cast<T*>(it->second.get()) && "Type mismatch detected!");
@@ -227,7 +232,7 @@ namespace Hi_Engine
 			return std::static_pointer_cast<T>(it->second);
 		}
 
-		return {};		
+		return {};
 	}
 
 	template <DerivedFrom<IService> T>

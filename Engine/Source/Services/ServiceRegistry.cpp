@@ -4,10 +4,10 @@
 
 namespace Hi_Engine
 {
-	void ServiceRegistry::Insert(std::shared_ptr<IService> service, std::type_index type)
+	void ServiceRegistry::Insert(std::shared_ptr<IService> service)
 	{
 		std::lock_guard lock(m_mutex);
-		m_services.insert({ type, service });
+		m_services.insert_or_assign(std::type_index(typeid(*service)), service);
 	}
 
 	void ServiceRegistry::Clear() noexcept
