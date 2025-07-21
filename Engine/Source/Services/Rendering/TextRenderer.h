@@ -15,7 +15,7 @@ namespace Hi_Engine
 		~TextRenderer();
 
 		bool Initialize();
-		void Shutdown();
+		void Shutdown() noexcept override;
 		// void HandleEvent(class TextRenderEvent& event);
 
 		// void LoadFont(const std::string& aPath, unsigned aFontSize);	// Register font instead?

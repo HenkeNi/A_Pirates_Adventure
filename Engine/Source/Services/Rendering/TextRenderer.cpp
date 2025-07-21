@@ -51,7 +51,7 @@ namespace Hi_Engine
         return true;
 	}
 
-	void TextRenderer::Shutdown()
+	void TextRenderer::Shutdown() noexcept
 	{}
 
     /*void TextRenderer::HandleEvent(TextRenderEvent& event)
