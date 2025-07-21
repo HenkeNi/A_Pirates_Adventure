@@ -13,8 +13,8 @@ namespace Hi_Engine::Math
 		Vector4(const Vector4&)					= default;
 		~Vector4()								= default;
 
-		Vector4& operator=(const Vector4&)		= default;
-		Vector4  operator-()						const;
+		Vector4&	operator=(const Vector4&)	= default;
+		Vector4		operator-()						const;
 
 		/* -	Methods		- */
 		T			LengthSqr()						const;

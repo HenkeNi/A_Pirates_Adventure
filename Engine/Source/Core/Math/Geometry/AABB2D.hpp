@@ -1,106 +1,109 @@
 #pragma once
 #include "../Vectors/Vector2.hpp"
+#include "../../Utility/TypeTraits.h"
 
 namespace Hi_Engine::Geometry
 {
 	using namespace Math;
 
-	template <class T>
+	template <Numeric T>
 	class AABB2D
 	{
 	public:
-		AABB2D();
-		AABB2D(const Vector2<T>& min, const Vector2<T>& max);
+		constexpr AABB2D() = default;
+		constexpr AABB2D(const Vector2<T>& min, const Vector2<T>& max);
 
-		void					Init(const Vector2<T>& min, const Vector2<T>& max);
-		bool					IsInside(const Vector2<T>& point)							const;
+		// ==================== Initialization ====================
+		constexpr void Init(const Vector2<T>& min, const Vector2<T>& max) noexcept;
 
-		const Vector2<T>&		GetMinPoint()												const;
-		const Vector2<T>&		GetMaxPoint()												const;
-		Vector2<T>				GetCenter()													const;
-		Vector2<T>				GetSize()													const;
+		// ==================== Accessors ====================
+		[[nodiscard]] constexpr const Vector2<T>& GetMinPoint() const noexcept;
 
-		T						GetWidth()													const;
-		T						GetHeight()													const;
+		[[nodiscard]] constexpr  const Vector2<T>& GetMaxPoint() const noexcept;
+		
+		[[nodiscard]] constexpr Vector2<T> GetCenter() const noexcept;
+		
+		[[nodiscard]] constexpr Vector2<T> GetSize() const noexcept;
+
+		[[nodiscard]] constexpr T GetWidth() const noexcept;
+
+		[[nodiscard]] constexpr T GetHeight() const noexcept;
+
+		// ==================== Queries ====================
+		[[nodiscard]] constexpr bool IsInside(const Vector2<T>& point) const noexcept;
+
+		[[nodiscard]] constexpr bool Intersects(const AABB2D<T>& other) const noexcept; // Or use Intersection.hpp?
 
 	private:
-		Vector2<T>				m_minPoint;
-		Vector2<T>				m_maxPoint;
+		Vector2<T> m_minPoint{};
+		Vector2<T> m_maxPoint{};
 	};
 
-#pragma region Constructores
+#pragma region Templeted_Methods
 
-	template <class T>
-	AABB2D<T>::AABB2D()
-		: m_minPoint{}, m_maxPoint{}
-	{
-	}
-
-	template <class T>
-	AABB2D<T>::AABB2D(const Vector2<T>& min, const Vector2<T>& max)
+	template <Numeric T>
+	constexpr AABB2D<T>::AABB2D(const Vector2<T>& min, const Vector2<T>& max)
 		: m_minPoint{ min }, m_maxPoint{ max }
 	{
 	}
 
-#pragma endregion Constructors
-
-#pragma region Method_Definitions
-
-	template <class T>
-	void AABB2D<T>::Init(const Vector2<T>& min, const Vector2<T>& max)
+	template <Numeric T>
+	constexpr void AABB2D<T>::Init(const Vector2<T>& min, const Vector2<T>& max) noexcept
 	{
 		m_minPoint = min;
 		m_maxPoint = max;
 	}
 
-	template <class T>
-	bool AABB2D<T>::IsInside(const Vector2<T>& point) const
-	{
-		if (m_minPoint.x > point.x) { return false; }
-		if (m_minPoint.y > point.y) { return false; }
-
-		if (m_maxPoint.x < point.x) { return false; }
-		if (m_maxPoint.y < point.y) { return false; }
-
-		return true;
-	}
-
-	template <class T>
-	const Vector2<T>& AABB2D<T>::GetMinPoint() const
+	template <Numeric T>
+	constexpr const Vector2<T>& AABB2D<T>::GetMinPoint() const noexcept
 	{
 		return m_minPoint;
 	}
 
-	template <class T>
-	const Vector2<T>& AABB2D<T>::GetMaxPoint() const
+	template <Numeric T>
+	constexpr const Vector2<T>& AABB2D<T>::GetMaxPoint() const noexcept
 	{
 		return m_maxPoint;
 	}
 
-	template <class T>
-	Vector2<T> AABB2D<T>::GetCenter() const
+	template <Numeric T>
+	constexpr Vector2<T> AABB2D<T>::GetCenter() const noexcept
 	{
-		auto center = Vector2<T>{ (m_minPoint.x + m_maxPoint.x) / T{ 2 }, (m_minPoint.y + m_maxPoint.y) / T{ 2 } }; // *T{ 0.5 };
-		return center;
+		return { (m_minPoint.x + m_maxPoint.x) / T{2}, (m_minPoint.y + m_maxPoint.y) / T{2}	};
 	}
 
-	template <class T>
-	Vector2<T> AABB2D<T>::GetSize()	const
+	template <Numeric T>
+	constexpr Vector2<T> AABB2D<T>::GetSize()	const noexcept
 	{
-		return Vector2<T>{ m_maxPoint.x - m_minPoint.x, m_maxPoint.y - m_minPoint.y };
+		return m_maxPoint - m_minPoint;
 	}
 
-	template <class T>
-	T AABB2D<T>::GetWidth()	const
+	template <Numeric T>
+	constexpr T AABB2D<T>::GetWidth()	const noexcept
 	{
 		return m_maxPoint.x - m_minPoint.x;
 	}
 
-	template <class T>
-	T AABB2D<T>::GetHeight() const
+	template <Numeric T>
+	constexpr T AABB2D<T>::GetHeight() const noexcept
 	{
 		return m_maxPoint.y - m_minPoint.y;
 	}
 
-#pragma endregion Method_Definitions
+	template <Numeric T>
+	constexpr bool AABB2D<T>::IsInside(const Vector2<T>& point) const noexcept
+	{
+		return point.x >= m_minPoint.x && point.x <= m_maxPoint.x
+			&& point.y >= m_minPoint.y && point.y <= m_maxPoint.y;
+	}
+
+	template <Numeric T>
+	constexpr bool AABB2D<T>::Intersects(const AABB2D<T>& other) const noexcept
+	{
+		return m_maxPoint.x >= other.m_minPoint.x
+			&& m_minPoint.x <= other.m_maxPoint.x
+			&& m_maxPoint.y >= other.m_minPoint.y
+			&& m_minPoint.y <= other.m_maxPoint.y;
+	}
+#pragma endregion
 }

@@ -13,21 +13,21 @@ namespace Hi_Engine::Geometry
 		LineSegment2D();
 		LineSegment2D(const Vector2<T>& start, const Vector2<T>& end);
 
-		void				Init(const Vector2<T>& start, const Vector2<T>& end);
-		bool				IsOnLine(const Vector2<T>& point)	const;
+		void Init(const Vector2<T>& start, const Vector2<T>& end);
+		bool IsOnLine(const Vector2<T>& point) const;
 
-		const Vector2<T>&	GetStartPoint()						const;
-		const Vector2<T>&	GetEndPoint()						const;
+		const Vector2<T>& GetStartPoint() const;
+		const Vector2<T>& GetEndPoint()	const;
 
-		Vector2<T>			GetPointAlongLine(T t)				const;
-		Vector2<T>			GetDirection()						const;
+		Vector2<T> GetPointAlongLine(T t) const;
+		Vector2<T> GetDirection() const;
 
-		T					GetLength()							const;
-		T					GetLengthSqr()						const;
+		T GetLength() const;
+		T GetLengthSqr() const;
 
 	private:
-		Vector2<T>			m_startPoint;
-		Vector2<T>			m_endPoint;
+		Vector2<T> m_startPoint;
+		Vector2<T> m_endPoint;
 	};
 
 #pragma region Method_Definitions
