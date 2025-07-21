@@ -20,6 +20,7 @@ namespace Hi_Engine
 		void RegisterServices();
 		void ConfigureRenderer();
 		void LoadResources();
+
 		void OnEvent(class TerminationEvent& event);
 		
 		// display system?

@@ -2,7 +2,7 @@
 #include "Engine.h"
 #include "Application/Application.h"
 #include "Services/Scene/Scene.h"
-#include "Services/Services.h"
+#include "Services/ServiceIncludes.h"
 #include "Services/ServiceGraph.h"
 #include "Resource/ResourceAliases.h"
 #include "Resource/ResourceLoader.h"
@@ -21,10 +21,10 @@ namespace Hi_Engine
 		Logger::Initialize("../Engine/Logs/engine_debug.log"); // make into service?
 
 		RegisterServices();
-		
+
 		auto& configService = m_serviceRegistry.Get<ConfigService>();
 
-		auto result = configService.LoadFromFile("../Engine/Assets/Json/Config/engine_config.json");
+		auto result = configService.LoadFromFile("../Engine/Assets/Config/engine_config.json");
 		if (result != ConfigService::eLoadResult::Success)
 		{
 			Logger::LogInfo("Engine::Initialization - Failed to load Engine config!");
@@ -64,7 +64,7 @@ namespace Hi_Engine
 		}
 
 		auto& inputServivce = m_serviceRegistry.Get<InputService>();
-		inputServivce.AttachToWindow(windowService.GetHandle());
+		inputServivce.AttachToWindow(windowService.GetGLFWHandle());
 
 		EngineSetup::RegisterSystems(m_serviceRegistry.Get<SystemRegistryService>());
 		EngineSetup::RegisterComponents(m_serviceRegistry.Get<ComponentRegistryService>());
@@ -74,7 +74,7 @@ namespace Hi_Engine
 		ConfigureRenderer();
 
 		m_application.Initialize(&m_serviceRegistry);
-		m_application.OnCreate(); 
+		m_application.OnCreated(); 
 		
 		Logger::LogInfo("Engine::Initialization - Successfully Completed!");
 
@@ -83,7 +83,10 @@ namespace Hi_Engine
 
 	void Engine::Shutdown()
 	{
-		m_application.OnDestroy();
+		m_application.OnDestroyed();
+
+		auto& inputService = m_serviceRegistry.Get<InputService>();
+		inputService.DetachFromWindow(m_serviceRegistry.Get<WindowService>().GetGLFWHandle());
 
 		m_serviceRegistry.ForEach([](auto& service) { service->Shutdown(); });
 
@@ -147,9 +150,9 @@ namespace Hi_Engine
 		graph.Register<SceneRegistryService>();
 		graph.Register<PrefabRegistryService>();
 
-		for (auto& [type, service] : graph.Build())
+		for (auto& [type, service] : graph.Build()) // return just vector of systems?
 		{
-			m_serviceRegistry.Insert(service, type);
+			m_serviceRegistry.Insert(service);
 		}
 	}
 
@@ -162,15 +165,16 @@ namespace Hi_Engine
 
 	void Engine::LoadResources()
 	{
-		auto& prefabRegistry = m_serviceRegistry.Get<PrefabRegistryService>();
+		/*auto& prefabRegistry = m_serviceRegistry.Get<PrefabRegistryService>();
 
-		prefabRegistry.LoadPrefabs("../Engine/Assets/Json/Prefabs/ui_prefab.json");
-		prefabRegistry.LoadPrefabs("../Engine/Assets/Json/Prefabs/camera_prefab.json");
-		prefabRegistry.LoadPrefabs("../Engine/Assets/Json/Prefabs/utility_prefab.json");
+		for (const auto& filePath : Utils::GetFilesWithExtension("../Engine/Assets/Prefabs", ".json"))
+		{
+			prefabRegistry.LoadPrefabs(filePath);
+		}*/
 
-		LoadTexturesFromJson(m_serviceRegistry, "../Game/Assets/Json/Resources/Textures2.json");
-		LoadShadersFromJson(m_serviceRegistry.Get<ShaderAssetService>(), "../Engine/Assets/Json/Resources/Shaders.json");
-		LoadAudioFromJson(m_serviceRegistry.Get<AudioAssetService>(), "../Game/Assets/Json/Audio/Audio.json");
+		ShaderLoader::LoadFromJson(m_serviceRegistry.Get<ShaderAssetService>(), "../Engine/Assets/Shaders/Shaders.json");
+
+		// TODO; load default textures?
 	}
 
 	void Engine::OnEvent(TerminationEvent& event)
