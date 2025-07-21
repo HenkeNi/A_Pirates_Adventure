@@ -44,4 +44,14 @@ namespace Hi_Engine
 		template <typename T>
 		static constexpr bool IsValidType = true; // ?? maybe check for something?
 	};
+
+	class BaseEvent;
+	struct EventRegistryEntry;
+
+	template <>
+	struct RegistryTraits<EventRegistryEntry>
+	{
+		template <typename T>
+		static constexpr bool IsValidType = DerivedFrom<T, BaseEvent>;
+	};
 }

@@ -3,6 +3,9 @@
 #include "../../Services/Resource/PrefabRegistryService.h"// Fix this! needed for Prefab::ComponentData
 #include "../../ECS/Utility/ECSTypes.h"
 
+
+#include <filesystem> // temp
+
 namespace Hi_Engine
 {
 	class EntityHandle;
@@ -30,6 +33,7 @@ namespace Hi_Engine
 
 		bool IsEnabledByDefault = true;
 		SystemID ID;
+		std::type_index Type;
 
 		std::function<std::unique_ptr<System>(class World& world, class ServiceRegistry& registry)> CreatorFunction;
 		// Update order? enum / tag for type (render, physics, logic)? Dependencies
@@ -47,10 +51,17 @@ namespace Hi_Engine
 		// thumbnail path? priority?
 	};
 
+	class EventService;
 	struct EventRegistryEntry
 	{
-		std::string Name;
+		/*EventRegistryEntry(const std::string& name, const std::function<void(EventService&, const Properties&)>& func)
+			: Name{ name }, DispatchFunc{ func }
+		{}*/
 
+		std::string Name;
+		//std::function<void(class EventService&, const Properties&)> DispatchFunc; // value?
+		std::function<void(EventService&, const Properties&)> DispatchFunc; // value?
+		//std::function<void(const std::unordered_map<std::string, PropertyValue>& params)> DispatchFunc;
 	};
 
 	// store events??

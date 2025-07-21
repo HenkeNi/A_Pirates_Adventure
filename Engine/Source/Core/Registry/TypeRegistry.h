@@ -8,6 +8,8 @@ namespace Hi_Engine
 	// replace wih curios recuring pattenr?
 	// put in registry folder?
 
+	// TODO; expand to use string as well (as key)?
+
 	template <typename RegistryEntry, typename ID>
 	class TypeRegistry : public IService
 	{

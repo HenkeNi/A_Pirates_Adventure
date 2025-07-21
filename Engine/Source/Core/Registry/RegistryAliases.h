@@ -11,6 +11,6 @@ namespace Hi_Engine
 
 	using ComponentRegistryService = TypeRegistry<ComponentRegistryEntry, ComponentID>;
 	using SystemRegistryService = TypeRegistry<SystemRegistryEntry, SystemID>;
-	using SceneRegistryService = TypeRegistry<SceneRegistryEntry, SceneID>;
+	using SceneRegistryService = TypeRegistry<SceneRegistryEntry, SceneID>; // string intead?
 	using EventRegistryService = TypeRegistry<EventRegistryEntry, EventID>;
 }

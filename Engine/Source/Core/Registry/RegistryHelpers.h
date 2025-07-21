@@ -38,13 +38,13 @@ namespace Hi_Engine
 	}
 
 	//class World;
+	class ServiceRegistry;
+
 	template <DerivedFrom<System> T, Callable<World&, ServiceRegistry&> Creator>
 	void RegisterSystem(SystemRegistryService& registry, const std::string& name, Creator&& creationFunc)
 	{
 		const SystemID id = GetSystemID<T>();
-		//registry.Register<T>(name, id, name, true, id, [](class World& world) { return std::make_unique<T>(world); });
-		registry.Register<T>(name, id, name, true, id, std::forward<Creator>(creationFunc));
-
+		registry.Register<T>(name, id, name, true, id, std::type_index(typeid(T)), std::forward<Creator>(creationFunc));
 	}
 
 	class Scene;
@@ -54,6 +54,17 @@ namespace Hi_Engine
 		const SceneID id = GetSceneID<T>();
 
 		registry.Register<T>(name, id, id, path, name, description);
+	}
+
+	class EventService;
+	//template <DerivedFrom<BaseEvent> T, Callable<EventService&, const Properties&> DispatchFunc>
+	template <typename T, typename DispatchFunc>
+	void RegisterEvent(EventRegistryService& registry, const std::string& name, DispatchFunc&& func)
+	{
+		const EventID id = GetEventID<T>();
+
+		// ( name - id )  Entry data: name, dispathfunc
+		registry.Register<T>(name, id, name, std::forward<DispatchFunc>(func));
 	}
 }
 
