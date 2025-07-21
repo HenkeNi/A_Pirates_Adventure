@@ -1,5 +1,5 @@
 #pragma once
-#include <any>
+//#include <any>
 
 namespace Hi_Engine::Utils
 {
@@ -11,6 +11,12 @@ namespace Hi_Engine::Utils
 		return false;
 #endif
 	}
+
+	std::string GetWorkingDirectory();
+
+	std::vector<std::string> GetFilesWithExtension(std::string_view path, std::string_view extension);
+
+	//std::string GetExecutableDirectory();
 	
 	std::wstring ConvertToWideString(const std::string& string);
 
