@@ -5,6 +5,8 @@ class Subscriber;
 
 enum class eMessage;
 
+// TODO; merge with EventService!?
+
 class PostMaster
 {
 public:
