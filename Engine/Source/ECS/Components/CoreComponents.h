@@ -5,6 +5,9 @@
 
 #include "Utility/JsonUtils.h" // used for PropertyValue...
 
+#include "../../Services/Audio/AudioHandle.h"
+//#include "Audio/AudioHandle.h"
+
 namespace Hi_Engine
 {
 	struct TransformComponent
@@ -81,9 +84,15 @@ namespace Hi_Engine
 		float MouseScroll;
 	};
 
-	struct AudioComponent
+	// Or AudioEmitterComponent
+	struct AudioSourceComponent
 	{
+		std::string AudioSourceID;
+		bool IsLooping;
+		bool PlayOnStart;
 
+		AudioHandle AudioHandle;
+		// SoundSource
 	};
 
 	struct TagComponent
@@ -114,20 +123,24 @@ namespace Hi_Engine
 
 		bool IsDone = false; // or remove afterwards?
 	};
-
-	
-
-	
 	
 	struct TextComponent
 	{};
 
-	//struct SceneTransitionComponent
-	//{};
+	struct CursorComponent
+	{};
 
 	//struct HierarchyComponent
 	//{
 	//	Entity Parent;
 	// 
 	// };
+
+	// HERE?
+	struct HUDComponent
+	{};
+
+	// Or not?
+	struct GridComponent
+	{};
 }
