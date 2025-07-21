@@ -129,6 +129,7 @@ namespace Hi_Engine
 			}
 			catch (...)
 			{
+				std::cerr << "ERROR LOADING PREFAB";
 				//Logger::LogError("[LoadPrefabs] - " + path.string());
 				// return?
 			}
