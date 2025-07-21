@@ -7,6 +7,7 @@
 namespace Hi_Engine
 {
 	class ServiceRegistry;
+	class SceneLoader;
 
 	struct RegistryContext
 	{
@@ -22,26 +23,24 @@ namespace Hi_Engine
 		virtual ~Scene() = default;	
 
 		void Update(float deltaTime);
-		void Enter(SceneID id); //  -> update ECSRegitry with new world?
-		void Exit();
-
-		virtual bool IsTransparent() const;
+		virtual void OnEnter() {};
+		virtual void OnExit() {};
 
 		virtual void OnCreated() {};
 		virtual void OnDestroyed() {};
 
+		virtual bool IsTransparent() const;
+		
 	protected:
+		friend class SceneLoader;
+
 		virtual void OnUpdate(float deltaTime) {};
-		virtual void OnEnter() {}; // handle loading of systems in engine?
-		virtual void OnExit() {};
 
 		World m_world; // or inverse relationship??
 
 		RegistryContext m_registryContext; // private?
 		ServiceRegistry& m_serviceRegistry;
 
-		// Put in factory struct?
 		EntityFactory m_entityFactory;
-		//SystemFactory m_systemFactory; // private?
 	};
 }
