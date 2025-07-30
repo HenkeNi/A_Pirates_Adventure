@@ -4,6 +4,8 @@
 #include "../Utility/Entity.h"
 #include "../../Core/Utility/DataStructures/SparseSet.h"
 
+#include <execution>
+
 namespace Hi_Engine
 {
 	// Consider;
@@ -79,17 +81,15 @@ namespace Hi_Engine
 
 	private:
 		// ==================== Helpers ====================
-		std::tuple<Ts*...> GetComponents(EntityID id) const;
+		std::tuple<const Ts&...> GetComponents(EntityID id) const;
+		
+		std::tuple<Ts&...> GetComponents(EntityID id);
 
 		// ==================== Data Members ====================
 		std::tuple<ComponentContainer<Ts>&...> m_components;
-		const std::vector<Entity> m_entities;
-
-		//const std::vector<EntityID> m_entities; // store handles instead? or Entities...
+		const std::vector<Entity> m_entities; // store entity handles instead?
 
 		// std::vector<std::tuple<Entity, Ts*...>> m_cache;
-
-		// Or just EntityHandles??
 	};
 
 #pragma region Templated_Methods
@@ -102,48 +102,140 @@ namespace Hi_Engine
 
 	template <ComponentType... Ts>
 	template <typename Callback>
-	void ComponentView<Ts...>::ForEach(Callback&& callback) const
+	void ComponentView<Ts...>::ForEach(Callback&& callback) const // check if entnty is first argument.... 
 	{
-		// try parallell version...
-		std::for_each(m_entities.begin(), m_entities.end(), [&](Entity entitiy)
+		constexpr bool hasEntityParam = std::invocable<Callback, Entity, Ts&...>;
+
+		for (const auto& entity : m_entities)
 		{
-			if constexpr (requires { { callback(std::get<ComponentContainer<Ts>&>(m_components).At(entitiy.ID)...) } -> std::same_as<bool>; })
+			auto components = GetComponents(entity.ID);
+
+			if constexpr (hasEntityParam)
 			{
-				if (!callback(std::get<ComponentContainer<Ts>&>(m_components).At(entitiy.ID)...))
+				// Check if Callback returns bool (breakable)
+				if constexpr (std::is_invocable_r_v<bool, Callback, Entity, Ts&...>)
 				{
-					return;
+					if (!std::apply([&](auto&&... components) { return std::invoke(callback, entity, components...); }, components))
+					{
+						break;
+					}
+
+				}
+				else
+				{
+					std::apply([&](auto&&... components) { return std::invoke(callback, entity, components...); }, components);
 				}
 			}
 			else
 			{
-				callback(std::get<ComponentContainer<Ts>&>(m_components).At(entitiy.ID)...); // pass in entity id? ... func(std::as_const(comps)...);  // const Ts&...
+				// Check if Callback returns bool (breakable)
+				if constexpr (std::is_invocable_r_v<bool, Callback, Ts&...>)
+				{
+					if (!std::apply(callback, components))
+					{
+						break;
+					}
+				}
+				else
+				{
+					std::apply(callback, components);
+				}
 			}
-		});
+		}
 	}
 
 	template <ComponentType... Ts>
 	template <typename Callback>
-	void ComponentView<Ts...>::ForEach(Callback&& callback)
+	void ComponentView<Ts...>::ForEach(Callback&& callback) 
 	{
-		std::for_each(m_entities.begin(), m_entities.end(), [&](Entity entity)
-		{
-			if constexpr (requires { { callback(std::get<ComponentContainer<Ts>&>(m_components).At(entity.ID)...) } -> std::same_as<bool>; })
-			{
-				if (!callback(std::get<ComponentContainer<Ts>&>(m_components).At(entity.ID)...))
-				{
-					return;
-				}
-			}
-			else
-			{
-				callback(std::get<ComponentContainer<Ts>&>(m_components).At(entity.ID)...); // pass in entity? ... func(std::as_const(comps)...);  // const Ts&...
-			}
-		});
-	}
+		constexpr bool hasEntityParam = std::invocable<Callback, Entity, Ts&...>;
+		
+		// TODO; make functions safe for parallization
 
+		std::for_each(std::execution::seq, m_entities.begin(), m_entities.end(),
+			[&](const Entity& entity) {
+				auto components = GetComponents(entity.ID);
+
+				if constexpr (hasEntityParam)
+				{
+					// Check if Callback returns bool (breakable)
+					if constexpr (std::is_invocable_r_v<bool, Callback, Entity, Ts&...>)
+					{
+						if (!std::apply([&](auto&&... components) { return std::invoke(callback, entity, components...); }, components))
+						{
+							break;
+						}
+					}
+					else
+					{
+						std::apply([&](auto&&... components) { return std::invoke(callback, entity, components...); }, components);
+					}
+				}
+				else
+				{
+					// Check if Callback returns bool (breakable)
+					if constexpr (std::is_invocable_r_v<bool, Callback, Ts&...>)
+					{
+						if (!std::apply(callback, components))
+						{
+							break;
+						}
+					}
+					else
+					{
+						std::apply(callback, components);
+					}
+				}
+			});
+	}
+	
+	//template <ComponentType... Ts>
+	//template <typename Callback>
+	//void ComponentView<Ts...>::ForEach(Callback&& callback) 
+	//{
+	//	constexpr bool hasEntityParam = std::invocable<Callback, Entity, Ts&...>;
+	//	
+	//	for (const auto& entity : m_entities) 
+	//	{
+	//		auto components = GetComponents(entity.ID);
+
+	//		if constexpr (hasEntityParam) 
+	//		{
+	//			// Check if Callback returns bool (breakable)
+	//			if constexpr (std::is_invocable_r_v<bool, Callback, Entity, Ts&...>)
+	//			{
+	//				if (!std::apply([&](auto&&... components) { return std::invoke(callback, entity, components...); }, components))
+	//				{
+	//					break;
+	//				}
+
+	//			}
+	//			else 
+	//			{
+	//				std::apply([&](auto&&... components) { return std::invoke(callback, entity, components...); }, components);
+	//			}
+	//		}
+	//		else 
+	//		{
+	//			// Check if Callback returns bool (breakable)
+	//			if constexpr (std::is_invocable_r_v<bool, Callback, Ts&...>)
+	//			{
+	//				if (!std::apply(callback, components)) 
+	//				{
+	//					break;
+	//				}
+	//			}
+	//			else 
+	//			{
+	//				std::apply(callback, components);
+	//			}
+	//		}
+	//	}
+	//}
+	//
 	template <ComponentType... Ts>
 	template <ComponentType T>
-	const T* ComponentView<Ts...>::GetComponent(EntityID id) const
+	inline const T* ComponentView<Ts...>::GetComponent(EntityID id) const
 	{
 		auto& container = std::get<ComponentContainer<T>&>(m_components); // const cast instead?
 		return container.Get(id);
@@ -151,7 +243,7 @@ namespace Hi_Engine
 
 	template <ComponentType... Ts>
 	template <ComponentType T>
-	T* ComponentView<Ts...>::GetComponent(EntityID id)
+	inline T* ComponentView<Ts...>::GetComponent(EntityID id)
 	{
 		auto& container = std::get<ComponentContainer<T>&>(m_components);
 		return container.Get(id);
@@ -207,9 +299,15 @@ namespace Hi_Engine
 	}
 
 	template <ComponentType... Ts>
-	std::tuple<Ts*...> ComponentView<Ts...>::GetComponents(EntityID id) const
+	std::tuple<const Ts&...> ComponentView<Ts...>::GetComponents(EntityID id) const
 	{
-		return { std::get<ComponentContainer<Ts>&>(m_components).Get(id)... };
+		return std::tie(std::get<ComponentContainer<Ts>&>(m_components).At(id)...);
+	}
+
+	template <ComponentType ...Ts>
+	std::tuple<Ts&...> ComponentView<Ts...>::GetComponents(EntityID id)
+	{
+		return std::tie(std::get<ComponentContainer<Ts>&>(m_components).At(id)...);
 	}
 
 	template <ComponentType... Ts>
