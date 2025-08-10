@@ -1,14 +1,12 @@
 #pragma once
-//#include "../Core/ComponentManager.h"
 #include "../Utility/ECSTypes.h"
 #include "../Utility/Entity.h"
 #include "../../Core/Utility/DataStructures/SparseSet.h"
-
 #include <execution>
 
 namespace Hi_Engine
 {
-	// Consider;
+	// [Consider] - replacing SparseSet with ComponentMananger (hide impl)
 	//  * caching component view (pass in sparse set, but pass in entities each frame?)
 	//  * add sorting? and predicate (for ForEach) as optional, or separate function
 
@@ -27,16 +25,14 @@ namespace Hi_Engine
 		ComponentView& operator=(ComponentView&&) noexcept = default;
 
 		// ==================== Core API ====================
-		// Iteration
 		template <typename Callback>  // TODO; replace typename with Callable (<Callable<Ts...>>), assure (force) reference? add predicate (ForEach if...)
 		void ForEach(Callback&& callback) const;
 
 		template <typename Callback>
 		void ForEach(Callback&& callback);
 
-		// Random Access
 		template <ComponentType T>
-		[[nodiscard]] const T* GetComponent(EntityID id) const; // OR VALID CHECK ENTITY??!
+		[[nodiscard]] const T* GetComponent(EntityID id) const;
 
 		template <ComponentType T>
 		[[nodiscard]] T* GetComponent(EntityID id);
@@ -86,7 +82,7 @@ namespace Hi_Engine
 		std::tuple<Ts&...> GetComponents(EntityID id);
 
 		// ==================== Data Members ====================
-		std::tuple<ComponentContainer<Ts>&...> m_components;
+		std::tuple<ComponentContainer<Ts>&...> m_components; // store manager instad? (hide implementation)
 		const std::vector<Entity> m_entities; // store entity handles instead?
 
 		// std::vector<std::tuple<Entity, Ts*...>> m_cache;
@@ -96,14 +92,17 @@ namespace Hi_Engine
 
 	template <ComponentType... Ts>
 	ComponentView<Ts...>::ComponentView(ComponentContainer<Ts>&... containers, std::vector<Entity>&& entities)
-		: m_components{ containers... }, m_entities{ std::forward<std::vector<Entity>>(entities) }
+		: m_components{ containers... }, m_entities{ std::move(entities) }
 	{
 	}
 
 	template <ComponentType... Ts>
 	template <typename Callback>
-	void ComponentView<Ts...>::ForEach(Callback&& callback) const // check if entnty is first argument.... 
+	void ComponentView<Ts...>::ForEach(Callback&& callback) const 
 	{
+		// For now, don't allow entity to be last argument...
+		static_assert(!std::invocable<Callback, Ts&..., Entity> && "Entity can't be last argument in callback!");
+
 		constexpr bool hasEntityParam = std::invocable<Callback, Entity, Ts&...>;
 
 		for (const auto& entity : m_entities)
@@ -148,9 +147,11 @@ namespace Hi_Engine
 	template <typename Callback>
 	void ComponentView<Ts...>::ForEach(Callback&& callback) 
 	{
+		static_assert(!std::invocable<Callback, Ts&..., Entity> && "Entity can't be last argument in callback!");
+
 		constexpr bool hasEntityParam = std::invocable<Callback, Entity, Ts&...>;
 		
-		// TODO; make functions safe for parallization
+		// TODO; make functions safe for parallization... (Seq) seems to be fastest approach
 
 		std::for_each(std::execution::seq, m_entities.begin(), m_entities.end(),
 			[&](const Entity& entity) {
@@ -188,65 +189,19 @@ namespace Hi_Engine
 				}
 			});
 	}
-	
-	//template <ComponentType... Ts>
-	//template <typename Callback>
-	//void ComponentView<Ts...>::ForEach(Callback&& callback) 
-	//{
-	//	constexpr bool hasEntityParam = std::invocable<Callback, Entity, Ts&...>;
-	//	
-	//	for (const auto& entity : m_entities) 
-	//	{
-	//		auto components = GetComponents(entity.ID);
 
-	//		if constexpr (hasEntityParam) 
-	//		{
-	//			// Check if Callback returns bool (breakable)
-	//			if constexpr (std::is_invocable_r_v<bool, Callback, Entity, Ts&...>)
-	//			{
-	//				if (!std::apply([&](auto&&... components) { return std::invoke(callback, entity, components...); }, components))
-	//				{
-	//					break;
-	//				}
-
-	//			}
-	//			else 
-	//			{
-	//				std::apply([&](auto&&... components) { return std::invoke(callback, entity, components...); }, components);
-	//			}
-	//		}
-	//		else 
-	//		{
-	//			// Check if Callback returns bool (breakable)
-	//			if constexpr (std::is_invocable_r_v<bool, Callback, Ts&...>)
-	//			{
-	//				if (!std::apply(callback, components)) 
-	//				{
-	//					break;
-	//				}
-	//			}
-	//			else 
-	//			{
-	//				std::apply(callback, components);
-	//			}
-	//		}
-	//	}
-	//}
-	//
 	template <ComponentType... Ts>
 	template <ComponentType T>
-	inline const T* ComponentView<Ts...>::GetComponent(EntityID id) const
+	const T* ComponentView<Ts...>::GetComponent(EntityID id) const
 	{
-		auto& container = std::get<ComponentContainer<T>&>(m_components); // const cast instead?
-		return container.Get(id);
+		return std::get<ComponentContainer<T>&>(m_components).Get(id);
 	}
 
 	template <ComponentType... Ts>
 	template <ComponentType T>
-	inline T* ComponentView<Ts...>::GetComponent(EntityID id)
+	T* ComponentView<Ts...>::GetComponent(EntityID id)
 	{
-		auto& container = std::get<ComponentContainer<T>&>(m_components);
-		return container.Get(id);
+		return const_cast<T*>(std::as_const(*this).template GetComponent<T>(id));
 	}
 
 	template<ComponentType... Ts>
