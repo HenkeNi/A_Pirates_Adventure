@@ -6,29 +6,18 @@
 #include "../ECS/Utility/ComponentView.h"
 #include "../ECS/Core/SystemManager.h"
 #include "../ECS/Utility/ECSTypes.h"
-
 #include "../../Services/Time/ScopedTimer.h"
 
 // include Logger?
 
-// TODO; - Send events for entity added / removed? - can transfer entities (between scenes / World)?
-// Consider; cache already created ComponentView's in "Groups" - systems caches signatures?
-// Consider; Cache component view (groups)? when created, cache them in a map (key == signature?) -> groups listen to various entity events?
-
-// Consider; 1. Rename 'Add' To 'Emplace' for components? 2. Put world in ECS folder? 3. Return Component in AddComponent function?
-
+// [TODO] - Send events for entity created / destroyed? (adding/removing components?)
+// [TODO] - Add ability to transfer entities (other World)
+// [Consider] - cache already created ComponentView's in "Groups" - systems caches signatures?
+// [Consider] - Cache component view (groups)? when created, cache them in a map (key == signature?) -> groups listen to various entity events?
+// [Consider] - Rename 'Add' To 'Emplace' for components?
 
 // TODO; Add GetEntity(ID) -> returns a handle? SearchForEntity()?
-
-// [Issue] - if GetComponentView COSNT is called, then FindOrCreateComponentMnagar cant be called!
-// componentmanager needs to be registered somehow
-
-
-// TODO; GetComponent will crash if calling GetComponent before AddComponent!
-
-
-// return entity handles instead? in component view?
-// return optional component view...
+// TODO; Make sure no Component... Ts is called with the same component type more than once!
 
 namespace Hi_Engine
 {
@@ -67,9 +56,6 @@ namespace Hi_Engine
 
 		template <ComponentType T, typename... Args>
 		std::pair<T*, bool> AddComponent(const Entity& entity, Args&&... args);
-
-		//template <ComponentType... Ts>
-		//void AddComponents(const Entity& entity); // return tuple?
 
 		template <ComponentType T>
 		void RemoveComponent(const Entity& entity); // return bool (success)?
@@ -177,8 +163,6 @@ namespace Hi_Engine
 	};
 
 #pragma region Templated_Methods
-
-	// TODO; check if entity already have component
 
 	template<ComponentType T, typename... Args>
 	std::pair<T*, bool> World::AddComponent(const Entity& entity, Args&&... args)
@@ -361,7 +345,6 @@ namespace Hi_Engine
 		auto entities = m_entityManager.GetEntities(signature); // instead get sparse sets... get smallest , fetch all entites, compare to other sparse sets??
 
 		ComponentView<Ts...> componentView{ FindOrCreateComponentManager<Ts>().GetContainer()..., std::move(entities) };
-		//ComponentView<Ts...> componentView(FindOrCreateComponentManager<Ts>().GetContainer()..., std::move(entities));
 		return componentView;
 	}
 
@@ -387,15 +370,6 @@ namespace Hi_Engine
 				return filtering(EntityHandle{ entity, this });
 			});
 
-		//std::vector<Entity> filteredEntities;
-		//for (const auto& entity : entities)
-		//{
-		//	if (filtering(EntityHandle{ entity, this }))
-		//	{
-		//		filteredEntities.emplace_back(entity);
-		//	}
-		//}
-
 		ComponentView<Ts...> componentView{ GetComponentManager<Ts>()->GetContainer()..., std::move(filteredEntities) };
 		return componentView;
 	}
@@ -415,15 +389,6 @@ namespace Hi_Engine
 				return filtering(EntityHandle{ entity, this });
 			});
 
-		//for (const auto& entity : entities)
-		//{
-		//	if (filtering(EntityHandle{ entity, this }))
-		//	{
-		//		filteredEntities.emplace_back(entity);
-		//	}
-		//}
-
-		//ComponentView<Ts...> componentView(FindOrCreateComponentManager<Ts>().GetContainer()..., std::move(filteredEntities));
 		ComponentView<Ts...> componentView{ FindOrCreateComponentManager<Ts>().GetContainer()..., std::move(filteredEntities) };
 		return componentView;
 	}
@@ -460,12 +425,6 @@ namespace Hi_Engine
 
 		return nullptr;
 	}
-
-	//template <ComponentType T>
-	//ComponentManager<T>* World::GetComponentManager()
-	//{
-	//	return const_cast<ComponentManager<T>*>(std::as_const(*this).GetComponentManager<T>());
-	//}
 
 	template <ComponentType... Ts>
 	Signature World::GetSignature() const
