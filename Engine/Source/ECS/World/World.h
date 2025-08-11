@@ -7,6 +7,8 @@
 #include "../ECS/Core/SystemManager.h"
 #include "../ECS/Utility/ECSTypes.h"
 
+#include "../../Services/Time/ScopedTimer.h"
+
 // include Logger?
 
 // TODO; - Send events for entity added / removed? - can transfer entities (between scenes / World)?
@@ -17,6 +19,16 @@
 
 
 // TODO; Add GetEntity(ID) -> returns a handle? SearchForEntity()?
+
+// [Issue] - if GetComponentView COSNT is called, then FindOrCreateComponentMnagar cant be called!
+// componentmanager needs to be registered somehow
+
+
+// TODO; GetComponent will crash if calling GetComponent before AddComponent!
+
+
+// return entity handles instead? in component view?
+// return optional component view...
 
 namespace Hi_Engine
 {
@@ -47,16 +59,20 @@ namespace Hi_Engine
 
 		[[nodiscard]] inline bool IsAlive(const Entity& entity) const { return m_entityManager.IsAlive(entity); }
 
+		std::optional<EntityHandle> FindEntityByName(std::string_view name); 
+
+		std::vector<EntityHandle> FindAllEntitiesWithTag(std::string_view tag);
+
 		// ==================== Component Management ====================
 
 		template <ComponentType T, typename... Args>
-		void AddComponent(const Entity& entity, Args&&... args);
+		std::pair<T*, bool> AddComponent(const Entity& entity, Args&&... args);
 
-		template <ComponentType... Ts>
-		void AddComponents(const Entity& entity);
+		//template <ComponentType... Ts>
+		//void AddComponents(const Entity& entity); // return tuple?
 
 		template <ComponentType T>
-		void RemoveComponent(const Entity& entity);
+		void RemoveComponent(const Entity& entity); // return bool (success)?
 
 		// ==================== Component Access ====================
 
@@ -80,14 +96,17 @@ namespace Hi_Engine
 		template <ComponentType... Ts>
 		[[nodiscard]] bool HasAnyComponent(EntityID id) const;
 
+
+		// TODO; assert it's not called with same compoennt type more than once!
+
 		template <ComponentType... Ts>
-		[[nodiscard]] ComponentView<Ts...> GetComponentView() const;
+		[[nodiscard]] std::optional<ComponentView<Ts...>> GetComponentView() const; // remove? since requires a const world!
 
 		template <ComponentType... Ts>
 		[[nodiscard]] ComponentView<Ts...> GetComponentView();
 
 		template <ComponentType... Ts, CallableReturns<bool, EntityHandle> Func>
-		[[nodiscard]] ComponentView<Ts...> GetComponentView(Func&& filtering) const;
+		[[nodiscard]] std::optional<ComponentView<Ts...>> GetComponentView(Func&& filtering) const;
 		
 		template <ComponentType... Ts, CallableReturns<bool, EntityHandle> Func>
 		[[nodiscard]] ComponentView<Ts...> GetComponentView(Func&& filtering);
@@ -148,7 +167,7 @@ namespace Hi_Engine
 		
 		template <ComponentType T>
 		[[nodiscard]] const ComponentManager<T>* GetComponentManager() const;
-
+		
 		template <ComponentType... Ts>
 		[[nodiscard]] Signature GetSignature() const;
 
@@ -159,23 +178,41 @@ namespace Hi_Engine
 
 #pragma region Templated_Methods
 
+	// TODO; check if entity already have component
+
 	template<ComponentType T, typename... Args>
-	void World::AddComponent(const Entity& entity, Args&&... args)
+	std::pair<T*, bool> World::AddComponent(const Entity& entity, Args&&... args)
 	{
-		if (!m_entityManager.IsAlive(entity))
+		const bool isAlive = m_entityManager.IsAlive(entity);
+
+		assert(isAlive && "Entity is no longer valid");
+
+		if (!isAlive)
 		{
-			Logger::LogWarning("[ECS::AddComponents] - Trying to add component an invalid entity!");
-			return;
+			Logger::LogWarning("[ECS::AddComponent] - Trying to add component an invalid entity!");
+			return { nullptr, false };
+		}
+
+		const bool hasComponent = HasAllComponents<T>(entity.ID);
+
+		assert(!hasComponent && "Entity already have component!");
+
+		if (hasComponent)
+		{
+			Logger::LogError("[ECS::AddComponent] - Entity already have component!");
+			return { nullptr, false };
 		}
 
 		auto& componentMananger = FindOrCreateComponentManager<T>();
+		auto [component, success] = componentMananger.AddComponent(entity.ID, std::forward<Args>(args)...); // or return component directly? since pair?
 
-		componentMananger.AddComponent(entity.ID, std::forward<Args>(args)...);
-		std::optional<Signature> optionalSignature = m_entityManager.GetSignature(entity.ID);
+		// only update signature is success?s
 
-		if (optionalSignature.has_value())
+		std::optional<Signature> signatureOpt = m_entityManager.GetSignature(entity.ID);
+
+		if (signatureOpt.has_value())
 		{
-			Signature signature = optionalSignature.value();
+			Signature& signature = signatureOpt.value(); // or function to "update signature" in entity manager?
 			signature.set(GetComponentID<T>());
 
 			m_entityManager.SetSignature(entity, signature);
@@ -184,14 +221,10 @@ namespace Hi_Engine
 		{
 			Logger::LogError("[ECSCoordinator::AddComponent] - Failed to fetch correct signature for entity: " + std::to_string(entity.ID));
 		}
+
+		return { component, true };
 	}
 	
-	template <ComponentType... Ts>
-	void World::AddComponents(const Entity& entity)
-	{
-		(AddComponent<Ts>(entity), ...);
-	}
-
 	template <ComponentType T>
 	void World::RemoveComponent(const Entity& entity)
 	{
@@ -208,7 +241,7 @@ namespace Hi_Engine
 
 			if (optionalSignature.has_value())
 			{
-				auto signature = optionalSignature.value();
+				auto& signature = optionalSignature.value();
 				signature.set(GetComponentID<T>(), false);
 
 				m_entityManager.SetSignature(entity, signature);
@@ -241,35 +274,25 @@ namespace Hi_Engine
 	template <ComponentType T>
 	const T* World::TryGetComponent(const Entity& entity) const
 	{
-		const T* component = nullptr;
-
 		if (!m_entityManager.IsAlive(entity))
 		{
-			Logger::LogWarning("[ECS::GetComponent] - Invalid entity!");
-		}
-		else if (auto* componentManager = GetComponentManager<T>())
-		{
-			component = componentManager->GetComponent(entity.ID);
-		}
-		else
-		{
-			Logger::LogWarning("[ECS::GetComponent] - ComponentManager for type not found!");
-		}
-
-		return component;
-	}
-
-	template <ComponentType T>
-	T* World::TryGetComponent(const Entity& entity) // const cast instead? (cant use FindOrCreateComponentManager then
-	{
-		if (!m_entityManager.IsAlive(entity))
-		{
-			Logger::LogWarning("[ECS::GetComponent] - Invalid entity!");
+			Logger::LogWarning("[ECS::TryGetComponent] - Invalid entity!");
 			return nullptr;
 		}
 
-		auto& componentManager = FindOrCreateComponentManager<T>(); // or always use GetComponentManager?
-		return componentManager.GetComponent(entity.ID); // Check if alive before calling component manager?
+		if (auto* componentManager = GetComponentManager<T>()) [[likely]]
+		{
+			return componentManager->TryGetComponent(entity.ID);
+		}
+		
+		Logger::LogWarning("[ECS::TryGetComponent] - ComponentManager for type not found!");
+		return nullptr;
+	}
+
+	template <ComponentType T>
+	T* World::TryGetComponent(const Entity& entity)
+	{
+		return const_cast<T*>(std::as_const(*this).TryGetComponent<T>(entity));
 	}
 
 	template <ComponentType... Ts>
@@ -289,7 +312,7 @@ namespace Hi_Engine
 		return false;
 	}
 
-	template<ComponentType ...Ts>
+	template<ComponentType... Ts>
 	bool World::HasAnyComponent(EntityID id) const
 	{
 		std::optional<Signature> optionalSignature = m_entityManager.GetSignature(id);
@@ -306,42 +329,74 @@ namespace Hi_Engine
 		return false;
 	}
 
-	template<ComponentType ...Ts>
-	ComponentView<Ts...> World::GetComponentView() const
+	template<ComponentType... Ts>
+	std::optional<ComponentView<Ts...>> World::GetComponentView() const // why not called!? -> shoudl use GetComponentManage!
 	{
+		PROFILE_FUNCTION("[const] World::GetComponentView: ");
+
 		const Signature signature = GetSignature<Ts...>();
 		auto entities = m_entityManager.GetEntities(signature);
 
-		const ComponentView<Ts...> componentView{ FindOrCreateComponentManager<Ts>().GetContainer()..., std::move(entities) };
+		// Check if all component managers exist...
+		bool hasAllComponentManagers = ((GetComponentManager<Ts>() != nullptr) && ...);
+
+		if (!hasAllComponentManagers)
+		{
+			Logger::LogError("[World::GetComponentView] - Failed to fetch component manager(s)!");
+			return std::nullopt;
+		}
+
+		ComponentView<Ts...> componentView{ GetComponentManager<Ts>()->GetContainer()..., std::move(entities) };
 		return componentView;
 	}
 
 	template <ComponentType... Ts>
 	ComponentView<Ts...> World::GetComponentView()
 	{
+		// use decay type?
+
+		PROFILE_FUNCTION("World::GetComponentView: ");
+
 		const Signature signature = GetSignature<Ts...>();
 		auto entities = m_entityManager.GetEntities(signature); // instead get sparse sets... get smallest , fetch all entites, compare to other sparse sets??
 
 		ComponentView<Ts...> componentView{ FindOrCreateComponentManager<Ts>().GetContainer()..., std::move(entities) };
+		//ComponentView<Ts...> componentView(FindOrCreateComponentManager<Ts>().GetContainer()..., std::move(entities));
 		return componentView;
 	}
 
 	template <ComponentType ...Ts, CallableReturns<bool, EntityHandle> Func>
-	ComponentView<Ts...> World::GetComponentView(Func&& filtering) const
+	std::optional<ComponentView<Ts...>> World::GetComponentView(Func&& filtering) const
 	{
 		const Signature signature = GetSignature<Ts...>();
-		auto entities = m_entityManager.GetEntities(signature); // return entity handles instead..
-
-		std::vector<Entity> matchingEntities;
-		for (const auto& entity : entities)
+		const auto entities = m_entityManager.GetEntities(signature);
+			
+		bool hasAllComponentManagers = ((GetComponentManager<Ts>() != nullptr) && ...);
+		if (!hasAllComponentManagers)
 		{
-			if (filtering(EntityHandle{ entity, this }))
-			{
-				matchingEntities.emplace_back(entity);
-			}
+			Logger::LogError("[World::GetComponentView(filtering)] - Failed to fetch component manager(s)!");
+			return std::nullopt;
 		}
 
-		ComponentView<Ts...> componentView{ FindOrCreateComponentManager<Ts>().GetContainer()..., std::move(matchingEntities) };
+		std::vector<Entity> filteredEntities;
+		filteredEntities.reserve(entities.size());
+
+		std::copy_if(entities.begin(), entities.end(), std::back_inserter(filteredEntities),
+			[&](const Entity& entity)
+			{
+				return filtering(EntityHandle{ entity, this });
+			});
+
+		//std::vector<Entity> filteredEntities;
+		//for (const auto& entity : entities)
+		//{
+		//	if (filtering(EntityHandle{ entity, this }))
+		//	{
+		//		filteredEntities.emplace_back(entity);
+		//	}
+		//}
+
+		ComponentView<Ts...> componentView{ GetComponentManager<Ts>()->GetContainer()..., std::move(filteredEntities) };
 		return componentView;
 	}
 
@@ -349,33 +404,47 @@ namespace Hi_Engine
 	ComponentView<Ts...> World::GetComponentView(Func&& filtering)
 	{
 		const Signature signature = GetSignature<Ts...>();
-		auto entities = m_entityManager.GetEntities(signature);
+		const auto entities = m_entityManager.GetEntities(signature);
 
-		std::vector<Entity> matchingEntities;
-		for (const auto& entity : entities)
-		{
-			if (filtering(EntityHandle{ entity, this }))
-			{
-				matchingEntities.emplace_back(entity);
-			}
-		}
+		std::vector<Entity> filteredEntities;
+		filteredEntities.reserve(entities.size());
 
-		ComponentView<Ts...> componentView{ FindOrCreateComponentManager<Ts>().GetContainer()..., std::move(matchingEntities) };
+		std::copy_if(entities.begin(), entities.end(), std::back_inserter(filteredEntities), 
+			[&](const Entity& entity) 
+			{ 
+				return filtering(EntityHandle{ entity, this });
+			});
+
+		//for (const auto& entity : entities)
+		//{
+		//	if (filtering(EntityHandle{ entity, this }))
+		//	{
+		//		filteredEntities.emplace_back(entity);
+		//	}
+		//}
+
+		//ComponentView<Ts...> componentView(FindOrCreateComponentManager<Ts>().GetContainer()..., std::move(filteredEntities));
+		ComponentView<Ts...> componentView{ FindOrCreateComponentManager<Ts>().GetContainer()..., std::move(filteredEntities) };
 		return componentView;
 	}
 
 	template <ComponentType T>
 	ComponentManager<T>& World::FindOrCreateComponentManager()
 	{
-		auto it = m_componentManagers.try_emplace(GetComponentID<T>(), std::make_unique<ComponentManager<T>>());
+		PROFILE_FUNCTION("World::FindOrCreateComponentManager: ");
 
-		if (it.second)
+		// check if null
+
+		auto [it, success] = m_componentManagers.try_emplace(GetComponentID<T>(), nullptr);
+
+		if (success)
 		{
-			auto type = std::type_index(typeid(T));
-			Logger::LogInfo("ComponentManager created " + std::string(type.name()));
+			it->second = std::make_unique<ComponentManager<T>>(); // safe to assign to iterator?
+			Logger::LogInfo("ComponentManager created " + std::string(std::type_index(typeid(T)).name()));
 		}
 
-		return *static_cast<ComponentManager<T>*>(it.first->second.get());
+		//return *static_cast<ComponentManager<T>*>(it.first->second.get());
+		return *static_cast<ComponentManager<T>*>(it->second.get()); // safe?
 	}
 
 	template <ComponentType T>
@@ -392,9 +461,17 @@ namespace Hi_Engine
 		return nullptr;
 	}
 
+	//template <ComponentType T>
+	//ComponentManager<T>* World::GetComponentManager()
+	//{
+	//	return const_cast<ComponentManager<T>*>(std::as_const(*this).GetComponentManager<T>());
+	//}
+
 	template <ComponentType... Ts>
 	Signature World::GetSignature() const
 	{
+		PROFILE_FUNCTION("World::GetSignature: ");
+
 		Signature signature;
 		(signature.set(GetComponentID<Ts>()), ...);
 
