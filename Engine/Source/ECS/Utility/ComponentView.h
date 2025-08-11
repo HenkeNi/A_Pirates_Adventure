@@ -7,6 +7,7 @@
 namespace Hi_Engine
 {
 	// [Consider] - replacing SparseSet with ComponentMananger (hide impl)
+	// [Consider] - have FindAllIf and FindIf - returning either pair<Entity, Ts&> or EntityHandle
 	//  * caching component view (pass in sparse set, but pass in entities each frame?)
 	//  * add sorting? and predicate (for ForEach) as optional, or separate function
 
@@ -208,30 +209,35 @@ namespace Hi_Engine
 	template<typename Predicate>
 	std::vector<Entity> ComponentView<Ts...>::FindAllIf(Predicate&& predicate) const
 	{
-		assert(false && "NOT IMPLEMENTED");
+		static_assert(std::)
 
-		return std::vector<Entity>{};
+		// TODO; check that no components are unique... (needs to be same, or subset, of CompoenntView<Ts> 
+		// TODO; allow (optional) entity argument?
+
+		std::vector<Entity> matchingEntities;
+
+		std::copy_if(m_entities.begin(), m_entities.end(), std::back_inserter(matchingEntities),
+			[&](const Entity& entity)
+			{
+				return predicate(std::get<ComponentContainer<Ts>&>(m_components).At(entity.ID)...);
+			});
+
+		return matchingEntities;
 	}
 
 	template <ComponentType... Ts>
 	template <typename Predicate>
-	std::optional<Entity> ComponentView<Ts...>::FindIf(Predicate&& predicate) const // return pair?
+	std::optional<Entity> ComponentView<Ts...>::FindIf(Predicate&& predicate) const
 	{
-		//assert(false && "NOT IMPLEMENTED");
+		auto it = std::find_if(m_entities.begin(), m_entities.end(),
+			[&](const Entity& entity)
+			{
+				return predicate(std::get<ComponentContainer<Ts>&>(m_components).At(entity.ID)...);
+			});
 
-		for (const auto& entity : m_entities)
-		{
-			if (predicate(std::get<ComponentContainer<Ts>&>(m_components).At(entity.ID)...))
-				return entity;
-		}
+		if (it != m_entities.end())
+			return *it;
 
-		// TODO; return EntityHandle...?
-
-		// TODO; add iterator?
-
-		// auto sparseSet = std::get<SparseSet<T>&>(m_components); -> dont iterate over sparse set? (req an iterator)
-
-		//return std::find_if
 		return std::nullopt;
 	}
 
